@@ -18,10 +18,10 @@ public class LoginController {
 	@Resource(name = "memberService") 
 	private MemberServiceI memberService;
 
-	@RequestMapping(value = "/view", method = { RequestMethod.GET })
-	public String view() {
-		return "login/view";
-	}
+//	@RequestMapping(value = "/view", method = { RequestMethod.GET })
+//	public String view() {
+//		return "login/view";
+//	}
 
 	@RequestMapping(value = "/process", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(String userid, String pass, HttpSession session, Model model) {
@@ -38,15 +38,19 @@ public class LoginController {
 		return "login/view";
 	}
 
-	@RequestMapping(path = "/main")
-	public String main() {
-		return "member/memberList";
+	@RequestMapping(path = "/view")
+	public String login() {
+		return "main/main";
 	}
 	
-	@RequestMapping(value = "/test", method = { RequestMethod.GET })
-	public String mainTest() {
-		System.out.println("테스트");
-		return "main/main";
+	@RequestMapping(value = "/join", method = { RequestMethod.GET })
+	public String main() {
+		return "main/join";
+	}
+	
+	@RequestMapping(value = "/experience", method = { RequestMethod.GET })
+	public String experience() {
+		return "main/experience";
 	}
 
 
