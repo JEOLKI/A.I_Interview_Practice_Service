@@ -1,0 +1,26 @@
+@import "../../index.scss";
+
+.CurrentPayment {
+  margin: 10px 0px;
+  padding: 35px 30px;
+  width: 938px;
+  height: 130px;
+  background-color: rgba($lite-gray-color, 0.6);
+  border: solid 1px rgba($dark-gray-color, 0.6);
+  border-radius: 2px;
+  text-align: left;
+  .flex {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    .txt {
+      margin-left: 10px;
+    }
+  }
+  .info {
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 2;
+  }
+}

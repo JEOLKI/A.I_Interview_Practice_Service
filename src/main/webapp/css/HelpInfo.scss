@@ -1,0 +1,184 @@
+@import "./index.scss";
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.HelpInfo {
+  main {
+    transform: translateY(52px);
+  }
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 200px;
+  background-color: $dark-navy-blue;
+  color: white;
+  .content__title {
+    font-size: 2.625rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+}
+
+.FAQ {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: $lite-gray-color;
+  .FAQ__content {
+    padding: 60px 0;
+    width: 792px;
+    font-weight: 300;
+    .content__title {
+      font-size: 2.25rem;
+      font-weight: 500;
+      margin-bottom: 40px;
+    }
+    .question__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.125rem;
+      background-color: white;
+      padding: 26px 50px 26px 40px;
+      margin-bottom: 20px;
+      border: 1px solid $pale-grey;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: 0.1s ease;
+      &:hover {
+        color: $cerulean-blue-color;
+      }
+      .header__title {
+        font-weight: 400;
+        &.open {
+          color: $cerulean-blue-color;
+        }
+      }
+      .angle-down {
+        font-size: 26px;
+      }
+    }
+    .question__content {
+      display: none;
+      &.open {
+        display: block;
+        background-color: white;
+        border: 1px solid $pale-grey;
+        border-radius: 2px;
+        padding: 0 50px;
+        text-align: left;
+        transform: translateY(-21px);
+        p {
+          margin: 12px 0;
+          &:first-child {
+            margin-top: 38px;
+          }
+          u {
+            font-weight: 500;
+          }
+          span {
+            font-weight: 500;
+          }
+        }
+        .content__sub-title {
+          margin-top: 24px;
+          font-weight: 500;
+        }
+        .content__wrapper {
+          display: flex;
+          justify-content: flex-end;
+          .chrome-link {
+            margin-bottom: 8px;
+            color: $cerulean-blue-color;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: 0.2s ease;
+            &:hover,
+            &:active {
+              color: $blue-color;
+            }
+          }
+        }
+        .content__box {
+          background-color: rgba(4, 124, 245, 0.1);
+          padding: 25px 40px;
+          margin-top: 40px;
+          .box__title {
+            color: $cerulean-blue-color;
+            margin-bottom: 12px;
+            font-weight: 500;
+          }
+          .box__description {
+            span {
+              font-weight: 500;
+            }
+          }
+        }
+        .question__ask {
+          display: flex;
+          justify-content: center;
+          border-top: 1px solid $pale-grey;
+          border-radius: 2px;
+          padding: 20px 0;
+          margin-top: 70px;
+          font-weight: 500;
+          .ask__title {
+            padding-right: 35px;
+          }
+          .ask__answer {
+            color: $cerulean-blue-color;
+            span {
+              margin: 0 5px;
+              padding: 2px 12px;
+              border-radius: 2px;
+              cursor: pointer;
+              transition: 0.2s ease;
+              &:hover {
+                background-color: rgba(4, 124, 245, 0.1);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.Inquire {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 360px;
+  .content__title {
+    font-size: 2.25rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .content__sub-title {
+    margin-bottom: 52px;
+  }
+  .content__Inquire-btn {
+    border: 1px solid $dark-navy-blue;
+    border-radius: 30px;
+    padding: 12px 60px;
+    transition: 0.1s ease;
+    display: inline;
+    cursor: pointer;
+    &:hover {
+      background-color: $dark-navy-blue;
+      color: white;
+    }
+  }
+}

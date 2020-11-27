@@ -1,0 +1,164 @@
+@import "../index.scss";
+
+.Footer {
+  min-width: max-content;
+  height: 150px;
+  background-color: $pale-grey-two;
+  padding: 40px 80px;
+  padding-left: calc(max(30px, min(80px, 50vw - 960 * 0.5px)));
+  .footer-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.75;
+    .info {
+      min-width: 416px;
+      font-family: Roboto;
+      span {
+        font-weight: bold;
+      }
+    }
+    .nav-flex {
+      margin-top: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 20px;
+      font-weight: normal;
+      letter-spacing: -0.35px;
+      .personal-info {
+        font-weight: 500;
+      }
+      div {
+        width: max-content;
+        margin-right: 5vw;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    .logo-area {
+      min-width: 150px;
+      .icons {
+        margin-top: -20px;
+        a {
+          margin-left: 10px;
+          .link-btn {
+            width: 40px;
+          }
+        }
+      }
+      .doodlin-logo {
+        display: block;
+        margin-top: 65px;
+        margin-left: 40px;
+      }
+    }
+  }
+  &.--Questions {
+    .footer-body {
+      padding-right: 400px;
+    }
+  }
+}
+
+.SimpleFooter {
+  border-top: solid 1px $silver-color;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 25px;
+  background-color: #ffffff;
+  font-size: 11px;
+  color: rgba($dark-navy-blue, 0.6);
+  .logo-area {
+    width: 300px;
+  }
+  .doodlin-message {
+    min-width: 182px;
+    font-weight: 300;
+    b {
+      font-weight: 500;
+    }
+  }
+  .nav-flex {
+    min-width: 300px;
+    display: flex;
+    justify-content: flex-end;
+    div {
+      padding: 0px 13px;
+      height: 11px;
+      line-height: 11px;
+      &:nth-child(2) {
+        border-left: solid 1px $silver-color;
+        border-right: solid 1px $silver-color;
+      }
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.SemiFooter {
+  min-width: max-content;
+  height: 95px;
+  border-top: solid 5px $dark-gray-color;
+  background-color: #fff;
+  &.--Questions {
+    .TransparentFooter {
+      padding-right: 400px;
+    }
+  }
+}
+
+.TransparentFooter {
+  .nav-flex {
+    width: 450px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    font-weight: 500;
+    letter-spacing: -0.35px;
+    .personal-info {
+      font-weight: bold;
+    }
+    div {
+      width: 120px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .info {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 20px;
+    font-family: Roboto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 450px;
+    font-size: 14px;
+    font-weight: 300;
+    img {
+      position: relative;
+      top: -2px;
+      margin-right: 20px;
+    }
+  }
+}

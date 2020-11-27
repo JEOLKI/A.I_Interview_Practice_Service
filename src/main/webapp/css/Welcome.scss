@@ -1,0 +1,430 @@
+@import "./index.scss";
+
+.Welcome {
+  width: 100vw;
+  height: 100vh;
+  .logo {
+    position: fixed;
+    top: 20px;
+    left: 40px;
+    width: 154px;
+  }
+  .SwipePot {
+    position: absolute;
+    top: 5vh;
+    left: calc(50vw - 35px);
+    width: 70px;
+    .pot {
+      opacity: 0.4;
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border: solid 1px $dark-gray-color;
+      &.set {
+        opacity: 0.8;
+        background-color: $dark-gray-color;
+      }
+    }
+    &.fourth {
+      .pot {
+        width: 11px;
+        height: 11px;
+        border: none;
+        background-color: #fff;
+        &.set {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+  .title-message {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: -0.54px;
+  }
+  .body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .view {
+      user-select: none;
+      width: 1000px;
+      text-align: center;
+    }
+    .before,
+    .after {
+      z-index: 100;
+      display: flex;
+      width: 50px;
+      height: 50px;
+      border-radius: 30px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 40px;
+      color: rgba($dark-gray-color, 0.4);
+      background-color: $lite-gray-color;
+      cursor: pointer;
+      .fa {
+        position: relative;
+        top: -1px;
+      }
+      &:hover {
+        box-shadow: 0 3px 8px 0 rgba(11, 55, 75, 0.16);
+        background-color: #fff;
+      }
+      &.none {
+        opacity: 0;
+        cursor: default;
+      }
+    }
+    .before {
+      .fa {
+        right: 2px;
+      }
+    }
+    .after {
+      .fa {
+        left: 2px;
+      }
+    }
+  }
+  .bg-circle {
+    position: absolute;
+    z-index: 0;
+  }
+  transition-property: background;
+  transition-duration: 1s;
+  background-color: #fff;
+  &.fourth {
+    background: linear-gradient(to bottom, #028ebb, #0fd1e1);
+    .before,
+    .after {
+      color: rgba($dark-gray-color, 0.6);
+      background-color: rgba(#ffffff, 0.4);
+      &:hover {
+        background-color: rgba(#ffffff, 0.8);
+      }
+    }
+  }
+}
+
+.FirstView {
+  text-align: center;
+  img {
+    width: 138px;
+  }
+  .title-message {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  .sub-message {
+    font-size: 18px;
+    margin-bottom: 45px;
+  }
+  button {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 2px;
+    letter-spacing: -0.4px;
+    color: #fff;
+    padding: 16px 64px;
+    background-color: $dark-gray-color;
+    opacity: 0.8;
+    margin-bottom: 50px;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.SecondView {
+  width: 840px;
+  margin: 0 auto;
+  position: relative;
+  .bg-circle {
+    top: -80px;
+    left: 50px;
+  }
+  .title-message {
+    font-size: 48px;
+    width: 360px;
+    text-align: left;
+    .sub-message {
+      margin-top: 20px;
+      width: 380px;
+      font-size: 18px;
+      font-weight: normal;
+      letter-spacing: -0.27px;
+    }
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .search-view {
+      width: 370px;
+      img {
+        position: relative;
+      }
+    }
+  }
+  .search-area {
+    position: relative;
+    color: #b2bbc4;
+    width: 100%;
+    margin-bottom: 40px;
+    &:last-child {
+      margin-bottom: 20px;
+    }
+    .fa {
+      position: absolute;
+      font-size: 24px;
+      left: 25px;
+      top: 16px;
+      &.write {
+        color: $banner-color;
+      }
+    }
+    .search-text {
+      font-size: 18px;
+      width: calc(100% - 60px);
+      letter-spacing: -0.5px;
+      height: 56px;
+      padding-left: 60px;
+      border: none;
+      border-radius: 2px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px 0 $card-shadow-color;
+      &::placeholder {
+        color: $placeholder-color;
+      }
+    }
+  }
+  .tag-flex {
+    width: 1000px;
+    display: flex;
+    font-size: 14px;
+    .tag {
+      margin-right: 20px;
+      padding: 6px 22px;
+      border-radius: 82px;
+      color: rgba($dark-gray-color, 0.6);
+      border: solid 1px rgba($dark-gray-color, 0.4);
+    }
+    &.company {
+      margin-top: 50px;
+    }
+    &.job {
+      margin-top: 10px;
+      margin-left: 25px;
+    }
+  }
+}
+
+.ThirdView {
+  position: relative;
+  .bg-circle {
+    top: 80px;
+    left: 20px;
+  }
+  .title-message {
+    font-size: 36px;
+  }
+  .flex {
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    margin-top: 70px;
+    .box {
+      opacity: 0;
+      top: 30px;
+      animation: fadeInUpRegular 0.7s ease-out forwards;
+      .brand-logo {
+        display: block;
+        margin: 0 auto;
+        width: 134px;
+        margin-bottom: 25px;
+      }
+      &:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      &:nth-child(2) {
+        margin-top: 138px;
+        animation-delay: 0.4s;
+        .brand-logo {
+          width: 89px;
+        }
+      }
+      &:nth-child(3) {
+        position: relative;
+        margin-top: 78px;
+        animation-delay: 0.6s;
+        .brand-logo {
+          width: 141px;
+        }
+      }
+    }
+    .QuestionBoxView {
+      height: 245px;
+      width: 224px;
+      margin: 6px;
+      box-shadow: 0 6px 16px $card-shadow-color;
+      position: relative;
+      .tag {
+        padding: 0px 12px;
+        font-size: 12px;
+      }
+      .content-text {
+        margin-top: 60px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.FourthView {
+  position: relative;
+  overflow: hidden;
+  .bg-circle {
+    top: 150px;
+    left: 80px;
+  }
+  .title-message {
+    color: #fff;
+    font-size: 36px;
+  }
+  .flex {
+    margin-left: 50px;
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .set-bar {
+    .SetQuestionBoxView {
+      position: relative;
+      opacity: 0;
+      right: 10px;
+      height: 74px;
+      padding: 10px 26px;
+      width: 230px;
+      margin-bottom: 7px;
+      animation: fadeInLeftRightRegular 0.7s ease-out forwards;
+      &:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      &:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      &:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+      .tag,
+      .profile .name {
+        font-size: 9px;
+      }
+      .text {
+        font-size: 10px;
+        text-align: left;
+      }
+    }
+  }
+  .line-area {
+    width: 150px;
+    .line {
+      width: 260px;
+      border-bottom: dashed 2px #fff;
+      position: relative;
+    }
+    .up-down {
+      top: -115px;
+      transform: rotate(30deg);
+    }
+    .down-up {
+      bottom: -115px;
+      transform: rotate(-30deg);
+    }
+  }
+  .circle-area {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 400px;
+    }
+    .rec {
+      position: relative;
+      z-index: 10;
+      padding: 4px 0px;
+      width: 50px;
+      border-radius: 30px;
+      margin: 0 auto;
+      margin-top: 125px;
+      display: flex;
+      align-items: center;
+      color: $pastel-red-color;
+      background-color: $dark-gray-color;
+      text-align: center;
+      font-family: Roboto;
+      font-size: 9px;
+      font-weight: 500;
+      justify-content: center;
+      .dot {
+        width: 7px;
+        height: 7px;
+        background-color: $pastel-red-color;
+        border-radius: 10px;
+        margin-right: 4px;
+      }
+    }
+    .time {
+      position: relative;
+      z-index: 10;
+      font-family: Roboto;
+      font-size: 34px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-top: 40px;
+    }
+  }
+}
+
+.FifthView {
+  height: 600px;
+  position: relative;
+  .bg-circle {
+    top: 200px;
+    left: 50px;
+  }
+  .start-btn {
+    display: block;
+    margin: 0 auto;
+    margin-top: 25px;
+    margin-bottom: 90px;
+    width: max-content;
+    padding: 7px 36px;
+    border-radius: 36px;
+    border: solid 2px $dark-gray-color;
+    font-size: 18px;
+    font-weight: 500;
+    color: $dark-navy-blue;
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
+  .review-img {
+    position: relative;
+    opacity: 0;
+    top: 20px;
+    left: -50px;
+    animation: fadeInUpRegular20 0.7s ease-out 0.2s forwards;
+  }
+}

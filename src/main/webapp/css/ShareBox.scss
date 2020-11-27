@@ -1,0 +1,108 @@
+@import "../../index.scss";
+
+.ShareBox {
+  .content-box {
+    position: relative;
+    width: 460px;
+    padding: 0px 50px;
+    height: 420px;
+    border-radius: 2px;
+    box-shadow: 0 0 99px 0 rgba(59, 59, 70, 0.5);
+    background-color: #ffffff;
+    text-align: left;
+    .x-btn {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      width: 14px;
+      opacity: 0.4;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .copied-message {
+      width: 460px;
+      position: absolute;
+      top: -30px;
+      font-size: 18px;
+      letter-spacing: -0.45px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .message {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+    .sub-message {
+      font-size: 18px;
+      letter-spacing: -0.45px;
+      margin-top: 20px;
+    }
+    .warn-message {
+      font-size: 14px;
+      letter-spacing: -0.43px;
+      color: $pastel-red-color;
+      margin-top: 8px;
+    }
+    .pw-input {
+      display: block;
+      margin: 0 auto;
+      margin-top: 25px;
+      font-size: 22px;
+      letter-spacing: -0.55px;
+      width: 240px;
+      height: 56px;
+      border-radius: 2px;
+      border: solid 1px $placeholder-color;
+      text-align: center;
+      &:focus,
+      &:hover {
+        border-color: $dark-gray-color;
+      }
+      &.warning {
+        border-color: $pastel-red-color;
+      }
+      &[type="password"] {
+        letter-spacing: 5px;
+      }
+    }
+    .check-pw-mask {
+      float: right;
+      margin-right: 0px;
+      margin-top: 20px;
+      width: 110px;
+      display: flex;
+      font-size: 14px;
+      letter-spacing: -0.35px;
+      opacity: 0.8;
+      color: rgba(#2c2c2c, 0.8);
+      .CustomCheck {
+        margin-right: 8px;
+      }
+    }
+    .share-btn {
+      user-select: none;
+      margin: 0 auto;
+      margin-top: 65px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      background-color: $dark-gray-color;
+      color: #fff;
+      width: 178px;
+      height: 48px;
+      line-height: 48px;
+      opacity: 0.4;
+      border-radius: 2px;
+      &.active {
+        opacity: 0.8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

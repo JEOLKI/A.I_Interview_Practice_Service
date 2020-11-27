@@ -1,0 +1,77 @@
+@import "../../index.scss";
+
+.PaymentTicket {
+  position: relative;
+  width: 600px;
+  height: 170px;
+  display: flex;
+  .bg-img {
+    position: absolute;
+    top: -9px;
+    left: -12px;
+    z-index: -1;
+  }
+  .date {
+    font-size: 18px;
+    padding: 35px 40px;
+    width: 220px;
+    .title {
+      font-weight: bold;
+    }
+    span {
+      font-family: Roboto;
+      font-size: 60px;
+      font-weight: bold;
+      margin-right: 6px;
+    }
+  }
+  .price-section {
+    width: 170px;
+    padding: 35px 40px;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: -0.21px;
+    .price {
+      font-family: Roboto;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: -0.48px;
+      margin: 5px 0px;
+    }
+  }
+  .null-content,
+  .event-content {
+    margin: 0 auto;
+    .message {
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .sub-message {
+      margin-top: 50px;
+      opacity: 0.7;
+    }
+    .payment-link {
+      display: block;
+      padding: 14px 35px;
+      background-color: $dark-gray-color;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      width: max-content;
+      margin: 0 auto;
+      margin-top: 10px;
+      &:hover {
+        background-color: $dark-hover-color;
+      }
+    }
+  }
+  .event-content {
+    .message {
+      margin-top: 50px;
+    }
+    .sub-message {
+      margin-top: 0px;
+    }
+  }
+}

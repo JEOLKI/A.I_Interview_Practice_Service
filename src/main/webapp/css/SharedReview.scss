@@ -1,0 +1,240 @@
+@import "./index.scss";
+
+.PassWordInput {
+  .content-box {
+    width: 550px;
+    height: 550px;
+    text-align: left;
+    img {
+      width: 180px;
+    }
+    .message {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      letter-spacing: -0.55px;
+    }
+    .sub-message {
+      font-size: 18px;
+      line-height: 1.44;
+      letter-spacing: -0.45px;
+      span {
+        color: $aqua-color;
+      }
+    }
+    .warn-message {
+      font-size: 14px;
+      color: $pastel-red-color;
+      margin-top: 8px;
+    }
+    .input-area {
+      position: relative;
+      .wrong-message {
+        top: -23px;
+        width: 550px;
+        position: absolute;
+        text-align: center;
+        color: #ff7b7b;
+      }
+    }
+    input {
+      display: block;
+      margin: 0 auto;
+      margin-top: 25px;
+      font-family: Roboto;
+      font-size: 22px;
+      font-weight: bold;
+      width: 240px;
+      height: 56px;
+      border-radius: 2px;
+      border: solid 1px $placeholder-color;
+      text-align: center;
+      &:focus,
+      &:hover {
+        border-color: $dark-gray-color;
+      }
+      &.wrong {
+        position: relative;
+        border: solid 1px #ff7b7b;
+        animation: shakingHorizontal 0.15s ease 2;
+      }
+    }
+    .submit-btn {
+      user-select: none;
+      margin: 0 auto;
+      margin-top: 35px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      background-color: $dark-gray-color;
+      color: #fff;
+      width: 142px;
+      height: 48px;
+      line-height: 48px;
+      opacity: 0.4;
+      border-radius: 2px;
+      &.active {
+        opacity: 0.8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.SharedReview {
+  background-color: $lite-gray-color;
+  .body {
+    width: 1400px;
+    min-height: calc(100vh - 200px - 190px);
+    margin: 0 auto;
+    padding-top: 190px;
+    padding-bottom: 200px;
+    @include respond-to(semi-hd) {
+      width: 980px;
+      padding-top: 150px;
+      padding-bottom: 160px;
+    }
+    .title-flex {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      height: 180px;
+      .message-area {
+        .title {
+          font-size: 36px;
+          margin-bottom: 20px;
+          span {
+            color: $aqua-color;
+          }
+          @include respond-to(semi-hd) {
+            font-size: 30px;
+          }
+        }
+        .sub-title {
+          font-size: 18px;
+          letter-spacing: -0.45px;
+          @include respond-to(semi-hd) {
+            font-size: 16px;
+          }
+        }
+      }
+      .kakao-suggest {
+        text-align: center;
+        color: #fff;
+        width: 420px;
+        height: 145px;
+        padding-top: 35px;
+        border-radius: 4px;
+        font-size: 16px;
+        box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.16);
+        background-color: $dark-gray-color;
+        @include respond-to(semi-hd) {
+          width: 400px;
+          height: 140px;
+          padding-top: 20px;
+          font-size: 16px;
+        }
+        .login {
+          display: block;
+          margin: 0 auto;
+          margin-top: 20px;
+          padding: 8px 32px;
+          background-color: $aqua-color;
+          color: $dark-navy-blue;
+          border-radius: 40px;
+          font-weight: 500;
+          &:hover,
+          &:active {
+            color: #fff;
+          }
+        }
+      }
+    }
+    .date {
+      color: #2c2c2c;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      @include respond-to(semi-hd) {
+        font-size: 30px;
+      }
+      span {
+        color: $aqua-color;
+      }
+    }
+  }
+  .top-btn {
+    position: fixed;
+    display: block;
+    width: 51px;
+    height: 76px;
+    bottom: 0px;
+    right: 3vw;
+    transition-property: opacity;
+    transition-duration: 0.2s;
+    z-index: 100;
+    &.show {
+      opacity: 0.8;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    &.hide {
+      opacity: 0;
+    }
+  }
+  .kakao-suggest-bottom {
+    width: 255px;
+    height: 90px;
+    padding-top: 22px;
+    border-radius: 8px 8px 0px 0px;
+    position: fixed;
+    display: block;
+    bottom: 0px;
+    right: calc(3vw + 80px);
+    box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.16);
+    background-color: rgba($dark-gray-color, 0.8);
+    transition-property: opacity background-color;
+    transition-duration: 0.2s;
+    z-index: 100;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    cursor: default;
+    .login {
+      display: block;
+      margin: 0 auto;
+      margin-top: 20px;
+      padding: 6px 26px;
+      background-color: $aqua-color;
+      color: $dark-navy-blue;
+      border-radius: 80px;
+      font-weight: 500;
+      &:hover,
+      &:active {
+        color: #fff;
+      }
+    }
+    &.show {
+      opacity: 1;
+      img {
+        cursor: pointer;
+      }
+      &:hover {
+        background-color: $dark-gray-color;
+      }
+    }
+    &.hide {
+      opacity: 0;
+    }
+  }
+}

@@ -1,0 +1,61 @@
+@import "./index.scss";
+
+.Lecture {
+  .body {
+    padding-bottom: 120px;
+  }
+  .top-area {
+    background-color: $lite-gray-color;
+    padding-top: 115px;
+    padding-bottom: 70px;
+    text-align: center;
+    div {
+      margin: 0 auto;
+      width: max-content;
+    }
+    .label {
+      padding: 6px 24px;
+      font-size: 14px;
+      color: #fff;
+      background-color: $dark-navy-blue;
+      border-radius: 20px;
+    }
+    .title {
+      font-size: 48px;
+      font-weight: bold;
+    }
+    .sub-title {
+      font-size: 18px;
+      margin-top: 15px;
+    }
+  }
+  .suggest-area {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 126px 0px;
+    padding-bottom: 6px;
+    text-align: center;
+    border-top: solid 1px $pale-grey;
+    .message {
+      font-size: 36px;
+      font-weight: 500;
+    }
+    .sub-message {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .payment-btn {
+      display: block;
+      margin: 0 auto;
+      width: max-content;
+      margin-top: 42px;
+      border: solid 1px $dark-navy-blue;
+      border-radius: 30px;
+      padding: 13px 52px;
+      &:hover {
+        background-color: $dark-navy-blue;
+        color: #fff;
+      }
+    }
+  }
+}

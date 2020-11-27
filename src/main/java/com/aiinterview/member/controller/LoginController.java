@@ -42,6 +42,11 @@ public class LoginController {
 	public String main() {
 		return "member/memberList";
 	}
+	
+	@RequestMapping(value = "/test", method = { RequestMethod.GET })
+	public String mainTest() {
+		return "main/main";
+	}
 
 
 }

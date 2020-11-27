@@ -1,0 +1,18 @@
+@import "../index.scss";
+
+.FullButton {
+  position: fixed;
+  z-index: 100;
+  width: 60px;
+  left: calc(50% - 60 * 0.5px);
+  cursor: pointer;
+  animation: fullbuttonShow 0.3s linear both;
+  opacity: 0.8;
+  @include respond-to(semi-hd) {
+    width: 52px;
+    left: calc(50% - 52 * 0.5px);
+  }
+  &:hover {
+    opacity: 1;
+  }
+}

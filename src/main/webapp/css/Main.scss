@@ -1,0 +1,124 @@
+@import "./index.scss";
+
+.Main {
+  overflow-x: hidden;
+  .my-bar {
+    position: fixed;
+    width: 100vw;
+    min-width: max-content;
+    top: 52px;
+    height: 80px;
+    background-color: #ffffff;
+    border-bottom: solid 1px #f1f4f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    @include respond-to(semi-hd) {
+      height: 63px;
+    }
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-left: calc(max(30px, min(80px, 50vw - 960 * 0.5px)));
+      @include respond-to(semi-hd) {
+        font-size: 28px;
+      }
+    }
+    .start-btn {
+      color: #fff;
+      height: 80px;
+      padding: 0px 37px;
+      line-height: 82px;
+      font-size: 18px;
+      font-weight: 500;
+      position: relative;
+      transition-property: padding;
+      transition-duration: 0.3s;
+      @include respond-to(semi-hd) {
+        height: 63px;
+        line-height: 65px;
+      }
+      img {
+        width: 13px;
+        margin-left: 6px;
+        transition-property: margin;
+        transition-duration: 0.3s;
+      }
+      background: $point-linear;
+      cursor: pointer;
+      &:hover {
+        background: $point-linear-hover;
+        padding-right: 32px;
+        img {
+          margin-left: 11px;
+        }
+      }
+    }
+  }
+  .MainView {
+    margin: 0 auto;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: calc(100vh - 80px);
+    background-color: $lite-gray-color;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    .box {
+      width: 1200px;
+      min-width: 960px;
+      max-width: 70vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      margin: 0 auto;
+      @include respond-to(semi-hd) {
+        width: 960px;
+      }
+    }
+    .interface {
+      width: 450px;
+      .title {
+        min-width: max-content;
+        font-size: 52px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        @include respond-to(semi-hd) {
+          font-size: 46px;
+        }
+      }
+      .sub-title {
+        font-size: 18px;
+        @include respond-to(semi-hd) {
+          font-size: 16px;
+        }
+      }
+      .start-area {
+        position: relative;
+        margin-top: 65px;
+        cursor: pointer;
+        .start-btn {
+          font-size: 16px;
+          font-weight: 500;
+          padding: 18px 46px;
+          border-radius: 40px;
+          color: #fff;
+          background: $dark-navy-blue;
+        }
+        .Shadow {
+          display: none;
+          opacity: 0;
+        }
+      }
+    }
+    .illust {
+      width: 480px;
+      @include respond-to(semi-hd) {
+        width: 440px;
+      }
+    }
+  }
+}

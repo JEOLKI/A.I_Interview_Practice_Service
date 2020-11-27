@@ -1,0 +1,111 @@
+@import "../../index.scss";
+
+.PaymentBox {
+  position: relative;
+  width: 268px;
+  height: 470px;
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .content-body {
+    position: relative;
+    z-index: 10;
+    margin: 0 auto;
+    width: 210px;
+    height: 420px;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 300;
+    .discount-percent {
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      color: #fff;
+      text-align: center;
+      border-radius: 30px;
+      top: -20px;
+      right: -10px;
+      box-shadow: 0 0 6px 0 $card-shadow-color;
+      font-family: Roboto;
+      font-weight: 500;
+      &.half {
+        background-color: $blue-hover-color;
+      }
+      &.marathon {
+        background-color: $pastel-red-color;
+      }
+    }
+    .title {
+      font-size: 18px;
+      font-weight: normal;
+      &.sprint {
+        color: $aqua-color;
+      }
+      &.half {
+        color: $blue-hover-color;
+      }
+      &.marathon {
+        color: $pastel-red-color;
+      }
+    }
+    .price-area {
+      margin-top: 15px;
+      padding: 40px 0px;
+      border-top: solid 1px rgba(154, 171, 186, 0.3);
+      border-bottom: solid 1px rgba(154, 171, 186, 0.3);
+      .date-num {
+        font-size: 18px;
+        font-weight: normal;
+        span {
+          font-family: Roboto;
+          font-size: 60px;
+          font-weight: bold;
+          margin-right: 5px;
+        }
+      }
+      .price-num {
+        margin-top: 10px;
+        font-family: Roboto;
+        line-height: 1.3;
+        .price {
+          font-size: 32px;
+          font-weight: bold;
+        }
+        .original-price {
+          position: relative;
+          left: 10px;
+          bottom: 5px;
+          text-decoration: line-through;
+        }
+      }
+      .func-message {
+        margin-top: 12px;
+        line-height: 1.29;
+      }
+    }
+    .marketing-message {
+      display: flex;
+      margin-top: 33px;
+      justify-content: space-between;
+      align-items: flex-start;
+      .point {
+        position: relative;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: $dark-gray-color;
+        border-radius: 10px;
+        margin-left: 8px;
+      }
+      .txt {
+        width: 166px;
+        line-height: 1.57;
+        letter-spacing: -0.35px;
+        margin-right: 20px;
+      }
+    }
+  }
+}

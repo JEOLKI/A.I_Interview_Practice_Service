@@ -1,0 +1,109 @@
+@import "./index.scss";
+
+.WithDraw {
+  .body {
+    padding: 130px 40px;
+    padding-bottom: 80px;
+    width: 940px;
+    margin: 0 auto;
+    font-size: 14px;
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .comment {
+      margin-top: 5px;
+      margin-bottom: 100px;
+    }
+    .sub-message {
+      font-weight: 500;
+      .check {
+        width: 11px;
+        margin-right: 5px;
+      }
+      &.flex {
+        display: flex;
+        align-items: center;
+        .CustomCheck {
+          width: 14px;
+          height: 14px;
+          margin-right: 8px;
+          border-width: 1px;
+          &.checked {
+            border-color: $point-hover-color;
+            background-color: $point-hover-color;
+          }
+        }
+      }
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 130px 810px;
+      margin-top: 10px;
+      margin-bottom: 80px;
+      .label,
+      .content {
+        border-top: solid 1px rgba($dark-gray-color, 0.4);
+        border-bottom: solid 1px rgba($dark-gray-color, 0.4);
+        padding: 15px 30px;
+        &.middle {
+          border-top: none;
+          border-bottom: none;
+        }
+      }
+      .label {
+        border-right: solid 1px rgba($dark-gray-color, 0.4);
+      }
+    }
+    .delete {
+      padding: 8px 35px;
+      font-weight: bold;
+      border-radius: 2px;
+      border: solid 1px $dark-gray-color;
+      background: transparent;
+      display: block;
+      margin: 120px auto;
+      margin-bottom: 150px;
+      cursor: default;
+      &.active {
+        cursor: pointer;
+        &:hover {
+          color: $point-hover-color;
+          border-color: $point-hover-color;
+        }
+      }
+    }
+  }
+}
+
+.DeletePopUp .content-box {
+  width: 550px;
+  height: 370px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    object-fit: cover;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  }
+  .name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .message {
+    margin-top: 15px;
+    font-size: 18px;
+    line-height: 1.56;
+    span {
+      color: $pastel-red-color;
+    }
+  }
+}

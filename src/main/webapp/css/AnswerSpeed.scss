@@ -1,0 +1,126 @@
+@import "../../index.scss";
+
+.AnswerSpeed {
+  width: 580px;
+  @include respond-to(semi-hd) {
+    width: 430px;
+  }
+  .content-box {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 14px;
+    font-weight: 300;
+    height: 500px;
+    text-align: center;
+    @include respond-to(semi-hd) {
+      height: 450px;
+    }
+    .answer-speed-graph {
+      width: 250px;
+      height: 250px;
+      position: absolute;
+      top: 107px;
+      left: calc(50% - 250 * 0.5px);
+      @include respond-to(semi-hd) {
+        top: 90px;
+      }
+    }
+    .average-speed {
+      margin: 0 auto;
+      width: 100px;
+      position: relative;
+      padding-top: 50px;
+      font-size: 12px;
+      letter-spacing: -0.24px;
+      @include respond-to(semi-hd) {
+        padding-top: 35px;
+      }
+      span {
+        font-size: 16px;
+      }
+      &:after {
+        content: " ";
+        position: absolute;
+        border-top: 11px solid #111;
+        border-right: 7px solid transparent;
+        border-left: 7px solid transparent;
+        bottom: -13px;
+        left: calc(100 * 0.5px - 7px);
+      }
+    }
+    .minute-text {
+      width: 105px;
+      padding-left: 15px;
+      margin: 0 auto;
+      margin-top: 85px;
+      text-align: left;
+      font-size: 20px;
+      letter-spacing: -0.4px;
+      span {
+        font-size: 14px;
+      }
+      b {
+        font-size: 48px;
+        letter-spacing: -0.96px;
+        line-height: 1;
+      }
+    }
+    .error-percent {
+      margin: 0 auto;
+      margin-top: 80px;
+      min-width: 120px;
+      padding: 2px 25px;
+      width: max-content;
+      background-color: #111;
+      color: #fff;
+      .num {
+        margin-left: 5px;
+      }
+    }
+    .message {
+      margin-top: 16px;
+      b {
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 3px;
+      }
+    }
+    &.slow {
+      .minute-text {
+        color: #4741f3;
+      }
+      .error-percent .num {
+        color: #736eff;
+      }
+    }
+    &.good {
+      .minute-text,
+      .error-percent {
+        color: #28cbd1;
+        padding: 2px 40px;
+      }
+    }
+    &.fast {
+      .minute-text,
+      .error-percent .num {
+        color: #ff6c20;
+      }
+    }
+    &.veryfast {
+      .minute-text,
+      .error-percent {
+        color: #f24220;
+      }
+    }
+    &.none {
+      .minute-text {
+        color: #c2cbdc;
+        text-align: center;
+        padding: 25px 0px;
+        padding-bottom: 15px;
+        font-weight: bold;
+        font-size: 28px;
+      }
+    }
+  }
+}

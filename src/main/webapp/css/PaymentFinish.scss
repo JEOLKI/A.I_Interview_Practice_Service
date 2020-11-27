@@ -1,0 +1,94 @@
+@import "../../index.scss";
+
+.PaymentFinish {
+  width: 600px;
+  margin: 0 auto;
+  margin-bottom: 250px;
+  padding: 55px 84px;
+  padding-bottom: 70px;
+  border-radius: 2px;
+  box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.16);
+  background-color: #ffffff;
+  .title-message {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .sub-message {
+    font-size: 14px;
+    margin-bottom: 55px;
+  }
+  .message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    span {
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+  .menu {
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    margin-bottom: 45px;
+    .mark {
+      font-family: Roboto;
+      font-weight: bold;
+      padding: 7px 23px;
+      border-radius: 26px;
+      margin-right: 10px;
+      color: #ffffff;
+      background-color: $aqua-color;
+      &.half {
+        background-color: $blue-hover-color;
+      }
+      &.marathon {
+        background-color: $pastel-red-color;
+      }
+    }
+  }
+  .original-price {
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: 300;
+    text-decoration: line-through;
+  }
+  .price-num {
+    font-size: 18px;
+    margin: 8px 0px;
+    span {
+      font-family: Roboto;
+      font-size: 36px;
+      font-weight: bold;
+      margin-right: 4px;
+    }
+  }
+  .detail-info {
+    border-top: solid 1px $placeholder-color;
+    padding-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 85px;
+    .price {
+      display: flex;
+      justify-content: space-between;
+      margin: 4px 0px;
+      line-height: 2;
+    }
+  }
+  .payment-btn {
+    display: block;
+    text-align: center;
+    width: 600px;
+    border-radius: 2px;
+    box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.32);
+    background-color: $dark-gray-color;
+    color: #fff;
+    padding: 18px 0px;
+    font-size: 18px;
+    font-weight: bold;
+    &:hover {
+      background-color: $dark-hover-color;
+    }
+  }
+}

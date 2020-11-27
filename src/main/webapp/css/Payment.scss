@@ -1,0 +1,81 @@
+@import "./index.scss";
+
+.Payment {
+  .body {
+    min-width: max-content;
+    width: 100vw;
+    padding: 110px 0px;
+    background-color: $lite-gray-color;
+    .title-message {
+      margin: 0 auto;
+      width: 664px;
+      padding-top: 25px;
+      padding-bottom: 30px;
+      text-align: center;
+      border-radius: 50px;
+      font-size: 22px;
+      font-weight: 300;
+      background-color: $dark-gray-color;
+      color: #fff;
+    }
+    .payment-flex {
+      display: flex;
+      width: 930px;
+      padding: 0px 20px;
+      justify-content: space-between;
+      margin: 0 auto;
+      margin-top: 65px;
+      .box {
+        button {
+          display: block;
+          margin: 0 auto;
+          margin-top: 30px;
+          width: 250px;
+          height: 63px;
+          border-radius: 2px;
+          box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.32);
+          font-size: 18px;
+          font-weight: bold;
+          color: #fff;
+          &.sprint {
+            background-color: $aqua-color;
+            &:hover {
+              background-color: $point-hover-color;
+            }
+          }
+          &.half {
+            background-color: $blue-hover-color;
+            &:hover {
+              background-color: #1935a7;
+            }
+          }
+          &.marathon {
+            background-color: $pastel-red-color;
+            &:hover {
+              background-color: $red-hover-color;
+            }
+          }
+        }
+      }
+    }
+  }
+  .notice {
+    width: 930px;
+    margin: 0 auto;
+    padding: 0px 30px;
+    padding-top: 200px;
+    padding-bottom: 250px;
+    font-size: 18px;
+    line-height: 2;
+    letter-spacing: -0.45px;
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: -0.55px;
+      margin-bottom: 50px;
+    }
+    .notice-list {
+      white-space: pre;
+    }
+  }
+}

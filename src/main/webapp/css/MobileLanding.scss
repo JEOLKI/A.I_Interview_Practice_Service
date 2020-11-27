@@ -1,0 +1,409 @@
+@import "../index.scss";
+
+.Landing.Mobile {
+  text-align: center;
+  .TopBar.bar {
+    padding: 0 calc(50vw - 162px);
+    width: 324px;
+    height: 60px;
+    .iam-img {
+      width: 56px;
+      margin: 0;
+    }
+    .login {
+      padding: 8px 18px;
+      font-size: 11px;
+      border-radius: 4px;
+      font-weight: 500;
+      border: none;
+      margin: 0;
+      box-shadow: 0 3px 6px 0 $card-shadow-color;
+    }
+  }
+  .content-box {
+    width: 324px;
+    padding: 0;
+  }
+  .message {
+    font-size: 20px;
+  }
+  .sub-message {
+    font-size: 14px;
+  }
+  .intro {
+    min-width: 100vw;
+    width: 100vw;
+    height: calc(100vh - 60px);
+    padding-top: 60px;
+    display: flex;
+    .interface {
+      min-width: 324px;
+      width: 324px;
+      margin: 0 auto;
+      .pot {
+        width: 6px;
+        height: 6px;
+      }
+      .message {
+        text-align: left;
+        font-size: 26px;
+        margin: 0;
+      }
+      .sub-message {
+        font-size: 12px;
+        margin-bottom: 4vh;
+      }
+      .landing-img {
+        position: relative;
+        bottom: 35px;
+        min-width: 450px;
+        width: 64vh;
+      }
+      .login {
+        margin-top: 0px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 12px 0px;
+        width: 320px;
+        box-shadow: 0 3px 12px 0 rgba(11, 55, 75, 0.24);
+      }
+    }
+  }
+  .first {
+    .message {
+      font-size: 26px;
+    }
+    .calc-num {
+      font-size: 20px;
+      img {
+        width: 16px;
+        margin-left: 6px;
+      }
+    }
+    .CardArea {
+      width: 100vw;
+      position: relative;
+      left: calc(162px - 50vw);
+      margin-top: 70px;
+      .SlideView {
+        animation: fadein 0.6s forwards;
+        &.out {
+          animation: fadeout 0.4s forwards;
+        }
+      }
+      .flex {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+          width: 40px;
+          height: 130px;
+          box-shadow: 0 0 6px 0 rgba(11, 55, 75, 0.24);
+          background-color: #ffffff;
+          font-size: 30px;
+          &:first-child {
+            border-radius: 0px 8px 8px 0px;
+          }
+          &:last-child {
+            border-radius: 8px 0px 0px 8px;
+          }
+          &:active {
+            background-color: $hover-color;
+          }
+        }
+        .dummy {
+          width: 40px;
+        }
+        .SlideView {
+          height: 330px;
+        }
+        img {
+          width: 290px;
+        }
+      }
+      .SwipePot {
+        width: 72px;
+        div {
+          width: 8px;
+          height: 8px;
+        }
+      }
+    }
+  }
+  .second {
+    margin-top: 150px;
+    .sub-message {
+      font-size: 20px;
+    }
+    .section {
+      .message {
+        font-size: 20px;
+      }
+      .sub-message {
+        font-size: 14px;
+        line-height: 1.71;
+      }
+    }
+    .one {
+      margin-top: 90px;
+      img {
+        width: 100%;
+        margin-top: 30px;
+      }
+    }
+    .two {
+      margin-top: 140px;
+      .bg-circle {
+        width: 342px;
+      }
+      .flex {
+        justify-content: center;
+        height: 350px;
+        margin-top: 40px;
+        .box {
+          width: 150px;
+          height: 150px;
+          margin: 0;
+          &:nth-child(1) {
+            margin-right: 24px;
+            img {
+              width: 65px;
+              margin-top: 27px;
+              margin-bottom: 12px;
+            }
+          }
+          &:nth-child(2) {
+            img {
+              width: 100px;
+              margin-top: 30px;
+              margin-bottom: 14px;
+            }
+          }
+          &:nth-child(3) {
+            img {
+              margin-top: 28px;
+              margin-bottom: 12px;
+              width: 80px;
+            }
+          }
+        }
+        .box:last-child {
+          position: absolute;
+          top: 240px;
+        }
+      }
+    }
+  }
+  .analyze {
+    margin-top: 140px;
+    .full-label {
+      padding: 20px 0px;
+      &.voice,
+      &.word {
+        margin-top: 140px;
+      }
+      .gray-icon {
+        position: absolute;
+        left: 250px;
+        top: -10px;
+        width: 70px;
+        &.voice {
+          left: 185px;
+          top: -5px;
+          width: 100px;
+        }
+        &.word {
+          left: 200px;
+          width: 73px;
+        }
+      }
+      .message {
+        font-size: 20px;
+        width: max-content;
+        margin: 0 auto;
+        position: relative;
+        margin-bottom: 10px;
+        .mark {
+          width: 4px;
+          height: 14px;
+          top: 7px;
+          left: -12px;
+        }
+      }
+      .sub-message {
+        font-size: 14px;
+      }
+      .area {
+        width: 324px;
+        padding: 0;
+      }
+    }
+    .content-box {
+      display: block;
+      line-height: 1.71;
+      .title {
+        font-size: 18px;
+        .pink {
+          color: $pink-color;
+        }
+      }
+      .comment {
+        font-size: 14px;
+        line-height: 1.71;
+      }
+      .face-img {
+        width: 100%;
+      }
+      .sight-img {
+        width: 100%;
+      }
+      .interface {
+        width: 100%;
+        margin: 0;
+      }
+      img {
+        margin-bottom: 20px;
+      }
+    }
+    .voice {
+      margin-top: 60px;
+      .box {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 20px;
+        .tempo-img {
+          width: 100px;
+          margin: 0;
+        }
+        .volume-img {
+          width: 290px;
+          margin: 0;
+        }
+        .txt {
+          font-size: 10px;
+          width: 152px;
+          letter-spacing: -0.25px;
+          text-align: left;
+        }
+      }
+    }
+    .content-box.word {
+      .title.plus {
+        margin-bottom: 10px;
+      }
+      .plus-icon {
+        margin: 0;
+      }
+    }
+    .interface {
+      &.low {
+        margin-top: 60px;
+        .box {
+          margin-bottom: 20px;
+          .talent-img {
+            width: 296px;
+            margin-top: 30px;
+          }
+        }
+      }
+    }
+  }
+  .content.share {
+    z-index: 10;
+    margin-top: 160px;
+    margin-bottom: -30px;
+    padding-top: 0px;
+    .txt {
+      width: 100%;
+      margin: 0;
+    }
+    .message {
+      margin: 0;
+    }
+    .sub-message {
+      width: 100%;
+      line-height: 1.71;
+      margin-top: -15px;
+    }
+    .share-img {
+      width: 417px;
+      right: 0px;
+      margin: 0;
+      margin-top: 10px;
+      margin-left: -38px;
+    }
+  }
+  .footer {
+    background-position: left top;
+    .title {
+      padding-top: 185px;
+      padding-bottom: 20px;
+      font-size: 20px;
+    }
+    .start-btn {
+      width: max-content;
+      position: relative;
+      font-size: 15px;
+      height: 248px - 60px;
+      z-index: 1000;
+      padding: 59px 58px;
+      padding-bottom: 15px;
+      bottom: 0px;
+      margin-bottom: 57px;
+      .circle-icon {
+        display: block;
+        width: 74px;
+        margin: 0 auto;
+        margin-bottom: 8px;
+      }
+      .arrow-icon {
+        margin-top: 45px;
+      }
+      &:hover {
+        margin-bottom: 57px;
+      }
+    }
+    .notice {
+      position: relative;
+      .notice-icons {
+        display: flex;
+        justify-content: center;
+        padding-left: 12px;
+        margin-bottom: 8px;
+        .block {
+          display: block;
+          &:nth-child(2) {
+            margin-left: 58px;
+            margin-right: 45px;
+          }
+        }
+      }
+    }
+    .icons {
+      position: relative;
+      top: 55px;
+      left: 120px;
+      z-index: 10;
+      a {
+        margin: 0px 5px;
+      }
+    }
+    .left {
+      position: relative;
+      left: 0px;
+      top: 0px;
+      width: 324px;
+      margin: 0 auto;
+      text-align: left;
+      .link {
+        width: 200px;
+      }
+      .doodlin-logo {
+        margin-top: 20px;
+        margin-bottom: 40px;
+      }
+    }
+  }
+}

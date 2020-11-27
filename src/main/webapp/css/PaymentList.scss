@@ -1,0 +1,21 @@
+.PaymentList {
+  .body {
+    min-height: calc(100vh - 60px);
+    padding: 60px 30px;
+    width: 1000px;
+    margin: 0 auto;
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-top: 65px;
+      margin-bottom: 20px;
+    }
+    .message {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .sub-message {
+      font-size: 14px;
+    }
+  }
+}

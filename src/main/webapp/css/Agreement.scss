@@ -1,0 +1,61 @@
+.Agreement {
+  .content {
+    width: 900px;
+    padding: 108px 40px;
+    padding-bottom: 200px;
+    margin: 0 auto;
+    font-size: 18px;
+    letter-spacing: -0.48px;
+    line-height: 1.78;
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+      padding-bottom: 70px;
+      border-bottom: solid 1px rgba(154, 171, 186, 0.3);
+      .message {
+        font-size: 18px;
+        font-weight: normal;
+        margin-top: 44px;
+      }
+    }
+    b {
+      font-weight: 500;
+    }
+    .label {
+      font-weight: 500;
+      margin-top: 30px;
+    }
+    .sub-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 80px;
+      margin-bottom: 10px;
+      &.first {
+        margin-top: 45px;
+      }
+    }
+    .paragraph {
+      padding-left: 40px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      .semi {
+        padding-left: 30px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+      }
+      &.-semi {
+        margin-top: 10px;
+      }
+      .area {
+        display: block;
+        position: relative;
+        left: 80px;
+        top: -32px;
+        margin-bottom: -32px;
+      }
+    }
+    .info {
+      margin-top: 50px;
+    }
+  }
+}

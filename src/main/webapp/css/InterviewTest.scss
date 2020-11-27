@@ -1,0 +1,194 @@
+@import "./index.scss";
+
+.InterviewTest {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  &.Loading {
+    background-color: rgba(#000, 0.4);
+  }
+  .back-btn {
+    position: absolute;
+    top: 6vh;
+    left: 5vw;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    z-index: 20;
+    opacity: 1;
+    &:hover {
+      opacity: 0.8;
+    }
+    .go-back {
+      margin-right: 11px;
+      position: relative;
+      top: 2px;
+    }
+  }
+  .bg-video {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    .bg-layer {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      background: radial-gradient(
+        circle at 50% 48%,
+        transparent,
+        transparent calc(min(20vw, 270px)),
+        rgba(#000, 0.4) calc(min(20vw, 270px))
+      );
+      z-index: 1;
+    }
+    .loading {
+      display: block;
+      width: 60px;
+      margin: 0 auto;
+      margin-top: calc(50vh - 30px);
+    }
+    .user-camera-video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      &.Loading {
+        opacity: 0;
+      }
+    }
+  }
+  .body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    z-index: 10;
+    position: relative;
+    display: flex;
+    align-items: center;
+    .center {
+      width: 600px;
+      margin: 0 auto;
+      .top-message {
+        font-size: 22px;
+        font-weight: bold;
+      }
+      .bottom-message {
+        margin-top: calc(min(40vw, 540px) + 80px);
+        font-size: 18px;
+        font-weight: normal;
+        line-height: 1.56;
+      }
+    }
+    .right {
+      position: absolute;
+      width: 230px;
+      padding: 0px 50px;
+      height: 100vh;
+      right: 0;
+      background-color: rgba(#000, 0.4);
+      .test {
+        margin-top: calc(50vh - 240px);
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        .InterviewTestMic,
+        .InterviewTestAudio {
+          width: 100px;
+          .label {
+            font-size: 14px;
+            opacity: 0.6;
+            margin-top: 5px;
+          }
+          .text-btn {
+            width: 100px;
+            height: 40px;
+            border-radius: 2px;
+            font-size: 16px;
+            border: solid 1px #ffffff;
+            background-color: transparent;
+            margin-top: 15px;
+            &:hover {
+              background-color: rgba(#fff, 0.2);
+            }
+            &.active {
+              background-color: #ffffff;
+              color: #000;
+              &:hover {
+                opacity: 0.8;
+              }
+            }
+          }
+        }
+        .VolumeMeter {
+          margin: 0 auto;
+          margin-bottom: 20px;
+        }
+      }
+      .txt {
+        opacity: 0.6;
+        font-size: 14px;
+        margin-top: 20px;
+        letter-spacing: -0.25px;
+      }
+    }
+    .mic-volume {
+      width: 24px;
+      margin: 0 auto;
+      img {
+        margin-top: 27px;
+      }
+    }
+    .interview-start-btn {
+      position: absolute;
+      bottom: 3vh;
+      left: 50px;
+      cursor: pointer;
+      width: 230px;
+      margin: 0 auto;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.16);
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 61px;
+      background-color: $aqua-color;
+      &:hover {
+        background-color: $point-hover-color;
+      }
+      &:active {
+        background-color: #12b2bb;
+      }
+    }
+  }
+}
+.VolumeMeter {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 24px;
+  height: 308px;
+  justify-content: space-between;
+  div {
+    width: 24px;
+    height: 4px;
+    &.none {
+      background-color: #fff;
+      opacity: 0.4;
+    }
+    &.white {
+      background-color: #fff;
+    }
+    &.orange {
+      background-color: #ffae32;
+    }
+    &.green {
+      background-color: #4be94b;
+    }
+  }
+}

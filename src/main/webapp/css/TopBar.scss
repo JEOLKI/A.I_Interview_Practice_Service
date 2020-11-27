@@ -1,0 +1,217 @@
+@import "../index.scss";
+
+.TopBar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+  background-color: #fff;
+  width: 100%;
+  height: 52px;
+  z-index: 100;
+  user-select: none;
+  box-shadow: 0 3px 6px 0 rgba(12, 45, 100, 0.08);
+  white-space: nowrap;
+  .navigation-bar {
+    display: flex;
+    .iam-img {
+      display: block;
+      cursor: pointer;
+      width: 130px;
+      margin-left: 30px;
+    }
+    .nav {
+      margin-left: 65px;
+      position: relative;
+      a {
+        padding: 0px 18px;
+        font-size: 16px;
+        font-weight: 500;
+        opacity: 0.6;
+        transition: 0.2s ease;
+        &:hover,
+        &.current {
+          opacity: 1;
+        }
+      }
+      .balloon {
+        position: absolute;
+        width: max-content;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: normal;
+        padding: 5px 16px;
+        top: 32px;
+        left: 56px;
+        background-color: $cerulean-blue-color;
+        transition: 0.2s;
+        opacity: 1;
+        &.none {
+          display: none;
+        }
+        &.transparent {
+          opacity: 0;
+        }
+        &:after {
+          position: absolute;
+          border-bottom: 7px solid $cerulean-blue-color;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-top: 0px solid transparent;
+          content: "";
+          top: -7px;
+          left: 69.5px;
+        }
+      }
+    }
+  }
+  .login {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 6px 18px;
+    border-radius: 4px;
+    border: solid 1px $dark-navy-blue;
+    background-color: transparent;
+    margin-right: 35px;
+    transition: 0.2s ease;
+    &:hover,
+    &:active {
+      background-color: $dark-navy-blue;
+      color: #fff;
+    }
+  }
+  .user-tool {
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    .payment-btn {
+      font-size: 15px;
+      font-weight: 500;
+      padding: 6px 18px;
+      border: solid 1px $dark-navy-blue;
+      border-radius: 4px;
+      margin-right: 16px;
+      transition: 0.1s ease;
+      &:hover {
+        background-color: $dark-navy-blue;
+        color: #fff;
+      }
+    }
+    .profile-btn {
+      position: relative;
+      height: 20px;
+      display: flex;
+      cursor: pointer;
+      text-align: center;
+      align-items: center;
+      position: relative;
+      font-family: "Noto Sans KR";
+      font-size: 16px;
+      font-weight: 400;
+      padding: 0px 34px;
+      border-left: 1px solid rgba(154, 171, 186, 0.3);
+      transition: 0.1s ease;
+      .profile-icon {
+        display: block;
+        margin-right: 15px;
+        width: 32px;
+        height: 32px;
+        border-radius: 30px;
+        object-fit: cover;
+      }
+      .fa {
+        margin-left: 15px;
+      }
+      &:hover {
+        color: $aqua-color;
+      }
+    }
+    .user-popup {
+      position: absolute;
+      width: 250px;
+      top: 55px;
+      right: 10px;
+      font-size: 14px;
+      border-radius: 3px;
+      box-shadow: 0 0 10px 0 rgba(12, 45, 100, 0.3);
+      background-color: #ffffff;
+      font-weight: 300;
+      .btn {
+        cursor: pointer;
+        border-radius: 30px;
+        width: max-content;
+        display: block;
+        padding: 5px 15px;
+        color: #2c2c2c;
+        transition: 0.1s ease;
+        &:hover {
+          background-color: $pale-grey-two;
+        }
+      }
+      .profile-area {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        font-size: 16px;
+        .profile-icon {
+          width: 40px;
+          height: 40px;
+          margin-right: 15px;
+          border-radius: 30px;
+        }
+      }
+      .profile-link-area {
+        padding: 10px 15px;
+        border-top: solid 1px $silver-color;
+        font-weight: normal;
+        .personal-info.btn {
+          &:hover {
+            color: $aqua-color;
+            background-color: rgba($aqua-color, 0.1);
+          }
+        }
+      }
+      .link-area {
+        width: 220px;
+        margin: 0 auto;
+        border-top: solid 1px $silver-color;
+        padding-top: 10px;
+      }
+      .logout {
+        cursor: pointer;
+        width: max-content;
+        margin: 25px 0px 20px 145px;
+        color: rgba($dark-navy-blue, 0.4);
+        padding: 5px 15px;
+        border-radius: 18px;
+        border: solid 1px $silver-color;
+        &:hover {
+          border: solid 1px $pale-grey-two;
+          background-color: $pale-grey-two;
+        }
+      }
+      &:before {
+        position: absolute;
+        border-top: 0px solid transparent;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 13px solid rgba(12, 45, 100, 0.3);
+        content: "";
+        top: -14px;
+        right: 50px;
+      }
+      &:after {
+        position: absolute;
+        border-top: 0px solid transparent;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 13px solid #fff;
+        content: "";
+        top: -13px;
+        right: 50px;
+      }
+    }
+  }
+}

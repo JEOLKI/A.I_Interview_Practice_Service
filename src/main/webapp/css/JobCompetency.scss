@@ -1,0 +1,142 @@
+@import "../../index.scss";
+
+.JobCompetency {
+  width: 580px;
+  @include respond-to(semi-hd) {
+    width: 430px;
+  }
+  .content-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 14px;
+    height: 380px;
+    padding: 50px 60px;
+    padding-top: 70px;
+    text-align: center;
+    font-size: 14px;
+    @include respond-to(semi-hd) {
+      font-size: 13px;
+      padding: 40px;
+      padding-top: 60px;
+      height: 350px;
+    }
+    .no-result {
+      margin: 0 auto;
+      width: 200px;
+      height: 200px;
+      border-radius: 100px;
+      background-color: $popup-background-color;
+      color: #fff;
+      .question-mark {
+        margin-top: 50px;
+        font-family: Roboto;
+        font-size: 80px;
+        line-height: 1.1;
+        font-weight: bold;
+      }
+    }
+    .competency-percent {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      .name-box {
+        width: 95px;
+        text-align: right;
+        @include respond-to(semi-hd) {
+          width: 90px;
+        }
+        .name {
+          display: inline-block;
+          padding: 3px 14px;
+          border-radius: 15px;
+          box-shadow: 0 3px 6px 0 $card-shadow-color;
+          background-color: #ffffff;
+        }
+      }
+      .rectangle {
+        margin-left: 20px;
+        height: 8px;
+        opacity: 0.6;
+        background-color: $pink-color;
+      }
+      .percentage {
+        margin-left: 12px;
+        font-family: Roboto;
+        font-weight: 500;
+        opacity: 0.6;
+        color: $pink-color;
+      }
+      &.select {
+        font-weight: 500;
+        .name {
+          box-shadow: none;
+          background-color: $dark-gray-color;
+          color: #fff;
+        }
+        .rectangle,
+        .percentage {
+          opacity: 1;
+        }
+      }
+      &.unselect:hover {
+        .name {
+          background-color: $hover-color;
+        }
+        .rectangle,
+        .percentage {
+          opacity: 1;
+        }
+      }
+    }
+    .word-view {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      box-shadow: 0 3px 6px 0 rgba($card-shadow-color, 0.32);
+      padding: 20px 35px;
+      border: solid 1px $placeholder-color;
+      margin-top: 50px;
+      &:before {
+        position: absolute;
+        border-top: 0px solid transparent;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 13px solid $placeholder-color;
+        content: "";
+        top: -14px;
+        left: 55px;
+        @include respond-to(semi-hd) {
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid $placeholder-color;
+          top: -11px;
+          left: 55px;
+        }
+      }
+      &:after {
+        position: absolute;
+        border-top: 0px solid transparent;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 13px solid #fff;
+        content: "";
+        top: -12px;
+        left: 55px;
+        @include respond-to(semi-hd) {
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid #fff;
+          top: -10px;
+          left: 55px;
+        }
+      }
+      .word {
+        padding: 5px 15px;
+        word-wrap: normal;
+      }
+    }
+  }
+}

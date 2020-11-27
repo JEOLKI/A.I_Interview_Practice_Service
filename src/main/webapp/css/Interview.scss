@@ -1,0 +1,18 @@
+@import "./index.scss";
+
+.Interview {
+  color: #fff;
+  height: 100vh;
+  min-width: max-content;
+  width: 100vw;
+  overflow: hidden;
+  user-select: none;
+  background: linear-gradient(-45deg, #2667ff, #6afff5);
+  background-size: 400% 400%;
+  position: relative;
+  animation: change 16s linear infinite;
+  box-sizing: border-box;
+  .stream-video {
+    display: none;
+  }
+}

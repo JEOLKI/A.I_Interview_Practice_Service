@@ -1,0 +1,11 @@
+@import "./index.scss";
+
+.Questions .body {
+  background-color: $lite-gray-color;
+  padding-top: 142px;
+  min-width: max-content;
+  min-height: calc(100vh - 80px);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

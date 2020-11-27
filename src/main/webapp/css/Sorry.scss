@@ -1,0 +1,72 @@
+@import "./index.scss";
+
+.Sorry {
+  .body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 40px;
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .sub-message {
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 2;
+    }
+    .sub-title {
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      .txt {
+        position: relative;
+        top: 10px;
+        img {
+          position: relative;
+          width: 18px;
+          top: 4px;
+          margin-left: 3px;
+        }
+      }
+    }
+    .mark {
+      display: flex;
+      justify-content: center;
+      line-height: 23px;
+      text-align: center;
+      width: 20px;
+      height: 20px;
+      font-family: Roboto;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
+      border-radius: 20px;
+      background-color: $dark-gray-color;
+      margin-right: 8px;
+    }
+    button {
+      margin-top: 70px;
+      width: 220px;
+      height: 50px;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.32);
+      background-color: $dark-gray-color;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      &:hover {
+        background-color: $dark-hover-color;
+      }
+    }
+    .sorry-img {
+      margin-left: 120px;
+    }
+  }
+}

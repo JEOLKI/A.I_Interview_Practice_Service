@@ -1,0 +1,78 @@
+@import "../../index.scss";
+
+.GazeGraph {
+  margin-top: 140px;
+  margin-bottom: 50px;
+  .message {
+    text-align: center;
+    font-weight: 300;
+    line-height: 1.46;
+    margin-top: 20px;
+    margin-bottom: 25px;
+  }
+  .content-box {
+    width: 840px;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+    padding: 15px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include respond-to(semi-hd) {
+      width: 630px;
+      height: 375px;
+    }
+    canvas {
+      position: absolute;
+      top: 15px;
+      left: 50px;
+      z-index: 15;
+    }
+    img {
+      position: relative;
+      display: block;
+      bottom: 8px;
+      z-index: 10;
+      @include respond-to(semi-hd) {
+        width: 195px;
+      }
+    }
+    .background-box {
+      position: absolute;
+      top: calc(50% - 226 * 0.5px);
+      left: calc(50% - 400 * 0.5px);
+      width: 400px;
+      height: 226px;
+      opacity: 0.5;
+      border-radius: 113px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.35);
+      background-color: #daf3f5;
+      z-index: 5;
+      @include respond-to(semi-hd) {
+        width: 300px;
+        height: 170px;
+        top: calc(50% - 170 * 0.5px);
+        left: calc(50% - 300 * 0.5px);
+      }
+    }
+    .x-axis {
+      width: 840px;
+      position: absolute;
+      top: 50%;
+      border-top: 2px dotted #333;
+      @include respond-to(semi-hd) {
+        width: 630px;
+      }
+    }
+    .y-axis {
+      position: absolute;
+      height: 500px;
+      left: 50%;
+      border-left: 2px dotted #333;
+      @include respond-to(semi-hd) {
+        height: 375px;
+      }
+    }
+  }
+}

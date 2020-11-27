@@ -1,0 +1,219 @@
+@import "../../index.scss";
+
+.ReviewVideo {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding: 35px 20px;
+  @include respond-to(semi-hd) {
+    padding: 25px 15px;
+  }
+  .review-video-area {
+    position: relative;
+    width: 544px;
+    height: 308px;
+    @include respond-to(semi-hd) {
+      width: 400px;
+      height: 225px;
+    }
+    .review-video {
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+      outline: none;
+    }
+    .review-controller {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      border-radius: 2px;
+      .full-btn {
+        cursor: pointer;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border-radius: 2px;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba($color: #000000, $alpha: 0);
+        transition-property: background-color;
+        transition-duration: 0.3s;
+        img {
+          opacity: 0;
+          transition-property: opacity;
+          transition-duration: 0.3s;
+          @include respond-to(semi-hd) {
+            width: 48px;
+          }
+        }
+        &.shown {
+          background-color: rgba($color: #000000, $alpha: 0.3);
+          img {
+            opacity: 1;
+          }
+        }
+      }
+      .time {
+        position: absolute;
+        bottom: 8px;
+        left: 25px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #fff;
+      }
+      &:hover {
+        .full-btn {
+          background-color: rgba($color: #000000, $alpha: 0.3);
+          img {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .review-emotion {
+      position: absolute;
+      top: 27px;
+      left: 16px;
+      padding: 10px 14px;
+      width: 90px;
+      height: 80px;
+      color: #fff;
+      background-color: rgba($color: #000000, $alpha: 0.25);
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: -0.28px;
+      @include respond-to(semi-hd) {
+        font-size: 13px;
+        width: 80px;
+        height: 75px;
+        top: 15px;
+        left: 10px;
+      }
+      b {
+        display: inline-block;
+        font-family: Roboto;
+        margin-left: 5px;
+      }
+    }
+    .review-face {
+      position: absolute;
+      border: 2px solid rgba($color: #fff, $alpha: 0.8);
+      z-index: 10;
+    }
+  }
+  .comments {
+    $center-top: (308 - 46) * 0.5px;
+    $center-top-semi: (250 - 40) * 0.5px;
+    position: relative;
+    width: 580px;
+    height: 308px;
+    margin-left: 35px;
+    @include respond-to(semi-hd) {
+      width: 410px;
+      height: 250px;
+      margin-left: 20px;
+    }
+    .comment {
+      user-select: none;
+      cursor: pointer;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+      font-size: 18px;
+      width: 100%;
+      height: 46px;
+      @include respond-to(semi-hd) {
+        font-size: 15px;
+        height: 40px;
+      }
+      .time {
+        width: 40px;
+        padding: 0px 25px;
+        @include respond-to(semi-hd) {
+          width: 38px;
+          padding: 0px 20px;
+        }
+      }
+      .text {
+        width: 440px;
+        padding-left: 20px;
+        padding-right: 25px;
+        @include respond-to(semi-hd) {
+          width: 280px;
+        }
+      }
+      &.select {
+        top: $center-top;
+        background-color: $dark-gray-color;
+        font-weight: 500;
+        color: white;
+        .time {
+          line-height: 46px;
+          font-weight: bold;
+          font-size: 20px;
+          @include respond-to(semi-hd) {
+            font-size: 18px;
+            line-height: 40px;
+          }
+        }
+        @include respond-to(semi-hd) {
+          top: $center-top-semi;
+        }
+      }
+      &.one,
+      &.one- {
+        opacity: 0.4;
+        top: $center-top + 50px;
+        @include respond-to(semi-hd) {
+          top: $center-top-semi + 45px;
+        }
+      }
+      &.two,
+      &.two- {
+        opacity: 0.2;
+        font-size: 16px;
+        top: $center-top + 100px;
+        @include respond-to(semi-hd) {
+          font-size: 14px;
+          top: $center-top-semi + 85px;
+        }
+      }
+      &.three,
+      &.three- {
+        opacity: 0.1;
+        font-size: 14px;
+        top: $center-top + 140px;
+        @include respond-to(semi-hd) {
+          font-size: 12px;
+          top: $center-top-semi + 120px;
+        }
+      }
+      &.one- {
+        top: $center-top - 50px;
+        @include respond-to(semi-hd) {
+          top: $center-top-semi - 45px;
+        }
+      }
+      &.two- {
+        top: $center-top - 100px;
+        @include respond-to(semi-hd) {
+          top: $center-top-semi - 85px;
+        }
+      }
+      &.three- {
+        top: $center-top - 140px;
+        @include respond-to(semi-hd) {
+          top: $center-top-semi - 120px;
+        }
+      }
+      &.else {
+        display: none;
+      }
+    }
+  }
+}

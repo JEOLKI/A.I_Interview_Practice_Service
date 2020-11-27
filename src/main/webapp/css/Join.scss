@@ -1,0 +1,29 @@
+@import "./index.scss";
+
+.Join {
+  padding-top: 65px;
+  text-align: center;
+  user-select: none;
+  font-size: 14px;
+  .logo {
+    width: 125px;
+  }
+  .message {
+    margin-top: 30px;
+    opacity: 0.6;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.21px;
+    margin-bottom: 10vh;
+  }
+}
+
+.Join.mobile {
+  padding-top: 30px;
+  .logo {
+    width: 85px;
+  }
+  .message {
+    font-size: 12px;
+  }
+}

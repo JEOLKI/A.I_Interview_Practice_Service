@@ -1,0 +1,439 @@
+@import "../../index.scss";
+
+.JoinForm {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 480px;
+  padding: 50px 60px;
+  padding-top: 40px;
+  border-radius: 2px;
+  border: solid 1px $placeholder-color;
+  text-align: left;
+  .warn-icon {
+    position: absolute;
+    width: 23px;
+    height: 24px;
+    padding-left: 1px;
+    line-height: 28px;
+    border-radius: 19px;
+    background-color: #ff7b7b;
+    color: #fff;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 17px;
+    font-weight: 900;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: -0.33px;
+    margin-bottom: 50px;
+  }
+  .red {
+    color: $pastel-red-color;
+  }
+  .label {
+    font-size: 14px;
+    &.bold {
+      font-weight: 500;
+    }
+    &.center {
+      text-align: center;
+    }
+    &.notice {
+      margin-bottom: 30px;
+    }
+  }
+  .name-input {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    margin-bottom: 80px;
+    position: relative;
+    .warn-icon {
+      top: -10px;
+      left: -10px;
+    }
+    input {
+      padding: 10px 20px;
+      width: 340px;
+      border-radius: 2px;
+      font-size: 18px;
+      border: solid 1px $hover-color;
+      &:hover,
+      &:focus {
+        border-color: $dark-gray-color;
+      }
+    }
+    .btn-area {
+      position: relative;
+      .duplicate-message {
+        width: 230px;
+        text-align: right;
+        position: absolute;
+        font-size: 12px;
+        letter-spacing: -0.18px;
+        top: -25px;
+        right: 0px;
+        &.duplicate {
+          color: $pastel-red-color;
+        }
+      }
+      .btn {
+        width: 88px;
+        height: 50px;
+        font-size: 14px;
+        color: #ffffff;
+        background-color: $dark-gray-color;
+        opacity: 0.4;
+        &.active {
+          opacity: 0.8;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  .set-career-flex {
+    display: flex;
+    margin-top: 10px;
+    .flex {
+      display: flex;
+    }
+    .label {
+      margin-right: 20px;
+    }
+    .btn {
+      cursor: pointer;
+      padding: 11px 33px;
+      font-size: 14px;
+      font-weight: 500;
+      background-color: rgba($dark-gray-color, 0.1);
+      color: rgba($dark-gray-color, 0.6);
+      &.new {
+        border-radius: 2px 0px 0px 2px;
+      }
+      &.old {
+        border-radius: 0px 2px 2px 0px;
+      }
+      &:hover {
+        background-color: rgba($dark-gray-color, 0.2);
+        color: rgba($dark-gray-color, 0.8);
+      }
+      &.select {
+        background-color: rgba($dark-gray-color, 1);
+        color: #fff;
+      }
+    }
+  }
+  .education-flex {
+    margin-top: 50px;
+    margin-bottom: 45px;
+  }
+  .gender-flex {
+    margin-bottom: 80px;
+  }
+  .radio-area {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    width: 540px;
+    .warn-icon {
+      width: 15px;
+      height: 16px;
+      font-size: 11px;
+      line-height: 20px;
+      left: -25px;
+      top: 3px;
+    }
+    .label {
+      margin-right: 45px;
+    }
+    .grid {
+      width: 460px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 15px;
+    }
+  }
+  .prospect-area {
+    margin-top: 40px;
+    .company,
+    .job {
+      display: grid;
+      grid-template-columns: 76px auto;
+      align-items: center;
+      position: relative;
+      width: 290px;
+      .company-input,
+      .job-input {
+        display: inline-block;
+      }
+      .completion-area {
+        top: 30px;
+      }
+      .warn-icon {
+        width: 15px;
+        height: 16px;
+        font-size: 11px;
+        line-height: 20px;
+        left: -25px;
+        top: 8px;
+      }
+      input {
+        border-radius: 2px;
+        border: solid 1px rgba($dark-gray-color, 0.4);
+        padding: 5px 12px;
+        width: 290px;
+        &:hover,
+        &:focus {
+          border-color: $dark-gray-color;
+        }
+      }
+      .radio {
+        margin-top: 10px;
+      }
+    }
+    .job {
+      margin-top: 35px;
+    }
+  }
+  .year-label {
+    margin-top: 90px;
+    margin-bottom: 10px;
+  }
+  .year-flex {
+    display: flex;
+    align-items: center;
+    margin-bottom: 70px;
+    .year {
+      width: 95px;
+      text-align: center;
+      font-family: Roboto;
+      font-size: 18px;
+      position: relative;
+      top: 2px;
+      letter-spacing: -0.27px;
+    }
+    img {
+      cursor: pointer;
+    }
+    .half {
+      cursor: pointer;
+      padding: 5px 35px;
+      margin-left: 2px;
+      border-radius: 2px;
+      background-color: rgba($dark-gray-color, 0.1);
+      color: rgba($dark-gray-color, 0.6);
+      &:hover {
+        background-color: rgba($dark-gray-color, 0.2);
+        color: rgba($dark-gray-color, 0.8);
+      }
+      &.select {
+        background-color: rgba($dark-gray-color, 1);
+        color: #fff;
+      }
+    }
+  }
+  .all-check-flex {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    img {
+      width: 26px;
+      margin-right: 10px;
+      cursor: pointer;
+      opacity: 0.4;
+      &:hover,
+      &.select {
+        opacity: 1;
+      }
+    }
+  }
+  .major-flex {
+    margin-bottom: 100px;
+  }
+  .term-list {
+    margin-top: 20px;
+    border-radius: 2px;
+    border: solid 1px $hover-color;
+    padding: 20px;
+    padding-bottom: 0px;
+    img {
+      width: 26px;
+      cursor: pointer;
+      opacity: 0.4;
+      &:hover,
+      &.select {
+        opacity: 1;
+      }
+    }
+    .flex {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .txt {
+        width: 305px;
+        letter-spacing: -0.2px;
+      }
+      .link {
+        text-align: right;
+        width: 90px;
+        cursor: pointer;
+        opacity: 0.6;
+        text-decoration: underline;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .submit-area {
+    position: relative;
+    margin-top: 110px;
+    .need-input {
+      position: absolute;
+      top: -20px;
+      right: 0px;
+      font-size: 12px;
+      letter-spacing: -0.18px;
+      color: $pastel-red-color;
+    }
+    .submit-btn {
+      border-radius: 2px;
+      margin: 0 auto;
+      text-align: center;
+      width: 480px;
+      padding: 15px 0px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      background: $point-linear;
+      cursor: pointer;
+      &.active {
+        &:hover {
+          background: $point-linear-hover;
+        }
+      }
+    }
+  }
+}
+
+.JoinForm.mobile {
+  width: 335px;
+  margin-top: 38px;
+  padding: 0;
+  border: none;
+  .warn-icon {
+    width: 18px;
+    height: 18px;
+    line-height: 20px;
+    padding: 0px;
+    font-size: 13px;
+  }
+  .notice {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .label {
+    font-size: 13px;
+  }
+  .name-input {
+    margin-bottom: 60px;
+    input {
+      font-size: 16px;
+      padding: 10px 15px;
+      width: 210px;
+      height: 25px;
+    }
+    .btn-area {
+      .btn {
+        height: 46px;
+      }
+    }
+    .warn-icon {
+      left: 210px;
+      top: 15px;
+    }
+  }
+  .set-career-flex {
+    display: block;
+    .flex {
+      display: flex;
+      margin-top: 10px;
+    }
+  }
+  .radio-area {
+    width: 335px;
+    .label {
+      width: 35px;
+      margin: 0;
+    }
+    .warn-icon {
+      left: 32px;
+      top: 1px;
+    }
+  }
+  .grid {
+    position: relative;
+    width: 280px;
+    left: 40px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .prospect-area {
+    .company,
+    .job {
+      grid-template-columns: 70px auto;
+      input {
+        width: 230px;
+        padding: 10px 15px;
+      }
+      .completion-area {
+        top: 40px;
+      }
+    }
+  }
+  .year-flex {
+    flex-wrap: wrap;
+    .select-value {
+      width: 200px;
+      height: 38px;
+    }
+    .select-options {
+      width: 187px;
+    }
+    .half {
+      padding: 15px 37px;
+      margin: 0;
+      margin-top: 10px;
+      margin-right: 2px;
+    }
+  }
+  .term-list {
+    .flex {
+      flex-wrap: wrap;
+      .txt {
+        width: 255px;
+        font-size: 13px;
+      }
+      .link {
+        font-size: 12px;
+        text-align: right;
+        margin-left: 200px;
+      }
+    }
+  }
+  .submit-area {
+    margin-top: 40px;
+    .submit-btn {
+      width: 335px;
+    }
+  }
+}

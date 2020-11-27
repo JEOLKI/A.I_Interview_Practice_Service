@@ -1,0 +1,226 @@
+@import "../../index.scss";
+
+.ProfileForm {
+  .duplicate-message {
+    width: 230px;
+    text-align: right;
+    position: absolute;
+    font-size: 12px;
+    top: -22px;
+    right: 0px;
+    &.duplicate {
+      color: $pastel-red-color;
+    }
+  }
+  .info-flex {
+    display: flex;
+    border-top: solid 1px rgba(154, 171, 186, 0.3);
+    &:nth-last-child(2) {
+      border-bottom: solid 1px rgba(154, 171, 186, 0.3);
+    }
+    .label {
+      display: flex;
+      align-items: center;
+      width: 210px;
+      padding: 40px;
+      background-color: $lite-gray-color;
+      span {
+        margin-left: 9px;
+        color: $pastel-red-color;
+      }
+    }
+    .content {
+      padding: 28px 50px;
+      .profile-img {
+        width: 104px;
+        height: 104px;
+        border-radius: 80px;
+        object-fit: cover;
+        box-shadow: 0 3px 12px 0 $card-shadow-color;
+      }
+    }
+    .name-area {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      .name-input {
+        padding: 10px 18px;
+        width: 275px;
+        height: 22px;
+        border-radius: 2px;
+        font-size: 14px;
+        border: solid 1px rgba($dark-gray-color, 0.4);
+        margin-right: 2px;
+        &:hover,
+        &:focus {
+          border-color: $dark-gray-color;
+        }
+      }
+      .btn-area {
+        position: relative;
+        .btn {
+          border-radius: 2px;
+          width: 88px;
+          height: 44px;
+          font-size: 14px;
+          color: #ffffff;
+          background-color: $dark-gray-color;
+          opacity: 0.4;
+          &.active {
+            opacity: 0.8;
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+    .set-career-flex {
+      display: flex;
+      .btn {
+        cursor: pointer;
+        padding: 16px 47px;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 1px;
+        background-color: rgba($dark-gray-color, 0.1);
+        color: rgba($dark-gray-color, 0.6);
+        border-radius: 2px;
+        &:hover {
+          background-color: rgba($dark-gray-color, 0.2);
+          color: rgba($dark-gray-color, 0.8);
+        }
+        &.select {
+          background-color: rgba($dark-gray-color, 1);
+          color: #fff;
+        }
+      }
+    }
+    .prospect-area {
+      .company,
+      .job {
+        .company-input,
+        .job-input {
+          display: inline-block;
+          margin-left: 10px;
+        }
+        input {
+          border-radius: 2px;
+          border: solid 1px rgba($dark-gray-color, 0.4);
+          padding: 10px 12px;
+          width: 290px;
+          &:hover,
+          &:focus {
+            border-color: $dark-gray-color;
+          }
+        }
+        .radio {
+          margin-top: 10px;
+          margin-left: 36px;
+        }
+      }
+      .job {
+        margin-top: 20px;
+      }
+    }
+    .radio-area {
+      padding-right: 0;
+      display: flex;
+      align-items: center;
+      .grid {
+        width: 473px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 15px;
+        &.two {
+          width: 180px;
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .third-link-btn {
+        margin-left: 180px;
+        padding: 8px 18px;
+        border-radius: 2px;
+        border: solid 1px rgba($dark-gray-color, 0.4);
+        &:hover {
+          border-color: $dark-gray-color;
+        }
+      }
+    }
+    .year-flex {
+      display: flex;
+      align-items: center;
+      .year {
+        width: 95px;
+        text-align: center;
+        font-family: Roboto;
+        font-size: 18px;
+        position: relative;
+        top: 2px;
+        letter-spacing: -0.27px;
+      }
+      img {
+        cursor: pointer;
+      }
+      .half {
+        cursor: pointer;
+        padding: 5px 35px;
+        margin-left: 2px;
+        border-radius: 2px;
+        background-color: rgba($dark-gray-color, 0.1);
+        color: rgba($dark-gray-color, 0.6);
+        &:hover {
+          background-color: rgba($dark-gray-color, 0.2);
+          color: rgba($dark-gray-color, 0.8);
+        }
+        &.select {
+          background-color: rgba($dark-gray-color, 1);
+          color: #fff;
+        }
+      }
+    }
+  }
+  .submit-area {
+    width: 260px;
+    margin: 60px auto;
+    text-align: center;
+    position: relative;
+    .duplicate-message {
+      text-align: center;
+      width: 160px;
+      left: -12px;
+    }
+    button {
+      margin: 5px;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 11px 43px;
+      border-radius: 2px;
+    }
+    .submit {
+      &.unactive {
+        background: transparent;
+        border-radius: 2px;
+        padding: 10px 42px;
+        border: solid 1px $dark-gray-color;
+        opacity: 0.4;
+      }
+      &.active {
+        background-color: $aqua-color;
+        color: #fff;
+        &:hover {
+          background-color: $point-hover-color;
+        }
+      }
+    }
+    .cancel {
+      background: transparent;
+      border-radius: 2px;
+      padding: 10px 42px;
+      border: solid 1px $dark-gray-color;
+      &:hover {
+        background-color: $lite-gray-color;
+      }
+    }
+  }
+}

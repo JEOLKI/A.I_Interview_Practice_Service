@@ -1,0 +1,275 @@
+@import "../index.scss";
+
+.MobileWelcome {
+  position: relative;
+  .bar {
+    width: 100vw;
+    top: 0px;
+    position: absolute;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    background-color: rgba(#fff, 0.8);
+    .simbol {
+      display: block;
+      width: 60px;
+      margin-left: 18px;
+    }
+    .profile-area {
+      margin-right: 26px;
+      font-size: 14px;
+      font-weight: normal;
+      img {
+        position: relative;
+        top: 5px;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        margin-left: 12px;
+      }
+    }
+  }
+  .body {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    opacity: 10;
+    &.blue {
+      background: linear-gradient(to bottom, #028ebb, #0fd1e1);
+    }
+    .btn-bar {
+      width: 100vw;
+      position: absolute;
+      bottom: calc(50vh - 265px);
+      text-align: center;
+      &.blue {
+        .before {
+          opacity: 1;
+          background-color: rgba(#fff, 0.4);
+          color: #3e3e3e;
+        }
+      }
+      .btn {
+        position: relative;
+        padding: 9px 28px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 21px;
+        background-color: $dark-gray-color;
+        opacity: 0.4;
+        color: #fff;
+        margin: 5px;
+        &.after {
+          opacity: 1;
+        }
+      }
+    }
+    .bg-circle {
+      left: calc(50vw - 215px);
+      top: calc(50vh - 230px);
+      position: absolute;
+      z-index: -1;
+    }
+    .title-message {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .mobile-slide-view {
+      animation: fadein 1s forwards;
+      &.out {
+        animation: fadeout 0.6s forwards;
+      }
+    }
+  }
+  .SwipePot {
+    position: absolute;
+    padding-top: calc(50vh - 235px);
+    left: calc(50vw - 35px);
+    width: 70px;
+    z-index: 200;
+    .pot {
+      opacity: 0.4;
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border: solid 1px $dark-gray-color;
+      &.set {
+        opacity: 0.8;
+        background-color: $dark-gray-color;
+      }
+    }
+    &.blue {
+      .pot {
+        width: 11px;
+        height: 11px;
+        border: none;
+        background-color: #fff;
+        &.set {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+  .FirstView {
+    padding-top: calc(50vh - 170px);
+    .title-message {
+      width: 250px;
+      margin: 0 auto;
+      width: 200px;
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+    .sub-message {
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    button {
+      padding: 12px 64px;
+    }
+  }
+}
+
+.SecondMobileView {
+  position: relative;
+  padding-top: calc(50vh - 180px);
+  .search-view {
+    position: relative;
+    img {
+      width: 258px;
+    }
+  }
+  .title-message {
+    margin-top: 45px;
+    margin-bottom: 30px;
+    .sub-message {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: normal;
+    }
+  }
+}
+
+.ThirdMobileView {
+  padding-top: calc(50vh - 215px);
+  .swipe-area {
+    position: relative;
+    z-index: 1;
+    .swipe-box {
+      width: 216px;
+      margin: 0 auto;
+      margin-top: 40px;
+      padding-bottom: 10px;
+      img {
+        &.daum {
+          margin-top: 10px;
+          width: 150px;
+          margin-bottom: 18px;
+        }
+        &.sk {
+          margin-top: -15px;
+          width: 130px;
+          margin-bottom: 10px;
+        }
+        &.hyundai {
+          width: 90px;
+          margin-top: -17px;
+          margin-bottom: 8px;
+        }
+        &.lg {
+          margin-top: 5px;
+          width: 165px;
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+  .title-message {
+    margin-top: 15px;
+    margin-bottom: 30px;
+  }
+}
+
+.FourthMobileView {
+  padding-top: calc(50vh - 190px);
+  .bg-circle {
+    &.small {
+      position: absolute;
+      left: 80px;
+      top: 150px;
+    }
+  }
+  .ai-circle {
+    display: block;
+    margin: 0 auto;
+    width: 280px;
+  }
+  .speech-bubble {
+    margin: 0 auto;
+    margin-top: -42px;
+    font-size: 12px;
+    font-weight: bold;
+    width: 230px;
+    padding: 8px 0px;
+    letter-spacing: -0.3px;
+    background-color: #fff;
+    border-radius: 50px;
+    position: relative;
+    &:after {
+      position: absolute;
+      border-top: 0px solid transparent;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 10px solid #fff;
+      content: "";
+      top: -10px;
+      right: 110px;
+    }
+  }
+  .title-message {
+    margin-top: 38px;
+    color: #fff;
+  }
+}
+
+.FifthMobileView {
+  padding-top: calc(50vh - 210px);
+  .review-img {
+    width: 360px;
+  }
+  .title-message {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+}
+.SixthMobileView {
+  padding-top: calc(50vh - 180px);
+  .title-message {
+    margin-bottom: 10px;
+  }
+  .notebook {
+    width: 292px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+  }
+  .btn-flex {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .facebook-btn,
+  .naver-btn {
+    margin: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    background-color: #898f9c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}

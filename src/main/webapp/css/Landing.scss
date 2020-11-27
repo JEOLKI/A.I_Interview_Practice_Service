@@ -1,0 +1,756 @@
+@import "./index.scss";
+
+.Landing {
+  position: relative;
+  .box {
+    border-radius: 20px;
+    box-shadow: 0 8px 36px 0 $card-shadow-color;
+    background-color: #ffffff;
+  }
+  .content {
+    z-index: 0;
+    width: 100vw;
+    min-width: max-content;
+    position: relative;
+    overflow-x: hidden;
+    .content-box {
+      height: inherit;
+      position: relative;
+      z-index: 10;
+      width: 1200px;
+      padding: 0px 40px;
+      margin: 0 auto;
+      font-size: 18px;
+      @include respond-to(semi-hd) {
+        width: 900px;
+      }
+    }
+    .login {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 7px 22px;
+      border-radius: 4px;
+      border: solid 2px $dark-navy-blue;
+      background-color: transparent;
+      &:hover,
+      &:active {
+        background-color: $dark-navy-blue;
+        color: #fff;
+      }
+    }
+  }
+  .message {
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 1.44;
+    letter-spacing: -0.9px;
+    color: $dark-navy-blue;
+    @include respond-to(semi-hd) {
+      font-size: 40px;
+    }
+    span {
+      color: #13e3eb;
+    }
+  }
+  .sub-message {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.56;
+    letter-spacing: -0.27px;
+    @include respond-to(semi-hd) {
+      font-size: 16px;
+    }
+  }
+  .intro {
+    padding-top: 64px;
+    height: calc(100vh - 64px);
+    background-color: $lite-gray-color;
+    width: 1040px;
+    min-width: calc(15vw + 1500px);
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    @include respond-to(semi-hd) {
+      min-width: calc(15vw + 1400px);
+    }
+    .pot {
+      position: relative;
+      top: 8px;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 10px;
+      background-color: $aqua-color;
+      @include respond-to(semi-hd) {
+        top: 5px;
+        width: 12px;
+        height: 12px;
+      }
+    }
+    .interface {
+      margin-left: 10vw;
+      min-width: 360px;
+      width: 360px;
+      .message {
+        line-height: 1.26;
+        font-size: 62px;
+        animation: bounce;
+        animation-duration: 2s;
+        margin-bottom: 20px;
+        @include respond-to(semi-hd) {
+          font-size: 50px;
+        }
+      }
+      .login {
+        margin-top: calc(59vh - 395px);
+        border-radius: 8px;
+        padding: 13.5px 87px;
+        font-size: 18px;
+        box-shadow: 0 3px 12px 0 $card-shadow-color;
+        text-shadow: 0 3px 6px rgba(11, 55, 75, 0.24);
+        @include respond-to(semi-hd) {
+          margin-top: calc(59vh - 350px);
+        }
+      }
+    }
+    .landing-img {
+      position: relative;
+      min-width: 1140px;
+      width: calc(90vw - 360px);
+      bottom: calc((620px - 59vh) * 0.5);
+    }
+    .triangle-icon {
+      width: 20px;
+      position: absolute;
+      bottom: 40px;
+      left: calc(50vw - 10px);
+      opacity: 1;
+      animation: fadeInDown 2s infinite;
+    }
+  }
+  .main {
+    padding-top: 160px;
+    @include respond-to(semi-hd) {
+      padding-top: 100px;
+    }
+    .first {
+      .message {
+        margin-bottom: 40px;
+      }
+      .calc-num {
+        font-size: 36px;
+        font-weight: 300;
+        margin-bottom: 10px;
+        @include respond-to(semi-hd) {
+          font-size: 28px;
+        }
+        span {
+          font-family: Roboto;
+          font-weight: bold;
+        }
+        img {
+          position: relative;
+          top: 2px;
+          margin-left: 10px;
+          @include respond-to(semi-hd) {
+            width: 24px;
+          }
+        }
+      }
+      .card-area {
+        margin-top: 120px;
+        position: relative;
+        right: 36px;
+        .card-bar {
+          margin-bottom: -55px;
+        }
+        @include respond-to(semi-hd) {
+          width: 972px;
+          height: 800px;
+          overflow: hidden;
+          .card-bar {
+            width: 1227px;
+          }
+        }
+      }
+    }
+    .second {
+      margin-top: 300px;
+      text-align: center;
+      .sub-message {
+        font-size: 36px;
+        margin-top: 10px;
+        @include respond-to(semi-hd) {
+          font-size: 28px;
+        }
+      }
+      .section {
+        .message {
+          font-size: 36px;
+          @include respond-to(semi-hd) {
+            font-size: 28px;
+          }
+        }
+      }
+      .one {
+        margin-top: 80px;
+        .sub-message {
+          font-size: 18px;
+          font-weight: normal;
+          @include respond-to(semi-hd) {
+            font-size: 16px;
+          }
+          span {
+            font-weight: bold;
+          }
+        }
+        .box {
+          margin-top: 60px;
+          padding: 74px;
+          box-shadow: 0 0 60px 0 $card-shadow-color;
+          @include respond-to(semi-hd) {
+            padding: 55px 60px;
+          }
+          img {
+            width: 100%;
+          }
+        }
+      }
+      .two {
+        margin-top: 360px;
+        position: relative;
+        .bg-circle {
+          position: absolute;
+          top: -70px;
+          left: 0px;
+          z-index: -1;
+          @include respond-to(semi-hd) {
+            width: 1001px;
+            top: -20px;
+          }
+        }
+        .flex {
+          display: flex;
+          justify-content: center;
+          margin-top: 20px;
+          .box {
+            width: 280px;
+            height: 280px;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 25px;
+            box-shadow: 6px 6px 16px 0 $card-shadow-color;
+            @include respond-to(semi-hd) {
+              width: 217px;
+              height: 217px;
+              font-size: 15px;
+            }
+            img {
+              display: block;
+              margin: 0 auto;
+            }
+            &:nth-child(1) {
+              img {
+                margin-top: 65px;
+                margin-bottom: 20px;
+                @include respond-to(semi-hd) {
+                  margin-top: 50px;
+                  margin-bottom: 18px;
+                  width: 83px;
+                }
+              }
+            }
+            &:nth-child(2) {
+              img {
+                margin-top: 75px;
+                margin-bottom: 20px;
+                @include respond-to(semi-hd) {
+                  margin-top: 58px;
+                  margin-bottom: 21px;
+                  width: 118px;
+                }
+              }
+            }
+            &:nth-child(3) {
+              img {
+                margin-top: 70px;
+                margin-bottom: 12px;
+                @include respond-to(semi-hd) {
+                  margin-top: 58px;
+                  margin-bottom: 10px;
+                  width: 91px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .analyze {
+    margin-top: 400px;
+    .full-label {
+      width: 100vw;
+      background-color: $lite-gray-color;
+      margin-bottom: 100px;
+      padding: 40px 0px;
+      @include respond-to(semi-hd) {
+        padding: 27px 0px;
+        margin-bottom: 70px;
+      }
+      &.voice {
+        margin-top: 134px;
+      }
+      &.word {
+        margin-top: 200px;
+      }
+      .area {
+        width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        padding: 0 40px;
+        @include respond-to(semi-hd) {
+          width: 900px;
+        }
+        .mark {
+          position: absolute;
+          left: 15px;
+          top: 13px;
+          width: 8px;
+          height: 27px;
+          background-color: $aqua-color;
+          @include respond-to(semi-hd) {
+            width: 8px;
+            height: 24px;
+            top: 8px;
+          }
+          &.blue {
+            background-color: $blue-color;
+          }
+          &.pink {
+            background-color: #ff8bbd;
+          }
+        }
+        .gray-icon {
+          position: absolute;
+          left: 120px;
+          top: -30px;
+          @include respond-to(semi-hd) {
+            width: 83px;
+            top: -15px;
+            left: 140px;
+          }
+          &.voice {
+            left: 104px;
+            top: -22px;
+            @include respond-to(semi-hd) {
+              width: 118px;
+              left: 135px;
+              top: -10px;
+            }
+          }
+          &.word {
+            left: 140px;
+            @include respond-to(semi-hd) {
+              width: 91px;
+            }
+          }
+        }
+        .message {
+          font-size: 36px;
+          margin-bottom: 10px;
+          @include respond-to(semi-hd) {
+            font-size: 28px;
+          }
+        }
+        .sub-message {
+          font-size: 18px;
+          font-weight: normal;
+          @include respond-to(semi-hd) {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    .content-box {
+      display: flex;
+      margin-bottom: 76px;
+      align-items: center;
+      justify-content: space-between;
+      @include respond-to(semi-hd) {
+        margin-bottom: 40px;
+      }
+      .face-img {
+        @include respond-to(semi-hd) {
+          width: 445px;
+        }
+      }
+      .sight-img {
+        @include respond-to(semi-hd) {
+          width: 459px;
+        }
+      }
+      .title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        @include respond-to(semi-hd) {
+          font-size: 20px;
+        }
+        span {
+          color: $point-hover-color;
+        }
+      }
+      .comment {
+        font-size: 18px;
+        font-weight: normal;
+        @include respond-to(semi-hd) {
+          font-size: 16px;
+        }
+      }
+      .interface {
+        width: 430px;
+        margin: 0px 60px;
+        letter-spacing: -0.27px;
+        @include respond-to(semi-hd) {
+          width: 380px;
+          margin: 0px 20px;
+        }
+      }
+      &.voice {
+        .box {
+          margin-left: 80px;
+          border-radius: 8px;
+          display: flex;
+          width: 554px;
+          height: 320px;
+          align-items: center;
+          justify-content: center;
+          @include respond-to(semi-hd) {
+            margin: 0px;
+            width: 482px;
+            height: 278px;
+          }
+          .tempo-img {
+            @include respond-to(semi-hd) {
+              width: 146px;
+            }
+          }
+          .volume-img {
+            @include respond-to(semi-hd) {
+              width: 431px;
+            }
+          }
+          .txt {
+            font-size: 14px;
+            width: 213px;
+            line-height: 1.57;
+            letter-spacing: -0.35px;
+            margin-left: 28px;
+            span {
+              font-family: Roboto;
+              font-weight: 500;
+              color: $blue-color;
+            }
+          }
+        }
+        .interface {
+          margin-left: 100px;
+          width: 390px;
+          @include respond-to(semi-hd) {
+            margin-left: 78px;
+            width: 346px;
+          }
+        }
+        .title {
+          span {
+            color: $blue-color;
+          }
+        }
+      }
+    }
+    .LandingAnswer {
+      display: block;
+      .interface {
+        text-align: center;
+        margin: 0 auto;
+        width: 486px;
+        font-size: 18px;
+        font-weight: normal;
+        @include respond-to(semi-hd) {
+          width: 420px;
+          font-size: 16px;
+        }
+        .title {
+          font-size: 22px;
+          font-weight: bold;
+          @include respond-to(semi-hd) {
+            font-size: 20px;
+          }
+          span {
+            font-family: Roboto;
+            color: #ff8bbd;
+          }
+        }
+      }
+      .box {
+        border-radius: 8px;
+      }
+      .center {
+        margin: 0 auto;
+        margin-top: 20px;
+        width: 860px;
+        padding: 0px 90px;
+        height: 242px;
+        display: flex;
+        align-items: center;
+        @include respond-to(semi-hd) {
+          width: 780px;
+          padding: 0px 60px;
+          height: 220px;
+        }
+        .txt {
+          margin-left: 80px;
+          .stt-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+          }
+          .stt {
+            font-size: 18px;
+            line-height: 1.67;
+            letter-spacing: -0.27px;
+            max-width: 660px;
+            height: 120px;
+            @include respond-to(semi-hd) {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+      .box-flex {
+        display: flex;
+        grid-gap: 0;
+        width: 1040px;
+        padding: 0px 40px;
+        margin-top: 90px;
+        display: flex;
+        justify-content: center;
+        @include respond-to(semi-hd) {
+          width: 900px;
+        }
+        .area {
+          width: 486px;
+          margin: 0px 34px;
+          @include respond-to(semi-hd) {
+            width: 420px;
+          }
+          .words {
+            margin: 0;
+            height: 345px;
+            .toggle-flex {
+              padding: 0px 8px;
+              .toggle {
+                padding: 14px;
+                font-size: 18px;
+                font-weight: bold;
+                @include respond-to(semi-hd) {
+                  font-size: 16px;
+                }
+              }
+            }
+            .graph-box-flex {
+              margin: 0;
+              padding: 10px 50px;
+              padding-bottom: 25px;
+              position: relative;
+              @include respond-to(semi-hd) {
+                padding-top: 30px;
+              }
+              .graph-bar {
+                position: absolute;
+                width: 410px;
+                bottom: 60px;
+                height: 1px;
+                border-bottom: solid 1px $hover-color;
+                @include respond-to(semi-hd) {
+                  width: 350px;
+                }
+              }
+            }
+          }
+          .interface {
+            margin-top: 30px;
+          }
+        }
+        .talent {
+          margin: 0;
+          padding: 35px 0px;
+          img {
+            display: block;
+            margin: 0 auto;
+            @include respond-to(semi-hd) {
+              width: 265px;
+              margin: 15px auto;
+            }
+          }
+        }
+      }
+    }
+  }
+  .share {
+    margin-top: 300px;
+    margin-bottom: 100px;
+    .content-box {
+      display: flex;
+      align-items: center;
+      .sub-message {
+        margin-top: 27px;
+        font-weight: normal;
+        letter-spacing: -0.27px;
+        @include respond-to(semi-hd) {
+          width: 470px;
+        }
+      }
+      .share-img {
+        margin-right: -120px;
+        @include respond-to(semi-hd) {
+          position: relative;
+          right: 40px;
+          width: 650px;
+        }
+      }
+    }
+  }
+  .footer {
+    background: url("../media/img/landing/bg-paint.png");
+    background-position: center top;
+    background-size: cover;
+    color: #ffffff;
+    .title {
+      padding-top: 12vw;
+      padding-bottom: 60px;
+      text-shadow: 0 3px 6px $card-shadow-color;
+      font-size: 50px;
+      font-weight: 500;
+      text-align: center;
+      @include respond-to(semi-hd) {
+        font-size: 44px;
+      }
+    }
+    .start-btn {
+      display: block;
+      position: relative;
+      padding-top: 82px;
+      height: 340px - 82px;
+      width: 250px;
+      border-radius: 16px;
+      box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.24);
+      background-color: rgba(#fff, 0.8);
+      text-align: center;
+      margin: 0 auto;
+      font-size: 22px;
+      color: $dark-navy-blue;
+      line-height: 1.36;
+      letter-spacing: -0.33px;
+      cursor: pointer;
+      user-select: none;
+      transition-property: margin bottom width height;
+      transition-duration: 0.3s;
+      bottom: 0px;
+      margin-bottom: 166px;
+      &:hover {
+        bottom: 6px;
+        width: 260px;
+        height: 352px - 88px;
+        padding-top: 88px;
+        background-color: #fff;
+        margin-bottom: 154px;
+      }
+      .circle-icon {
+        display: block;
+        width: 102px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+      }
+      .arrow-icon {
+        display: block;
+        margin: 0 auto;
+        margin-top: 57px;
+      }
+    }
+    .top-btn {
+      width: 74px;
+      height: 74px;
+      border-radius: 50px;
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 60px;
+      cursor: pointer;
+      text-align: center;
+      transition-duration: 0.2s;
+      .top-btn-icon {
+        margin-top: 15px;
+      }
+      &:hover {
+        background-color: rgba($dark-gray-color, 0.4);
+      }
+    }
+    .left {
+      position: absolute;
+      left: 80px;
+      bottom: 60px;
+      font-size: 14px;
+      font-weight: 500;
+      @include respond-to(semi-hd) {
+        left: 50px;
+      }
+      .link {
+        margin: 10px 0px;
+        opacity: 0.8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      .doodlin {
+        margin-top: 60px;
+        font-weight: 300;
+        line-height: 1.8;
+        .icons {
+          margin-top: 20px;
+          margin-bottom: 15px;
+          img {
+            margin-right: 9px;
+          }
+        }
+      }
+    }
+    .right {
+      position: absolute;
+      right: 80px;
+      bottom: 60px;
+      @include respond-to(semi-hd) {
+        right: 50px;
+      }
+      .notice-icons {
+        width: 64px;
+        position: relative;
+        margin-bottom: 20vh;
+        @include respond-to(semi-hd) {
+          left: 30px;
+        }
+        .bubble {
+          position: absolute;
+          margin: 0;
+          top: 90px;
+          right: 80px;
+        }
+        img {
+          display: block;
+          margin: 0 auto;
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+}

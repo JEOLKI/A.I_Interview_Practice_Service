@@ -1,0 +1,161 @@
+@import "../../index.scss";
+
+.PaymentForm {
+  width: 600px;
+  margin: 0 auto;
+  .white-message {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .message {
+    font-size: 18px;
+    font-weight: bold;
+    span {
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+  .flex {
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-between;
+    .message {
+      margin-bottom: 20px;
+    }
+  }
+  .coupon-section {
+    position: relative;
+    width: 274px;
+    .wrong-message {
+      position: absolute;
+      right: 0;
+      top: 20px;
+      font-size: 12px;
+      font-weight: normal;
+      color: $pastel-red-color;
+    }
+    input {
+      display: block;
+      width: 245px;
+      border-radius: 2px;
+      border: solid 1px $dark-gray-color;
+      padding: 8px;
+      padding-left: 16px;
+      margin-bottom: 15px;
+    }
+    button {
+      width: 88px;
+      height: 36px;
+      font-size: 14px;
+      opacity: 0.4;
+      border-radius: 2px;
+      background-color: $dark-gray-color;
+      color: #fff;
+      &.active {
+        opacity: 0.8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .pay-info {
+    width: 260px;
+    position: relative;
+    .original-price {
+      font-family: Roboto;
+      font-size: 26px;
+      font-weight: 300;
+      text-decoration: line-through;
+    }
+    .discount-percent {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      box-shadow: 0 0 6px 0 $card-shadow-color;
+      width: 45px;
+      height: 45px;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 45px;
+      text-align: center;
+      border-radius: 30px;
+      background-color: $pastel-red-color;
+      color: #fff;
+      &.half {
+        background-color: $blue-hover-color;
+      }
+    }
+    .price {
+      font-size: 14px;
+      margin: 8px 0px;
+      span {
+        font-family: Roboto;
+        font-size: 36px;
+        font-weight: bold;
+        margin-right: 4px;
+      }
+    }
+    .detail-info {
+      border-top: solid 1px $placeholder-color;
+      padding-top: 20px;
+      .price {
+        display: flex;
+        justify-content: space-between;
+        margin: 4px 0px;
+      }
+    }
+  }
+  .select-paytype {
+    margin-top: 100px;
+    margin-bottom: 90px;
+    .message {
+      margin-bottom: 33px;
+    }
+    .type {
+      cursor: pointer;
+      height: 70px;
+      opacity: 0.6;
+      border-radius: 2px;
+      border: solid 1px $dark-gray-color;
+      background-color: #ffffff;
+      font-size: 18px;
+      line-height: 70px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      .img-cover {
+        position: relative;
+        top: 2px;
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+      }
+      .check {
+        margin-left: 370px;
+      }
+      &:hover {
+        opacity: 1;
+      }
+      &.select {
+        opacity: 1;
+        background-color: $hover-color;
+      }
+    }
+  }
+  .payment-btn {
+    width: 100%;
+    border-radius: 2px;
+    box-shadow: 0 3px 6px 0 rgba(11, 55, 75, 0.32);
+    background-color: $dark-gray-color;
+    color: #fff;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    &:hover {
+      background-color: $dark-hover-color;
+    }
+  }
+}

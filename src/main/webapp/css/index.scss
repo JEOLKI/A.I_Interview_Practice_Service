@@ -1,0 +1,409 @@
+@import url(https://fonts.google.com/specimen/Rubik?preview.text=0:10&preview.text_type=custom&sidebar.open=true&selection.family=Rubik);
+@import "~font-awesome/scss/font-awesome.scss";
+$fa-font-path: "~font-awesome/fonts";
+
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 300;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf)
+      format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 900;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2)
+      format("woff2"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff)
+      format("woff"),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf)
+      format("opentype");
+}
+
+@mixin respond-to($media) {
+  @if $media == semi-hd {
+    @media only screen and (max-width: 1560px) {
+      @content;
+    }
+  } @else if $media == middle-hd {
+    @media only screen and (max-width: 1623px) {
+      @content;
+    }
+  } @else if $media == hd {
+    @media only screen and (min-width: 1624px) {
+      @content;
+    }
+  }
+}
+
+$parting-color: rgba(154, 171, 186, 0.3);
+$question-color: #283b4a;
+$dark-hover-color: #2f2f3f;
+$dark-navy-blue: #000d22;
+$dark-gray-color: #3b3b46;
+$cool-grey: #a4acb8;
+$silver-color: #c3c9d2;
+$lite-gray-color: #f5f7fb;
+$pale-grey-two: #f1f4f8;
+$pale-grey: #e4e8ef;
+$banner-color: #151a1e;
+$hover-color: #dbe2e8;
+$aqua-color: #13e3eb;
+$point-linear: linear-gradient(to right, $aqua-color, #2eb3f8);
+$point-hover-color: #13d3db;
+$point-linear-hover: linear-gradient(to right, #13dceb, #2eb3f8);
+$work-tag-color: #28cbd1;
+$cerulean-blue-color: #047cf5;
+$cerulean-blue-hover: #0069d2;
+$blue-color: #3457e1;
+$blue-hover-color: #1e3ebb;
+$pastel-red-color: #ff5d5d;
+$red-hover-color: #e95a5a;
+$pink-color: #ff8bbd;
+$placeholder-color: rgba($dark-navy-blue, 0.4);
+$card-shadow-color: rgba(11, 55, 75, 0.16);
+$popup-background-color: rgba(12, 22, 23, 0.4);
+
+$hd-width: 1196px;
+$semi-hd-width: 960px;
+$container-width: 980px;
+$container-big-width: 1180px;
+
+// font-weight //
+$light: 300;
+$regular: 400;
+$medium: 500;
+$bold: 700;
+
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  color: $dark-navy-blue;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+textarea,
+input,
+button,
+div {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  font: inherit;
+  letter-spacing: -0.015em;
+}
+
+div {
+  user-select: none;
+}
+
+input {
+  user-select: text;
+}
+
+button,
+a {
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  font: inherit;
+}
+
+textarea {
+  letter-spacing: -0.4px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: $placeholder-color;
+}
+
+@keyframes shakingHorizontal {
+  0% {
+    left: 0px;
+  }
+  35% {
+    left: -4px;
+  }
+  70% {
+    left: 4px;
+  }
+  100% {
+    left: 0px;
+  }
+}
+
+@keyframes warningColor {
+  0% {
+    color: $dark-navy-blue;
+  }
+  40% {
+    color: #ff9478;
+  }
+  100% {
+    color: #ff788a;
+  }
+}
+@keyframes fullbuttonShow {
+  from {
+    top: -70px;
+  }
+  to {
+    top: 70px;
+  }
+}
+
+@keyframes loadingWhite {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes updown {
+  0% {
+    top: 0px;
+  }
+  35% {
+    top: 10px;
+  }
+  65% {
+    top: 10px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+@keyframes fadeindown {
+  from {
+    opacity: 0;
+    top: -8px;
+  }
+  to {
+    opacity: 1;
+    top: 0px;
+  }
+}
+@keyframes fadeinup {
+  from {
+    opacity: 0;
+    top: 225px;
+  }
+  to {
+    opacity: 1;
+    top: 210px;
+  }
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadein60 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fadeinoutMove {
+  0% {
+    opacity: 0;
+    margin-top: -8px;
+  }
+  15% {
+    opacity: 1;
+    margin-top: 0px;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeinout {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeupdown {
+  0% {
+    bottom: -80px;
+  }
+  15% {
+    bottom: 60px;
+  }
+  85% {
+    bottom: 60px;
+  }
+  100% {
+    bottom: -80px;
+  }
+}
+@keyframes fadeInUpRegular {
+  from {
+    position: relative;
+    opacity: 0;
+    top: 30px;
+  }
+  to {
+    position: relative;
+    opacity: 1;
+    top: 0px;
+  }
+}
+@keyframes fadeInLeftRightRegular {
+  from {
+    position: relative;
+    opacity: 0;
+    right: 10px;
+  }
+  to {
+    position: relative;
+    opacity: 1;
+    right: 0px;
+  }
+}
+@keyframes fadeInUpRegular20 {
+  from {
+    position: relative;
+    opacity: 0;
+    top: 20px;
+  }
+  to {
+    position: relative;
+    opacity: 1;
+    top: 0px;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    bottom: 40px;
+  }
+  45% {
+    opacity: 1;
+    bottom: 20px;
+  }
+  55% {
+    opacity: 1;
+    bottom: 20px;
+  }
+  100% {
+    opacity: 0;
+    bottom: 40px;
+  }
+}
+
+@keyframes change {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    top: 85px;
+  }
+  30% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    top: 75px;
+  }
+  60% {
+    animation-timing-function: cubic-bezier(0.5, 0.5, 0.5, 0.5);
+    top: 85px;
+  }
+  100% {
+    top: 85px;
+  }
+}

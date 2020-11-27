@@ -1,0 +1,68 @@
+@import "../../index.scss";
+
+.EmotionGraph {
+  margin-top: 150px;
+  font-weight: 300;
+  position: relative;
+  .message {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .chracter-flex {
+    display: flex;
+    position: relative;
+    margin-top: 70px;
+    justify-content: center;
+    .background-box {
+      position: absolute;
+      bottom: 37px;
+      width: 1200px;
+      height: 160px;
+      border-radius: 80px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+      background-color: #a2cbd6;
+      z-index: 0;
+      @include respond-to(semi-hd) {
+        width: 880px;
+        height: 130px;
+        bottom: 28px;
+      }
+    }
+    img {
+      position: relative;
+      display: block;
+      margin: 0 40px;
+      @include respond-to(semi-hd) {
+        width: 140px;
+        margin: 0 30px;
+      }
+    }
+  }
+  .canvas-flex {
+    display: flex;
+    position: relative;
+    margin-top: 30px;
+    justify-content: center;
+    div {
+      display: flex;
+      width: 160px;
+      height: 160px;
+      margin: 0 56px;
+      position: relative;
+      font-family: Roboto;
+      font-size: 48px;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3px;
+      @include respond-to(semi-hd) {
+        width: 160px;
+        margin: 0 20px;
+      }
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+}

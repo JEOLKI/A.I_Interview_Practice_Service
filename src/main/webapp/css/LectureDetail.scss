@@ -1,0 +1,152 @@
+@import "./index.scss";
+
+.LectureDetail {
+  .body {
+    width: 792px;
+    margin: 0 auto;
+    padding: 120px 60px;
+  }
+  .before-link {
+    font-size: 14px;
+    color: $dark-gray-color;
+    opacity: 0.6;
+    .fa {
+      margin-right: 4px;
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .title {
+    margin-top: 20px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  .info-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    .sub-title {
+      padding: 4px 20px;
+      color: #fff;
+      border-radius: 2px;
+      background-color: $dark-navy-blue;
+    }
+    .info {
+      opacity: 0.6;
+      span {
+        margin-left: 20px;
+      }
+    }
+  }
+  .video-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.19%;
+    .video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 2px;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
+  .label {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  .chracteristic {
+    color: $dark-gray-color;
+    padding-top: 30px;
+    margin-top: 80px;
+    border-top: solid 1px $pale-grey;
+    line-height: 1.63;
+    .text-line:first-child {
+      text-decoration: underline;
+      margin-bottom: 20px;
+    }
+  }
+  .target {
+    color: $dark-gray-color;
+    margin-top: 100px;
+    line-height: 1.63;
+  }
+  .company-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 80px;
+    height: 400px;
+    .gray-background {
+      position: absolute;
+      background-color: $lite-gray-color;
+      top: 0;
+      left: calc(792 * 0.5px - 50vw);
+      width: 100vw;
+      height: 400px;
+      z-index: -1;
+    }
+    .iluda-logo {
+      display: block;
+      width: 200px;
+    }
+    .interface {
+      width: 384px;
+      .title {
+        margin-top: 0px;
+        margin-bottom: 20px;
+      }
+      .comment {
+        margin-bottom: 30px;
+      }
+      .link {
+        text-decoration: underline;
+      }
+    }
+  }
+  .next-lecture-area {
+    margin-top: 84px;
+    .label {
+      font-weight: 500;
+    }
+    .area {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  .interview-suggest-area {
+    width: 100%;
+    margin: 0 auto;
+    padding: 163px 0px;
+    padding-bottom: 43px;
+    text-align: center;
+    .message {
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .interview-btn {
+      display: block;
+      margin: 0 auto;
+      width: max-content;
+      margin-top: 42px;
+      border: solid 1px $dark-navy-blue;
+      border-radius: 30px;
+      padding: 13px 43px;
+      font-weight: 500;
+      &:hover {
+        background-color: $dark-navy-blue;
+        color: #fff;
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+@import "./index.scss";
+
+.PaymentDetail {
+  width: 100vw;
+  min-width: max-content;
+  .head-section {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    min-width: 660px;
+    height: 245px;
+    z-index: -10;
+    &.sprint {
+      background: linear-gradient(-40deg, #1c94c1, #75dfc8);
+    }
+    &.half {
+      background: linear-gradient(-40deg, #140d57, #1391aa);
+    }
+    &.marathon {
+      background: linear-gradient(-40deg, #8b1c1c, #2717a3);
+    }
+  }
+  .body {
+    min-width: max-content;
+    padding-top: 130px;
+  }
+  .head-repeat-line {
+    position: absolute;
+    top: 64px;
+    width: 100vw;
+    height: 245px;
+    z-index: -5;
+    background: repeating-linear-gradient(
+      -60deg,
+      rgba(#fff, 0),
+      rgba(#fff, 0) 10px,
+      rgba(#fff, 0.1) 10px,
+      rgba(#fff, 0.1) 11px
+    );
+  }
+  .lower {
+    min-width: max-content;
+    width: 100vw;
+    padding-top: 80px;
+    padding-bottom: 200px;
+    background-color: $lite-gray-color;
+    margin-top: 120px;
+    .notice {
+      width: 600px;
+      padding: 0 30px;
+      font-size: 18px;
+      line-height: 2;
+      letter-spacing: -0.45px;
+      margin: 0 auto;
+      .title {
+        font-size: 22px;
+        font-weight: bold;
+        letter-spacing: -0.55px;
+        margin-bottom: 50px;
+      }
+    }
+  }
+}

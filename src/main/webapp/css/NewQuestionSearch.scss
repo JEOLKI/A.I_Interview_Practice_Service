@@ -1,0 +1,147 @@
+@import "../../index.scss";
+
+.NewQuestionSearch {
+  .content-box {
+    position: absolute;
+    top: 40px;
+    width: 996px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px 0 rgba(12, 45, 100, 0.14);
+    background-color: #ffffff;
+    text-align: left;
+    .close-btn {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      background-color: rgba($dark-navy-blue, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100px;
+      top: 0px;
+      right: -70px;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba($dark-navy-blue, 0.4);
+      }
+    }
+    .input-bar {
+      padding: 24px 26px;
+      display: flex;
+      align-items: center;
+      .fa {
+        font-size: 28px;
+        color: $dark-navy-blue;
+        margin-right: 30px;
+      }
+      input {
+        width: calc(100% - 60px);
+        height: 24px;
+        font-size: 16px;
+        border: none;
+      }
+      border-bottom: solid 1px $pale-grey;
+    }
+    .questions-area {
+      max-height: 350px;
+      overflow-y: scroll;
+      .label {
+        font-size: 12px;
+        color: $cool-grey;
+        padding: 12px 26px;
+      }
+      .searched-question {
+        padding: 13px 40px;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        cursor: pointer;
+        .fa {
+          font-size: 20px;
+          margin-right: 24px;
+        }
+        &:hover {
+          background-color: $pale-grey-two;
+        }
+        &:last-child {
+          border-radius: 0px 0px 8px 8px;
+        }
+        .refresh-btn {
+          width: 35px;
+          height: 35px;
+          margin-right: 18px;
+          border-radius: 50px;
+          background-color: transparent;
+          .fa {
+            font-size: 18px;
+            margin: 0;
+          }
+          &:hover {
+            background-color: $pale-grey;
+          }
+        }
+      }
+    }
+  }
+}
+
+.NullSelectBox {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: $pale-grey;
+}
+
+.SearchSelectBox {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: solid 1px $dark-navy-blue;
+  position: relative;
+  .pot {
+    top: -8px;
+    left: 9px;
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    opacity: 0.8;
+    background-color: $dark-navy-blue;
+  }
+  .question-box {
+    z-index: 300;
+    position: absolute;
+    display: none;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 300;
+    background-color: $dark-navy-blue;
+    color: #fff;
+    width: 200px;
+    right: 10px;
+    bottom: 35px;
+    border-radius: 2px;
+    box-shadow: 0 3px 6px 0 rgba(12, 45, 100, 0.14);
+    &.hover {
+      display: block;
+      animation: fadein 0.3s;
+    }
+  }
+  .icon {
+    display: none;
+    width: 15.6px;
+    margin: 0 auto;
+    margin-top: 5px;
+    &.hover {
+      width: 14px;
+      margin-top: 10px;
+    }
+  }
+  &.selected {
+    cursor: pointer;
+    background-color: $dark-navy-blue;
+    .icon {
+      display: block;
+    }
+  }
+}

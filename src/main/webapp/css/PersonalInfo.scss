@@ -1,0 +1,31 @@
+@import "./index.scss";
+
+.PersonalInfo {
+  color: $dark-navy-blue;
+  .body {
+    margin: 0 auto;
+    padding: 135px 40px;
+    padding-bottom: 80px;
+    min-width: max-content;
+    background-color: $lite-gray-color;
+  }
+  .withdraw-message {
+    opacity: 0.5;
+    width: 750px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 200px;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: -0.3px;
+    .withdraw-btn {
+      font-weight: 500;
+      text-decoration: underline;
+      color: #12b2bb;
+      margin-left: 10px;
+      .fa {
+        margin-left: 4.5px;
+      }
+    }
+  }
+}

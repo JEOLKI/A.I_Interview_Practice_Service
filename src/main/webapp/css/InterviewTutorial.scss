@@ -1,0 +1,81 @@
+.InterviewTutorial.PopUp {
+  background-color: rgba(#145967, 0.2);
+  backdrop-filter: blur(50px);
+  z-index: 19;
+  .tutorial-box {
+    color: #fff;
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+    .flex {
+      display: flex;
+      .box {
+        padding: 20px;
+        width: 280px;
+        height: 378px;
+        border-radius: 2px;
+        background-color: rgba(#0c1617, 0.6);
+        margin: 10px;
+        font-size: 16px;
+        .num {
+          font-family: Roboto;
+          font-size: 22px;
+          font-weight: 300;
+          text-align: left;
+        }
+        .separate {
+          margin: 0 auto;
+          margin-bottom: 20px;
+          width: 48px;
+          height: 0;
+          border-top: solid 1px #ffffff;
+        }
+        .labtop {
+          margin-top: 60px;
+          margin-bottom: 40px;
+        }
+        .spacebar {
+          margin-top: 95px;
+          margin-bottom: 70px;
+        }
+        .twomin {
+          margin-top: 46px;
+          margin-bottom: 40px;
+        }
+      }
+    }
+    button {
+      background: transparent;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 2px;
+      border: solid 1px #ffffff;
+      padding: 10px 45px;
+      margin-top: 40px;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .again-area {
+      margin: 0 auto;
+      margin-top: 20px;
+      .CustomCheck {
+        display: inline-block;
+        border: solid 1px #ffffff;
+        background-color: transparent;
+        position: relative;
+        top: 4px;
+        margin-right: 10px;
+        img {
+          margin-top: 3px;
+        }
+        &.checked,
+        &:hover {
+          background-color: rgba(#fff, 0.2);
+        }
+      }
+    }
+  }
+}

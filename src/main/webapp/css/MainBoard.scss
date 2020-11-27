@@ -1,0 +1,378 @@
+@import "../../index.scss";
+
+.MainBoard {
+  min-width: max-content;
+  min-height: calc(100vh - 315px);
+  padding-top: 215px;
+  padding-bottom: 100px;
+  background-color: $lite-gray-color;
+  @include respond-to(semi-hd) {
+    min-height: calc(100vh - 225px);
+    padding-top: 165px;
+    padding-bottom: 60px;
+  }
+  .board {
+    width: $hd-width;
+    padding: 0px 30px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 28px;
+    @include respond-to(semi-hd) {
+      width: $semi-hd-width;
+      grid-gap: 24px;
+    }
+    .box {
+      border-radius: 4px;
+      box-shadow: 0 0 24px 0 rgba(12, 45, 100, 0.14);
+      background-color: #ffffff;
+    }
+    .RecentInterview {
+      display: flex;
+      align-items: center;
+      height: 180px;
+      grid-column: 1 / 4;
+      @include respond-to(semi-hd) {
+        height: 140px;
+      }
+      .illust-area {
+        width: 180px;
+        height: 180px;
+        background-color: $cerulean-blue-color;
+        text-align: center;
+        border-radius: 4px 0px 0px 4px;
+        @include respond-to(semi-hd) {
+          width: 140px;
+          height: 140px;
+        }
+        img {
+          margin-top: 42px;
+          width: 138px;
+          @include respond-to(semi-hd) {
+            margin-top: 30px;
+            width: 115px;
+          }
+        }
+      }
+      .interface {
+        width: 760px;
+        margin-left: 50px;
+        line-height: 1.6;
+        font-size: 18px;
+        @include respond-to(semi-hd) {
+          width: 585px;
+          font-size: 16px;
+        }
+        .title {
+          font-weight: 500;
+          margin-bottom: 20px;
+        }
+      }
+      .review-btn {
+        font-size: 16px;
+        border-radius: 50px;
+        border: solid 1px $dark-navy-blue;
+        padding: 16px 36px;
+        &:hover {
+          color: $aqua-color;
+          border-color: $aqua-color;
+        }
+      }
+    }
+    .ProspectArea {
+      padding: 30px 40px;
+      padding-bottom: 45px;
+      @include respond-to(semi-hd) {
+        padding: 25px 35px;
+        padding-bottom: 35px;
+      }
+      font-size: 14px;
+      font-weight: 300;
+      .title {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 30px;
+        .link {
+          display: inline-block;
+          font-size: 14px;
+          font-weight: 300;
+          height: 12px;
+          line-height: 12px;
+          padding: 0px 6px;
+          margin: 6px;
+          border-left: solid 1px $silver-color;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .flex {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+      .prospect {
+        margin-left: 12px;
+        white-space: nowrap;
+        width: max-content;
+        line-break: strict;
+        overflow-x: scroll;
+        max-width: 320px;
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        @include respond-to(semi-hd) {
+          font-size: 32px;
+          max-width: 250px;
+        }
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        .under-line {
+          width: 100%;
+          height: 14px;
+          background-color: $pastel-red-color;
+          margin-top: -15px;
+          @include respond-to(semi-hd) {
+            height: 12px;
+          }
+        }
+        &.long {
+          font-size: 32px;
+          @include respond-to(semi-hd) {
+            font-size: 26px;
+          }
+          .under-line {
+            height: 12px;
+            @include respond-to(semi-hd) {
+              height: 10px;
+            }
+          }
+        }
+        &.null {
+          color: rgba($silver-color, 0.7);
+          .under-line {
+            background-color: $pale-grey;
+          }
+        }
+      }
+    }
+    .HelpArea {
+      text-align: center;
+      padding: 30px 60px;
+      position: relative;
+      @include respond-to(semi-hd) {
+        padding: 25px 45px;
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .text-area {
+        display: flex;
+        align-items: center;
+        height: 170px;
+        @include respond-to(semi-hd) {
+          height: 135px;
+        }
+        .text {
+          margin: 0 auto;
+          font-size: 16px;
+          span {
+            text-decoration: underline;
+          }
+          @include respond-to(semi-hd) {
+            font-size: 14px;
+          }
+        }
+      }
+      &:after {
+        position: absolute;
+        border-top: 49px solid $aqua-color;
+        border-left: 49px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 0px solid transparent;
+        content: "";
+        top: 0px;
+        right: 0px;
+      }
+    }
+    .OrderArea {
+      background-color: $dark-navy-blue;
+      padding: 50px 40px;
+      padding-bottom: 0px;
+      color: #fff;
+      font-size: 16px;
+      @include respond-to(semi-hd) {
+        padding: 25px 35px;
+        padding-bottom: 0px;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 500;
+        color: $aqua-color;
+        margin-bottom: 20px;
+      }
+      .start-btn {
+        display: block;
+        width: max-content;
+        padding: 11px 53px;
+        padding-bottom: 9px;
+        margin-top: 30px;
+        margin-left: 155px;
+        background-color: $aqua-color;
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: bold;
+        color: $dark-navy-blue;
+        border-radius: 50px;
+        @include respond-to(semi-hd) {
+          font-size: 22px;
+          padding: 8px 40px;
+          padding-bottom: 6px;
+          margin-left: 120px;
+        }
+        &:hover {
+          color: #fff;
+        }
+      }
+      &.isOrder {
+        background-color: $lite-gray-color;
+        padding-top: 30px;
+        padding-left: 40px;
+        @include respond-to(semi-hd) {
+          padding-top: 25px;
+          padding-left: 35px;
+        }
+        .title {
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 15px;
+          color: $dark-navy-blue;
+          .link {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 300;
+            height: 12px;
+            line-height: 12px;
+            padding: 0px 6px;
+            margin: 6px;
+            border-left: solid 1px $silver-color;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+        .ticket {
+          position: relative;
+          color: $cool-grey;
+          z-index: 3;
+          padding-top: 43px;
+          padding-left: 60px;
+          font-size: 14px;
+          @include respond-to(semi-hd) {
+            font-size: 12px;
+            padding-top: 35px;
+            padding-left: 40px;
+            width: 194px;
+          }
+          .remain-date {
+            width: max-content;
+            font-size: 32px;
+            font-weight: bold;
+            color: $dark-navy-blue;
+            @include respond-to(semi-hd) {
+              font-size: 28px;
+            }
+          }
+          .background {
+            z-index: -1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 336px;
+            left: -18px;
+            top: -12px;
+            @include respond-to(semi-hd) {
+              width: 270px;
+            }
+          }
+        }
+      }
+    }
+    .HabitArea {
+      margin-top: 40px;
+      height: 350px;
+      padding: 0px 68px;
+      @include respond-to(semi-hd) {
+        padding: 0px 33px;
+        margin-left: 80px;
+        width: 158px;
+        height: 290px;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 500;
+        text-align: center;
+        margin-top: 40px;
+        @include respond-to(semi-hd) {
+          font-size: 18px;
+          margin-top: 25px;
+        }
+      }
+      .bar-area {
+        margin-top: 40px;
+        @include respond-to(semi-hd) {
+          margin-top: 35px;
+        }
+        .unit {
+          text-align: right;
+          opacity: 0.6;
+          font-size: 11px;
+        }
+        .HabitBar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 14px;
+          @include respond-to(semi-hd) {
+            margin-top: 11px;
+          }
+          .label {
+            font-size: 14px;
+            font-weight: 500;
+            @include respond-to(semi-hd) {
+              font-size: 12px;
+            }
+          }
+          .range {
+            width: 187px;
+            height: 12px;
+            border-radius: 6px;
+            background-color: $pale-grey-two;
+            @include respond-to(semi-hd) {
+              width: 100px;
+              height: 10px;
+            }
+            .gaze {
+              height: 12px;
+              border-radius: 6px;
+              background-color: $aqua-color;
+              @include respond-to(semi-hd) {
+                height: 10px;
+              }
+            }
+          }
+          .count {
+            opacity: 0.6;
+            font-family: Roboto;
+            font-size: 11px;
+            font-weight: 500;
+            width: 13px;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}

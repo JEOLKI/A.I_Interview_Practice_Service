@@ -1,0 +1,171 @@
+@import "../../index.scss";
+
+.AnalyzeSlid {
+  width: calc(max(100vw - 240px, 1040px));
+  margin-left: calc(min(120px - (50vw - 520px), 0px));
+  margin-top: 95px;
+  .body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .before,
+    .after {
+      z-index: 10;
+      display: flex;
+      width: 50px;
+      height: 50px;
+      border-radius: 30px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 28px;
+      color: $dark-navy-blue;
+      border: solid 1px $dark-navy-blue;
+      cursor: pointer;
+      opacity: 0.6;
+      .fa {
+        position: relative;
+        top: -1px;
+      }
+      &:hover {
+        opacity: 1;
+      }
+      &.none {
+        opacity: 0;
+        cursor: default;
+      }
+    }
+    .SlideView.view {
+      animation: fadein 0.3s forwards;
+      &.out {
+        animation: fadeout 0.25s forwards;
+      }
+    }
+    .before {
+      .fa {
+        right: 2px;
+      }
+    }
+    .after {
+      .fa {
+        left: 2px;
+      }
+    }
+  }
+  .SwipePot {
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 80px;
+    .pot {
+      opacity: 0.4;
+      width: 8px;
+      height: 8px;
+      background-color: #fff;
+      border: solid 1px $dark-navy-blue;
+      &.set {
+        opacity: 0.8;
+        background-color: $dark-navy-blue;
+      }
+    }
+  }
+}
+
+.AnalyzeView {
+  height: 398px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 12px;
+  border: solid 1px $pale-grey;
+  background-color: #ffffff;
+  .title {
+    padding: 12px 50px;
+    position: absolute;
+    top: -27px;
+    border: solid 1px $pale-grey;
+    background-color: $lite-gray-color;
+    border-radius: 50px;
+  }
+  &.First {
+    width: 840px;
+    .title {
+      left: calc((840 - 354) * 0.5px);
+    }
+    .label {
+      font-size: 18px;
+    }
+    .txt {
+      .label {
+        margin-bottom: 65px;
+        line-height: 1.4;
+      }
+      text-align: left;
+      line-height: 1.88;
+      width: 330px;
+      padding: 61px 52px;
+      padding-right: 35px;
+      border-right: solid 1px $pale-grey;
+    }
+    .img {
+      width: 385px;
+      margin-left: 37px;
+      text-align: left;
+      img {
+        position: relative;
+        top: 25px;
+        right: 5px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 15px;
+        width: 280px;
+      }
+    }
+  }
+  &.Second {
+    width: 620px;
+    .title {
+      left: calc((620 - 196) * 0.5px);
+    }
+    .tempo-img {
+      margin-left: 72px;
+      width: 200px;
+      margin-right: 25px;
+    }
+    .txt {
+      width: 250px;
+      text-align: left;
+      line-height: 1.5;
+      span {
+        color: $blue-color;
+        font-weight: 500;
+      }
+    }
+  }
+  &.Third {
+    padding: 0px 64px;
+    .title {
+      left: calc((620 - 246) * 0.5px);
+    }
+    .volume-img {
+      width: 490px;
+    }
+  }
+  &.Fourth {
+    padding: 0px 64px;
+    .title {
+      left: calc((620 - 196) * 0.5px);
+    }
+    .face-img {
+      width: 490px;
+    }
+  }
+  &.Fifth {
+    padding: 0px 100px;
+    .title {
+      left: calc((620 - 196) * 0.5px);
+    }
+    .sight-img {
+      width: 420px;
+    }
+  }
+}

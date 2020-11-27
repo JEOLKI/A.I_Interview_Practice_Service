@@ -1,0 +1,106 @@
+.InvestigationPopUp {
+  .content-box {
+    text-align: center;
+    width: 500px;
+    font-weight: bold;
+    color: #3b3b46;
+    border-radius: 8px;
+    box-shadow: 0 0 99px 0 rgba(59, 59, 70, 0.5);
+    background-color: #fff;
+    position: relative;
+    padding: 60px 0px;
+    .close-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 34px;
+      height: 34px;
+      border-radius: 120px;
+      &:hover {
+        background-color: #cfdadc;
+      }
+      .close-icon {
+        display: block;
+        width: 14px;
+      }
+    }
+    .message {
+      font-size: 36px;
+      margin-top: 10px;
+    }
+    .sub-message {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: normal;
+    }
+    .btn {
+      display: block;
+      background-color: #ff5d5d;
+      cursor: pointer;
+      margin: 0 auto;
+      margin-top: 35px;
+      font-size: 18px;
+      width: 214px;
+      height: 52px;
+      opacity: 0.8;
+      border-radius: 8px;
+      line-height: 52px;
+      color: #fff;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.InterviewUnactivePopUp {
+  .content-box {
+    width: 380px;
+    padding: 40px 90px;
+    border-radius: 2px;
+    box-shadow: 0 0 99px 0 rgba(59, 59, 70, 0.5);
+    background-color: #ffffff;
+    text-align: left;
+    .message {
+      margin-top: 20px;
+      font-size: 36px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.44;
+      letter-spacing: -0.9px;
+      text-align: left;
+      color: #3b3b46;
+    }
+    .sub-message {
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.56;
+      letter-spacing: -0.45px;
+      text-align: left;
+      color: #3b3b46;
+    }
+    .btn {
+      display: block;
+      margin: 0 auto;
+      margin-top: 50px;
+      width: 174px;
+      height: 48px;
+      opacity: 0.8;
+      border-radius: 2px;
+      background-color: #3b3b46;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+@import "../../index.scss";
+
+.MyInterviews {
+  width: $hd-width;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 30px;
+  padding-bottom: 230px;
+  position: relative;
+  @include respond-to(semi-hd) {
+    width: $semi-hd-width;
+  }
+  .title {
+    font-size: 32px;
+    font-weight: 500;
+    padding-bottom: 5px;
+    margin-bottom: 25px;
+  }
+  .interview-table {
+    .SetInterviewBox {
+      display: flex;
+      border-radius: 2px;
+      padding: 17px 50px;
+      align-items: center;
+      display: flex;
+      font-size: 18px;
+      letter-spacing: -0.45px;
+      border-bottom: solid 1px $silver-color;
+      @include respond-to(semi-hd) {
+        font-size: 16px;
+        padding: 15px 40px;
+      }
+      .date {
+        height: 20px;
+        line-height: 20px;
+        padding-right: 30px;
+        border-right: solid 1px $silver-color;
+      }
+      .name {
+        width: 480px;
+        padding: 6px 15px;
+        margin-left: 15px;
+        margin-right: 220px;
+        border-radius: 30px;
+        border: none;
+        @include respond-to(semi-hd) {
+          width: 385px;
+          margin-right: 140px;
+        }
+        &.active {
+          cursor: initial;
+          background-color: $pale-grey-two;
+        }
+        &.unactive {
+          &::placeholder {
+            color: $dark-navy-blue;
+          }
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .edit-btn {
+        width: 46px;
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        border-radius: 50px;
+        margin-right: 10px;
+        background-color: transparent;
+        img {
+          width: 17px;
+        }
+        &:hover {
+          background-color: $pale-grey-two;
+        }
+      }
+      .review-btn {
+        font-size: 16px;
+        padding: 10px 25px;
+        border-radius: 50px;
+        &:hover {
+          background-color: $pale-grey-two;
+        }
+      }
+      &:first-child {
+        border-top: solid 1px $silver-color;
+      }
+    }
+  }
+}

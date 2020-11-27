@@ -1,0 +1,83 @@
+@import "../../index.scss";
+
+.LectureList {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 0px 60px;
+  margin-top: 160px;
+  &.interview {
+    margin-top: 110px;
+  }
+  &.voice {
+    margin-bottom: 120px;
+  }
+  .title {
+    font-size: 32px;
+    font-weight: bold;
+    .label {
+      display: inline-block;
+      margin-left: 12px;
+      font-family: Rubik, sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+      padding: 2px 7px;
+      padding-top: 4px;
+      border-radius: 2px;
+      position: relative;
+      bottom: 7px;
+      &.new {
+        background-color: $aqua-color;
+      }
+      &.hot {
+        background-color: $pastel-red-color;
+      }
+    }
+  }
+  .sub-title {
+    font-size: 16px;
+    opacity: 0.6;
+  }
+  .btn-area {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    top: -20px;
+    height: 25px;
+    div {
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50px;
+      opacity: 0.4;
+      border: solid 1px $dark-navy-blue;
+      font-size: 23px;
+      line-height: 33px;
+      text-align: center;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .before {
+      .fa {
+        position: relative;
+        right: 1.5px;
+      }
+    }
+    .after {
+      margin-left: 6px;
+      .fa {
+        position: relative;
+        left: 1.5px;
+      }
+    }
+  }
+  .lecture-area {
+    display: flex;
+    overflow-x: scroll;
+    padding-top: 5px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

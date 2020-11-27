@@ -1,0 +1,176 @@
+@import "../../index.scss";
+
+.InterviewCircle {
+  height: 600px;
+  width: 600px;
+  color: $dark-navy-blue;
+  margin: 0 auto;
+  margin-top: calc(50vh - 380px);
+  .bg {
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+    left: 0;
+  }
+  .circle {
+    position: fixed;
+    width: 600px;
+    z-index: 1;
+    &.finishing {
+      animation: fadeout 0.5s linear forwards;
+    }
+  }
+  .record {
+    position: relative;
+    z-index: 5;
+    padding-top: 163px;
+    margin: 0 auto;
+    width: 150px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: -0.6px;
+    color: #ff6d6d;
+    span {
+      position: relative;
+      font-size: 12px;
+    }
+    &.shown {
+      animation: fadein 2s both;
+    }
+    &.hidden {
+      animation: fadeout 1s both;
+    }
+  }
+  .listening-second {
+    position: relative;
+    z-index: 5;
+    margin: 0 auto;
+    width: 150px;
+    text-align: center;
+    margin-top: 80px;
+    .label {
+      font-size: 14px;
+    }
+    .time {
+      font-size: 48px;
+      font-family: Rubik;
+    }
+    &.shown {
+      animation: fadein 2s both;
+      &.warn {
+        .time {
+          animation: warningColor 20s both;
+        }
+      }
+    }
+    &.hidden {
+      animation: fadeout 1s both;
+      &.warn {
+        .time {
+          color: #ff5d5d;
+        }
+      }
+    }
+  }
+  .loading-area {
+    position: absolute;
+    z-index: 5;
+    width: 100px;
+    height: 100px;
+    top: calc(50vh - 155px);
+    left: calc(50% - 100 * 0.5px);
+    animation: fadeinoutMove 5s ease-in-out 1s both;
+    overflow: hidden;
+    background: transparent;
+    .loading-bar {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform: translateZ(0) scale(1);
+      backface-visibility: hidden;
+      transform-origin: 0 0;
+      div {
+        box-sizing: content-box;
+        position: absolute;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        animation: bounce 1s infinite;
+        &:nth-child(1) {
+          left: 15px;
+          background: #2074ff;
+          animation-delay: -0.6s;
+        }
+        &:nth-child(2) {
+          left: 35px;
+          background: #317efe;
+          animation-delay: -0.44999999999999996s;
+        }
+        &:nth-child(3) {
+          left: 55px;
+          background: #3589fd;
+          animation-delay: -0.3s;
+        }
+        &:nth-child(4) {
+          left: 75px;
+          background: #40a1fb;
+          animation-delay: -0.15s;
+        }
+      }
+    }
+  }
+  .attention-message {
+    position: absolute;
+    z-index: 5;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 290px;
+    width: 600px;
+    &.shown {
+      animation: fadein 2s both;
+    }
+    &.hidden {
+      animation: fadeout 1s both;
+    }
+    .attention-mark {
+      width: 120px;
+      line-height: 45px;
+      background-color: $dark-gray-color;
+      color: #fff;
+      margin: 0 auto;
+      margin-bottom: 180px;
+      position: relative;
+      animation: updown 2.2s;
+      animation-iteration-count: infinite;
+      &:after {
+        position: absolute;
+        border-top: 8px solid $dark-gray-color;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 0px solid transparent;
+        content: "";
+        bottom: -8px;
+        right: 52px;
+      }
+    }
+  }
+  .finishing-message {
+    position: absolute;
+    width: 500px;
+    font-size: 22px;
+    line-height: 1.45;
+    animation: fadein 2s both 2s;
+    text-align: center;
+    color: #fff;
+    top: calc(50vh - 80px);
+    left: calc(50% - 500 * 0.5px);
+    .svg {
+      display: block;
+      width: 85px;
+      margin: 0 auto;
+      margin-bottom: -5px;
+    }
+  }
+}

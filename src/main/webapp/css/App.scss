@@ -1,0 +1,438 @@
+@import "./index.scss";
+
+.SuspenseLoading {
+  width: 100vw;
+  height: 100vh;
+  background-color: $lite-gray-color;
+}
+
+.loading-bar {
+  width: 520px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: rgba($color: #fff, $alpha: 0.4);
+  margin: 0 auto;
+  @include respond-to(semi-hd) {
+    width: 470px;
+  }
+  .white {
+    height: 8px;
+    background-color: #fff;
+    border-radius: 4px;
+    animation: loadingWhite 4s ease-in-out 1.7s both;
+  }
+}
+
+.OAuth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  .Request {
+    height: 200px;
+    opacity: 0.4;
+    font-size: 20px;
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+    text-align: center;
+    color: #333333;
+    .iam-logo {
+      width: 215px;
+    }
+    .logging-message {
+      margin-top: 30px;
+    }
+  }
+}
+
+.CustomSelect {
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: #2c2c2c;
+  font-weight: normal;
+  .select-value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 140px;
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 30px;
+    border: solid 1px $placeholder-color;
+    &:hover,
+    &.open {
+      border-color: $dark-gray-color;
+    }
+    .icon {
+      display: block;
+      font-size: 20px;
+    }
+  }
+  .select-options {
+    position: absolute;
+    margin-top: 3px;
+    border-radius: 2px;
+    box-shadow: 0 3px 6px 0 $card-shadow-color;
+    border: solid 1px $placeholder-color;
+    background-color: #ffffff;
+    padding: 4px 0px;
+    .option {
+      padding-left: 27px;
+      width: 200px;
+      height: 44px;
+      line-height: 46px;
+      background-color: #ffffff;
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+  }
+  &.small {
+    font-family: Roboto;
+    font-size: 14px;
+    .select-value {
+      padding: 0px 12px;
+      width: 103px;
+      height: 28px;
+      border-radius: 2px;
+      .icon {
+        display: block;
+        font-size: 20px;
+      }
+    }
+    .select-options {
+      top: -3px;
+      border-color: $dark-gray-color;
+      padding: 5px 0px;
+      .option {
+        padding: 0px 12px;
+        width: 103px;
+        height: 25px;
+        line-height: 25px;
+      }
+    }
+  }
+}
+
+.PopUp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: max-content;
+  width: 100vw;
+  height: 100vh;
+  z-index: 500;
+  background-color: rgba(12, 22, 23, 0.4);
+  &.transparent {
+    background-color: rgba(12, 22, 23, 0);
+  }
+  &.Error {
+    z-index: 1000;
+  }
+  &.Block {
+    background-color: #fff;
+  }
+}
+
+.DeleteConfirm {
+  .box {
+    position: relative;
+    width: 540px;
+    height: 260px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    .message {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 74px;
+      margin-bottom: 40px;
+    }
+  }
+}
+
+.OrderMark {
+  width: max-content;
+  font-family: Roboto;
+  font-weight: bold;
+  padding: 7px 23px;
+  border-radius: 26px;
+  color: #ffffff;
+  background-color: $aqua-color;
+  user-select: none;
+  &.half {
+    background-color: $blue-hover-color;
+  }
+  &.marathon {
+    background-color: $pastel-red-color;
+  }
+}
+
+.BtnFlex {
+  margin-top: 20px;
+  .cancel-btn,
+  .delete-btn {
+    width: 100px;
+    height: 35px;
+    border-radius: 2px;
+    color: #fff;
+    border: none;
+    margin: 10px;
+  }
+  .cancel-btn {
+    background-color: $dark-gray-color;
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .delete-btn {
+    background-color: $pastel-red-color;
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.XBtn {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 14px;
+  opacity: 0.4;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.CloseBtn {
+  position: absolute;
+  top: 0px;
+  right: -70px;
+  width: 52px;
+  height: 52px;
+  background-color: rgba($dark-navy-blue, 0.3);
+  border-radius: 30px;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  .x-icon {
+    display: block;
+    margin: 0 auto;
+    margin-top: 18px;
+    width: 17px;
+    transition-property: width margin;
+    transition-duration: 0.3s;
+  }
+  &:hover {
+    background-color: rgba($dark-navy-blue, 0.4);
+    .x-icon {
+      margin-top: 16.5px;
+      width: 20px;
+    }
+  }
+}
+
+.UpDown {
+  cursor: pointer;
+  position: fixed;
+  z-index: 500;
+  padding: 25px 60px;
+  font-size: 18px;
+  color: $aqua-color;
+  background-color: $banner-color;
+  box-shadow: 0 3px 12px 0 rgba(11, 55, 75, 0.32);
+  border-radius: 50px;
+  left: calc(50vw - 125px);
+  letter-spacing: -0.45px;
+  bottom: 60px;
+  animation: fadeupdown 3s both;
+}
+
+.BrowserWarning {
+  .content-box {
+    padding: 40px;
+    padding-bottom: 30px;
+    background-color: #fff;
+    text-align: center;
+    button {
+      display: block;
+      margin: 0 auto;
+      margin-top: 20px;
+      padding: 5px 30px;
+      border: none;
+      background-color: #000;
+      color: #fff;
+    }
+  }
+}
+
+.S3PopUp {
+  .content-box {
+    position: absolute;
+    padding: 0px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    iframe {
+      border: none;
+    }
+  }
+}
+
+.CustomCheck {
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: solid 2px $dark-gray-color;
+  &.checked {
+    background-color: $dark-gray-color;
+  }
+  img {
+    display: block;
+    margin: 0 auto;
+    width: 12px;
+  }
+}
+
+.CustomRadio {
+  .radio {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0.6;
+    img {
+      width: 18px;
+      display: block;
+      margin-right: 8px;
+    }
+    &:hover,
+    &.select {
+      opacity: 1;
+    }
+  }
+}
+
+.CompletionInput {
+  position: relative;
+  input {
+    &.extend {
+      border: solid 1px $dark-gray-color;
+    }
+  }
+  .completion-area {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    border-radius: 0px 0px 2px 2px;
+    border: solid 1px $dark-gray-color;
+    border-top-color: rgba($dark-gray-color, 0.4);
+    width: calc(100% - 2px);
+    z-index: 10;
+    background-color: #fff;
+    .child {
+      padding: 3px 10px;
+      cursor: pointer;
+      &.select {
+        background-color: rgba($dark-gray-color, 0.2);
+      }
+      &:hover {
+        background-color: rgba($dark-gray-color, 0.1);
+      }
+    }
+  }
+}
+
+.SwipePot {
+  display: flex;
+  justify-content: space-between;
+  width: 45px;
+  margin: 0 auto;
+  div {
+    width: 6px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: #b2bbc4;
+    &.set {
+      background-color: #3b3b46;
+    }
+  }
+}
+
+.QuestionBoxView {
+  position: relative;
+  cursor: default;
+  display: block;
+  border-radius: 8px;
+  width: 180px;
+  height: 190px;
+  box-shadow: 0 6px 6px 0 rgba(7, 67, 70, 0.16);
+  background-color: #ffffff;
+  padding: 18px;
+  text-align: left;
+  .check-icon {
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: 53px;
+    height: 53px;
+    border-radius: 30px;
+    background-color: $blue-color;
+    top: -22px;
+    right: -17px;
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  .tag {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 10px;
+    letter-spacing: -0.25px;
+    color: #fff;
+    padding: 0px 10px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 11px;
+    background-color: #5b02b7;
+    &.job {
+      background-color: #28cbd1;
+    }
+  }
+  .content-text {
+    font-size: 12px;
+    line-height: 1.83;
+    letter-spacing: -0.3px;
+    margin-top: 12px;
+    color: #3b3b46;
+  }
+  &.in {
+    top: -10px;
+    border: solid 2px $blue-color;
+    height: 221px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.SlideView {
+  animation: fadein 1.3s forwards;
+  &.out {
+    animation: fadeout 0.8s forwards;
+  }
+}

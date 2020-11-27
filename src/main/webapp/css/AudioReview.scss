@@ -1,0 +1,257 @@
+@import "../../index.scss";
+
+.AudioReview {
+  margin-top: 85px;
+  font-weight: 300;
+  .profile-icon {
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 16px;
+    object-fit: cover;
+    @include respond-to(semi-hd) {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  .content-box {
+    margin-top: 16px;
+    margin-bottom: 90px;
+    height: 460px;
+    position: relative;
+    @include respond-to(semi-hd) {
+      height: 380px;
+    }
+    .graph-comment {
+      border-radius: 10px;
+      position: relative;
+      height: 200px;
+      background: linear-gradient(
+        to bottom,
+        #ffffff 54%,
+        rgba(255, 255, 255, 0) 78%
+      );
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 80px;
+      text-align: center;
+      .user-intensity {
+        width: 200px;
+        color: #28cbd1;
+        position: relative;
+        .profile-icon {
+          position: absolute;
+          left: 0;
+          display: inline-block;
+          top: 32px;
+          @include respond-to(semi-hd) {
+            top: 28px;
+            left: 15px;
+          }
+        }
+        span {
+          font-weight: bold;
+          line-height: 1;
+          font-size: 48px;
+          @include respond-to(semi-hd) {
+            font-size: 38px;
+          }
+        }
+      }
+      .comment {
+        width: 400px;
+        @include respond-to(semi-hd) {
+          width: 350px;
+        }
+      }
+      .average-intensity {
+        width: 200px;
+        span {
+          font-size: 48px;
+          font-weight: bold;
+          line-height: 1;
+          @include respond-to(semi-hd) {
+            font-size: 38px;
+          }
+        }
+      }
+    }
+    .audio-graph {
+      position: relative;
+      height: 280px;
+      top: -100px;
+      z-index: 10;
+      border-radius: 10px;
+      @include respond-to(semi-hd) {
+        height: 200px;
+      }
+    }
+    .guide-line {
+      position: absolute;
+      bottom: calc(280 * 0.55px);
+      padding-left: 20px;
+      font-family: Roboto;
+      font-weight: bold;
+      color: #19738b;
+      z-index: 25;
+      @include respond-to(semi-hd) {
+        bottom: calc(200 * 0.55px);
+      }
+      .dot-line {
+        width: 1111px;
+        display: inline-block;
+        border-top: 4px dotted #19738b;
+        position: relative;
+        top: -3px;
+        left: 5px;
+        @include respond-to(semi-hd) {
+          width: 800px;
+        }
+      }
+    }
+    .audio-graph-background {
+      position: absolute;
+      border-radius: 10px;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+      @include respond-to(semi-hd) {
+        width: 880px;
+      }
+    }
+    .gradient-box {
+      z-index: 8;
+      position: absolute;
+      border-radius: 10px;
+      bottom: 0;
+      width: 1200px;
+      height: 140px;
+      background: linear-gradient(to top, #fff 75%, rgba(0, 0, 0, 0));
+      @include respond-to(semi-hd) {
+        width: 880px;
+        height: 80px;
+      }
+    }
+  }
+  .pitch-graph {
+    display: flex;
+    height: 484px;
+    margin-top: 45px;
+    text-align: center;
+    position: relative;
+    @include respond-to(semi-hd) {
+      height: 400px;
+      margin-top: 30px;
+    }
+    .user-pitch {
+      position: absolute;
+      top: 67px;
+      width: 160px;
+      font-size: 14px;
+      letter-spacing: -0.28px;
+      z-index: 15;
+      white-space: nowrap;
+      @include respond-to(semi-hd) {
+        font-size: 13px;
+      }
+      span {
+        display: inline-block;
+        font-family: Roboto;
+        font-size: 56px;
+        font-weight: normal;
+        margin-top: 7px;
+        @include respond-to(semi-hd) {
+          font-size: 45px;
+        }
+      }
+      .line {
+        margin: 0 auto;
+        width: 0px;
+        height: 80px;
+        border-left: 1px solid #000000;
+        @include respond-to(semi-hd) {
+          height: 44px;
+        }
+      }
+      .point {
+        margin: 0 auto;
+        width: 18px;
+        height: 18px;
+        border-radius: 9px;
+        background-color: #000000;
+        @include respond-to(semi-hd) {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+    .pitch-line {
+      position: absolute;
+      width: 1200px;
+      border-top: solid 2px #54656a;
+      top: 285px;
+      @include respond-to(semi-hd) {
+        width: 880px;
+        top: 230px;
+      }
+    }
+    .message {
+      position: relative;
+      left: calc(40px - 125px);
+      top: 340px;
+      width: 250px;
+      margin: 0 auto;
+      @include respond-to(semi-hd) {
+        left: calc(30px - 125px);
+        top: 280px;
+      }
+      span {
+        display: inline-block;
+        margin-top: 7px;
+        font-family: Roboto;
+        font-size: 32px;
+        line-height: 1.19;
+        letter-spacing: -0.64px;
+        @include respond-to(semi-hd) {
+          font-size: 28px;
+        }
+      }
+    }
+    .men-pitch-area {
+      background-color: rgba($color: #28b4d1, $alpha: 0.27);
+      width: 80px;
+      margin-left: 340px;
+      @include respond-to(semi-hd) {
+        width: 60px;
+        margin-left: 280px;
+      }
+      .message {
+        b,
+        span {
+          color: #1c6eb5;
+        }
+      }
+    }
+    .women-pitch-area {
+      background-color: rgba($color: #ff8bbd, $alpha: 0.27);
+      width: 120px;
+      margin-left: 320px;
+      @include respond-to(semi-hd) {
+        width: 90px;
+        margin-left: 240px;
+      }
+      .message {
+        left: calc(60px - 125px);
+        @include respond-to(semi-hd) {
+          left: calc(45px - 125px);
+        }
+        b,
+        span {
+          color: #ff8bbd;
+        }
+      }
+    }
+  }
+}
