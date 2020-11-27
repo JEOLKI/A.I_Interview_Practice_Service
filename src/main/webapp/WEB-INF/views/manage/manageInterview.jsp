@@ -32,11 +32,10 @@ a{
 		<div class="menu">
 			<select id="sort">
 				<option value="">정렬</option>
-				<option value="">번호</option>
-				<option value="">제목</option>
-				<option value="">아이디</option>
-				<option value="">목표 직무</option>
-				<option value="">등록 시간</option>
+				<option value="">5개씩</option>
+				<option value="">10개씩</option>
+				<option value="">15개씩</option>
+				<option value="">20개씩</option>
 			</select> <select id="searchType">
 				<option value="">검색조건</option>
 				<option value="usernm">면접 제목</option>

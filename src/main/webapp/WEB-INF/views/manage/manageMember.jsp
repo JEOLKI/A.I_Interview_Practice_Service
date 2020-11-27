@@ -32,12 +32,12 @@ a{
 		<div class="menu">
 			<select id="sort">
 				<option value="">정렬</option>
-				<option value="userid">아이디</option>
-				<option value="usernm">이름</option>
-				<option value="1">1일권</option>
-				<option value="3">3일권</option>
-				<option value="5">5일권</option>
-			</select> <select id="searchType">
+				<option value="">5개씩</option>
+				<option value="">10개씩</option>
+				<option value="">15개씩</option>
+				<option value="">20개씩</option>
+			</select> 
+			<select id="searchType">
 				<option value="">검색조건</option>
 				<option value="userid">아이디</option>
 				<option value="usernm">이름</option>
@@ -70,8 +70,7 @@ a{
 							</tr>
 					</tbody>
 				</table>
-				회원 등록?<br>
-				회원 엑셀로 일괄등록 넣으면 어떨지..?
+				<a href="#">↑ 일괄등록</a>
 			</div>
 		</div>
 	</div>
