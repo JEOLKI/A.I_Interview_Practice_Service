@@ -10,6 +10,7 @@
 	 -->
 	<definition name="basic.layout" template="/WEB-INF/views/layout/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"/>
+		<put-attribute name="content" value=""/>
 	</definition>
 	
 	<!-- 상속을 통해 basic.layout에 설정된 header, left의 기본값을 사용하게 되며
