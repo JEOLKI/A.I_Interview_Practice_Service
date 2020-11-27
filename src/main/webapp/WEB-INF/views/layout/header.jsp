@@ -16,5 +16,5 @@
 		</div>
 	</div>
 	<button id="login" class="login">로그인</button>
-	<button id="signin" class="login">회원가입</button>
+	<button id="join" class="login">회원가입</button>
 </div>
