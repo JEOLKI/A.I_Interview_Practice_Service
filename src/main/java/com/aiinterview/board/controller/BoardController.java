@@ -10,7 +10,7 @@ public class BoardController {
 
 	@RequestMapping("/main")
 	public String boardMain() {
-		return "tiles/board/listBoard";
+		return "board/listBoard";
 	}
 	
 }

@@ -8,34 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>아이엠터뷰</title>
-<meta name="naver-site-verification"
-	content="94f5ba87b40698d4bc6a88a5e19c99a7d3e1e4c0">
-<meta name="google-site-verification"
-	content="rSYfvWZS1ZnErY0j3In-SemXmy4eYuQXYZcmyXHGY54">
-<meta name="keywords"
-	content="면접, ai면접, 공무원면접, 스피치학원, 면접예상질문, 기업분석, 면접1분자기소개예시, 면접질문, 면접자기소개예시, 스피치, 회사면접질문, 1분자기소개, 모의면접, 면접자기소개, 발음연습, 취업, 화상면접, 실무면접, 자기소개, 인공지능, AI, 취업정보사이트, 취업사이트, PT면접, 비대면, 맞춤, 대기업, 공기업, 공무원">
-<meta property="title" content="iamterview">
-<meta property="og:title" content="iamterview">
-<meta name="description" content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!">
-<meta property="og:description"
-	content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!">
-<meta property="og:image" content="/iam.ico">
-<meta name="theme-color" content="#000000">
-<link rel="icon" href="/iam.ico">
-<link rel="manifest" href="/manifest.json">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script type="text/javascript" async=""
-	src="https://cdn.channel.io/plugin/ch-plugin-web.js" charset="UTF-8"></script>
-<script type="text/javascript" async=""
-	src="https://testcpay.payple.kr/js/cpay.payple.1.0.1.js"
-	charset="UTF-8"></script>
-<script
-	src="https://connect.facebook.net/signals/config/943528292826757?v=2.9.29&amp;r=stable"
-	async=""></script>
+
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
