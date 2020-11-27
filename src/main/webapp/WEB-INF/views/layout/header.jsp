@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <!-- header -->
-<div class="TopBar bar">
+<div class="TopBar undefined">
 	<div class="navigation-bar">
 		<a class="iam-logo" href="/"><img
 			src="/static/media/black-long.c5df35b3.svg" alt="iam-logo"

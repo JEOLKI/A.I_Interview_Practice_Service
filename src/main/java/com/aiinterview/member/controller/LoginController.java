@@ -46,7 +46,7 @@ public class LoginController {
 	@RequestMapping(value = "/test", method = { RequestMethod.GET })
 	public String mainTest() {
 		System.out.println("테스트");
-		return "tiles/main/main";
+		return "main/main";
 	}
 
 

@@ -13,10 +13,14 @@
 
 <body>
 	
-	<tiles:insertAttribute name="header"/>
 
-	<div>
+	<div id="root">
+		<tiles:insertAttribute name="header"/>
+		
+		
+		<main>
 		<tiles:insertAttribute name="content" />
+		</main>
 	</div>
 
 
