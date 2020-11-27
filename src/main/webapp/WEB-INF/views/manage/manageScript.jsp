@@ -46,10 +46,10 @@ a{
 		<div class="menu">
 			<select id="sort">
 				<option value="">정렬</option>
-				<option value="">사용</option>
-				<option value="">미사용</option>
-				<option value="">한국어</option>
-				<option value="">영어</option>
+				<option value="">5개씩</option>
+				<option value="">10개씩</option>
+				<option value="">15개씩</option>
+				<option value="">20개씩</option>
 			</select> 
 			<input id="keyword" type="text">
 			<button type="button">검색</button>
@@ -74,7 +74,7 @@ a{
 <!-- 			<input type="button" value="삭제"> 				 -->
 <%-- 		</c:forEach> --%>
 		</div>
-		여기도 일괄등록같은거 하면 좋을듯?
+		<a href="#">↑ 일괄등록</a>
 	</div>
 	</div>
 	</div>

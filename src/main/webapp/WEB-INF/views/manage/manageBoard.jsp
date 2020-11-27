@@ -29,6 +29,7 @@ a{
       <div class="Main false">
 
            <%@ include file="/WEB-INF/views/layout/header.jsp" %>
+           <%@ include file="/WEB-INF/views/manage/manageLeft.jsp" %>
            <main>
  	<section class="hero">
 			<div class="hero__content">
@@ -47,10 +48,10 @@ a{
 			<br>
 			<select id="sort">
 				<option value="">정렬</option>
-				<option value="">이름</option>
-				<option value="">사용</option>
-				<option value="">미사용</option>
-				<option value="">등록일</option>
+				<option value="">5개씩</option>
+				<option value="">10개씩</option>
+				<option value="">15개씩</option>
+				<option value="">20개씩</option>
 			</select> 
 			<select id="searchType">
 				<option value="">검색조건</option>
