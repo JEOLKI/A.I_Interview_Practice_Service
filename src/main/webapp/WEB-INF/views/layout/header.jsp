@@ -45,6 +45,26 @@
 		border: 1px solid #888;
 		width: 30%; /* Could be more or less, depending on screen size */
 	}
+	#changeModal {
+		display: none; /* Hidden by default */
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Sit on top */
+		left: 0;
+		top: 0;
+		width: 100%; /* Full width */
+		height: 100%; /* Full height */
+		overflow: auto; /* Enable scroll if needed */
+		background-color: rgb(0, 0, 0); /* Fallback color */
+		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	}
+	/* Modal Content/Box */
+	#changeModal-content {
+		background-color: #fefefe;
+		margin: 15% auto; /* 15% from the top and centered */
+		padding: 20px;
+		border: 1px solid #888;
+		width: 30%; /* Could be more or less, depending on screen size */
+	}
 	
 	.input-left {
 		width: 70%;
@@ -62,7 +82,7 @@
 		width: 35%;
 	}
 	
-	#loginbtn {
+	#searchbtn {
 		width: 70px;
 		height: 70px;
 		margin-left: 3%;
@@ -75,9 +95,15 @@
 		height: 70px;
 		margin-left: 3%;
 	}
+	#changebtn{
+		width: 70px;
+		height: 70px;
+		margin-left: 3%;
+	}
 </style>
 <script>
 $(document).ready(function() {
+		 $('#changeModal').show();
     $('#login').on('click',function(){
 		 $('#myModal').show();
     });
@@ -97,6 +123,9 @@ function close_pop(flag) {
 };
 function search_close_pop(flag) {
  $('#searchModal').hide();
+};
+function change_close_pop(flag) {
+ $('#changeModal').hide();
 };
 </script>
 <!-- header -->
@@ -150,7 +179,7 @@ function search_close_pop(flag) {
 		</div>
 	</div>
 	
-	
+	<!-- search Modal content -->
 	<div id="searchModal" class="modal">
 
 		<!-- searchModal content -->
@@ -197,6 +226,36 @@ function search_close_pop(flag) {
 			<div
 				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="search_close_pop();">
+				<span class="pop_bt" style="font-size: 13pt;"> 닫기 </span>
+			</div>
+		</div>
+	</div>
+	
+	<!-- change Modal content -->
+	<div id="changeModal" class="modal">
+
+		<!-- changeModal content -->
+		<div id="changeModal-content">
+			<p style="text-align: left;">
+				<span style="font-size: 14pt;"><b><span
+						style="font-size: 24pt;">[비밀번호 변경]
+					</span></b></span>
+			</p>
+			<p style="text-align: center; line-height: 1.5;">
+			<form action="">
+				<div class="input-left">
+					<span class="inputname">새 비밀번호 </span> <input class="input" type="text"><br>
+					<span class="inputname">새 비밀번호 확인</span> <input class="input" type="text"><br>
+				</div>
+				<div class="input-right">
+					<button id="changebtn" type="button">변경</button>
+				</div>
+			</form>
+			<br>
+			<br>
+			<div
+				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
+				onClick="change_close_pop();">
 				<span class="pop_bt" style="font-size: 13pt;"> 닫기 </span>
 			</div>
 		</div>
