@@ -2,24 +2,25 @@ package com.aiinterview.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @RequestMapping("/member")
 @Controller
 public class MemberController {
 
 	
-	@RequestMapping(path = "/main")
-	public String main() {
+	@RequestMapping(path = "/main", method = {RequestMethod.GET})
+	public String mainView() {
 		return "member/membermain";
 	}
 	
-	@RequestMapping(path = "/interviewresult")
-	public String interviewresult() {
+	@RequestMapping(path = "/interviewresult", method =  {RequestMethod.GET})
+	public String interviewResultView() {
 		return "member/interviewresult";
 	}
 	
-	@RequestMapping(path = "/question")
-	public String Question() {
+	@RequestMapping(path = "/question", method = {RequestMethod.GET})
+	public String questionView() {
 		return "member/memberQuestion";
 	}
 
