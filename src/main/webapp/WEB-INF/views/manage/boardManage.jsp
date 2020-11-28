@@ -29,7 +29,6 @@ a{
       <div class="Main false">
 
            <%@ include file="/WEB-INF/views/layout/header.jsp" %>
-           <%@ include file="/WEB-INF/views/manage/manageLeft.jsp" %>
            <main>
  	<section class="hero">
 			<div class="hero__content">

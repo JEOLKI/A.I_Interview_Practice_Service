@@ -20,49 +20,54 @@ public class ManageController {
 
 
 
-	@RequestMapping(path = "/manageMember")
+	@RequestMapping(path = "/member")
 	public String manageMember() {
-		return "manage/manageMember";
+		return "manage/memberManage";
 	} 
 	
-	@RequestMapping(path = "/manageBoard")
+	@RequestMapping(path = "/board")
 	public String manageBoard() {
-		return "manage/manageBoard";
+		return "manage/boardManage";
 	} 
 	
-	@RequestMapping(path = "/manageBoardCategory")
+	@RequestMapping(path = "/category")
 	public String manageBoardCategory() {
-		return "manage/manageBoardCategory";
+		return "manage/categoryManage";
 	} 
 	
-	@RequestMapping(path = "/managePlan")
+	@RequestMapping(path = "/plan")
 	public String managePlan() {
-		return "manage/managePlan";
+		return "manage/planManage";
 	} 
 	
-	@RequestMapping(path = "/manageScript")
+	@RequestMapping(path = "/script")
 	public String manageScript() {
-		return "manage/manageScript";
+		return "manage/scriptManage";
 	} 
 	
-	@RequestMapping(path = "/manageQuestion")
+	@RequestMapping(path = "/question")
 	public String manageQuestion() {
-		return "manage/manageQuestion";
+		return "manage/questionManage";
 	} 
 	
-	@RequestMapping(path = "/manageTalent")
+	@RequestMapping(path = "/talent")
 	public String manageTalent() {
-		return "manage/manageTalent";
+		return "manage/talentManage";
 	} 
 	
-	@RequestMapping(path = "/manageTalentKeyword")
+	@RequestMapping(path = "/keyword")
 	public String manageTalentKeyword() {
 		return "manage/manageTalentKeyword";
 	} 
 	
-	@RequestMapping(path = "/manageInterview")
+	@RequestMapping(path = "/interview")
 	public String manageInterview() {
-		return "manage/manageInterview";
+		return "manage/interviewManage";
+	} 
+	
+	@RequestMapping(path = "/left")
+	public String left() {
+		return "manage/left";
 	} 
 
 
