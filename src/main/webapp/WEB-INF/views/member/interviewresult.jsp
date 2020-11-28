@@ -80,28 +80,9 @@ to {
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="Review">
-			<div class="TopBar undefined">
-				<div class="navigation-bar">
-					<a class="iam-logo" href="/main"> <img
-						src="/static/media/black-long.c5df35b3.svg" alt="iam-logo"
-						class="iam-img"></a>
-					<div class="nav">
-						<a class="main false" href="/main">내 면접</a><a
-							class="lecture false" href="/lecture">면접 강의</a> <a
-							class="service-intro false" href="/service-intro">서비스 소개</a><a
-							class="help-info false" href="/help-info">도움말</a>
-					</div>
-				</div>
-				<div class="user-tool">
-					<a class="payment-btn" href="/payment">이용권 구매</a>
-					<div class="profile-btn false">
-						<img
-							src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2343.jpg"
-							alt="profile-icon" class="profile-icon">paresf1<span
-							aria-hidden="true" class="fa fa-angle-down fa undefined"></span>
-					</div>
-				</div>
-			</div>
+		
+			<%@ include file="/WEB-INF/views/layout/header.jsp" %>
+			
 			<div class="body">
 				<div class="date">2020년 11월 19일_19시 40분</div>
 				<div class="title-flex">

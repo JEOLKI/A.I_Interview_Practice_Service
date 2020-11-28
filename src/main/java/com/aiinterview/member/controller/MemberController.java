@@ -23,6 +23,11 @@ public class MemberController {
 	public String questionView() {
 		return "member/memberQuestion";
 	}
+	
+	@RequestMapping(path = "/test", method = {RequestMethod.GET})
+	public String testView() {
+		return "member/test";
+	}
 
 	
 	
