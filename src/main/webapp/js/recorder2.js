@@ -52,4 +52,15 @@ $(document).ready(function(){
     }, "mp3");
     restore();
   });
+  
+  $(document).on("click", "#blob:not(.disabled)", function(){
+	    Fr.voice.export(function(blob){
+	      console.log("Here is the blob URL : " + blob);
+	      console.log(blob);
+	      alert("Check the web console for the URL");
+	      
+	      $("<a href='"+ url +"' target='_blank'></a>")[0].click();
+	    }, "blob");
+	    restore();
+  });
 });

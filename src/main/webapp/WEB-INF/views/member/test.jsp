@@ -7,6 +7,7 @@
     <script src="/js/recorder.js"></script>
     <script src="/js/Fr.voice.js"></script>
     <script src="/js/recorder2.js"></script>
+    <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
    </head>
    <body>
     <div id="content">
@@ -15,9 +16,11 @@
       <div style="margin:10px;">
         <a class="button" id="record">Record</a>
         <a class="button disabled one" id="stop">Reset</a>
+        <a class="button disabled one" id="end">End</a>
         <a class="button disabled one" id="play">Play</a>
         <a class="button disabled one" id="download">Download</a>
         <a class="button disabled one" id="base64">Base64 URL</a>
+        <a class="button disabled one" id="blob">BLOB</a>
         <a class="button disabled one" id="mp3">MP3 URL</a>
       </div>
       <input class="button" type="checkbox" id="live"/>
