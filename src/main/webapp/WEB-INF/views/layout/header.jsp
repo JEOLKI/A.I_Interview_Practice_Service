@@ -103,7 +103,6 @@
 </style>
 <script>
 $(document).ready(function() {
-		 $('#changeModal').show();
     $('#login').on('click',function(){
 		 $('#myModal').show();
     });
@@ -116,6 +115,7 @@ $(document).ready(function() {
     $('.search').on('click',function(){
 		 $('#searchModal').show();
     });
+// 		 $('#changeModal').show();
 });
 //팝업 Close 기능
 function close_pop(flag) {
