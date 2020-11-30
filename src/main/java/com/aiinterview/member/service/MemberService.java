@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aiinterview.member.model.MemberVo;
 import com.aiinterview.member.repository.MemberRepositoryI;
-import com.aiinterview.model.MemberVo;
 
 @Transactional
 @Service("memberService")
@@ -27,6 +27,11 @@ public class MemberService implements MemberServiceI {
 	@Override
 	public MemberVo getMember(String userId) {
 		return memberRepository.getMember(userId);
+	}
+
+	@Override
+	public MemberVo memberIdSearch(MemberVo memberVo) {
+		return memberRepository.memberIdSearch(memberVo);
 	}
 
 

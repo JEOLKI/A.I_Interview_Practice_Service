@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.aiinterview.member.model.MemberVo;
 import com.aiinterview.member.service.MemberServiceI;
-import com.aiinterview.model.MemberVo;
 
 @RequestMapping("/login")
 @Controller
@@ -19,19 +19,20 @@ public class LoginController {
 	private MemberServiceI memberService;
 
 	@RequestMapping(value = "/main", method = { RequestMethod.GET })
-	public String mainView() {
+	public String view() {
 		return "login/main";
 	}
+	
 
-	/*@RequestMapping(value = "/process", method = { RequestMethod.GET, RequestMethod.POST })
-	public String login(String userid, String pass, HttpSession session, Model model) {
+	@RequestMapping(value = "/process", method = { RequestMethod.GET, RequestMethod.POST })
+	public String login(String memId, String memPw, HttpSession session, Model model) {
 
-		MemberVo memberVo = memberService.getMember(userid);
+		MemberVo memberVo = memberService.getMember(memId);
 
-		if (memberVo == null || !memberVo.getPass().equals(pass)) {
-			model.addAttribute("userid", userid);
+		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {
+			model.addAttribute("userid", memId);
 			return "login/view";
-		} else if (memberVo.getPass().equals(pass)) {
+		} else if (memberVo.getMemPw().equals(memPw)) {
 			session.setAttribute("S_MEMBER", memberVo);
 			return "member/memberList";
 		}
@@ -51,7 +52,7 @@ public class LoginController {
 	@RequestMapping(value = "/experience", method = { RequestMethod.GET })
 	public String experience() {
 		return "main/experience";
-	}*/
+	}
 
 
 }

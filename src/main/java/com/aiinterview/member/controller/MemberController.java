@@ -29,6 +29,11 @@ public class MemberController {
 		return "member/test";
 	}
 
+	@RequestMapping(value = "/idSearch", method = { RequestMethod.POST })
+	public String idSearch() {
+		System.out.println("idSearch()진입");
+		return "";
+	}
 	
 	
 }

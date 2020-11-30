@@ -1,143 +1,217 @@
 package com.aiinterview.member.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MemberVo {
 
-	private String userid;
-	private String pass;
-	private String usernm;
-	
-	private String alias;
-	private String addr1;
-	private String addr2;
-	private String zipcode;
-	private String filename;
-	private String realFilename;
-	private Date reg_dt;
+	private String memId;
+	private String memPw;
+	private String memAuth;
+	private String memSt;
+	private String memAlias;
+	private String memNm;
+	private String memTel;
+	private String memAddr1;
+	private String memAddr2;
+	private int memZipcode;
+	private String memCareer;
+	private String memEduc;
+	private String memGender;
+	private String memTargetCompany;
+	private String memTargetJob;
+	private String searchJobDate;
+	private String memMajor;
 	
 	public MemberVo() {
-
-	}
-	
-	public MemberVo(String userid, String pass, String usernm, String alias, String addr1, String addr2, String zipcode,
-			String filename, String realFilename) {
-		this.userid = userid;
-		this.pass = pass;
-		this.usernm = usernm;
-		this.alias = alias;
-		this.addr1 = addr1;
-		this.addr2 = addr2;
-		this.zipcode = zipcode;
-		this.filename = filename;
-		this.realFilename = realFilename;
+		
 	}
 
-	public MemberVo(String userid, String usernm) {
-		this.userid = userid;
-		this.usernm = usernm;
+	public MemberVo(String memId, String memPw, String memAuth, String memSt, String memAlias, String memNm,
+			String memTel, String memAddr1, String memAddr2, int memZipcode, String memCareer, String memEduc,
+			String memGender, String memTargetCompany, String memTargetJob, String searchJobDate, String memMajor) {
+		this.memId = memId;
+		this.memPw = memPw;
+		this.memAuth = memAuth;
+		this.memSt = memSt;
+		this.memAlias = memAlias;
+		this.memNm = memNm;
+		this.memTel = memTel;
+		this.memAddr1 = memAddr1;
+		this.memAddr2 = memAddr2;
+		this.memZipcode = memZipcode;
+		this.memCareer = memCareer;
+		this.memEduc = memEduc;
+		this.memGender = memGender;
+		this.memTargetCompany = memTargetCompany;
+		this.memTargetJob = memTargetJob;
+		this.searchJobDate = searchJobDate;
+		this.memMajor = memMajor;
 	}
 
-	public String getFilename() {
-		return filename;
+	public String getMemId() {
+		return memId;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
-	public String getRealFilename() {
-		return realFilename;
+	public String getMemPw() {
+		return memPw;
 	}
 
-	public void setRealFilename(String realFilename) {
-		this.realFilename = realFilename;
+	public void setMemPw(String memPw) {
+		this.memPw = memPw;
 	}
 
-	public String getAddr1() {
-		return addr1 == null ? "" : addr1;
+	public String getMemAuth() {
+		return memAuth;
 	}
 
-	public void setAddr1(String addr1) {
-		this.addr1 = addr1;
+	public void setMemAuth(String memAuth) {
+		this.memAuth = memAuth;
 	}
 
-	public String getAddr2() {
-		return addr2 == null ? "" : addr2;
+	public String getMemSt() {
+		return memSt;
 	}
 
-	public void setAddr2(String addr2) {
-		this.addr2 = addr2;
+	public void setMemSt(String memSt) {
+		this.memSt = memSt;
 	}
 
-	public String getZipcode() {
-		return zipcode;
+	public String getMemAlias() {
+		return memAlias;
 	}
 
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+	public void setMemAlias(String memAlias) {
+		this.memAlias = memAlias;
 	}
 
-	public String getUserid() {
-		return userid;
+	public String getMemNm() {
+		return memNm;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setMemNm(String memNm) {
+		this.memNm = memNm;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getMemTel() {
+		return memTel;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setMemTel(String memTel) {
+		this.memTel = memTel;
 	}
 
-	public String getUsernm() {
-		return usernm;
+	public String getMemAddr1() {
+		return memAddr1;
 	}
 
-	public void setUsernm(String usernm) {
-		this.usernm = usernm;
+	public void setMemAddr1(String memAddr1) {
+		this.memAddr1 = memAddr1;
 	}
 
-	public String getAlias() {
-		return alias;
+	public String getMemAddr2() {
+		return memAddr2;
 	}
 
-	public void setAlias(String alias) {
-		this.alias = alias;
+	public void setMemAddr2(String memAddr2) {
+		this.memAddr2 = memAddr2;
 	}
 
-	public Date getReg_dt() {
-		return reg_dt;
+	public int getMemZipcode() {
+		return memZipcode;
 	}
 
-	public void setReg_dt(Date reg_dt) {
-		this.reg_dt = reg_dt;
+	public void setMemZipcode(int memZipcode) {
+		this.memZipcode = memZipcode;
 	}
-	
-	// reg_dt에 대해서 포맷팅 // null 처리
-	public String getFmt_reg_dt() {
-		return reg_dt == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(reg_dt);
+
+	public String getMemCareer() {
+		return memCareer;
 	}
-	
+
+	public void setMemCareer(String memCareer) {
+		this.memCareer = memCareer;
+	}
+
+	public String getMemEduc() {
+		return memEduc;
+	}
+
+	public void setMemEduc(String memEduc) {
+		this.memEduc = memEduc;
+	}
+
+	public String getMemGender() {
+		return memGender;
+	}
+
+	public void setMemGender(String memGender) {
+		this.memGender = memGender;
+	}
+
+	public String getMemTargetCompany() {
+		return memTargetCompany;
+	}
+
+	public void setMemTargetCompany(String memTargetCompany) {
+		this.memTargetCompany = memTargetCompany;
+	}
+
+	public String getMemTargetJob() {
+		return memTargetJob;
+	}
+
+	public void setMemTargetJob(String memTargetJob) {
+		this.memTargetJob = memTargetJob;
+	}
+
+	public String getSearchJobDate() {
+		return searchJobDate;
+	}
+
+	public void setSearchJobDate(String searchJobDate) {
+		this.searchJobDate = searchJobDate;
+	}
+
+	public String getMemMajor() {
+		return memMajor;
+	}
+
+	public void setMemMajor(String memMajor) {
+		this.memMajor = memMajor;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberVo [memId=" + memId + ", memPw=" + memPw + ", memAuth=" + memAuth + ", memSt=" + memSt
+				+ ", memAlias=" + memAlias + ", memNm=" + memNm + ", memTel=" + memTel + ", memAddr1=" + memAddr1
+				+ ", memAddr2=" + memAddr2 + ", memZipcode=" + memZipcode + ", memCareer=" + memCareer + ", memEduc="
+				+ memEduc + ", memGender=" + memGender + ", memTargetCompany=" + memTargetCompany + ", memTargetJob="
+				+ memTargetJob + ", searchJobDate=" + searchJobDate + ", memMajor=" + memMajor + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((addr1 == null) ? 0 : addr1.hashCode());
-		result = prime * result + ((addr2 == null) ? 0 : addr2.hashCode());
-		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
-		result = prime * result + ((filename == null) ? 0 : filename.hashCode());
-		result = prime * result + ((pass == null) ? 0 : pass.hashCode());
-		result = prime * result + ((realFilename == null) ? 0 : realFilename.hashCode());
-		result = prime * result + ((reg_dt == null) ? 0 : reg_dt.hashCode());
-		result = prime * result + ((userid == null) ? 0 : userid.hashCode());
-		result = prime * result + ((usernm == null) ? 0 : usernm.hashCode());
-		result = prime * result + ((zipcode == null) ? 0 : zipcode.hashCode());
+		result = prime * result + ((memAddr1 == null) ? 0 : memAddr1.hashCode());
+		result = prime * result + ((memAddr2 == null) ? 0 : memAddr2.hashCode());
+		result = prime * result + ((memAlias == null) ? 0 : memAlias.hashCode());
+		result = prime * result + ((memAuth == null) ? 0 : memAuth.hashCode());
+		result = prime * result + ((memCareer == null) ? 0 : memCareer.hashCode());
+		result = prime * result + ((memEduc == null) ? 0 : memEduc.hashCode());
+		result = prime * result + ((memGender == null) ? 0 : memGender.hashCode());
+		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
+		result = prime * result + ((memMajor == null) ? 0 : memMajor.hashCode());
+		result = prime * result + ((memNm == null) ? 0 : memNm.hashCode());
+		result = prime * result + ((memPw == null) ? 0 : memPw.hashCode());
+		result = prime * result + ((memSt == null) ? 0 : memSt.hashCode());
+		result = prime * result + ((memTargetCompany == null) ? 0 : memTargetCompany.hashCode());
+		result = prime * result + ((memTargetJob == null) ? 0 : memTargetJob.hashCode());
+		result = prime * result + ((memTel == null) ? 0 : memTel.hashCode());
+		result = prime * result + memZipcode;
+		result = prime * result + ((searchJobDate == null) ? 0 : searchJobDate.hashCode());
 		return result;
 	}
 
@@ -150,66 +224,90 @@ public class MemberVo {
 		if (getClass() != obj.getClass())
 			return false;
 		MemberVo other = (MemberVo) obj;
-		if (addr1 == null) {
-			if (other.addr1 != null)
+		if (memAddr1 == null) {
+			if (other.memAddr1 != null)
 				return false;
-		} else if (!addr1.equals(other.addr1))
+		} else if (!memAddr1.equals(other.memAddr1))
 			return false;
-		if (addr2 == null) {
-			if (other.addr2 != null)
+		if (memAddr2 == null) {
+			if (other.memAddr2 != null)
 				return false;
-		} else if (!addr2.equals(other.addr2))
+		} else if (!memAddr2.equals(other.memAddr2))
 			return false;
-		if (alias == null) {
-			if (other.alias != null)
+		if (memAlias == null) {
+			if (other.memAlias != null)
 				return false;
-		} else if (!alias.equals(other.alias))
+		} else if (!memAlias.equals(other.memAlias))
 			return false;
-		if (filename == null) {
-			if (other.filename != null)
+		if (memAuth == null) {
+			if (other.memAuth != null)
 				return false;
-		} else if (!filename.equals(other.filename))
+		} else if (!memAuth.equals(other.memAuth))
 			return false;
-		if (pass == null) {
-			if (other.pass != null)
+		if (memCareer == null) {
+			if (other.memCareer != null)
 				return false;
-		} else if (!pass.equals(other.pass))
+		} else if (!memCareer.equals(other.memCareer))
 			return false;
-		if (realFilename == null) {
-			if (other.realFilename != null)
+		if (memEduc == null) {
+			if (other.memEduc != null)
 				return false;
-		} else if (!realFilename.equals(other.realFilename))
+		} else if (!memEduc.equals(other.memEduc))
 			return false;
-		if (reg_dt == null) {
-			if (other.reg_dt != null)
+		if (memGender == null) {
+			if (other.memGender != null)
 				return false;
-		} else if (!reg_dt.equals(other.reg_dt))
+		} else if (!memGender.equals(other.memGender))
 			return false;
-		if (userid == null) {
-			if (other.userid != null)
+		if (memId == null) {
+			if (other.memId != null)
 				return false;
-		} else if (!userid.equals(other.userid))
+		} else if (!memId.equals(other.memId))
 			return false;
-		if (usernm == null) {
-			if (other.usernm != null)
+		if (memMajor == null) {
+			if (other.memMajor != null)
 				return false;
-		} else if (!usernm.equals(other.usernm))
+		} else if (!memMajor.equals(other.memMajor))
 			return false;
-		if (zipcode == null) {
-			if (other.zipcode != null)
+		if (memNm == null) {
+			if (other.memNm != null)
 				return false;
-		} else if (!zipcode.equals(other.zipcode))
+		} else if (!memNm.equals(other.memNm))
+			return false;
+		if (memPw == null) {
+			if (other.memPw != null)
+				return false;
+		} else if (!memPw.equals(other.memPw))
+			return false;
+		if (memSt == null) {
+			if (other.memSt != null)
+				return false;
+		} else if (!memSt.equals(other.memSt))
+			return false;
+		if (memTargetCompany == null) {
+			if (other.memTargetCompany != null)
+				return false;
+		} else if (!memTargetCompany.equals(other.memTargetCompany))
+			return false;
+		if (memTargetJob == null) {
+			if (other.memTargetJob != null)
+				return false;
+		} else if (!memTargetJob.equals(other.memTargetJob))
+			return false;
+		if (memTel == null) {
+			if (other.memTel != null)
+				return false;
+		} else if (!memTel.equals(other.memTel))
+			return false;
+		if (memZipcode != other.memZipcode)
+			return false;
+		if (searchJobDate == null) {
+			if (other.searchJobDate != null)
+				return false;
+		} else if (!searchJobDate.equals(other.searchJobDate))
 			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "MemberVo [userid=" + userid + ", pass=" + pass + ", usernm=" + usernm + ", alias=" + alias + ", addr1="
-				+ addr1 + ", addr2=" + addr2 + ", zipcode=" + zipcode + ", filename=" + filename + ", realFilename="
-				+ realFilename + ", reg_dt=" + reg_dt + "]";
-	}
-
-	
 
 }

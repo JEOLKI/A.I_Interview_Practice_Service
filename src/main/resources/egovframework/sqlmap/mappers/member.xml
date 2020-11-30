@@ -7,8 +7,25 @@
 	<select id="getMember" parameterType="String"
 		resultType="MemberVo">
 		SELECT *
-		FROM users
-		WHERE userid = #{userId}
+		FROM member
+		WHERE mem_id = #{mem_id}
+	</select>
+	
+	<select id="memberIdSearch" parameterType="MemberVo"
+		resultType="MemberVo">
+		SELECT *
+		FROM member
+		WHERE mem_nm = #{mem_nm}
+		AND mem_tel = #{mem_tel}
+	</select>
+	
+	<select id="memberPwSearch" parameterType="MemberVo"
+		resultType="MemberVo">
+		SELECT *
+		FROM member
+		WHERE mem_id = #{mem_id}
+		AND mem_nm = #{mem_nm}
+		AND mem_tel = #{mem_tel}
 	</select>
 
 
