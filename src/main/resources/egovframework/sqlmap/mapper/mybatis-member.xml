@@ -33,5 +33,10 @@
 		WHERE MEM_ID = #{memId}
 	</update>
 
+	<select id="aliasCheck" parameterType="String" resultType="com.aiinterview.member.vo.MemberVO" >
+		SELECT *
+		FROM MEMBER
+		WHERE MEM_ALIAS = #{memAlias}
+	</select>
 
 </mapper>

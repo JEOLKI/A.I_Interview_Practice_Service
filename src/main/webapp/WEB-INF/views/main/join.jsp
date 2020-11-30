@@ -1,28 +1,117 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>아이엠터뷰</title>
-<meta name="keywords"
-	content="면접, ai면접, 공무원면접, 스피치학원, 면접예상질문, 기업분석, 면접1분자기소개예시, 면접질문, 면접자기소개예시, 스피치, 회사면접질문, 1분자기소개, 모의면접, 면접자기소개, 발음연습, 취업, 화상면접, 실무면접, 자기소개, 인공지능, AI, 취업정보사이트, 취업사이트, PT면접, 비대면, 맞춤, 대기업, 공기업, 공무원">
-<meta property="title" content="iamterview">
-<meta property="og:title" content="iamterview">
-<meta name="description" content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!">
-<meta property="og:description"
-	content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!">
-<meta property="og:image" content="/iam.ico">
 <meta name="theme-color" content="#000000">
-<link rel="icon" href="/iam.ico">
-<link rel="manifest" href="/manifest.json">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+<!-- <link rel="icon" href="/iam.ico"> -->
+<!-- 	<link rel="stylesheet" -->
+<!-- 	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css"> -->
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.memPw').on('input',function(){
+			if($('#memPw1').val()!=$('#memPw2').val()){
+				$('#checkPw').empty();
+				$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
+			}else{
+				$('#checkPw').empty();
+				$('#checkPw').append('<span style="color:green">비밀번호가 일치합니다</span><br><br>');
+			}
+		});
+		
+		$('#idCheck').on('click',function(){
+			$('#checkId').empty();
+			idCheck();
+		});
+		
+		$('#aliasCheck').on('click',function(){
+			console.log('닉네임')
+			$('#checkAlias').empty();
+			aliasCheck();
+		});
+		
+// 		$('.flex').toggle(function(){
+			
+// 		});
+		$('#newcomer').on('click',function(){
+			if($('#newcomer').attr('class')=='btn new select'){
+				console.log('!!')
+			}
+			$('#experienced').removeClass('btn old select');
+			$('#experienced').addClass('btn old false');
+			$('#newcomer').removeClass.remove('btn new false');
+			$('#newcomer').addClass('btn new select');
+		});
+		
+		$('#experienced').on('click',function(){
+			$('#experienced').removeClass('btn old false');
+			$('#experienced').addClass('btn old select');
+			$('#newcomer').removeClass.remove('btn new select');
+			$('#newcomer').addClass('btn new false');
+		});
+	});
+	
+	
+	function idCheck(){
+		memId = $('#memId').val();
+		
+	$.ajax({
+			url : "/member/idCheck.do",
+			data : {
+				memId : memId
+			},
+			method : "post",
+			success : function(data) {
+				if (data == '') {
+					html = '<span style="color:green">사용가능한 아이디입니다</span><br><br>';
+					$('#checkId').append(html);
+					console.log(html);
+				} else {
+					html = '<span style="color:red">중복된 아이디입니다</span><br><br>';
+					$('#checkId').append(html);
+					console.log(html);
+				}
+			},
+			error : function(data) {
+				console.log(data.status);
+			}
+		});
+	};
+	
+	
+	function aliasCheck(){
+		memAlias = $('#memAlias').val();
+		
+	$.ajax({
+			url : "/member/aliasCheck.do",
+			data : {
+				memAlias : memAlias
+			},
+			method : "post",
+			success : function(data) {
+				if (data == '') {
+					html = '<span style="color:green">사용가능한 닉네임입니다</span><br><br>';
+					$('#checkAlias').append(html);
+					console.log(html);
+				} else {
+					html = '<span style="color:red">중복된 닉네임입니다</span><br><br>';
+					$('#checkAlias').append(html);
+					console.log(html);
+				}
+			},
+			error : function(data) {
+				console.log(data.status);
+			}
+		});
+	};
+</script>
 </head>
-
-
 
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
@@ -30,8 +119,8 @@
 
 		<div id="root">
 			<div class="Join false">
-				<a href="/"><img src="/static/media/black-short.86b77e44.png"
-					alt="" class="logo"></a>
+<!-- 				<a href="/"><img src="/static/media/black-short.86b77e44.png" -->
+<!-- 					alt="" class="logo"></a> -->
 				<div class="JoinForm false">
 					<div class="title">회원가입</div>
 					<div class="label notice">
@@ -40,40 +129,47 @@
 					<div class="label">
 						<span class="red">*</span>사용자 아이디
 					</div>
-					<div class="name-input">
-						<input type="text" name="memId" placeholder="사용할 아이디를 입력하세요"
-							value="">
+					<div class="name-input" style="margin-bottom: 40px">
+						<input type="text" name="memId" id="memId" placeholder="사용할 아이디를 입력하세요">
 						<div class="btn-area">
-							<button class="btn false">중복검사</button>
+							<button type="button" class="btn false" id="idCheck">중복검사</button>
 						</div>
 					</div>
+					<div id="checkId" >
+					</div>
+					<br>
 
 					<div class="label">
 						<span class="red">*</span>사용자 비밀번호
 					</div>
-					<div class="name-input">
-						<input type="password" name="memPw" style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
-						<input type="password" name="memPw" style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
+					<div class="name-input" style="flex-direction: column;margin-bottom: 40px;">
+						<input type="password" name="memPw" id="memPw1" class="memPw"style="display: block" placeholder="사용할 비밀번호를 입력하세요" value=""><br>
+						<input type="password" name="memPw" id="memPw2" class="memPw"style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
+					</div>
+					<div id="checkPw">
 					</div>
 
 					<div class="label">
 						<span class="red">*</span>사용자 이름
 					</div>
 					<div class="name-input">
-						<input type="text" name="memAlias" placeholder="사용할 이름을 입력하세요"
+						<input type="text" name="memNm" placeholder="사용할 이름을 입력하세요"
 							value="">
 					</div>
 
 					<div class="label">
-						<span class="red">*</span>사용자 별명
+						<span class="red">*</span>사용자 닉네임
 					</div>
-					<div class="name-input">
-						<input type="text" name="memAlias" placeholder="사용할 별명을 입력하세요"
+					<div class="name-input" style="margin-bottom: 40px">
+						<input type="text" name="memAlias" id="memAlias" placeholder="사용할 닉네임을 입력하세요"
 							value="">
 						<div class="btn-area">
-							<button class="btn false">중복검사</button>
+							<button type="button" class="btn false" id="aliasCheck">중복검사</button>
 						</div>
 					</div>
+					<div id="checkAlias" >
+					</div>
+					<br>
 
 					<div class="label">
 						<span class="red">*</span>사용자 연락처
@@ -88,8 +184,9 @@
 							<span class="red">*</span>경력사항
 						</div>
 						<div class="flex">
-							<div class="btn new select">신입</div>
-							<div class="btn old false">경력</div>
+							<input type="hidden" value="">
+							<div id="newcomer" class="btn new false">신입</div>
+							<div id="experienced" class="btn old select">경력</div>
 						</div>
 					</div>
 
@@ -98,30 +195,29 @@
 							<span class="red">*</span>학력
 						</div>
 						<div class="CustomRadio grid">
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">중 / 고등학교 졸
+							<div>
+								<input type="radio" name="memEduc" id="middle/high" value="중 / 고등학교 졸" checked="checked">
+								<label for="middle/high">중 / 고등학교 졸</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">대학교 재학
+							
+							<div>
+								<input type="radio" name="memEduc" id="University attendance" value="대학교 재학">
+								<label for="University attendance">대학교 재학</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">대학교 졸업
-							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">석 / 박사 이상
-							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">기타
+
+							<div>
+								<input type="radio" name="memEduc" id="University graduation" value="대학교 졸업">
+								<label for="University graduation">대학교 졸업</label>
+							</div>							
+
+							<div>
+								<input type="radio" name="memEduc" id="Master/Doctor" value="석 / 박사 이상">
+								<label for="Master/Doctor">석 / 박사 이상</label>
+							</div>							
+							
+							<div>
+								<input type="radio" name="memEduc" id="etc" value="기타">
+								<label for="etc">기타</label>
 							</div>
 						</div>
 					</div>
@@ -131,20 +227,13 @@
 							<span class="red">*</span>성별
 						</div>
 						<div class="CustomRadio grid">
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">남성
+							<div>
+								<input type="radio" name="memGender" id="male" value="M" checked="checked">
+								<label for="male">남성</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">여성
-							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">선택 안함
+							<div>
+								<input type="radio" name="memGender" id="female" value="F">
+								<label for="female">여성</label>
 							</div>
 						</div>
 					</div>
@@ -158,14 +247,6 @@
 								<input name="memTargetCompany" type="text" placeholder="예) 삼성전자"
 									class="" maxlength="30" value="">
 							</div>
-							<div></div>
-							<div class="CustomRadio null-select">
-								<div class="radio false">
-									<img
-										src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-										alt="">입력안함
-								</div>
-							</div>
 						</div>
 						<div class="job">
 							<div class="label bold">
@@ -175,61 +256,57 @@
 								<input name="memTargetJob" type="text" placeholder="예) 제품 개발/기획"
 									class="" maxlength="30" value="">
 							</div>
-							<div></div>
-							<div class="CustomRadio null-select">
-								<div class="radio false">
-									<img
-										src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-										alt="">입력안함
-								</div>
-							</div>
 						</div>
 					</div>
 
 					<div class="label bold year-label">취업 준비 시작시기</div>
+						<c:set var="now" value="<%=new java.util.Date()%>" />
+						<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>
 					<div class="year-flex">
 						<div class="CustomSelect small">
-							<div class="select-value close">
-								<div class="txt">2020년</div>
-								<span aria-hidden="true" class="fa fa-angle-down fa icon"></span>
-							</div>
+							<select id="selYear" name="search_job_date" style="width: 108px; height: 30px">
+								<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart" />
+
+								<c:forEach begin="0" end="10" var="result" step="1">
+
+									<option value="<c:out value="${yearStart - result}" />"
+										<c:if test="${(yearStart - result) == searchVO.bsnsYear}"> selected="selected"</c:if>><c:out
+											value="${yearStart - result}" /></option>
+
+								</c:forEach>
+							</select>
 						</div>
 						<div class="half false">상반기</div>
 						<div class="half false">하반기</div>
+
 					</div>
 
 					<div class="major-flex radio-area">
 						<div class="label bold">전공</div>
 						<div class="CustomRadio grid">
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">인문
+							<div>
+								<input type="radio" name="memMajor" id="Humanities" value="인문"checked="checked">
+								<label for="Humanities">인문</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">사회
+							<div>
+								<input type="radio" name="memMajor" id="society" value="사회">
+								<label for="society">사회</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">공학
+							<div>
+								<input type="radio" name="memMajor" id="Engineering" value="공학">
+								<label for="Engineering">공학</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">자연
+							<div>
+								<input type="radio" name="memMajor" id="Nature" value="자연">
+								<label for="Nature">자연</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">예체능
+							<div>
+								<input type="radio" name="memMajor" id="Art" value="예체능">
+								<label for="Art">예체능</label>
 							</div>
-							<div class="radio false">
-								<img
-									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABHNCSVQICAgIfAhkiAAAA/tJREFUWEfNWE1ME1EQntkGE7uYcBI4+cuZnxPuEimJLchFFIQLoBUSE0GCAY3x5IkYxYQoHrEoXgigeOGvJlRDV05Cz/7ADfDUBLYmku0z8+ir24Kw7TbYPfXnzbxvv/nmzcxDSPEpL6856XBEKxmDOkSWxxjkIWIJuWGMLSNCmDEMI8KkYUgfFxdnVlPZAq0uVlXPNcZYt9jcqt0OSBwIBudeWbE5EFB5+QWXJEk+RDhJDmXZCaWlxXD+vAIFBflQWFgAhYX5fK+1tQ1YW1uH9fUN+PRJg6WlEOh6hP9HwKJRdmdx8UNgP2D7AlIUtw8Rr5OD/Pzj0NbWArW1HisvGl8zNTUHQ0MjsLHxUwAb1jS/919O9gRUUuLKk+WcdwDocjqPsvb2VmxsvJISkOTFBGp0dIJFIr8QgAV0ffvy8nIgnLxuFyAC43TmzJNWKDyDg/1QVHTGFhhh/PXrd+js7OVhpBBGIttVyaB2AVJV9zwxc/bsaXj+/AkcO5abETDCyebmFty+fRe+fftBygoEg/4q8wYJgIRmiJnx8ZGMgzGDamhoEUwlaCoOiLLJ4ZDmSTMvXjzFTIXpX/RS+Do6erimDCNaJbIvDkhRPCuU2l1dN8GugK3GmITu873hetI0fynZcUCK4r6OiD5K7YmJEav+MrKuvr6FHwmMMa+m+YcFoCXKqgcPelI+Z+yionOqr+9pnCWM1aYVEvLs7Du7/tOyr66+zAVuGNIpFOGqqDgHjx49TMuhXaP79x/CwsJnHjZUFM8kIlz6H+ESL/I3bPCeGAogYuWzZ4+hrKzY7sumZf/lSwi6uu4RQx+JIZ7uY2Ov41U7La82jOhM8npv7fRTquph5GthYdaGS/umFRXV3En2AVIU9yoinsiGkAFAKCtFnXVpz+tY1hyMonTk5sowM/PWfrqk4aGm5gpsbek7pYPsVdWzDADF/+O0Fqc0CToYnCtJaD9orBkff53GO6Zv0tDQysemhPbDzJLX28zHncN4RIMm2Ik3aPRBtLCy7GSDg/2H0sJ2dvYyXY/s3cLGWBoGgGskcDooMz1xCNZp8rh6tZULGQBeBYNzfBhNYEj8IKr/YYxBVN01ze8yy2PPQVGWj9D8XUxM0WyWqQmEqjrNZDFmQrr+23XgoEhoY9PrJPVJpKmmpnq8caPZls5fvnzDR2nSDDETiWzXWRqlzbuqqodrin6jI4Gy7+JFd0rApqf9/LKBUjv2JGgm2Zml6xiHQxqgEJIxhdF8HUPfRUgpJBQO83VMLDxkGjKMaLet6xgz+tgw0C2ApUBTiDE2QDOXFZsDGUp2QrVPkgwXANYBMLrOyzOBpM3DABgGYJPRqCOQ6pXeHyt3D3UGEb31AAAAAElFTkSuQmCC"
-									alt="">기타
+							<div>
+								<input type="radio" name="memMajor" id="majoretc" value="기타">
+								<label for="majoretc">기타</label>
 							</div>
 						</div>
 					</div>
@@ -281,3 +358,4 @@
 		</div>
 	</form>
 </body>
+</html>

@@ -101,7 +101,20 @@
 		text-align:center;
 	}
 	
-	#searchbtn{
+	#loginbtn{
+		width: 70px;
+		height: 70px;
+		margin-left: 3%;
+	
+	}
+	
+	#searchIdBtn{
+		width: 70px;
+		height: 70px;
+		margin-left: 3%;
+	}
+	
+	#searchPwBtn{
 		width: 70px;
 		height: 70px;
 		margin-left: 3%;
@@ -111,6 +124,9 @@
 		width: 70px;
 		height: 70px;
 		margin-left: 3%;
+	}
+	.input-right{
+		margin-bottom: 10%;
 	}
 	.dropbtn {
   background-color: #ea2129;
@@ -173,7 +189,7 @@ $(document).ready(function() {
     	pwSearch();
     });
     $('#changebtn').on('click',function(){
-    	if($('memPw1').val()== $('memPw2').val()){
+    	if($('#memPw1').val()== $('#memPw2').val()){
 	    	pwChange();
     	}else{
     		alert('비밀번호가 일치 하지 않습니다.');
@@ -214,7 +230,7 @@ $(document).ready(function() {
    			method : "get",
    			success : function(data){
    				if(data==''){
-   					html = '일치하는 아이디가 존재하지 않습니다.';
+   					html = '일치하는 비밀번호가 존재하지 않습니다.';
    					$('#findPw').html(html);
    				}else{
 	   				$('#changeModal').show();
@@ -234,13 +250,8 @@ $(document).ready(function() {
    			data : {memId :memId, memPw : memPw},
    			method : "get",
    			success : function(data){
-   				console.log(data);
-//    				if(data==''){
-//    					html = '일치하는 아이디가 존재하지 않습니다.';
-//    					$('#findPw').html(html);
-//    				}else{
-// 	   				$('#changeModal').show();
-//    				}
+   				alert("비밀번호 변경이 완료되었습니다.");
+   				document.location = '/login/main.do';
    			},
    			error: function(data){
    				console.log(data.status);
@@ -326,7 +337,6 @@ function boardGubunList(){
 				<div class="input-right">
 					<button id="loginbtn" type="submit">로그인</button>
 				</div>
-				<br>
 				<div class="search">
 					<a>아이디/비밀번호 찾기</a>
 				</div>
@@ -362,9 +372,6 @@ function boardGubunList(){
 					<button id="searchIdBtn" type="button">찾기</button>
 				</div>
 			</form>
-			<br>
-			<br>
-			<br>
 			<div>
 				<span style="color: red" id="findId"></span>
 			</div>
@@ -384,15 +391,9 @@ function boardGubunList(){
 					<button id="searchPwBtn" type="button">찾기</button>
 				</div>
 			</form>
-			<br>
-			<br>
-			<br>
-			<br>
 			<div>
 				<span style="color: red" id="findPw"></span>
 			</div>
-			<br>
-			<br>
 			<div
 				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="search_close_pop();">
@@ -421,8 +422,6 @@ function boardGubunList(){
 					<button id="changebtn" type="button">변경</button>
 				</div>
 			</form>
-			<br>
-			<br>
 			<div
 				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="change_close_pop();">
