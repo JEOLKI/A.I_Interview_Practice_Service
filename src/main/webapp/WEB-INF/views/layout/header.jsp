@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+ <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <style>
 
  	#header{
@@ -116,30 +118,88 @@
 <script>
 
 $(document).ready(function() {
-		 $('#changeModal').show();
+// 		 $('#changeModal').show();
     $('#login').on('click',function(){
 		 $('#myModal').show();
     });
     $('#join').on('click',function(){
-    	document.location="/login/join"
+    	document.location="/login/join.do"
     });
     $('#experience').on('click',function(){
-    	document.location="/login/experience"
+    	document.location="/login/experience.do"
     });
     $('.search').on('click',function(){
 		 $('#searchModal').show();
     });
+    
+    $('#searchIdBtn').on('click',function(){
+    	idSearch();
+    });
+    $('#searchPwBtn').on('click',function(){
+    	pwSearch();
+    });
 });
+   	function idSearch(){
+   		memNm = $('#searchIdName').val();
+    	memTel = $('#searchIdTel').val();
+    	
+   		$.ajax(
+   			{url:"/member/idSearch.do",
+   			data : {memNm : memNm, memTel :memTel},
+   			method : "get",
+   			success : function(data){
+   				html = '아이디는 ' +data +'입니다.';
+   				if(data==''){
+   					html = '일치하는 아이디가 존재하지 않습니다.';
+   				}
+   				$('#findId').html(html);
+   			},
+   			error: function(data){
+   				console.log(data.status);
+   			}
+   		});
+   	}
+   	function pwSearch(){
+   		memId = $('#searchPwId').val();
+    	memNm = $('#searchPwName').val();
+    	memTel = $('#searchPwTel').val();
+    	
+   		$.ajax(
+   			{url:"/member/pwSearch.do",
+   			data : {memNm : memNm, memTel :memTel, memId : memId},
+   			method : "get",
+   			success : function(data){
+   				if(data==''){
+   					html = '일치하는 아이디가 존재하지 않습니다.';
+   					$('#findPw').html(html);
+   				}else{
+	   				$('#changeModal').show();
+   				}
+   			},
+   			error: function(data){
+   				console.log(data.status);
+   			}
+   		});
+   	}
 //팝업 Close 기능
 function close_pop(flag) {
  $('#myModal').hide();
 };
 function search_close_pop(flag) {
- $('#searchModal').hide();
+	$('#searchModal').hide();
+	$('#searchIdName').val("");
+	$('#searchIdTel').val("");
+	$('#changeModal').hide();
+	$('#searchPwId').val("");
+	$('#searchPwName').val("");
+	$('#searchPwTel').val("");
+	$('#findId').html("");
+	$('#findPw').html("");
 };
 function change_close_pop(flag) {
- $('#changeModal').hide();
+	$('#changeModal').hide();
 };
+
 </script>
 <!-- header -->
 <div class="TopBar undefined" id  ="header">
@@ -169,13 +229,13 @@ function change_close_pop(flag) {
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
 				<br />
-			<form action="">
+			<form action="/login/process.do" method="get">
 				<div class="input-left">
-					<span class="inputname">아이디</span> <input class="input" type="text" name="memId"><br>
-					<span class="inputname">비밀번호</span> <input class="input" type="password" name="memPw"><br>
+					<span class="inputname">아이디</span> <input class="input" type="text" name="memId" value="TEST_ID"><br>
+					<span class="inputname">비밀번호</span> <input class="input" type="password" name="memPw" value="TEST_PW"><br>
 				</div>
 				<div class="input-right">
-					<button id="loginbtn" type="button">로그인</button>
+					<button id="loginbtn" type="submit">로그인</button>
 				</div>
 				<br>
 				<div class="search">
@@ -204,18 +264,21 @@ function change_close_pop(flag) {
 					</span></b></span>
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
-			<form action="">
+			<form action="/member/idSearch" method="get">
 				<div class="input-left">
-					<span class="inputname">이름 </span> <input class="input" type="text"><br>
-					<span class="inputname">연락처</span> <input class="input" type="text"><br>
+					<span class="inputname">이름 </span> <input id="searchIdName" name="memNm" class="input" type="text" value="TEST_NAME"><br>
+					<span class="inputname">연락처</span> <input id="searchIdTel" name="memTel" class="input" type="text" value="010-1234-5678"><br>
 				</div>
 				<div class="input-right">
-					<button id="searchbtn" type="button">찾기</button>
+					<button id="searchIdBtn" type="button">찾기</button>
 				</div>
 			</form>
 			<br>
 			<br>
 			<br>
+			<div>
+				<span style="color: red" id="findId"></span>
+			</div>
 			
 			<p style="text-align: left;">
 				<span style="font-size: 14pt;"><b><span
@@ -224,17 +287,21 @@ function change_close_pop(flag) {
 			</p>
 			<form action="">
 				<div class="input-left">
-					<span class="inputname">아이디 </span> <input class="input" type="text"><br>
-					<span class="inputname">이름 </span> <input class="input" type="text"><br>
-					<span class="inputname">연락처</span> <input class="input" type="text"><br>
+					<span class="inputname">아이디 </span> <input id="searchPwId" class="input" type="text" value="TEST_ID"><br>
+					<span class="inputname">이름 </span> <input id="searchPwName" class="input" type="text" value="TEST_NAME"><br>
+					<span class="inputname">연락처</span> <input id="searchPwTel" class="input" type="text" value="010-1234-5678"><br>
 				</div>
 				<div class="input-right">
-					<button id="searchbtn" type="button">찾기</button>
+					<button id="searchPwBtn" type="button">찾기</button>
 				</div>
 			</form>
-			<p>
-				<br />
-			</p>
+			<br>
+			<br>
+			<br>
+			<br>
+			<div>
+				<span style="color: red" id="findPw"></span>
+			</div>
 			<br>
 			<br>
 			<div

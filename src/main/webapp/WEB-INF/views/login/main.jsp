@@ -123,7 +123,7 @@
 							alt="" class="dash"></a>
 					</div>
 				</div>
-				<div class="content-box analyze">
+<!-- 				<div class="content-box analyze">
 					<div class="message wow fadeInUp">
 						<b>면접 영상을 녹화</b>하고 다양한 분석을 제공합니다.
 					</div>
@@ -319,94 +319,7 @@
 			<iframe id="ch-plugin-script-iframe"
 				style="position: relative !important; height: 100% !important; width: 100% !important; border: none !important;"></iframe>
 		</div>
-	</div>
+	</div> -->
 
-	<div id="myModal" class="modal">
-
-		<!-- Modal content -->
-		<div id="modal-content">
-			<p style="text-align: center;">
-				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">당신 옆의<br>면접 트레이너
-					</span></b></span>
-			</p>
-			<p style="text-align: center; line-height: 1.5;">
-				<br />
-			<form action="">
-				<div class="input-left">
-					<span class="inputname">아이디</span> <input class="input" type="text"><br>
-					<span class="inputname">비밀번호</span> <input class="input" type="password"><br>
-				</div>
-				<div class="input-right">
-					<button id="loginbtn" type="button">로그인</button>
-				</div>
-				<br>
-				<div class="search">
-					<a>아이디/비밀번호 찾기</a>
-				</div>
-			</form>
-			<p>
-				<br />
-			</p>
-			<div
-				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
-				onClick="close_pop();">
-				<span class="pop_bt" style="font-size: 13pt;"> 닫기 </span>
-			</div>
-		</div>
-	</div>
-	
-	
-	<div id="searchModal" class="modal">
-
-		<!-- searchModal content -->
-		<div id="searchModal-content">
-			<p style="text-align: left;">
-				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">[아이디찾기]
-					</span></b></span>
-			</p>
-			<p style="text-align: center; line-height: 1.5;">
-			<form action="">
-				<div class="input-left">
-					<span class="inputname">이름 </span> <input class="input" type="text"><br>
-					<span class="inputname">연락처</span> <input class="input" type="text"><br>
-				</div>
-				<div class="input-right">
-					<button id="searchbtn" type="button">찾기</button>
-				</div>
-			</form>
-			<br>
-			<br>
-			<br>
-			
-			<p style="text-align: left;">
-				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">[비밀번호찾기]
-					</span></b></span>
-			</p>
-			<form action="">
-				<div class="input-left">
-					<span class="inputname">아이디 </span> <input class="input" type="text"><br>
-					<span class="inputname">이름 </span> <input class="input" type="text"><br>
-					<span class="inputname">연락처</span> <input class="input" type="text"><br>
-				</div>
-				<div class="input-right">
-					<button id="searchbtn" type="button">찾기</button>
-				</div>
-			</form>
-			<p>
-				<br />
-			</p>
-			<br>
-			<br>
-			<div
-				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
-				onClick="search_close_pop();">
-				<span class="pop_bt" style="font-size: 13pt;"> 닫기 </span>
-			</div>
-		</div>
-	</div>
-	<style data-styled="active" data-styled-version="5.1.1"></style>
 	</body>
 </html>
