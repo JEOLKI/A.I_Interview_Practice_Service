@@ -32,13 +32,13 @@
 						당장 다음 주에 잡힌 면접, 어떻게 해야 할지 막막하신가요?<br>아이엠터뷰와 함께 혼자서도, 집에서도 할 수
 						있는 면접 트레이닝을 경험해 보세요.
 					</div>
-					<img src="/static/media/landing_hero_illust.a57fd7e5.svg"
+					<img src="/images/landing_hero_illust.a57fd7e5.png"
 						alt="landing-img" class="landing-img">
-					<button id="experience" class="login ">무료 체험하기</button>
+					<button id="experience" class="login">무료 체험하기</button>
 				</div>
-				<img src="/static/media/arrow.0aa5ca57.svg" alt=""
-					class="triangle-icon">
+				<img src="/static/media/arrow.0aa5ca57.svg" alt="" class="triangle-icon">
 			</div>
+			
 			<div class="content gray calc">
 				<div class="message">
 					지금도 많은 취업준비생들이<br>아이엠터뷰와 함께 면접을 준비하고 있습니다.
@@ -46,45 +46,43 @@
 				<div class="calc-num wow fadeInUp"
 					style="visibility: visible; animation-name: fadeInUp;">
 					현재 진행중인 면접 수 <span>15,734회</span><img
-						src="/static/media/graph_rise.43a766c5.svg" alt="" class="up">
+						src="/images/graph_rise.43a766c5.png" alt="" class="up">
 				</div>
 				<div class="calc-num wow fadeInUp"
 					style="visibility: visible; animation-name: fadeInUp;">
 					쌓이고 있는 실전 기출질문 <span>2,134개</span><img
-						src="/static/media/stack.a84850fb.svg" alt="" class="layer">
+						src="/images/stack.a84850fb.png" alt="" class="layer">
 				</div>
 			</div>
+			
 			<div class="content main">
 				<div class="content-box first">
-					<div class="message wow fadeInUp"
-						style="visibility: hidden; animation-name: none;">집에서도 손쉽게
+					<div class="message wow fadeInUp">
+						집에서도 손쉽게
 						혼자서도 부담없이</div>
-					<div class="sub-message wow fadeInUp"
-						style="visibility: hidden; animation-name: none;">
+					<div class="sub-message wow fadeInUp">
 						다른 프로그램이나 앱을 다운로드할 필요 없이<br>크롬 브라우저와 PC 또는 노트북, 카메라(웹캠), 마이크만
 						있으면 가능합니다.
 					</div>
-					<div class="chrome-message wow fadeInUp"
-						style="visibility: hidden; animation-name: none;">
+					<div class="chrome-message wow fadeInUp">
 						다른 브라우저를 사용하고 계신가요?<br> <a
 							href="https://www.google.com/intl/ko/chrome"
-							class="chrome-link green" target="blank">크롬브라우저 설치하러 가기<img
-							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAGhJREFUGFd10LERgCAMheEXWnUHmQQ3ESYTNnESHYIePUwBRKCD7z/gQphWC6UM4uUgFmHRHqAdgJcBffEgYBwEBTtBizmY9Qkig5Rci/zzA3gC4m0LCsiXMHaAcQAV0pbf+E9InlT7FwGRLZg1T12ZAAAAAElFTkSuQmCC"
+							class="chrome-link green" target="blank">
+							크롬브라우저 설치하러 가기
+							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAGhJREFUGFd10LERgCAMheEXWnUHmQQ3ESYTNnESHYIePUwBRKCD7z/gQphWC6UM4uUgFmHRHqAdgJcBffEgYBwEBTtBizmY9Qkig5Rci/zzA3gC4m0LCsiXMHaAcQAV0pbf+E9InlT7FwGRLZg1T12ZAAAAAElFTkSuQmCC"
 							alt="" class="dash"></a>
 					</div>
 					<div class="needs-flex">
 						<div class="area">
 							<div class="box">
-								<img src="/static/media/chrome.90ee9563.svg" alt=""
-									class="chrome">
+								<img src="/images/chrome.90ee9563.png" alt="" class="chrome">
 							</div>
 							<div class="label">크롬 브라우저</div>
 						</div>
 						<div class="sep"></div>
 						<div class="area">
 							<div class="box">
-								<img src="/static/media/PC_laptop.ae8b563b.svg" alt=""
-									class="pc">
+								<img src="/images/PC_laptop.ae8b563b.png" alt="" class="pc">
 							</div>
 							<div class="label">PC/노트북</div>
 						</div>
@@ -93,49 +91,42 @@
 							<div class="ab-comment">* 대부분의 노트북에 기본 탑재되어 있습니다 *</div>
 							<div class="area">
 								<div class="box">
-									<img src="/static/media/camera_webcam.650627bc.svg" alt=""
-										class="camera">
+									<img src="/images/camera_webcam.650627bc.png" alt="" class="camera">
 								</div>
 								<div class="label">카메라(웹캠)</div>
 							</div>
 							<div class="sep"></div>
 							<div class="area">
 								<div class="box">
-									<img src="/static/media/stand_mic.f99d71f2.svg" alt=""
-										class="mic">
+									<img src="/images/stand_mic.f99d71f2.png" alt="" class="mic">
 								</div>
 								<div class="label">마이크</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				
 				<div class="content-box second">
-					<img src="/static/media/notebook.121a50c8.png" alt=""
-						class="notebook">
+					<img src="/images/notebook.121a50c8.png" alt="" class="notebook">
 					<div class="interface">
-						<div class="message wow fadeInUp"
-							style="visibility: hidden; animation-name: none;">
+						<div class="message wow fadeInUp">
 							클릭 몇 번으로<br> <b>나만의 면접</b>을
 						</div>
-						<div class="sub-message wow fadeInUp"
-							style="visibility: hidden; animation-name: none;">
+						<div class="sub-message wow fadeInUp">
 							실전 기출 질문을 자유롭게 구성하고,<br>인공지능과 면접을 시작해 보세요.<br>질문을 검색하거나
 							직접 작성할 수도 있습니다.
 						</div>
-						<a href="/main" class="service-link green wow fadeInUp"
-							style="visibility: hidden; animation-name: none;">무료 체험하기<img
+						<a href="${pageContext.request.contextPath }/login/main" class="service-link green wow fadeInUp">
+							무료 체험하기
+							<img
 							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAGhJREFUGFd10LERgCAMheEXWnUHmQQ3ESYTNnESHYIePUwBRKCD7z/gQphWC6UM4uUgFmHRHqAdgJcBffEgYBwEBTtBizmY9Qkig5Rci/zzA3gC4m0LCsiXMHaAcQAV0pbf+E9InlT7FwGRLZg1T12ZAAAAAElFTkSuQmCC"
 							alt="" class="dash"></a>
 					</div>
 				</div>
 				<div class="content-box analyze">
-					<div class="message wow fadeInUp"
-						style="visibility: hidden; animation-name: none;">
+					<div class="message wow fadeInUp">
 						<b>면접 영상을 녹화</b>하고 다양한 분석을 제공합니다.
 					</div>
-					<video src="/static/media/landing_interviewing.0f7284d7.webm"
-						class="interviewing" autoplay="" loop="">비디오 태그를 지원하지 않는
-					브라우저입니다.</video>
 					<div class="AnalyzeSlid">
 						<div class="body">
 							<div class="before">
