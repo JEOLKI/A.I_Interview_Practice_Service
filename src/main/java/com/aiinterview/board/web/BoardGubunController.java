@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aiinterview.board.service.BoardGubunService;
 
+@RequestMapping("/boardGubun")
 @Controller
 public class BoardGubunController {
 	

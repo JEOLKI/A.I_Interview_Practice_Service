@@ -1,13 +1,13 @@
 package com.aiinterview.board.dao;
 
-import com.aiinterview.board.vo.ReplyVo;
+import com.aiinterview.board.vo.ReplyVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("replyMapper")
 public interface ReplyMapper {
 	
-	int insertReply(ReplyVo replyVo) throws Exception;
+	int insertReply(ReplyVO replyVo) throws Exception;
 
 	int deleteReply(int reply_sq)  throws Exception;
 }

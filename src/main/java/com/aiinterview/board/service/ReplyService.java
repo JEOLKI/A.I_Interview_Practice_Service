@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aiinterview.board.dao.ReplyMapper;
-import com.aiinterview.board.vo.ReplyVo;
+import com.aiinterview.board.vo.ReplyVO;
 
 @Service("replyService")
 public class ReplyService {

@@ -1,146 +1,109 @@
 package com.aiinterview.board.vo;
 
-
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-@XmlRootElement(name="boardVo")
-public class BoardVo {
+@XmlRootElement(name = "boardVo")
+public class BoardVO {
 
-	private int rn;
-	private int board_sq;
-	private String board_title;
-	private String board_content;
-	private Date board_date;
-	private String board_yn;
-	private String userid;
-	private int board_p_sq;
-	private int gubun_sq;
-	private int group_no;
+	private int boardSq;			// 게시글 번호
+	private int boardGbSq;			// 게시글 구분 번호
+	private String boardTitle;		// 게시글 제목
+	private String boardContent;	// 게시글 내용
+	private String boardDate;		// 게시글 등록일자
+	private String boardSt;			// 게시글 상태
+	private int groupNo;			// 게시글 그룹 번호
+	private int parentSq;			// 게시글 부모 번호
+	private String memId;			// 회원 아이디
 
-	public BoardVo() {
-
-	}
-	
-	public BoardVo(String board_title, String board_content, String userid, int gubun_sq) {
-		super();
-		this.board_title = board_title;
-		this.board_content = board_content;
-		this.userid = userid;
-		this.gubun_sq = gubun_sq;
+	public int getBoardSq() {
+		return boardSq;
 	}
 
-
-
-	public BoardVo(String board_title, String board_content, String userid, int board_p_sq, int gubun_sq, int group_no) {
-		this.board_title = board_title;
-		this.board_content = board_content;
-		this.userid = userid;
-		this.board_p_sq = board_p_sq;
-		this.gubun_sq = gubun_sq;
-		this.group_no = group_no;
+	public void setBoardSq(int boardSq) {
+		this.boardSq = boardSq;
 	}
 
-
-
-	public int getRn() {
-		return rn;
+	public int getBoardGbSq() {
+		return boardGbSq;
 	}
 
-	public void setRn(int rn) {
-		this.rn = rn;
+	public void setBoardGbSq(int boardGbSq) {
+		this.boardGbSq = boardGbSq;
 	}
 
-	public int getBoard_sq() {
-		return board_sq;
+	public String getBoardTitle() {
+		return boardTitle;
 	}
 
-	public void setBoard_sq(int board_sq) {
-		this.board_sq = board_sq;
+	public void setBoardTitle(String boardTitle) {
+		this.boardTitle = boardTitle;
 	}
 
-	public String getBoard_title() {
-		return board_title;
+	public String getBoardContent() {
+		return boardContent;
 	}
 
-	public void setBoard_title(String board_title) {
-		this.board_title = board_title;
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
 	}
 
-	public String getBoard_content() {
-		return board_content;
+	public String getBoardDate() {
+		return boardDate;
 	}
 
-	public void setBoard_content(String board_content) {
-		this.board_content = board_content;
+	public void setBoardDate(String boardDate) {
+		this.boardDate = boardDate;
 	}
 
-	public Date getBoard_date() {
-		return board_date;
+	public String getBoardSt() {
+		return boardSt;
 	}
 
-	public void setBoard_date(Date board_date) {
-		this.board_date = board_date;
+	public void setBoardSt(String boardSt) {
+		this.boardSt = boardSt;
 	}
 
-	public String getBoard_yn() {
-		return board_yn;
+	public int getGroupNo() {
+		return groupNo;
 	}
 
-	public void setBoard_yn(String board_yn) {
-		this.board_yn = board_yn;
+	public void setGroupNo(int groupNo) {
+		this.groupNo = groupNo;
 	}
 
-	public String getUserid() {
-		return userid;
+	public int getParentSq() {
+		return parentSq;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setParentSq(int parentSq) {
+		this.parentSq = parentSq;
 	}
 
-	public int getBoard_p_sq() {
-		return board_p_sq;
+	public String getMemId() {
+		return memId;
 	}
 
-	public void setBoard_p_sq(int board_p_sq) {
-		this.board_p_sq = board_p_sq;
-	}
-
-	public int getGubun_sq() {
-		return gubun_sq;
-	}
-
-	public void setGubun_sq(int gubun_sq) {
-		this.gubun_sq = gubun_sq;
-	}
-
-	public int getGroup_no() {
-		return group_no;
-	}
-
-	public void setGroup_no(int group_no) {
-		this.group_no = group_no;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((board_content == null) ? 0 : board_content.hashCode());
-		result = prime * result + ((board_date == null) ? 0 : board_date.hashCode());
-		result = prime * result + board_p_sq;
-		result = prime * result + board_sq;
-		result = prime * result + ((board_title == null) ? 0 : board_title.hashCode());
-		result = prime * result + ((board_yn == null) ? 0 : board_yn.hashCode());
-		result = prime * result + group_no;
-		result = prime * result + gubun_sq;
-		result = prime * result + ((userid == null) ? 0 : userid.hashCode());
+		result = prime * result + ((boardContent == null) ? 0 : boardContent.hashCode());
+		result = prime * result + ((boardDate == null) ? 0 : boardDate.hashCode());
+		result = prime * result + boardGbSq;
+		result = prime * result + boardSq;
+		result = prime * result + ((boardSt == null) ? 0 : boardSt.hashCode());
+		result = prime * result + ((boardTitle == null) ? 0 : boardTitle.hashCode());
+		result = prime * result + groupNo;
+		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
+		result = prime * result + parentSq;
 		return result;
 	}
 
@@ -152,48 +115,48 @@ public class BoardVo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BoardVo other = (BoardVo) obj;
-		if (board_content == null) {
-			if (other.board_content != null)
+		BoardVO other = (BoardVO) obj;
+		if (boardContent == null) {
+			if (other.boardContent != null)
 				return false;
-		} else if (!board_content.equals(other.board_content))
+		} else if (!boardContent.equals(other.boardContent))
 			return false;
-		if (board_date == null) {
-			if (other.board_date != null)
+		if (boardDate == null) {
+			if (other.boardDate != null)
 				return false;
-		} else if (!board_date.equals(other.board_date))
+		} else if (!boardDate.equals(other.boardDate))
 			return false;
-		if (board_p_sq != other.board_p_sq)
+		if (boardGbSq != other.boardGbSq)
 			return false;
-		if (board_sq != other.board_sq)
+		if (boardSq != other.boardSq)
 			return false;
-		if (board_title == null) {
-			if (other.board_title != null)
+		if (boardSt == null) {
+			if (other.boardSt != null)
 				return false;
-		} else if (!board_title.equals(other.board_title))
+		} else if (!boardSt.equals(other.boardSt))
 			return false;
-		if (board_yn == null) {
-			if (other.board_yn != null)
+		if (boardTitle == null) {
+			if (other.boardTitle != null)
 				return false;
-		} else if (!board_yn.equals(other.board_yn))
+		} else if (!boardTitle.equals(other.boardTitle))
 			return false;
-		if (group_no != other.group_no)
+		if (groupNo != other.groupNo)
 			return false;
-		if (gubun_sq != other.gubun_sq)
-			return false;
-		if (userid == null) {
-			if (other.userid != null)
+		if (memId == null) {
+			if (other.memId != null)
 				return false;
-		} else if (!userid.equals(other.userid))
+		} else if (!memId.equals(other.memId))
+			return false;
+		if (parentSq != other.parentSq)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "BoardVo [board_sq=" + board_sq + ", board_title=" + board_title + ", board_content=" + board_content
-				+ ", board_date=" + board_date + ", board_yn=" + board_yn + ", userid=" + userid + ", board_p_sq="
-				+ board_p_sq + ", gubun_sq=" + gubun_sq + ", group_no=" + group_no + "]";
+		return "BoardVO [boardSq=" + boardSq + ", boardGbSq=" + boardGbSq + ", boardTitle=" + boardTitle
+				+ ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardSt=" + boardSt + ", groupNo="
+				+ groupNo + ", parentSq=" + parentSq + ", memId=" + memId + "]";
 	}
 
 }

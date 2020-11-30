@@ -2,39 +2,61 @@ package com.aiinterview.board.dao;
 
 import java.util.List;
 
-import com.aiinterview.board.vo.AtchFileVo;
-import com.aiinterview.board.vo.BoardVo;
-import com.aiinterview.board.vo.ReplyVo;
-import com.aiinterview.common.model.PageVo;
+import com.aiinterview.board.vo.BoardVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("boardMapper")
 public interface BoardMapper {
+	
+	public List<BoardVO> retrieveList(int boardGbSq);
+	
+/*	List<BoardVO> getBoardList(int gubun_sq);
+	
+	List<BoardVO> getBoardPageList(PageVo pageVo);
 
-	List<BoardVo> getBoardList(int gubun_sq) throws Exception;
+	int getBoardTotalCnt(int gubun_sq);
 
-	List<BoardVo> getBoardPageList(PageVo pageVo) throws Exception;
+	BoardVo getBoard(int board_sq);
 
-	int getBoardTotalCnt(int gubun_sq) throws Exception;
+	List<AtchFileVo> getAtchFileList(int board_sq);
 
-	BoardVo getBoard(int board_sq) throws Exception;
+	List<ReplyVo> getReplyList(int board_sq);
+	
+	int deleteBoard(int board_sq);
 
-	List<AtchFileVo> getAtchFileList(int board_sq) throws Exception;
+	int insertBoard(BoardVo boardVo);
 
-	List<ReplyVo> getReplyList(int board_sq) throws Exception;
+	int insertAtchFile(AtchFileVo atchfileVo);
 
-	int deleteBoard(int board_sq) throws Exception;
+	int insertBoardChild(BoardVo boardVo);
 
-	int insertBoard(BoardVo boardVo) throws Exception;
+	AtchFileVo getAtchFile(int atch_sq);
 
-	int insertAtchFile(AtchFileVo atchfileVo) throws Exception;
+	int deleteAtchFile(int atch_sq);
+		private int boardSq;			// 게시글 번호
+	private int boardGbSq;			// 게시글 구분 번호
+	private String boardTitle;		// 게시글 제목
+	private String boardContent;	// 게시글 내용
+	private String boardDate;		// 게시글 등록일자
+	private String boardSt;			// 게시글 상태
+	private int groupNo;			// 게시글 그룹 번호
+	private int parentSq;			// 게시글 부모 번호
+	private String memId;			// 회원 아이디
+	public void create(BoardVO boardVO) throws Exception; 
+	
+	public BoardVO retrieve(BoardVO boardVO) throws Exception;
+	
+	public int update(BoardVO boardVO) throws Exception;
+	
+	public int delete(BoardVO boardVO) throws Exception;
+	
+	public List<BoardVO> retrievePagingList(BoardVO boardVO) throws Exception;
+	
+	public int retrievePagingListCnt(BoardVO boardVO) throws Exception;
+	
+	public List<BoardVO> retrieveList(BoardVO boardVO) throws Exception;
 
-	int insertBoardChild(BoardVo boardVo) throws Exception;
 
-	AtchFileVo getAtchFile(int atch_sq) throws Exception;
-
-	int deleteAtchFile(int atch_sq) throws Exception;
-
-	int updateBoard(BoardVo boardVo) throws Exception;
+	int updateBoard(BoardVo boardVo);*/
 }

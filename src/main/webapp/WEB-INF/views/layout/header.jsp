@@ -112,6 +112,40 @@
 		height: 70px;
 		margin-left: 3%;
 	}
+	.dropbtn {
+  background-color: #ea2129;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
 	
 </style>
 
@@ -145,6 +179,8 @@ $(document).ready(function() {
     		alert('비밀번호가 일치 하지 않습니다.');
     	}
     });
+    
+    boardGubunList();
 });
    	function idSearch(){
    		memNm = $('#searchIdName').val();
@@ -230,6 +266,24 @@ function change_close_pop(flag) {
 	$('#changeModal').hide();
 };
 
+function boardGubunList(){
+	$.ajax({url : "/boardGubun/list.do",
+		method : "get",
+		success : function(data){
+			var html = "";
+			for(var i = 0; i< data.boardGubunList.length ; i++){
+				var gubun = data.boardGubunList[i];
+				if(gubun.boardGbSt == "Y"){
+					
+				html += '<a href="/board/list.do?boardGbSq='+ gubun.boardGbSq +'&boardGbNm='+gubun.boardGbNm+'">'+gubun.boardGbNm+'</a>';
+
+				}
+			};
+			$('#boardGubunList').append(html);
+		}
+	});	
+}
+
 </script>
 <!-- header -->
 <div class="TopBar undefined" id  ="header">
@@ -239,10 +293,15 @@ function change_close_pop(flag) {
 			class="iam-img"></a>
 		<div class="nav">
 			<a class="main false" href="/main">내 면접</a>
-			<a class="lecture false" href="/lecture">게시판</a>
+			<div class="dropdown">
+				<button class="lecture false dropbtn">게시판</button>
+				<div class="dropdown-content" id="boardGubunList">
+				
+				</div>
+			</div>
 			<a class="service-intro false" href="/service-intro">서비스 소개</a>
 			<a class="help-info false" href="/help-info">도움말</a>
-			<a class="managepage false">관리자 페이지</a>
+			<a class="managepage false" href="/login/manage.do">관리자 페이지</a>
 		</div>
 	</div>
 	<button id="login" class="login">로그인</button>

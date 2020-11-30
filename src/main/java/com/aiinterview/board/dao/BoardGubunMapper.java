@@ -9,6 +9,10 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("boardGubunMapper")
 public interface BoardGubunMapper {
 	
-	List<BoardGubunVO> retrieveList() throws Exception;
+	public List<BoardGubunVO> retrieveList() throws Exception;
+	
+	public int create(BoardGubunVO boardGubunVO) throws Exception;
+	
+	public int update(BoardGubunVO boardGubunVO) throws Exception;
 	
 }

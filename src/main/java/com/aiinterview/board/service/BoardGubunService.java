@@ -19,4 +19,12 @@ public class BoardGubunService {
 		return boardGubunMapper.retrieveList();
 	}
 	
+	public int create(BoardGubunVO boardGubunVO) throws Exception{
+		return boardGubunMapper.create(boardGubunVO);
+	}
+	
+	public int update(BoardGubunVO boardGubunVO) throws Exception{
+		return boardGubunMapper.update(boardGubunVO);
+	}
+
 }

@@ -36,7 +36,7 @@
 						alt="landing-img" class="landing-img">
 					<button id="experience" class="login">무료 체험하기</button>
 				</div>
-				<img src="/static/media/arrow.0aa5ca57.svg" alt="" class="triangle-icon">
+				<img src="/images/arrow.0aa5ca57.png" alt="" class="triangle-icon">
 			</div>
 			
 			<div class="content gray calc">
