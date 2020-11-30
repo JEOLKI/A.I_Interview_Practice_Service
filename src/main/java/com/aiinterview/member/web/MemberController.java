@@ -93,5 +93,15 @@ public class MemberController {
 		
 		return "main/check";
 	}
+	
+	@RequestMapping(path = "/create.do", method = { RequestMethod.POST })
+	public String create(MemberVO memberVo, Model model) {
+		System.out.println("MemberController.create()진입");
+		System.out.println(memberVo);
+		
+		model.addAttribute("memberVo",memberVo);
+		
+		return "";
+	}
 
 }

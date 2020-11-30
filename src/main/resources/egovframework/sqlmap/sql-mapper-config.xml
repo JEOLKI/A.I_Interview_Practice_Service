@@ -15,4 +15,5 @@
     <mapper resource="egovframework/sqlmap/mappers/board.xml"/>
   </mappers> -->
   
+<typeAliases></typeAliases>
 </configuration>

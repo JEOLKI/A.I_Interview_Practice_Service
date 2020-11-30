@@ -12,8 +12,30 @@
 <!-- 	<link rel="stylesheet" -->
 <!-- 	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css"> -->
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+	$(document).ready(function(){
+	    $('#zipcodeBtn').on('click',function(){
+		    new daum.Postcode({
+		        oncomplete: function(data) {
+			        console.log(data);
+			        $("#memAddr1").val(data.roadAddress);
+			        $("#memZipcode").val(data.zonecode);
+			        console.log(data.roadAddress);
+			        console.log(data.zonecode);
+		        }
+		    }).open();
+		});
+		$('#regBtn').on('click',function(){
+	    	// client side = validation
+	    	// server side = validation
+	    	// validation 로직은 생략
+	    	$('#frm').submit();
+	    });
+	//     initData();
+	});
+	
 	$(document).ready(function(){
 		$('.memPw').on('input',function(){
 			if($('#memPw1').val()!=$('#memPw2').val()){
@@ -36,24 +58,44 @@
 			aliasCheck();
 		});
 		
-// 		$('.flex').toggle(function(){
-			
-// 		});
 		$('#newcomer').on('click',function(){
-			if($('#newcomer').attr('class')=='btn new select'){
-				console.log('!!')
-			}
+			$('#memCareer').val('신입');
+			$('#newcomer').removeClass('btn new false');
+			$('#newcomer').addClass('btn new select');
 			$('#experienced').removeClass('btn old select');
 			$('#experienced').addClass('btn old false');
-			$('#newcomer').removeClass.remove('btn new false');
-			$('#newcomer').addClass('btn new select');
 		});
 		
 		$('#experienced').on('click',function(){
+			$('#memCareer').val('경력');
 			$('#experienced').removeClass('btn old false');
 			$('#experienced').addClass('btn old select');
-			$('#newcomer').removeClass.remove('btn new select');
+			$('#newcomer').removeClass('btn new select');
 			$('#newcomer').addClass('btn new false');
+		});
+		
+		
+		$('#firsthalf').on('click',function(){
+			console.log('상반기')
+			$('#firsthalf').removeClass('half false');
+			$('#firsthalf').addClass('half select');
+			$('#secondhalf').removeClass('half select');
+			$('#secondhalf').addClass('half false');
+			$('#searchJobDate').val($('#selYear').val()+'상반기')
+		});
+		
+		$('#secondhalf').on('click',function(){
+			console.log('하반기')
+			$('#secondhalf').removeClass('half false');
+			$('#secondhalf').addClass('half select');
+			$('#firsthalf').removeClass('half select');
+			$('#firsthalf').addClass('half false');
+			$('#searchJobDate').val($('#selYear').val()+'하반기')
+		});
+		
+		$('#selYear').change(function(){
+			console.log($('.half.select').attr('value'));
+			$('#searchJobDate').val($('#selYear').val()+ $('.half.select').attr('value'));
 		});
 	});
 	
@@ -115,7 +157,7 @@
 
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<form>
+	<form action="/member/create.do" method="post">
 
 		<div id="root">
 			<div class="Join false">
@@ -130,24 +172,26 @@
 						<span class="red">*</span>사용자 아이디
 					</div>
 					<div class="name-input" style="margin-bottom: 40px">
-						<input type="text" name="memId" id="memId" placeholder="사용할 아이디를 입력하세요">
+						<input type="text" name="memId" id="memId"
+							placeholder="사용할 아이디를 입력하세요">
 						<div class="btn-area">
 							<button type="button" class="btn false" id="idCheck">중복검사</button>
 						</div>
 					</div>
-					<div id="checkId" >
-					</div>
+					<div id="checkId"></div>
 					<br>
 
 					<div class="label">
 						<span class="red">*</span>사용자 비밀번호
 					</div>
-					<div class="name-input" style="flex-direction: column;margin-bottom: 40px;">
-						<input type="password" name="memPw" id="memPw1" class="memPw"style="display: block" placeholder="사용할 비밀번호를 입력하세요" value=""><br>
-						<input type="password" name="memPw" id="memPw2" class="memPw"style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
+					<div class="name-input"
+						style="flex-direction: column; margin-bottom: 40px;">
+						<input type="password" name="memPw" id="memPw1" class="memPw"
+							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value=""><br>
+						<input type="password" name="memPw" id="memPw2" class="memPw"
+							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
 					</div>
-					<div id="checkPw">
-					</div>
+					<div id="checkPw"></div>
 
 					<div class="label">
 						<span class="red">*</span>사용자 이름
@@ -161,14 +205,13 @@
 						<span class="red">*</span>사용자 닉네임
 					</div>
 					<div class="name-input" style="margin-bottom: 40px">
-						<input type="text" name="memAlias" id="memAlias" placeholder="사용할 닉네임을 입력하세요"
-							value="">
+						<input type="text" name="memAlias" id="memAlias"
+							placeholder="사용할 닉네임을 입력하세요" value="">
 						<div class="btn-area">
 							<button type="button" class="btn false" id="aliasCheck">중복검사</button>
 						</div>
 					</div>
-					<div id="checkAlias" >
-					</div>
+					<div id="checkAlias"></div>
 					<br>
 
 					<div class="label">
@@ -185,9 +228,10 @@
 						</div>
 						<div class="flex">
 							<input type="hidden" value="">
-							<div id="newcomer" class="btn new false">신입</div>
-							<div id="experienced" class="btn old select">경력</div>
+							<div id="newcomer" class="btn new select">신입</div>
+							<div id="experienced" class="btn old false">경력</div>
 						</div>
+						<input type="text" id="memCareer" name="memCareer" value="신입">
 					</div>
 
 					<div class="education-flex radio-area">
@@ -196,25 +240,29 @@
 						</div>
 						<div class="CustomRadio grid">
 							<div>
-								<input type="radio" name="memEduc" id="middle/high" value="중 / 고등학교 졸" checked="checked">
-								<label for="middle/high">중 / 고등학교 졸</label>
-							</div>
-							
-							<div>
-								<input type="radio" name="memEduc" id="University attendance" value="대학교 재학">
-								<label for="University attendance">대학교 재학</label>
+								<input type="radio" name="memEduc" id="middle/high"
+									value="중 / 고등학교 졸" checked="checked"> <label
+									for="middle/high">중 / 고등학교 졸</label>
 							</div>
 
 							<div>
-								<input type="radio" name="memEduc" id="University graduation" value="대학교 졸업">
-								<label for="University graduation">대학교 졸업</label>
-							</div>							
+								<input type="radio" name="memEduc" id="University attendance"
+									value="대학교 재학"> <label for="University attendance">대학교
+									재학</label>
+							</div>
 
 							<div>
-								<input type="radio" name="memEduc" id="Master/Doctor" value="석 / 박사 이상">
-								<label for="Master/Doctor">석 / 박사 이상</label>
-							</div>							
-							
+								<input type="radio" name="memEduc" id="University graduation"
+									value="대학교 졸업"> <label for="University graduation">대학교
+									졸업</label>
+							</div>
+
+							<div>
+								<input type="radio" name="memEduc" id="Master/Doctor"
+									value="석 / 박사 이상"> <label for="Master/Doctor">석
+									/ 박사 이상</label>
+							</div>
+
 							<div>
 								<input type="radio" name="memEduc" id="etc" value="기타">
 								<label for="etc">기타</label>
@@ -222,14 +270,14 @@
 						</div>
 					</div>
 
-					<div class="gender-flex radio-area">
+					<div class="gender-flex radio-area" style="margin-bottom: 40px">
 						<div class="label bold">
 							<span class="red">*</span>성별
 						</div>
 						<div class="CustomRadio grid">
 							<div>
-								<input type="radio" name="memGender" id="male" value="M" checked="checked">
-								<label for="male">남성</label>
+								<input type="radio" name="memGender" id="male" value="M"
+									checked="checked"> <label for="male">남성</label>
 							</div>
 							<div>
 								<input type="radio" name="memGender" id="female" value="F">
@@ -239,6 +287,39 @@
 					</div>
 
 					<div class="content prospect-area">
+						<div>
+							<button type="button" id="zipcodeBtn" class="btn new select" style="width: 88px;height: 50px">우편번호 찾기</button>
+						</div>
+						<div class="company">
+							<div class="label bold">
+								주소
+							</div>
+							<div>
+								<input type="text" class="form-control" id="memAddr1" name="memAddr1" placeholder="사용자 주소" READONLY value="${param.addr1 }">
+							</div>
+						</div>
+						<br>
+						<div class="company">
+							<div class="label bold">
+								상세주소
+							</div>
+							<div>
+								<input type="text" class="form-control" id="memAddr2" name="memAddr2" placeholder="사용자 상세주소" value="${param.addr2 }">
+							</div>
+						</div>
+						<br>
+						<div class="company">
+							<div class="label bold">
+								우편번호
+							</div>
+							<div>
+								<input type="text" class="form-control" id="memZipcode" name="memZipcode" placeholder="사용자 우편번호" READONLY value="${param.zipcode }">
+							</div>
+						</div>
+						<br>
+					</div>
+
+				<div class="content prospect-area">
 						<div class="company">
 							<div class="label bold">
 								<span class="red">*</span>목표 회사
@@ -264,7 +345,7 @@
 						<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>
 					<div class="year-flex">
 						<div class="CustomSelect small">
-							<select id="selYear" name="search_job_date" style="width: 108px; height: 30px">
+							<select id="selYear" name="selYear" style="width: 108px; height: 30px">
 								<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart" />
 
 								<c:forEach begin="0" end="10" var="result" step="1">
@@ -276,10 +357,10 @@
 								</c:forEach>
 							</select>
 						</div>
-						<div class="half false">상반기</div>
-						<div class="half false">하반기</div>
-
+						<div id="firsthalf" class="half select" value="상반기">상반기</div>
+						<div id="secondhalf" class="half false" value="하반기">하반기</div>
 					</div>
+						<input type="text" id="searchJobDate" name="searchJobDate" value="2020상반기">
 
 					<div class="major-flex radio-area">
 						<div class="label bold">전공</div>
@@ -348,7 +429,8 @@
 						</div>
 					</div>
 					<div class="submit-area">
-						<div class="submit-btn false">가입완료!</div>
+						<button type="submit" class="submit-btn false">가입완료!</button>
+<!-- 						<div class="submit-btn false">가입완료!</div> -->
 					</div>
 				</div>
 				<div class="message">

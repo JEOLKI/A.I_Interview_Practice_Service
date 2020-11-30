@@ -38,5 +38,10 @@
 		FROM MEMBER
 		WHERE MEM_ALIAS = #{memAlias}
 	</select>
+	
+	<insert id="create" parameterType="com.aiinterview.member.vo.MemberVO">
+			INSERT INTO MEMBER (MEM_ID, MEM_PW, MEM_AUTH, MEM_ST, MEM_ALIAS, MEM_NM, MEM_TEL, MEM_ADDR1, MEM_ADDR2, MEM_ZIPCODE, MEM_CAREER, MEM_EDUC, MEM_GENDER, MEM_TARGET_COMPANY, MEM_TARGET_JOB, SEARCH_JOB_DATE, MEM_MAJOR)
+			VALUES (#{memId},#{memPw},#{memAuth},#{memSt},#{memAlias},#{memNm},#{memTel},#{memAddr1},#{memAddr2},#{memZipcode},#{memCareer},#{memEduc},#{memGender},#{memTargetCompany},#{memTargetJob},#{searchJobDate},#{memMajor}) 
+	</insert>
 
 </mapper>
