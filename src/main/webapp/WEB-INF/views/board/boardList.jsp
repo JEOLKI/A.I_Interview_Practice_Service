@@ -8,22 +8,38 @@
 
 </head>
 
+<script type="text/javascript">
+
+	$(function(){
+		$.ajax({url : "/list.do",
+			method : "get",
+			dataType : "json",
+			success : function(data){
+				var html = "";
+				for(var i = 0; i< data.boardGubunList.length ; i++){
+					var gubun = data.boardGubunList[i];
+					if(gubun.gubunYn == "y"){
+						
+					html += '<li class="active"><a >'+gubun.gubunNm+'</a></li>';
+
+					}
+				};
+				$('#boardGuList').append(html);
+			}
+		});	
+	});
+	
+</script>
+
+
+
 <body>
 
    <%@ include file="/WEB-INF/views/layout/header.jsp" %>
-	<div id="root">
-		<div class="Main false"></div>
-	</div>
 
+	<ul class="nav nav-sidebar" id="boardGuList">
+		<li class="active"><a href="${cp }/boardGu/regist">게시판생성</a></li><br>
+	</ul>
 
-	
-	ㅁㅁㅁㅁㅁ1<br>
-
-ㅁㅁㅁㅁㅁ2<br>
-ㅁㅁㅁㅁㅁ3<br>
-ㅁㅁㅁㅁㅁ4<br>
-ㅁㅁㅁㅁㅁ5<br>
-ㅁㅁㅁㅁㅁ6<br>
-ㅁㅁㅁㅁㅁ7<br>
 </body>
 </html>

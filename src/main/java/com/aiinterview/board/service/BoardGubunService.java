@@ -5,36 +5,18 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.aiinterview.board.model.BoardGubunVo;
-import com.aiinterview.board.repository.BoardGubunRepositoryI;
+import com.aiinterview.board.dao.BoardGubunMapper;
+import com.aiinterview.board.vo.BoardGubunVO;
 
-@Transactional
 @Service("boardGubunService")
-public class BoardGubunService implements BoardGubunServiceI{
+public class BoardGubunService {
 	
-	@Resource(name = "boardGubunRepository")
-	private BoardGubunRepositoryI boardGubunRepository;
+	@Resource(name = "boardGubunMapper")
+	private BoardGubunMapper boardGubunMapper;
 	
-	@Override
-	public List<BoardGubunVo> getBoardGubunList() {
-		return boardGubunRepository.getBoardGubunList();
+	public List<BoardGubunVO> retrieveList() throws Exception{
+		return boardGubunMapper.retrieveList();
 	}
-
-	@Override
-	public int insertBoardGubun(BoardGubunVo boardGubunVo) {
-		return boardGubunRepository.insertBoardGubun(boardGubunVo);
-	}
-
-	@Override
-	public int updateBoardGubun(BoardGubunVo boardGubunVo) {
-		return boardGubunRepository.updateBoardGubun(boardGubunVo);
-	}
-
-	@Override
-	public int deleteBoardGubun(String gubun_nm) {
-		return boardGubunRepository.deleteBoardGubun(gubun_nm);
-	}
-
+	
 }

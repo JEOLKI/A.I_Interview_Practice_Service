@@ -57,7 +57,12 @@
 		<property name="order" value="0"></property>
 		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"></property>
 	</bean>
-
+	
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+	
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"></property>
+	</bean>
 
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
