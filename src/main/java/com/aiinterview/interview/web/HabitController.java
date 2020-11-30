@@ -92,9 +92,9 @@ public class HabitController {
 	 
 	        }
 
-	     habitService.createMassiveHabit(destFile);
+//	     habitService.createMassiveHabit(destFile);
 	     
-	     FileUtils.deleteFile(destFile.getAbsolutePath());
+//	     FileUtils.deleteFile(destFile.getAbsolutePath());
 
 	     ModelAndView view = new ModelAndView();
 	        view.setViewName("redirect:/habit/manage.do");
