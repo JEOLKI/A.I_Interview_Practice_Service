@@ -4,7 +4,7 @@ import com.aiinterview.member.model.MemberVo;
 
 public interface MemberRepositoryI {
 	
-	MemberVo getMember(String mem_id);
+	MemberVo getMember(String memId);
 	
 	/**
 	 * 회원 아이디를 찾는 메서드

@@ -4,27 +4,49 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 
+	<resultMap id="memberMap" type="MemberVo">
+		<result column="MEM_ID" property="memId" />
+		<result column="MEM_PW" property="memPw" />
+		<result column="MEM_AUTH" property="memAuth" />
+		<result column="MEM_ST" property="memSt" />
+		<result column="MEM_ALIAS" property="memAlias" />
+		<result column="MEM_NM" property="memNm" />
+		<result column="MEM_TEL" property="memTel" />
+		<result column="MEM_ADDR1" property="memAddr1" />
+		<result column="MEM_ADDR2" property="memAddr2" />
+		<result column="MEM_ZIPCODE" property="memZipcode" />
+		<result column="MEM_CAREER" property="memCareer" />
+		<result column="MEM_EDUC" property="memEduc" />
+		<result column="MEM_GENDER" property="memGender" />
+		<result column="MEM_TARGET_COMPANY" property="memTargetCompany" />
+		<result column="MEM_TARGET_JOB" property="memTargetJob" />
+		<result column="SEARCH_JOB_DATE" property="searchJobDate" />
+		<result column="MEM_MAJOR" property="memMajor" />
+	</resultMap>
+
 	<select id="getMember" parameterType="String"
-		resultType="MemberVo">
+		resultType="MemberVo" resultMap="memberMap">
 		SELECT *
-		FROM member
-		WHERE mem_id = #{mem_id}
+		FROM MEMBER
+		WHERE MEM_ID = #{memId}
 	</select>
-	
+
 	<select id="memberIdSearch" parameterType="MemberVo"
 		resultType="MemberVo">
 		SELECT *
 		FROM member
 		WHERE mem_nm = #{mem_nm}
-		AND mem_tel = #{mem_tel}
+		AND mem_tel =
+		#{mem_tel}
 	</select>
-	
+
 	<select id="memberPwSearch" parameterType="MemberVo"
 		resultType="MemberVo">
 		SELECT *
 		FROM member
 		WHERE mem_id = #{mem_id}
-		AND mem_nm = #{mem_nm}
+		AND mem_nm =
+		#{mem_nm}
 		AND mem_tel = #{mem_tel}
 	</select>
 

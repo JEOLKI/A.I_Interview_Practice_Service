@@ -25,8 +25,8 @@ public class MemberService implements MemberServiceI {
 	}
 
 	@Override
-	public MemberVo getMember(String userId) {
-		return memberRepository.getMember(userId);
+	public MemberVo getMember(String memId) {
+		return memberRepository.getMember(memId);
 	}
 
 	@Override

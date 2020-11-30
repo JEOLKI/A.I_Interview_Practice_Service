@@ -14,8 +14,8 @@ public class MemberRepository implements MemberRepositoryI {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public MemberVo getMember(String mem_id) {
-		return sqlSession.selectOne("member.getMember", mem_id);
+	public MemberVo getMember(String memId) {
+		return sqlSession.selectOne("member.getMember", memId);
 	}
 
 	@Override

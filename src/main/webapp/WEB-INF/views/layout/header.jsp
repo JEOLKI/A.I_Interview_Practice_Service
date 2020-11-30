@@ -116,7 +116,7 @@
 <script>
 
 $(document).ready(function() {
-		 $('#changeModal').show();
+// 		 $('#changeModal').show();
     $('#login').on('click',function(){
 		 $('#myModal').show();
     });
@@ -169,13 +169,13 @@ function change_close_pop(flag) {
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
 				<br />
-			<form action="">
+			<form action="/login/process" method="get">
 				<div class="input-left">
-					<span class="inputname">아이디</span> <input class="input" type="text" name="memId"><br>
-					<span class="inputname">비밀번호</span> <input class="input" type="password" name="memPw"><br>
+					<span class="inputname">아이디</span> <input class="input" type="text" name="memId" value="TEST_ID"><br>
+					<span class="inputname">비밀번호</span> <input class="input" type="password" name="memPw" value="TEST_PW"><br>
 				</div>
 				<div class="input-right">
-					<button id="loginbtn" type="button">로그인</button>
+					<button id="loginbtn" type="submit">로그인</button>
 				</div>
 				<br>
 				<div class="search">
