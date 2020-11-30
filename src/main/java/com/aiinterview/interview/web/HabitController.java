@@ -45,7 +45,7 @@ public class HabitController {
 	
 	
 	@RequestMapping(path ="/createProcess.do", method = {RequestMethod.POST} )
-	public String createProcess(String habitGb, char habitSt, Model model) throws Exception {
+	public String createProcess(String habitGb, String habitSt, Model model) throws Exception {
 		
 		System.out.println("습관어 등록 - habitGb : " + habitGb);
 		System.out.println("습관어 등록 - habitSt : " + habitSt);
@@ -78,7 +78,7 @@ public class HabitController {
 	}
 	
 	@RequestMapping("/massiveCreateProcess")
-	public ModelAndView createMassiveHabit(MultipartHttpServletRequest request) {
+	public ModelAndView createMassiveHabit(MultipartHttpServletRequest request) throws Exception {
 		 MultipartFile excelFile = request.getFile("excelFile");
 	        if(excelFile==null || excelFile.isEmpty()){
 	            throw new RuntimeException("엑셀파일을 선택해 주세요");
@@ -92,9 +92,10 @@ public class HabitController {
 	 
 	        }
 
-//	     habitService.createMassiveHabit(destFile);
+	     habitService.createMassiveHabit(destFile);
 	     
 //	     FileUtils.deleteFile(destFile.getAbsolutePath());
+	     destFile.delete();
 
 	     ModelAndView view = new ModelAndView();
 	        view.setViewName("redirect:/habit/manage.do");
