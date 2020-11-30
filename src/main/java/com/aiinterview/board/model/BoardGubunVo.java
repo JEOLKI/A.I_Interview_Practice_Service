@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="boardGubunVo")
 public class BoardGubunVo {
 
-	private int gubun_sq;
-	private String gubun_nm;
+	private int gubun_sq; // 구분번호
+	private String gubun_nm; // 
 	private String gubun_yn;
 	
 	public BoardGubunVo() {

@@ -19,12 +19,11 @@ public class LoginController {
 	private MemberServiceI memberService;
 
 	@RequestMapping(value = "/main", method = { RequestMethod.GET })
-	public String view() {
+	public String mainView() {
 		return "login/main";
 	}
-	
 
-	@RequestMapping(value = "/process", method = { RequestMethod.GET, RequestMethod.POST })
+	/*@RequestMapping(value = "/process", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(String userid, String pass, HttpSession session, Model model) {
 
 		MemberVo memberVo = memberService.getMember(userid);
@@ -52,7 +51,7 @@ public class LoginController {
 	@RequestMapping(value = "/experience", method = { RequestMethod.GET })
 	public String experience() {
 		return "main/experience";
-	}
+	}*/
 
 
 }

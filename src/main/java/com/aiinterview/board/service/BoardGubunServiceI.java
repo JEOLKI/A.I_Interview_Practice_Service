@@ -6,8 +6,13 @@ import com.aiinterview.board.model.BoardGubunVo;
 
 public interface BoardGubunServiceI {
 	
+	/**
+	 * 
+	 * @return
+	 */
 	List<BoardGubunVo> getBoardGubunList();
 
+	
 	int insertBoardGubun(BoardGubunVo boardGubunVo);
 	
 	int updateBoardGubun(BoardGubunVo boardGubunVo);

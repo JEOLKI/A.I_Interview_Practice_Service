@@ -3,9 +3,11 @@ package com.aiinterview.board.repository;
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.aiinterview.board.model.ReplyVo;
 
+@Repository("replyRepository")
 public class ReplyRepository implements ReplyRepositoryI {
 	
 	@Resource(name = "sqlSessionTemplate")

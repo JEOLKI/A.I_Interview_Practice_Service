@@ -5,12 +5,14 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.aiinterview.board.model.AtchFileVo;
 import com.aiinterview.board.model.BoardVo;
 import com.aiinterview.board.model.ReplyVo;
 import com.aiinterview.common.model.PageVo;
 
+@Repository("boardRepository")
 public class BoardRepository implements BoardRepositoryI{
 	@Resource(name = "sqlSessionTemplate")
 	private SqlSessionTemplate sqlSession;
