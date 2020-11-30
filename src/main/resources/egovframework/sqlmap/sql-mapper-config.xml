@@ -3,7 +3,7 @@
 
 <configuration>
     <typeAliases>
-		<typeAlias alias="MemberVo" type="com.aiinterview.model.MemberVo"/>
+		<typeAlias alias="MemberVo" type="com.aiinterview.member.model.MemberVo"/>
     </typeAliases>
     
    <mappers>

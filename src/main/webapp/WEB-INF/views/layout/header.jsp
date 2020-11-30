@@ -190,7 +190,7 @@ function change_close_pop(flag) {
 					</span></b></span>
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
-			<form action="/member/idSearch" method="post">
+			<form action="">
 				<div class="input-left">
 					<span class="inputname">이름 </span> <input class="input" type="text"><br>
 					<span class="inputname">연락처</span> <input class="input" type="text"><br>
