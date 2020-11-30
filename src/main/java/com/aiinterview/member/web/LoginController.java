@@ -26,7 +26,7 @@ public class LoginController {
 		return "login/main";
 	}
 
-	@RequestMapping(value = "/process.do", method =  { RequestMethod.POST })
+	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
 	public String login(String memId, String memPw, HttpSession session, Model model) {
 		MemberVO memberVo = memberService.getMember(memId);
 		
