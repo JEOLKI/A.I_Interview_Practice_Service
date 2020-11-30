@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.interview.dao.HabitMapper">
+
+	<select id="retrieveHabitList" resultType="com.aiinterview.interview.vo.HabitVO">
+		SELECT *
+		FROM habit
+	</select>
+	
+	<insert id="create" >
+		<selectKey keyProperty="habitSq" resultType="String" order="BEFORE">
+			SELECT habit_sq.nextval FROM dual 
+		</selectKey>
+			INSERT INTO habit (habit_sq, habit_gb, habit_st)
+			VALUES (TO_NUMBER(#{habitSq}), #{habitGb}, #{habitSt}) 
+	</insert>
+
+	<update id="update">
+		UPDATE habit 
+		   SET habit_gb = #{habitGb},
+		 	   habit_st = #{habitSt}
+		 WHERE habit_sq = #{habitSq} 
+	</update>
+
+</mapper>
