@@ -36,6 +36,15 @@ public interface MemberMapper{
 	 * @param memberVo
 	 * @return
 	 */
+	
 	int memberPwChange(MemberVO memberVo);
+	
+	/**
+	 * 닉네임 중복을 체크하는 메서드
+	 * 
+	 * @param memberVo
+	 * @return
+	 */
+	MemberVO aliasCheck(String memAlias);
 
 }

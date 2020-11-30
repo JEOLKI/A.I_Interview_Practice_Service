@@ -70,9 +70,28 @@ public class MemberController {
 		System.out.println(memberVo);
 		
 		int updateCnt = memberService.memberPwChange(memberVo);
-		System.out.println(updateCnt);
 		
 		return "main/pwSearch";
+	}
+	
+	@RequestMapping(path = "/idCheck.do", method = { RequestMethod.POST })
+	public String idCheck(String memId, Model model) {
+		System.out.println("MemberController.idCheck()진입");
+		
+		MemberVO memberVo = memberService.getMember(memId);
+		model.addAttribute("memberVo",memberVo);
+		
+		return "main/check";
+	}
+	
+	@RequestMapping(path = "/aliasCheck.do", method = { RequestMethod.POST })
+	public String aliasCheck(String memAlias, Model model) {
+		System.out.println("MemberController.aliasCheck()진입");
+		
+		MemberVO memberVo = memberService.aliasCheck(memAlias);
+		model.addAttribute("memberVo",memberVo);
+		
+		return "main/check";
 	}
 
 }

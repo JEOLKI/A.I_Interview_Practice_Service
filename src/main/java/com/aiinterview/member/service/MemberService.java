@@ -37,4 +37,9 @@ public class MemberService implements MemberMapper {
 		return memberMapper.memberPwChange(memberVo);
 	}
 
+	@Override
+	public MemberVO aliasCheck(String memAlias) {
+		return memberMapper.aliasCheck(memAlias);
+	}
+
 }
