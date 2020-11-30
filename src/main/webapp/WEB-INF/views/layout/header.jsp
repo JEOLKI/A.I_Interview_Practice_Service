@@ -138,6 +138,13 @@ $(document).ready(function() {
     $('#searchPwBtn').on('click',function(){
     	pwSearch();
     });
+    $('#changebtn').on('click',function(){
+    	if($('memPw1').val()== $('memPw2').val()){
+	    	pwChange();
+    	}else{
+    		alert('비밀번호가 일치 하지 않습니다.');
+    	}
+    });
 });
    	function idSearch(){
    		memNm = $('#searchIdName').val();
@@ -148,6 +155,7 @@ $(document).ready(function() {
    			data : {memNm : memNm, memTel :memTel},
    			method : "get",
    			success : function(data){
+   				console.log(data);
    				html = '아이디는 ' +data +'입니다.';
    				if(data==''){
    					html = '일치하는 아이디가 존재하지 않습니다.';
@@ -175,6 +183,28 @@ $(document).ready(function() {
    				}else{
 	   				$('#changeModal').show();
    				}
+   			},
+   			error: function(data){
+   				console.log(data.status);
+   			}
+   		});
+   	}
+   	function pwChange(){
+   		memId = $('#searchPwId').val();
+    	memPw = $('#memPw1').val();
+    	
+   		$.ajax(
+   			{url:"/member/pwChange.do",
+   			data : {memId :memId, memPw : memPw},
+   			method : "get",
+   			success : function(data){
+   				console.log(data);
+//    				if(data==''){
+//    					html = '일치하는 아이디가 존재하지 않습니다.';
+//    					$('#findPw').html(html);
+//    				}else{
+// 	   				$('#changeModal').show();
+//    				}
    			},
    			error: function(data){
    				console.log(data.status);
@@ -325,8 +355,8 @@ function change_close_pop(flag) {
 			<p style="text-align: center; line-height: 1.5;">
 			<form action="">
 				<div class="input-left">
-					<span class="inputname">새 비밀번호 </span> <input class="input" type="text"><br>
-					<span class="inputname">새 비밀번호 확인</span> <input class="input" type="text"><br>
+					<span class="inputname">새 비밀번호 </span> <input id="memPw1" class="input" type="password"><br>
+					<span class="inputname">새 비밀번호 확인</span> <input id="memPw2" class="input" type="password"><br>
 				</div>
 				<div class="input-right">
 					<button id="changebtn" type="button">변경</button>

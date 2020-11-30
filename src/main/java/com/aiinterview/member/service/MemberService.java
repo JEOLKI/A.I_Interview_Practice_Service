@@ -32,4 +32,9 @@ public class MemberService implements MemberMapper {
 		return memberMapper.memberPwSearch(memberVo);
 	}
 
+	@Override
+	public int memberPwChange(MemberVO memberVo) {
+		return memberMapper.memberPwChange(memberVo);
+	}
+
 }

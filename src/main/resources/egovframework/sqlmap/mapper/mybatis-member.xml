@@ -26,6 +26,12 @@
 		AND MEM_NM = #{memNm}
 		AND MEM_TEL = #{memTel}
 	</select>
+	
+	<update id="memberPwChange" parameterType="com.aiinterview.member.vo.MemberVO">
+		UPDATE MEMBER
+		SET MEM_PW = #{memPw}
+		WHERE MEM_ID = #{memId}
+	</update>
 
 
 </mapper>

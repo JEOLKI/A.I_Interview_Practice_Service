@@ -29,5 +29,13 @@ public interface MemberMapper{
 	 * @return
 	 */
 	MemberVO memberPwSearch(MemberVO memberVo);
+	
+	/**
+	 * 회원 비밀번호를 변경하는 메서드
+	 * 
+	 * @param memberVo
+	 * @return
+	 */
+	int memberPwChange(MemberVO memberVo);
 
 }

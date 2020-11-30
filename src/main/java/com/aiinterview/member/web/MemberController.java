@@ -62,5 +62,17 @@ public class MemberController {
 		model.addAttribute("searchMemberVo", searchMemberVo);
 		return "main/pwSearch";
 	}
+	
+	@RequestMapping(path = "/pwChange.do", method = { RequestMethod.GET })
+	public String pwChange(MemberVO memberVo, Model model) {
+		System.out.println("MemberController.pwChange()진입");
+		
+		System.out.println(memberVo);
+		
+		int updateCnt = memberService.memberPwChange(memberVo);
+		System.out.println(updateCnt);
+		
+		return "main/pwSearch";
+	}
 
 }
