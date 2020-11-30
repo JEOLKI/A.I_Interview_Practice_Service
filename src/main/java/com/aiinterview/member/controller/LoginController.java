@@ -18,10 +18,11 @@ public class LoginController {
 	@Resource(name = "memberService") 
 	private MemberServiceI memberService;
 
-//	@RequestMapping(value = "/view", method = { RequestMethod.GET })
-//	public String view() {
-//		return "login/view";
-//	}
+	@RequestMapping(value = "/main", method = { RequestMethod.GET })
+	public String view() {
+		return "login/main";
+	}
+	
 
 	@RequestMapping(value = "/process", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(String userid, String pass, HttpSession session, Model model) {

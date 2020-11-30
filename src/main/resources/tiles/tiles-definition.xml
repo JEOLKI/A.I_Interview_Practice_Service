@@ -23,6 +23,7 @@
 		 tile.member.modify
 		 뒷부분을 변수처럼 사용하는것이 가능하다.
 	-->
+	
 	<!-- tiles/member/memberListContent -->
 	<!-- 리스트
 		 상세조회

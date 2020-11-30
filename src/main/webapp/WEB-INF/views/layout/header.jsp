@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <style>
+
  	#header{
  		position: static;
  	}
+ 	
  	/* The Modal (background) */
 	#myModal {
 		display: none; /* Hidden by default */
@@ -17,6 +20,7 @@
 		background-color: rgb(0, 0, 0); /* Fallback color */
 		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 	}
+	
 	/* Modal Content/Box */
 	#modal-content {
 		background-color: #fefefe;
@@ -25,6 +29,7 @@
 		border: 1px solid #888;
 		width: 17%; /* Could be more or less, depending on screen size */
 	}
+	
 	#searchModal {
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
@@ -37,6 +42,7 @@
 		background-color: rgb(0, 0, 0); /* Fallback color */
 		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 	}
+	
 	/* Modal Content/Box */
 	#searchModal-content {
 		background-color: #fefefe;
@@ -45,6 +51,7 @@
 		border: 1px solid #888;
 		width: 30%; /* Could be more or less, depending on screen size */
 	}
+	
 	#changeModal {
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
@@ -57,6 +64,7 @@
 		background-color: rgb(0, 0, 0); /* Fallback color */
 		background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 	}
+	
 	/* Modal Content/Box */
 	#changeModal-content {
 		background-color: #fefefe;
@@ -87,47 +95,63 @@
 		height: 70px;
 		margin-left: 3%;
 	}
+	
 	.search{
 		text-align:center;
 	}
+	
 	#searchbtn{
 		width: 70px;
 		height: 70px;
 		margin-left: 3%;
 	}
+	
 	#changebtn{
 		width: 70px;
 		height: 70px;
 		margin-left: 3%;
 	}
+	
 </style>
+
 <script>
-$(document).ready(function() {
-    $('#login').on('click',function(){
-		 $('#myModal').show();
-    });
-    $('#join').on('click',function(){
-    	document.location="/login/join"
-    });
-    $('#experience').on('click',function(){
-    	document.location="/login/experience"
-    });
-    $('.search').on('click',function(){
-		 $('#searchModal').show();
-    });
-// 		 $('#changeModal').show();
-});
-//팝업 Close 기능
-function close_pop(flag) {
- $('#myModal').hide();
-};
-function search_close_pop(flag) {
- $('#searchModal').hide();
-};
-function change_close_pop(flag) {
- $('#changeModal').hide();
-};
+
+	$(document).ready(function() {
+		
+	    $('#login').on('click',function(){
+			$('#myModal').show();
+	    });
+	    
+	    $('#join').on('click',function(){
+	    	document.location="/login/join"
+	    });
+	    
+	    $('#experience').on('click',function(){
+	    	document.location="/login/experience"
+	    });
+	    
+	    $('.search').on('click',function(){
+			$('#searchModal').show();
+	    });
+		//$('#changeModal').show();
+		
+	});
+	
+	//팝업 Close 기능
+	function close_pop(flag) {
+		$('#myModal').hide();
+	};
+	
+	function search_close_pop(flag) {
+		$('#searchModal').hide();
+	};
+	
+	function change_close_pop(flag) {
+		$('#changeModal').hide();
+	};
+
 </script>
+
 <!-- header -->
 <div class="TopBar undefined" id  ="header">
 	<div class="navigation-bar">

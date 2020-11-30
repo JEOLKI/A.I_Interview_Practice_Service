@@ -1,5 +1,5 @@
 package com.aiinterview.board.controller;
 
-public class PostController {
+public class CategoryGubunController {
 
 }

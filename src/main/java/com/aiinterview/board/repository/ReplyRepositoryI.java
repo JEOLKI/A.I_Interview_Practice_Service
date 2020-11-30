@@ -1,5 +1,10 @@
 package com.aiinterview.board.repository;
 
-public interface ReplyRepositoryI {
+import com.aiinterview.board.model.ReplyVo;
 
+public interface ReplyRepositoryI {
+	
+	int insertReply(ReplyVo replyVo);
+
+	int deleteReply(int reply_sq);
 }
