@@ -4,5 +4,5 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("keywordMapper")
 public interface KeywordMapper {
-
+	
 }

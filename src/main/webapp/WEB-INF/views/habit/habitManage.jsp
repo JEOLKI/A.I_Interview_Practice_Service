@@ -68,7 +68,7 @@
 	</select>
 	</form>
 	<input type="button" id="habitRegistBtn" value="등록">
-	
+	<input type="file">일괄 등록하기</a>
 	<hr>
 	
 	<div id="habitList">

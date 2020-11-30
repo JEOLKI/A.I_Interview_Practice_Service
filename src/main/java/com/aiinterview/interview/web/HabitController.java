@@ -1,15 +1,21 @@
 package com.aiinterview.interview.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.vo.HabitVO;
@@ -69,9 +75,31 @@ public class HabitController {
 		}else {
 			return "habit/habitManage";
 		}
-		
-		
-		
 	}
 	
+	@RequestMapping("/massiveCreateProcess")
+	public ModelAndView createMassiveHabit(MultipartHttpServletRequest request) {
+		 MultipartFile excelFile = request.getFile("excelFile");
+	        if(excelFile==null || excelFile.isEmpty()){
+	            throw new RuntimeException("엑셀파일을 선택해 주세요");
+	        }
+
+	     File destFile = new File("D:\\"+excelFile.getOriginalFilename());
+	     try {
+	            excelFile.transferTo(destFile);
+	        } catch (IllegalStateException | IOException e) {
+	            throw new RuntimeException(e.getMessage(),e);
+	 
+	        }
+
+	     habitService.createMassiveHabit(destFile);
+	     
+	     FileUtils.deleteFile(destFile.getAbsolutePath());
+
+	     ModelAndView view = new ModelAndView();
+	        view.setViewName("redirect:/habit/manage.do");
+	        return view;
+
+	}
+
 }
