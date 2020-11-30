@@ -4,7 +4,7 @@ public class HabitVO {
 	
 	private String habitSq;	// 습관어 번호
 	private String habitGb;	// 습관어 내용
-	private char habitSt; 	// 습관어 사용 여부
+	private String habitSt; 	// 습관어 사용 여부
 	public String getHabitSq() {
 		return habitSq;
 	}
@@ -17,10 +17,10 @@ public class HabitVO {
 	public void setHabitGb(String habitGb) {
 		this.habitGb = habitGb;
 	}
-	public char getHabitSt() {
+	public String getHabitSt() {
 		return habitSt;
 	}
-	public void setHabitSt(char habitSt) {
+	public void setHabitSt(String habitSt) {
 		this.habitSt = habitSt;
 	}
 	@Override

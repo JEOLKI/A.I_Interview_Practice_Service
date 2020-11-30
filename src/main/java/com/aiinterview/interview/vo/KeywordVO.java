@@ -2,13 +2,13 @@ package com.aiinterview.interview.vo;
 
 public class KeywordVO {
 	
-	private int keywordSq; 				// 키워드 번호
+	private String keywordSq; 				// 키워드 번호
 	private String keywordContent;		// 키워드 내용
 	private char keywordSt;				// 키워드 사용 여부
-	public int getKeywordSq() {
+	public String getKeywordSq() {
 		return keywordSq;
 	}
-	public void setKeywordSq(int keywordSq) {
+	public void setKeywordSq(String keywordSq) {
 		this.keywordSq = keywordSq;
 	}
 	public String getKeywordContent() {
@@ -22,6 +22,11 @@ public class KeywordVO {
 	}
 	public void setKeywordSt(char keywordSt) {
 		this.keywordSt = keywordSt;
+	}
+	@Override
+	public String toString() {
+		return "KeywordVO [keywordSq=" + keywordSq + ", keywordContent=" + keywordContent + ", keywordSt=" + keywordSt
+				+ "]";
 	}
 	
 	

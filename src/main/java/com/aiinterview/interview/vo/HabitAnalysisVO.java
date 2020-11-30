@@ -1,19 +1,19 @@
 package com.aiinterview.interview.vo;
 
 public class HabitAnalysisVO {
-	private int habitSq;		// 습관어 번호
-	private int ansSq;			// 답변 번호
+	private String habitSq;		// 습관어 번호
+	private String ansSq;			// 답변 번호
 	private int habitCount;		// 습관어 사용 회수
-	public int getHabitSq() {
+	public String getHabitSq() {
 		return habitSq;
 	}
-	public void setHabitSq(int habitSq) {
+	public void setHabitSq(String habitSq) {
 		this.habitSq = habitSq;
 	}
-	public int getAnsSq() {
+	public String getAnsSq() {
 		return ansSq;
 	}
-	public void setAnsSq(int ansSq) {
+	public void setAnsSq(String ansSq) {
 		this.ansSq = ansSq;
 	}
 	public int getHabitCount() {
@@ -21,6 +21,10 @@ public class HabitAnalysisVO {
 	}
 	public void setHabitCount(int habitCount) {
 		this.habitCount = habitCount;
+	}
+	@Override
+	public String toString() {
+		return "HabitAnalysisVO [habitSq=" + habitSq + ", ansSq=" + ansSq + ", habitCount=" + habitCount + "]";
 	}
 	
 	

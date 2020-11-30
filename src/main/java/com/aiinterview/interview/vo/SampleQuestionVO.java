@@ -1,14 +1,14 @@
 package com.aiinterview.interview.vo;
 
 public class SampleQuestionVO {
-	private int sampQuestSq;			// 샘플질문번호
+	private String sampQuestSq;			// 샘플질문번호
 	private String sampQuestContent;	// 샘플질문 내용
-	private char sampQuestSt;			// 샘플질문 사용 여부
-	private int questGbSq;				// 샘플질문 구문 번호 (직무)
-	public int getSampQuestSq() {
+	private String sampQuestSt;			// 샘플질문 사용 여부
+	private String questGbSq;				// 샘플질문 구문 번호 (직무)
+	public String getSampQuestSq() {
 		return sampQuestSq;
 	}
-	public void setSampQuestSq(int sampQuestSq) {
+	public void setSampQuestSq(String sampQuestSq) {
 		this.sampQuestSq = sampQuestSq;
 	}
 	public String getSampQuestContent() {
@@ -17,17 +17,22 @@ public class SampleQuestionVO {
 	public void setSampQuestContent(String sampQuestContent) {
 		this.sampQuestContent = sampQuestContent;
 	}
-	public char getSampQuestSt() {
+	public String getSampQuestSt() {
 		return sampQuestSt;
 	}
-	public void setSampQuestSt(char sampQuestSt) {
+	public void setSampQuestSt(String sampQuestSt) {
 		this.sampQuestSt = sampQuestSt;
 	}
-	public int getQuestGbSq() {
+	public String getQuestGbSq() {
 		return questGbSq;
 	}
-	public void setQuestGbSq(int questGbSq) {
+	public void setQuestGbSq(String questGbSq) {
 		this.questGbSq = questGbSq;
+	}
+	@Override
+	public String toString() {
+		return "SampleQuestionVO [sampQuestSq=" + sampQuestSq + ", sampQuestContent=" + sampQuestContent
+				+ ", sampQuestSt=" + sampQuestSt + ", questGbSq=" + questGbSq + "]";
 	}
 	
 	

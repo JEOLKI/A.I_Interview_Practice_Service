@@ -1,12 +1,12 @@
 package com.aiinterview.interview.vo;
 
 public class QuestionGubunVO {
-	private int questGbSq;			// 샘플질문 구분 번호
+	private String questGbSq;			// 샘플질문 구분 번호
 	private String questGbContent;	// 샘플질문 구분 내용 (직무)
-	public int getQuestGbSq() {		
+	public String getQuestGbSq() {		
 		return questGbSq;
 	}
-	public void setQuestGbSq(int questGbSq) {
+	public void setQuestGbSq(String questGbSq) {
 		this.questGbSq = questGbSq;
 	}
 	public String getQuestGbContent() {
@@ -14,6 +14,10 @@ public class QuestionGubunVO {
 	}
 	public void setQuestGbContent(String questGbContent) {
 		this.questGbContent = questGbContent;
+	}
+	@Override
+	public String toString() {
+		return "QuestionGubunVO [questGbSq=" + questGbSq + ", questGbContent=" + questGbContent + "]";
 	}
 	
 	

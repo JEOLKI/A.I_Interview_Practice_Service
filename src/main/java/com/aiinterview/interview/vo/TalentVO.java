@@ -2,13 +2,13 @@ package com.aiinterview.interview.vo;
 
 public class TalentVO {
 
-	private int talentSq; 		// 인재상 번호
+	private String talentSq; 		// 인재상 번호
 	private String talentNm; 	// 인재상 이름
-	private char talentSt;		// 인재상 사용 여부 
-	public int getTalentSq() {
+	private String talentSt;		// 인재상 사용 여부 
+	public String getTalentSq() {
 		return talentSq;
 	}
-	public void setTalentSq(int talentSq) {
+	public void setTalentSq(String talentSq) {
 		this.talentSq = talentSq;
 	}
 	public String getTalentNm() {
@@ -17,11 +17,15 @@ public class TalentVO {
 	public void setTalentNm(String talentNm) {
 		this.talentNm = talentNm;
 	}
-	public char getTalentSt() {
+	public String getTalentSt() {
 		return talentSt;
 	}
-	public void setTalentSt(char talentSt) {
+	public void setTalentSt(String talentSt) {
 		this.talentSt = talentSt;
+	}
+	@Override
+	public String toString() {
+		return "TalentVO [talentSq=" + talentSq + ", talentNm=" + talentNm + ", talentSt=" + talentSt + "]";
 	}
 	
 	

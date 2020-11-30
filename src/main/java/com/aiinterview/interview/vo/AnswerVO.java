@@ -1,16 +1,16 @@
 package com.aiinterview.interview.vo;
 
 public class AnswerVO {
-	private int ansSq; 			// 답변 번호
+	private String ansSq; 			// 답변 번호
 	private String ansContent;	// 답변 내용
 	private String videoPath;	// 영상 저장 경로
 	private int ansTime;		// 답변 걸린 시간
 	private int ansSpeed;		// 답변 속도 (00자/분)
-	private int questSq;		// 질문 번호
-	public int getAnsSq() {
+	private String questSq;		// 질문 번호
+	public String getAnsSq() {
 		return ansSq;
 	}
-	public void setAnsSq(int ansSq) {
+	public void setAnsSq(String ansSq) {
 		this.ansSq = ansSq;
 	}
 	public String getAnsContent() {
@@ -37,10 +37,10 @@ public class AnswerVO {
 	public void setAnsSpeed(int ansSpeed) {
 		this.ansSpeed = ansSpeed;
 	}
-	public int getQuestSq() {
+	public String getQuestSq() {
 		return questSq;
 	}
-	public void setQuestSq(int questSq) {
+	public void setQuestSq(String questSq) {
 		this.questSq = questSq;
 	}
 	
