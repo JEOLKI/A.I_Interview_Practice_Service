@@ -229,7 +229,7 @@ function change_close_pop(flag) {
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
 				<br />
-			<form action="/login/process" method="get">
+			<form action="/login/process.do" method="get">
 				<div class="input-left">
 					<span class="inputname">아이디</span> <input class="input" type="text" name="memId" value="TEST_ID"><br>
 					<span class="inputname">비밀번호</span> <input class="input" type="password" name="memPw" value="TEST_PW"><br>

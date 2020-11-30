@@ -51,7 +51,7 @@ public class LoginController {
 		return "main/join";
 	}
 	
-	@RequestMapping(value = "/experience", method = { RequestMethod.GET })
+	@RequestMapping(value = "/experience.do", method = { RequestMethod.GET })
 	public String experience() {
 		return "main/experience";
 	}
