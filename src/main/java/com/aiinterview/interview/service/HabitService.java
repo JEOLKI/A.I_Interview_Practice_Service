@@ -61,7 +61,7 @@ public class HabitService {
 	public void createMassiveHabit(File destFile) throws Exception {
 		ReadOption readOption = new ReadOption();
 		  readOption.setFilePath(destFile.getAbsolutePath());
-		  readOption.setOutputColumns("A","B","C");
+		  readOption.setOutputColumns("A","B");
 		  readOption.setStartRow(2);
 
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
@@ -69,10 +69,10 @@ public class HabitService {
 		  HabitVO habitVO = null;
 		  for(Map<String, String> habit : excelContent) {
 			  habitVO = new HabitVO();
-			  habitVO.setHabitGb(habit.get("B"));
-			  habitVO.setHabitSt(habit.get("C"));
+			  habitVO.setHabitGb(habit.get("A"));
+			  habitVO.setHabitSt(habit.get("B"));
 			  
-			  this.create(habitVO);
+			  habitMapper.create(habitVO);
 		  }
 	}
 

@@ -56,7 +56,7 @@ public class HabitController {
 	
 	
 	@RequestMapping(path ="/createProcess.do", method = {RequestMethod.POST} )
-	public String createProcess(String habitGb, String habitSt, Model model) throws Exception {
+	public String createProcess(String habitGb, String habitSt) throws Exception {
 		
 		System.out.println("습관어 등록 - habitGb : " + habitGb);
 		System.out.println("습관어 등록 - habitSt : " + habitSt);
