@@ -6,6 +6,15 @@ public class AttachmentVO {
 	private int boardSq;		// 게시글 번호
 	private String atchNm;		// 파일 이름
 	private String atchPath;	// 파일 경로
+	
+	public AttachmentVO() {
+
+	}
+	
+	public AttachmentVO(String atchNm, String atchPath) {
+		this.atchNm = atchNm;
+		this.atchPath = atchPath;
+	}
 
 	public int getAtchSq() {
 		return atchSq;

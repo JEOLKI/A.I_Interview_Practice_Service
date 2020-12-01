@@ -32,12 +32,12 @@ public class LoginController {
 		
 		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {
 			model.addAttribute("memId", memId);
-			return "login/view";
+			return "login/main";
 		} else if (memberVo.getMemPw().equals(memPw)) {
 			session.setAttribute("S_MEMBER", memberVo);
-			return "main/main";
+			return "redirect:/login/main.do";
 		}
-		return "login/main";
+		return "redirect:/login/main.do";
 	}
 
 	@RequestMapping(value = "/manage.do", method = { RequestMethod.GET })
