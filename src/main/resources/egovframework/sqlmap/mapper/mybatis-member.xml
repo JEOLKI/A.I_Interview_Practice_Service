@@ -4,13 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.member.dao.MemberMapper">
 
-	<select id="getMember" parameterType="String" resultType="com.aiinterview.member.vo.MemberVO" >
+	<select id="retrieve" parameterType="String" resultType="com.aiinterview.member.vo.MemberVO" >
 		SELECT *
 		FROM MEMBER
 		WHERE MEM_ID = #{memId}
 	</select>
 
-	<select id="memberIdSearch" parameterType="com.aiinterview.member.vo.MemberVO"
+	<select id="retrieveId" parameterType="com.aiinterview.member.vo.MemberVO"
 		resultType="com.aiinterview.member.vo.MemberVO" >
 		SELECT *
 		FROM MEMBER
@@ -18,7 +18,7 @@
 		AND MEM_TEL = #{memTel}
 	</select>
 
-	<select id="memberPwSearch" parameterType="com.aiinterview.member.vo.MemberVO"
+	<select id="retrievePw" parameterType="com.aiinterview.member.vo.MemberVO"
 		resultType="com.aiinterview.member.vo.MemberVO">
 		SELECT *
 		FROM MEMBER
@@ -27,7 +27,7 @@
 		AND MEM_TEL = #{memTel}
 	</select>
 	
-	<update id="memberPwChange" parameterType="com.aiinterview.member.vo.MemberVO">
+	<update id="updatePw" parameterType="com.aiinterview.member.vo.MemberVO">
 		UPDATE MEMBER
 		SET MEM_PW = #{memPw}
 		WHERE MEM_ID = #{memId}

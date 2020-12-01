@@ -10,6 +10,7 @@
 <meta name="theme-color" content="#000000">
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -125,7 +126,7 @@
 		memId = $('#memId').val();
 		
 	$.ajax({
-			url : "/member/idCheck.do",
+			url : "/member/retrieveid.do",
 			data : {
 				memId : memId
 			},

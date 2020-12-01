@@ -85,8 +85,7 @@ to {
 					<div class="title">내 프로필</div>
 					<div class="flex">
 						<img
-							src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2344.jpg"
-							alt="" class="profile">
+							src="/member/profile.do?memId=${S_MEMBER.memId }"alt="" class="profile">
 						<div class="info-area">
 							<div class="name">
 								<div class='label' style="display: inline;
@@ -205,7 +204,7 @@ to {
 							</div>
 						</div>
 					</div>
-					<a class="edit-btn" href="${cp }/myProfile/profileUpdateView">수정</a>
+					<a class="edit-btn" href="/member/updateview.do">수정</a>
 				</div>
 				<div class="MyOrder">
 					<div class="title">이용권 정보</div>

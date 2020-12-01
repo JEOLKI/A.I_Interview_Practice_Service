@@ -20,21 +20,21 @@ public class MemberService implements MemberMapper {
 		// new MemberRepository();
 	}
 
-	public MemberVO getMember(String memId) {
-		return memberMapper.getMember(memId);
+	public MemberVO retrieve(String memId) {
+		return memberMapper.retrieve(memId);
 	}
 
-	public MemberVO memberIdSearch(MemberVO memberVo) {
-		return memberMapper.memberIdSearch(memberVo);
+	public MemberVO retrieveId(MemberVO memberVo) {
+		return memberMapper.retrieveId(memberVo);
 	}
 
-	public MemberVO memberPwSearch(MemberVO memberVo) {
-		return memberMapper.memberPwSearch(memberVo);
+	public MemberVO retrievePw(MemberVO memberVo) {
+		return memberMapper.retrievePw(memberVo);
 	}
 
 	@Override
-	public int memberPwChange(MemberVO memberVo) {
-		return memberMapper.memberPwChange(memberVo);
+	public int updatePw(MemberVO memberVo) {
+		return memberMapper.updatePw(memberVo);
 	}
 
 	@Override
