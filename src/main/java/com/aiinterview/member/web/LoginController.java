@@ -50,12 +50,12 @@ public class LoginController {
 		return "main/main";
 	}
 	
-	@RequestMapping(value = "/join.do", method = { RequestMethod.GET })
+	@RequestMapping(path = "/join.do", method = { RequestMethod.GET })
 	public String main(MemberVO memberVo, Model model) {
 		return "main/join";
 	}
 	
-	@RequestMapping(value = "/experience.do", method = { RequestMethod.GET })
+	@RequestMapping(path = "/experience.do", method = { RequestMethod.GET })
 	public String experience() {
 		return "main/experience";
 	}

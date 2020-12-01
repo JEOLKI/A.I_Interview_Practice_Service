@@ -175,6 +175,9 @@ $(document).ready(function() {
     $('#join').on('click',function(){
     	document.location="/login/join.do"
     });
+    $('#myProfile').on('click',function(){
+    	document.location="/member/myprofileview.do"
+    });
     $('#experience').on('click',function(){
     	document.location="/login/experience.do"
     });
@@ -317,6 +320,7 @@ function boardGubunList(){
 	</div>
 	<button id="login" class="login">로그인</button>
 	<button id="join" class="login">회원가입</button>
+	<button id="myProfile" class="login">내 프로필</button>
 </div>
 <div id="myModal" class="modal">
 

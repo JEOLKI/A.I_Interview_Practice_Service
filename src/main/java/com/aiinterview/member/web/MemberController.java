@@ -2,6 +2,7 @@ package com.aiinterview.member.web;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
@@ -95,13 +97,52 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.POST })
-	public String create(MemberVO memberVo, Model model) {
+	public String create(MemberVO memberVo, Model model,RedirectAttributes ra) {
 		System.out.println("MemberController.create()진입");
+		
+		memberVo.setMemAuth("Y");
+		memberVo.setMemSt("Y");
 		System.out.println(memberVo);
+		
+		int insertCnt = memberService.create(memberVo);
+		System.out.println(insertCnt);
 		
 		model.addAttribute("memberVo",memberVo);
 		
-		return "";
+		if(insertCnt == 1) {
+			return "redirect:/login/main.do";
+		}else {
+			ra.addAttribute("msg","가입에 실패했습니다.");
+			return "redirect:/login/join.do";
+		}
+	}
+	
+	@RequestMapping(path="/myprofileview.do", method= {RequestMethod.GET})
+	public String myProfileView() {
+		System.out.println("MemberController.myProfileView()진입");
+		
+		return "myProfile/myProfile";
+	}
+	
+	@RequestMapping(path="/deleteview.do", method= {RequestMethod.GET})
+	public String deleteView() {
+		System.out.println("MemberController.deleteView()진입");
+		
+		return "myProfile/myProfileDelete";
+	}
+	
+	@RequestMapping(path="/deleteprocess.do", method= {RequestMethod.GET})
+	public String deleteProcess(String memId, HttpSession session) {
+		System.out.println("MemberController.deleteProcess()진입");
+		System.out.println(memId);
+		
+		int deleteCnt = memberService.delete(memId);
+		if(deleteCnt == 1) {
+			session.removeAttribute("S_MEMBER");
+			return "redirect:/login/main.do";
+		}else {
+			return "redirect:/member/myprofileview.do";
+		}
 	}
 
 }
