@@ -42,4 +42,14 @@ public class MemberService implements MemberMapper {
 		return memberMapper.aliasCheck(memAlias);
 	}
 
+	@Override
+	public int create(MemberVO memberVo) {
+		return memberMapper.create(memberVo);
+	}
+
+	@Override
+	public int delete(String memId) {
+		return memberMapper.delete(memId);
+	}
+
 }

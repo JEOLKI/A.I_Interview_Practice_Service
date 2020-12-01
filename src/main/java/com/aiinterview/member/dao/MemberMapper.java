@@ -26,7 +26,7 @@ public interface MemberMapper{
 	 * 회원 비밀번호를 찾는 메서드
 	 * 
 	 * @param memberVo
-	 * @return
+	 * @return MemberVO
 	 */
 	MemberVO memberPwSearch(MemberVO memberVo);
 	
@@ -34,7 +34,7 @@ public interface MemberMapper{
 	 * 회원 비밀번호를 변경하는 메서드
 	 * 
 	 * @param memberVo
-	 * @return
+	 * @return int
 	 */
 	
 	int memberPwChange(MemberVO memberVo);
@@ -43,8 +43,24 @@ public interface MemberMapper{
 	 * 닉네임 중복을 체크하는 메서드
 	 * 
 	 * @param memberVo
-	 * @return
+	 * @return MemberVO
 	 */
 	MemberVO aliasCheck(String memAlias);
+	
+	/**
+	 * 회원 가입을하는 메서드
+	 * 
+	 * @param memberVo
+	 * @return int
+	 */
+	int create(MemberVO memberVo);
+	
+	/**
+	 * 회원 탈퇴하는 메서드
+	 * 
+	 * @param memId
+	 * @return int
+	 */
+	int delete(String memId);
 
 }

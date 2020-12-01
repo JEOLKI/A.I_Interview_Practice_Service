@@ -19,6 +19,8 @@ public class MemberVO {
 	private String memTargetJob;
 	private String searchJobDate;
 	private String memMajor;
+	private String memProfileNm;
+	private String memProfilePath;
 	
 	public MemberVO() {
 		
@@ -26,7 +28,8 @@ public class MemberVO {
 
 	public MemberVO(String memId, String memPw, String memAuth, String memSt, String memAlias, String memNm,
 			String memTel, String memAddr1, String memAddr2, int memZipcode, String memCareer, String memEduc,
-			String memGender, String memTargetCompany, String memTargetJob, String searchJobDate, String memMajor) {
+			String memGender, String memTargetCompany, String memTargetJob, String searchJobDate, String memMajor,
+			String memProfileNm, String memProfilePath) {
 		this.memId = memId;
 		this.memPw = memPw;
 		this.memAuth = memAuth;
@@ -44,6 +47,24 @@ public class MemberVO {
 		this.memTargetJob = memTargetJob;
 		this.searchJobDate = searchJobDate;
 		this.memMajor = memMajor;
+		this.memProfileNm = memProfileNm;
+		this.memProfilePath = memProfilePath;
+	}
+
+	public String getMemProfileNm() {
+		return memProfileNm;
+	}
+
+	public void setMemProfileNm(String memProfileNm) {
+		this.memProfileNm = memProfileNm;
+	}
+
+	public String getMemProfilePath() {
+		return memProfilePath;
+	}
+
+	public void setMemProfilePath(String memProfilePath) {
+		this.memProfilePath = memProfilePath;
 	}
 
 	public String getMemId() {
@@ -184,11 +205,12 @@ public class MemberVO {
 
 	@Override
 	public String toString() {
-		return "MemberVo [memId=" + memId + ", memPw=" + memPw + ", memAuth=" + memAuth + ", memSt=" + memSt
+		return "MemberVO [memId=" + memId + ", memPw=" + memPw + ", memAuth=" + memAuth + ", memSt=" + memSt
 				+ ", memAlias=" + memAlias + ", memNm=" + memNm + ", memTel=" + memTel + ", memAddr1=" + memAddr1
 				+ ", memAddr2=" + memAddr2 + ", memZipcode=" + memZipcode + ", memCareer=" + memCareer + ", memEduc="
 				+ memEduc + ", memGender=" + memGender + ", memTargetCompany=" + memTargetCompany + ", memTargetJob="
-				+ memTargetJob + ", searchJobDate=" + searchJobDate + ", memMajor=" + memMajor + "]";
+				+ memTargetJob + ", searchJobDate=" + searchJobDate + ", memMajor=" + memMajor + ", memProfileNm="
+				+ memProfileNm + ", memProfilePath=" + memProfilePath + "]";
 	}
 
 	@Override
@@ -205,6 +227,8 @@ public class MemberVO {
 		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
 		result = prime * result + ((memMajor == null) ? 0 : memMajor.hashCode());
 		result = prime * result + ((memNm == null) ? 0 : memNm.hashCode());
+		result = prime * result + ((memProfileNm == null) ? 0 : memProfileNm.hashCode());
+		result = prime * result + ((memProfilePath == null) ? 0 : memProfilePath.hashCode());
 		result = prime * result + ((memPw == null) ? 0 : memPw.hashCode());
 		result = prime * result + ((memSt == null) ? 0 : memSt.hashCode());
 		result = prime * result + ((memTargetCompany == null) ? 0 : memTargetCompany.hashCode());
@@ -274,6 +298,16 @@ public class MemberVO {
 				return false;
 		} else if (!memNm.equals(other.memNm))
 			return false;
+		if (memProfileNm == null) {
+			if (other.memProfileNm != null)
+				return false;
+		} else if (!memProfileNm.equals(other.memProfileNm))
+			return false;
+		if (memProfilePath == null) {
+			if (other.memProfilePath != null)
+				return false;
+		} else if (!memProfilePath.equals(other.memProfilePath))
+			return false;
 		if (memPw == null) {
 			if (other.memPw != null)
 				return false;
@@ -308,6 +342,5 @@ public class MemberVO {
 			return false;
 		return true;
 	}
-
 
 }

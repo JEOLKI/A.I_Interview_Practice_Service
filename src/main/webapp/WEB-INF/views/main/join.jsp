@@ -8,32 +8,20 @@
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
-<!-- <link rel="icon" href="/iam.ico"> -->
-<!-- 	<link rel="stylesheet" -->
-<!-- 	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css"> -->
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 	$(document).ready(function(){
 	    $('#zipcodeBtn').on('click',function(){
 		    new daum.Postcode({
 		        oncomplete: function(data) {
-			        console.log(data);
 			        $("#memAddr1").val(data.roadAddress);
 			        $("#memZipcode").val(data.zonecode);
-			        console.log(data.roadAddress);
-			        console.log(data.zonecode);
 		        }
 		    }).open();
 		});
-		$('#regBtn').on('click',function(){
-	    	// client side = validation
-	    	// server side = validation
-	    	// validation 로직은 생략
-	    	$('#frm').submit();
-	    });
-	//     initData();
 	});
 	
 	$(document).ready(function(){
@@ -41,21 +29,30 @@
 			if($('#memPw1').val()!=$('#memPw2').val()){
 				$('#checkPw').empty();
 				$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
+				$('#check').val('N');
 			}else{
 				$('#checkPw').empty();
 				$('#checkPw').append('<span style="color:green">비밀번호가 일치합니다</span><br><br>');
+				$('#check').val('Y');
 			}
 		});
 		
 		$('#idCheck').on('click',function(){
-			$('#checkId').empty();
-			idCheck();
+			if($('#memId').val()==''){
+				alert('아이디를 입력하세요');
+			}else{
+				$('#checkId').empty();
+				idCheck();
+			}
 		});
 		
 		$('#aliasCheck').on('click',function(){
-			console.log('닉네임')
-			$('#checkAlias').empty();
-			aliasCheck();
+			if($('#memAlias').val()==''){
+				alert('닉네임을 입력하세요');
+			}else{
+				$('#checkAlias').empty();
+				aliasCheck();
+			}
 		});
 		
 		$('#newcomer').on('click',function(){
@@ -76,7 +73,6 @@
 		
 		
 		$('#firsthalf').on('click',function(){
-			console.log('상반기')
 			$('#firsthalf').removeClass('half false');
 			$('#firsthalf').addClass('half select');
 			$('#secondhalf').removeClass('half select');
@@ -85,7 +81,6 @@
 		});
 		
 		$('#secondhalf').on('click',function(){
-			console.log('하반기')
 			$('#secondhalf').removeClass('half false');
 			$('#secondhalf').addClass('half select');
 			$('#firsthalf').removeClass('half select');
@@ -94,8 +89,34 @@
 		});
 		
 		$('#selYear').change(function(){
-			console.log($('.half.select').attr('value'));
 			$('#searchJobDate').val($('#selYear').val()+ $('.half.select').attr('value'));
+		});
+		
+		$('#joinBtn').on('click',function(){
+			if($('#memId').val()=='' ||
+					$('#memPw1').val()=='' ||
+					$('#memPw2').val()=='' ||
+					$('#memNm').val()=='' ||
+					$('#memAlias').val()=='' ||
+					$('#memTel').val()=='' ||
+					$('#memCareer').val()==''
+					){
+				alert('필수입력사항을 입력해주세요');
+				return false;
+			}else if($('#check').val()=='N'){
+				alert('비밀번호를 확인해주세요');
+				return false;
+			}else if($('#checkId').text()=='<span style="color:red">중복된 아이디입니다</span><br><br>'||
+					$('#checkId').text()==''||
+					$('#checkAlias').text()=='<span style="color:red">중복된 닉네임입니다</span><br><br>'||
+					$('#checkAlias').text()==''
+					){
+				alert('중복체크를 확인해주세요');
+				return false;
+			}else{
+				$('#fr').submit();
+				return true;
+			}
 		});
 	});
 	
@@ -112,12 +133,14 @@
 			success : function(data) {
 				if (data == '') {
 					html = '<span style="color:green">사용가능한 아이디입니다</span><br><br>';
+					$('#check').val('Y');
+					$('#memId').attr('readonly',true);
 					$('#checkId').append(html);
-					console.log(html);
 				} else {
 					html = '<span style="color:red">중복된 아이디입니다</span><br><br>';
+					$('#memId').val('');
+					$('#check').val('N');
 					$('#checkId').append(html);
-					console.log(html);
 				}
 			},
 			error : function(data) {
@@ -139,12 +162,14 @@
 			success : function(data) {
 				if (data == '') {
 					html = '<span style="color:green">사용가능한 닉네임입니다</span><br><br>';
+					$('#check').val('Y');
+					$('#memAlias').attr('readonly',true);
 					$('#checkAlias').append(html);
-					console.log(html);
 				} else {
 					html = '<span style="color:red">중복된 닉네임입니다</span><br><br>';
+					$('#memAlias').val('');
+					$('#check').val('N');
 					$('#checkAlias').append(html);
-					console.log(html);
 				}
 			},
 			error : function(data) {
@@ -157,7 +182,7 @@
 
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<form action="/member/create.do" method="post">
+	<form id="fr" action="/member/create.do" method="POST" >
 
 		<div id="root">
 			<div class="Join false">
@@ -168,6 +193,7 @@
 					<div class="label notice">
 						정보입력 <span class="red">(* 필수)</span>
 					</div>
+					<input type="hidden" id="check" value="N">
 					<div class="label">
 						<span class="red">*</span>사용자 아이디
 					</div>
@@ -178,7 +204,7 @@
 							<button type="button" class="btn false" id="idCheck">중복검사</button>
 						</div>
 					</div>
-					<div id="checkId"></div>
+					<div id="checkId" class="check"></div>
 					<br>
 
 					<div class="label">
@@ -188,17 +214,16 @@
 						style="flex-direction: column; margin-bottom: 40px;">
 						<input type="password" name="memPw" id="memPw1" class="memPw"
 							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value=""><br>
-						<input type="password" name="memPw" id="memPw2" class="memPw"
+						<input type="password"  id="memPw2" class="memPw"
 							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
 					</div>
-					<div id="checkPw"></div>
+					<div id="checkPw" class="check"></div>
 
 					<div class="label">
 						<span class="red">*</span>사용자 이름
 					</div>
 					<div class="name-input">
-						<input type="text" name="memNm" placeholder="사용할 이름을 입력하세요"
-							value="">
+						<input type="text" name="memNm" id="memNm" placeholder="사용할 이름을 입력하세요">
 					</div>
 
 					<div class="label">
@@ -211,15 +236,14 @@
 							<button type="button" class="btn false" id="aliasCheck">중복검사</button>
 						</div>
 					</div>
-					<div id="checkAlias"></div>
+					<div id="checkAlias" class="check"></div>
 					<br>
 
 					<div class="label">
 						<span class="red">*</span>사용자 연락처
 					</div>
 					<div class="name-input">
-						<input type="text" name="memTel" placeholder="사용할 연락처를 입력하세요"
-							value="">
+						<input type="text" name="memTel" id="memTel" placeholder="사용할 연락처를 입력하세요">
 					</div>
 
 					<div class="set-career-flex">
@@ -231,7 +255,7 @@
 							<div id="newcomer" class="btn new select">신입</div>
 							<div id="experienced" class="btn old false">경력</div>
 						</div>
-						<input type="text" id="memCareer" name="memCareer" value="신입">
+						<input type="hidden" id="memCareer" name="memCareer" value="신입">
 					</div>
 
 					<div class="education-flex radio-area">
@@ -292,34 +316,34 @@
 						</div>
 						<div class="company">
 							<div class="label bold">
-								주소
+								<span class="red">*</span>주소
 							</div>
 							<div>
-								<input type="text" class="form-control" id="memAddr1" name="memAddr1" placeholder="사용자 주소" READONLY value="${param.addr1 }">
+								<input type="text" class="form-control" id="memAddr1" name="memAddr1" placeholder="사용자 주소" READONLY>
 							</div>
 						</div>
 						<br>
 						<div class="company">
 							<div class="label bold">
-								상세주소
+								<span class="red">*</span>상세주소
 							</div>
 							<div>
-								<input type="text" class="form-control" id="memAddr2" name="memAddr2" placeholder="사용자 상세주소" value="${param.addr2 }">
+								<input type="text" class="form-control" id="memAddr2" name="memAddr2" placeholder="사용자 상세주소">
 							</div>
 						</div>
 						<br>
 						<div class="company">
 							<div class="label bold">
-								우편번호
+								<span class="red">*</span>우편번호
 							</div>
 							<div>
-								<input type="text" class="form-control" id="memZipcode" name="memZipcode" placeholder="사용자 우편번호" READONLY value="${param.zipcode }">
+								<input type="text" class="form-control" id="memZipcode" name="memZipcode" placeholder="사용자 우편번호" READONLY>
 							</div>
 						</div>
 						<br>
 					</div>
 
-				<div class="content prospect-area">
+				<div class="content prospect-area" style="margin-bottom: 20px">
 						<div class="company">
 							<div class="label bold">
 								<span class="red">*</span>목표 회사
@@ -329,7 +353,7 @@
 									class="" maxlength="30" value="">
 							</div>
 						</div>
-						<div class="job">
+						<div class="job" >
 							<div class="label bold">
 								<span class="red">*</span>목표 직무
 							</div>
@@ -340,7 +364,7 @@
 						</div>
 					</div>
 
-					<div class="label bold year-label">취업 준비 시작시기</div>
+					<div class="label bold year-label" style="margin-top: 40px">취업 준비 시작시기</div>
 						<c:set var="now" value="<%=new java.util.Date()%>" />
 						<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>
 					<div class="year-flex">
@@ -360,7 +384,7 @@
 						<div id="firsthalf" class="half select" value="상반기">상반기</div>
 						<div id="secondhalf" class="half false" value="하반기">하반기</div>
 					</div>
-						<input type="text" id="searchJobDate" name="searchJobDate" value="2020상반기">
+						<input type="hidden" id="searchJobDate" name="searchJobDate" value="2020상반기">
 
 					<div class="major-flex radio-area">
 						<div class="label bold">전공</div>
@@ -429,8 +453,7 @@
 						</div>
 					</div>
 					<div class="submit-area">
-						<button type="submit" class="submit-btn false">가입완료!</button>
-<!-- 						<div class="submit-btn false">가입완료!</div> -->
+						<button type="submit" id="joinBtn" class="submit-btn false">가입완료!</button>
 					</div>
 				</div>
 				<div class="message">
