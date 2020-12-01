@@ -1,4 +1,4 @@
-package com.aiinterview.interviewanalysis.dao;
+package com.aiinterview.analysis.dao;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 

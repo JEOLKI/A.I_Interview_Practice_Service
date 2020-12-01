@@ -1,12 +1,11 @@
-package com.aiinterview.interviewanalysis.web;
+package com.aiinterview.analysis.web;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.aiinterview.interviewanalysis.service.HabitAnalysisService;
-
+import com.aiinterview.analysis.service.HabitAnalysisService;
 
 @RequestMapping("/habitanalysis")
 @Controller

@@ -1,4 +1,4 @@
-package com.aiinterview.interviewanalysis.vo;
+package com.aiinterview.analysis.vo;
 
 public class HabitAnalysisVO {
 	private String habitSq;		// 습관어 번호

@@ -1,4 +1,4 @@
-package com.aiinterview.interviewanalysis.vo;
+package com.aiinterview.analysis.vo;
 
 public class RepetAnalysisVO {
 	private String repetAnalysisSq;		// 반복어 분석 번호
