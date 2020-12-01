@@ -7,14 +7,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-
 <jsp:include page="/WEB-INF/views/layout/commonLib.jsp"></jsp:include>
 <script>
+
 
 $(document).ready(function() {
 	buyPlanAjax();
 	
-	console.log("dd")
+	$(".box").on('click', function(){
+		var a = this.value();
+		console.log(a)
+		console.log(1)
+	})
+	
 });
 
 function buyPlanAjax(){
@@ -51,7 +56,7 @@ function buyPlanAjax(){
 			html +=	'		</div>                                                                  '        ;
 			html +=	'	</div>                                                                      '        ;
 			html +=	' </div>                                                                        '        ;
-			html +=	"<button class=sprint 'onclick=location.href=/plan/payPlan&planSq='"+plan.planSq+"var=구매하기</button>";
+			html +=	"<button class='sprint' value="+plan.planSq+ " onclick=\"location.href='/plan/payPlan.do?planSq="+plan.planSq+"'\">구매하기</button>";
 			html += '</div>                                                                         ';
 					
 			};

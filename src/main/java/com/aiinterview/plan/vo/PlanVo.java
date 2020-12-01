@@ -2,7 +2,7 @@ package com.aiinterview.plan.vo;
 
 import java.text.DecimalFormat;
 
-public class PlanVo {
+public class PlanVO {
 	
 	
 	private int planSq          ;
@@ -83,7 +83,7 @@ public class PlanVo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PlanVo other = (PlanVo) obj;
+		PlanVO other = (PlanVO) obj;
 		if (planExplain == null) {
 			if (other.planExplain != null)
 				return false;

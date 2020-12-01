@@ -6,11 +6,23 @@
 
 <mapper namespace="com.aiinterview.plan.dao.PlanMapper">
 
-	<select id="planList" resultType="com.aiinterview.plan.vo.PlanVo" >
+	<select id="planList" resultType="com.aiinterview.plan.vo.PlanVO" >
 		SELECT *
 		FROM plan
 		where plan_st = 'Y'
 	</select>
+	
+	<select id="planContent" resultType="com.aiinterview.plan.vo.PlanVO" parameterType="com.aiinterview.plan.vo.PlanVO" >
+		SELECT *
+		FROM plan
+		where plan_sq = #{planSq}
+	</select>
+	
+	<insert id="planUseCreate" parameterType="com.aiinterview.plan.vo.PlanUseVO" >
+		Insert into PLAN_USE 
+		(USE_SQ, START_DATE, END_DATE, MEM_ID, PLAN_SQ)
+		values(plan_use_sq.nextval, sysdate, sysdate+#{planPeriod}, #{memId}, 2)
+	</insert>
 
 
 
