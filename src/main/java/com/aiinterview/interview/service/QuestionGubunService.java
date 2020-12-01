@@ -87,6 +87,28 @@ public class QuestionGubunService {
 		System.out.println("질문 구분 검색  service keyword : "+keyword);
 		return questionGubunMapper.retrieveQuestGbSearchList(keyword);
 	}
+	
+	/**
+	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
+	 * @param questGbVO
+	 * @return 해당페이지 목록
+	 */
+	public List<QuestionGubunVO> retrievePagingList(QuestionGubunVO questGbVO) {
+		return questionGubunMapper.retrievePagingList(questGbVO);
+	}
+
+	/**
+	 * 
+	 */
+	
+	/**
+	 * 페이징처리를 위한 전체 questGbVO 개수 구하는 메서드
+	 * @param questGbVO
+	 * @return 전체 questGbVO 개수
+	 */
+	public int retrievePagingListCnt(QuestionGubunVO questGbVO) {
+		return questionGubunMapper.retrievePagingListCnt(questGbVO);
+	}
 
 
 }
