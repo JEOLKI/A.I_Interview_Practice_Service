@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.interview.dao.QuestionGubunMapper">
+
+	<!-- 전체 목록 조회 -->
+	<select id="retrieveQuestGbList" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
+		SELECT *
+		FROM question_gb
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="create" >
+		<selectKey keyProperty="questGbSq" resultType="String" order="BEFORE">
+			SELECT question_gb_sq.nextval FROM dual 
+		</selectKey>
+			INSERT INTO question_gb (quest_gb_sq, quest_gb_content, quest_gb_st)
+			VALUES (TO_NUMBER(#{questGbSq}), #{questGbContent}, #{questGbSt}) 
+	</insert>
+
+	<!-- 수정 -->
+	<update id="update">
+		UPDATE question_gb 
+		   SET quest_gb_content = #{questGbContent},
+			   quest_gb_st = #{questGbSt}   
+		 WHERE quest_gb_sq = #{questGbSq} 
+	</update>
+	
+	
+	<!-- 검색 -->
+	<select id="retrieveQuestGbSearchList" parameterType="String" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
+		SELECT *
+		 FROM question_gb
+		WHERE quest_gb_content LIKE '%'||#{keyword}||'%'
+	</select>
+
+</mapper>
