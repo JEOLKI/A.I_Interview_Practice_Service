@@ -17,7 +17,7 @@
 		<div class="user-tool">
 			<a class="payment-btn" href="/plan/buyPlan">이용권 구매</a>
 			<div class="profile-btn false">
-				<img src="/images/camera_webcam.650627bc.png" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+				<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
 <!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
 			</div>
 		</div>
