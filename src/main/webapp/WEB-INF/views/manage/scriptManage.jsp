@@ -19,14 +19,14 @@ a {
 
 <script>
 
-function itemChange(){
+/* function itemChange(){
 	var scriptGbList = "${scriptGbList}";
 	var selectItem = $("#scriptGbSelect").val();
 	
 	var changeItem;
 	
 	if()
-}
+} */
 
 	$(document).ready(function() {
 		$("#regBtn").on("click", function() {
