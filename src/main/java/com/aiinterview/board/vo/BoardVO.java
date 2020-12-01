@@ -1,13 +1,7 @@
 package com.aiinterview.board.vo;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.aiinterview.base.vo.BaseVO;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonInclude(Include.NON_NULL)
-@XmlRootElement(name = "boardVo")
 public class BoardVO extends BaseVO{
 	
 	private String boardSq;			// 게시글 번호

@@ -1,16 +1,18 @@
 package com.aiinterview.board.vo;
 
-public class BoardGubunVO {
+import com.aiinterview.base.vo.BaseVO;
 
-	private int boardGbSq; 		// 보드구분 번호
-	private String boardGbNm; 	// 보드구분 이름
-	private String boardGbSt; 	// 보드구분 상태
+public class BoardGubunVO extends BaseVO{
 
-	public int getBoardGbSq() {
+	private String boardGbSq; // 보드구분 번호
+	private String boardGbNm; // 보드구분 이름
+	private String boardGbSt; // 보드구분 상태
+
+	public String getBoardGbSq() {
 		return boardGbSq;
 	}
 
-	public void setBoardGbSq(int boardGbSq) {
+	public void setBoardGbSq(String boardGbSq) {
 		this.boardGbSq = boardGbSq;
 	}
 
@@ -35,7 +37,7 @@ public class BoardGubunVO {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((boardGbNm == null) ? 0 : boardGbNm.hashCode());
-		result = prime * result + boardGbSq;
+		result = prime * result + ((boardGbSq == null) ? 0 : boardGbSq.hashCode());
 		result = prime * result + ((boardGbSt == null) ? 0 : boardGbSt.hashCode());
 		return result;
 	}
@@ -54,7 +56,10 @@ public class BoardGubunVO {
 				return false;
 		} else if (!boardGbNm.equals(other.boardGbNm))
 			return false;
-		if (boardGbSq != other.boardGbSq)
+		if (boardGbSq == null) {
+			if (other.boardGbSq != null)
+				return false;
+		} else if (!boardGbSq.equals(other.boardGbSq))
 			return false;
 		if (boardGbSt == null) {
 			if (other.boardGbSt != null)
@@ -68,7 +73,5 @@ public class BoardGubunVO {
 	public String toString() {
 		return "BoardGubunVO [boardGbSq=" + boardGbSq + ", boardGbNm=" + boardGbNm + ", boardGbSt=" + boardGbSt + "]";
 	}
-	
-	
 
 }

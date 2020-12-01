@@ -1,34 +1,36 @@
 package com.aiinterview.board.vo;
 
-public class AttachmentVO {
+import com.aiinterview.base.vo.BaseVO;
 
-	private int atchSq;			// 첨부파일 번호
-	private int boardSq;		// 게시글 번호
-	private String atchNm;		// 파일 이름
-	private String atchPath;	// 파일 경로
-	
+public class AttachmentVO extends BaseVO {
+
+	private String atchSq; // 첨부파일 번호
+	private String boardSq; // 게시글 번호
+	private String atchNm; // 파일 이름
+	private String atchPath; // 파일 경로
+
 	public AttachmentVO() {
 
 	}
-	
+
 	public AttachmentVO(String atchNm, String atchPath) {
 		this.atchNm = atchNm;
 		this.atchPath = atchPath;
 	}
 
-	public int getAtchSq() {
+	public String getAtchSq() {
 		return atchSq;
 	}
 
-	public void setAtchSq(int atchSq) {
+	public void setAtchSq(String atchSq) {
 		this.atchSq = atchSq;
 	}
 
-	public int getBoardSq() {
+	public String getBoardSq() {
 		return boardSq;
 	}
 
-	public void setBoardSq(int boardSq) {
+	public void setBoardSq(String boardSq) {
 		this.boardSq = boardSq;
 	}
 
@@ -49,21 +51,13 @@ public class AttachmentVO {
 	}
 
 	@Override
-	public String toString() {
-		return "AttachmentVO [atchSq=" + atchSq + ", boardSq=" + boardSq + ", atchNm=" + atchNm + ", atchPath="
-				+ atchPath + ", getAtchSq()=" + getAtchSq() + ", getBoardSq()=" + getBoardSq() + ", getAtchNm()="
-				+ getAtchNm() + ", getAtchPath()=" + getAtchPath() + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", toString()=" + super.toString() + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((atchNm == null) ? 0 : atchNm.hashCode());
 		result = prime * result + ((atchPath == null) ? 0 : atchPath.hashCode());
-		result = prime * result + atchSq;
-		result = prime * result + boardSq;
+		result = prime * result + ((atchSq == null) ? 0 : atchSq.hashCode());
+		result = prime * result + ((boardSq == null) ? 0 : boardSq.hashCode());
 		return result;
 	}
 
@@ -86,11 +80,23 @@ public class AttachmentVO {
 				return false;
 		} else if (!atchPath.equals(other.atchPath))
 			return false;
-		if (atchSq != other.atchSq)
+		if (atchSq == null) {
+			if (other.atchSq != null)
+				return false;
+		} else if (!atchSq.equals(other.atchSq))
 			return false;
-		if (boardSq != other.boardSq)
+		if (boardSq == null) {
+			if (other.boardSq != null)
+				return false;
+		} else if (!boardSq.equals(other.boardSq))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "AttachmentVO [atchSq=" + atchSq + ", boardSq=" + boardSq + ", atchNm=" + atchNm + ", atchPath="
+				+ atchPath + "]";
 	}
 
 }

@@ -1,17 +1,19 @@
 package com.aiinterview.board.vo;
 
-public class CategoryVO {
+import com.aiinterview.base.vo.BaseVO;
 
-	private int catSq;
+public class CategoryVO extends BaseVO {
+
+	private String catSq;
 	private String catContent;
 	private String catSt;
-	private int catGbSq;
+	private String catGbSq;
 
-	public int getCatSq() {
+	public String getCatSq() {
 		return catSq;
 	}
 
-	public void setCatSq(int catSq) {
+	public void setCatSq(String catSq) {
 		this.catSq = catSq;
 	}
 
@@ -31,11 +33,11 @@ public class CategoryVO {
 		this.catSt = catSt;
 	}
 
-	public int getCatGbSq() {
+	public String getCatGbSq() {
 		return catGbSq;
 	}
 
-	public void setCatGbSq(int catGbSq) {
+	public void setCatGbSq(String catGbSq) {
 		this.catGbSq = catGbSq;
 	}
 
@@ -44,8 +46,8 @@ public class CategoryVO {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((catContent == null) ? 0 : catContent.hashCode());
-		result = prime * result + catGbSq;
-		result = prime * result + catSq;
+		result = prime * result + ((catGbSq == null) ? 0 : catGbSq.hashCode());
+		result = prime * result + ((catSq == null) ? 0 : catSq.hashCode());
 		result = prime * result + ((catSt == null) ? 0 : catSt.hashCode());
 		return result;
 	}
@@ -64,9 +66,15 @@ public class CategoryVO {
 				return false;
 		} else if (!catContent.equals(other.catContent))
 			return false;
-		if (catGbSq != other.catGbSq)
+		if (catGbSq == null) {
+			if (other.catGbSq != null)
+				return false;
+		} else if (!catGbSq.equals(other.catGbSq))
 			return false;
-		if (catSq != other.catSq)
+		if (catSq == null) {
+			if (other.catSq != null)
+				return false;
+		} else if (!catSq.equals(other.catSq))
 			return false;
 		if (catSt == null) {
 			if (other.catSt != null)

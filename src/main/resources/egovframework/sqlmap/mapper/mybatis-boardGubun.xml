@@ -4,9 +4,79 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.board.dao.BoardGubunMapper">
 
-	<select id="retrieveList" parameterType="String" resultType="com.aiinterview.board.vo.BoardGubunVO">
-		SELECT *
-		FROM board_gb
+	<insert id="create">
+		INSERT INTO BOARD_GB (BOARD_GB_SQ,
+							  BOARD_GB_NM,
+							  BOARD_GB_ST)
+		VALUES (BOARD_GB_SQ.NEXTVAL,
+				#{boardGbNm},
+				#{boardGbSt})
+		<selectKey keyProperty="boardGbSq" resultType="String" order="AFTER">
+			SELECT TO_CHAR(BOARD_GB_SQ.CURRVAL) FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		UPDATE BOARD_GB
+		SET    BOARD_GB_NM  = #{boardGbNm},
+			   BOARD_GB_ST  = #{boardGbSt}
+		WHERE  BOARD_GB_SQ  = #{boardGbSq}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM BOARD_GB		
+		WHERE  BOARD_GB_SQ  = #{boardGbSq}
+	</delete>
+	
+	<select id="retrieve" resultType="com.aiinterview.board.vo.BoardGubunVO">
+		SELECT BOARD_GB_SQ,
+			   BOARD_GB_NM,
+			   BOARD_GB_ST
+		FROM BOARD_GB
+		WHERE BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
+	</select>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.board.vo.BoardGubunVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT BOARD_GB_SQ,
+					   BOARD_GB_NM,
+					   BOARD_GB_ST
+				  FROM BOARD_GB
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	BOARD_GB_NM LIKE '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+					ORDER BY BOARD_GB_SQ DESC
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+		FROM   BOARD_GB
+		<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	BOARD_GB_NM LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.board.vo.BoardGubunVO">
+		SELECT BOARD_GB_SQ,
+			   BOARD_GB_NM,
+			   BOARD_GB_ST
+		FROM   BOARD_GB
 	</select>
 
 
