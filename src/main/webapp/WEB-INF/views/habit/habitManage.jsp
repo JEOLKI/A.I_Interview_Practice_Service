@@ -51,6 +51,36 @@
 		$('input[type="file"]').on('change',function(){
 			$('#massiveForm').submit();
 		})
+		
+		$('#searchBtn').on('click', function(){
+			var keyword = $('#keyword').val();
+			$.ajax({url : "/habit/searchlist.do",
+				method : "get",
+				data : {"keyword" : keyword},
+				dataType : "json",
+				success : function(data){
+					var html="";
+					for(var i=0; i<data.habitSearchList.length; i++){
+						html += '<form class="habitUpdateFrm" action="${cp }/habit/updateProcess.do" method="post">';
+						html += '<input type="hidden" name="habitSq" value="'+data.habitSearchList[i].habitSq+'">';
+						html += '<input type="text" name="habitGb" value="'+data.habitSearchList[i].habitGb+'">';
+						html += '<select class="habitSt" name="habitSt">';
+						if (data.habitSearchList[i].habitSt == "Y") {
+							html += '<option value="Y" selected="selected">사용</option>';
+							html += '<option value="N">미사용</option>';
+						} else {
+							html += '<option value="Y">사용</option>';
+							html += '<option value="N" selected="selected">미사용</option>';
+						}
+						html += '</select>';
+						html += '<button class="updateBtn" type="submit">수정</button>';
+						html += '</form>';
+					}
+					$('#habitList').empty();
+					$('#habitList').append(html);
+				}
+			})
+		})
 	})
 </script>
 </head>
@@ -66,7 +96,7 @@
 			</section>
 			<div class="body">
 
-				<div class="registScriptgubun">
+				<div class="registHabitGubun">
 					<form id="habitRegistFrm" action="${cp }/habit/createProcess.do"
 						method="post">
 						<input type="text" id="habitGb" name="habitGb"
@@ -82,7 +112,8 @@
 									<option value="N" selected="selected">미사용</option>
 								</c:otherwise>
 							</c:choose>
-						</select> <input type="button" id="habitRegistBtn" value="등록">
+						</select> 
+						<input type="button" id="habitRegistBtn" value="등록">
 					</form>
 				</div>
 

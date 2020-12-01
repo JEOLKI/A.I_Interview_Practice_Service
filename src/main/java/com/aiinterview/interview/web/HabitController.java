@@ -2,23 +2,13 @@ package com.aiinterview.interview.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.vo.HabitVO;
-import com.aiinterview.interview.vo.QuestionGubunVO;
 
 @RequestMapping("/habit")
 @Controller
@@ -115,7 +104,7 @@ public class HabitController {
 	}
 	
 	@RequestMapping("/list/excelDown.do")
-	public void excelDown(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String excelDown(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
 		List<HabitVO> habitList = habitService.retrieveHabitList();
@@ -137,47 +126,13 @@ public class HabitController {
 			map.put("HABIT_ST", habitList.get(i).getHabitSt());
 			data.add(map);
 		}
-
-		// excel 파일 contentType : application/vnd.ms-excel; UTF-8
-		response.setContentType("application/vnd.ms-excel; UTF-8");
-
-		// 첨부파일임을 암시
-		response.setHeader("Content-Disposition", "attachment; filename=HABIT.xlsx");
-
-		// poi 라이브러리를 이용하여 엑셀 파일을 생성
-		Workbook workbook = new XSSFWorkbook();// poi 라이브러리에서는 엑셀파일을 workbook이라고 함
-		// sheet 만들어주기
-		Sheet sheet = workbook.createSheet("HABIT");
 		
-		// 행 만들기
-		int rowNum = 0;
-		Row row = sheet.createRow(rowNum++);
+		model.addAttribute("header",header);
+		model.addAttribute("data",data);
+		model.addAttribute("fileName","HABIT");
+		model.addAttribute("sheetName","HABIT");
 
-		int column = 0;
-		// header 설정
-		for (String h : header) {
-			// cell 만들기
-			row.createCell(column++).setCellValue(h);
-		}
-
-		// data 설정
-		for (Map<String, String> map : data) {
-			// 행 생성
-			row = sheet.createRow(rowNum++);
-
-			// 셀 채우기
-			column = 0; // 매 행마다 셀 인덱스값은 초기화 되어야 함
-			row.createCell(column++).setCellValue(map.get("HABIT_SQ"));
-			row.createCell(column++).setCellValue(map.get("HABIT_GB"));
-			row.createCell(column++).setCellValue(map.get("HABIT_ST"));
-		}
-		OutputStream os = response.getOutputStream();
-		workbook.write(os);
-
-		os.flush();
-		os.close();
-
-		workbook.close();
+		return "excelView";
 	}
 
 

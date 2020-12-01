@@ -22,7 +22,6 @@ public class HabitService {
 	/**
 	 * 습관어를 등록하는 메서드
 	 * @param habitVO
-	 * @return 1 : 등록 성공 / 0 : 등록 실패
 	 * @throws Exception
 	 */
 	public void create(HabitVO habitVO) throws Exception {
