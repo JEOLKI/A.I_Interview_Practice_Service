@@ -12,7 +12,7 @@ public interface MemberMapper{
 	 * @param memId
 	 * @return MemberVO
 	 */
-	MemberVO getMember(String memId);
+	MemberVO retrieve(String memId);
 
 	/**
 	 * 회원 아이디를 찾는 메서드
@@ -20,7 +20,7 @@ public interface MemberMapper{
 	 * @param memberVo
 	 * @return MemberVO
 	 */
-	MemberVO memberIdSearch(MemberVO memberVo);
+	MemberVO retrieveId(MemberVO memberVo);
 
 	/**
 	 * 회원 비밀번호를 찾는 메서드
@@ -28,7 +28,7 @@ public interface MemberMapper{
 	 * @param memberVo
 	 * @return MemberVO
 	 */
-	MemberVO memberPwSearch(MemberVO memberVo);
+	MemberVO retrievePw(MemberVO memberVo);
 	
 	/**
 	 * 회원 비밀번호를 변경하는 메서드
@@ -37,7 +37,7 @@ public interface MemberMapper{
 	 * @return int
 	 */
 	
-	int memberPwChange(MemberVO memberVo);
+	int updatePw(MemberVO memberVo);
 	
 	/**
 	 * 닉네임 중복을 체크하는 메서드

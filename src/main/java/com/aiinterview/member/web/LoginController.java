@@ -28,7 +28,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
 	public String login(String memId, String memPw, HttpSession session, Model model) {
-		MemberVO memberVo = memberService.getMember(memId);
+		MemberVO memberVo = memberService.retrieve(memId);
 		
 		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {
 			model.addAttribute("memId", memId);

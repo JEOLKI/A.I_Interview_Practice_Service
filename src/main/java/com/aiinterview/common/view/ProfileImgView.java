@@ -12,21 +12,22 @@ import org.springframework.web.servlet.view.AbstractView;
 public class ProfileImgView extends AbstractView{
 
 	@Override
-	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		FileInputStream fis = new FileInputStream((String) model.get("filepath"));
+	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		FileInputStream fis = new FileInputStream((String)model.get("memProfilePath"));
 		ServletOutputStream sos = response.getOutputStream();
-
+		
 		byte[] buffer = new byte[512];
-
+		
 		while (fis.read(buffer) != -1) {
 			sos.write(buffer);
 		}
-	
+		
 		fis.close();
 		sos.flush();
 		sos.close();
+		
 	}
 
 

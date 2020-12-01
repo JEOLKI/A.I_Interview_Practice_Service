@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
  <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <style>
@@ -186,14 +187,14 @@ $(document).ready(function() {
     });
     
     $('#searchIdBtn').on('click',function(){
-    	idSearch();
+    	retrieveId();
     });
     $('#searchPwBtn').on('click',function(){
-    	pwSearch();
+    	retrievePw();
     });
     $('#changebtn').on('click',function(){
     	if($('#memPw1').val()== $('#memPw2').val()){
-	    	pwChange();
+    		updatePw();
     	}else{
     		alert('비밀번호가 일치 하지 않습니다.');
     	}
@@ -201,12 +202,12 @@ $(document).ready(function() {
     
     boardGubunList();
 });
-   	function idSearch(){
+   	function retrieveId(){
    		memNm = $('#searchIdName').val();
     	memTel = $('#searchIdTel').val();
     	
    		$.ajax(
-   			{url:"/member/idSearch.do",
+   			{url:"/member/retrieveid.do",
    			data : {memNm : memNm, memTel :memTel},
    			method : "get",
    			success : function(data){
@@ -222,13 +223,13 @@ $(document).ready(function() {
    			}
    		});
    	}
-   	function pwSearch(){
+   	function retrievePw(){
    		memId = $('#searchPwId').val();
     	memNm = $('#searchPwName').val();
     	memTel = $('#searchPwTel').val();
     	
    		$.ajax(
-   			{url:"/member/pwSearch.do",
+   			{url:"/member/retrievepw.do",
    			data : {memNm : memNm, memTel :memTel, memId : memId},
    			method : "get",
    			success : function(data){
@@ -244,12 +245,12 @@ $(document).ready(function() {
    			}
    		});
    	}
-   	function pwChange(){
+   	function updatePw(){
    		memId = $('#searchPwId').val();
     	memPw = $('#memPw1').val();
     	
    		$.ajax(
-   			{url:"/member/pwChange.do",
+   			{url:"/member/updatepw.do",
    			data : {memId :memId, memPw : memPw},
    			method : "get",
    			success : function(data){
@@ -318,9 +319,13 @@ function boardGubunList(){
 			<a class="managepage false" href="/login/manage.do">관리자 페이지</a>
 		</div>
 	</div>
-	<button id="login" class="login">로그인</button>
-	<button id="join" class="login">회원가입</button>
-	<button id="myProfile" class="login">내 프로필</button>
+	<button id="login" class="login" style="margin-left: 0px;">로그인</button>
+	<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
+	<c:choose>
+		<c:when test="${S_MEMBER != null }">
+			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button>
+		</c:when>
+	</c:choose>
 </div>
 <div id="myModal" class="modal">
 

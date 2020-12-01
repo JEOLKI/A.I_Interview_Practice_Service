@@ -44,34 +44,34 @@ public class MemberController {
 		return "member/test";
 	}
 
-	@RequestMapping(path = "/idSearch.do", method = { RequestMethod.GET })
-	public String idSearch(MemberVO memberVo, Model model) {
-		System.out.println("MemberController.idSearch()진입");
+	@RequestMapping(path = "/retrieveid.do", method = { RequestMethod.GET })
+	public String retrieveId(MemberVO memberVo, Model model) {
+		System.out.println("MemberController.retrieveId()진입");
 
-		MemberVO searchMemberVo = memberService.memberIdSearch(memberVo);
+		MemberVO searchMemberVo = memberService.retrieveId(memberVo);
 
 		model.addAttribute("searchMemberVo", searchMemberVo);
 		return "main/idSearch";
 	}
 
-	@RequestMapping(path = "/pwSearch.do", method = { RequestMethod.GET })
-	public String pwSearch(MemberVO memberVo, Model model) {
-		System.out.println("MemberController.pwSearch()진입");
+	@RequestMapping(path = "/retrievepw.do", method = { RequestMethod.GET })
+	public String retrievePw(MemberVO memberVo, Model model) {
+		System.out.println("MemberController.retrievePw()진입");
 
-		MemberVO searchMemberVo = memberService.memberPwSearch(memberVo);
+		MemberVO searchMemberVo = memberService.retrievePw(memberVo);
 		System.out.println(searchMemberVo);
 		
 		model.addAttribute("searchMemberVo", searchMemberVo);
 		return "main/pwSearch";
 	}
 	
-	@RequestMapping(path = "/pwChange.do", method = { RequestMethod.GET })
-	public String pwChange(MemberVO memberVo, Model model) {
-		System.out.println("MemberController.pwChange()진입");
+	@RequestMapping(path = "/updatepw.do", method = { RequestMethod.GET })
+	public String updatePw(MemberVO memberVo, Model model) {
+		System.out.println("MemberController.updatePw()진입");
 		
 		System.out.println(memberVo);
 		
-		int updateCnt = memberService.memberPwChange(memberVo);
+		int updateCnt = memberService.updatePw(memberVo);
 		
 		return "main/pwSearch";
 	}
@@ -80,7 +80,7 @@ public class MemberController {
 	public String idCheck(String memId, Model model) {
 		System.out.println("MemberController.idCheck()진입");
 		
-		MemberVO memberVo = memberService.getMember(memId);
+		MemberVO memberVo = memberService.retrieve(memId);
 		model.addAttribute("memberVo",memberVo);
 		
 		return "main/check";
@@ -143,6 +143,23 @@ public class MemberController {
 		}else {
 			return "redirect:/member/myprofileview.do";
 		}
+	}
+	
+	@RequestMapping(path = "/profile.do", method = { RequestMethod.GET })
+	public String profile(String memId,Model model, HttpSession session) {
+		System.out.println("MemberController.profile()진입");
+		System.out.println(memId);
+		
+		MemberVO memberVo = memberService.retrieve(memId);
+		model.addAttribute("memProfilePath", memberVo.getMemProfilePath());
+		return "ProfileImgView";
+	}
+	
+	@RequestMapping(path = "/updateview.do", method = { RequestMethod.GET })
+	public String updateView(String memId,Model model, HttpSession session) {
+		System.out.println("MemberController.updateView()진입");
+		
+		return "myProfile/myProfileUpdate";
 	}
 
 }
