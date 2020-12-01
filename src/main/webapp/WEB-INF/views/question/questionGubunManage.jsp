@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -60,20 +63,21 @@
 				success : function(data){
 					var html="";
 					for(var i=0; i<data.questGbSearchList.length; i++){
-						html += '<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">';
-						html += '<input type="hidden" name="questGbSq" value="'+data.questGbSearchList[i].questGbSq+'">';
-						html += '<input type="text" name="questGbContent" value="'+data.questGbSearchList[i].questGbContent+'">';
-						html += '<select class="questGbSt" name="questGbSt">';
-						if (data.questGbSearchList[i].questGbSt == "Y") {
-							html += '<option value="Y" selected="selected">사용</option>';
-							html += '<option value="N">미사용</option>';
-						} else {
-							html += '<option value="Y">사용</option>';
-							html += '<option value="N" selected="selected">미사용</option>';
-						}
-						html += '</select>';
-						html += '<button class="updateBtn" type="submit">수정</button>';
-						html += '</form>';
+// 						html += '<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">';
+// 						html += '<input type="hidden" name="questGbSq" value="'+data.questGbSearchList[i].questGbSq+'">';
+// 						html += '<label id="rownum"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></label>';
+// 						html += '<input type="text" name="questGbContent" value="<c:out value="${result.questGbContent}"/>">';
+// 						html += '<select class="questGbSt" name="questGbSt">';
+// 						if (<c:out value="${result.questGbContent}"/> == "Y") {
+// 							html += '<option value="Y" selected="selected">사용</option>';
+// 							html += '<option value="N">미사용</option>';
+// 						} else {
+// 							html += '<option value="Y">사용</option>';
+// 							html += '<option value="N" selected="selected">미사용</option>';
+// 						}
+// 						html += '</select>';
+// 						html += '<button class="updateBtn" type="submit">수정</button>';
+// 						html += '</form>';
 					}
 					$('#questGbList').empty();
 					$('#questGbList').append(html);
@@ -82,6 +86,14 @@
 		})
 			
 	})
+	
+// 	 /* pagination 페이지 링크 function */
+//         function fn_egov_link_page(pageNo){
+//         	document.listForm.pageIndex.value = pageNo;
+//         	document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
+//            	document.listForm.submit();
+//         }
+	
 </script>
 </head>
 <body>
@@ -95,7 +107,7 @@
 			</div>
 			</section>
 			<div class="body">
-			
+			<form:form commandName="questionGubunVO" id="listForm" name="listForm" method="post">
 			<div class="registQuestionGubun">
 				<form id="questGbRegistFrm" action="${cp }/questGb/createProcess.do" method="post">
 					<input  type="text" id="questGbContent" name="questGbContent" value="${param.questGb }">
@@ -135,8 +147,47 @@
 			    </form>
 			</div>				
 			
+			<!-- 
+					html += '<select class="questGbSt" name="questGbSt">';
+						if (<c:out value="${result.questGbContent}"/> == "Y") {
+							html += '<option value="Y" selected="selected">사용</option>';
+							html += '<option value="N">미사용</option>';
+						} else {
+							html += '<option value="Y">사용</option>';
+							html += '<option value="N" selected="selected">미사용</option>';
+						}
+						html += '</select>';
+						html += '<button class="updateBtn" type="submit">수정</button>';
+						html += '</form>';
+			 -->
+			<div class="existQuestGb" id="questGbList">
+				<c:forEach var="result" items="${resultList}">
+<%--             				<label id="rownum"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></label> --%>
+            				<input type="text" name="questGbContent" value="<c:out value="${result.questGbContent}"/>">
+            				<select class="questGbSt" name="questGbSt">
+            				<c:choose>
+            					<c:when test="<c:out value='${result.questGbSt}'/> == 'Y' ">
+            						<option value="Y" selected="selected">사용</option>
+            						<option value="N">미사용</option>
+            					</c:when>
+            					<c:otherwise>
+            						<option value="Y">사용</option>
+            						<option value="N" selected="selected">미사용</option>
+            					</c:otherwise>
+            				</c:choose>
+            				<button class="updateBtn" type="submit">수정</button>
+            				</select>
+        			</c:forEach>
+			</div>
 			
-			<div class="existQuestGb" id="questGbList"></div>
+<!-- 			<div id="paging"> -->
+<%-- 				<c:if test="${not empty paginationInfo}">  --%>
+<%-- 					<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"/>  --%>
+<%-- 				</c:if> --%>
+<%--         		<form:hidden path="pageIndex" /> --%>
+<!--         	</div> -->
+			
+			</form:form>
 		</div>
 	</div>
 </div>

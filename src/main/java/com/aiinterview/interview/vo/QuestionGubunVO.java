@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class QuestionGubunVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class QuestionGubunVO extends BaseVO {
 	private String questGbSq;			// 샘플질문 구분 번호
 	private String questGbContent;		// 샘플질문 구분 내용 (직무)
 	private String questGbSt;			// 샘플질문 구분 사용여부( Y:사용/N:미사용)

@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +19,20 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.aiinterview.interview.service.QuestionGubunService;
 import com.aiinterview.interview.vo.QuestionGubunVO;
 
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 @RequestMapping("/questGb")
 @Controller
 public class QuestionGubunController {
 
 	@Resource(name = "questionGubunService")
 	private QuestionGubunService questionGubunService;
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
+	
 
 	@RequestMapping("/manage.do")
 	public String manage() {
@@ -39,7 +48,40 @@ public class QuestionGubunController {
 
 		return "jsonView";
 	}
+	
+	
+	/* 페이징 처리 */
+	@RequestMapping(value = "/retrievePagingList.do")
+	public String retrievePagingList(QuestionGubunVO questGbVO, ModelMap model) throws Exception {
+		
+		System.out.println("페이징 컨트롤러");
+		/** EgovPropertyService.sample */
+		questGbVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		questGbVO.setPageSize(propertiesService.getInt("pageSize"));
 
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(questGbVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(questGbVO.getPageUnit());
+		paginationInfo.setPageSize(questGbVO.getPageSize());
+
+		questGbVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		questGbVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		questGbVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<QuestionGubunVO> resultList = questionGubunService.retrievePagingList(questGbVO);
+		System.out.println("페이징 resultList : "+resultList);
+		model.addAttribute("resultList", resultList);
+
+		int totCnt = questionGubunService.retrievePagingListCnt(questGbVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		return "question/questionGubunManage";
+	}
+
+	
+	/* 등록 */
 	@RequestMapping("/createProcess.do")
 	public String createQuestGbProcess(QuestionGubunVO questGbVO) throws Exception {
 

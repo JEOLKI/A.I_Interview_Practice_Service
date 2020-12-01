@@ -1,8 +1,6 @@
 package com.aiinterview.board.vo;
 
-import com.aiinterview.base.vo.BaseVO;
-
-public class CategoryVO extends BaseVO {
+public class CategoryVO extends CategoryGubunVO{
 
 	private String catSq;
 	private String catContent;

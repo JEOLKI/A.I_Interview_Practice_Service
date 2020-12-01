@@ -93,6 +93,8 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<ui:pagination paginationInfo = "${paginationInfo}"  type="image" jsFunction="linkPage"/>
 
 		<a class="btn btn-default pull-right" href="${cp }/board/regist?gubun_sq=${param.gubun_sq }&userid=${S_MEMBER.userid }">새글 등록</a>
 	</div>

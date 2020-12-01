@@ -34,4 +34,26 @@ public interface QuestionGubunMapper {
 	 */
 	public List<QuestionGubunVO> retrieveQuestGbSearchList(String keyword) throws Exception;
 
+	
+	/**
+	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
+	 * @param questGbVO
+	 * @return 해당페이지 목록
+	 */
+	public List<QuestionGubunVO> retrievePagingList(QuestionGubunVO questGbVO);
+
+	
+	/**
+	 * 페이징처리를 위한 전체 questGbVO 개수 구하는 메서드
+	 * @param questGbVO
+	 * @return 전체 questGbVO 개수
+	 */
+	public int retrievePagingListCnt(QuestionGubunVO questGbVO);
+
+	
+	/**
+	 * 샘플질문 구분(직무) 목록을 조회하는 메서드
+	 * @return questGbList
+	 */
+	public int retrieveList(QuestionGubunVO questGbVO);
 }

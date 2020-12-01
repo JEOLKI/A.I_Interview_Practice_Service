@@ -34,5 +34,40 @@
 		 FROM question_gb
 		WHERE quest_gb_content LIKE '%'||#{keyword}||'%'
 	</select>
-
+	
+	<!-- 페이징 : 해당 페이지리스트 select -->
+	<select id="retriecePagingList" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
+		SELECT A.*
+		  FROM (
+		  	SELECT ROWNUM RNUM, 
+		  		   S.*
+		      FROM (
+		      	SELECT quest_gb_sq, 
+		      		   quest_gb_content, 
+		      		   quest_gb_st
+		          FROM question_gb
+		          		<if test="searchKeyword != null and searchKeyword !=''">
+		          		   AND quest_gb_content LIKE '%'||#{searchKeyword}||'%'
+		          		</if>
+		         ORDER BY quest_gb_sq DESC
+		   	) S
+		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
+	   ) A 
+	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">
+		SELECT count(*) totCnt
+		  FROM question_gb
+		  <if test="searchKeyword != null and searchKeyword !=''">
+		   AND quest_gb_content LIKE '%'||#{searchKeyword}||'%'	
+		  </if>
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
+		SELECT *
+		  FROM question_gb
+	</select>
+	
+	<!-- //페이징 -->
 </mapper>
