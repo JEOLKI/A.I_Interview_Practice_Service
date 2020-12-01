@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.board.dao.CategoryMapper">
+
+	<insert id="create">
+		INSERT INTO CATEGORY (CAT_SQ,
+								CAT_CONTENT,
+								CAT_ST,
+								CAT_GB_SQ)
+		VALUES (CATEGORY_SQ.NEXTVAL,
+				#{catContent},
+				#{catSt},
+				TO_NUMBER(#{catGbSq}))
+	</insert>
+	
+	<update id="update">
+		UPDATE CATEGORY
+		SET    CAT_CONTENT  = #{catContent},
+			   CAT_ST  = #{catSt}
+		WHERE  CAT_SQ  = #{catSq}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM CATEGORY	
+		WHERE  CAT_SQ  = #{catSq}
+	</delete>
+	
+	<select id="retrieve" resultType="com.aiinterview.board.vo.CategoryVO">
+		SELECT *
+		FROM CATEGORY
+		WHERE CAT_SQ = TO_NUMBER(#{catSq})
+	</select>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.board.vo.CategoryVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT *
+					FROM CATEGORY
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	CAT_CONTENT '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+					ORDER BY CAT_SQ DESC
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+		FROM   CATEGORY
+		<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	CAT_CONTENT LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.board.vo.CategoryVO">
+		SELECT *
+		FROM   CATEGORY A, CATEGORY_GB B
+		WHERE  A.CAT_GB_SQ = B.CAT_GB_SQ
+		<if test="boardGbSq != null and boardGbSq != ''">
+		AND    B.BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
+		</if>	
+	</select>
+
+
+</mapper>
