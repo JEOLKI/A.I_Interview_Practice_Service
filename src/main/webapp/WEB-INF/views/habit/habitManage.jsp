@@ -11,7 +11,6 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <title>Insert title here</title>
 <script type="text/javascript" language="javascript" defer="defer">
-	/*습관어 등록  function*/
 	$(document).ready(function(){
 		
 		
@@ -68,7 +67,15 @@
 	</select>
 	</form>
 	<input type="button" id="habitRegistBtn" value="등록">
-	<input type="file">일괄 등록하기</a>
+	
+	
+	<!-- excel file 읽어오기 -->
+    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/habit/massiveCreateProcess.do"/>" >
+        <input type="file" name="excelFile"/>
+        <input type="submit" value="업로드"/> 
+    </form>
+
+	<a href="${cp }/habit/list/excelDown.do">↓ 내려받기</a>
 	<hr>
 	
 	<div id="habitList">
