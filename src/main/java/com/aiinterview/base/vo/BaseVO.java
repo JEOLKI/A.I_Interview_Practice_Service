@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class BaseVO implements Serializable{
+	
 	/** 검색조건 */
 	private String searchCondition = "";
 

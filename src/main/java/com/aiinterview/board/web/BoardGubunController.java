@@ -15,15 +15,9 @@ public class BoardGubunController {
 	@Resource(name="boardGubunService")
 	private BoardGubunService boardGubunService;
 	
-	@RequestMapping("/board.do")
-	public String view() {
-		return "board/boardList";
-	}
-	
-	@RequestMapping(path ="/list.do")
+	@RequestMapping(path ="/retrieveList.do")
 	public String retrieveList(Model model) throws Exception {
 		model.addAttribute("boardGubunList", boardGubunService.retrieveList());
-		System.out.println("ss");
 		return "jsonView";
 	}
 	

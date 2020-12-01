@@ -2,36 +2,37 @@ package com.aiinterview.board.vo;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.aiinterview.base.vo.BaseVO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
 @XmlRootElement(name = "boardVo")
-public class BoardVO {
-
-	private int boardSq;			// 게시글 번호
-	private int boardGbSq;			// 게시글 구분 번호
+public class BoardVO extends BaseVO{
+	
+	private String boardSq;			// 게시글 번호
+	private String boardGbSq;		// 게시글 구분 번호
 	private String boardTitle;		// 게시글 제목
 	private String boardContent;	// 게시글 내용
 	private String boardDate;		// 게시글 등록일자
 	private String boardSt;			// 게시글 상태
-	private int groupNo;			// 게시글 그룹 번호
-	private int parentSq;			// 게시글 부모 번호
+	private String groupNo;			// 게시글 그룹 번호
+	private String parentSq;		// 게시글 부모 번호
 	private String memId;			// 회원 아이디
 
-	public int getBoardSq() {
+	public String getBoardSq() {
 		return boardSq;
 	}
 
-	public void setBoardSq(int boardSq) {
+	public void setBoardSq(String boardSq) {
 		this.boardSq = boardSq;
 	}
 
-	public int getBoardGbSq() {
+	public String getBoardGbSq() {
 		return boardGbSq;
 	}
 
-	public void setBoardGbSq(int boardGbSq) {
+	public void setBoardGbSq(String boardGbSq) {
 		this.boardGbSq = boardGbSq;
 	}
 
@@ -67,19 +68,19 @@ public class BoardVO {
 		this.boardSt = boardSt;
 	}
 
-	public int getGroupNo() {
+	public String getGroupNo() {
 		return groupNo;
 	}
 
-	public void setGroupNo(int groupNo) {
+	public void setGroupNo(String groupNo) {
 		this.groupNo = groupNo;
 	}
 
-	public int getParentSq() {
+	public String getParentSq() {
 		return parentSq;
 	}
 
-	public void setParentSq(int parentSq) {
+	public void setParentSq(String parentSq) {
 		this.parentSq = parentSq;
 	}
 
@@ -97,13 +98,13 @@ public class BoardVO {
 		int result = 1;
 		result = prime * result + ((boardContent == null) ? 0 : boardContent.hashCode());
 		result = prime * result + ((boardDate == null) ? 0 : boardDate.hashCode());
-		result = prime * result + boardGbSq;
-		result = prime * result + boardSq;
+		result = prime * result + ((boardGbSq == null) ? 0 : boardGbSq.hashCode());
+		result = prime * result + ((boardSq == null) ? 0 : boardSq.hashCode());
 		result = prime * result + ((boardSt == null) ? 0 : boardSt.hashCode());
 		result = prime * result + ((boardTitle == null) ? 0 : boardTitle.hashCode());
-		result = prime * result + groupNo;
+		result = prime * result + ((groupNo == null) ? 0 : groupNo.hashCode());
 		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
-		result = prime * result + parentSq;
+		result = prime * result + ((parentSq == null) ? 0 : parentSq.hashCode());
 		return result;
 	}
 
@@ -126,9 +127,15 @@ public class BoardVO {
 				return false;
 		} else if (!boardDate.equals(other.boardDate))
 			return false;
-		if (boardGbSq != other.boardGbSq)
+		if (boardGbSq == null) {
+			if (other.boardGbSq != null)
+				return false;
+		} else if (!boardGbSq.equals(other.boardGbSq))
 			return false;
-		if (boardSq != other.boardSq)
+		if (boardSq == null) {
+			if (other.boardSq != null)
+				return false;
+		} else if (!boardSq.equals(other.boardSq))
 			return false;
 		if (boardSt == null) {
 			if (other.boardSt != null)
@@ -140,14 +147,20 @@ public class BoardVO {
 				return false;
 		} else if (!boardTitle.equals(other.boardTitle))
 			return false;
-		if (groupNo != other.groupNo)
+		if (groupNo == null) {
+			if (other.groupNo != null)
+				return false;
+		} else if (!groupNo.equals(other.groupNo))
 			return false;
 		if (memId == null) {
 			if (other.memId != null)
 				return false;
 		} else if (!memId.equals(other.memId))
 			return false;
-		if (parentSq != other.parentSq)
+		if (parentSq == null) {
+			if (other.parentSq != null)
+				return false;
+		} else if (!parentSq.equals(other.parentSq))
 			return false;
 		return true;
 	}
@@ -158,5 +171,8 @@ public class BoardVO {
 				+ ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardSt=" + boardSt + ", groupNo="
 				+ groupNo + ", parentSq=" + parentSq + ", memId=" + memId + "]";
 	}
-
+	
+	
+	
+	
 }
