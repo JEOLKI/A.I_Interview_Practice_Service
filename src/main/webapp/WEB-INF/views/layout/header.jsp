@@ -281,7 +281,7 @@ function change_close_pop(flag) {
 };
 
 function boardGubunList(){
-	$.ajax({url : "/boardGubun/list.do",
+	$.ajax({url : "/boardGubun/retrieveList.do",
 		method : "get",
 		success : function(data){
 			var html = "";
@@ -289,7 +289,7 @@ function boardGubunList(){
 				var gubun = data.boardGubunList[i];
 				if(gubun.boardGbSt == "Y"){
 					
-				html += '<a href="/board/list.do?boardGbSq='+ gubun.boardGbSq +'&boardGbNm='+gubun.boardGbNm+'">'+gubun.boardGbNm+'</a>';
+					html += '<a href="/board/retrievePagingList.do?boardGbSq='+ gubun.boardGbSq +'&boardGbNm='+gubun.boardGbNm+'">'+gubun.boardGbNm+'</a>';
 
 				}
 			};

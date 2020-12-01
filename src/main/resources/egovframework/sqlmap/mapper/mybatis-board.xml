@@ -4,9 +4,121 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.board.dao.BoardMapper">
 
-	<select id="retrieveList" parameterType="String" resultType="com.aiinterview.board.vo.BoardVO">
-		SELECT *
-		FROM board_gb
+	<insert id="create">
+		<selectKey keyProperty="boardSq" resultType="String" order="BEFORE">
+			SELECT BOARD_SQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD (BOARD_SQ,
+							BOARD_GB_SQ,
+							BOARD_TITLE,
+							BOARD_CONTENT,
+							BOARD_DATE,
+							BOARD_ST,
+							GROUP_NO,
+							PARENT_SQ,
+							MEM_ID)
+		     VALUES (#{boardSq}
+						#{boardGbSq}
+						#{boardTitle}
+						#{boardContent}
+						#{boardDate}
+						#{boardSt}
+						#{groupNo}
+						#{parentSq}
+						#{memId})
+	</insert>
+	
+	<update id="update">
+		UPDATE TB_BOARD
+		SET    TITLE         = #{title},
+		       CONTENTS      = #{contents},
+		       WRITER        = #{writer},
+		       USER_PASSWORD = #{userPassword},
+		       OPEN_YN       = #{openYn}
+		WHERE  BOARD_SN      = #{boardSn}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM BOARD		
+		WHERE  BOARD_SQ      = #{boardSq}
+	</delete>
+	
+	<select id="retrieve" resultType="com.aiinterview.board.vo.BoardVO">
+		SELECT NVL(BOARD_SQ, 0) PARENT_SQ,
+				NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
+				BOARD_ST,
+				NVL(GROUP_NO, 0) GROUP_NO,
+				NVL(PARENT_SQ, 0) PARENT_SQ,
+				MEM_ID
+		FROM BOARD
+	   WHERE BOARD_SQ = #{boardSq}
+	</select>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.board.vo.BoardVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT NVL(BOARD_SQ, 0) BOARD_SQ,
+						NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
+						BOARD_TITLE,
+						BOARD_CONTENT,
+						TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
+						BOARD_ST,
+						NVL(GROUP_NO, 0) GROUP_NO,
+						NVL(PARENT_SQ, 0) PARENT_SQ,
+						MEM_ID
+					FROM BOARD
+					WHERE BOARD_GB_SQ = #{boardGbSq}
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	BOARD_TITLE LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	BOARD_CONTENT LIKE '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+					ORDER BY BOARD_SQ DESC
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+			FROM BOARD
+			WHERE BOARD_GB_SQ = #{boardGbSq}
+		<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	BOARD_TITLE LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	BOARD_CONTENT LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.board.vo.BoardVO">
+		SELECT NVL(BOARD_SQ, 0) BOARD_SQ,
+				NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
+				BOARD_ST,
+				NVL(GROUP_NO, 0) GROUP_NO,
+				NVL(PARENT_SQ, 0) PARENT_SQ,
+				MEM_ID
+		FROM BOARD
+		WHERE BOARD_GB_SQ = #{boardGbSq}
 	</select>
 
 
