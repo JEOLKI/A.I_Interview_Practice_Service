@@ -1,4 +1,4 @@
-package com.aiinterview.board.dao;
+package com.aiinterview.board.service;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,10 +11,10 @@ import org.junit.Test;
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.board.vo.BoardGubunVO;
 
-public class BoardGubunMapperTest extends ModelTestConfig{
+public class BoardGubunServiceTest extends ModelTestConfig{
 
-	@Resource(name="boardGubunMapper")
-	private BoardGubunMapper boardGubunMapper;
+	@Resource(name="boardGubunService")
+	private BoardGubunService boardGubunService;
 	
 	@Test
 	public void retrieveListTest() throws Exception {
@@ -22,7 +22,7 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		/***Given***/
 		
 		/***When***/
-		List<BoardGubunVO> boardGubunList = boardGubunMapper.retrieveList();
+		List<BoardGubunVO> boardGubunList = boardGubunService.retrieveList();
 
 		/***Then***/
 		assertEquals(4, boardGubunList.size());
@@ -36,7 +36,7 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		BoardGubunVO boardGubunVO = new BoardGubunVO();
 		
 		/***When***/
-		int result = boardGubunMapper.retrievePagingListCnt(boardGubunVO);
+		int result = boardGubunService.retrievePagingListCnt(boardGubunVO);
 
 		/***Then***/
 		assertEquals(4, result);
@@ -51,7 +51,7 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		BoardGubunVO boardGubunVO = new BoardGubunVO();
 		
 		/***When***/
-		List<BoardGubunVO> boardGubunList = boardGubunMapper.retrievePagingList(boardGubunVO);
+		List<BoardGubunVO> boardGubunList = boardGubunService.retrievePagingList(boardGubunVO);
 		
 		/***Then***/
 		assertEquals(4, boardGubunList.size());
@@ -65,7 +65,7 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		String boardGbSq = "1";
 		
 		/***When***/
-		BoardGubunVO boardGubunVO = boardGubunMapper.retrieve(boardGbSq);
+		BoardGubunVO boardGubunVO = boardGubunService.retrieve(boardGbSq);
 		
 		/***Then***/
 		assertEquals("1", boardGubunVO.getBoardGbSq());
@@ -81,10 +81,10 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		boardGubunVO.setBoardGbSt("Y");
 		
 		/***When***/
-		boardGubunMapper.create(boardGubunVO);
+		String result = boardGubunService.create(boardGubunVO);
 		
 		/***Then***/
-		assertEquals(5, boardGubunMapper.retrieveList().size());
+		assertEquals(5, result);
 		
 	}
 	
@@ -98,7 +98,7 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		boardGubunVO.setBoardGbSt("Y");
 		
 		/***When***/
-		int result = boardGubunMapper.update(boardGubunVO);
+		int result = boardGubunService.update(boardGubunVO);
 		
 		/***Then***/
 		assertEquals(1, result);
@@ -112,13 +112,11 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		String boardGbSq = "2";
 		
 		/***When***/
-		int result = boardGubunMapper.delete(boardGbSq);
+		int result = boardGubunService.delete(boardGbSq);
 		
 		/***Then***/
 		assertEquals(1, result);
 		
 	}
-	
-	
 
 }

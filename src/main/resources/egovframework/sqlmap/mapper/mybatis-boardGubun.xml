@@ -45,11 +45,11 @@
 		      	SELECT BOARD_GB_SQ,
 					   BOARD_GB_NM,
 					   BOARD_GB_ST
-				  FROM BOARD_GB
+					FROM BOARD_GB
 					<if test="searchKeyword != null and searchKeyword != ''">
 				        <choose>
 				            <when test="searchCondition == 0">
-								AND	BOARD_GB_NM LIKE '%' || #{searchKeyword} || '%'
+								AND	BOARD_GB_NM '%' || #{searchKeyword} || '%'
 							</when>
 						</choose>
 					</if>
