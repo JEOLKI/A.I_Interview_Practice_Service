@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class TalentVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class TalentVO extends BaseVO{
 
 	private String talentSq; 		// 인재상 번호
 	private String talentNm; 	// 인재상 이름

@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class KeywordVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class KeywordVO extends BaseVO{
 	
 	private String keywordSq; 				// 키워드 번호
 	private String keywordContent;		// 키워드 내용

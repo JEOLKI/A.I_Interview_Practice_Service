@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class HabitVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class HabitVO extends BaseVO{
 	
 	private String habitSq;	// 습관어 번호
 	private String habitGb;	// 습관어 내용

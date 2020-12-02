@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class SampleQuestionVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class SampleQuestionVO extends BaseVO{
 	private String sampQuestSq;			// 샘플질문번호
 	private String sampQuestContent;	// 샘플질문 내용
 	private String sampQuestSt;			// 샘플질문 사용 여부

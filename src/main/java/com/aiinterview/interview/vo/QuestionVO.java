@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class QuestionVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class QuestionVO extends BaseVO{
 	private String questSq;			// 질문 번호
 	private String questContent;	// 질문 내용
 	private String interviewSq;		// 면접 번호

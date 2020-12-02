@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class AnswerVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class AnswerVO  extends BaseVO{
 	private String ansSq; 			// 답변 번호
 	private String ansContent;	// 답변 내용
 	private String videoPath;	// 영상 저장 경로

@@ -1,6 +1,8 @@
 package com.aiinterview.interview.vo;
 
-public class KeywordMatchingVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class KeywordMatchingVO extends BaseVO{
 	private String talentSq; 	// 인재상 번호
 	private String keywordSq; 	// 키워드 번호
 	public String getTalentSq() {
