@@ -29,21 +29,6 @@ public class MemberController {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 
-	@RequestMapping(path = "/main.do", method = { RequestMethod.GET })
-	public String mainView() {
-		return "member/membermain";
-	}
-
-	@RequestMapping(path = "/interviewresult.do", method = { RequestMethod.GET })
-	public String interviewResultView() {
-		return "member/interviewresult";
-	}
-
-	@RequestMapping(path = "/question.do", method = { RequestMethod.GET })
-	public String questionView() {
-		return "member/memberQuestion";
-	}
-
 	@RequestMapping(path = "/test.do", method = { RequestMethod.GET })
 	public String testView() {
 		logger.debug("MemberController.testView()진입");

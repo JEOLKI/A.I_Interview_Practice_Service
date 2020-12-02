@@ -25,6 +25,11 @@ public class LoginController {
 	public String view() {
 		return "login/main";
 	}
+	
+	@RequestMapping(value = "/home.do", method = { RequestMethod.GET })
+	public String home() {
+		return "login/home";
+	}
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
 	public String login(String memId, String memPw, HttpSession session, Model model) {

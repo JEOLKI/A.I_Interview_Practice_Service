@@ -14,6 +14,11 @@
 </style>
 
 <script>
+$(document).ready(function() {
+	$('#home').on('click',function(){
+		document.location = "/login/home.do";
+	});
+});
 
 </script>
 
@@ -34,7 +39,7 @@
 					</div>
 					<img src="/images/landing_hero_illust.a57fd7e5.png"
 						alt="landing-img" class="landing-img">
-					<button id="experience" class="login">무료 체험하기</button>
+					<button id="home" class="login">무료 체험하기</button>
 				</div>
 				<img src="/images/arrow.0aa5ca57.png" alt="" class="triangle-icon">
 			</div>
