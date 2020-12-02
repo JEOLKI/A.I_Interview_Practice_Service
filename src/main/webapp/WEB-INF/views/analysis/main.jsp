@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +13,6 @@
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-
-
-    
  <style>
       body * {
         box-sizing: border-box;
@@ -128,16 +127,53 @@ to {
 }
 </style>
 
+
+<script>
+$(document).ready(function() {
+	$('#scriptGbBtn').on('click', function() {
+		var scriptGbSq = $("#scriptGbBtn").val();
+		console.log("scriptGbSq  : "+scriptGbSq); //5k
+		
+		console.log("jstl length : "+"${fn:length(scriptList)}");
+
+		var scriptList = ${scriptList};
+		var availableList = [];
+		for(var i = 0; i < scriptList.length; i++){
+			if(scriptList[i].scriptGbSq==scriptGbSq){
+				availableList.push(scriptList[i].scriptContent);
+			}
+		} 
+		console.log("inner scriptList : "+availableList);
+
+		var randomCnt = Math.ceil((Math.random()*scriptList.length-1) + 1);
+		console.log("random Cnt : "+randomCnt);
+
+		
+		var randScript = scriptList[randomCnt];
+		console.log("randScript : "+randScript);
+		
+		document.getElementById('scriptContent').innerHTML = randScript;
+	});
+
+});
+</script>
 </head>
 <body>
 
+<c:forEach items="${scriptList }" var="script">
+	${script.scriptContent }
+</c:forEach>
+
+<c:forEach items="${scriptGbList }" var="scriptGb">
+	${scriptGb.scriptGbSq }
+</c:forEach>
 
 
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<div class="my-bar interview">
-				<div class="title" >내 면접</div>
+				<div class="title">내 면접</div>
 				<div class="start-btn"><a href = "/member/question">
 					새 면접 만들기<img src="/static/media/right.2a3d42b5.svg" alt=""></a>
 				</div>
@@ -158,8 +194,8 @@ to {
 							<a class="review-btn"
 								href="/analysisresult/interviewresult.do">결과
 								보기</a>
-<!-- 							<a class="review-btn" -->
-<!-- 								href="/analysisresult/interviewlist.do">면접 분석</a> -->
+							<a class="review-btn"
+								href="/analysisresult/interviewlist.do">면접 분석</a>
 						</div>
 						<div class="ProspectArea box">
 							<div class="title">
@@ -477,23 +513,23 @@ to {
 		</div>
 	</div>
 
-
-
-
-
-
 								<div class="modal-wrapper">
 									<div class="modal-box">
 									<div>
-										<button><div class="label thislabel">한국어</div></button>
-										<button><div class="label thislabel">영어</div></button>
+									<c:forEach items="${scriptGbList }" var="scriptGbList">
+										<button id="scriptGbBtn" value="${scriptGbList.scriptGbSq }"><div class="label thislabel">${scriptGbList.scriptGbContent }</div></button>
+									</c:forEach>
 									</div>
-										<div class="modal-content pro">동해물과 백두산이 마르고 닳도록
+										<div class="modal-content pro" id="scriptContent">
+									
+									
+									
 										<br>
 										<br>
 										<br>
 										<br>
 										</div>
+								
 										<div class="modal-close-box">
 											<button>시작하기</button>
 											<button id="modal-close-btn">close</button>

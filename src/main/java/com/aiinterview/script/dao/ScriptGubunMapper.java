@@ -39,4 +39,14 @@ public interface ScriptGubunMapper {
 	 * @throws Exception
 	 */
 	public int update(ScriptGubunVO ScriptGbVO) throws Exception;
+	
+//	/**
+//	 * 스크립트 구분의 검색 목록을 반환하는 메서드
+//	 * @param keyword
+//	 * @return ScriptGubunVO
+//	 * @throws Exception
+//	 */
+//	public List<ScriptGubunVO> retrieveSearchList(String keyword) throws Exception;
+
+	
 }

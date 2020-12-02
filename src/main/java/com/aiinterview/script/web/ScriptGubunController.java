@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.aiinterview.interview.vo.QuestionGubunVO;
 import com.aiinterview.script.service.ScriptGubunService;
 import com.aiinterview.script.vo.ScriptGubunVO;
 
@@ -56,5 +57,13 @@ public class ScriptGubunController {
 		}
 	}
 	
+/*	@RequestMapping("/searchlist.do")
+	public String retrieveSearchList(String keyword, Model model) throws Exception {
+
+		List<ScriptGubunVO> scriptGbSearchList = scriptGubunService.retrieveSearchList(keyword);
+		model.addAttribute("searchList", scriptGbSearchList);
+		
+		return "jsonView";
+	}*/
 	
 }

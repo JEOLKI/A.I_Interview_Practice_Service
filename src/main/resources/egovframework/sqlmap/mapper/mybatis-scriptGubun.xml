@@ -29,5 +29,4 @@
 		 	   script_gb_st = #{scriptGbSt}
 		 WHERE script_gb_sq = #{scriptGbSq} 
 	</update>
-	
 </mapper>
