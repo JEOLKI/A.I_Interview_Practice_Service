@@ -54,10 +54,9 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
-	@RequestMapping(value = "/retrievePagingList.do")
-	public String retrievePagingList(String boardGbSq, String boardGbNm, HttpSession session, ModelMap model) {
+	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String retrievePagingList(BoardVO boardVO, String boardGbSq, String boardGbNm, HttpSession session, ModelMap model) {
 		
-		BoardVO boardVO = new BoardVO();
 		session.setAttribute("boardGbSq", boardGbSq);
 		session.setAttribute("boardGbNm", boardGbNm);
 		
