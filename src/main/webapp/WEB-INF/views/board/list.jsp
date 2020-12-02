@@ -32,7 +32,20 @@
 </style>
 
 <script type="text/javascript">
-
+	
+	$(document).ready(function(){
+		$(".y_board").on("click", function(){
+			//console.log("click");
+			
+			// data-board_sq
+			var boardSq = $(this).data("board_sq");
+			console.log("boardSq : " + boardSq);
+	
+			document.location="/board/retrieve.do?boardSq=" + boardSq; 
+			
+		});
+	});
+	
 </script>
 
 
@@ -50,12 +63,11 @@
 	
    <div class="row">
 	<div class="col-sm-8 blog-main">
-		<h2 class="sub-header">${param.gubun_nm }</h2>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>게시글 번호</th>
+						<th>번호</th>
 						<th>제목</th>
 						<th>작성자 아이디</th>
 						<th>작성일시</th>
@@ -64,7 +76,7 @@
 				<tbody id="boardList">
 					<c:forEach items="${resultList }" var="board">
 						<c:choose>
-							<c:when test="${board.boardSt =='y'}">
+							<c:when test="${board.boardSt =='N'}">
 								<tr>
 							</c:when>
 							<c:otherwise>
@@ -75,11 +87,11 @@
 							<td>${board.boardSq }</td>	
 						
 						<c:choose>
-							<c:when test="${board.boardSt =='n' }">
+							<c:when test="${board.boardSt =='N' }">
 								<td>[삭제된 게시글 입니다.]</td>
 							</c:when>
 							<c:otherwise>
-								<td>${board.boardTitle } </td>
+								<td>[${board.catContent }] ${board.boardTitle } </td>
 							</c:otherwise>
 						</c:choose>
 						
@@ -96,7 +108,8 @@
 		
 		<ui:pagination paginationInfo = "${paginationInfo}"  type="image" jsFunction="linkPage"/>
 
-		<a class="btn btn-default pull-right" href="${cp }/board/regist?gubun_sq=${param.gubun_sq }&userid=${S_MEMBER.userid }">새글 등록</a>
+		<a class="btn btn-default pull-right" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">새글 등록</a>
+	
 	</div>
 </div>
 			

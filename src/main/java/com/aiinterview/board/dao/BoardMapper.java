@@ -17,7 +17,7 @@ public interface BoardMapper {
 	
 	public BoardVO retrieve(String boardSq) throws Exception;
 	
-	public String create(BoardVO boardVO) throws Exception;
+	public void create(BoardVO boardVO) throws Exception;
 	
 	public int update(BoardVO boardVO) throws Exception;
 	

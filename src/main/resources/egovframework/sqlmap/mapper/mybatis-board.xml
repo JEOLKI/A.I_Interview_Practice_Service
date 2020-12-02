@@ -16,35 +16,37 @@
 							BOARD_ST,
 							GROUP_NO,
 							PARENT_SQ,
-							MEM_ID)
-		     VALUES (#{boardSq}
-						#{boardGbSq}
-						#{boardTitle}
-						#{boardContent}
-						#{boardDate}
-						#{boardSt}
-						#{groupNo}
-						#{parentSq}
-						#{memId})
+							MEM_ID,
+							CAT_CONTENT)
+		     VALUES (#{boardSq},
+						#{boardGbSq},
+						#{boardTitle},
+						#{boardContent},
+						SYSDATE,
+						#{boardSt},
+						#{groupNo},
+						#{parentSq},
+						#{memId},
+						#{catContent})
 	</insert>
 	
 	<update id="update">
-		UPDATE TB_BOARD
-		SET    TITLE         = #{title},
-		       CONTENTS      = #{contents},
-		       WRITER        = #{writer},
-		       USER_PASSWORD = #{userPassword},
-		       OPEN_YN       = #{openYn}
-		WHERE  BOARD_SN      = #{boardSn}
+		UPDATE BOARD
+		SET    BOARD_TITLE     = #{boardTitle},
+		       BOARD_CONTENT   = #{boardContent},
+		       BOARD_ST        = #{boardSt},
+		       CAT_CONTENT	   = #{catContent}
+		WHERE  BOARD_SQ        = #{boardSq}
 	</update>
 	
-	<delete id="delete">
-		DELETE FROM BOARD		
-		WHERE  BOARD_SQ      = #{boardSq}
-	</delete>
+	<update id="delete">
+		UPDATE BOARD
+		SET    BOARD_ST        = 'N'
+		WHERE  BOARD_SQ        = #{boardSq}
+	</update>
 	
 	<select id="retrieve" resultType="com.aiinterview.board.vo.BoardVO">
-		SELECT NVL(BOARD_SQ, 0) PARENT_SQ,
+		SELECT NVL(BOARD_SQ, 0) BOARD_SQ,
 				NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
 				BOARD_TITLE,
 				BOARD_CONTENT,
@@ -52,7 +54,8 @@
 				BOARD_ST,
 				NVL(GROUP_NO, 0) GROUP_NO,
 				NVL(PARENT_SQ, 0) PARENT_SQ,
-				MEM_ID
+				MEM_ID,
+				CAT_CONTENT
 		FROM BOARD
 	   WHERE BOARD_SQ = #{boardSq}
 	</select>
@@ -71,7 +74,8 @@
 						BOARD_ST,
 						NVL(GROUP_NO, 0) GROUP_NO,
 						NVL(PARENT_SQ, 0) PARENT_SQ,
-						MEM_ID
+						MEM_ID,
+						CAT_CONTENT
 					FROM BOARD
 					WHERE BOARD_GB_SQ = #{boardGbSq}
 					<if test="searchKeyword != null and searchKeyword != ''">
@@ -116,7 +120,8 @@
 				BOARD_ST,
 				NVL(GROUP_NO, 0) GROUP_NO,
 				NVL(PARENT_SQ, 0) PARENT_SQ,
-				MEM_ID
+				MEM_ID,
+				CAT_CONTENT
 		FROM BOARD
 		WHERE BOARD_GB_SQ = #{boardGbSq}
 	</select>

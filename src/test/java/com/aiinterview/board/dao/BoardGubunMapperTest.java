@@ -7,12 +7,17 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.board.vo.BoardGubunVO;
+import com.aiinterview.board.web.BoardController;
 
 public class BoardGubunMapperTest extends ModelTestConfig{
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardGubunMapperTest.class);
+	
 	@Resource(name="boardGubunMapper")
 	private BoardGubunMapper boardGubunMapper;
 	

@@ -1,130 +1,298 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+   pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+
+<style type="text/css">
+	@charset "UTF-8";
+
+	#box{
+		margin-top: 3%;
+	}
+
+	#boardList{
+		min-width: 1000px;
+		
+	}
+	
+	#menuBox{
+		float: right;
+	}
+	
+	#tr1{
+		background: #E6E8E8;
+	}
+	
+	#tr2 {
+		background: #E6E8E8;
+	}
+	
+	.list td{
+		height: 40px;
+		border-bottom: 1px solid #E6E6E6;
+	}
+	
+	.list, #contentTable{
+		text-align: center;
+		border-top: 1px solid #A4A4A4;
+		border-bottom: 1px solid #A4A4A4;
+		border-collapse: collapse;
+	}
+	
+	#titleTd {
+		width: 700px;
+	}
+	
+	#writerTd {
+		width: 400px;
+	}
+	
+	#dateTd {
+		width: 400px;
+	}
+	
+	#btngroup1{
+		text-align: center;
+	}
+	
+	a:link, a:visited{
+ 		text-decoration: none;
+ 		color: black;
+ 		font-weight: bold;
+ 	}
+	
+	.trtab:hover{
+		background: #F6F6F6;
+	}
+	
+	.tdMenu{
+		width: 100px;
+		height: 40px;
+	}
+	
+	#contentTable td{
+		border-bottom: 1px solid #E6E6E6;
+	}
+	
+	#board_content, #board_title{
+		text-align: left;
+	}
+	
+	#board_title{
+		width: 700px;
+	}
+	
+	#writer{
+		width: 200px;
+	}
+	
+	#date{
+		width: 200px;
+	}
+	
+	#board_content{
+		height: 230px;
+		vertical-align: top;
+		padding-top: 10px;
+	}
+	
+	.content{
+		padding-top: 10px;
+		vertical-align: top;
+	}
+	
+	#but{
+		float: right;
+	}
+	
+	.replyTable{
+		text-align: left;
+	}
+	
+	.replyMem{
+		width: 100px;
+		vertical-align: top;
+		padding-top: 10px;
+	}
+	
+	.replyContent{
+		width: 1200px;
+	}
+	
+	#replyContent{
+		border: none;
+		display: inline-block;
+		width: 92%;
+		height : 100px; 
+		padding: 1.1em;
+		vertical-align: middle;
+	}
+	
+	#insertReply{
+		padding-top: 10px;
+		vertical-align: top;
+		height: 100px;
+		width: 60px;
+	}
+	
+	#atch{
+		text-align: left;
+	}
+	
+	#reMenu{
+		vertical-align: top;
+		padding-top: 10px;
+	}
+	
+	.butgroup2{
+		text-align: right;
+	}
+	
+	#firstLine, .inputTitle{
+		background: #E6E8E8;
+	}
+	
+	.inputTitle {
+		border: none;
+		width: 80%;
+		vertical-align: middle;
+		height: 40px;
+	}
+
+	.textareaContent {
+		margin-top: 10px;
+		border: none;
+		vertical-align: top;
+		height: 400px;
+		width: 80%;
+	}
+	
+	td{
+		height: 40px;
+	}
+	
+	#inputTd{
+		width: 80%;
+	}
+
+	
+
+</style>
 
 <script type="text/javascript">
-
+	
 	$(document).ready(function(){
-
-		$("#replyRegBtn").on('click', function(){
-			$("#replyfrm").submit();
-		});
-
-		$(".replyDelBtn").on('click', function(){
-			var reply_sq = $(this).data("reply_sq");
-			document.location="${cp }/reply/delete?reply_sq=" + reply_sq +"&board_sq=${boardVo.board_sq }";
-		});
-
 		$("#boardDelBtn").on('click', function(){
-			document.location="${cp }/board/delete?board_sq=${boardVo.board_sq }&gubun_sq=${boardVo.gubun_sq}&gubun_nm=${param.gubun_nm}";
+			document.location="${pageContext.request.contextPath }/board/delete.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}&boardGbNm=${boardGbNm }";
 		});
-
-		$("#boardChildBtn").on('click', function(){
-			document.location="${cp }/board/regist?userid=${S_MEMBER.userid }&gubun_sq=${boardVo.gubun_sq }&board_sq=${boardVo.board_sq }&group_no=${boardVo.group_no }";
-		})
-
+		
 		$("#BoardUpdateBtn").on('click', function(){
-			document.location="${cp }/board/update?board_sq=${boardVo.board_sq }";
+			document.location="${pageContext.request.contextPath }/board/update.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}";
 		})
-
-		$('#reply_content').on('keyup', function(){
-		    var reply_content = $(this).val();
-		    $('#counter').html("("+reply_content.length+" / 최대 500자)");    //글자수 실시간 카운팅
-
-		    if (reply_content.length > 500){
-		        alert("최대 500자까지 입력 가능합니다.");
-		        $(this).val(reply_content.substring(0, 500));
-		        $('#counter').html("(500 / 최대 500자)");
-		    }
-		});
 
 	});
+
 </script>
 
-		
-<div class="form-group">
-	<label for="board_title" class="col-sm-2 control-label">제목</label>
-	<div class="col-sm-10">
-		<label class="control-label">${boardVo.board_title }</label>
-	</div>
-</div>
 
-<div class="form-group">
-	<label for="userid" class="col-sm-2 control-label">작성자</label>
-	<div class="col-sm-10">
-		<label class="control-label">${boardVo.userid }</label>
-	</div>
-</div>
 
-<div class="form-group">
-	<label for="board_date" class="col-sm-2 control-label">등록일자</label>
-	<div class="col-sm-10">
-		<label class="control-label"><fmt:formatDate value="${boardVo.board_date }" pattern="YYYY-MM-dd"/></label>
-	</div>
-</div>
+</head>
+<body>
 
-<div class="form-group">
-	<label for="board_content" class="col-sm-2 control-label">글 내용</label>
-	<div class="col-sm-10">
-		<label class="control-label">${boardVo.board_content }</label>
-	</div>
-</div>
+	<%@ include file="/WEB-INF/views/layout/header.jsp" %>
 
-<div class="form-group">
-	<label for="board_content" class="col-sm-2 control-label">첨부파일</label>
-	<div class="col-sm-10">
-	
-		<c:forEach items="${atchFileList }" var="atchfile">
-			<a href='${cp }/file/download?atch_sq=${atchfile.atch_sq }' >${atchfile.atch_filename }</a> <br>
-		</c:forEach>
-	</div>
-</div>
-
-<c:if test="${boardVo.userid == S_MEMBER.userid }">
-	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-10">
-			<button id="BoardUpdateBtn" type="button" class="btn btn-default" data-userid="${boardVo.board_sq }">수정</button>
-			<button id="boardDelBtn" type="button" class="btn btn-default" data-board_sq="${boardVo.board_sq }">삭제</button>
-			<button id="boardChildBtn" type="button" class="btn btn-default" data-board_sq="${boardVo.board_sq }">답글</button>
+	<section class="hero" id="boardGu${boardGbSq }">
+		<div class="hero__content" >
+			<div class="content__title">${boardGbNm }</div>
 		</div>
-	</div>
-</c:if>
+	</section>
 
+	<div class="row">
 
-
-<div class="form-group">
-	<label for="zipcode" class="col-sm-2 control-label">댓글</label>
-	<div class="col-sm-10">
-		<c:forEach items="${replyList }" var="reply">
-		
-			<c:choose>
-				<c:when test="${reply.reply_yn == 'n' }">
-					<label class="control-label">[삭제된 댓글 입니다.]</label>
-				</c:when>
-				<c:otherwise>
-					<label class="control-label">
-					<span>${reply.reply_content }</span> [${reply.userid } / <fmt:formatDate value="${reply.reply_date }" pattern="YYYY-MM-dd"/>]
-					</label>
-					<c:if test="${reply.userid == S_MEMBER.userid }">
-						<button class="replyDelBtn" data-reply_sq="${reply.reply_sq }">삭제</button>
-					</c:if>
-				</c:otherwise>
-			</c:choose>
+		<table id='contentTable'>
+			<tr id='tr1'>
+				<td class='tdMenu'>제목 :</td>
+				<td id='boardTitle'>[ ${boardVO.catContent} ] ${boardVO.boardTitle }</td>
+				<td class='tdMenu'>작성자 :</td>
+				<td id='memId'>${boardVO.memId }</td>
+				<td class='tdMenu'>작성일자 :</td>
+				<td id='boardDate'>${boardVO.boardDate }</td>
+			</tr>
 			
-			<br>
-		</c:forEach>
-		<br>
+			<tr>
+				<td class='tdMenu content'>내용 :</td>
+				<td id='boardContent' colspan='5'>${boardVO.boardContent}</td>
+			</tr>
+			
+			<tr>
+				<td class='tdMenu'>첨부파일 :</td>
+				<td colspan='5'>
+					<c:forEach items="${attachmentList }" var="attachment">
+						<a>${attachment.atchNm }</a> <br>
+					</c:forEach>
+				</td>
+			</tr>
+			
+			<tr>
+				<tr id='tr2'>
+				<td class='tdMenu' id="reMenu">  댓    글 : </td>
+				<td id='replyList' colspan='5'>
+					<table class='replyTable'>
+						<c:forEach items="${replyList }" var="replyVO">
+						<tr>
+							<td class='replyMem' rowspan='2'>${replyVO.memId }</td>
+							<td class='replyDate'>${replyVO.replyDate }</td>
+							<td class='butgroup2' rowspan='2'>
+							
+							<c:if test="${replyVO.memId == S_MEMBER.memId }">
+								<button class='updateReply' type='button'>수정</button>
+								<button class='insertUpdate' type='button'>등록</button>
+								<button class='deleteReply' type='button'>삭제</button>
+							</c:if>
+					
+							</td>
+						</tr>
+						
+						<tr>
+							<td class='replyContent' colspan='4'>${replyVO.replyContent }</td>
+						</tr>
+					
+					</c:forEach>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='6'> 
+					<form id="replyfrm" action="${cp }/reply/create.do" method="post">
+						<input HIDDEN type="text" name="boardSq" value="${boardVO.boardSq }">
+						<input HIDDEN type="text" name="memId" value="${S_MEMBER.memId }">
+						<textarea id="replyContent" name="replyContent" rows="" cols=""></textarea>
+						<button id="insertReply" type="button">댓글저장</button>
+					</form>
+				</td>
+			</tr>
+		</table>
 		
-		<form id="replyfrm" action="${cp }/reply/regist" method="get">
-			<input HIDDEN type="text" name="board_sq" value="${boardVo.board_sq }">
-			<input HIDDEN type="text" name="userid" value="${S_MEMBER.userid }">
-			<textarea id="reply_content" name="reply_content" rows="" cols=""></textarea>
-			<span style="color:#aaa;" id="counter">(500 / 최대 500자)</span>
-			<button id="replyRegBtn" type="button">댓글저장</button>
-		</form>
-		
+		<div>
+			<c:if test="${boardVO.memId == S_MEMBER.memId }">
+				<button id="BoardUpdateBtn" type="button" class="btn btn-default" >수정</button>
+				<button id="boardDelBtn" type="button" class="btn btn-default" >삭제</button>
+			</c:if>
+			
+			<button id="boardChildBtn" type="button" class="btn btn-default" >답글</button>
+		</div>
+
 	</div>
-</div>
 
 
+
+</body>
+</html>

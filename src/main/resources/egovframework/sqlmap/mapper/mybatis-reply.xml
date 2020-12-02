@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.board.dao.ReplyMapper">
+
+	<insert id="create">
+		INSERT INTO REPLY (REPLY_SQ,
+							BOARD_SQ,
+							REPLY_CONTENT,
+							REPLY_DATE,
+							REPLY_ST,
+							MEM_ID)
+		     VALUES (REPLY_SQ.NEXTVAL,
+						#{boardSq},
+						#{replyContent},
+						SYSDATE,
+						#{replySt},
+						#{memId})
+	</insert>
+	
+	<update id="update">
+		UPDATE REPLY
+		SET    REPLY_CONTENT      = #{replyContent},
+		       REPLY_ST        = #{replySt}
+		WHERE  REPLY_SQ      = #{replySq}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM REPLY		
+		WHERE  REPLY_SQ      = #{replySq}
+	</delete>
+	
+	<select id="retrieve" resultType="com.aiinterview.board.vo.ReplyVO">
+		SELECT *
+		FROM REPLY
+	   WHERE REPLY_SQ = #{replySq}
+	</select>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.board.vo.ReplyVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT *
+					FROM REPLY
+					WHERE BOARD_SQ = #{boardSq}
+					ORDER BY REPLY_SQ DESC
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+			FROM REPLY
+			WHERE BOARD_SQ = #{boardSq}
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.board.vo.ReplyVO">
+		SELECT *
+		FROM REPLY
+		WHERE BOARD_SQ = #{boardSq}
+	</select>
+
+
+</mapper>

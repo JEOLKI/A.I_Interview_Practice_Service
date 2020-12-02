@@ -29,7 +29,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 		List<CategoryVO> categoryList = categoryMapper.retrieveList(categoryVO);
 
 		/***Then***/
-		assertEquals(5, categoryList.size());
+		assertEquals(2, categoryList.size());
 		
 	}
 	
@@ -107,7 +107,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
-		categoryVO.setCatSq("4");
+		categoryVO.setCatSq("1");
 		categoryVO.setCatContent("TESTCODE");
 		categoryVO.setCatSt("N");
 		
@@ -123,7 +123,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 	public void deleteTest() throws Exception {
 		
 		/***Given***/
-		String catSq = "7";
+		String catSq = "1";
 		
 		/***When***/
 		int result = categoryMapper.delete(catSq);

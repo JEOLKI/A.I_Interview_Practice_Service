@@ -1,11 +1,28 @@
 package com.aiinterview.board.vo;
 
-public class CategoryVO extends CategoryGubunVO{
+public class CategoryVO extends CategoryGubunVO {
 
 	private String catSq;
 	private String catContent;
 	private String catSt;
 	private String catGbSq;
+	private String boardGbSq;
+
+	public CategoryVO() {
+
+	}
+
+	public CategoryVO(String boardGbSq) {
+		this.boardGbSq = boardGbSq;
+	}
+
+	public String getBoardGbSq() {
+		return boardGbSq;
+	}
+
+	public void setBoardGbSq(String boardGbSq) {
+		this.boardGbSq = boardGbSq;
+	}
 
 	public String getCatSq() {
 		return catSq;
@@ -42,7 +59,8 @@ public class CategoryVO extends CategoryGubunVO{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + ((boardGbSq == null) ? 0 : boardGbSq.hashCode());
 		result = prime * result + ((catContent == null) ? 0 : catContent.hashCode());
 		result = prime * result + ((catGbSq == null) ? 0 : catGbSq.hashCode());
 		result = prime * result + ((catSq == null) ? 0 : catSq.hashCode());
@@ -54,11 +72,16 @@ public class CategoryVO extends CategoryGubunVO{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		CategoryVO other = (CategoryVO) obj;
+		if (boardGbSq == null) {
+			if (other.boardGbSq != null)
+				return false;
+		} else if (!boardGbSq.equals(other.boardGbSq))
+			return false;
 		if (catContent == null) {
 			if (other.catContent != null)
 				return false;
@@ -85,7 +108,7 @@ public class CategoryVO extends CategoryGubunVO{
 	@Override
 	public String toString() {
 		return "CategoryVO [catSq=" + catSq + ", catContent=" + catContent + ", catSt=" + catSt + ", catGbSq=" + catGbSq
-				+ "]";
+				+ ", boardGbSq=" + boardGbSq + "]";
 	}
 
 }

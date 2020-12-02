@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.board.dao.AttachmentMapper">
+
+	<insert id="create">
+		INSERT INTO ATTACHMENT (ATCH_SQ,
+								BOARD_SQ,
+								ATCH_NM,
+								ATCH_PATH)
+		     VALUES (ATTACHMENT_SQ.NEXTVAL,
+						#{boardSq},
+						#{atchNm},
+						#{atchPath})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM ATTACHMENT		
+		WHERE  ATCH_SQ  = #{atchSq}
+	</delete>
+	
+	<select id="retrieve" resultType="com.aiinterview.board.vo.AttachmentVO">
+		SELECT *
+		FROM ATTACHMENT
+	   WHERE ATCH_SQ = #{atchSq}
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.board.vo.AttachmentVO">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE BOARD_SQ = #{boardSq}
+	</select>
+
+
+</mapper>

@@ -1,8 +1,6 @@
 package com.aiinterview.board.vo;
 
-import com.aiinterview.base.vo.BaseVO;
-
-public class ReplyVO extends BaseVO {
+public class ReplyVO extends BoardVO {
 
 	private String replySq;
 	private String boardSq;

@@ -27,7 +27,7 @@ public class CategoryGubunMapperTest extends ModelTestConfig {
 		List<CategoryGubunVO> categoryGubunList = categoryGubunMapper.retrieveList();
 
 		/***Then***/
-		assertEquals(1, categoryGubunList.size());
+		assertEquals(4, categoryGubunList.size());
 		
 	}
 	
@@ -41,7 +41,7 @@ public class CategoryGubunMapperTest extends ModelTestConfig {
 		int result = categoryGubunMapper.retrievePagingListCnt(categoryGubunVO);
 
 		/***Then***/
-		assertEquals(1, result);
+		assertEquals(4, result);
 		
 	}
 	
@@ -65,7 +65,7 @@ public class CategoryGubunMapperTest extends ModelTestConfig {
 		List<CategoryGubunVO> categoryGubunList = categoryGubunMapper.retrievePagingList(categoryGubunVO);
 		
 		/***Then***/
-		assertEquals(1, categoryGubunList.size());
+		assertEquals(4, categoryGubunList.size());
 		
 	}
 	
@@ -96,7 +96,7 @@ public class CategoryGubunMapperTest extends ModelTestConfig {
 		categoryGubunMapper.create(categoryGubunVO);
 		
 		/***Then***/
-		assertEquals(3, categoryGubunMapper.retrieveList().size());
+		assertEquals(5, categoryGubunMapper.retrieveList().size());
 		
 	}
 	
@@ -122,7 +122,7 @@ public class CategoryGubunMapperTest extends ModelTestConfig {
 	public void deleteTest() throws Exception {
 		
 		/***Given***/
-		String catGbSq = "5";
+		String catGbSq = "1";
 		
 		/***When***/
 		int result = categoryGubunMapper.delete(catGbSq);

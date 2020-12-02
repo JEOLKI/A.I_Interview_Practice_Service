@@ -1,18 +1,17 @@
 package com.aiinterview.board.vo;
 
-import com.aiinterview.base.vo.BaseVO;
+public class BoardVO extends AttachmentVO {
 
-public class BoardVO extends BaseVO{
-	
-	private String boardSq;			// 게시글 번호
-	private String boardGbSq;		// 게시글 구분 번호
-	private String boardTitle;		// 게시글 제목
-	private String boardContent;	// 게시글 내용
-	private String boardDate;		// 게시글 등록일자
-	private String boardSt;			// 게시글 상태
-	private String groupNo;			// 게시글 그룹 번호
-	private String parentSq;		// 게시글 부모 번호
-	private String memId;			// 회원 아이디
+	private String boardSq; // 게시글 번호
+	private String boardGbSq; // 게시글 구분 번호
+	private String boardTitle; // 게시글 제목
+	private String boardContent; // 게시글 내용
+	private String boardDate; // 게시글 등록일자
+	private String boardSt; // 게시글 상태
+	private String groupNo; // 게시글 그룹 번호
+	private String parentSq; // 게시글 부모 번호
+	private String memId; // 회원 아이디
+	private String catContent; // 카테고리 번호
 
 	public String getBoardSq() {
 		return boardSq;
@@ -86,16 +85,25 @@ public class BoardVO extends BaseVO{
 		this.memId = memId;
 	}
 
+	public String getCatContent() {
+		return catContent;
+	}
+
+	public void setCatContent(String catContent) {
+		this.catContent = catContent;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((boardContent == null) ? 0 : boardContent.hashCode());
 		result = prime * result + ((boardDate == null) ? 0 : boardDate.hashCode());
 		result = prime * result + ((boardGbSq == null) ? 0 : boardGbSq.hashCode());
 		result = prime * result + ((boardSq == null) ? 0 : boardSq.hashCode());
 		result = prime * result + ((boardSt == null) ? 0 : boardSt.hashCode());
 		result = prime * result + ((boardTitle == null) ? 0 : boardTitle.hashCode());
+		result = prime * result + ((catContent == null) ? 0 : catContent.hashCode());
 		result = prime * result + ((groupNo == null) ? 0 : groupNo.hashCode());
 		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
 		result = prime * result + ((parentSq == null) ? 0 : parentSq.hashCode());
@@ -106,7 +114,7 @@ public class BoardVO extends BaseVO{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -141,6 +149,11 @@ public class BoardVO extends BaseVO{
 				return false;
 		} else if (!boardTitle.equals(other.boardTitle))
 			return false;
+		if (catContent == null) {
+			if (other.catContent != null)
+				return false;
+		} else if (!catContent.equals(other.catContent))
+			return false;
 		if (groupNo == null) {
 			if (other.groupNo != null)
 				return false;
@@ -163,10 +176,7 @@ public class BoardVO extends BaseVO{
 	public String toString() {
 		return "BoardVO [boardSq=" + boardSq + ", boardGbSq=" + boardGbSq + ", boardTitle=" + boardTitle
 				+ ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardSt=" + boardSt + ", groupNo="
-				+ groupNo + ", parentSq=" + parentSq + ", memId=" + memId + "]";
+				+ groupNo + ", parentSq=" + parentSq + ", memId=" + memId + ", catContent=" + catContent + "]";
 	}
-	
-	
-	
-	
+
 }
