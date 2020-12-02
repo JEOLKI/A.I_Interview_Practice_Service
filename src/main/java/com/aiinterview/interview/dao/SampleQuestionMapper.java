@@ -24,6 +24,7 @@ public interface SampleQuestionMapper {
 	 */
 	public int retrievePagingListCnt(SampleQuestionVO sampQuestVO);
 
+	
 	/**
 	 * 샘플질문을 등록하는 메서드
 	 * @param sampQuestVO
@@ -36,5 +37,13 @@ public interface SampleQuestionMapper {
 	 * @return sampQuestList
 	 */
 	public List<SampleQuestionVO> retrieveList();
+
+
+	/**
+	 * 샘플질문을 수정하는 메서드
+	 * @param sampQuestVO
+	 * @return
+	 */
+	public int update(SampleQuestionVO sampQuestVO);
 
 }

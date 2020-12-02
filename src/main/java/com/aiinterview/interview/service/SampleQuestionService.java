@@ -91,10 +91,13 @@ public class SampleQuestionService {
 		return sampleQuestionMapper.retrieveList();
 	}
 
-
+	/**
+	 * 샘플질문을 수정하는 메서드
+	 * @param sampQuestVO
+	 * @return
+	 */
 	public int update(SampleQuestionVO sampQuestVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sampleQuestionMapper.update(sampQuestVO);
 	}
 	
 }

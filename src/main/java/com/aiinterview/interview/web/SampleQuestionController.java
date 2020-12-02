@@ -156,14 +156,14 @@ public class SampleQuestionController {
 	/* 샘플질문 수정 */
 	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
 	public String updateProcess(SampleQuestionVO sampQuestVO, Model model) {
-		System.out.println("질문 구분 수정 - questGbVO : " + sampQuestVO);
+		System.out.println("샘플 질문 수정 - sampQuestVO : " + sampQuestVO);
 
 		int updateCnt = sampleQuestionService.update(sampQuestVO);
-		System.out.println("질문 구분 수정 - updateCnt : " + updateCnt);
+		System.out.println("샘플 질문  수정 - updateCnt : " + updateCnt);
 		if (updateCnt == 1) {
 			return "redirect:/sampQuest/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
 		} else {
-			return "question/questionGubunManage";
+			return "question/sampleQuestionManage";
 		}
 	}
 }
