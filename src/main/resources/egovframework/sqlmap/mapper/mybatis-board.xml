@@ -92,13 +92,13 @@
 								AND	BOARD_TITLE LIKE '%' || #{searchKeyword} || '%'
 							</when>
 				            <when test="searchCondition == 1">
-								AND	BOARD_CONTENT LIKE '%' || #{searchKeyword} || '%'
+								AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
 							</when>
 						</choose>
 					</if>
 		            START WITH PARENT_SQ = 0
 		            CONNECT BY PRIOR BOARD_SQ = PARENT_SQ
-		            ORDER SIBLINGS BY GROUP_NO DESC, BOARD_SQ ASC
+		            ORDER SIBLINGS BY GROUP_NO ASC, BOARD_SQ DESC
 		      ) S
 		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
 	      ) A
