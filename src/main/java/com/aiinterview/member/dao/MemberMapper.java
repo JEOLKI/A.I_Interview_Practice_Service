@@ -62,5 +62,13 @@ public interface MemberMapper{
 	 * @return int
 	 */
 	int delete(String memId);
+	
+	/**
+	 * 회원 정보 수정하는 메서드
+	 * 
+	 * @param memberVo
+	 * @return int
+	 */
+	int update(MemberVO memberVo);
 
 }

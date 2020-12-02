@@ -6,7 +6,7 @@
 <style>
 
  	#header{
- 		position: static;
+ 		position: fixed;
  	}
  	
  	/* The Modal (background) */
@@ -303,24 +303,38 @@ function boardGubunList(){
 <!-- header -->
 <div class="TopBar undefined" id  ="header">
 	<div class="navigation-bar">
-		<a class="iam-logo" href="/"><img
+		<a class="iam-logo" href="/login/main.do"><img
 			src="/images/Ai_Interview 로고.png" alt="iam-logo"
 			class="iam-img"></a>
 		<div class="nav">
-			<a class="main false" href="/main">내 면접</a>
+			<c:choose>
+				<c:when test="${S_MEMBER.memId == null }">
+					<a class="main false" href="/login/home.do">내 면접</a>
+				</c:when>
+				<c:otherwise>
+					<a class="main false" href="/analysisresult/main.do">내 면접</a>
+				</c:otherwise>
+			</c:choose>
 			<div class="dropdown">
 				<button class="lecture false dropbtn">게시판</button>
 				<div class="dropdown-content" id="boardGubunList">
-				
 				</div>
 			</div>
 			<a class="service-intro false" href="/service-intro">서비스 소개</a>
 			<a class="help-info false" href="/help-info">도움말</a>
-			<a class="managepage false" href="/login/manage.do">관리자 페이지</a>
+			<c:choose>
+				<c:when test="${S_MEMBER.memAuth == 'Y'}">
+					<a class="managepage false" href="/login/manage.do">관리자 페이지</a>
+				</c:when>
+			</c:choose>
 		</div>
 	</div>
-	<button id="login" class="login" style="margin-left: 0px;">로그인</button>
-	<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
+	<c:choose>
+		<c:when test="${S_MEMBER == null }">
+			<button id="login" class="login" style="margin-left: 0px;">로그인</button>
+			<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
+		</c:when>
+	</c:choose>
 	<c:choose>
 		<c:when test="${S_MEMBER != null }">
 			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button>

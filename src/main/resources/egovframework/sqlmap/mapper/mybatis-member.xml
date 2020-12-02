@@ -49,5 +49,24 @@
 		SET MEM_ST = 'N'
 		WHERE MEM_ID = #{memId} 
 	</update>
+	
+	<update id="update" parameterType="com.aiinterview.member.vo.MemberVO">
+		UPDATE MEMBER
+		SET MEM_PW 				= #{memPw},
+			MEM_ALIAS 			= #{memAlias},
+			MEM_ADDR1 			= #{memAddr1},
+			MEM_ADDR2 			= #{memAddr2},
+			MEM_ZIPCODE 		= #{memZipcode},
+			MEM_CAREER 			= #{memCareer},
+			MEM_EDUC 			= #{memEduc},
+			MEM_TARGET_COMPANY	= #{memTargetCompany},
+			MEM_TARGET_JOB 		= #{memTargetJob},
+			MEM_GENDER 			= #{memGender},
+			SEARCH_JOB_DATE 	= #{searchJobDate},
+			MEM_MAJOR			= #{memMajor},
+			MEM_PROFILE_NM 		= #{memProfileNm},
+			MEM_PROFILE_PATH 	= #{memProfilePath}
+	  WHERE	MEM_ID				= #{memId} 
+	</update>
 
 </mapper>

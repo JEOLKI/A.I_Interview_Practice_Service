@@ -100,7 +100,8 @@
 					$('#memNm').val()=='' ||
 					$('#memAlias').val()=='' ||
 					$('#memTel').val()=='' ||
-					$('#memCareer').val()==''
+					$('#memCareer').val()==''||
+					$('#memAddr1').val()==''
 					){
 				alert('필수입력사항을 입력해주세요');
 				return false;
@@ -126,7 +127,7 @@
 		memId = $('#memId').val();
 		
 	$.ajax({
-			url : "/member/retrieveid.do",
+			url : "/member/idCheck.do",
 			data : {
 				memId : memId
 			},

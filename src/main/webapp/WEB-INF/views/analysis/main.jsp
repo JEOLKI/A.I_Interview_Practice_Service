@@ -156,8 +156,10 @@ to {
 								면접본 날짜 ex)2020.11.27<br>면접
 							</div>
 							<a class="review-btn"
-								href="/member/interviewresult">결과
+								href="/analysisresult/interviewresult.do">결과
 								보기</a>
+							<a class="review-btn"
+								href="/analysisresult/interviewlist.do">면접 분석</a>
 						</div>
 						<div class="ProspectArea box">
 							<div class="title">
