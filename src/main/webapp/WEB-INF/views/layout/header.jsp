@@ -6,7 +6,7 @@
 <style>
 
  	#header{
- 		position: fixed;
+ 		position: static;
  	}
  	
  	/* The Modal (background) */
@@ -335,9 +335,20 @@ function boardGubunList(){
 			<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
 		</c:when>
 	</c:choose>
+<%-- 	<c:choose> --%>
+<%-- 		<c:when test="${S_MEMBER != null }"> --%>
+<!-- 			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button> -->
+<%-- 		</c:when> --%>
+<%-- 	</c:choose> --%>
 	<c:choose>
 		<c:when test="${S_MEMBER != null }">
-			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button>
+			<div class="user-tool">
+				<a class="payment-btn" href="/plan/buyPlan">이용권 구매</a>
+				<div id="myProfile" class="profile-btn false">
+					<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+		<!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
+				</div>
+			</div>
 		</c:when>
 	</c:choose>
 </div>

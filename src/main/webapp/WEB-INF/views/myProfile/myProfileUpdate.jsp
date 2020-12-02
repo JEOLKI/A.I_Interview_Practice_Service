@@ -119,7 +119,7 @@ $(document).ready(function(){
 		$('#firsthalf').addClass('half select');
 		$('#secondhalf').removeClass('half select');
 		$('#secondhalf').addClass('half false');
-		$('#searchJobDate').val($('#selYear').val()+'상반기')
+		$('#searchJobDate').val($('#selYear').val()+'년 상반기')
 	});
 	
 	$('#secondhalf').on('click',function(){
@@ -127,7 +127,7 @@ $(document).ready(function(){
 		$('#secondhalf').addClass('half select');
 		$('#firsthalf').removeClass('half select');
 		$('#firsthalf').addClass('half false');
-		$('#searchJobDate').val($('#selYear').val()+'하반기')
+		$('#searchJobDate').val($('#selYear').val()+'년 하반기')
 	});
 	
 	$('#selYear').change(function(){
@@ -197,7 +197,7 @@ $.ajax({
 	<form id="fr" action="/member/update.do" method="post"enctype="multipart/form-data">
 		<div id="root">
 			<div class="ProfileEdit">
-			<%@ include file="/WEB-INF/views/layout/myPageHeader.jsp" %>
+			<%@ include file="/WEB-INF/views/layout/header.jsp" %>
 				<div class="body">
 					<div class="title">프로필 수정</div>
 					<div class="ProfileForm">
@@ -341,10 +341,10 @@ $.ajax({
 										</c:forEach>
 									</select>
 								</div>
-								<div id="firsthalf" class="half select" value="상반기">상반기</div>
-								<div id="secondhalf" class="half false" value="하반기">하반기</div>
+								<div id="firsthalf" class="half select" value="년 상반기">상반기</div>
+								<div id="secondhalf" class="half false" value="년 하반기">하반기</div>
 							</div>
-							<input type="hidden" id="searchJobDate" name="searchJobDate" value="2020상반기">
+							<input type="hidden" id="searchJobDate" name="searchJobDate" value="${S_MEMBER.searchJobDate }">
 						</div>
 						<div class="info-flex">
 							<div class="label">전공</div>
@@ -384,7 +384,7 @@ $.ajax({
 									<div class="company">
 										<div>
 											<button type="button" id="zipcodeBtn" class="btn new select"
-												style="width: 120px; height: 80px;margin-left: 300px;">우편번호 찾기</button>
+												style="width: 120px; height: 80px;">우편번호 찾기</button>
 										</div>
 									</div>
 									<br>
@@ -421,7 +421,7 @@ $.ajax({
 							</div>
 						</div>
 						<div class="submit-area">
-							<button class="submit" type="submit" id="editBtn">적용</button>
+							<button class="cancel" type="submit" id="editBtn">적용</button>
 							<button class="cancel" type="button" id="cancelBtn" >취소</button>
 						</div>
 					</div>

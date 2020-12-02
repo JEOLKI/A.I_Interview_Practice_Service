@@ -79,7 +79,7 @@ to {
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="PersonalInfo">
-			<%@ include file="/WEB-INF/views/layout/myPageHeader.jsp"%>
+			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<div class="body">
 				<div class="MyProfile" style="height: 530px;">
 					<div class="title">내 프로필</div>

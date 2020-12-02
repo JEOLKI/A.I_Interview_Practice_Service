@@ -78,7 +78,7 @@
 			$('#firsthalf').addClass('half select');
 			$('#secondhalf').removeClass('half select');
 			$('#secondhalf').addClass('half false');
-			$('#searchJobDate').val($('#selYear').val()+'상반기')
+			$('#searchJobDate').val($('#selYear').val()+'년 상반기')
 		});
 		
 		$('#secondhalf').on('click',function(){
@@ -86,7 +86,7 @@
 			$('#secondhalf').addClass('half select');
 			$('#firsthalf').removeClass('half select');
 			$('#firsthalf').addClass('half false');
-			$('#searchJobDate').val($('#selYear').val()+'하반기')
+			$('#searchJobDate').val($('#selYear').val()+'년 하반기')
 		});
 		
 		$('#selYear').change(function(){

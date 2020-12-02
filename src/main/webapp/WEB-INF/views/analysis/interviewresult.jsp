@@ -193,7 +193,7 @@ to {
 									</div>
 									<div class="habitual word-graph select habitual">
 										<div class="label">1회</div>
-										<div class="rectangle" style="height: 110px;"></div>
+										<div class="rectangle" style="height: 10px;"></div>
 										<div class="name">아</div>
 									</div>
 									<div class="bar"></div>
