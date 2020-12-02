@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.aiinterview.interview.dao.SampleQuestionMapper">
+
+	<!-- 전체 목록 조회 -->
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.SampleQuestionVO">
+		SELECT *
+		  FROM sample_question
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="create" >
+		<selectKey keyProperty="sampQuestSq" resultType="String" order="BEFORE">
+			SELECT sample_question_sq.nextval FROM dual 
+		</selectKey>
+			INSERT INTO sample_question (samp_quest_sq, samp_quest_content, samp_quest_st, quest_gb_sq)
+			VALUES (TO_NUMBER(#{sampQuestSq}), #{sampQuestContent}, #{sampQuestSt}, #{questGbSq}) 
+	</insert>
+
+	<!-- 수정 -->
+	<update id="update">
+		UPDATE sample_question 
+		   SET samp_quest_content = #{sampQuestContent},
+			   samp_quest_st = #{sampQuestSt},
+			   quest_gb_sq = #{questGbSq}  
+		 WHERE samp_quest_sq = #{sampQuestSq} 
+	</update>
+	
+	
+	<!-- 페이징 : 해당 페이지리스트 select -->
+	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.SampleQuestionVO">
+		SELECT A.*
+		  FROM (
+		  	SELECT ROWNUM RNUM, 
+		  		   S.*
+		      FROM (
+		      	SELECT samp_quest_sq, 
+		      		   samp_quest_content, 
+		      		   samp_quest_st,
+		      		   quest_gb_sq
+		          FROM sample_question
+		         WHERE 1=1
+		          <if test="searchKeyword != null and searchKeyword != ''">
+				   AND samp_quest_content LIKE '%' || #{searchKeyword} || '%'
+				  </if>
+		         ORDER BY samp_quest_sq 
+		   	) S
+		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
+	   ) A 
+	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">
+		SELECT count(*) totCnt
+		  FROM sample_question
+		 WHERE 1=1
+		  <if test="searchKeyword != null and searchKeyword !=''">
+		   AND samp_quest_content LIKE '%'||#{searchKeyword}||'%'	
+		  </if>
+	</select>
+	
+	<!-- //페이징 -->
+</mapper>
