@@ -158,8 +158,8 @@ to {
 							<a class="review-btn"
 								href="/analysisresult/interviewresult.do">결과
 								보기</a>
-							<a class="review-btn"
-								href="/analysisresult/interviewlist.do">면접 분석</a>
+<!-- 							<a class="review-btn" -->
+<!-- 								href="/analysisresult/interviewlist.do">면접 분석</a> -->
 						</div>
 						<div class="ProspectArea box">
 							<div class="title">
