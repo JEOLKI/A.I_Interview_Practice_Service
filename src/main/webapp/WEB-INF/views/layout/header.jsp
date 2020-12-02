@@ -6,7 +6,7 @@
 <style>
 
  	#header{
- 		position: static;
+ 		position: fixed;
  	}
  	
  	/* The Modal (background) */
