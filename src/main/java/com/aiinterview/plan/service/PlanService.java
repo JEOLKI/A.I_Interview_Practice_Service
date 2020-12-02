@@ -31,5 +31,8 @@ public class PlanService {
 		return planMapper.planUseCreate(puv);
 	}
 	
+	public int planUseCheck(PlanUseVO puv) {
+		return planMapper.planUseCheck(puv);
+	}
 	
 }

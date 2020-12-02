@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+*{ margin: 0; padding: 0; }
+ 
+.chat_wrap .header { font-size: 14px; padding: 15px 0; background: #F18C7E; color: white; text-align: center;  }
+ 
+.chat_wrap .chat { padding-bottom: 80px; }
+.chat_wrap .chat ul { width: 100%; list-style: none; }
+.chat_wrap .chat ul li { width: 100%; }
+.chat_wrap .chat ul li.left { text-align: left; }
+.chat_wrap .chat ul li.right { text-align: right; }
+ 
+.chat_wrap .chat ul li > div { font-size: 13px;  }
+.chat_wrap .chat ul li > div.sender { margin: 10px 20px 0 20px; font-weight: bold; }
+.chat_wrap .chat ul li > div.message { display: inline-block; word-break:break-all; margin: 5px 20px; max-width: 75%; border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555; text-align: left; }
+ 
+.chat_wrap .input-div { position: fixed; bottom: 0; width: 100%; background-color: #FFF; text-align: center; border-top: 1px solid #F18C7E; }
+.chat_wrap .input-div > textarea { width: 100%; height: 80px; border: none; padding: 10px; }
+ 
+ ul li{
+            list-style: none;
+        }
+        .my_message {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            display: block;
+        }
+        .my_message > .tooltip{
+            position: absolute;
+            display: block;
+            background-color: green;
+            width: 200px;
+            left: 150px;
+            top: 40px;
+            border-radius: 10px;
+            padding: 10px;
+            color: white;
+        }
+        .my_message > .tooltip:before {
+            position: absolute;
+            content: '';
+            border-width: 10px;
+            border-style: solid;
+            border-color: rgba(255,255,255,0) rgba(255,255,255,0) green rgba(255,255,255,0);
+            top: 38px;
+            left: 150px;
+            transform: rotate(180deg);
+        }
+        .you_message {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        .you_message > .tooltip{
+            position: absolute;
+            display: block;
+            background-color: lightblue;
+            width: 200px;
+            left: 50px;
+            top: 40px;
+            border-radius: 10px;
+            padding: 10px;
+            color: white;
+        }
+        .you_message > .tooltip:before {
+            position: absolute;
+            content: '';
+            border-width: 10px;
+            border-style: solid;
+            border-color: rgba(255,255,255,0) rgba(255,255,255,0) lightblue rgba(255,255,255,0);
+            top: 38px;
+            left: 40px;
+            transform: rotate(180deg);
+        }
+
+.format { display: none; }
+
+       

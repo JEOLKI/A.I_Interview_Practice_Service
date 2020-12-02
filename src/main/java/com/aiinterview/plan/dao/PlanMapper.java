@@ -28,4 +28,12 @@ public interface PlanMapper {
 	 * @return
 	 */
 	int planUseCreate(PlanUseVO puv);
+	
+	/**
+	 * 이용권 기간동안에 구매내역을 조회하기 위한 메서드
+	 * @param puv에 들어가는 endDate와 memId
+	 * @return
+	 */
+	int planUseCheck(PlanUseVO puv);
+	
 }

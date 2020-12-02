@@ -28,7 +28,8 @@ public class PlanController {
 	PlanService planService;
 	
 	@RequestMapping(path = "/planList.do", method = RequestMethod.GET)
-	public String planListView() {
+	public String planListView(Model model) {
+		
 		return "plan/planList";
 	}
 	
@@ -42,27 +43,34 @@ public class PlanController {
 	}
 	
 	@RequestMapping(path = "/planContent.do", method = RequestMethod.GET)
-	public String planContentView(PlanVO pv, Model model) {
+	public String planContentView(PlanVO pv, Model model, HttpSession session) {
 		
 		PlanVO pvContent =  planService.planContent(pv);
-	
+		PlanUseVO puv = new PlanUseVO();
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		puv.setMemId(mv.getMemId());
+		int planUseCheck = planService.planUseCheck(puv);
+
+		
+		model.addAttribute("planUseCheck", planUseCheck);
 		model.addAttribute("pvContent", pvContent);
+		
 		return "plan/planContent";
 	}
+	
 	
 	@RequestMapping(path = "/payPlanAjax.do", method = RequestMethod.GET)
 	public String payPlanAjax(PlanVO pv, Model model) {
 		
 		PlanVO pvContent =  planService.planContent(pv);
-		
 		model.addAttribute("pvContent", pvContent);
-		
 		return "jsonView";
 	}
 	
 	
 	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.GET)
 	public String planUseCreateView(PlanVO pv, HttpSession session) {
+		
 		
 		PlanVO pvContent =  planService.planContent(pv);
 		PlanUseVO puv = new PlanUseVO();
@@ -71,15 +79,11 @@ public class PlanController {
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		puv.setMemId(mv.getMemId());
 		
-		planService.planUseCreate(puv);
+//		int planUseCheck = planService.planUseCheck(puv);
 		
+		planService.planUseCreate(puv);
 		return "member/membermain";
 	}
-	
-
-	
-	
-	
 	
 	@RequestMapping(path = "/payComplete.do")
 	public String payComplete() {

@@ -9,17 +9,15 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style>
-	#notice{
-		padding-right: 300px;
-	
+	.ex{
+		margin-left: 85px;
+		padding-left: 85px;
 	}
 </style>
 <script>
-
-
 $(document).ready(function() {
 	buyPlanAjax();
-
+	
 });
 
 function buyPlanAjax(){
@@ -98,18 +96,17 @@ function buyPlanAjax(){
 
 					<div class="lower">
 					<div class="notice">
-						<div class="title">이용권 유의사항</div>
-						<div class="notice-list">
-							- 해당 이용권은 PC에서 무제한으로 면접을 수행할 수 있는 이용권입니다.<br>- 녹화 및 분석된 면접
-							영상은 인터넷이 연결된 환경에서 얼마든지 볼 수 있습니다.<br>- 구입하신 이용권은 마이 페이지에서 확인할
-							수 있습니다.<br>- 본 이용권의 금액은 부가세 10%가 포함되어 있는 금액입니다.<br>- 본
+						<div class="title ex" >이용권 유의사항</div>
+							<div class="ex">
+							- 해당 이용권은 PC에서 무제한으로 면접을 수행할 수 있는 이용권입니다.
+							<br>- 녹화 및 분석된 면접 영상은 인터넷이 연결된 환경에서 얼마든지 볼 수 있습니다.
+							<br>- 구입하신 이용권은 마이 페이지에서 확인할수 있습니다.<br>- 본 이용권의 금액은 부가세 10%가 포함되어 있는 금액입니다.<br>- 본
 							이용권은 이용 시작일(구매일) 기준 7일 이내 청약철회 가능한 이용권입니다.<br>&ensp;단, 이용
 							내역이 있는 경우 이용 금액 공제 후 환불합니다.<br>- 이용 시작일(구매일) 기준 7일 경과 후에는
 							*이용 금액 공제 후 해지 가능합니다.<br>*이용 금액은 이미 경과된 시간(실제 사용 여부 불문)에
-							상응하는 금액을 말합니다.<br>- 미성년자가 법정대리인 동의 없이 구매를 한 경우, 미성년자 또는
-							법정대리인이 이를 취소할 수 있습니다.<br>
+							상응하는 금액을 말합니다.<br>- 미성년자가 법정대리인 동의 없이 구매를 한 경우,법정대리인이 이를 취소할 수 있습니다.<br>
+							</div>
 						</div>
-					</div>
 				</div>
 				</div>
 				<footer class="SemiFooter --undefined">

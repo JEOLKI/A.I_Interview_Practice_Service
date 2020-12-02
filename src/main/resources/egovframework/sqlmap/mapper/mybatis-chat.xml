@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.aiinterview.chat.dao.ChatMapper">
+
+	<select id="List" parameterType="com.aiinterview.chat.vo.ChatVO" resultType="com.aiinterview.chat.vo.ChatVO">
+	select * from(
+	select * from message
+	where msg_sender = #{msgSender} and msg_receiver = #{msgReceiver}
+	union
+	select * from message
+	where msg_sender = #{msgReceiver} and msg_receiver = #{msgSender})
+	order by msg_date asc
+	</select>
+
+
+	
+
+
+</mapper>
+
+
+

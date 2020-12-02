@@ -12,9 +12,21 @@
 
 <script>
 
+// onclick=\"location.href='/plan/planUseCreate.do?planSq="+plan.planSq+"'\
+		
 $(document).ready(function() {
 	payPlanAjax("${pvContent.planSq}");
 
+	console.log("d")
+	$('#payment').on('click', function(){
+		var check =  "${planUseCheck }"
+		if(check>0){
+			alert("아직 이용권 기간이 남아 있습니다.")
+		}else{
+			alert("결제되었습니다.")
+			location.href = "/plan/planUseCreate.do?planSq="+"${pvContent.planSq}"
+		}
+	})
 });
 
 function payPlanAjax(p){
@@ -58,7 +70,7 @@ function payPlanAjax(p){
 		html += '</div> 		                                                    ';
 		html += '<br>';
 		html += '<br>';
-		html +=	"<button class='payment-btn' onclick=\"location.href='/plan/planUseCreate.do?planSq="+plan.planSq+"'\">구매하기</button>";
+		
 		$("#ContentAjax").html(html)
 		}
 		})
@@ -84,7 +96,9 @@ function payPlanAjax(p){
 					<div class="white-message" >구매 이용권</div>
 					<div id = "ContentAjax" >
 					
+					
 					</div>
+					<button class='payment-btn' id='payment'>구매하기</button>
 					
 					
 					
