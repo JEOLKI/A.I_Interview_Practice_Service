@@ -18,47 +18,46 @@ a {
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
 
 <script>
-
-/* function itemChange(){
-	var scriptGbList = "${scriptGbList}";
-	var selectItem = $("#scriptGbSelect").val();
-	
-	var changeItem;
-	
-	if()
-} */
-
 	$(document).ready(function() {
 		$("#regBtn").on("click", function() {
 			$("#regForm").submit();
 		});
-		
 
-		$.ajax({url : "/script/list.do",
+
+	$.ajax({url : "/script/list.do",
 			method : "get",
 			dataType : "json",
 			success : function(data){
 				var html="";
+				
+			/* 	var scriptGb = document.getElementById("scriptGbSq");
+				for (var i = 0; i < scriptGb.options.length; i++) {
+					scriptGb.options[i].defaultSelected = i == scriptGb.selectedIndex;
+				} */
+				
 					for (var i = 0; i < data.scriptList.length; i++) {
 						html += '<form class="updForm" action="/script/updateProcess.do" method="post" enctype="utf-8">';
 						html += '	<input type="hidden" name="scriptSq" value="'+data.scriptList[i].scriptSq+'">';
 						html += '	<label>스크립트  : </label><input type="text" name="scriptContent" value="'+data.scriptList[i].scriptContent+'">';
-						html += '	<select id="sctiptGbSelect" class="scriptGbSq" name="scriptGbSq" onchange="itemChange()">';
+						html += '	<select class="scriptGb" name="scriptGbSq">';
+
 						for(var j=0; j<data.scriptGbList.length; j++){
 							if(data.scriptList[i].scriptGbSq == data.scriptGbList[j].scriptGbSq){
-								html += '		<option value="'+data.scriptList[i].scriptGbSq+'" selected="selected">';
-								html += data.scriptGbList[j].scriptGbContent;
-								html += '</option>';
-								html += '<option value="'+data.scriptGbList[j].scriptGbSq+'">';
-								html += data.scriptGbList[j].scriptGbContent;
-								html += '</option>';
-							}else{
-								html += '<option value="'+data.scriptGbList[j].scriptGbSq+'">';
+								$(this).attr("selected", "selected");
+								html += '<option class="scriptGbOption" name="scriptGbSq" value="'+data.scriptGbList[j].scriptGbSq+'">';
 								html += data.scriptGbList[j].scriptGbContent;
 								html += '</option>';
 							}
+							
+							/* const removeItem = data.scriptGbList.indexOf(data.scriptList[i].scriptGbSq)+1;
+							console.log(removeItem);
+							data.scriptGbList.splice(removeItem, 1);
+								html += '<option name="scriptGbSq" value="'+data.scriptGbList[j].scriptGbSq+'">';
+								html += data.scriptGbList[j].scriptGbContent;
+								html += '</option>'; */
 						}
 						html +='</select>';
+						 
 						html += '<select class="scriptSt" name="scriptSt">';
 						if (data.scriptList[i].scriptSt == "Y") {
 							html += '<option value="Y" selected="selected">사용</option>';

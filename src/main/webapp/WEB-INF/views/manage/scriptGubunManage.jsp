@@ -86,10 +86,10 @@ a {
 					<button type="button">검색</button>
 
 					<a href="#">↓목록 내려받기</a>
-					<a href="#">↑ 일괄등록</a>
+
 				</div>
 
-				
+				<div class="existScript" id="scriptGbList">
 				
 					<%-- 		<c:forEach items="${categoryList }" var="category"> --%>
 					<!-- 			<label></label> -->
@@ -100,8 +100,9 @@ a {
 
 			
 				<hr>
-				<div class="existScript" id="scriptGbList">
+				
 				</div>
+				<a href="#">↑ 일괄등록</a>
 			</div>
 		</div>
 	</div>
