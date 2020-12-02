@@ -8,7 +8,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 <script type="text/javascript" language="javascript" defer="defer">
 	$(document).ready(function() {
@@ -89,11 +95,8 @@
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-			<section class="hero">
-			<div class="hero__content">
+			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
 				<div class="content__title">습관어 관리</div>
-			</div>
-			</section>
 			<div class="body">
 
 				<div class="registHabitGubun">
