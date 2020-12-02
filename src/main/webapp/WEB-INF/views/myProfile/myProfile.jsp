@@ -99,7 +99,7 @@ to {
 														    white-space: nowrap;
 														    vertical-align: baseline;
 														     border-radius: .25em;">별명</div>
-								<div class="value"></div>
+								<div class="value">${S_MEMBER.memAlias }</div>
 							</div>
 							<div class="info">
 								<div class="label"style="display: inline;

@@ -7,43 +7,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!-- <meta name="viewport" content="width=device-width,initial-scale=1"> -->
-<!-- <title>AI_Interview</title> -->
-<!-- <meta name="naver-site-verification" -->
-<!-- 	content="94f5ba87b40698d4bc6a88a5e19c99a7d3e1e4c0"> -->
-<!-- <meta name="google-site-verification" -->
-<!-- 	content="rSYfvWZS1ZnErY0j3In-SemXmy4eYuQXYZcmyXHGY54"> -->
-<!-- <meta name="keywords" -->
-<!-- 	content="면접, ai면접, 공무원면접, 스피치학원, 면접예상질문, 기업분석, 면접1분자기소개예시, 면접질문, 면접자기소개예시, 스피치, 회사면접질문, 1분자기소개, 모의면접, 면접자기소개, 발음연습, 취업, 화상면접, 실무면접, 자기소개, 인공지능, AI, 취업정보사이트, 취업사이트, PT면접, 비대면, 맞춤, 대기업, 공기업, 공무원"> -->
-<!-- <meta property="title" content="iamterview"> -->
-<!-- <meta property="og:title" content="iamterview"> -->
-<!-- <meta name="description" content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!"> -->
-<!-- <meta property="og:description" -->
-<!-- 	content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!"> -->
-<!-- <meta property="og:image" content="/iam.ico"> -->
-<!-- <meta name="theme-color" content="#000000"> -->
-<!-- <link rel="icon" href="/iam.ico"> -->
-<!-- <link rel="manifest" href="/manifest.json"> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css"> -->
-<!-- <script async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-<!-- <script async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-<!-- <script async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-<!-- <script async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-<!-- <script async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-<!-- <script async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-<!-- <script type="text/javascript" async="" -->
-<!-- 	src="https://cdn.channel.io/plugin/ch-plugin-web.js" charset="UTF-8"></script> -->
-<!-- <script type="text/javascript" async="" -->
-<!-- 	src="https://testcpay.payple.kr/js/cpay.payple.1.0.1.js" -->
-<!-- 	charset="UTF-8"></script> -->
-<!-- <script -->
-<!-- 	src="https://connect.facebook.net/signals/config/943528292826757?v=2.9.29&amp;r=stable" -->
-<!-- 	async=""></script> -->
-<!-- <script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script> -->
-<!-- <script -->
-<!-- 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-<!-- <link href="/css/main.8acfb306.chunk.css" rel="stylesheet"> -->
 <style type="text/css">/* Chart.js */
 @
 keyframes chartjs-render-animation {from { opacity:0.99;
@@ -89,9 +52,18 @@ to {
 	top: 0;
 }
 </style>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 $(document).ready(function(){
+	if($('#memAlias').val()=='${S_MEMBER.memAlias}'){
+		html = '<span style="color:green; font-size:11px;">사용가능한 닉네임입니다</span>';
+		$('#checkAlias').append(html);
+	}
+	if($('#memPw1').val()==$('#memPw2').val()){
+		$('#check').val('Y');
+	}else{
+		$('#check').val('N');
+	}
 	$('#zipcodeBtn').on('click',function(){
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -106,16 +78,17 @@ $(document).ready(function(){
 		$('.memPw').on('input',function(){
 			if($('#memPw1').val()!=$('#memPw2').val()){
 				$('#checkPw').empty();
-				$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
+				$('#checkPw').append('<span style="color:red; font-size:13px;">비밀번호가 일치하지 않습니다</span>');
 				$('#check').val('N');
 			}else{
 				$('#checkPw').empty();
-				$('#checkPw').append('<span style="color:green">비밀번호가 일치합니다</span><br><br>');
+				$('#checkPw').append('<span style="color:green; font-size:13px;">비밀번호가 일치합니다</span>');
 				$('#check').val('Y');
 			}
 		});
-	
+		
 	$('#aliasCheck').on('click',function(){
+		console.log('체크')
 		if($('#memAlias').val()==''){
 			alert('닉네임을 입력하세요');
 		}else{
@@ -166,21 +139,19 @@ $(document).ready(function(){
 	});
 	
 	$('#editBtn').on('click',function(){
-		if($('#memId').val()=='' ||
-				$('#memPw1').val()=='' ||
+		if(		$('#memPw1').val()=='' ||
 				$('#memPw2').val()=='' ||
-				$('#memNm').val()=='' ||
 				$('#memAlias').val()=='' ||
 				$('#memTel').val()=='' ||
-				$('#memCareer').val()==''
+				$('#memCareer').val()==''||
+				$('#memAddr1').val()==''
 				){
 			alert('필수입력사항을 입력해주세요');
 			return false;
 		}else if($('#check').val()=='N'){
 			alert('비밀번호를 확인해주세요');
 			return false;
-		}else if($('#checkId').text()=='<span style="color:red">중복된 아이디입니다</span><br><br>'||
-				$('#checkId').text()==''||
+		}else if(
 				$('#checkAlias').text()=='<span style="color:red">중복된 닉네임입니다</span><br><br>'||
 				$('#checkAlias').text()==''
 				){
@@ -223,7 +194,7 @@ $.ajax({
 </head>
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<form action="/member/update.do" method="post"enctype="multipart/form-data">
+	<form id="fr" action="/member/update.do" method="post"enctype="multipart/form-data">
 		<div id="root">
 			<div class="ProfileEdit">
 			<%@ include file="/WEB-INF/views/layout/myPageHeader.jsp" %>
@@ -236,9 +207,10 @@ $.ajax({
 								<img
 									src="/member/profile.do?memId=${S_MEMBER.memId }"
 									alt="" class="profile-img">
-									<input type="file" id="file" name="memProfileNm">
-									<input type="text" id="memProfileNm" name="memProfileNm" value="${S_MEMBER.memProfileNm }">
-									<input type="text" id="memProfilePath" name="memProfilePath" value="${S_MEMBER.memProfilePath }">
+									<input type="file" id="file" name="profile">
+									<input type="hidden" id="memId" name="memId" value="${S_MEMBER.memId }">
+									<input type="hidden" id="memProfileNm" name="memProfileNm" value="${S_MEMBER.memProfileNm }">
+									<input type="hidden" id="memProfilePath" name="memProfilePath" value="${S_MEMBER.memProfilePath }">
 							</div>
 						</div>
 						<div class="info-flex">
@@ -246,15 +218,25 @@ $.ajax({
 								별명<span>(필수)</span>
 								<span id="checkAlias" class="check"></span>
 							</div>
-							<div class="content name-area" s>
-								<input type="text" placeholder="사용할 별명을 입력하세요" class="name-input"
+							<div class="content name-area">
+								<input type="text" placeholder="사용할 별명을 입력하세요" name="memAlias" class="name-input"
 									value="${S_MEMBER.memAlias }" id="memAlias" style="height: 44px;">
 								<div class="btn-area">
-									<input type="text" id="check" value="N">
+									<input type="hidden" id="check" value="N">
 									<button type="button" class="btn active" id="aliasCheck">중복검사</button><br>
 								</div>
 							</div>
 							<br>
+						</div>
+						<div class="info-flex">
+							<div class="label">
+								비밀번호<span>(필수)</span>
+							</div>
+							<div class="content name-area" style="flex-direction: column">
+								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw }" name="memPw" id="memPw1" style="height: 44px;"><br>
+								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw }" id="memPw2" style="height: 44px;">
+								<span id="checkPw" class="check"></span>
+							</div>
 						</div>
 						<div class="info-flex">
 							<div class="label">
@@ -264,7 +246,7 @@ $.ajax({
 								<div id="newcomer" class="btn new select">신입</div>
 								<div id="experienced" class="btn old false">경력</div>
 							</div>
-							<input type="text" id="memCareer" name="memCareer" value="${S_MEMBER.memCareer }">
+							<input type="hidden" id="memCareer" name="memCareer" value="${S_MEMBER.memCareer }">
 						</div>
 						<div class="info-flex">
 							<div class="label">
@@ -362,7 +344,7 @@ $.ajax({
 								<div id="firsthalf" class="half select" value="상반기">상반기</div>
 								<div id="secondhalf" class="half false" value="하반기">하반기</div>
 							</div>
-							<input type="text" id="searchJobDate" name="searchJobDate" value="2020상반기">
+							<input type="hidden" id="searchJobDate" name="searchJobDate" value="2020상반기">
 						</div>
 						<div class="info-flex">
 							<div class="label">전공</div>
@@ -412,7 +394,7 @@ $.ajax({
 										</div>
 										<div>
 											<input type="text" class="form-control" id="memAddr1"
-												name="memAddr1" placeholder="사용자 주소" READONLY>
+												name="memAddr1" value="${S_MEMBER.memAddr1 }" placeholder="사용자 주소" READONLY>
 										</div>
 									</div>
 									<br>
@@ -422,7 +404,7 @@ $.ajax({
 										</div>
 										<div>
 											<input type="text" class="form-control" id="memAddr2"
-												name="memAddr2" placeholder="사용자 상세주소">
+												name="memAddr2" value="${S_MEMBER.memAddr2 }" placeholder="사용자 상세주소">
 										</div>
 									</div>
 									<br>
@@ -432,14 +414,14 @@ $.ajax({
 										</div>
 										<div>
 											<input type="text" class="form-control" id="memZipcode"
-												name="memZipcode"  placeholder="사용자 우편번호" READONLY>
+												name="memZipcode" value="${S_MEMBER.memZipcode }"  placeholder="사용자 우편번호" READONLY>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="submit-area">
-							<button class="submit unactive" type="submit" id="editBtn">적용</button>
+							<button class="submit" type="submit" id="editBtn">적용</button>
 							<button class="cancel" type="button" id="cancelBtn" >취소</button>
 						</div>
 					</div>

@@ -20,14 +20,17 @@ public class MemberService implements MemberMapper {
 		// new MemberRepository();
 	}
 
+	@Override
 	public MemberVO retrieve(String memId) {
 		return memberMapper.retrieve(memId);
 	}
 
+	@Override
 	public MemberVO retrieveId(MemberVO memberVo) {
 		return memberMapper.retrieveId(memberVo);
 	}
 
+	@Override
 	public MemberVO retrievePw(MemberVO memberVo) {
 		return memberMapper.retrievePw(memberVo);
 	}
@@ -50,6 +53,11 @@ public class MemberService implements MemberMapper {
 	@Override
 	public int delete(String memId) {
 		return memberMapper.delete(memId);
+	}
+
+	@Override
+	public int update(MemberVO memberVo) {
+		return memberMapper.update(memberVo);
 	}
 
 }
