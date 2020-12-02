@@ -38,7 +38,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
-	public String login(String memId, String memPw, HttpSession session, Model model) {
+	public String login(String memId, String memPw, HttpSession session, Model model) throws Exception {
 		MemberVO memberVo = memberService.retrieve(memId);
 		
 		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {

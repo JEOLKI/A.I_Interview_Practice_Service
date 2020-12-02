@@ -36,28 +36,51 @@ public class MemberController {
 	}
 
 	@RequestMapping(path = "/retrieveid.do", method = { RequestMethod.GET })
-	public String retrieveId(MemberVO memberVo, Model model) {
-		MemberVO searchMemberVo = memberService.retrieveId(memberVo);
+	public String retrieveId(MemberVO memberVo, Model model){
+		MemberVO searchMemberVo = null;
+		try {
+			searchMemberVo = memberService.retrieveId(memberVo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
 		return "main/idSearch";
 	}
 
 	@RequestMapping(path = "/retrievepw.do", method = { RequestMethod.GET })
-	public String retrievePw(MemberVO memberVo, Model model) {
-		MemberVO searchMemberVo = memberService.retrievePw(memberVo);
+	public String retrievePw(MemberVO memberVo, Model model){
+		MemberVO searchMemberVo = null;
+		try {
+			searchMemberVo = memberService.retrievePw(memberVo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
 		return "main/pwSearch";
 	}
 	
 	@RequestMapping(path = "/updatepw.do", method = { RequestMethod.GET })
-	public String updatePw(MemberVO memberVo, Model model) {
-		memberService.updatePw(memberVo);
+	public String updatePw(MemberVO memberVo, Model model){
+		try {
+			memberService.updatePw(memberVo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "main/pwSearch";
 	}
 	
 	@RequestMapping(path = "/idCheck.do", method = { RequestMethod.POST })
-	public String idCheck(String memId, Model model) {
-		MemberVO memberVo = memberService.retrieve(memId);
+	public String idCheck(String memId, Model model){
+		MemberVO memberVo = null;
+		try {
+			memberVo = memberService.retrieve(memId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		model.addAttribute("memberVo",memberVo);
 		
 		return "main/check";
@@ -65,19 +88,31 @@ public class MemberController {
 	
 	@RequestMapping(path = "/aliasCheck.do", method = { RequestMethod.POST })
 	public String aliasCheck(String memAlias, Model model) {
-		MemberVO memberVo = memberService.aliasCheck(memAlias);
+		MemberVO memberVo=null;
+		try {
+			memberVo = memberService.aliasCheck(memAlias);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		model.addAttribute("memberVo",memberVo);
 		
 		return "main/check";
 	}
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.POST })
-	public String create(MemberVO memberVo, Model model,RedirectAttributes ra) {
+	public String create(MemberVO memberVo, Model model,RedirectAttributes ra){
 		memberVo.setMemAuth("Y");
 		memberVo.setMemSt("Y");
 		System.out.println(memberVo);
 		
-		int insertCnt = memberService.create(memberVo);
+		int insertCnt = 0;
+		try {
+			insertCnt = memberService.create(memberVo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(insertCnt);
 		
 		model.addAttribute("memberVo",memberVo);
@@ -100,8 +135,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path="/deleteprocess.do", method= {RequestMethod.GET})
-	public String deleteProcess(String memId, HttpSession session) {
-		int deleteCnt = memberService.delete(memId);
+	public String deleteProcess(String memId, HttpSession session){
+		int deleteCnt = 0;
+		try {
+			deleteCnt = memberService.delete(memId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(deleteCnt == 1) {
 			session.removeAttribute("S_MEMBER");
 			return "redirect:/login/main.do";
@@ -111,8 +152,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path = "/profile.do", method = { RequestMethod.GET })
-	public String profile(String memId,Model model) {
-		MemberVO memberVo = memberService.retrieve(memId);
+	public String profile(String memId,Model model){
+		MemberVO memberVo = null;
+		try {
+			memberVo = memberService.retrieve(memId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		model.addAttribute("memProfilePath", memberVo.getMemProfilePath());
 		return "ProfileImgView";
 	}
@@ -145,19 +192,41 @@ public class MemberController {
 			}
 			
 			// 회원등록
-			int updateCnt = memberService.update(memberVo);
+			int updateCnt = 0;
+			try {
+				updateCnt = memberService.update(memberVo);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if(updateCnt == 1) {
-				session.setAttribute("S_MEMBER", memberService.retrieve(memberVo.getMemId()));
+				try {
+					session.setAttribute("S_MEMBER", memberService.retrieve(memberVo.getMemId()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return "redirect:/member/myprofileview.do";
 			}else {
 				return "myProfile/myProfileUpdate";
 			}
 		}else {
-			int updateCnt = memberService.update(memberVo);
+			int updateCnt = 0;
+			try {
+				updateCnt = memberService.update(memberVo);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if(updateCnt == 1) {
-				session.setAttribute("S_MEMBER", memberService.retrieve(memberVo.getMemId()));
+				try {
+					session.setAttribute("S_MEMBER", memberService.retrieve(memberVo.getMemId()));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return "redirect:/member/myprofileview.do";
 			}else {
 				return "myProfile/myProfileUpdate";

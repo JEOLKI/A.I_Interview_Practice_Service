@@ -21,42 +21,42 @@ public class MemberService implements MemberMapper {
 	}
 
 	@Override
-	public MemberVO retrieve(String memId) {
+	public MemberVO retrieve(String memId) throws Exception {
 		return memberMapper.retrieve(memId);
 	}
 
 	@Override
-	public MemberVO retrieveId(MemberVO memberVo) {
+	public MemberVO retrieveId(MemberVO memberVo) throws Exception {
 		return memberMapper.retrieveId(memberVo);
 	}
 
 	@Override
-	public MemberVO retrievePw(MemberVO memberVo) {
+	public MemberVO retrievePw(MemberVO memberVo) throws Exception {
 		return memberMapper.retrievePw(memberVo);
 	}
 
 	@Override
-	public int updatePw(MemberVO memberVo) {
+	public int updatePw(MemberVO memberVo) throws Exception {
 		return memberMapper.updatePw(memberVo);
 	}
 
 	@Override
-	public MemberVO aliasCheck(String memAlias) {
+	public MemberVO aliasCheck(String memAlias) throws Exception {
 		return memberMapper.aliasCheck(memAlias);
 	}
 
 	@Override
-	public int create(MemberVO memberVo) {
+	public int create(MemberVO memberVo) throws Exception {
 		return memberMapper.create(memberVo);
 	}
 
 	@Override
-	public int delete(String memId) {
+	public int delete(String memId)  throws Exception{
 		return memberMapper.delete(memId);
 	}
 
 	@Override
-	public int update(MemberVO memberVo) {
+	public int update(MemberVO memberVo) throws Exception {
 		return memberMapper.update(memberVo);
 	}
 

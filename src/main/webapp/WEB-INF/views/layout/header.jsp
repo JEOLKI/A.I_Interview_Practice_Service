@@ -173,7 +173,6 @@
 <script>
 
 $(document).ready(function() {
-// 		 $('#changeModal').show();
     $('#login').on('click',function(){
 		 $('#myModal').show();
     });
@@ -204,7 +203,7 @@ $(document).ready(function() {
     	}
     });
     
-    $('.user-tool').on('click',function(){
+    $('.profile-btn.false').on('click',function(){
     	$('.user-popup').toggle();
     });
     
@@ -314,7 +313,7 @@ function boardGubunList(){
 
 </script>
 <!-- header -->
-<div class="TopBar undefined" id  ="header" >
+<div class="TopBar undefined" id  ="header" style="position: relative;">
 	<div class="navigation-bar">
 		<a class="iam-logo" href="/login/main.do"><img
 			src="/images/Ai_Interview 로고.png" alt="iam-logo"
