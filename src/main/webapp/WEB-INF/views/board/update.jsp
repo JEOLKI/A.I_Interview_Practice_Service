@@ -73,7 +73,7 @@
 		<label class="control-label">첨부파일</label> 
 		<c:forEach items="${attachmentList }" var="attachment">
 			<div class="filelist">
-				<a href='${pageContext.request.contextPath }/fileDownload?atchSq=${attachment.atchSq }' class="fileinput" >${attachment.atchNm }</a>  
+				<a href='${pageContext.request.contextPath }/attachment/download?atchSq=${attachment.atchSq }' class="fileinput" >${attachment.atchNm }</a>  
 				<button type="button" data-atch_sq=${attachment.atchSq }>X</button>
 				<br>
 			</div>

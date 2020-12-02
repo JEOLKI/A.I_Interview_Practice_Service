@@ -24,7 +24,14 @@
 						#{boardContent},
 						SYSDATE,
 						#{boardSt},
-						#{groupNo},
+						<choose>
+				            <when test="groupNo != null and groupNo != '0'">
+							#{groupNo},						
+							</when>
+				            <when test="groupNo == null and groupNo == '0'">
+							#{boardSq},
+							</when>
+						</choose>
 						#{parentSq},
 						#{memId},
 						#{catContent})
@@ -68,7 +75,8 @@
 		      FROM (
 		      	SELECT NVL(BOARD_SQ, 0) BOARD_SQ,
 						NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
-						BOARD_TITLE,
+						LEVEL,
+						LPAD(' ',(LEVEL-1)*4 )|| BOARD_TITLE BOARD_TITLE,
 						BOARD_CONTENT,
 						TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
 						BOARD_ST,
@@ -88,7 +96,9 @@
 							</when>
 						</choose>
 					</if>
-					ORDER BY BOARD_SQ DESC
+		            START WITH PARENT_SQ = 0
+		            CONNECT BY PRIOR BOARD_SQ = PARENT_SQ
+		            ORDER SIBLINGS BY GROUP_NO DESC, BOARD_SQ ASC
 		      ) S
 		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
 	      ) A

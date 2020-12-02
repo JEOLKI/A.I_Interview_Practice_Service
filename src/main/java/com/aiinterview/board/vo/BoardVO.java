@@ -2,6 +2,7 @@ package com.aiinterview.board.vo;
 
 public class BoardVO extends AttachmentVO {
 
+	private int rnum;
 	private String boardSq; // 게시글 번호
 	private String boardGbSq; // 게시글 구분 번호
 	private String boardTitle; // 게시글 제목
@@ -12,6 +13,15 @@ public class BoardVO extends AttachmentVO {
 	private String parentSq; // 게시글 부모 번호
 	private String memId; // 회원 아이디
 	private String catContent; // 카테고리 번호
+	private int level;
+
+	public int getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 
 	public String getBoardSq() {
 		return boardSq;
@@ -93,6 +103,22 @@ public class BoardVO extends AttachmentVO {
 		this.catContent = catContent;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	@Override
+	public String toString() {
+		return "BoardVO [rnum=" + rnum + ", boardSq=" + boardSq + ", boardGbSq=" + boardGbSq + ", boardTitle="
+				+ boardTitle + ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardSt=" + boardSt
+				+ ", groupNo=" + groupNo + ", parentSq=" + parentSq + ", memId=" + memId + ", catContent=" + catContent
+				+ ", level=" + level + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,8 +131,10 @@ public class BoardVO extends AttachmentVO {
 		result = prime * result + ((boardTitle == null) ? 0 : boardTitle.hashCode());
 		result = prime * result + ((catContent == null) ? 0 : catContent.hashCode());
 		result = prime * result + ((groupNo == null) ? 0 : groupNo.hashCode());
+		result = prime * result + level;
 		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
 		result = prime * result + ((parentSq == null) ? 0 : parentSq.hashCode());
+		result = prime * result + rnum;
 		return result;
 	}
 
@@ -159,6 +187,8 @@ public class BoardVO extends AttachmentVO {
 				return false;
 		} else if (!groupNo.equals(other.groupNo))
 			return false;
+		if (level != other.level)
+			return false;
 		if (memId == null) {
 			if (other.memId != null)
 				return false;
@@ -169,14 +199,9 @@ public class BoardVO extends AttachmentVO {
 				return false;
 		} else if (!parentSq.equals(other.parentSq))
 			return false;
+		if (rnum != other.rnum)
+			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "BoardVO [boardSq=" + boardSq + ", boardGbSq=" + boardGbSq + ", boardTitle=" + boardTitle
-				+ ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardSt=" + boardSt + ", groupNo="
-				+ groupNo + ", parentSq=" + parentSq + ", memId=" + memId + ", catContent=" + catContent + "]";
 	}
 
 }

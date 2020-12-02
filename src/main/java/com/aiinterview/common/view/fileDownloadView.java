@@ -1,6 +1,7 @@
 package com.aiinterview.common.view;
 
 import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -14,7 +15,9 @@ public class fileDownloadView extends AbstractView {
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
+		
+		String filename = URLEncoder.encode((String) model.get("filename"), "utf-8").replace("+", " ");
+		
 		// response content-type
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + model.get("filename") + "\"");
 		response.setContentType("application/octet-stream");

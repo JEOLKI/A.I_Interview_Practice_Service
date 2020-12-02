@@ -55,7 +55,7 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@RequestMapping(value = "/retrievePagingList.do")
-	public String retrievePagingList(String boardGbSq, String boardGbNm, HttpSession session, ModelMap model) throws Exception {
+	public String retrievePagingList(String boardGbSq, String boardGbNm, HttpSession session, ModelMap model) {
 		
 		BoardVO boardVO = new BoardVO();
 		session.setAttribute("boardGbSq", boardGbSq);
@@ -77,10 +77,20 @@ public class BoardController {
 		boardVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<BoardVO> resultList = boardService.retrievePagingList(boardVO);
+		List<BoardVO> resultList = new ArrayList<>();
+		try {
+			resultList = boardService.retrievePagingList(boardVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("resultList", resultList);
 
-		int totCnt = boardService.retrievePagingListCnt(boardVO);
+		int totCnt = 0;
+		try {
+			totCnt = boardService.retrievePagingListCnt(boardVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
@@ -89,9 +99,14 @@ public class BoardController {
 	
 	@RequestMapping(path = "/retrieve.do", method = {RequestMethod.GET})
 	public String boardDetail(String boardSq,
-							  Model model) throws Exception {
+							  Model model) {
 		
-		Map<String, Object> map = boardService.retrieve(boardSq);
+		Map<String, Object> map = new HashMap<>();
+		try {
+			map = boardService.retrieve(boardSq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("boardVO", map.get("boardVO"));
 		model.addAttribute("attachmentList", map.get("attachmentList"));
 		model.addAttribute("replyList", map.get("replyList"));
@@ -102,9 +117,12 @@ public class BoardController {
 	@RequestMapping(path = "/create.do", method = { RequestMethod.GET })
 	public String create(String boardGbSq, String boardGbNm, Model model,
 						 @RequestParam(name="groupNo", defaultValue = "0", required = false) int groupNo,
-						 @RequestParam(name="boardSq", defaultValue = "0", required = false) int parentSq
-						 ) throws Exception {
-		model.addAttribute("categoryList", categoryService.retrieveList(new CategoryVO(boardGbSq)));
+						 @RequestParam(name="boardSq", defaultValue = "0", required = false) int parentSq) {
+		try {
+			model.addAttribute("categoryList", categoryService.retrieveList(new CategoryVO(boardGbSq)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("parentSq", parentSq);
 		model.addAttribute("groupNo", groupNo);
 		
@@ -112,7 +130,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/create.do", method = { RequestMethod.POST })
-	public String create(BoardVO boardVO, MultipartHttpServletRequest mtfRequest) throws Exception {
+	public String create(BoardVO boardVO, MultipartHttpServletRequest mtfRequest) {
 		
 		logger.debug("boardVO : {}", boardVO);
 		boardVO.setBoardSt("Y");
@@ -146,15 +164,25 @@ public class BoardController {
 		
 		logger.debug("atchFileList : {}", attachmentList);
 		map.put("attachmentList", attachmentList);
-		String boardSq = boardService.create(map);
+		String boardSq = "";
+		try {
+			boardSq = boardService.create(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return "redirect:"+ mtfRequest.getContextPath() +"/board/retrieve.do?boardSq="+boardSq;
 	}
 	
 	@RequestMapping(path = "/delete.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String delete(String boardSq, String boardGbSq, HttpServletRequest request) throws Exception {
+	public String delete(String boardSq, String boardGbSq, HttpServletRequest request) {
 		
-		int deleteCnt = boardService.delete(boardSq);
+		int deleteCnt = 0;
+		try {
+			deleteCnt = boardService.delete(boardSq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if ( deleteCnt == 1 ) {
 			return "redirect:" + request.getContextPath() + "/board/retrievePagingList.do?boardGbSq=" + boardGbSq ;
@@ -164,12 +192,21 @@ public class BoardController {
 	}
 	
 	@RequestMapping(path = "/update.do", method = {RequestMethod.GET})
-	public String updateView(String boardSq, String boardGbSq, Model model) throws Exception {
-		Map<String, Object> map = boardService.retrieve(boardSq);
+	public String updateView(String boardSq, String boardGbSq, Model model) {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			map = boardService.retrieve(boardSq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		BoardVO boardVO = (BoardVO) map.get("boardVO");
 		List<AttachmentVO> attachmentList = (List<AttachmentVO>)map.get("attachmentList");
 		
-		model.addAttribute("categoryList", categoryService.retrieveList(new CategoryVO(boardGbSq)));
+		try {
+			model.addAttribute("categoryList", categoryService.retrieveList(new CategoryVO(boardGbSq)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("boardVO", boardVO);
 		model.addAttribute("attachmentList", attachmentList);
 		
@@ -179,7 +216,7 @@ public class BoardController {
 	@RequestMapping(path = "/update.do", method = {RequestMethod.POST})
 	public String updateProcess(BoardVO boardVO,
 								@RequestParam(required = false) List<String> deleteAtchSq,
-								MultipartHttpServletRequest mtfRequest) throws Exception {
+								MultipartHttpServletRequest mtfRequest) {
 		
 		logger.debug("boardVO : {}", boardVO);
 		boardVO.setBoardSt("Y");
@@ -214,7 +251,12 @@ public class BoardController {
 		
 		logger.debug("atchFileList : {}", attachmentList);
 		map.put("attachmentList", attachmentList);
-		String boardSq = boardService.update(map);
+		String boardSq = "";
+		try {
+			boardSq = boardService.update(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return "redirect:"+ mtfRequest.getContextPath() +"/board/retrieve.do?boardSq="+boardSq;
 	}

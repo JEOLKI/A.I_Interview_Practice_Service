@@ -66,6 +66,8 @@
 	<bean id="ProfileImgView" class="com.aiinterview.common.view.ProfileImgView"/>
 	
 	<bean id="excelView" class="com.aiinterview.common.view.ExcelDownloadView"/>
+	
+	<bean id="fileDownloadView" class="com.aiinterview.common.view.fileDownloadView"/>
 
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="0"></property>

@@ -16,8 +16,12 @@ public class BoardGubunController {
 	private BoardGubunService boardGubunService;
 	
 	@RequestMapping(path ="/retrieveList.do")
-	public String retrieveList(Model model) throws Exception {
-		model.addAttribute("boardGubunList", boardGubunService.retrieveList());
+	public String retrieveList(Model model) {
+		try {
+			model.addAttribute("boardGubunList", boardGubunService.retrieveList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "jsonView";
 	}
 	

@@ -84,14 +84,20 @@
 							</c:otherwise>
 						</c:choose>
 						
-							<td>${board.boardSq }</td>	
+							<td>${board.rnum }</td>	
 						
 						<c:choose>
 							<c:when test="${board.boardSt =='N' }">
-								<td>[삭제된 게시글 입니다.]</td>
+							<td><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
+                           		<c:if test="${board.level == 1 }">└─</c:if>
+									[삭제된 게시글 입니다.]
+								</td>
 							</c:when>
 							<c:otherwise>
-								<td>[${board.catContent }] ${board.boardTitle } </td>
+							<td><c:forEach var="i" begin="1" end="${boardVO.level}" >&nbsp;&nbsp;</c:forEach>
+                           		<c:if test="${board.level != 1 }">└─</c:if>
+									[${board.catContent }] ${board.boardTitle }
+								</td>
 							</c:otherwise>
 						</c:choose>
 						

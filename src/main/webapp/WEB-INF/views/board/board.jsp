@@ -183,7 +183,9 @@
 		width: 80%;
 	}
 
-	
+	.insertUpdate{
+		display: none;
+	}
 
 </style>
 
@@ -197,7 +199,51 @@
 		$("#BoardUpdateBtn").on('click', function(){
 			document.location="${pageContext.request.contextPath }/board/update.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}";
 		})
+		
+		$("#boardChildBtn").on('click', function(){
+			document.location="${pageContext.request.contextPath }/board/create.do?memId=${S_MEMBER.memId }&boardGbSq=${boardVO.boardGbSq }&boardSq=${boardVO.boardSq }&groupNo=${boardVo.groupNo }";
+		})
+		
+		$("#replyRegBtn").on('click', function(){
+			$("#replyfrm").submit();
+		});
 
+		$(".replyDelBtn").on('click', function(){
+			var reply_sq = $(this).data("reply_sq");
+			document.location="${pageContext.request.contextPath }/reply/delete.do?replySq=" + reply_sq +"&boardSq=${boardVO.boardSq }";
+		});
+		
+		// 답변의 수정버튼을 클릭하면
+		$('.updateReply').on('click', function() {
+			
+			replySq = $(this).data('reply_sq');
+			
+			$(this).hide();
+			$('#insertUpdate'+replySq+'').show();
+			
+			content = $('#replyContent'+replySq+'').html().replace(/<br>/g, "\n");
+			
+			code = "<textarea id='newReply' rows='5' cols='20' name='replyContent'>"+content+"</textarea>";
+			code += '<input HIDDEN type="text" name="replySq" value="'+replySq+'">';
+			
+			$('#replyContent'+replySq+'').empty();
+			$('#replyContent'+replySq+'').append(code);
+			
+		})
+		
+		$('.insertUpdate').on('click', function(){
+			$("#newReplyfrm").submit();
+		})
+		
+		$('.deleteReply').on('click', function() {
+			
+			replySq = $(this).data('reply_sq');
+			
+			document.location="${pageContext.request.contextPath }/reply/delete.do?replySq=" + replySq +"";
+			
+		})
+		
+		
 	});
 
 </script>
@@ -236,7 +282,7 @@
 				<td class='tdMenu'>첨부파일 :</td>
 				<td colspan='5'>
 					<c:forEach items="${attachmentList }" var="attachment">
-						<a>${attachment.atchNm }</a> <br>
+						<a href='${pageContext.request.contextPath }/attachment/download?atchSq=${attachment.atchSq }' >${attachment.atchNm }</a> <br>
 					</c:forEach>
 				</td>
 			</tr>
@@ -245,37 +291,41 @@
 				<tr id='tr2'>
 				<td class='tdMenu' id="reMenu">  댓    글 : </td>
 				<td id='replyList' colspan='5'>
+					<form id="newReplyfrm" action="${pageContext.request.contextPath }/reply/update.do" method="GET">
 					<table class='replyTable'>
 						<c:forEach items="${replyList }" var="replyVO">
-						<tr>
-							<td class='replyMem' rowspan='2'>${replyVO.memId }</td>
-							<td class='replyDate'>${replyVO.replyDate }</td>
-							<td class='butgroup2' rowspan='2'>
+							<c:if test="${replyVO.replySt == 'Y'}">
+								<tr>
+									<td class='replyMem' rowspan='2'>${replyVO.memId }</td>
+									<td class='replyDate'>${replyVO.replyDate }</td>
+									<td class='butgroup2' rowspan='2'>
+									
+									<c:if test="${replyVO.memId == S_MEMBER.memId }">
+										<button class='updateReply' data-reply_sq="${replyVO.replySq }" type='button'>수정</button>
+										<button class='insertUpdate' id="insertUpdate${replyVO.replySq }" data-reply_sq="${replyVO.replySq }" type='button'>등록</button>
+										<button class='replyDelBtn' type='button' data-reply_sq="${replyVO.replySq }" >삭제</button>
+									</c:if>
 							
-							<c:if test="${replyVO.memId == S_MEMBER.memId }">
-								<button class='updateReply' type='button'>수정</button>
-								<button class='insertUpdate' type='button'>등록</button>
-								<button class='deleteReply' type='button'>삭제</button>
+									</td>
+								</tr>
+								<tr>
+									<td class='replyContent' id='replyContent${replyVO.replySq }' colspan='4' >${replyVO.replyContent }</td>
+								</tr>
 							</c:if>
-					
-							</td>
-						</tr>
-						
-						<tr>
-							<td class='replyContent' colspan='4'>${replyVO.replyContent }</td>
-						</tr>
-					
-					</c:forEach>
+						</c:forEach>
 					</table>
+					<input HIDDEN type="text" name="boardSq" value="${boardVO.boardSq }">
+					<input HIDDEN type="text" name="memId" value="${S_MEMBER.memId }">
+					</form>
 				</td>
 			</tr>
 			<tr>
 				<td colspan='6'> 
-					<form id="replyfrm" action="${cp }/reply/create.do" method="post">
+					<form id="replyfrm" action="${pageContext.request.contextPath }/reply/create.do" method="GET">
 						<input HIDDEN type="text" name="boardSq" value="${boardVO.boardSq }">
 						<input HIDDEN type="text" name="memId" value="${S_MEMBER.memId }">
 						<textarea id="replyContent" name="replyContent" rows="" cols=""></textarea>
-						<button id="insertReply" type="button">댓글저장</button>
+						<button id="replyRegBtn" type="button">댓글저장</button>
 					</form>
 				</td>
 			</tr>
