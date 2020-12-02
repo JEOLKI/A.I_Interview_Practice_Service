@@ -357,7 +357,7 @@ function boardGubunList(){
 		<c:choose>
 			<c:when test="${S_MEMBER != null }">
 				<div class="user-tool">
-					<a class="payment-btn" href="/plan/buyPlan">이용권 구매</a>
+					<a class="payment-btn" href="/plan/planList.do">이용권 구매</a>
 					<div class="profile-btn false">
 						<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
 			<!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
@@ -372,8 +372,8 @@ function boardGubunList(){
 						</div>
 						<div class="link-area">
 							<a class="profile-edit btn" href="/member/updateview.do">프로필 수정</a><a
-								class="ticket-info btn" href="/personal-info#ticket">이용권 정보</a><a
-								class="payment-list btn" href="/payment-list">결제 내역</a>
+								class="ticket-info btn" href="/#">이용권 정보</a><a
+								class="payment-list btn" href="/plan/totalPayList.do">결제 내역</a>
 						</div>
 						<div class="logout">로그아웃</div>
 					</div>

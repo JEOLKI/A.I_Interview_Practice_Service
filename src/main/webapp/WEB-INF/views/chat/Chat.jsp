@@ -4,12 +4,67 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+	
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/Chatting.css">
 </head>
+<script>
+$(document).ready(function() {
+	chatAjax("${Receiver }");
+	
+});
+
+function chatAjax(receiver){
+	$.ajax({url : "/chat/chatListAjax.do",
+		method : "post",
+		data : { msgReceiver : receiver},
+		dataType : "json",
+		success : function(data){
+			var html = "";
+			console.log(data)
+			for(var i = 0; i< data.chatList.length ; i++){
+				var chat = data.chatList[i];                      
+// 				html += ' <ul>                                              ';
+				if("${S_MEMBER.memId }" == chat.msgSender){      
+				html += ' 		<li><div  class="right">                                        ';
+				html += ' 		<span>'+ chat.msgSender+ '<br>       ';
+				html += ' 		'+chat.msgContent+'</span>            ';
+				html += ' 		</div></li>                        <br>               ';
+				}                                               
+				else if("${S_MEMBER.memId }" == chat.msgReceiver){ 
+				html += ' 		<li><div  class="left">                                        ';
+				html += ' 		<span class="left">'+chat.msgSender+' 너<br>       ';
+				html += ' 		'+chat.msgContent+'</span>            ';
+				html += ' 		</div></li>                        <br>               ';
+				}                                          
+// 				html += ' </ul>                                             ';
+			}
+			$("#Ulchatarea").html(html);
+		
+		}
+	})
+}
+
+
+function create(receiver){
+	$.ajax({url : "/chat/create.do",
+		method : "post",
+		data : { msgReceiver : receiver},
+		dataType : "json",
+		success : function(data){
+			
+			$("#chatarea").html(html);
+		
+		}
+	})
+}
+
+
+
+</script>
 <style>
 	.left{
 		float: left
@@ -19,90 +74,9 @@ pageEncoding="UTF-8"%>
 	}
 
 </style>
-<script>
-const Chat = (function(){
-    const myName = "blue";
- 
-    // init 함수
-    function init() {
-        // enter 키 이벤트
-        $(document).on('keydown', 'div.input-div textarea', function(e){
-            if(e.keyCode == 13 && !e.shiftKey) {
-                e.preventDefault();
-                const message = $(this).val();
- 
-                // 메시지 전송
-                sendMessage(message);
-                // 입력창 clear
-                clearTextarea();
-            }
-        });
-    }
- 
-    // 메세지 태그 생성
-    function createMessageTag(LR_className, senderName, message) {
-        // 형식 가져오기
-        let chatLi = $('div.chat.format ul li').clone();
- 
-        // 값 채우기
-        chatLi.addClass(LR_className);
-        chatLi.find('.sender span').text(senderName);
-        chatLi.find('.message span').text(message);
- 
-        return chatLi;
-    }
- 
-    // 메세지 태그 append
-    function appendMessageTag(LR_className, senderName, message) {
-        const chatLi = createMessageTag(LR_className, senderName, message);
- 
-        $('div.chat:not(.format) ul').append(chatLi);
- 
-        // 스크롤바 아래 고정
-        $('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
-    }
- 
-    // 메세지 전송
-    function sendMessage(message) {
-        // 서버에 전송하는 코드로 후에 대체
-        const data = {
-            "senderName"    : "blue",
-            "message"        : message
-        };
- 
-        // 통신하는 기능이 없으므로 여기서 receive
-        resive(data);
-    }
- 
-    // 메세지 입력박스 내용 지우기
-    function clearTextarea() {
-        $('div.input-div textarea').val('');
-    }
- 
-    // 메세지 수신
-    function resive(data) {
-        const LR = (data.senderName != myName)? "left" : "right";
-        appendMessageTag("right", data.senderName, data.message);
-    }
- 
-    return {
-        'init': init
-    };
-})();
- 
-$(function(){
-    Chat.init();
-});
-
-</script>
-
-
-
-
 
 
 <body>
-
 
 <div id="one">
 <input type="text" id="nickname" value="${S_MEMBER.memId }"  readonly="readonly" /> 
@@ -114,41 +88,12 @@ $(function(){
 <input type="button" id="exit" value="나가기" /><br />
 
 <div id="chatarea" class="" style="width:400px; height:600px; border:1px solid;">
-		<ul>
-			
-		
-		
-		<c:forEach items="${chatList }" var="chat">
-				<c:choose>
-					<c:when test="${S_MEMBER.memId == chat.msgSender }">
-					<li>
-					<div class="my_message right">
-					  <div class="tooltip">
-					<span>${ chat.msgSender}</span> 나<br>
-					<span>${ chat.msgContent}</span>
-						</div> 
-					</div>
-					</li>
-					</c:when>
-					<c:when test="${S_MEMBER.memId == chat.msgReceiver }">
-					<li>
-					<div class="you_message left">
-					<div class="tooltip">
-					<span>${ chat.msgSender}</span> 너<br>
-					<span>${ chat.msgContent}</span>
-					</div> 
-					</div>
-					</li>
-					</c:when>
-					<c:otherwise>안떠야해</c:otherwise>
-				</c:choose>
-			<br>
-		</c:forEach>
-		</ul>
-	</div>
+
+	<ul id = "Ulchatarea">
+		<li><div></div></li>
+	</ul>
+</div>
 	
-	
-		
 		<input type="text" id="message" />
 		<input type="button" id="send" value="보내기" />
 
@@ -207,6 +152,7 @@ nickname = document.getElementById("nickname").value;
 two = document.getElementById("two");
 two.style.display='block';
 websocket.send(nickname + "님 입장하셨습니다.");
+
 enter = document.getElementById("enter");
 enter.style.display='none';
 }
@@ -216,6 +162,7 @@ function onMessage(evt){
 data= evt.data;
 chatarea = document.getElementById("chatarea");
 chatarea.innerHTML = data + "<br/>" + chatarea.innerHTML
+
 }
 
 function onClose(){

@@ -14,6 +14,7 @@
 		padding-left: 85px;
 	}
 </style>
+
 <script>
 $(document).ready(function() {
 	buyPlanAjax();
@@ -34,7 +35,7 @@ function buyPlanAjax(){
 			html +=	' <div class="PaymentBox">                                                     '        ;
 			html +=	'	<img src="/images/요금제이미지.png" alt="" class="bg">                         '           ;
 			html +=	'	<div class="content-body">                                                  '        ;
-			html +=	'		<div class="title sprint">이용권</div>                                  '          ;
+			html +=	'		<div class="title sprint">'+plan.planNm+'</div>                                  '          ;
 			html +=	'		<div class="price-area">                                                '        ;
 			html +=	'			<div class="date-num">                                              '        ;
 			html +=	'				<span>'+plan.planPeriod+'</span>일 이용권                                    '    ;
@@ -71,6 +72,7 @@ function buyPlanAjax(){
 	<div id="root">
 		<div class="Payment">
 			<%@ include file="/WEB-INF/views/layout/header.jsp" %>
+			
 			<div class="body">
 			
 				<div class="title-message">

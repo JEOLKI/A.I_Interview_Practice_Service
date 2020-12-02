@@ -40,9 +40,27 @@
 	</select>
 
 
+	
+	<insert id="create" parameterType="com.aiinterview.plan.vo.PlanVO">
+		Insert into PLAN (PLAN_SQ,PLAN_NM,PLAN_PRICE,PLAN_EXPLAIN,PLAN_ST,PLAN_PERIOD)
+		values (plan_sq.nextval, #{planNm }, #{planPrice}, #{planExplain }, 'Y' ,#{planPeriod })	
+	</insert>
 
+	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO">
+		UPDATE plan set plan_st = 'N'
+		where plan_sq = #{planSq}
+	</update>
 
-
+	<select id = "CashList" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO">
+	SELECT * 
+	FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
+	WHERE mem_id = #{memId}
+	</select>
+<!-- 	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO"> -->
+<!-- 		UPDATE plan set plan_nm = #{planNm}, plan_price = #{planPrice},  -->
+<!-- 		plan_explain = #{planExplain }, plan_st = #{planSt}, plan_period=#{planPeriod} -->
+<!-- 		where plan_sq = #{planSq} -->
+<!-- 	</update> -->
 
 
 

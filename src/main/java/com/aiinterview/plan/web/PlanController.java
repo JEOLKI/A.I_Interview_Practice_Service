@@ -3,6 +3,7 @@ package com.aiinterview.plan.web;
 
 import java.util.List;
 
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -35,9 +36,15 @@ public class PlanController {
 	
 	@RequestMapping(path = "/planListAjax.do", method = RequestMethod.GET)
 	public String buyplanAjax(Model model) {
-		List<PlanVO> planList =  planService.planList();
+		List<PlanVO> planList;
+		try {
+			planList = planService.planList();
+			model.addAttribute("planList", planList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		model.addAttribute("planList", planList);
 		
 		return "jsonView";
 	}
@@ -45,15 +52,23 @@ public class PlanController {
 	@RequestMapping(path = "/planContent.do", method = RequestMethod.GET)
 	public String planContentView(PlanVO pv, Model model, HttpSession session) {
 		
-		PlanVO pvContent =  planService.planContent(pv);
-		PlanUseVO puv = new PlanUseVO();
-		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-		puv.setMemId(mv.getMemId());
-		int planUseCheck = planService.planUseCheck(puv);
+		PlanVO pvContent;
+		try {
+			pvContent = planService.planContent(pv);
+			PlanUseVO puv = new PlanUseVO();
+			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+			puv.setMemId(mv.getMemId());
+			
+			int planUseCheck = planService.planUseCheck(puv);
+			
+			model.addAttribute("planUseCheck", planUseCheck);
+			model.addAttribute("pvContent", pvContent);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		
-		model.addAttribute("planUseCheck", planUseCheck);
-		model.addAttribute("pvContent", pvContent);
 		
 		return "plan/planContent";
 	}
@@ -62,8 +77,14 @@ public class PlanController {
 	@RequestMapping(path = "/payPlanAjax.do", method = RequestMethod.GET)
 	public String payPlanAjax(PlanVO pv, Model model) {
 		
-		PlanVO pvContent =  planService.planContent(pv);
-		model.addAttribute("pvContent", pvContent);
+		PlanVO pvContent;
+		try {
+			pvContent = planService.planContent(pv);
+			model.addAttribute("pvContent", pvContent);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "jsonView";
 	}
 	
@@ -72,28 +93,93 @@ public class PlanController {
 	public String planUseCreateView(PlanVO pv, HttpSession session) {
 		
 		
-		PlanVO pvContent =  planService.planContent(pv);
-		PlanUseVO puv = new PlanUseVO();
-		puv.setPlanPeriod(pvContent.getPlanPeriod());
-		
-		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-		puv.setMemId(mv.getMemId());
-		
-//		int planUseCheck = planService.planUseCheck(puv);
-		
-		planService.planUseCreate(puv);
+		PlanVO pvContent;
+		try {
+			pvContent = planService.planContent(pv);
+			PlanUseVO puv = new PlanUseVO();
+			puv.setPlanPeriod(pvContent.getPlanPeriod());
+			
+			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+			puv.setMemId(mv.getMemId());
+			
+			
+			planService.planUseCreate(puv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "member/membermain";
 	}
+	
+	
+	@RequestMapping(path = "/manage.do", method = RequestMethod.GET)
+	public String createView() {
+		
+		return "manage/planManage";
+	}
+	
+	
+	
+	@RequestMapping(path = "/create.do", method =  RequestMethod.POST)
+	public String createProcess(PlanVO pv) {
+		try {
+			planService.create(pv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "manage/planManage";
+	}
+
+	@RequestMapping(path = "/update.do", method = RequestMethod.GET)
+	public String updateView(PlanVO pv) {
+		
+		try {
+			planService.update(pv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "manage/planManage";
+	}
+	
+	
+	@RequestMapping(path = "/totalPayList.do")
+	public String totalPayList(HttpSession session) {
+		PlanUseVO puv = new PlanUseVO();
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		puv.setMemId(mv.getMemId());
+		try {
+			planService.CashList(puv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "plan/totalPayList";
+	}
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(path = "/createe.do", method = RequestMethod.GET)
+	public String createeView() {
+		
+		return "manage/planManagee";
+	}
+	
+	
 	
 	@RequestMapping(path = "/payComplete.do")
 	public String payComplete() {
 		return "myProfile/myProfile";
 	}
 	
-	@RequestMapping(path = "/totalPayList.do")
-	public String totalPayList() {
-		return "plan/totalPayList";
-	}
 	
 	
 	

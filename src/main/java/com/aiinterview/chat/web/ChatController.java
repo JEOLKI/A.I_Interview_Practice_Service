@@ -5,8 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.aiinterview.chat.service.ChatService;
 import com.aiinterview.chat.vo.ChatVO;
 import com.aiinterview.member.vo.MemberVO;
-import com.aiinterview.member.web.LoginController;
 
 
 @RequestMapping("/chat")
@@ -44,8 +41,37 @@ public class ChatController {
 		}
 		
 		model.addAttribute("chatList", chatList);
+		model.addAttribute("Receiver", receiver);
 		return "chat/Chat";
 	}
+	
+	@RequestMapping(path = "/chatListAjax.do", method = RequestMethod.POST)
+	public String chatListAjax(Model model, ChatVO cv, HttpSession session) {
+		
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = mv.getMemId();
+		
+		//내가 보내는 사람이기 때문에 세션에서 가져온다.
+		cv.setMsgSender(memId);
+		List<ChatVO> chatList =  chatService.List(cv);
+		
+		for (int i = 0; i < chatList.size(); i++) {
+			System.out.println(chatList.get(i));
+		}
+		
+		model.addAttribute("chatList", chatList);
+		
+		return "jsonView";
+		
+	}
+	
+	
+	
+	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
+	public void createProcess(Model model, ChatVO cv, HttpSession session) {
+		chatService.create(cv);
+	}
+	
 	
 	
 	

@@ -19,7 +19,9 @@ public class ChatService {
 		return chatMapper.List(cv);
 	}
 	
-	
+	public int create(ChatVO cv) {
+		return chatMapper.create(cv);
+	}
 	
 	
 	

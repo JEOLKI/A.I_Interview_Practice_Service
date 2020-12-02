@@ -16,7 +16,11 @@
 	order by msg_date asc
 	</select>
 
-
+	<insert id="create" parameterType="com.aiinterview.chat.vo.ChatVO" >
+		INSERT INTO MESSAGE VALUES(message_sq_nextval,#{msgContent},SYSDATE, 
+		#{msgSender}, {msgReceiver})
+		
+	</insert>
 	
 
 

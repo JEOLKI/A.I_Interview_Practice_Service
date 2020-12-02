@@ -18,21 +18,33 @@ public class PlanService {
 	@Resource(name = "planMapper")
 	private PlanMapper planMapper;
 	
-	public List<PlanVO> planList() {
+	public List<PlanVO> planList() throws Exception {
 		return planMapper.planList();
 	}
 
-	public PlanVO planContent(PlanVO pv) {
+	public PlanVO planContent(PlanVO pv) throws Exception {
 		return planMapper.planContent(pv);
 	}
 	
 	
-	public int planUseCreate(PlanUseVO puv) {
+	public int planUseCreate(PlanUseVO puv) throws Exception {
 		return planMapper.planUseCreate(puv);
 	}
 	
-	public int planUseCheck(PlanUseVO puv) {
+	public int planUseCheck(PlanUseVO puv) throws Exception {
 		return planMapper.planUseCheck(puv);
+	}
+	
+	public int create(PlanVO pv) throws Exception {
+		return planMapper.create(pv);
+	}
+	
+	public int update(PlanVO pv) throws Exception {
+		return planMapper.update(pv);
+	}
+	
+	public List<PlanUseVO> CashList(PlanUseVO puv)throws Exception{
+		return planMapper.CashList(puv);
 	}
 	
 }

@@ -15,5 +15,11 @@ public interface ChatMapper {
 	 * @return
 	 */
 	List<ChatVO> List(ChatVO cv);
-	
+
+	/**
+	 * 채팅 로그를 db에 저장하기 위한 메서드
+	 * @param cv의 vo내용
+	 * @return
+	 */
+	int create(ChatVO cv);
 }

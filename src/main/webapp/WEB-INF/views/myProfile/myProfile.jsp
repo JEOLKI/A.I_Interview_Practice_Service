@@ -215,12 +215,12 @@ to {
 								alt="" class="bg-img">
 							<div class="null-content">
 								<div class="sub-message">현재 사용 중인 이용권이 없습니다.</div>
-								<a class="payment-link" href="/plan/buyPlan">이용권 구매하기</a>
+								<a class="payment-link" href="/plan/planList.do">이용권 구매하기</a>
 							</div>
 						</div>
 					</div>
 					<div class="sub-message">무제한 모의면접, 지금 바로 경험해 보세요!</div>
-					<a class="edit-btn" href="/plan/totalPayList">결제내역 확인</a>
+					<a class="edit-btn" href="/plan/totalPayList.do">결제내역 확인</a>
 				</div>
 				<div class="withdraw-message">
 					아이엠터뷰를 더 이상 이용하지 않는다면<a class="withdraw-btn"

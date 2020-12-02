@@ -14,13 +14,39 @@ public interface PlanMapper {
 	 * 전체 이용권 리스트를 불러오기 위한 메서드
 	 * @return
 	 */
-	List<PlanVO> planList();
+	List<PlanVO> planList() throws Exception;
 	
 	/**
 	 * 이용권을 클릭했을 때 나올 이용권 정보
 	 * @return
 	 */
-	PlanVO planContent(PlanVO pv);
+	PlanVO planContent(PlanVO pv) throws Exception;
+	
+	
+	/**
+	 * 관리자가 이용권을 생성하기 위한 메서드
+	 * @param pv 이용권 정보
+	 * @return
+	 */
+	int create(PlanVO pv) throws Exception;
+	
+	/**
+	 * 관리자가 이용권을 변경하기 위한 메서드
+	 * @param pv 이용권 변경정보
+	 * @return
+	 */
+	int update(PlanVO pv) throws Exception;
+	
+	
+	/**
+	 * 결제내역을 불러오기 위한 메서드
+	 * @return
+	 * @throws Exception
+	 */
+	List<PlanUseVO> CashList(PlanUseVO puv) throws Exception;
+	
+	
+	
 	
 	/**
 	 * 이용권을 구매하기위한 메서드
