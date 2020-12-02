@@ -13,7 +13,7 @@ public interface QuestionGubunMapper {
 	 * 샘플질문 구분(직무) 목록을 조회하는 메서드
 	 * @return questGbList
 	 */
-	public List<QuestionGubunVO> retrieveQuestGbList() throws Exception;
+	public List<QuestionGubunVO> retrieveList() throws Exception;
 
 	/**
 	 * 샘플질문 구분(직무)를 등록하는 메서드
@@ -50,10 +50,11 @@ public interface QuestionGubunMapper {
 	 */
 	public int retrievePagingListCnt(QuestionGubunVO questGbVO);
 
-	
 	/**
-	 * 샘플질문 구분(직무) 목록을 조회하는 메서드
+	 * 사용중인 샘플질문 구분(직무) 목록을 조회하는 메서드
 	 * @return questGbList
+	 * @throws Exception 
 	 */
-	public int retrieveList(QuestionGubunVO questGbVO);
+	public List<QuestionGubunVO> retrieveUsingList();
+
 }

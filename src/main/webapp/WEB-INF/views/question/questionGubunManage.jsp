@@ -99,17 +99,6 @@
                 </ul>
 				</div>
 				
-				
-				
-<%-- 				<label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label> --%>
-<%-- 				<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label> --%>
-<%--                 <form:input path="searchKeyword" cssClass="txt"/> --%>
-<!--                  <span class="btn_blue_l"> -->
-<%--         	          <a href="javascript:searchList();"><spring:message code="button.search" /></a> --%>
-<%--         	          <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/> --%>
-<!--         	    </span> -->
-<!-- 				<button type="button" id="searchBtn">검색</button> -->
-				
 		    	</div>
 		    	<a href="${cp }/questGb/list/excelDown.do">↓ 목록 내려받기</a> 
 				<span id="massiveCreate">↑ 일괄등록</span>
@@ -122,11 +111,11 @@
 			<div class="existQuestGb" id="questGbList">
 				<c:forEach items="${resultList }" var="questGb">
 					<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">
-							<input type="hidden" name="questGbSq" value="${questGb.questGbContent}">
+							<input type="hidden" name="questGbSq" value="${questGb.questGbSq}">
 							<input type="text" name="questGbContent" value="<c:out value="${questGb.questGbContent}"/>">
 							<select class="questGbSt" name="questGbSt">
 								<c:choose>
-									<c:when test="<c:out value='${questGb.questGbSt}'/> == 'Y' ">
+									<c:when test="${questGb.questGbSt == 'Y' }">
 										<option value="Y" selected="selected">사용</option>
 										<option value="N">미사용</option>
 									</c:when>
@@ -136,6 +125,7 @@
 									</c:otherwise>
 								</c:choose>
 							</select>
+							<button type="submit" >수정</button>
 					</form>
 				</c:forEach>
 	
@@ -145,10 +135,10 @@
 				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="lingPage" />
 				<form:hidden path="pageIndex" />
 			</div>
-			</form:form>
 		</div>
 	</div>
 </div>
+</form:form>
 
 	
 </body>

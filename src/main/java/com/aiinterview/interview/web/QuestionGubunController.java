@@ -133,7 +133,7 @@ public class QuestionGubunController {
 	public String excelDown(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
-		List<QuestionGubunVO> questGbList = questionGubunService.retrieveQuestGbList();
+		List<QuestionGubunVO> questGbList = questionGubunService.retrieveList();
 
 		
 		//Model 객체에 header, data

@@ -29,9 +29,9 @@ public class QuestionGubunService {
 	 * @return questGbList
 	 * @throws Exception 
 	 */
-	public List<QuestionGubunVO> retrieveQuestGbList() throws Exception {
+	public List<QuestionGubunVO> retrieveList() throws Exception {
 		logger.debug("질문 구분 리스트 조회 service");
-		return questionGubunMapper.retrieveQuestGbList();
+		return questionGubunMapper.retrieveList();
 	}
 
 	/**
@@ -111,6 +111,16 @@ public class QuestionGubunService {
 	 */
 	public int retrievePagingListCnt(QuestionGubunVO questGbVO) {
 		return questionGubunMapper.retrievePagingListCnt(questGbVO);
+	}
+
+
+	/**
+	 * 사용중인 샘플질문 구분(직무) 목록을 조회하는 메서드
+	 * @return questGbList
+	 * @throws Exception 
+	 */
+	public List<QuestionGubunVO> retrieveUsingList() {
+		return questionGubunMapper.retrieveUsingList();
 	}
 
 
