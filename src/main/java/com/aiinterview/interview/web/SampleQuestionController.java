@@ -2,7 +2,10 @@ package com.aiinterview.interview.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -112,5 +116,54 @@ public class SampleQuestionController {
 
 		return "redirect:/sampQuest/retrievePagingList.do";
 
+	}
+	
+	/* 일괄 다운로드 */
+	@RequestMapping("/list/excelDown.do")
+	public String excelDown(Model model) throws Exception {
+
+		// 출력할 리스트 가져오기
+		List<SampleQuestionVO> sampQuestList = sampleQuestionService.retrieveList();
+
+		
+		//Model 객체에 header, data
+		List<String> header = new ArrayList<String>();
+		header.add("SAMP_QUEST_SQ");
+		header.add("SAMP_QUEST_CONTENT");
+		header.add("SAMP_QUEST_ST");
+		header.add("QUEST_GB_SQ");
+		
+		// excel 파일 data 설정
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+		for(int i = 0; i<sampQuestList.size(); i++) {
+			Map<String, String> map = new HashMap<>();
+			map.put("SAMP_QUEST_SQ", sampQuestList.get(i).getSampQuestSq());
+			map.put("SAMP_QUEST_CONTENT", sampQuestList.get(i).getSampQuestContent());
+			map.put("SAMP_QUEST_ST", sampQuestList.get(i).getSampQuestSt());
+			map.put("QUEST_GB_SQ", sampQuestList.get(i).getQuestGbSq());
+			data.add(map);
+		}
+
+		model.addAttribute("header",header);
+		model.addAttribute("data",data);
+		model.addAttribute("fileName","SAMPLE_QUESTION");
+		model.addAttribute("sheetName","SAMPLE_QUESTION");
+		
+		return "excelView";
+	}
+	
+	/* 샘플질문 수정 */
+	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
+	public String updateProcess(QuestionGubunVO questGbVO, Model model) {
+		System.out.println("질문 구분 수정 - questGbVO : " + questGbVO);
+
+		int updateCnt = questionGubunService.update(questGbVO);
+		System.out.println("질문 구분 수정 - updateCnt : " + updateCnt);
+		if (updateCnt == 1) {
+			return "redirect:/questGb/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
+		} else {
+			return "question/questionGubunManage";
+		}
 	}
 }

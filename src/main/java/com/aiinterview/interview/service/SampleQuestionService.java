@@ -80,5 +80,21 @@ public class SampleQuestionService {
 		  }
 		
 	}
+
+	
+	/**
+	 * 샘플질문 목록을 조회하는 메서드
+	 * @return questGbList
+	 * @throws Exception 
+	 */
+	public List<SampleQuestionVO> retrieveList() {
+		return sampleQuestionMapper.retrieveList();
+	}
+
+
+	public int update(SampleQuestionVO sampQuestVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
