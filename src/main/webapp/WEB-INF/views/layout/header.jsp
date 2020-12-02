@@ -162,8 +162,12 @@
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
-	
+.dropdown:hover {background-color: #3e8e41;}
+
+.user-popup{
+	display: none;
+}
+
 </style>
 
 <script>
@@ -198,6 +202,15 @@ $(document).ready(function() {
     	}else{
     		alert('비밀번호가 일치 하지 않습니다.');
     	}
+    });
+    
+    $('.user-tool').on('click',function(){
+    	$('.user-popup').toggle();
+    });
+    
+    $('.logout').on('click',function(){
+    	alert('로그아웃 되었습니다')
+    	document.location="/login/logout.do";
     });
     
     boardGubunList();
@@ -301,7 +314,7 @@ function boardGubunList(){
 
 </script>
 <!-- header -->
-<div class="TopBar undefined" id  ="header">
+<div class="TopBar undefined" id  ="header" >
 	<div class="navigation-bar">
 		<a class="iam-logo" href="/login/main.do"><img
 			src="/images/Ai_Interview 로고.png" alt="iam-logo"
@@ -329,28 +342,47 @@ function boardGubunList(){
 			</c:choose>
 		</div>
 	</div>
-	<c:choose>
-		<c:when test="${S_MEMBER == null }">
-			<button id="login" class="login" style="margin-left: 0px;">로그인</button>
-			<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
-		</c:when>
-	</c:choose>
-<%-- 	<c:choose> --%>
-<%-- 		<c:when test="${S_MEMBER != null }"> --%>
-<!-- 			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button> -->
-<%-- 		</c:when> --%>
-<%-- 	</c:choose> --%>
-	<c:choose>
-		<c:when test="${S_MEMBER != null }">
-			<div class="user-tool">
-				<a class="payment-btn" href="/plan/buyPlan">이용권 구매</a>
-				<div id="myProfile" class="profile-btn false">
-					<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
-		<!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
+	<div style="justify-content: flex-end;">
+		<c:choose>
+			<c:when test="${S_MEMBER == null }">
+				<button id="login" class="login" style="margin-left: 0px;">로그인</button>
+				<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
+			</c:when>
+		</c:choose>
+	<%-- 	<c:choose> --%>
+	<%-- 		<c:when test="${S_MEMBER != null }"> --%>
+	<!-- 			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button> -->
+	<%-- 		</c:when> --%>
+	<%-- 	</c:choose> --%>
+	</div>
+		<c:choose>
+			<c:when test="${S_MEMBER != null }">
+				<div class="user-tool">
+					<a class="payment-btn" href="/plan/buyPlan">이용권 구매</a>
+					<div class="profile-btn false">
+						<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+			<!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
+					</div>
+					
+					<div class="user-popup">
+						<div class="profile-area">
+							<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+						</div>
+						<div class="profile-link-area">
+							<a id="myProfile" class="personal-info btn">내 프로필</a>
+						</div>
+						<div class="link-area">
+							<a class="profile-edit btn" href="/member/updateview.do">프로필 수정</a><a
+								class="ticket-info btn" href="/personal-info#ticket">이용권 정보</a><a
+								class="payment-list btn" href="/payment-list">결제 내역</a>
+						</div>
+						<div class="logout">로그아웃</div>
+					</div>
+					
+					
 				</div>
-			</div>
-		</c:when>
-	</c:choose>
+			</c:when>
+		</c:choose>
 </div>
 <div id="myModal" class="modal">
 

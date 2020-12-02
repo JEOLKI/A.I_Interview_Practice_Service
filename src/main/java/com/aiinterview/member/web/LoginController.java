@@ -30,6 +30,12 @@ public class LoginController {
 	public String home() {
 		return "login/home";
 	}
+	
+	@RequestMapping(value = "/logout.do", method = { RequestMethod.GET })
+	public String logout(HttpSession session) {
+		session.removeAttribute("S_MEMBER");
+		return "login/main";
+	}
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
 	public String login(String memId, String memPw, HttpSession session, Model model) {
