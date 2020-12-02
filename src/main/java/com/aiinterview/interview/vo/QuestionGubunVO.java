@@ -27,8 +27,10 @@ public class QuestionGubunVO extends BaseVO {
 	@Override
 	public String toString() {
 		return "QuestionGubunVO [questGbSq=" + questGbSq + ", questGbContent=" + questGbContent + ", questGbSt="
-				+ questGbSt + "]";
+				+ questGbSt + ", getSearchCondition()=" + getSearchCondition() + ", getSearchKeyword()="
+				+ getSearchKeyword() + ", getSearchUseYn()=" + getSearchUseYn() + "]";
 	}
+	
 	
 	
 	

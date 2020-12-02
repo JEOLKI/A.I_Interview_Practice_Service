@@ -11,11 +11,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.interview.service.QuestionGubunService;
 import com.aiinterview.interview.vo.QuestionGubunVO;
 
@@ -34,37 +36,26 @@ public class QuestionGubunController {
 	protected EgovPropertyService propertiesService;
 	
 
-	@RequestMapping("/manage.do")
-	public String manage() {
-		return "question/questionGubunManage";
-	}
-
-	@RequestMapping("/list.do")
-	public String retrieveQuestGbList(Model model) throws Exception {
-
-		List<QuestionGubunVO> questGbList = questionGubunService.retrieveQuestGbList();
-		System.out.println("질문 구분 목록 " + questGbList);
-		model.addAttribute("questGbList", questGbList);
-
-		return "jsonView";
-	}
-	
 	
 	/* 페이징 처리 */
 	@RequestMapping(value = "/retrievePagingList.do")
-	public String retrievePagingList(QuestionGubunVO questGbVO, ModelMap model) throws Exception {
+	public String retrievePagingList(QuestionGubunVO questGbVO, Model model) throws Exception {
 		
-		System.out.println("페이징 컨트롤러");
+		System.out.println("페이징 컨트롤러 : questGbVO " + questGbVO);
 		/** EgovPropertyService.sample */
 		questGbVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		questGbVO.setPageSize(propertiesService.getInt("pageSize"));
-
+		System.out.println("pageUnit : "+ questGbVO.getPageUnit() +", pageSize : " + questGbVO.getPageSize());
+		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(questGbVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(questGbVO.getPageUnit());
 		paginationInfo.setPageSize(questGbVO.getPageSize());
+		
+		System.out.println("paginationInfo : "+ paginationInfo);
 
+		
 		questGbVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		questGbVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		questGbVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
@@ -91,7 +82,7 @@ public class QuestionGubunController {
 
 		System.out.println("질문 구분 등록 후");
 
-		return "redirect:/questGb/manage.do";
+		return "redirect:/questGb/retrievePagingList.do";
 	}
 	
 	@RequestMapping("/searchlist.do")
@@ -124,7 +115,7 @@ public class QuestionGubunController {
 
 		destFile.delete();
 
-		return "redirect:/questGb/manage.do";
+		return "redirect:/questGb/retrievePagingList.do";
 
 	}
 
@@ -135,7 +126,7 @@ public class QuestionGubunController {
 		int updateCnt = questionGubunService.update(questGbVO);
 		System.out.println("질문 구분 수정 - updateCnt : " + updateCnt);
 		if (updateCnt == 1) {
-			return "redirect:/questGb/manage.do"; // 업데이트 성공시 리다이렉트
+			return "redirect:/questGb/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
 		} else {
 			return "question/questionGubunManage";
 		}

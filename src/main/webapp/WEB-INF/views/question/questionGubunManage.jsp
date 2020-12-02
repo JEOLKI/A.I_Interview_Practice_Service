@@ -10,41 +10,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-<script>
+    <script type="text/javaScript" language="javascript" defer="defer">
 	$(document).ready(function(){
 		
 		$('#questGbRegistBtn').on('click', function() {
 			$('#questGbRegistFrm').submit();
 		})
-
 		
-		$.ajax({url : "/questGb/list.do",
-			method : "get",
-			dataType : "json",
-			success : function(data){
-				console.log(data);
-				var html="";
-				for(var i=0; i<data.questGbList.length; i++){
-					html += '<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">';
-					html += '<input type="hidden" name="questGbSq" value="'+data.questGbList[i].questGbSq+'">';
-					html += '<input type="text" name="questGbContent" value="'+data.questGbList[i].questGbContent+'">';
-					html += '<select class="questGbSt" name="questGbSt">';
-					if (data.questGbList[i].questGbSt == "Y") {
-						html += '<option value="Y" selected="selected">사용</option>';
-						html += '<option value="N">미사용</option>';
-					} else {
-						html += '<option value="Y">사용</option>';
-						html += '<option value="N" selected="selected">미사용</option>';
-					}
-					html += '</select>';
-					html += '<button class="updateBtn" type="submit">수정</button>';
-					html += '</form>';
-				}
-				$('#questGbList').append(html);
-			}
-			})
-		
-	
 			
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
@@ -54,50 +26,27 @@
 			$('#massiveForm').submit();
 		})
 		
-		$('#searchBtn').on('click', function(){
-			var keyword = $('#keyword').val();
-			$.ajax({url : "/questGb/searchlist.do",
-				method : "get",
-				data : {"keyword" : keyword},
-				dataType : "json",
-				success : function(data){
-					var html="";
-					for(var i=0; i<data.questGbSearchList.length; i++){
-// 						html += '<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">';
-// 						html += '<input type="hidden" name="questGbSq" value="'+data.questGbSearchList[i].questGbSq+'">';
-// 						html += '<label id="rownum"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></label>';
-// 						html += '<input type="text" name="questGbContent" value="<c:out value="${result.questGbContent}"/>">';
-// 						html += '<select class="questGbSt" name="questGbSt">';
-// 						if (<c:out value="${result.questGbContent}"/> == "Y") {
-// 							html += '<option value="Y" selected="selected">사용</option>';
-// 							html += '<option value="N">미사용</option>';
-// 						} else {
-// 							html += '<option value="Y">사용</option>';
-// 							html += '<option value="N" selected="selected">미사용</option>';
-// 						}
-// 						html += '</select>';
-// 						html += '<button class="updateBtn" type="submit">수정</button>';
-// 						html += '</form>';
-					}
-					$('#questGbList').empty();
-					$('#questGbList').append(html);
-				}
-			})
-		})
 			
 	})
 	
-// 	 /* pagination 페이지 링크 function */
-//         function fn_egov_link_page(pageNo){
-//         	document.listForm.pageIndex.value = pageNo;
-//         	document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
-//            	document.listForm.submit();
-//         }
+	 /* pagination 페이지 링크 function */
+        function lingPage(pageNo){
+        	document.listForm.pageIndex.value = pageNo;
+        	document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
+           	document.listForm.submit();
+        }
+	
+	/* 검색 */
+	function searchList(){
+		document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
+       	document.listForm.submit();
+	}
 	
 </script>
 </head>
 <body>
 <!-- 헤더 -->
+<form:form commandName="questionGubunVO" id="listForm" name="listForm" method="post">
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -106,8 +55,7 @@
 				<div class="content__title">질문 구분 관리</div>
 			</div>
 			</section>
-			<div class="body">
-			<form:form commandName="questionGubunVO" id="listForm" name="listForm" method="post">
+			<div class="body" >
 			<div class="registQuestionGubun">
 				<form id="questGbRegistFrm" action="${cp }/questGb/createProcess.do" method="post">
 					<input  type="text" id="questGbContent" name="questGbContent" value="${param.questGb }">
@@ -136,9 +84,38 @@
 					<option value="">10개씩</option>
 					<option value="">15개씩</option>
 					<option value="">20개씩</option>
-				</select> <input id="keyword" type="text">
-				<button type="button" id="searchBtn">검색</button>
-		    	
+				</select> 
+				<div id="search">
+				<ul>
+        			<label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
+        				<form:select path="searchCondition" cssClass="use">
+        					<form:option value="1" label="제목" />
+        					<form:option value="0" label="내용" />
+        				</form:select>
+        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+                        <form:input path="searchKeyword" cssClass="txt"/>
+                    
+        			
+        	            <span class="btn_blue_l">
+        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
+        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
+        	            </span>
+        	        
+                </ul>
+				</div>
+				
+				
+				
+<%-- 				<label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label> --%>
+<%-- 				<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label> --%>
+<%--                 <form:input path="searchKeyword" cssClass="txt"/> --%>
+<!--                  <span class="btn_blue_l"> -->
+<%--         	          <a href="javascript:searchList();"><spring:message code="button.search" /></a> --%>
+<%--         	          <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/> --%>
+<!--         	    </span> -->
+<!-- 				<button type="button" id="searchBtn">검색</button> -->
+				
+		    	</div>
 		    	<a href="${cp }/questGb/list/excelDown.do">↓ 목록 내려받기</a> 
 				<span id="massiveCreate">↑ 일괄등록</span>
 				<!-- excel file 읽어오기 -->
@@ -147,46 +124,33 @@
 			    </form>
 			</div>				
 			
-			<!-- 
-					html += '<select class="questGbSt" name="questGbSt">';
-						if (<c:out value="${result.questGbContent}"/> == "Y") {
-							html += '<option value="Y" selected="selected">사용</option>';
-							html += '<option value="N">미사용</option>';
-						} else {
-							html += '<option value="Y">사용</option>';
-							html += '<option value="N" selected="selected">미사용</option>';
-						}
-						html += '</select>';
-						html += '<button class="updateBtn" type="submit">수정</button>';
-						html += '</form>';
-			 -->
 			<div class="existQuestGb" id="questGbList">
-				<c:forEach var="result" items="${resultList}">
-<%--             				<label id="rownum"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></label> --%>
-            				<input type="text" name="questGbContent" value="<c:out value="${result.questGbContent}"/>">
-            				<select class="questGbSt" name="questGbSt">
-            				<c:choose>
-            					<c:when test="<c:out value='${result.questGbSt}'/> == 'Y' ">
-            						<option value="Y" selected="selected">사용</option>
-            						<option value="N">미사용</option>
-            					</c:when>
-            					<c:otherwise>
-            						<option value="Y">사용</option>
-            						<option value="N" selected="selected">미사용</option>
-            					</c:otherwise>
-            				</c:choose>
-            				<button class="updateBtn" type="submit">수정</button>
-            				</select>
-        			</c:forEach>
+				<c:forEach items="${resultList }" var="questGb">
+					<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">
+							<label id="rownum"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}" /></label>
+							<input type="hidden" name="questGbSq" value="${questGb.questGbContent}">
+							<input type="text" name="questGbContent" value="<c:out value="${questGb.questGbContent}"/>">
+							<select class="questGbSt" name="questGbSt">
+								<c:choose>
+									<c:when test="<c:out value='${questGb.questGbSt}'/> == 'Y' ">
+										<option value="Y" selected="selected">사용</option>
+										<option value="N">미사용</option>
+									</c:when>
+									<c:otherwise>
+										<option value="Y">사용</option>
+										<option value="N" selected="selected">미사용</option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+					</form>
+				</c:forEach>
+	
 			</div>
 			
-<!-- 			<div id="paging"> -->
-<%-- 				<c:if test="${not empty paginationInfo}">  --%>
-<%-- 					<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"/>  --%>
-<%-- 				</c:if> --%>
-<%--         		<form:hidden path="pageIndex" /> --%>
-<!--         	</div> -->
-			
+			<div id="paging">
+				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="lingPage" />
+				<form:hidden path="pageIndex" />
+			</div>
 			</form:form>
 		</div>
 	</div>
