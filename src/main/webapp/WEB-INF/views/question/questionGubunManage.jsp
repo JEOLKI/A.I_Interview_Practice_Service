@@ -87,11 +87,6 @@
 				</select> 
 				<div id="search">
 				<ul>
-        			<label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
-        				<form:select path="searchCondition" cssClass="use">
-        					<form:option value="1" label="제목" />
-        					<form:option value="0" label="내용" />
-        				</form:select>
         			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
                         <form:input path="searchKeyword" cssClass="txt"/>
                     
@@ -127,7 +122,6 @@
 			<div class="existQuestGb" id="questGbList">
 				<c:forEach items="${resultList }" var="questGb">
 					<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">
-							<label id="rownum"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}" /></label>
 							<input type="hidden" name="questGbSq" value="${questGb.questGbContent}">
 							<input type="text" name="questGbContent" value="<c:out value="${questGb.questGbContent}"/>">
 							<select class="questGbSt" name="questGbSt">

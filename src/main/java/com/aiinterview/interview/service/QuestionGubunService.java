@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.aiinterview.common.util.excel.option.ReadOption;
@@ -17,6 +19,7 @@ import com.aiinterview.interview.vo.QuestionGubunVO;
 @Service("questionGubunService")
 public class QuestionGubunService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(SampleQuestionService.class);
 	
 	@Resource(name="questionGubunMapper")
 	private QuestionGubunMapper questionGubunMapper;
@@ -27,7 +30,7 @@ public class QuestionGubunService {
 	 * @throws Exception 
 	 */
 	public List<QuestionGubunVO> retrieveQuestGbList() throws Exception {
-		System.out.println("질문 구분 리스트 조회 service");
+		logger.debug("질문 구분 리스트 조회 service");
 		return questionGubunMapper.retrieveQuestGbList();
 	}
 
@@ -37,9 +40,9 @@ public class QuestionGubunService {
 	 * @throws Exception 
 	 */
 	public void create(QuestionGubunVO questGbVO) throws Exception {
-		System.out.println("질문 구분 등록  service"); 
+		logger.debug("질문 구분 등록  service"); 
 		questionGubunMapper.create(questGbVO);
-		System.out.println("질문 구분 등록 service 후");
+		logger.debug("질문 구분 등록 service 후");
 	}
 
 	/**
@@ -72,9 +75,9 @@ public class QuestionGubunService {
 	 * @return
 	 */
 	public int update(QuestionGubunVO questGbVO) {
-		System.out.println("질문 구분 수정  service");
+		logger.debug("질문 구분 수정  service");
 		int updateCnt = questionGubunMapper.update(questGbVO);
-		System.out.println("질문 구분 수정  service updateCnt : "+updateCnt);
+		logger.debug("질문 구분 수정  service updateCnt : "+updateCnt);
 		return updateCnt;
 	}
 	
@@ -84,7 +87,7 @@ public class QuestionGubunService {
 	 * @throws Exception 
 	 */
 	public List<QuestionGubunVO> retrieveQuestGbSearchList(String keyword) throws Exception {
-		System.out.println("질문 구분 검색  service keyword : "+keyword);
+		logger.debug("질문 구분 검색  service keyword : {} ",keyword);
 		return questionGubunMapper.retrieveQuestGbSearchList(keyword);
 	}
 	

@@ -10,14 +10,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.interview.service.QuestionGubunService;
 import com.aiinterview.interview.vo.QuestionGubunVO;
 
