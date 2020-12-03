@@ -56,11 +56,6 @@ public class LoginController {
 		return "manage/main";
 	}
 	
-	@RequestMapping(path = "/view.do")
-	public String login() {
-		return "main/main";
-	}
-	
 	@RequestMapping(path = "/join.do", method = { RequestMethod.GET })
 	public String main(MemberVO memberVo, Model model) {
 		return "main/join";
