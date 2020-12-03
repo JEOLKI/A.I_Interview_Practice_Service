@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,41 +13,40 @@
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
- <style>
-      body * {
-        box-sizing: border-box;
-      }
+<style>
+body * {
+	box-sizing: border-box;
+}
 
-      .modal-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        justify-content: center;
-        align-items: center;
-      }
+.modal-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
 
-      .modal-box {
-        background: white;
-        width: 200px;
-        height: 150px;
-        border-radius: 10px;
-      }
+.modal-box {
+	background: white;
+	width: 200px;
+	height: 150px;
+	border-radius: 10px;
+}
 
-      .modal-title,
-      .modal-content {
-        text-align: center;
-      }
+.modal-title, .modal-content {
+	text-align: center;
+}
 
-      .modal-close-box {
-        text-align: right;
-        margin-right: 10px;
-      }
-    </style>
-    
+.modal-close-box {
+	text-align: right;
+	margin-right: 10px;
+}
+</style>
+
 
 <style type="text/css">/* Chart.js */
 /*
@@ -112,70 +111,30 @@ to {
 	margin-left: 12px;
 }
 
-
-.modal-box{
-	width : 300px;
-	height : 250px;
+.modal-box {
+	width: 300px;
+	height: 250px;
 }
 
-.pro{
-	margin : 10px;
+.pro {
+	margin: 10px;
 	border: 1px solid black;
 	height: 65%;
 }
-
 }
 </style>
 
 
-<script>
-$(document).ready(function() {
-	$('#scriptGbBtn').on('click', function() {
-		var scriptGbSq = $("#scriptGbBtn").val();
-		console.log("scriptGbSq  : "+scriptGbSq); //5k
-		
-		console.log("jstl length : "+"${fn:length(scriptList)}");
-
-		var scriptList = ${scriptList};
-		var availableList = [];
-		for(var i = 0; i < scriptList.length; i++){
-			if(scriptList[i].scriptGbSq==scriptGbSq){
-				availableList.push(scriptList[i].scriptContent);
-			}
-		} 
-		console.log("inner scriptList : "+availableList);
-
-		var randomCnt = Math.ceil((Math.random()*scriptList.length-1) + 1);
-		console.log("random Cnt : "+randomCnt);
-
-		
-		var randScript = scriptList[randomCnt];
-		console.log("randScript : "+randScript);
-		
-		document.getElementById('scriptContent').innerHTML = randScript;
-	});
-
-});
-</script>
 </head>
 <body>
-
-<c:forEach items="${scriptList }" var="script">
-	${script.scriptContent }
-</c:forEach>
-
-<c:forEach items="${scriptGbList }" var="scriptGb">
-	${scriptGb.scriptGbSq }
-</c:forEach>
-
-
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<div class="my-bar interview">
 				<div class="title">내 면접</div>
-				<div class="start-btn"><a href = "/member/question">
-					새 면접 만들기<img src="/static/media/right.2a3d42b5.svg" alt=""></a>
+				<div class="start-btn">
+					<a href="/member/question"> 새 면접 만들기<img
+						src="/static/media/right.2a3d42b5.svg" alt=""></a>
 				</div>
 			</div>
 			<div class="MainComponent">
@@ -191,11 +150,9 @@ $(document).ready(function() {
 								<div class="title">최근 면접</div>
 								면접본 날짜 ex)2020.11.27<br>면접
 							</div>
-							<a class="review-btn"
-								href="/analysisresult/interviewresult.do">결과
-								보기</a>
-							<a class="review-btn"
-								href="/analysisresult/interviewlist.do">면접 분석</a>
+							<a class="review-btn" href="/analysisresult/interviewresult.do">결과
+								보기</a> <a class="review-btn" href="/analysisresult/interviewlist.do">면접
+								분석</a>
 						</div>
 						<div class="ProspectArea box">
 							<div class="title">
@@ -225,8 +182,8 @@ $(document).ready(function() {
 								발음연습 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 								<button id="modal-open-btn">발음 평가</button>
 							</div>
-							
-								<br>
+
+							<br>
 							<div class="graph-area">
 								<div class="Emotion graph-area">
 									<div class="area bright">
@@ -279,184 +236,182 @@ $(document).ready(function() {
 							</div>
 						</div>
 						<div class="OrderArea box">
-										<div class="title">이용권 구매하기</div>
-										<div class="sub-title">
-											1일권 부터 7일권까지 있습니다.
-										</div>
-										<a class="start-btn" href="/payment">GO!</a>
-									</div>
+							<div class="title">이용권 구매하기</div>
+							<div class="sub-title">1일권 부터 7일권까지 있습니다.</div>
+							<a class="start-btn" href="/payment">GO!</a>
+						</div>
 
-									<div class="GraphComponent box">
-										<div class="nav">
-											<div class="title">
-												내 성장
-												<div class="sub">(최근 5회)</div>
-											</div>
-											<div class="select-area">
-												<div class="emotion btn select">
-													<div class="pot"></div>
-													표정<img
-														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-														alt="" class="dash">
-												</div>
-												<div class="gaze btn false">
-													<div class="pot"></div>
-													시선<img
-														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-														alt="" class="dash">
-												</div>
-												<div class="sps btn false">
-													<div class="pot"></div>
-													말 빠르기<img
-														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-														alt="" class="dash">
-												</div>
-												<div class="audio btn false">
-													<div class="pot"></div>
-													음성<img
-														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-														alt="" class="dash">
-												</div>
-												<div class="habit btn false">
-													<div class="pot"></div>
-													습관어<img
-														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-														alt="" class="dash">
-												</div>
-											</div>
-										</div>
-										<div class="graph-area">
-											<div class="Emotion graph-area">
-												<div class="area bright">
-													<div class="chartjs-size-monitor">
-														<div class="chartjs-size-monitor-expand">
-															<div class=""></div>
-														</div>
-														<div class="chartjs-size-monitor-shrink">
-															<div class=""></div>
-														</div>
-													</div>
-													<div class="label">긍정</div>
-													<canvas class="graph-canvas emotion chartjs-render-monitor"
-														style="display: block; height: 119px; width: 240px;"
-														width="215" height="107"></canvas>
-													<div class="graduation-bar">
-														<div class="graduation"></div>
-														<div class="graduation"></div>
-													</div>
-													<img
-														src="data:image/png;base64,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"
-														class="graph-background emotion" alt="">
-												</div>
-												<div class="area neutral">
-													<div class="chartjs-size-monitor">
-														<div class="chartjs-size-monitor-expand">
-															<div class=""></div>
-														</div>
-														<div class="chartjs-size-monitor-shrink">
-															<div class=""></div>
-														</div>
-													</div>
-													<div class="label">무표정</div>
-													<canvas class="graph-canvas emotion chartjs-render-monitor"
-														width="215" height="107"
-														style="display: block; height: 119px; width: 240px;"></canvas>
-													<div class="graduation-bar">
-														<div class="graduation"></div>
-														<div class="graduation"></div>
-													</div>
-													<img
-														src="data:image/png;base64,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"
-														class="graph-background emotion" alt="">
-												</div>
-												<div class="area dark">
-													<div class="chartjs-size-monitor">
-														<div class="chartjs-size-monitor-expand">
-															<div class=""></div>
-														</div>
-														<div class="chartjs-size-monitor-shrink">
-															<div class=""></div>
-														</div>
-													</div>
-													<div class="label">부정</div>
-													<canvas class="graph-canvas emotion chartjs-render-monitor"
-														width="215" height="107"
-														style="display: block; height: 119px; width: 240px;"></canvas>
-													<div class="graduation-bar">
-														<div class="graduation"></div>
-														<div class="graduation"></div>
-													</div>
-													<img
-														src="data:image/png;base64,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"
-														class="graph-background emotion" alt="">
-												</div>
-												<div class="area surprised">
-													<div class="chartjs-size-monitor">
-														<div class="chartjs-size-monitor-expand">
-															<div class=""></div>
-														</div>
-														<div class="chartjs-size-monitor-shrink">
-															<div class=""></div>
-														</div>
-													</div>
-													<div class="label">당황</div>
-													<canvas class="graph-canvas emotion chartjs-render-monitor"
-														width="215" height="107"
-														style="display: block; height: 119px; width: 240px;"></canvas>
-													<div class="graduation-bar">
-														<div class="graduation"></div>
-														<div class="graduation"></div>
-													</div>
-													<img
-														src="data:image/png;base64,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"
-														class="graph-background emotion" alt="">
-												</div>
-											</div>
-										</div>
+						<div class="GraphComponent box">
+							<div class="nav">
+								<div class="title">
+									내 성장
+									<div class="sub">(최근 5회)</div>
+								</div>
+								<div class="select-area">
+									<div class="emotion btn select">
+										<div class="pot"></div>
+										표정<img
+											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
+											alt="" class="dash">
 									</div>
-									<div class="HabitArea box">
-										<div class="title">내 습관어</div>
-										<div class="bar-area">
-											<div class="unit">(회)</div>
-											<div class="HabitBar">
-												<div class="label">아..</div>
-												<div class="range">
-													<div class="gaze" style="width: 0px;"></div>
-												</div>
-												<div class="count">0</div>
-											</div>
-											<div class="HabitBar">
-												<div class="label">어..</div>
-												<div class="range">
-													<div class="gaze" style="width: 0px;"></div>
-												</div>
-												<div class="count">0</div>
-											</div>
-											<div class="HabitBar">
-												<div class="label">그..</div>
-												<div class="range">
-													<div class="gaze" style="width: 0px;"></div>
-												</div>
-												<div class="count">0</div>
-											</div>
-											<div class="HabitBar">
-												<div class="label">저..</div>
-												<div class="range">
-													<div class="gaze" style="width: 0px;"></div>
-												</div>
-												<div class="count">0</div>
-											</div>
-											<div class="HabitBar">
-												<div class="label">음..</div>
-												<div class="range">
-													<div class="gaze" style="width: 0px;"></div>
-												</div>
-												<div class="count">0</div>
-											</div>
-										</div>
+									<div class="gaze btn false">
+										<div class="pot"></div>
+										시선<img
+											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
+											alt="" class="dash">
+									</div>
+									<div class="sps btn false">
+										<div class="pot"></div>
+										말 빠르기<img
+											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
+											alt="" class="dash">
+									</div>
+									<div class="audio btn false">
+										<div class="pot"></div>
+										음성<img
+											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
+											alt="" class="dash">
+									</div>
+									<div class="habit btn false">
+										<div class="pot"></div>
+										습관어<img
+											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
+											alt="" class="dash">
 									</div>
 								</div>
 							</div>
+							<div class="graph-area">
+								<div class="Emotion graph-area">
+									<div class="area bright">
+										<div class="chartjs-size-monitor">
+											<div class="chartjs-size-monitor-expand">
+												<div class=""></div>
+											</div>
+											<div class="chartjs-size-monitor-shrink">
+												<div class=""></div>
+											</div>
+										</div>
+										<div class="label">긍정</div>
+										<canvas class="graph-canvas emotion chartjs-render-monitor"
+											style="display: block; height: 119px; width: 240px;"
+											width="215" height="107"></canvas>
+										<div class="graduation-bar">
+											<div class="graduation"></div>
+											<div class="graduation"></div>
+										</div>
+										<img
+											src="data:image/png;base64,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"
+											class="graph-background emotion" alt="">
+									</div>
+									<div class="area neutral">
+										<div class="chartjs-size-monitor">
+											<div class="chartjs-size-monitor-expand">
+												<div class=""></div>
+											</div>
+											<div class="chartjs-size-monitor-shrink">
+												<div class=""></div>
+											</div>
+										</div>
+										<div class="label">무표정</div>
+										<canvas class="graph-canvas emotion chartjs-render-monitor"
+											width="215" height="107"
+											style="display: block; height: 119px; width: 240px;"></canvas>
+										<div class="graduation-bar">
+											<div class="graduation"></div>
+											<div class="graduation"></div>
+										</div>
+										<img
+											src="data:image/png;base64,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"
+											class="graph-background emotion" alt="">
+									</div>
+									<div class="area dark">
+										<div class="chartjs-size-monitor">
+											<div class="chartjs-size-monitor-expand">
+												<div class=""></div>
+											</div>
+											<div class="chartjs-size-monitor-shrink">
+												<div class=""></div>
+											</div>
+										</div>
+										<div class="label">부정</div>
+										<canvas class="graph-canvas emotion chartjs-render-monitor"
+											width="215" height="107"
+											style="display: block; height: 119px; width: 240px;"></canvas>
+										<div class="graduation-bar">
+											<div class="graduation"></div>
+											<div class="graduation"></div>
+										</div>
+										<img
+											src="data:image/png;base64,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"
+											class="graph-background emotion" alt="">
+									</div>
+									<div class="area surprised">
+										<div class="chartjs-size-monitor">
+											<div class="chartjs-size-monitor-expand">
+												<div class=""></div>
+											</div>
+											<div class="chartjs-size-monitor-shrink">
+												<div class=""></div>
+											</div>
+										</div>
+										<div class="label">당황</div>
+										<canvas class="graph-canvas emotion chartjs-render-monitor"
+											width="215" height="107"
+											style="display: block; height: 119px; width: 240px;"></canvas>
+										<div class="graduation-bar">
+											<div class="graduation"></div>
+											<div class="graduation"></div>
+										</div>
+										<img
+											src="data:image/png;base64,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"
+											class="graph-background emotion" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="HabitArea box">
+							<div class="title">내 습관어</div>
+							<div class="bar-area">
+								<div class="unit">(회)</div>
+								<div class="HabitBar">
+									<div class="label">아..</div>
+									<div class="range">
+										<div class="gaze" style="width: 0px;"></div>
+									</div>
+									<div class="count">0</div>
+								</div>
+								<div class="HabitBar">
+									<div class="label">어..</div>
+									<div class="range">
+										<div class="gaze" style="width: 0px;"></div>
+									</div>
+									<div class="count">0</div>
+								</div>
+								<div class="HabitBar">
+									<div class="label">그..</div>
+									<div class="range">
+										<div class="gaze" style="width: 0px;"></div>
+									</div>
+									<div class="count">0</div>
+								</div>
+								<div class="HabitBar">
+									<div class="label">저..</div>
+									<div class="range">
+										<div class="gaze" style="width: 0px;"></div>
+									</div>
+									<div class="count">0</div>
+								</div>
+								<div class="HabitBar">
+									<div class="label">음..</div>
+									<div class="range">
+										<div class="gaze" style="width: 0px;"></div>
+									</div>
+									<div class="count">0</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="MyInterviews">
 					<div class="title">면접 내역</div>
 					<div class="interview-table">
@@ -466,9 +421,7 @@ $(document).ready(function() {
 							<button class="edit-btn">
 								<img src="/static/media/question-write.87c3adf2.svg" alt="">
 							</button>
-							<a class="button"
-								href="/member/interviewresult">결과
-								보기</a>
+							<a class="button" href="/member/interviewresult">결과 보기</a>
 						</div>
 					</div>
 				</div>
@@ -513,31 +466,36 @@ $(document).ready(function() {
 		</div>
 	</div>
 
-								<div class="modal-wrapper">
-									<div class="modal-box">
-									<div>
-									<c:forEach items="${scriptGbList }" var="scriptGbList">
-										<button id="scriptGbBtn" value="${scriptGbList.scriptGbSq }"><div class="label thislabel">${scriptGbList.scriptGbContent }</div></button>
-									</c:forEach>
-									</div>
-										<div class="modal-content pro" id="scriptContent">
-									
-									
-									
-										<br>
-										<br>
-										<br>
-										<br>
-										</div>
-								
-										<div class="modal-close-box">
-											<button>시작하기</button>
-											<button id="modal-close-btn">close</button>
-										</div>
-									</div>
-								</div>
+	<div class="modal-wrapper">
+		<div class="modal-box">
+				<div>
+				<c:forEach items="${scriptGbList }" var="scriptGb">
+					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }">
+						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
+					</button>
+					<c:forEach items="${scriptList }" var="script">
+						<input id="scriptGbSq" type="hidden" value="${script.scriptGbSq }">
+						<input id="scriptSq" type="hidden" value="${script.scriptSq }">
+						<input id="scriptContent" type="hidden" value="${script.scriptContent }">
+					</c:forEach>
+				</c:forEach>
+					</div>
+					<div class="modal-content pro" id="scriptModalContent">
+			<br> <br> <br> <br>
+					</div>
+			
+					
+			
+		
+			<div class="modal-close-box">
+				<button>시작하기</button>
+				<button id="modal-close-btn">close</button>
+			</div>
+		</div>
+	</div>
+	
 
-								<script>
+	<script>
       const modalOpenBtn = document.getElementById("modal-open-btn");
       const modalCloseBtn = document.getElementById("modal-close-btn");
       const modalWrapper = document.querySelector(".modal-wrapper");

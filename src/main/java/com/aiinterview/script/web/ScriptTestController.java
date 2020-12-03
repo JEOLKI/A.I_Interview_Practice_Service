@@ -32,6 +32,7 @@ public class ScriptTestController {
 		//전체 스크립트 구분 리스트
 		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
 
+		
 		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
 		//활성상태가 "Y"인 스크립트 구분 리스트
 		for (ScriptGubunVO scriptGb : scriptGbList) {
