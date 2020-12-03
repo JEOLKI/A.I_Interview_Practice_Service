@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import com.aiinterview.script.vo.ScriptVO;
 @RequestMapping("/script")
 @Controller
 public class ScriptController {
+	private static final Logger logger = LoggerFactory.getLogger(ScriptController.class);
 	@Resource(name = "scriptService")
 	private ScriptService scriptService;
 
@@ -83,6 +86,28 @@ public class ScriptController {
 		} else {
 			return "manage/scriptManage";
 		}
+	}
+	
+	@RequestMapping(path = "/retrieveselectList.do", method = { RequestMethod.POST })
+	public String retrieveSelectList(String scriptGbSq ,Model model) {
+		
+		List<ScriptVO> scriptList = null;
+		try {
+			scriptList = scriptService.retrieveSelectList(scriptGbSq);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		logger.debug("사이즈는 : {}",scriptList.size());
+		int randomInt = (int)(Math.random()*scriptList.size());
+		logger.debug("랜덤 번호는 : {}",randomInt);
+		
+		ScriptVO random = scriptList.get(randomInt);
+		
+		logger.debug("random : {}",random);
+		model.addAttribute("random", random);
+		return "jsonView";
 	}
 
 }

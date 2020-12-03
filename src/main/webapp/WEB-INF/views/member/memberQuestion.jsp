@@ -62,7 +62,9 @@ to {
 <script>
 $(document).ready(function(){
 	$('.NullQuestionBox').on('click',function(){
+		
 		console.log('클릭');
+		$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요'	value=''><button class='complete-btn'>완료</button><button class='search-btn'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button></div></div>"));
 	});
 });
 </script>
@@ -87,9 +89,9 @@ $(document).ready(function(){
 							<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
 								value="">
 							<button class="complete-btn">완료</button>
-<!-- 							<button class="search-btn"> -->
-								
-<!-- 							</button> -->
+							<button class="search-btn">
+								<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
+							</button>
 						</div>
 					</div>
 					
@@ -102,7 +104,9 @@ $(document).ready(function(){
 							<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
 								value="">
 							<button class="complete-btn">완료</button>
-							<button class="search-btn"></button>
+							<button class="search-btn">
+								<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
+							</button>
 						</div>
 					</div>
 					

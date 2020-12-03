@@ -34,6 +34,15 @@ public class ScriptService {
 		return scriptMapper.retrieveList();
 	}
 	
+	/**
+	 * 스크립트 구분 sq에 맞는 스크립트 전체리스트를 반환하는 메서드
+	 * @return List<ScriptVo>
+	 * @throws Exception
+	 */
+	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception{
+		return scriptMapper.retrieveSelectList(scriptGbSq);
+	}
+	
 //	/**
 //	 * 스크립트의 총 갯수를 반환하는 메서드
 //	 * @param scriptVO

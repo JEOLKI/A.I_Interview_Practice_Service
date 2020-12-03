@@ -123,7 +123,29 @@ to {
 }
 }
 </style>
-
+<script>
+$(document).ready(function() {   
+});   
+	function random(scriptGbSq){
+		console.log('에이잭스 시작')
+		$.ajax(
+	   			{url:"/script/retrieveselectList.do",
+	   			data : {scriptGbSq : scriptGbSq},
+	   			method : "post",
+	   			success : function(data){
+	   				console.log(data);
+	   				console.log(data.random.scriptContent);
+	   				$('#scriptModalContent').html('');
+	   				$('#scriptModalContent').html(data.random.scriptContent);
+	   			},
+	   			error: function(data){
+	   				$('#scriptModalContent').html('');
+	   				$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
+	   				console.log(data.status);
+	   			}
+	   		});
+	}
+</script>
 
 </head>
 <body>
@@ -470,7 +492,7 @@ to {
 		<div class="modal-box">
 				<div>
 				<c:forEach items="${scriptGbList }" var="scriptGb">
-					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }">
+					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }" onclick="random(${scriptGb.scriptGbSq });">
 						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
 					</button>
 					<c:forEach items="${scriptList }" var="script">
@@ -481,7 +503,8 @@ to {
 				</c:forEach>
 					</div>
 					<div class="modal-content pro" id="scriptModalContent">
-			<br> <br> <br> <br>
+					
+<!-- 			<br> <br> <br> <br> -->
 					</div>
 			
 					

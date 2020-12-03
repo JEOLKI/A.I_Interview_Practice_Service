@@ -15,6 +15,11 @@
 		FROM script
 	</select>
 	
+	<select id="retrieveSelectList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
+		SELECT *
+		FROM script
+		WHERE script_gb_sq = #{scriptGbSq}
+	</select>
 <!-- 	<select id="retrievePagingListCnt" parameterType="com.aiinterview.script.vo.ScriptVO" resultType="int">
 		SELECT 	count(*)
 		FROM	script
@@ -44,4 +49,6 @@
 		 	   script_gb_sq = #{scriptGbSq}
 		 WHERE script_sq = #{scriptSq}
 	</update>
+	
+	
 </mapper>
