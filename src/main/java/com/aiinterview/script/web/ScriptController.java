@@ -88,7 +88,7 @@ public class ScriptController {
 		}
 	}
 	
-	@RequestMapping(path = "/retrieveselectList.do", method = { RequestMethod.POST })
+	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
 	public String retrieveSelectList(String scriptGbSq ,Model model) {
 		
 		List<ScriptVO> scriptList = null;
@@ -103,10 +103,10 @@ public class ScriptController {
 		int randomInt = (int)(Math.random()*scriptList.size());
 		logger.debug("랜덤 번호는 : {}",randomInt);
 		
-		ScriptVO random = scriptList.get(randomInt);
+		ScriptVO scriptVO = scriptList.get(randomInt);
 		
-		logger.debug("random : {}",random);
-		model.addAttribute("random", random);
+		logger.debug("scriptVO : {}",scriptVO);
+		model.addAttribute("scriptVO", scriptVO);
 		return "jsonView";
 	}
 

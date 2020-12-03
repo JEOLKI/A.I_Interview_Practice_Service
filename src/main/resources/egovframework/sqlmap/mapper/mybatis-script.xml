@@ -20,6 +20,7 @@
 		FROM script
 		WHERE script_gb_sq = #{scriptGbSq}
 	</select>
+	
 <!-- 	<select id="retrievePagingListCnt" parameterType="com.aiinterview.script.vo.ScriptVO" resultType="int">
 		SELECT 	count(*)
 		FROM	script

@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js";></script> 
 <title>아이엠터뷰</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
@@ -42,7 +43,7 @@ body * {
 }
 
 .modal-close-box {
-	text-align: right;
+	text-align: center;
 	margin-right: 10px;
 }
 </style>
@@ -112,8 +113,9 @@ to {
 }
 
 .modal-box {
-	width: 300px;
-	height: 250px;
+	width: 330px;
+	height: 350px;
+	padding : 10px;
 }
 
 .pro {
@@ -125,30 +127,128 @@ to {
 </style>
 <script>
 $(document).ready(function() {   
+
 });   
-	function random(scriptGbSq){
-		console.log('에이잭스 시작')
-		$.ajax(
-	   			{url:"/script/retrieveselectList.do",
-	   			data : {scriptGbSq : scriptGbSq},
-	   			method : "post",
-	   			success : function(data){
-	   				console.log(data);
-	   				console.log(data.random.scriptContent);
+
+function random(scriptGbSq){
+	console.log("scriptGbSq : "+scriptGbSq);
+	$.ajax(
+   			{url:"/script/retrieveScriptList.do",
+   			data : {scriptGbSq : scriptGbSq},
+   			method : "post",
+   			success : function(data){
+   				console.log(data);
+   				console.log(data.scriptVO.scriptContent);
 	   				$('#scriptModalContent').html('');
-	   				$('#scriptModalContent').html(data.random.scriptContent);
-	   			},
-	   			error: function(data){
-	   				$('#scriptModalContent').html('');
-	   				$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
-	   				console.log(data.status);
-	   			}
-	   		});
-	}
+	   				$('#scriptModalContent').html(data.scriptVO.scriptContent);
+   			},
+   			error: function(data){
+   				$('#scriptModalContent').html('');
+   				$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
+   				console.log(data.status);
+   			}
+   		});
+}
+
+
+
+//브라우저에 미디어 스트림 사용 요청
+var audio = document.querySelector('audio');
+function captureMicrophone(callback){
+	//브라우저 호환을 위해 ||로 여러개 요청
+	navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+	
+	//오디오 타입의 미디어 형식을 사용할 거니까 audio : true
+	//실행 시 callback과 실패시 callback 함수 지정
+	//성공시 function captureMicrophone의 인자로 받도록 함
+	navigator.getUserMedia({audio : true}, callback,
+							function(error){
+								alert('마이크를 연결해주세요.');
+								console.error(error);
+	});
+};
+
+
+//성공시 호출된  callback 함수에 회원이 테스트한 audio media stream값을 인자로 전달 가능
+//받아온 stream 바로 재생 및 특정 포맷으로 녹음
+var recorder;
+	//녹음 시작시 시작하기 버튼 비활성화
+function startTest(){
+$('#startTestBtn').disabled = true;
+	
+	//위의 captureMicrophone 함수 실행
+	//media stream -> microphone
+	captureMicrophone(function (microphone){
+		
+		//받아온 microphone인자의 URL을 생성해서 audio에 연결
+		audio.src = URL.createObjectURL(microphone);
+		//즉시 play. 녹음 중 청취 가능
+		audio.play();
+		
+		//가져온 microphone을 RecordRTC에연결
+		//RecordRTC가 우리가 사용할 수 있는 객체 반환
+		recorder = RecordRTC(microphone, {
+			type : 'audio', //audio 타입 포맷 전송
+			recorderType : StereoAudioRecorder,
+			numberOfAudioChannels : 1, 
+			//recordRTC는 스테레오타입(마잌 두개)만 지원하는데,, 채널1로 하면 마이크 하나로만 인식함
+			desiredSampRate : 16000	//초당 audio 샘플 채취 수
+		});
+		
+		//녹음 시작
+		recorder.startRecording();
+
+		//스트림을 microphone에 연결하고,, 나중에 정지할 때 따로 해제함
+		recorder.microphone = microphone;
+		document.getElementById('stopTestBtn').disabled=false;
+	});
+	};
+	
+//녹음 정지 + 콜백함수 전달 받음
+function startTest(){
+	this.disabled = true;
+	recorder.stopRecording(stopRecordingCallback);
+	document.getElementById('startTestBtn').disabled = false;
+};
+
+function stopRecordingCallback(){
+	
+	//녹음된 오디오의 blob파일 받아옴
+	var blob = recorder.getBlob();
+	//브라우저 내부의 저장소의 URL을 생성하고 audio에 연결
+	audio.src = URL.createObjectURL(blob);
+	//녹음 마치면 녹음된 내용 자동으로 플레이
+	audio.play();
+	//아까 연결한거 해지
+	recorder.microphone.stop();
+	
+
+	createAudioElement(window.URL.createObjectURL(blob));
+};
+
+//다운로드 받을 수 있는 링크 생성해주는 function
+function createAudioElement(blobUrl){
+	const downloadEl = document.createElement('a');
+	downloadEl.style = 'display : block';
+	downloadEl.innerHTML = 'download';
+	downloadEl.download = 'audio.wav';
+	downloadEl.href = blobUrl;
+	
+	const audioEl = document.createElement('audio');
+	audioEl.controls = true;
+	
+	const sourceEl = document.createElement('source');
+	sourceEl.srt = blob.Url;
+	sourceEl.appendChild(sourceEl);
+	document.body.appendChild(audioEl);
+	document.body.appendChild(downloadEl);
+};		
+
 </script>
 
 </head>
 <body>
+<audio controls autoplay></audio>
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -495,23 +595,18 @@ $(document).ready(function() {
 					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }" onclick="random(${scriptGb.scriptGbSq });">
 						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
 					</button>
-					<c:forEach items="${scriptList }" var="script">
-						<input id="scriptGbSq" type="hidden" value="${script.scriptGbSq }">
-						<input id="scriptSq" type="hidden" value="${script.scriptSq }">
-						<input id="scriptContent" type="hidden" value="${script.scriptContent }">
-					</c:forEach>
 				</c:forEach>
 					</div>
 					<div class="modal-content pro" id="scriptModalContent">
-					
-<!-- 			<br> <br> <br> <br> -->
 					</div>
 			
 					
 			
 		
 			<div class="modal-close-box">
-				<button>시작하기</button>
+				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.<br></label>
+				<button id="startTestBtn" onclick="startTest()">시작 하기</button>
+				<button id="stopTestBtn" onclick="stopTest()" disabled>종료 하기</button>
 				<button id="modal-close-btn">close</button>
 			</div>
 		</div>
