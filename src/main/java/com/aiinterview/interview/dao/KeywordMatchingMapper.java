@@ -23,13 +23,28 @@ public interface KeywordMatchingMapper {
 	 */
 	public int update(KeywordMatchingVO keywordMatchingVO);
 
-	
+//////////////////////////////////// 이하 모델링 수정 이후 //////////////////////////////////////	
+
 	/**
 	 * 해당인재상의 키워드를 삭제하는 메서드
 	 * @param deleteMap
 	 * @return
 	 */
 	public int delete(Map<String, String> deleteMap);
+
+	/**
+	 * 키워드를 인재상에 매칭하는 메서드
+	 * @param createMap
+	 * @return
+	 */
+	public String create(Map<String, String> createMap) throws Exception;
+
+	/**
+	 * 해당 매칭을 조회하는 메서드
+	 * @param createMap
+	 * @return
+	 */
+	public KeywordMatchingVO retrieve(Map<String, String> createMap);
 	
 	
 	

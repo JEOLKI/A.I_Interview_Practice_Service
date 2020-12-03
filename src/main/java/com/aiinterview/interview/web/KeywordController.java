@@ -1,4 +1,4 @@
-package com.aiinterview.interview.web;
+ package com.aiinterview.interview.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.aiinterview.interview.service.KeywordMatchingService;
 import com.aiinterview.interview.service.KeywordService;
 import com.aiinterview.interview.service.TalentService;
+import com.aiinterview.interview.vo.KeywordMatchingVO;
 import com.aiinterview.interview.vo.KeywordVO;
 import com.aiinterview.interview.vo.TalentVO;
 
@@ -164,18 +165,75 @@ public class KeywordController {
 		}
 	}
 	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@RequestMapping("/create.do")
+	public String create(String talentSq, String keywordContent, Model model) {
+		// 1. keywordContent 값으로 키워드 테이블 조회 
+		// 2. 일치하는 값 있으면 매칭 테이블에 해당  조합이 있는지 검사 -> 없을 시 keywordSq, talentSq, st=Y insert, 있다면 화면돌아가서 alert
+		// 3. 불일치 -> 키워드 테이블에 insert, 매칭테이블에 insert
+		
+		// 1.
+		KeywordVO keywordVO;
+		String keywordSq = null;
+		String matchingCnt = null;
+		try {
+			keywordVO = keywordService.retrieve(keywordContent);
+			
+			Map<String, String> createMap = new HashMap<>();
+			
+			if(keywordVO == null) { // 3.
+				keywordSq = keywordService.create(keywordContent);
+				if(Integer.parseInt(keywordSq)>0) {
+					createMap.put("talentSq", talentSq);
+					createMap.put("keywordSq", keywordSq);
+					matchingCnt = keywordMathingService.create(createMap);
+				}
+			}else { // 2.
+				keywordSq = keywordVO.getKeywordSq();
+				createMap.put("talentSq", talentSq);
+				createMap.put("keywordSq", keywordSq);
+				KeywordMatchingVO  keywordMatchingVO = keywordMathingService.retrieve(createMap);
+				if(keywordMatchingVO != null) {
+					matchingCnt = keywordMathingService.create(createMap);
+				} else {
+					model.addAttribute("msg", "이미 등록된 키워드입니다.");
+					return "talent/talentKeywordManage"; // 키워드 일치, 매칭 일치 시 되돌려보냄
+				}
+			}
+			
+			
+		} catch (Exception e) {
+		}
+		if(keywordSq != null || matchingCnt !=null) {
+			return "redirect:/talent/keywordManage.do?talentSq="+talentSq; // 둘다 insert 성공시 redirect
+		}else {
+			model.addAttribute("msg", "키워드 등록 실패");
+			return "talent/talentKeywordManage"; // 키워드 일치, 매칭 일치 시 되돌려보냄
+		}
+		
+		
+	}
+	
 	@RequestMapping("/delete.do")
-	public String delete(String talentSq, String keywordSq) {
-		// 키워드sq, talentSq 값 매칭된 행 삭제 from mathing
+	public String delete(String talentSq, String keywordSq, Model model) {
+		// 1. keywordSq, talentSq 값 매칭된 행 조회  -> 해당 행 삭제
 		Map<String,	String> deleteMap = new HashMap<>();
 		deleteMap.put("talentSq", talentSq);
 		deleteMap.put("keywordSq", keywordSq);
 		
 		try {
 			int deleteCnt = keywordMathingService.delete(deleteMap);
+			
+			if(deleteCnt>0) {
+				return "redirect:/talent/keywordManage.do?talentSq="+talentSq;
+			} else {
+				model.addAttribute("msg", "키워드 삭제 실패");
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			model.addAttribute("msg", "키워드 삭제 실패");
 		}
-		return "";
+		return "talent/talentKeywordManage";
 	}
 }

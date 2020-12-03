@@ -52,4 +52,22 @@ public interface KeywordMapper {
 	 * @return
 	 */
 	public List<KeywordVO> retrieveTalentKeywordList(String talentSq);
+
+	
+/////////////////////////////////// 이하 모델링 수정 이후 ///////////////////////////////////
+
+	/**
+	 * 해당 내용의 키워드를 조회하는 메서드
+	 * @param keywordContent
+	 * @return
+	 */
+	public KeywordVO retrieve(String keywordContent) throws Exception;
+
+
+	/**
+	 * 해당 내용의 키워드를 생성하는 메서드
+	 * @param keywordContent
+	 * @return
+	 */
+	public String create(String keywordContent);
 }

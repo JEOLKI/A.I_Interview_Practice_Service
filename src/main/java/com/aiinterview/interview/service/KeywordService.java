@@ -145,4 +145,24 @@ public class KeywordService {
 	public List<KeywordVO> retrieveTalentKeywordList(String talentSq) throws Exception{
 		return keywordMapper.retrieveTalentKeywordList(talentSq);
 	}
+
+////////////////////////////////////////// 이하 모델링 수정 이후/////////////////////////////////////////////
+	
+	/**
+	 * 해당 내용의 키워드를 조회하는 메서드
+	 * @param keywordContent
+	 * @return
+	 */
+	public KeywordVO retrieve(String keywordContent) throws Exception{
+		return keywordMapper.retrieve(keywordContent);
+	}
+
+	/**
+	 * 해당 내용의 키워드를 생성하는 메서드
+	 * @param keywordContent
+	 * @return
+	 */
+	public String create(String keywordContent) throws Exception{
+		return keywordMapper.create(keywordContent);
+	}
 }

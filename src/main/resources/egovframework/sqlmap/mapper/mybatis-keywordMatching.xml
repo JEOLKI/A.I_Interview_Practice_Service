@@ -6,20 +6,44 @@
 <mapper namespace="com.aiinterview.interview.dao.KeywordMatchingMapper">
 	
 	<!-- 등록 -->
-	<insert id="create" >
-		<selectKey keyProperty="keywordSq" resultType="String" order="AFTER">
-			SELECT keywordSq from dual 
-		</selectKey>
-			INSERT INTO keyword_matching (talent_sq, keyword_sq)
-			VALUES (#{talentSq}, #{keywordSq}) 
-	</insert>
+<!-- 	<insert id="create" > -->
+<!-- 		<selectKey keyProperty="keywordSq" resultType="String" order="AFTER"> -->
+<!-- 			SELECT keywordSq from dual  -->
+<!-- 		</selectKey> -->
+<!-- 			INSERT INTO keyword_matching (talent_sq, keyword_sq) -->
+<!-- 			VALUES (#{talentSq}, #{keywordSq})  -->
+<!-- 	</insert> -->
 
 	<!-- 삭제 -->
-	<update id="delete" parameterType="hashmap" >
-		DELETE 
+<!-- 	<update id="delete" parameterType="hashmap" > -->
+<!-- 		DELETE  -->
+<!-- 		  FROM keyword_matching  -->
+<!-- 		 WHERE keyword_sq = #{keywordSq} -->
+<!-- 		   AND talent_sq = #{talentSq}   -->
+<!-- 	</update> -->
+	
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@ 이하 모델링 수정 이후 @@@@@@@@@@@@@@@@@@@@@@@@ -->
+	
+	<insert id="create" parameterType="hashmap">
+		<selectKey resultType="String" order="BEFORE">
+			SELECT '1' FROM dual
+		</selectKey>
+		INSERT INTO keyword_matching (talent_sq, keyword_sq)
+		    VALUES (#{talentSq}, #{keywordSq})
+	</insert>
+	
+	<select id="retrieve" parameterType="hashmap" resultType="com.aiinterview.interview.vo.KeywordMatchingVO">
+		SELECT *
 		  FROM keyword_matching 
-		 WHERE keyword_sq = #{keywordSq}
-		   AND talent_sq = #{talentSq}  
-	</update>
+		 WHERE talent_sq = #{talentSq}
+		   AND keyword_sq = #{keywordSq}
+	</select>
+	
+	<delete id="delete" parameterType="hashmap">
+		DELETE
+		  FROM keyword_matching
+		 WHERE talent_sq = #{talentSq}
+		   AND keyword_sq = #{keywordSq}
+	</delete>
 	
 </mapper>

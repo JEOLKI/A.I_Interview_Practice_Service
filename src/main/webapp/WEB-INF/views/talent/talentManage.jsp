@@ -31,7 +31,7 @@
 		margin-left: 20px;
 	}
 	
-	.updateBtn{
+	.updateBtn, .keywordMngBtn, #talentRegistBtn{
 		padding-left: 10px;
 		padding-right: 10px;
 		padding-top: 2px;
@@ -43,12 +43,6 @@
 		margin-bottom: 10px;
 	}
 	
-	#talentRegistBtn{
-		padding-left: 10px;
-		padding-right: 10px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
 	
 	.talentNm{
 		width: 400px;

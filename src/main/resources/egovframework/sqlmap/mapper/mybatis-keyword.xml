@@ -12,13 +12,13 @@
 	</select>
 	
 	<!-- 등록 -->
-	<insert id="create" >
-		<selectKey keyProperty="keywordSq" resultType="String" order="BEFORE">
-			SELECT keyword_sq.nextval FROM dual 
-		</selectKey>
-			INSERT INTO keyword (keyword_sq, keyword_content, keyword_st)
-			VALUES (TO_NUMBER(#{keywordSq}), #{keywordContent}, #{keywordSt}) 
-	</insert>
+<!-- 	<insert id="create" > -->
+<!-- 		<selectKey keyProperty="keywordSq" resultType="String" order="BEFORE"> -->
+<!-- 			SELECT keyword_sq.nextval FROM dual  -->
+<!-- 		</selectKey> -->
+<!-- 			INSERT INTO keyword (keyword_sq, keyword_content, keyword_st) -->
+<!-- 			VALUES (TO_NUMBER(#{keywordSq}), #{keywordContent}, #{keywordSt})  -->
+<!-- 	</insert> -->
 
 	<!-- 수정 -->
 	<update id="update">
@@ -68,7 +68,25 @@
 		  FROM keyword
 		 WHERE keyword_sq IN ( SELECT keyword_sq
   								 FROM keyword_matching
-                                WHERE TALENT_SQ = #{talentSq})
+                                WHERE talent_sq = #{talentSq})
 	</select>
+	
+	
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 이하 모델링 수정 이후 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	
+	<!-- 해당 내용의 keywordVO 추출 -->
+	<select id="retrieve" parameterType="String" resultType="com.aiinterview.interview.vo.KeywordVO" >
+		SELECT * 
+		  FROM keyword
+		 WHERE keywordContent = #{keywordContent}
+	</select>
+	
+	<insert id="create" parameterType="String">
+		<selectKey keyProperty="keywordSq" resultType="String" order="BEFORE">
+			SELECT keyword_sq.nextval FROM dual 
+		</selectKey>
+		INSERT INTO keyword (keyword_sq, keyword_content)
+			VALUES (#{keywordSq},#{keywordContent})		
+	</insert>
 	
 </mapper>
