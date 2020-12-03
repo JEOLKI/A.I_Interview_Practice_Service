@@ -11,26 +11,27 @@
 
 <script>
 	$(document).ready(function(){
-		myCashList();
+		CashList();
 		
 	})
-function myCashList(){
+function CashList(){
 		
-	$.ajax({url : "/plan/cashList.do",
+	$.ajax({url : "/plan/manageCashajax.do",
 		method : "get",
 		dataType : "json",
 		success : function(data){
 			console.log(data)
 			var html ="";
-			for(var i = 0; i< data.cashList.length ; i++){
-				var cash = data.cashList[i];
+			for(var i = 0; i< data.puvList.length ; i++){
+				var cash = data.puvList[i];
 				var start = data.startList[i];
 				var end = data.endList[i];
+				
 				html += '<table>';
 				html += '<tr>'; 
 				html += '	<td>'+start+'</td>         ';
 				html += '	<td>'+cash.planNm+'</td>            ';
-				html += '	<td></td>                       ';
+				html += '	<td>'+cash.memId+'</td>                       ';
 				html += '	<td>'+cash.fmtPlanPrice+'</td>      ';
 				html += '	<td class = "term">'+start+'~'+end+'</td> ';
 				html += '</tr>'
@@ -44,14 +45,19 @@ function myCashList(){
 <style>
 	table{
 		border: 1px solid black;
+		width : 100%;
 	}
 	td{
 /* 		border: 1px solid black; */
 		width : 180px;
+		padding : 10px;
 	}
  	.term{ 
- 		width :220px;
+ 		width :255px;
  		padding : 10px;
+ 	}
+ 	.down{
+ 		text-align: right;
  	} 	
 </style>
 </head>
@@ -62,12 +68,17 @@ function myCashList(){
 		<%@ include file="/WEB-INF/views/layout/header.jsp" %>
 			<div class="body">
 				<div class="title">결제 내역</div>
-				<div class="sub-message">"${S_MEMBER.memId }"님의 결제 내역입니다. </div>
+				<div class="sub-message">회원 결제 내역입니다. </div>
+				<br>
+				<div class = "down">
+				<a class = "down" href="/plan/planUseExcel.do">↓ 목록 내려받기</a>
+				
+				</div>
 				<div class="OrdersView">
 					<div class="nav-bar">
 						<div class="label menu">구매일</div>
 						<div class="label menu">이용권</div>
-						<div class="label menu">결제 수단</div>
+						<div class="label menu">회원아이디</div>
 						<div class="label price">결제 금액</div>
 						<div class="label menu">서비스 기간</div>
 					</div>

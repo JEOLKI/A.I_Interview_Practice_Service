@@ -29,9 +29,9 @@ function PlanUse(){
 			
 			if(check.term!="0"){
 				
-				html += '<div class="body">';
-				html += '<div class="PaymentForm sprint">';
-				html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')" >  `;
+				html += '<div class="ticket-area"> ';
+				html += `<div class="PaymentForm sprint" >`;
+				html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')"  >                                 `;
 // 				html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> ';
 				html += '	<div class="date">                                          ';
 				html += '		<span>'+check.term+'</span>일 남았습니다.                                    ';

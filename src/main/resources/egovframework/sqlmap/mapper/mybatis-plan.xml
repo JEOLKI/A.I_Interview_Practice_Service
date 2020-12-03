@@ -43,9 +43,6 @@
 			]]>
 			
 	</select>
-	
-
-
 
 	<select id="planUseMinute" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
 		SELECT (ROUND((#{endDate}-sysdate)*24*60)) 
@@ -70,14 +67,26 @@
 	WHERE mem_id = #{memId}
 	</select>
 	
-	<select id= "planExcel" resultType="com.aiinterview.plan.vo.PlanVO">
+	<select id= "managePlan" resultType="com.aiinterview.plan.vo.PlanVO">
 		select * from plan
 	</select>
 	
-	<select id= "planUseExcel" resultType="com.aiinterview.plan.vo.PlanUseVO">
-		select * from plan_use
+	<select id= "managePlanUse" resultType="com.aiinterview.plan.vo.PlanUseVO">
+		select * FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
 	</select>
 	
+	<select id="managePlanUseList" resultType="com.aiinterview.plan.vo.PlanUseVO" parameterType="com.aiinterview.base.vo.BaseVO">
+		 SELECT * FROM
+		    (SELECT ROWNUM rn, a.* FROM
+		        (SELECT * FROM plan_use
+		         ORDER BY use_sq) a)
+		WHERE rn BETWEEN (#{pageIndex} - 1) * #{pageUnit} + 1  AND #{pageIndex} * #{pageUnit}
+	</select>
+	
+	<select id="PlanUseCount" parameterType="int">
+		SELECT COUNT(*)
+		FROM plan_use	
+	</select>
 	
 	
 <!-- 	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO"> -->
@@ -85,6 +94,9 @@
 <!-- 		plan_explain = #{planExplain }, plan_st = #{planSt}, plan_period=#{planPeriod} -->
 <!-- 		where plan_sq = #{planSq} -->
 <!-- 	</update> -->
+
+
+
 
 
 

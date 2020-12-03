@@ -2,6 +2,7 @@ package com.aiinterview.plan.dao;
 
 import java.util.List;
 
+import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
@@ -49,13 +50,13 @@ public interface PlanMapper {
 	 * 요금별 정보를 엑셀로 출력하기 위한 메서드
 	 * @return
 	 */
-	List<PlanVO> planExcel()throws Exception;
+	List<PlanVO> managePlan()throws Exception;
 	
 	/**
 	 * 이용자들의 리스트를 엑셀로 출력하기 위한 메서드
 	 * @return
 	 */
-	List<PlanUseVO> planUseExcel()throws Exception;
+	List<PlanUseVO> managePlanUse()throws Exception;
 	
 	/**
 	 * 이용권을 구매하기위한 메서드
@@ -79,7 +80,18 @@ public interface PlanMapper {
 	 */
 	int planUseCount(PlanUseVO puv);
 	
-	
+	/**
+	 * 페이징처리를 한 이용권 유저들의 리스트를 불러오기 위한 메서드
+	 * @param bv
+	 * @return
+	 */
+	List<PlanUseVO> managePlanUseList(BaseVO bv);
+
+	/**
+	 * 페이지 전체 개수 
+	 * @return
+	 */
+	int PlanUseCount();
 }
 
 

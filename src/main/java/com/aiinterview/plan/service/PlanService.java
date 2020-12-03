@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.plan.dao.PlanMapper;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
@@ -47,19 +48,25 @@ public class PlanService {
 		return planMapper.CashList(puv);
 	}
 	
-	public List<PlanVO> planExcel()throws Exception{
-		return planMapper.planExcel();
+	public List<PlanVO> managePlan()throws Exception{
+		return planMapper.managePlan();
 	}
 	
-	public List<PlanUseVO> planUseExcel()throws Exception{
-		return planMapper.planUseExcel();
+	public List<PlanUseVO> managePlanUse()throws Exception{
+		return planMapper.managePlanUse();
 	}
 	
 	public int planUseCount(PlanUseVO puv) throws Exception{
 		return planMapper.planUseCount(puv);
 	}
 	
+	public List<PlanUseVO> managePlanUseList(BaseVO bv)throws Exception{
+		return planMapper.managePlanUseList(bv);
+	}
 	
+	public int PlanUseCount() throws Exception{
+		return planMapper.PlanUseCount();
+	}
 	
 	
 }

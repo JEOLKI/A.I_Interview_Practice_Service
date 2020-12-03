@@ -91,17 +91,23 @@ function planListAjax(){
 #Nm{
 	width : 180px;
 }
-
+.body{
+	margin : 30px;
+}
+.down {
+	text-align: center;
+}
 
 </style>
 
 </head>
 <body>
-   <noscript>You need to enable JavaScript to run this app.</noscript>
    <div id="root">
+   	<div class="Main false">
+        <%@ include file="/WEB-INF/views/layout/header.jsp" %>
+<%--         <%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> --%>
       <div class="Payment">
       
-        <%@ include file="/WEB-INF/views/layout/header.jsp" %>
          <section class="hero">
 			<div class="hero__content">
 				<div class="content__title">요금제 관리</div>
@@ -109,7 +115,9 @@ function planListAjax(){
 		</section>
 		
          <div class="body">
-           
+         	<div class= "down">
+           <a class= "down" href="/plan/planExcel.do">↓ 목록 내려받기</a>
+           </div>
             <div class="payment-flex">
             
             <form action="/plan/create.do" method="post">
@@ -144,7 +152,7 @@ function planListAjax(){
               	    <div id="verticalLine" class="box">
                </div>
                
-               <a href="/plan/planExcel.do">↓ 목록 내려받기</a> 
+                
                <a href="/plan/planUseExcel.do">↓ 목록 내려받기</a> 
                <div id = "listajax">
                
@@ -235,6 +243,7 @@ function planListAjax(){
 				</div>
 				<footer class="SemiFooter --undefined">
 			</footer>
+		</div>
 		</div>
 	</div>
    

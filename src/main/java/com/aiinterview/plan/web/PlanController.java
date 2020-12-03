@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.member.web.LoginController;
@@ -166,11 +167,12 @@ public class PlanController {
 	}
 	
 	
+	
 	@RequestMapping("/planExcel.do")
 	public String planExcelDown(Model model) throws Exception{
 
 		// 출력할 리스트 가져오기
-		List<PlanVO> planList = planService.planExcel();
+		List<PlanVO> planList = planService.managePlan();
 		System.out.println("헤더설정1");
 		// excel 파일 header 설정 
 		List<String> header = new ArrayList<String>();
@@ -208,30 +210,35 @@ public class PlanController {
 	public String planUseExcel(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
-		List<PlanUseVO> planUseList = planService.planUseExcel();
+		List<PlanUseVO> planUseList = planService.managePlanUse();
 		
 		// excel 파일 header 설정 
 		List<String> header = new ArrayList<String>();
-		header.add("USE_SQ");
-		header.add("START_DATE");
-		header.add("END_DATE");
-		header.add("MEM_ID");
-		header.add("PLAN_SQ");
-		
-		
+		header.add("이용번호");
+		header.add("구매일");
+		header.add("이용권");
+		header.add("회원ID");
+		header.add("결제 금액");
+		header.add("서비스 기간");
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+		
+		List<String> startList = new ArrayList<>(); 
+		List<String> endList = new ArrayList<>();
+		for (int i = 0; i < planUseList.size(); i++) {
+			startList.add(sdf.format(planUseList.get(i).getStartDate()));
+			endList.add(sdf.format(planUseList.get(i).getEndDate()));
+		}
+		
 		for(int i = 0; i<planUseList.size(); i++) {
 			Map<String, String> map = new HashMap<>();
-			map.put("USE_SQ", planUseList.get(i).getUseSq());
-			map.put("START_DATE", transFormat.format(planUseList.get(i).getStartDate()));
-			map.put("END_DATE", transFormat.format(planUseList.get(i).getEndDate()));
-			map.put("MEM_ID", planUseList.get(i).getMemId());
-			map.put("PLAN_SQ", planUseList.get(i).getPlanSq());
-			
+			map.put("이용번호", planUseList.get(i).getUseSq());
+			map.put("구매일",startList.get(i));
+			map.put("이용권", planUseList.get(i).getPlanNm());
+			map.put("회원ID", planUseList.get(i).getMemId());
+			map.put("결제 금액", Integer.toString(planUseList.get(i).getPlanPrice()));
+			map.put("서비스 기간", startList.get(i)+"~"+endList.get(i));
 			data.add(map);
 		}
 		
@@ -243,8 +250,43 @@ public class PlanController {
 		return "excelView";
 	}
 	
+	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
+	public String manageCash(BaseVO bv) {
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberList", planService.managePlanUseList(bv));
+
+			int totalCnt = planService.PlanUseCount();
+			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
+			System.out.println("결과값" + pages);
+			map.put("pages", pages);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "manage/planCash";
+	}
 	
-	
+	@RequestMapping(path = "/manageCashajax.do", method = RequestMethod.GET)
+	public String manageCashAjax(Model model) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+		try {
+			List<PlanUseVO> puvList =  planService.managePlanUse();
+			List<String> startList = new ArrayList<>(); 
+			List<String> endList = new ArrayList<>();
+			for (int i = 0; i < puvList.size(); i++) {
+				startList.add(sdf.format(puvList.get(i).getStartDate()));
+				endList.add(sdf.format(puvList.get(i).getEndDate()));
+			}
+			model.addAttribute("startList", startList);
+			model.addAttribute("endList", endList);
+			model.addAttribute("puvList", puvList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "jsonView";
+	}
 	
 	@RequestMapping(path = "/cashList.do", method = RequestMethod.GET)
 	public String cashListView(Model model, HttpSession session) {
@@ -263,9 +305,9 @@ public class PlanController {
 						startList.add(sdf.format(cashList.get(i).getStartDate()));
 						endList.add(sdf.format(cashList.get(i).getEndDate()));
 			}
-			model.addAttribute("cashList", cashList);
 			model.addAttribute("startList", startList);
 			model.addAttribute("endList", endList);
+			model.addAttribute("cashList", cashList);
 				
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -273,14 +315,7 @@ public class PlanController {
 		return "jsonView";
 	}
 	
-	
-	
-	
-	@RequestMapping(path = "/createe.do", method = RequestMethod.GET)
-	public String createeView() {
-		
-		return "manage/planManagee";
-	}
+
 	
 	
 	
