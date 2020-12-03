@@ -46,7 +46,7 @@ function payPlanAjax(p){
 		html += '		<span>'+plan.planPeriod+'</span>일 이용권                                     ';
 		html += '	</div>                                                      ';
 		html += '	<div class="price-section">                                 ';
-		html += '		₩ '+plan.fmtPlanPrice+' / 1일                                            ';
+		html += '		₩ '+plan.fmtPlanPrice+' / '+plan.planPeriod+'일                                            ';
 		html += '		<div class="price">'+plan.fmtPlanPrice+'</div>                        ';
 		html += '		무제한 면접 연습, 분석 제공<br>                            ';
 		html += '	</div>                                                      ';

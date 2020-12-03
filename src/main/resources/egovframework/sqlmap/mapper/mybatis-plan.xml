@@ -56,6 +56,17 @@
 	FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
 	WHERE mem_id = #{memId}
 	</select>
+	
+	<select id= "planExcel" resultType="com.aiinterview.plan.vo.PlanVO">
+		select * from plan
+	</select>
+	
+	<select id= "planUseExcel" resultType="com.aiinterview.plan.vo.PlanUseVO">
+		select * from plan_use
+	</select>
+	
+	
+	
 <!-- 	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO"> -->
 <!-- 		UPDATE plan set plan_nm = #{planNm}, plan_price = #{planPrice},  -->
 <!-- 		plan_explain = #{planExplain }, plan_st = #{planSt}, plan_period=#{planPeriod} -->

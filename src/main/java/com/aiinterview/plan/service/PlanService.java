@@ -47,4 +47,11 @@ public class PlanService {
 		return planMapper.CashList(puv);
 	}
 	
+	public List<PlanVO> planExcel()throws Exception{
+		return planMapper.planExcel();
+	}
+	
+	public List<PlanUseVO> planUseExcel()throws Exception{
+		return planMapper.planUseExcel();
+	}
 }

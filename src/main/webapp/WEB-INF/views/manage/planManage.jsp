@@ -144,6 +144,8 @@ function planListAjax(){
               	    <div id="verticalLine" class="box">
                </div>
                
+               <a href="/plan/planExcel.do">↓ 목록 내려받기</a> 
+               <a href="/plan/planUseExcel.do">↓ 목록 내려받기</a> 
                <div id = "listajax">
                
                </div>

@@ -45,8 +45,17 @@ public interface PlanMapper {
 	 */
 	List<PlanUseVO> CashList(PlanUseVO puv) throws Exception;
 	
+	/**
+	 * 요금별 정보를 엑셀로 출력하기 위한 메서드
+	 * @return
+	 */
+	List<PlanVO> planExcel()throws Exception;
 	
-	
+	/**
+	 * 이용자들의 리스트를 엑셀로 출력하기 위한 메서드
+	 * @return
+	 */
+	List<PlanUseVO> planUseExcel()throws Exception;
 	
 	/**
 	 * 이용권을 구매하기위한 메서드
