@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.interview.dao.AnswerMapper">
+
+	<insert id="create">
+		<selectKey keyProperty="ansSq" resultType="String" order="BEFORE">
+			SELECT ANSWER_SQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ANSWER (ANS_SQ,
+							ANS_CONTENT,
+							VIDEO_PATH,
+							ANS_TIME,
+							ANS_SPEED,
+							QUEST_SQ)
+		     VALUES (#{ansSq},
+						#{ansContent},
+						#{videoPath},
+						#{ansTime},
+						#{ansSpeed},
+						#{questSq})
+	</insert>
+	
+	
+	<select id="retrieve" resultType="com.aiinterview.interview.vo.AnswerVO">
+		SELECT NVL(ANS_SQ, 0) ANS_SQ,
+				ANS_CONTENT,
+				VIDEO_PATH,
+				ANS_TIME,
+				ANS_SPEED,
+				NVL(QUEST_SQ, 0) QUEST_SQ
+		FROM ANSWER
+	   WHERE ANS_SQ = #{ansSq}
+	</select>
+	
+
+</mapper>

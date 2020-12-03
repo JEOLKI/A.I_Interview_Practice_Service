@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.interview.dao.InterviewMapper">
+
+	<insert id="create">
+		<selectKey keyProperty="interviewSq" resultType="String" order="BEFORE">
+			SELECT INTERVIEW_SQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO INTERVIEW (INTERVIEW_SQ,
+								INTERVIEW_NM,
+								INTERVIEW_DATE,
+								MEM_ID)
+		     VALUES (#{interviewSq},
+					#{interviewNm},
+					SYSDATE,
+					#{memId})
+	</insert>
+	
+	<update id="update">
+		UPDATE INTERVIEW
+		SET    INTERVIEW_NM  = #{interviewNm}
+		WHERE  INTERVIEW_SQ  = #{interviewSq}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM INTERVIEW		
+		WHERE  INTERVIEW_SQ  = #{interviewSq}
+	</delete>
+	
+	<select id="retrieve" resultType="com.aiinterview.interview.vo.InterviewVO">
+		SELECT NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
+				INTERVIEW_NM,
+				TO_CHAR(INTERVIEW_DATE, 'YYYY-MM-DD') INTERVIEW_DATE,
+				MEM_ID
+		FROM INTERVIEW
+	   WHERE INTERVIEW_SQ = #{interviewSq}
+	</select>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.InterviewVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
+						INTERVIEW_NM,
+						TO_CHAR(INTERVIEW_DATE, 'YYYY-MM-DD') INTERVIEW_DATE,
+						MEM_ID
+					FROM INTERVIEW
+					WHERE 1=1
+					<choose>
+			            <when test="memId == null and memId == ''">
+						AND	MEM_ID = #{memId}
+						</when>
+					</choose>
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	INTERVIEW_NM LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+			FROM INTERVIEW
+			WHERE 1=1
+			<choose>
+		           <when test="memId == null and memId == ''">
+				AND	MEM_ID = #{memId}
+				</when>
+			</choose>
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	INTERVIEW_NM LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.InterviewVO">
+		SELECT NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
+				INTERVIEW_NM,
+				TO_CHAR(INTERVIEW_DATE, 'YYYY-MM-DD') INTERVIEW_DATE,
+				MEM_ID
+		FROM INTERVIEW
+	</select>
+
+
+</mapper>

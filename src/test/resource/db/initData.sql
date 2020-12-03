@@ -154,8 +154,9 @@ INSERT INTO INTERVIEW VALUES(3,'첫 면접',SYSDATE,'TEST_ID');
 INSERT INTO INTERVIEW VALUES(4,'이름 없는 면접',SYSDATE,'TEST_ID3');
 
 -- QUESTION
-INSERT INTO QUESTION VALUES(1,'개발자에게 필요한 역량은 무엇이라고 생각하십니까?',2, 1);
-INSERT INTO QUESTION VALUES(2,'개발시간과 개발의 정확성,둘 중 무엇이 더 중요하다고 생각하나요?',2, 2);
+INSERT INTO QUESTION VALUES(1,'개발자에게 필요한 역량은 무엇이라고 생각하십니까?',1, 1);
+INSERT INTO QUESTION VALUES(2,'개발자에게 필요한 역량은 무엇이라고 생각하십니까?',1, 1);
+INSERT INTO QUESTION VALUES(3,'개발시간과 개발의 정확성,둘 중 무엇이 더 중요하다고 생각하나요?',2, 2);
 
 -- ANSWER
 INSERT INTO ANSWER VALUES(1,'음 꾸준함과 흥미라고 생각합니다.','D:\test\test1.wav',20,4,1);

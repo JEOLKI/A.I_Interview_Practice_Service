@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.interview.dao.QuestionMapper">
+
+	<insert id="create">
+		<selectKey keyProperty="questSq" resultType="String" order="BEFORE">
+			SELECT QUESTION_SQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO QUESTION (QUEST_SQ,
+								QUEST_CONTENT,
+								INTERVIEW_SQ,
+								SAMP_QUEST_SQ)
+		     VALUES (#{questSq},
+					#{questContent},
+					#{interviewSq},
+					#{sampQusetSq})
+	</insert>
+	
+	<select id="retrieve" resultType="com.aiinterview.interview.vo.QuestionVO">
+		SELECT NVL(QUEST_SQ, 0) QUEST_SQ,
+				QUEST_CONTENT,
+				NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
+				NVL(SAMP_QUEST_SQ, 0) SAMP_QUEST_SQ
+		FROM QUESTION
+	   WHERE QUEST_SQ = #{questSq}
+	</select>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.QuestionVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT  NVL(QUEST_SQ, 0) QUEST_SQ,
+						QUEST_CONTENT,
+						NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
+						NVL(SAMP_QUEST_SQ, 0) SAMP_QUEST_SQ
+					FROM QUESTION
+					WHERE 1=1
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	INTERVIEW_NM LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+			FROM QUESTION
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	questContent LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
+	
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.QuestionVO">
+		SELECT NVL(QUEST_SQ, 0) QUEST_SQ,
+				QUEST_CONTENT,
+				NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
+				NVL(SAMP_QUEST_SQ, 0) SAMP_QUEST_SQ
+		FROM QUESTION
+		WHERE INTERVIEW_SQ = #{interviewSq}
+	</select>
+
+
+</mapper>

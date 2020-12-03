@@ -115,7 +115,7 @@
 						AND	BOARD_TITLE LIKE '%' || #{searchKeyword} || '%'
 					</when>
 		            <when test="searchCondition == 1">
-						AND	BOARD_CONTENT LIKE '%' || #{searchKeyword} || '%'
+						AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
 					</when>
 				</choose>
 			</if>		

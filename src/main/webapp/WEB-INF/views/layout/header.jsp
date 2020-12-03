@@ -5,6 +5,11 @@
  <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <style>
 
+    
+    .contentbox{
+        margin-top: 52px;
+    }
+    
  	#header{
  		position:fixed;
  	}

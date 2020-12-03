@@ -70,31 +70,31 @@
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-			<section class="hero" id="boardGu${boardGbSq }">
+			
+			<section class="hero contentbox" id="boardGu${boardGbSq }">
 				<div class="hero__content" >
 					<div class="content__title">${boardGbNm }</div>
 				</div>
 			</section>
 			
-			
 			<div class="body" >
 			
 				<div class="col-sm-8 blog-main">
 			
-					<div id="search">
+					<div class="input-group" id="search">
 		        		<ul>
 		        			<li>
 		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
-		        				<form:select path="searchCondition" cssClass="use">
+		        				<form:select path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm">
 		        					<form:option value="0" label="제목" />
 		        					<form:option value="1" label="작성자" />
 		        				</form:select>
 		        			</li>
 		        			<li><label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input path="searchKeyword" cssClass="txt"/>
+		                        <form:input path="searchKeyword" cssClass="txt form-control bg-light border-0 small"/>
 		                    </li>
 		        			<li>
-		        	            <span class="btn_blue_l">
+		        	            <span class="btn btn-primary">
 		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
 		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
 		        	            </span>
@@ -104,7 +104,7 @@
 			
 			
 					<div class="table-responsive">
-						<table class="table table-striped">
+						<table class="table table-bordered" id="dataTable">
 						<thead>
 							<tr>
 								<th>번호</th>
@@ -155,8 +155,8 @@
 			<form:hidden path="pageIndex" />
 			<input hidden name="boardGbSq" value="${boardGbSq}"/>
 			<input hidden name="boardGbNm" value="${boardGbNm}"/>
-			
-			<a class="btn btn-default pull-right" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">새글 등록</a>
+		
+			<a class="btn createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
 	
 		</div>
 	</div>
