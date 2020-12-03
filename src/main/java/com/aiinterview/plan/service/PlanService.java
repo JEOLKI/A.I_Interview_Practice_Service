@@ -31,7 +31,7 @@ public class PlanService {
 		return planMapper.planUseCreate(puv);
 	}
 	
-	public int planUseCheck(PlanUseVO puv) throws Exception {
+	public PlanUseVO planUseCheck(PlanUseVO puv) throws Exception {
 		return planMapper.planUseCheck(puv);
 	}
 	

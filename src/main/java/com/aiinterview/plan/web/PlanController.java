@@ -63,7 +63,7 @@ public class PlanController {
 			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 			puv.setMemId(mv.getMemId());
 			
-			int planUseCheck = planService.planUseCheck(puv);
+			PlanUseVO planUseCheck = planService.planUseCheck(puv);
 			
 			model.addAttribute("planUseCheck", planUseCheck);
 			model.addAttribute("pvContent", pvContent);

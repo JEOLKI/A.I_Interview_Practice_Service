@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 	console.log("d")
 	$('#payment').on('click', function(){
-		var check =  "${planUseCheck }"
+		var check =  "${planUseCheck.term }"
 		if(check>0){
 			alert("아직 이용권 기간이 남아 있습니다.")
 		}else{

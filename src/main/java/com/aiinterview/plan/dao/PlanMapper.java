@@ -69,6 +69,6 @@ public interface PlanMapper {
 	 * @param puv에 들어가는 endDate와 memId
 	 * @return
 	 */
-	int planUseCheck(PlanUseVO puv);
+	PlanUseVO planUseCheck(PlanUseVO puv);
 	
 }

@@ -24,7 +24,7 @@
 		values(plan_use_sq.nextval, sysdate, sysdate+#{planPeriod}, #{memId}, 2)
 	</insert>
 
-	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
+	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO" >
 		SELECT use_sq
 		FROM PLAN_USE
 		<![CDATA[

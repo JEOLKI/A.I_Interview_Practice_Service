@@ -135,18 +135,24 @@ public class MemberController {
 	
 	@RequestMapping(path="/myprofileview.do", method= {RequestMethod.GET})
 	public String myProfileView(HttpSession session, Model model) {
+		 
+		return "myProfile/myProfile";
+	}
+	
+	
+	@RequestMapping(path="/myPlanAjax.do", method= {RequestMethod.GET})
+	public String myPlanAjax(HttpSession session, Model model) {
 		MemberVO mv =  (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		PlanUseVO puv = new PlanUseVO();
 		puv.setMemId(memId);
 		try {
-			int planUse = planService.planUseCheck(puv);
+			PlanUseVO planUse = planService.planUseCheck(puv);
 			model.addAttribute("planUse", planUse);
 		} catch (Exception e) {
-			
 			e.printStackTrace();
 		}
-		return "myProfile/myProfile";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path="/deleteview.do", method= {RequestMethod.GET})

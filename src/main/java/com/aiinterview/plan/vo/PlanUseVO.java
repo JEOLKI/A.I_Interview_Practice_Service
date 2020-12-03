@@ -9,6 +9,14 @@ public class PlanUseVO extends PlanVO{
 	private Date endDate;
 	private String memId;
 	private String planSq;
+	private int term;
+	
+	public int getTerm() {
+		return term;
+	}
+	public void setTerm(int term) {
+		this.term = term;
+	}
 	@Override
 	public String toString() {
 		return "PlanUseVO [useSq=" + useSq + ", startDate=" + startDate + ", endDate=" + endDate + ", memId=" + memId
