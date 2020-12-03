@@ -9,6 +9,8 @@
 <html>
 <head>
 
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style type="text/css">
