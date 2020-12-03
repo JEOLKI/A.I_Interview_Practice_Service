@@ -24,8 +24,8 @@
 		values(plan_use_sq.nextval, sysdate, sysdate+#{planPeriod}, #{memId}, 2)
 	</insert>
 
-	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
-		SELECT count(*)
+	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO" >
+		SELECT use_sq
 		FROM PLAN_USE
 		<![CDATA[
 		where MEM_ID = #{memId}
@@ -56,6 +56,17 @@
 	FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
 	WHERE mem_id = #{memId}
 	</select>
+	
+	<select id= "planExcel" resultType="com.aiinterview.plan.vo.PlanVO">
+		select * from plan
+	</select>
+	
+	<select id= "planUseExcel" resultType="com.aiinterview.plan.vo.PlanUseVO">
+		select * from plan_use
+	</select>
+	
+	
+	
 <!-- 	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO"> -->
 <!-- 		UPDATE plan set plan_nm = #{planNm}, plan_price = #{planPrice},  -->
 <!-- 		plan_explain = #{planExplain }, plan_st = #{planSt}, plan_period=#{planPeriod} -->

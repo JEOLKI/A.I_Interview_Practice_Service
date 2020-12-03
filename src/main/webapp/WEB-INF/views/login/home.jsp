@@ -88,14 +88,15 @@ $(document).ready(function() {
     $('#join').on('click',function(){
     	document.location="/login/join"
     });
-    $('#experience').on('click',function(){
-    	document.location="/login/experience"
-    });
     $('.search').on('click',function(){
 		 $('#searchModal').show();
     });
     $('#start').on('click',function(){
+    	if(${S_MEMBER.memId !=null}){
+    		document.location="/interview/start.do";
+    	}else{
 		 $('#myModal').show();
+    	}
     });
 });
 //팝업 Close 기능

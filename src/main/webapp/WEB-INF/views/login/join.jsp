@@ -133,12 +133,12 @@
 			},
 			method : "post",
 			success : function(data) {
-				if (data == '') {
+				if (data.memberVo == null) {
 					html = '<span style="color:green">사용가능한 아이디입니다</span><br><br>';
 					$('#check').val('Y');
 					$('#memId').attr('readonly',true);
 					$('#checkId').append(html);
-				} else {
+				}else{
 					html = '<span style="color:red">중복된 아이디입니다</span><br><br>';
 					$('#memId').val('');
 					$('#check').val('N');
@@ -162,7 +162,7 @@
 			},
 			method : "post",
 			success : function(data) {
-				if (data == '') {
+				if (data.memberList.length == 0) {
 					html = '<span style="color:green">사용가능한 닉네임입니다</span><br><br>';
 					$('#check').val('Y');
 					$('#memAlias').attr('readonly',true);

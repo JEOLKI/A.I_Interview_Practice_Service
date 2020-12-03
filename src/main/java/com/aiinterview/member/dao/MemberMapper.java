@@ -1,5 +1,7 @@
 package com.aiinterview.member.dao;
 
+import java.util.List;
+
 import com.aiinterview.member.vo.MemberVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -45,7 +47,7 @@ public interface MemberMapper{
 	 * @param memberVo
 	 * @return MemberVO
 	 */
-	MemberVO aliasCheck(String memAlias) throws Exception;
+	List<MemberVO> aliasCheck(String memAlias) throws Exception;
 	
 	/**
 	 * 회원 가입을하는 메서드

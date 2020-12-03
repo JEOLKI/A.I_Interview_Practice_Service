@@ -1,5 +1,7 @@
 package com.aiinterview.member.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -41,7 +43,7 @@ public class MemberService implements MemberMapper {
 	}
 
 	@Override
-	public MemberVO aliasCheck(String memAlias) throws Exception {
+	public List<MemberVO> aliasCheck(String memAlias) throws Exception {
 		return memberMapper.aliasCheck(memAlias);
 	}
 

@@ -3,6 +3,7 @@ package com.aiinterview.member.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.plan.service.PlanService;
+import com.aiinterview.plan.vo.PlanUseVO;
 
 @RequestMapping("/member")
 @Controller
@@ -28,7 +31,10 @@ public class MemberController {
 
 	@Resource(name = "memberService")
 	private MemberService memberService;
-
+	
+	@Resource(name = "planService")
+	private PlanService planService;
+	
 	@RequestMapping(path = "/test.do", method = { RequestMethod.GET })
 	public String testView() {
 		logger.debug("MemberController.testView()진입");
@@ -45,7 +51,7 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
-		return "main/idSearch";
+		return "jsonView";
 	}
 
 	@RequestMapping(path = "/retrievepw.do", method = { RequestMethod.GET })
@@ -58,18 +64,21 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
-		return "main/pwSearch";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/updatepw.do", method = { RequestMethod.GET })
 	public String updatePw(MemberVO memberVo, Model model){
+		logger.debug("update진입");
+		int updateCnt = 0;
 		try {
-			memberService.updatePw(memberVo);
+			updateCnt = memberService.updatePw(memberVo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "main/pwSearch";
+		model.addAttribute("updateCnt", updateCnt);
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/idCheck.do", method = { RequestMethod.POST })
@@ -83,21 +92,21 @@ public class MemberController {
 		}
 		model.addAttribute("memberVo",memberVo);
 		
-		return "main/check";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/aliasCheck.do", method = { RequestMethod.POST })
 	public String aliasCheck(String memAlias, Model model) {
-		MemberVO memberVo=null;
+		List<MemberVO>memberList =null;
 		try {
-			memberVo = memberService.aliasCheck(memAlias);
+			memberList = memberService.aliasCheck(memAlias);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		model.addAttribute("memberVo",memberVo);
+		model.addAttribute("memberList",memberList);
 		
-		return "main/check";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.POST })
@@ -125,8 +134,25 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path="/myprofileview.do", method= {RequestMethod.GET})
-	public String myProfileView() {
+	public String myProfileView(HttpSession session, Model model) {
+		 
 		return "myProfile/myProfile";
+	}
+	
+	
+	@RequestMapping(path="/myPlanAjax.do", method= {RequestMethod.GET})
+	public String myPlanAjax(HttpSession session, Model model) {
+		MemberVO mv =  (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = mv.getMemId();
+		PlanUseVO puv = new PlanUseVO();
+		puv.setMemId(memId);
+		try {
+			PlanUseVO planUse = planService.planUseCheck(puv);
+			model.addAttribute("planUse", planUse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "jsonView";
 	}
 	
 	@RequestMapping(path="/deleteview.do", method= {RequestMethod.GET})

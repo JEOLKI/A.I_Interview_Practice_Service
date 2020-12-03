@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +15,6 @@
 
 
 <style type="text/css">/* Chart.js */
-/*
- * DOM element rendering detection
- * https://davidwalsh.name/detect-node-insertion
- */
 @
 keyframes chartjs-render-animation {from { opacity:0.99;
 	
@@ -32,10 +29,6 @@ to {
 	animation: chartjs-render-animation 0.001s;
 }
 
-/*
- * DOM element resizing detection
- * https://github.com/marcj/css-element-queries
- */
 .chartjs-size-monitor, .chartjs-size-monitor-expand,
 	.chartjs-size-monitor-shrink {
 	position: absolute;
@@ -66,6 +59,13 @@ to {
 	top: 0;
 }
 </style>
+<script>
+$(document).ready(function(){
+	$('.NullQuestionBox').on('click',function(){
+		console.log('클릭');
+	});
+});
+</script>
 </head>
 
 
@@ -73,28 +73,7 @@ to {
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="Questions">
-			<div class="TopBar undefined">
-				<div class="navigation-bar">
-					<a class="iam-logo" href="/main"><img
-						src="/static/media/black-long.c5df35b3.svg" alt="iam-logo"
-						class="iam-img"></a>
-					<div class="nav">
-						<a class="main false" href="/main">내 면접</a><a
-							class="lecture false" href="/lecture">면접 강의</a>
-						<a class="service-intro false" href="/service-intro">서비스 소개</a><a
-							class="help-info false" href="/help-info">도움말</a>
-					</div>
-				</div>
-				<div class="user-tool">
-					<a class="payment-btn" href="/payment">이용권 구매</a>
-					<div class="profile-btn false">
-						<img
-							src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2324.jpg"
-							alt="profile-icon" class="profile-icon">dsfaqwef<span
-							aria-hidden="true" class="fa fa-angle-down fa undefined"></span>
-					</div>
-				</div>
-			</div>
+			<%@include file="/WEB-INF/views/layout/header.jsp" %>
 			<div class="body">
 				<div class="QuestionSetBar">
 					<div class="title">면접 질문 미리보기</div>
@@ -114,7 +93,7 @@ to {
 						</div>
 					</div>
 					
-					<div class="SetQuestionBox false">
+					<div class="SetQuestionBox true">
 						<div draggable="true" class="SetQuestionBoxView false">
 							<div class="label unchecked">
 								
@@ -123,17 +102,15 @@ to {
 							<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
 								value="">
 							<button class="complete-btn">완료</button>
-<!-- 							<button class="search-btn"> -->
-								
-<!-- 							</button> -->
+							<button class="search-btn"></button>
 						</div>
 					</div>
 					
 					<div class="NullQuestionBox">
 						<div class="NullQuestionBox__text">
 							<div class="wrapper">
-								<img src="/static/media/add.b9b0eddd.svg" alt=""><span>질문
-									추가</span>
+								<img src="/images/add.b9b0eddd.svg" alt="">
+								<span>질문 추가</span>
 							</div>
 						</div>
 					</div>

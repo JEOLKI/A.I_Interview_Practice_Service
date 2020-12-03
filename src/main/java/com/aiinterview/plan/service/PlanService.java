@@ -31,7 +31,7 @@ public class PlanService {
 		return planMapper.planUseCreate(puv);
 	}
 	
-	public int planUseCheck(PlanUseVO puv) throws Exception {
+	public PlanUseVO planUseCheck(PlanUseVO puv) throws Exception {
 		return planMapper.planUseCheck(puv);
 	}
 	
@@ -47,4 +47,11 @@ public class PlanService {
 		return planMapper.CashList(puv);
 	}
 	
+	public List<PlanVO> planExcel()throws Exception{
+		return planMapper.planExcel();
+	}
+	
+	public List<PlanUseVO> planUseExcel()throws Exception{
+		return planMapper.planUseExcel();
+	}
 }

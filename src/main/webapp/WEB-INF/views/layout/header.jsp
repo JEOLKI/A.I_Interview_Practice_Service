@@ -6,7 +6,7 @@
 <style>
 
  	#header{
- 		position: fixed;
+ 		position:fixed;
  	}
  	
  	/* The Modal (background) */
@@ -182,9 +182,7 @@ $(document).ready(function() {
     $('#myProfile').on('click',function(){
     	document.location="/member/myprofileview.do"
     });
-    $('#experience').on('click',function(){
-    	document.location="/login/experience.do"
-    });
+    
     $('.search').on('click',function(){
 		 $('#searchModal').show();
     });
@@ -223,12 +221,13 @@ $(document).ready(function() {
    			data : {memNm : memNm, memTel :memTel},
    			method : "get",
    			success : function(data){
-   				console.log(data);
-   				html = '아이디는 ' +data +'입니다.';
-   				if(data==''){
+   				if(data.searchMemberVo==null){
    					html = '일치하는 아이디가 존재하지 않습니다.';
+	   				$('#findId').html(html);
+   				}else{
+	   				html = '아이디는 ' +data.searchMemberVo.memId +'입니다.';
+	   				$('#findId').html(html);
    				}
-   				$('#findId').html(html);
    			},
    			error: function(data){
    				console.log(data.status);
@@ -245,7 +244,8 @@ $(document).ready(function() {
    			data : {memNm : memNm, memTel :memTel, memId : memId},
    			method : "get",
    			success : function(data){
-   				if(data==''){
+   				console.log(data.searchMemberVo);
+   				if(data.searchMemberVo == null){
    					html = '일치하는 비밀번호가 존재하지 않습니다.';
    					$('#findPw').html(html);
    				}else{
@@ -261,19 +261,29 @@ $(document).ready(function() {
    		memId = $('#searchPwId').val();
     	memPw = $('#memPw1').val();
     	
-   		$.ajax(
-   			{url:"/member/updatepw.do",
-   			data : {memId :memId, memPw : memPw},
-   			method : "get",
-   			success : function(data){
-   				alert("비밀번호 변경이 완료되었습니다.");
-   				document.location = '/login/main.do';
-   			},
-   			error: function(data){
-   				console.log(data.status);
-   			}
-   		});
-   	}
+    	if($('#memPw1').val()!= $('#memPw2').val()){
+    		alert('비밀번호가 일치 하지 않습니다.');
+    	}else{
+	   		$.ajax(
+	   			{url:"/member/updatepw.do",
+	   			data : {memId :memId, memPw : memPw},
+	   			method : "get",
+	   			success : function(data){
+	   				console.log(data.updateCnt);
+	   				if(data.updateCnt == 1){
+		   				alert("비밀번호 변경이 완료되었습니다.");
+		   				document.location = '/login/main.do';
+	   				}else{
+		   				alert("비밀번호 변경이 실패되었습니다.");
+	   				}
+	   			},
+	   			error: function(data){
+	   				console.log(data.status);
+	   			}
+	   		});
+	   	}
+	}
+    	
 //팝업 Close 기능
 function close_pop(flag) {
  $('#myModal').hide();
@@ -313,7 +323,7 @@ function boardGubunList(){
 
 </script>
 <!-- header -->
-<div class="TopBar undefined" id  ="header" style="position: relative;">
+<div class="TopBar undefined" id  ="header" >
 	<div class="navigation-bar">
 		<a class="iam-logo" href="/login/main.do"><img
 			src="/images/Ai_Interview 로고.png" alt="iam-logo"
@@ -371,9 +381,9 @@ function boardGubunList(){
 							<a id="myProfile" class="personal-info btn">내 프로필</a>
 						</div>
 						<div class="link-area">
-							<a class="profile-edit btn" href="/member/updateview.do">프로필 수정</a><a
-								class="ticket-info btn" href="/#">이용권 정보</a><a
-								class="payment-list btn" href="/plan/totalPayList.do">결제 내역</a>
+							<a class="profile-edit btn" href="/member/updateview.do">프로필 수정</a>
+								<a class="ticket-info btn" href="/member/myprofileview.do?ticket=info">이용권 정보</a>
+								<a class="payment-list btn" href="/plan/totalPayList.do">결제 내역</a>
 						</div>
 						<div class="logout">로그아웃</div>
 					</div>
@@ -459,6 +469,7 @@ function boardGubunList(){
 			<div>
 				<span style="color: red" id="findPw"></span>
 			</div>
+			<br>
 			<div
 				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="search_close_pop();">
