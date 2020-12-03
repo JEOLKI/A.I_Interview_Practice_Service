@@ -9,12 +9,69 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+<style type="text/css">
+	#search{
+		display: inline-block; 
+	}
+	
+	.menu{
+		margin-bottom: 20px;
+	}
+	.body{
+		margin : 30px;
+	}
+	#massiveCreate{
+		margin-left: 20px;
+	}
+	
+	.updateBtn{
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.sampQuestUpdateFrm {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	
+	#sampQuestRegistBtn{
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.sampQuestContent{
+		width: 400px;
+		margin-bottom: 10px;
+	}
+	
+	.content__title{
+		margin-bottom: 30px;
+	}
+	h1{
+		font-weight:bold;
+	}
+	#check{
+		display: inline-block; 
+		height: 20px;
+	}
+</style>
 <script type="text/javaScript" language="javascript" defer="defer">
 $(document).ready(function(){
 	
 	$('#sampQuestRegistBtn').on('click', function() {
-		$('#sampQuestRegistFrm').submit();
+		if($('#sampQuestContent').val()==''){
+			var html = '<span style="color:red">**내용을 입력해주세요</span><br><br>';
+			$('#check').empty();
+			$('#check').append(html);
+		}else{
+			$('#sampQuestRegistFrm').submit();
+		}
 	})
 	
 		
@@ -49,12 +106,11 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-			<section class="hero">
-			<div class="hero__content">
-				<div class="content__title">샘플 질문 관리</div>
-			</div>
-			</section>
+			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
+<div class="w3-container" style="margin-left: 200px">
 			<div class="body" >
+				<div class="content__title"><h1>샘플 질문 관리</h1></div>
+				
 				<div class="registSampleQuestion">
 					<form id="sampQuestRegistFrm" action="${cp }/sampQuest/createProcess.do" method="post">
 						<select id="questGbSq" name="questGbSq">
@@ -75,8 +131,9 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 								</c:otherwise>
 							</c:choose>
 						</select>
-						<input type="button" id="sampQuestRegistBtn" value="등록">
+						<button type="button" id="sampQuestRegistBtn">등록</button>
 				</form>
+				<div id="check"></div>
 			</div>
 				
 		<hr>
@@ -96,7 +153,7 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
                     
         	            <span class="btn_blue_l">
         	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
-        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
+        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"  alt=""/>
         	            </span>
                 </ul>
 			</div>
@@ -124,7 +181,7 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 									</c:forEach>
 								</select>
 								<input type="hidden" name="sampQuestSq" value="${sampQuest.sampQuestSq}">
-								<input type="text" name="sampQuestContent" value="<c:out value="${sampQuest.sampQuestContent}"/>">
+								<input type="text" class="sampQuestContent" name="sampQuestContent" value="<c:out value="${sampQuest.sampQuestContent}"/>">
 								<select class="sampQuestSt" name="sampQuestSt">
 									<c:choose>
 										<c:when test="${sampQuest.sampQuestSt == 'Y' }">
@@ -137,6 +194,7 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 										</c:otherwise>
 									</c:choose>
 								</select>
+								<button type="submit" class="updateBtn">수정</button>
 						</form>
 					</c:forEach>
 				</div>
@@ -144,6 +202,7 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 					<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 					<form:hidden path="pageIndex" />
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>	

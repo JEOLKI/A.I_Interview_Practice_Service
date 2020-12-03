@@ -22,7 +22,7 @@ public interface HabitMapper {
 	 * 습관어 목록 전체를 조회하는 메서드
 	 * @return 습관어 목록
 	 */
-	public List<HabitVO> retrieveHabitList();
+	public List<HabitVO> retrieveList();
 
 	/**
 	 * 습관어를 수정하는 메서드
@@ -30,5 +30,20 @@ public interface HabitMapper {
 	 * @return 1: 수정 성공 / 0 : 수정 실패
 	 */
 	public int update(HabitVO habitVO);
+
+	/**
+	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
+	 * @param HabitVO
+	 * @return 해당페이지 목록
+	 */
+	public List<HabitVO> retrievePagingList(HabitVO habitVO);
+
+	/**
+	 * 페이징처리를 위한 전체 habitVO 개수 구하는 메서드
+	 * @param habitVO
+	 * @return 전체 habitVO 개수
+	 */
+	public int retrievePagingListCnt(HabitVO habitVO);
+
 	
 }

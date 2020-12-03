@@ -6,9 +6,12 @@
 		text-decoration: none;
 		padding-left: 20px;
 	}
+	a:hover{
+		text-decoration: none;
+	}
 </style>
 
-<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width: 160px; position: relative;">
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width: 200px; position: relative;">
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
 		회원 관리 <i class="fa fa-caret-down"></i>
@@ -74,7 +77,7 @@
 			&ensp;&ensp;습관어 관리<i class="fa fa-caret-down"></i>
 		</button>
 		<div id="demoAcc3_e" class="w3-hide w3-white w3-card">
-			<a href="/habit/manage.do" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;습관어 관리</a>
+			<a href="/habit/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;습관어 관리</a>
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;습관어 통계</a>
 		</div>
 		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_f()">
@@ -96,11 +99,11 @@
 		var x = document.getElementById("demoAcc");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-blue", "");
 		}
 	}
 	
@@ -109,11 +112,11 @@
 		var x = document.getElementById("demoAcc1");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-blue", "");
 		}
 	}
 	
@@ -122,11 +125,10 @@
 		var x = document.getElementById("demoAcc2");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
-		} else {
+			x.previousElementSibling.className += " w3-blue";
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-blue", "");
 		}
 	}
 	
@@ -135,11 +137,11 @@
 		var x = document.getElementById("demoAcc3");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-blue", "");
 		}
 	}
 
@@ -148,11 +150,11 @@
 		var x = document.getElementById("demoAcc3_a");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-pale-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-pale-blue", "");
 		}
 	}
 	
@@ -161,11 +163,11 @@
 		var x = document.getElementById("demoAcc3_b");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-pale-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-pale-blue", "");
 		}
 	}
 	
@@ -174,11 +176,11 @@
 		var x = document.getElementById("demoAcc3_c");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-pale-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-pale-blue", "");
 		}
 	}
 	
@@ -187,11 +189,11 @@
 		var x = document.getElementById("demoAcc3_d");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-pale-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-pale-blue", "");
 		}
 	}
 	
@@ -200,11 +202,11 @@
 		var x = document.getElementById("demoAcc3_e");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-pale-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-pale-blue", "");
 		}
 	}
 	
@@ -213,11 +215,11 @@
 		var x = document.getElementById("demoAcc3_f");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-green";
+			x.previousElementSibling.className += " w3-pale-blue";
 		} else {
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-green", "");
+					.replace(" w3-pale-blue", "");
 		}
 	}
 </script>

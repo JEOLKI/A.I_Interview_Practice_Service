@@ -38,11 +38,9 @@ public class QuestionGubunController {
 	@RequestMapping(value = "/retrievePagingList.do")
 	public String retrievePagingList(QuestionGubunVO questGbVO, Model model) throws Exception {
 		
-		System.out.println("페이징 컨트롤러 : questGbVO " + questGbVO);
 		/** EgovPropertyService.sample */
 		questGbVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		questGbVO.setPageSize(propertiesService.getInt("pageSize"));
-		System.out.println("pageUnit : "+ questGbVO.getPageUnit() +", pageSize : " + questGbVO.getPageSize());
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -50,7 +48,6 @@ public class QuestionGubunController {
 		paginationInfo.setRecordCountPerPage(questGbVO.getPageUnit());
 		paginationInfo.setPageSize(questGbVO.getPageSize());
 		
-		System.out.println("paginationInfo : "+ paginationInfo);
 
 		
 		questGbVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
@@ -58,7 +55,6 @@ public class QuestionGubunController {
 		questGbVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		List<QuestionGubunVO> resultList = questionGubunService.retrievePagingList(questGbVO);
-		System.out.println("페이징 resultList : "+resultList);
 		model.addAttribute("resultList", resultList);
 
 		int totCnt = questionGubunService.retrievePagingListCnt(questGbVO);
@@ -72,12 +68,8 @@ public class QuestionGubunController {
 	/* 등록 */
 	@RequestMapping("/createProcess.do")
 	public String createQuestGbProcess(QuestionGubunVO questGbVO) throws Exception {
-
-		System.out.println("질문 구분 등록 - questGbVO : " + questGbVO);
-
+		
 		questionGubunService.create(questGbVO);
-
-		System.out.println("질문 구분 등록 후");
 
 		return "redirect:/questGb/retrievePagingList.do";
 	}

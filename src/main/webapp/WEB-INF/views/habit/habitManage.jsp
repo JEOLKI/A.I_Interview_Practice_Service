@@ -16,39 +16,71 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
+<style type="text/css">
+	#search{
+		display: inline-block; 
+	}
+	
+	.menu{
+		margin-bottom: 20px;
+	}
+	.body{
+		margin : 30px;
+	}
+	#massiveCreate{
+		margin-left: 20px;
+	}
+	
+	.updateBtn{
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.habitUpdateFrm {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	
+	#habitRegistBtn{
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.habitGb{
+		width: 400px;
+		padding-left: 10px;
+	}
+	
+	.content__title{
+		margin-bottom: 30px;
+	}
+	h1{
+		font-weight:bold;
+	}
+	#check{
+		display: inline-block; 
+		height: 20px;
+	}
+</style>
+
 <script type="text/javascript" language="javascript" defer="defer">
 	$(document).ready(function() {
 
 	
 	$('#habitRegistBtn').on('click', function() {
-		$('#habitRegistFrm').submit();
+		if($('#habitGb').val()==''){
+			var html = '<span style="color:red">**내용을 입력해주세요</span><br><br>';
+			$('#check').empty();
+			$('#check').append(html);
+		}else{
+			$('#habitRegistFrm').submit();
+		}
 	})
 
-	$.ajax({url : "/habit/list.do",
-			method : "get",
-			dataType : "json",
-			success : function(data) {
-				console.log(data);
-				var html = "";
-				for (var i = 0; i < data.habitList.length; i++) {
-					html += '<form class="habitUpdateFrm" action="${cp }/habit/updateProcess.do" method="post">';
-					html += '<input type="hidden" name="habitSq" value="'+data.habitList[i].habitSq+'">';
-					html += '<input type="text" name="habitGb" value="'+data.habitList[i].habitGb+'">';
-					html += '<select class="habitSt" name="habitSt">';
-					if (data.habitList[i].habitSt == "Y") {
-						html += '<option value="Y" selected="selected">사용</option>';
-						html += '<option value="N">미사용</option>';
-					} else {
-						html += '<option value="Y">사용</option>';
-						html += '<option value="N" selected="selected">미사용</option>';
-					}
-					html += '</select>';
-					html += '<button class="updateBtn" type="submit">수정</button>';
-					html += '</form>';
-				}
-				$('#habitList').append(html);
-			}
-		})
 		
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
@@ -58,53 +90,26 @@
 			$('#massiveForm').submit();
 		})
 		
-		$('#searchBtn').on('click', function(){
-			var keyword = $('#keyword').val();
-			$.ajax({url : "/habit/searchlist.do",
-				method : "get",
-				data : {"keyword" : keyword},
-				dataType : "json",
-				success : function(data){
-					var html="";
-					for(var i=0; i<data.habitSearchList.length; i++){
-						html += '<form class="habitUpdateFrm" action="${cp }/habit/updateProcess.do" method="post">';
-						html += '<input type="hidden" name="habitSq" value="'+data.habitSearchList[i].habitSq+'">';
-						html += '<input type="text" name="habitGb" value="'+data.habitSearchList[i].habitGb+'">';
-						html += '<select class="habitSt" name="habitSt">';
-						if (data.habitSearchList[i].habitSt == "Y") {
-							html += '<option value="Y" selected="selected">사용</option>';
-							html += '<option value="N">미사용</option>';
-						} else {
-							html += '<option value="Y">사용</option>';
-							html += '<option value="N" selected="selected">미사용</option>';
-						}
-						html += '</select>';
-						html += '<button class="updateBtn" type="submit">수정</button>';
-						html += '</form>';
-					}
-					$('#habitList').empty();
-					$('#habitList').append(html);
-				}
-			})
-		})
 	})
 </script>
 </head>
 <body>
+<form:form commandName="habitVO" id="listForm" name="listForm" method="post">
 	<!-- 헤더 -->
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
-				<div class="content__title">습관어 관리</div>
+<div class="w3-container" style="margin-left: 200px">
 			<div class="body">
+				<div class="content__title"><h1>습관어 관리</h1></div>
 
 				<div class="registHabitGubun">
 					<form id="habitRegistFrm" action="${cp }/habit/createProcess.do"
 						method="post">
 						<input type="text" id="habitGb" name="habitGb"
-							value="${param.habitGb }"> <select id="habitSt"
-							name="habitSt">
+							value="${param.habitGb }">
+						<select id="habitSt" name="habitSt">
 							<c:choose>
 								<c:when test="${param.habitSt == Y }">
 									<option value="Y" selected="selected">사용</option>
@@ -116,8 +121,9 @@
 								</c:otherwise>
 							</c:choose>
 						</select> 
-						<input type="button" id="habitRegistBtn" value="등록">
+						<button type="button" id="habitRegistBtn">등록</button>
 					</form>
+					<div id="check"></div>
 				</div>
 
 
@@ -130,23 +136,55 @@
 						<option value="">10개씩</option>
 						<option value="">15개씩</option>
 						<option value="">20개씩</option>
-					</select> <input id="keyword" type="text">
-					<button type="button">검색</button>
-
+					</select> 
+					<div id="search">
+						<ul>
+		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+		                        <form:input path="searchKeyword" cssClass="txt"/>
+		                    
+		        	            <span class="btn_blue_l">
+		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
+		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" alt=""/>
+		        	            </span>
+		                </ul>
+					</div>
 
 					<a href="${cp }/habit/list/excelDown.do">↓ 목록 내려받기</a> 
 					<span id="massiveCreate">↑ 일괄등록</span>
 					<!-- excel file 읽어오기 -->
-					<form id="massiveForm" name="massiveForm"
-						enctype="multipart/form-data" method="post"
-						action="<c:url value="${cp }/habit/massiveCreateProcess.do"/>">
-						<input type="file" name="excelFile" hidden/> 
-					</form>	
+				    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/sampQuest/massiveCreateProcess.do"/>" >
+				        <input hidden type="file" name="excelFile" />
+				    </form>
 				</div>
-				<div class="existHabit" id="habitList"></div>
+				<div class="existHabit" id="habitList">
+					<c:forEach items="${resultList }" var="habit">
+						<form class="habitUpdateFrm" action="${cp }/habit/updateProcess.do" method="post">
+							<input type="hidden" name="habitSq" value="${habit.habitSq}">
+							<input type="text" class="habitGb" name="habitGb" value="${habit.habitGb}">
+							<select class="habitSt" name="habitSt">
+									<c:choose>
+										<c:when test="${habit.habitSt == 'Y' }">
+											<option value="Y" selected="selected">사용</option>
+											<option value="N">미사용</option>
+										</c:when>
+										<c:otherwise>
+											<option value="Y">사용</option>
+											<option value="N" selected="selected">미사용</option>
+										</c:otherwise>
+									</c:choose>
+								</select>
+								<button type="submit" class="updateBtn" >수정</button>
+							</form>	
+					</c:forEach>
+				</div>
+				<div id="paging">
+					<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
+					<form:hidden path="pageIndex" />
+				</div>
 			</div>
+</div>
 		</div>
 	</div>
-
+	</form:form>
 </body>
 </html>

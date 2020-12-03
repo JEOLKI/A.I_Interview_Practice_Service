@@ -34,9 +34,9 @@ public class HabitService {
 	 * 습관어 리스트를 조회하는 메서드
 	 * @return 습관어 목록
 	 */
-	public List<HabitVO> retrieveHabitList() {
+	public List<HabitVO> retrieveList() {
 		System.out.println("습관어 리스트 조회 service");
-		return habitMapper.retrieveHabitList();
+		return habitMapper.retrieveList();
 	}
 
 	/**
@@ -74,6 +74,23 @@ public class HabitService {
 			  habitMapper.create(habitVO);
 		  }
 	}
+
+	/**
+	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
+	 * @param HabitVO
+	 * @return 해당페이지 목록
+	 */
+	public List<HabitVO> retrievePagingList(HabitVO habitVO) {
+		return habitMapper.retrievePagingList(habitVO);
+	}
+
+	/**
+	 * 페이징처리를 위한 전체 habitVO 개수 구하는 메서드
+	 * @param habitVO
+	 * @return 전체 habitVO 개수
+	 */
+	public int retrievePagingListCnt(HabitVO habitVO) {
+		return habitMapper.retrievePagingListCnt(habitVO);	}
 
 
 

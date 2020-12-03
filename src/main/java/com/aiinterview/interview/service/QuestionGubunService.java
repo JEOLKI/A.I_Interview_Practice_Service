@@ -40,9 +40,7 @@ public class QuestionGubunService {
 	 * @throws Exception 
 	 */
 	public void create(QuestionGubunVO questGbVO) throws Exception {
-		logger.debug("질문 구분 등록  service"); 
 		questionGubunMapper.create(questGbVO);
-		logger.debug("질문 구분 등록 service 후");
 	}
 
 	/**

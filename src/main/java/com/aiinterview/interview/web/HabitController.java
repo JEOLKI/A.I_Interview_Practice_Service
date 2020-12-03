@@ -20,6 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.vo.HabitVO;
 
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 @RequestMapping("/habit")
 @Controller
 public class HabitController {
@@ -28,50 +31,54 @@ public class HabitController {
 	@Resource(name="habitService")
 	private HabitService habitService;
 	
-	@RequestMapping("/manage.do")
-	public String habitManageView() {
-		return "habit/habitManage";
-	}
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 	
-	@RequestMapping("/list.do")
-	public String retrieveHabitList(Model model) {
+	/* 페이징 처리 */
+	@RequestMapping("/retrievePagingList.do")
+	public String retrievePagingList(HabitVO habitVO, Model model) {
 		
-		List<HabitVO> habitList = habitService.retrieveHabitList();
-		System.out.println("습관어 목록 "+ habitList);
-		model.addAttribute("habitList", habitList);
-		return "jsonView";
+		/** EgovPropertyService.sample */
+		habitVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		habitVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(habitVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(habitVO.getPageUnit());
+		paginationInfo.setPageSize(habitVO.getPageSize());
+		
+		habitVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		habitVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		habitVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		List<HabitVO> resultList = habitService.retrievePagingList(habitVO);
+		model.addAttribute("resultList", resultList);
+		
+		int totCnt = habitService.retrievePagingListCnt(habitVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		return "habit/habitManage";
 	}
 	
 	
 	
 	@RequestMapping(path ="/createProcess.do", method = {RequestMethod.POST} )
-	public String createProcess(String habitGb, String habitSt) throws Exception {
+	public String createProcess(HabitVO habitVO ) throws Exception {
 		
-		System.out.println("습관어 등록 - habitGb : " + habitGb);
-		System.out.println("습관어 등록 - habitSt : " + habitSt);
-		
-		// habitVO 객체 생성
-		HabitVO habitVO = new HabitVO();
-		habitVO.setHabitGb(habitGb);
-		habitVO.setHabitSt(habitSt);
-		
-		System.out.println("습관어 등록 - habitVO : " + habitVO);
 		
 		habitService.create(habitVO);
 		
-		System.out.println("습관어 등록 후");
-		
-		return "redirect:/habit/manage.do";  // 등록 성공시 습관어 관리 페이지 리다이렉트
+		return "redirect:/habit/retrievePagingList.do";  // 등록 성공시 습관어 관리 페이지 리다이렉트
 	}
 	
 	@RequestMapping(path ="/updateProcess.do", method = {RequestMethod.POST})
 	public String updateProcess(HabitVO habitVO, Model model) {
-		System.out.println("습관어 수정 - habitVO : " + habitVO);
 		
 		int updateCnt = habitService.update(habitVO);
-		System.out.println("습관어 수정 - updateCnt : " + updateCnt);
 		if(updateCnt==1) {
-			return "redirect:/habit/manage.do"; // 업데이트 성공시 리다이렉트
+			return "redirect:/habit/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
 		}else {
 			return "habit/habitManage";
 		}
@@ -98,7 +105,7 @@ public class HabitController {
 	     destFile.delete();
 
 	     ModelAndView view = new ModelAndView();
-	        view.setViewName("redirect:/habit/manage.do");
+	        view.setViewName("redirect:/habit/retrievePagingList.do");
 	        return view;
 
 	}
@@ -107,7 +114,7 @@ public class HabitController {
 	public String excelDown(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
-		List<HabitVO> habitList = habitService.retrieveHabitList();
+		List<HabitVO> habitList = habitService.retrieveList();
 
 		
 		// excel 파일 header 설정 

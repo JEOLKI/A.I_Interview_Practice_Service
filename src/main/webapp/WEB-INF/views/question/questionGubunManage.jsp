@@ -9,12 +9,69 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+<style>
+	#search{
+		display: inline-block; 
+	}
+	
+	.menu{
+		margin-bottom: 20px;
+	}
+	.body{
+		margin : 30px;
+	}
+	#massiveCreate{
+		margin-left: 20px;
+	}
+	
+	.updateBtn{
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.questGbUpdateFrm {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	
+	#questGbRegistBtn{
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.questGbContent{
+		width: 400px;
+		margin-bottom: 10px;
+	}
+	
+	.content__title{
+		margin-bottom: 30px;
+	}
+	h1{
+		font-weight:bold;
+	}
+	#check{
+		display: inline-block; 
+		height: 20px;
+	}
+</style>
     <script type="text/javaScript" language="javascript" defer="defer">
 	$(document).ready(function(){
 		
 		$('#questGbRegistBtn').on('click', function() {
-			$('#questGbRegistFrm').submit();
+			if($('#questGbContent').val()==''){
+				var html = '<span style="color:red">**내용을 입력해주세요</span><br><br>';
+				$('#check').empty();
+				$('#check').append(html);
+			}else{
+				$('#questGbRegistFrm').submit();
+			}
 		})
 		
 			
@@ -30,7 +87,7 @@
 	})
 	
 	 /* pagination 페이지 링크 function */
-        function lingPage(pageNo){
+        function linkPage(pageNo){
         	document.listForm.pageIndex.value = pageNo;
         	document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
            	document.listForm.submit();
@@ -50,12 +107,10 @@
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-			<section class="hero">
-			<div class="hero__content">
-				<div class="content__title">질문 구분 관리</div>
-			</div>
-			</section>
+			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
+<div class="w3-container" style="margin-left: 200px">
 			<div class="body" >
+				<div class="content__title"><h1>질문 구분 관리</h1></div>
 			<div class="registQuestionGubun">
 				<form id="questGbRegistFrm" action="${cp }/questGb/createProcess.do" method="post">
 					<input  type="text" id="questGbContent" name="questGbContent" value="${param.questGb }">
@@ -71,8 +126,9 @@
 							</c:otherwise>
 						</c:choose>
 					</select>
-					<input type="button" id="questGbRegistBtn" value="등록">
+					<button type="button" id="questGbRegistBtn" >등록</button>
 				</form>
+				<div id="check"></div>
 			</div>
 		    
 		    <hr>
@@ -93,26 +149,24 @@
         			
         	            <span class="btn_blue_l">
         	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
-        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
+        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" alt=""/>
         	            </span>
         	        
                 </ul>
 				</div>
-				
-		    	</div>
 		    	<a href="${cp }/questGb/list/excelDown.do">↓ 목록 내려받기</a> 
 				<span id="massiveCreate">↑ 일괄등록</span>
 				<!-- excel file 읽어오기 -->
 			    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/questGb/massiveCreateProcess.do"/>" >
 			        <input type="file" name="excelFile" hidden/>
 			    </form>
-			</div>				
-			
+		    	</div>
+		    	
 			<div class="existQuestGb" id="questGbList">
 				<c:forEach items="${resultList }" var="questGb">
 					<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">
 							<input type="hidden" name="questGbSq" value="${questGb.questGbSq}">
-							<input type="text" name="questGbContent" value="<c:out value="${questGb.questGbContent}"/>">
+							<input type="text" class="questGbContent" name="questGbContent" value="<c:out value="${questGb.questGbContent}"/>">
 							<select class="questGbSt" name="questGbSt">
 								<c:choose>
 									<c:when test="${questGb.questGbSt == 'Y' }">
@@ -125,16 +179,20 @@
 									</c:otherwise>
 								</c:choose>
 							</select>
-							<button type="submit" >수정</button>
+							<button class="updateBtn" type="submit" >수정</button>
 					</form>
 				</c:forEach>
-	
 			</div>
 			
 			<div id="paging">
-				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="lingPage" />
+				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 				<form:hidden path="pageIndex" />
 			</div>
+		
+			</div>				
+			
+			
+		</div>
 		</div>
 	</div>
 </div>

@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.interview.dao.HabitMapper">
 
-	<select id="retrieveHabitList" resultType="com.aiinterview.interview.vo.HabitVO">
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.HabitVO">
 		SELECT *
 		FROM habit
 	</select>
@@ -24,4 +24,35 @@
 		 WHERE habit_sq = #{habitSq} 
 	</update>
 
+	<!-- 페이징 : 해당 페이지리스트 select -->
+	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.HabitVO">
+		SELECT A.*
+		  FROM (
+		  	SELECT ROWNUM RNUM, 
+		  		   S.*
+		      FROM (
+		      	SELECT habit_sq, 
+		      		   habit_gb, 
+		      		   habit_st
+		          FROM habit
+		         WHERE 1=1
+		          <if test="searchKeyword != null and searchKeyword != ''">
+				   AND habit_gb LIKE '%' || #{searchKeyword} || '%'
+				  </if>
+		         ORDER BY habit_sq 
+		   	) S
+		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
+	   ) A 
+	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">
+		SELECT count(*) totCnt
+		  FROM habit
+		 WHERE 1=1
+		  <if test="searchKeyword != null and searchKeyword !=''">
+		   AND habit_gb LIKE '%'||#{searchKeyword}||'%'	
+		  </if>
+	</select>
+	<!-- //페이징 -->
 </mapper>
