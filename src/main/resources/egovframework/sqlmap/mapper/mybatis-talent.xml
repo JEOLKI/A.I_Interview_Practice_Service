@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.interview.dao.TalentMapper">
+
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.TalentVO">
+		SELECT *
+		FROM talent
+	</select>
+	
+	<insert id="create" >
+		<selectKey keyProperty="talentSq" resultType="String" order="BEFORE">
+			SELECT talent_sq.nextval FROM dual 
+		</selectKey>
+			INSERT INTO talent (talent_sq, talent_nm, talent_st)
+			VALUES (TO_NUMBER(#{talentSq}), #{talentNm}, #{talentSt}) 
+	</insert>
+
+	<update id="update">
+		UPDATE talent 
+		   SET talent_nm = #{talentNm},
+		 	   talent_st = #{talentSt}
+		 WHERE talent_sq = #{talentSq} 
+	</update>
+
+	<!-- 페이징 : 해당 페이지리스트 select -->
+	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.TalentVO">
+		SELECT A.*
+		  FROM (
+		  	SELECT ROWNUM RNUM, 
+		  		   S.*
+		      FROM (
+		      	SELECT talent_sq, 
+		      		   talent_nm, 
+		      		   talent_st
+		          FROM talent
+		         WHERE 1=1
+		          <if test="searchKeyword != null and searchKeyword != ''">
+				   AND talent_nm LIKE '%' || #{searchKeyword} || '%'
+				  </if>
+		         ORDER BY talent_sq 
+		   	) S
+		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
+	   ) A 
+	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">
+		SELECT count(*) totCnt
+		  FROM talent
+		 WHERE 1=1
+		  <if test="searchKeyword != null and searchKeyword !=''">
+		   AND talent_nm LIKE '%'||#{searchKeyword}||'%'	
+		  </if>
+	</select>
+	<!-- //페이징 -->
+</mapper>
