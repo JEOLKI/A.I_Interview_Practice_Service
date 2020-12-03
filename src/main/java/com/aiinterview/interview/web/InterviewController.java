@@ -11,10 +11,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class InterviewController {
 	private static final Logger logger = LoggerFactory.getLogger(InterviewController.class);
 	
-	@RequestMapping(path="/start.do",method = { RequestMethod.GET })
-	public String interview() {
-		logger.debug("InterviewController.interview()진입");
-//		return "interview/interviewMain";
-		return "member/memberQuestion";
+	@RequestMapping(path="/ready.do",method = { RequestMethod.GET })
+	public String interviewReady() {
+		logger.debug("InterviewController.interviewReady()진입");
+		return "interview/ready";
 	}
+	
+	@RequestMapping(path="/start.do",method = { RequestMethod.GET })
+	public String interviewStart() {
+		logger.debug("InterviewController.interviewStart()진입");
+		return "interview/interview";
+	}
+	
+	@RequestMapping(path="/test.do",method = { RequestMethod.GET })
+	public String interviewTest() {
+		logger.debug("InterviewController.interviewTest()진입");
+		return "interview/interviewMain";
+	}
+	
 }

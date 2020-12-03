@@ -62,11 +62,18 @@ to {
 <script>
 $(document).ready(function(){
 	$('.NullQuestionBox').on('click',function(){
-		
-		console.log('클릭');
 		$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요'	value=''><button class='complete-btn'>완료</button><button class='search-btn'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button></div></div>"));
 	});
+	$('.text').on('click',function(){
+		$(this).parent().removeClass('unchecked');
+// 		$(this)parent().addClass('checked');
+		console.log("클릭");
+	});
 });
+function start(){
+	document.location="/interview/start.do";
+}
+
 </script>
 </head>
 
@@ -86,7 +93,7 @@ $(document).ready(function(){
 								
 							</div>
 							
-							<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
+							<input type="text" id="question" class="text" placeholder="면접 질문을 입력해주세요"
 								value="">
 							<button class="complete-btn">완료</button>
 							<button class="search-btn">
@@ -118,7 +125,7 @@ $(document).ready(function(){
 							</div>
 						</div>
 					</div>
-					<div class="interview-ready-btn Btn none">면접 시작</div>
+					<div class="interview-ready-btn Btn none" onclick="start();">면접 시작</div>
 				</div>
 			</div>
 			<footer class="SimpleFooter">

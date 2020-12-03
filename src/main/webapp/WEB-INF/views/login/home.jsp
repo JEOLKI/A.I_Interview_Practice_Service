@@ -91,9 +91,9 @@ $(document).ready(function() {
     $('.search').on('click',function(){
 		 $('#searchModal').show();
     });
-    $('#start').on('click',function(){
+    $('#ready').on('click',function(){
     	if(${S_MEMBER.memId !=null}){
-    		document.location="/interview/start.do";
+    		document.location="/interview/ready.do";
     	}else{
 		 $('#myModal').show();
     	}
@@ -126,7 +126,7 @@ function search_close_pop(flag) {
 						</div>
 						<div class="sub-title">인공지능의 다양한 분석과 함께 면접 능력을 향상시켜 보세요.</div>
 						<div class="start-area BtnArea">
-							<button id="start" class="start-btn Btn">첫 면접 시작하기</button>
+							<button id="ready" class="start-btn Btn">첫 면접 시작하기</button>
 							<div class="Shadow"></div>
 						</div>
 					</div>

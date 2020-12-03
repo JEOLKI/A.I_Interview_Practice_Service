@@ -6,10 +6,8 @@
 <title>Detect Faces Sample</title>
 	<link rel="stylesheet" href="main.css" type="text/css" media="all">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="js/capture.js">
-	</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="js/capture.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
 
 </head>
