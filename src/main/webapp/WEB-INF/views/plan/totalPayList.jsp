@@ -13,7 +13,7 @@
 	$(document).ready(function(){
 		console.log("aa")
 		myCashList();
-		window.scrollTo( 200, 300 );
+		
 	})
 function myCashList(){
 		

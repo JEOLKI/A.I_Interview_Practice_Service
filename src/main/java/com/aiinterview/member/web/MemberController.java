@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.plan.service.PlanService;
+import com.aiinterview.plan.vo.PlanUseVO;
 
 @RequestMapping("/member")
 @Controller
@@ -29,7 +31,10 @@ public class MemberController {
 
 	@Resource(name = "memberService")
 	private MemberService memberService;
-
+	
+	@Resource(name = "planService")
+	private PlanService planService;
+	
 	@RequestMapping(path = "/test.do", method = { RequestMethod.GET })
 	public String testView() {
 		logger.debug("MemberController.testView()진입");
@@ -129,7 +134,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path="/myprofileview.do", method= {RequestMethod.GET})
-	public String myProfileView() {
+	public String myProfileView(HttpSession session, Model model) {
+		MemberVO mv =  (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = mv.getMemId();
+		PlanUseVO puv = new PlanUseVO();
+		puv.setMemId(memId);
+		try {
+			int planUse = planService.planUseCheck(puv);
+			model.addAttribute("planUse", planUse);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		return "myProfile/myProfile";
 	}
 	

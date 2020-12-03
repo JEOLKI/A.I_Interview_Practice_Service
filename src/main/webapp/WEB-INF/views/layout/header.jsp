@@ -382,7 +382,7 @@ function boardGubunList(){
 						</div>
 						<div class="link-area">
 							<a class="profile-edit btn" href="/member/updateview.do">프로필 수정</a><a
-								class="ticket-info btn" href="/#">이용권 정보</a><a
+								<a class="ticket-info btn" href="/member/myprofileview.do?ticket=info">이용권 정보</a>
 								class="payment-list btn" href="/plan/totalPayList.do">결제 내역</a>
 						</div>
 						<div class="logout">로그아웃</div>

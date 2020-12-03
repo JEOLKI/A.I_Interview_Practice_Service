@@ -25,7 +25,7 @@
 	</insert>
 
 	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
-		SELECT count(*)
+		SELECT use_sq
 		FROM PLAN_USE
 		<![CDATA[
 		where MEM_ID = #{memId}
