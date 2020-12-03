@@ -3,6 +3,7 @@ package com.aiinterview.member.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -45,7 +46,7 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
-		return "main/idSearch";
+		return "jsonView";
 	}
 
 	@RequestMapping(path = "/retrievepw.do", method = { RequestMethod.GET })
@@ -58,18 +59,21 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
-		return "main/pwSearch";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/updatepw.do", method = { RequestMethod.GET })
 	public String updatePw(MemberVO memberVo, Model model){
+		logger.debug("update진입");
+		int updateCnt = 0;
 		try {
-			memberService.updatePw(memberVo);
+			updateCnt = memberService.updatePw(memberVo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "main/pwSearch";
+		model.addAttribute("updateCnt", updateCnt);
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/idCheck.do", method = { RequestMethod.POST })
@@ -83,21 +87,21 @@ public class MemberController {
 		}
 		model.addAttribute("memberVo",memberVo);
 		
-		return "main/check";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/aliasCheck.do", method = { RequestMethod.POST })
 	public String aliasCheck(String memAlias, Model model) {
-		MemberVO memberVo=null;
+		List<MemberVO>memberList =null;
 		try {
-			memberVo = memberService.aliasCheck(memAlias);
+			memberList = memberService.aliasCheck(memAlias);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		model.addAttribute("memberVo",memberVo);
+		model.addAttribute("memberList",memberList);
 		
-		return "main/check";
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.POST })

@@ -8,14 +8,11 @@
 <!-- <script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js">
 </script>
-<script type="text/javascript" src="/js/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+<script src="/js/require.js"></script>
 <script type="text/javascript" src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- <script type="text/javascript" src="http://requirejs.org/docs/release/2.3.2/minified/require.js"></script> -->
-<!-- <script type="text/javascript" src="/js/microsoft.cognitiveservices.speech.sdk.bundle.d.ts"></script> -->
-<!-- <script type="text/javascript" src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js.map"></script> -->
 <script type="text/javascript">
-	const sdk = require("microsoft-cognitiveservices-speech-sdk");
+	const sdk = require(["microsoft-cognitiveservices-speech-sdk"]);
 	const speechConfig = sdk.SpeechConfig.fromSubscription("8e1d8a815cd34bd4b7fee2b71344ef49",  "koreacentral");
 	const recognizer = new sdk.SpeechRecognizer(speechConfig);
 $(document).ready(function(){
