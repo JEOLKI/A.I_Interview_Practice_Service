@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.aiinterview.interview.dao.KeywordMatchingMapper">
+	
+	<!-- 등록 -->
+	<insert id="create" >
+		<selectKey keyProperty="keywordSq" resultType="String" order="AFTER">
+			SELECT keywordSq from dual 
+		</selectKey>
+			INSERT INTO keyword_matching (talent_sq, keyword_sq)
+			VALUES (#{talentSq}, #{keywordSq}) 
+	</insert>
+
+	<!-- 삭제 -->
+	<update id="delete" parameterType="hashmap" >
+		DELETE 
+		  FROM keyword_matching 
+		 WHERE keyword_sq = #{keywordSq}
+		   AND talent_sq = #{talentSq}  
+	</update>
+	
+</mapper>

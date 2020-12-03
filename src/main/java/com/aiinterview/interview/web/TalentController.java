@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.xwpf.usermodel.LineSpacingRule;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aiinterview.interview.service.KeywordService;
 import com.aiinterview.interview.service.TalentService;
+import com.aiinterview.interview.vo.KeywordVO;
 import com.aiinterview.interview.vo.TalentVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -29,6 +32,9 @@ public class TalentController {
 
 	@Resource(name="talentService")
 	private TalentService talentService;
+	
+	@Resource(name="keywordService")
+	private KeywordService keywordService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -105,6 +111,18 @@ public class TalentController {
 		}
 	}
 	
+	@RequestMapping(path ="/update.do", method = {RequestMethod.POST})
+	public String talentKeywordUpdate(TalentVO talentVO, Model model) {
+		
+		int updateCnt = talentService.update(talentVO);
+		
+		if(updateCnt==1) {
+			return "redirect:/talent/keywordManage.do?talentSq="+talentVO.getTalentSq(); // 업데이트 성공시 리다이렉트
+		}else {
+			return "talent/keywordManage";
+		}
+	}
+	
 	@RequestMapping("/list/excelDown.do")
 	public String excelDown(Model model) throws Exception {
 
@@ -135,6 +153,20 @@ public class TalentController {
 		model.addAttribute("sheetName","TALENT");
 
 		return "excelView";
+	}
+	
+	@RequestMapping("/keywordManage.do")
+	public String keywordManage(String talentSq, Model model) {
+		
+		// 인재상 가져오기
+		TalentVO talentVO = talentService.retrieve(talentSq);
+		model.addAttribute("talentVO",talentVO);
+	
+		// 해당 인재상에 매칭된 키워드 목록 가져오기
+//		List<KeywordVO> resultList = keywordService.retrieveTalentKeywordList(talentVO.getTalentSq());
+//		model.addAttribute("resultList", resultList);
+		
+		return "talent/talentKeywordManage";
 	}
 
 	

@@ -9,6 +9,12 @@
 		FROM talent
 	</select>
 	
+	<select id="retrieve" parameterType="String"  resultType="com.aiinterview.interview.vo.TalentVO">
+		SELECT *
+		  FROM talent
+		 WHERE talent_sq = #{talentSq}
+	</select>
+	
 	<insert id="create" >
 		<selectKey keyProperty="talentSq" resultType="String" order="BEFORE">
 			SELECT talent_sq.nextval FROM dual 
@@ -55,4 +61,11 @@
 		  </if>
 	</select>
 	<!-- //페이징 -->
+	
+	<!-- 사용중인 목록 조회 -->
+	<select id="retrieveUsingList" resultType="com.aiinterview.interview.vo.TalentVO">
+		SELECT *
+		  FROM talent
+		 WHERE talent_st = 'Y'
+	</select>
 </mapper>

@@ -89,6 +89,24 @@ public class TalentService{
 		  }
 	}
 
+	/**
+	 * 사용중인 인재상 목록을 조회하기 위한 메서드
+	 * @return
+	 */
+	public List<TalentVO> retrieveUsingList() {
+		return talentMapper.retrieveUsingList();
+	}
+
+	/**
+	 * 인재상 하나를 조회하는 메서드
+	 * @param talentSq
+	 * @return
+	 */
+	public TalentVO retrieve(String talentSq) {
+		return talentMapper.retrieve(talentSq);
+	}
+
+
 	
 
 

@@ -6,7 +6,7 @@ public class KeywordVO extends BaseVO{
 	
 	private String keywordSq; 				// 키워드 번호
 	private String keywordContent;		// 키워드 내용
-	private char keywordSt;				// 키워드 사용 여부
+	private String keywordSt;				// 키워드 사용 여부
 	public String getKeywordSq() {
 		return keywordSq;
 	}
@@ -19,10 +19,10 @@ public class KeywordVO extends BaseVO{
 	public void setKeywordContent(String keywordContent) {
 		this.keywordContent = keywordContent;
 	}
-	public char getKeywordSt() {
+	public String getKeywordSt() {
 		return keywordSt;
 	}
-	public void setKeywordSt(char keywordSt) {
+	public void setKeywordSt(String keywordSt) {
 		this.keywordSt = keywordSt;
 	}
 	@Override

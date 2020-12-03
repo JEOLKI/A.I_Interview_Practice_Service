@@ -45,5 +45,18 @@ public interface TalentMapper {
 	 */
 	public int retrievePagingListCnt(TalentVO talentVO);
 
+	/**
+	 * 사용중인 인재상 목록 조회를 위한 메서드
+	 * @return
+	 */
+	public List<TalentVO> retrieveUsingList();
+
+	/**
+	 * 인재상 하나를 조회하는 메서드
+	 * @param talentSq
+	 * @return
+	 */
+	public TalentVO retrieve(String talentSq);
+
 	
 }
