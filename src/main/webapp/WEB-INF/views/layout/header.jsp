@@ -6,7 +6,7 @@
 <style>
 
  	#header{
- 		position: fixed;
+ 		position:fixed;
  	}
  	
  	/* The Modal (background) */
@@ -323,7 +323,7 @@ function boardGubunList(){
 
 </script>
 <!-- header -->
-<div class="TopBar undefined" id  ="header" style="position: relative;">
+<div class="TopBar undefined" id  ="header" >
 	<div class="navigation-bar">
 		<a class="iam-logo" href="/login/main.do"><img
 			src="/images/Ai_Interview 로고.png" alt="iam-logo"

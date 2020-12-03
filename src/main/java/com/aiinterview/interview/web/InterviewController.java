@@ -14,6 +14,7 @@ public class InterviewController {
 	@RequestMapping(path="/start.do",method = { RequestMethod.GET })
 	public String interview() {
 		logger.debug("InterviewController.interview()진입");
-		return "interview/interviewMain";
+//		return "interview/interviewMain";
+		return "member/memberQuestion";
 	}
 }
