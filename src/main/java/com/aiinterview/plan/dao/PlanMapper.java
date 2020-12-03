@@ -71,4 +71,25 @@ public interface PlanMapper {
 	 */
 	PlanUseVO planUseCheck(PlanUseVO puv);
 	
+	
+	/**
+	 * 사용하고 있는사람이 있는지 확인하기 위한 메서드
+	 * @param puv
+	 * @return
+	 */
+	int planUseCount(PlanUseVO puv);
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+

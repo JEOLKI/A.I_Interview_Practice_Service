@@ -3,6 +3,8 @@ package com.aiinterview.member.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +25,7 @@ import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.plan.service.PlanService;
 import com.aiinterview.plan.vo.PlanUseVO;
+import com.aiinterview.plan.vo.PlanVO;
 
 @RequestMapping("/member")
 @Controller
@@ -145,11 +148,29 @@ public class MemberController {
 		MemberVO mv =  (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		PlanUseVO puv = new PlanUseVO();
+		PlanVO pv = new PlanVO();
 		puv.setMemId(memId);
+		
 		try {
-			PlanUseVO planUse = planService.planUseCheck(puv);
-			model.addAttribute("planUse", planUse);
+			if (planService.planUseCount(puv) > 0) {
+				PlanUseVO planUseCheck = planService.planUseCheck(puv);
+				
+				pv.setPlanSq(planUseCheck.getPlanSq());
+				PlanVO planUse = planService.planContent(pv);
+				
+				long calDate = planUseCheck.getEndDate().getTime() - planUseCheck.getStartDate().getTime();
+				long calDateDays =calDate / (24*60*60*1000);
+				planUseCheck.setTerm((int) (calDateDays = Math.abs(calDateDays))); 
+				
+				model.addAttribute("planUse", planUse);
+				model.addAttribute("planUseCheck", planUseCheck);
+			}else {
+				puv.setPlanSq("0");
+				model.addAttribute("planUseCheck", puv);
+			}
+			
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "jsonView";

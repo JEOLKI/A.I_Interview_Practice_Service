@@ -54,4 +54,12 @@ public class PlanService {
 	public List<PlanUseVO> planUseExcel()throws Exception{
 		return planMapper.planUseExcel();
 	}
+	
+	public int planUseCount(PlanUseVO puv) throws Exception{
+		return planMapper.planUseCount(puv);
+	}
+	
+	
+	
+	
 }

@@ -24,13 +24,17 @@ function PlanUse(){
 		dataType : "json",
 		success : function(data){
 			var html = "";
-			var use = data.planUse
+			var plan = data.planUse
+			var check = data.planUseCheck
 			
-			if(use.term>0){
-				html += '	<div class="PaymentTicket">                                 ';
-				html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> ';
+			if(check.term!="0"){
+				
+				html += '<div class="body">';
+				html += '<div class="PaymentForm sprint">';
+				html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')" >  `;
+// 				html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> ';
 				html += '	<div class="date">                                          ';
-				html += '		<span>'+plan.planPeriod+'</span>일 이용권                                     ';
+				html += '		<span>'+check.term+'</span>일 남았습니다.                                    ';
 				html += '	</div>                                                      ';
 				html += '	<div class="price-section">                                 ';
 				html += '		₩ '+plan.fmtPlanPrice+' / '+plan.planPeriod+'일                                            ';
@@ -39,41 +43,28 @@ function PlanUse(){
 				html += '	</div>                                                      ';
 				html += '</div>                                                          ';
 		        html += '                                                                ';
-				html += '<div class="flex">                                              ';
-				html += '	<div class="pay-info">                                      ';
-				html += '		<div class="message">                                   ';
-				html += '			총 결제금액 <span>(부가가치세 포함)</span>                      ';
-				html += '		</div>                                                  ';
-				html += '		<div class="price">                                     ';
-				html += '			<span>'+plan.fmtPlanPrice+'</span>원                                 ';
-				html += '		</div>                                                  ';
-				html += '		<div class="detail-info">                               ';
-				html += '			<div class="original price">                        ';
-				html += '				<div class="name">이용권 금액</div>                  ';
-				html += '				'+plan.fmtPlanPrice+'원                                         ';
-				html += '			</div>                                              ';
-				html += '		</div>                                                  ';
-				html += '	</div>                                                      ';
-				html += '</div> 		                                                    ';
 				html += '<br>';
-				html += '<br>';
+				html += '		</div>';
+				html += 	'</div>';
+				
 			}else{
-				<div class="ticket-area">
-					<div class="PaymentTicket">
-						<img
-							src="/images/구매전.png"
-							alt="" class="bg-img">
-							
-						<div class="null-content">
-						
-							<div class="sub-message">현재 사용 중인 이용권이 없습니다.</div>
-							<a class="payment-link" href="/plan/planList.do">이용권 구매하기</a>
-							
-						</div>
-						
-					</div>
-				</div> 
+				html += '<div class="ticket-area">                                                 ';
+				html += '	<div class="PaymentTicket">                                            ';
+				html += '		<img                                                               ';
+				html += '			src="/images/구매전.png"                                          ';
+				html += '			alt="" class="bg-img">                                         ';
+				html += '			                                                               ';
+				html += '		<div class="null-content">                                         ';
+				html += '		                                                                   ';
+				html += '			<div class="sub-message">현재 사용 중인 이용권이 없습니다.</div>             ';
+				html += '			<a class="payment-link" href="/plan/planList.do">이용권 구매하기</a>  ';
+				html += '			                                                               ';
+				html += '		</div>                                                             ';
+				html += '		                                                                   ';
+				html += '	</div>                                                                 ';
+				html += '</div>                                                                    ';
 			}
+			$("#useInfo").html(html);
 		}
 	})
 }
@@ -127,6 +118,8 @@ to {
 	float: right;
 	text-align: right;
 }
+
+
 </style>
 </head>
 <body>
@@ -260,14 +253,17 @@ to {
 					</div>
 					<a class="edit-btn" href="/member/updateview.do">수정</a>
 				</div>
+				
 				<div class="MyOrder">
 					<div class="title">이용권 정보</div>
+					<div id = "useInfo"></div>
 					
 					
 					
 					<div class="sub-message">무제한 모의면접, 지금 바로 경험해 보세요!</div>
 					<a class="edit-btn" href="/plan/totalPayList.do">결제내역 확인</a>
 				</div>
+				
 				<div class="withdraw-message">
 					아이엠터뷰를 더 이상 이용하지 않는다면<a class="withdraw-btn"
 						href="/member/deleteview.do">회원탈퇴 바로가기<span aria-hidden="true"

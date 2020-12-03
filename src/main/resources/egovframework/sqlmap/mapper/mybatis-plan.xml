@@ -25,14 +25,27 @@
 	</insert>
 
 	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO" >
-		SELECT use_sq
+		SELECT *
 		FROM PLAN_USE
 		<![CDATA[
 		where MEM_ID = #{memId}
 		and end_date-sysdate>0
 		]]>
+		
+	</select>
+
+	<select id="planUseCount" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
+			SELECT count(*)
+			FROM PLAN_USE
+			<![CDATA[
+			where MEM_ID = #{memId}
+			and end_date-sysdate>0
+			]]>
 			
 	</select>
+	
+
+
 
 	<select id="planUseMinute" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
 		SELECT (ROUND((#{endDate}-sysdate)*24*60)) 
