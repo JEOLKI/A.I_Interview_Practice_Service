@@ -1,1 +1,0 @@
-${memberVo.memId}
