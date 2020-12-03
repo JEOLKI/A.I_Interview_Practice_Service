@@ -37,7 +37,7 @@ $(document).ready(function() {
 						당장 다음 주에 잡힌 면접, 어떻게 해야 할지 막막하신가요?<br>아이엠터뷰와 함께 혼자서도, 집에서도 할 수
 						있는 면접 트레이닝을 경험해 보세요.
 					</div>
-					<img src="/images/landing_hero_illust.a57fd7e5.png"
+					<img src="/images/landing_hero_illust.a57fd7e5.svg"
 						alt="landing-img" class="landing-img">
 					<button id="home" class="login">무료 체험하기</button>
 				</div>
@@ -74,8 +74,7 @@ $(document).ready(function() {
 							href="https://www.google.com/intl/ko/chrome"
 							class="chrome-link green" target="blank">
 							크롬브라우저 설치하러 가기
-							<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAGhJREFUGFd10LERgCAMheEXWnUHmQQ3ESYTNnESHYIePUwBRKCD7z/gQphWC6UM4uUgFmHRHqAdgJcBffEgYBwEBTtBizmY9Qkig5Rci/zzA3gC4m0LCsiXMHaAcQAV0pbf+E9InlT7FwGRLZg1T12ZAAAAAElFTkSuQmCC"
-							alt="" class="dash"></a>
+							<img src="/images/arrow_small.png" alt="" class="dash"></a>
 					</div>
 					<div class="needs-flex">
 						<div class="area">
@@ -128,7 +127,8 @@ $(document).ready(function() {
 							alt="" class="dash"></a>
 					</div>
 				</div>
-<!-- 				<div class="content-box analyze">
+				
+ 				<!-- <div class="content-box analyze">
 					<div class="message wow fadeInUp">
 						<b>면접 영상을 녹화</b>하고 다양한 분석을 제공합니다.
 					</div>
@@ -148,7 +148,7 @@ $(document).ready(function() {
 									</div>
 									<div class="img">
 										<div class="label">답변에 드러난 인재상</div>
-										<img src="/static/media/slide_talent.d8311c57.svg" alt="">
+										<img src="/images/slide_talent.d8311c57.png" alt="">
 									</div>
 								</div>
 							</div>
@@ -164,50 +164,51 @@ $(document).ready(function() {
 							<div class="pot false"></div>
 						</div>
 					</div>
-				</div>
+				</div> -->
+				
 			</div>
+			
 			<div class="content loop gray">
+			
 				<div class="interface">
-					<div class="message wow fadeInUp"
-						style="visibility: hidden; animation-name: none;">
+					<div class="message wow fadeInUp">
 						만족할 때까지<br> <b>무제한</b>으로 연습해 보세요.
 					</div>
-					<div class="sub-message wow fadeInUp"
-						style="visibility: hidden; animation-name: none;">
+					<div class="sub-message wow fadeInUp">
 						아이엠터뷰는 면접 생성부터 분석까지의 과정을<br>여러 번 순환할 수 있도록 구성되어 있습니다.<br>스스로
 						만족할 만한 결과가 나올 때까지 무제한으로 연습해 보세요.
 					</div>
 				</div>
+				
 				<div class="loop-grid">
 					<div class="box">
-						<img src="/static/media/arrow.0aa5ca57.svg" alt=""
+						<img src="/images/arrow.0aa5ca57.svg" alt=""
 							class="right dash"><img
-							src="/static/media/make_interview.e6983bb9.svg" alt=""
+							src="/images/make_interview.e6983bb9.svg" alt=""
 							class="make-img">면접 생성
 					</div>
 					<div class="box">
-						<img src="/static/media/arrow.0aa5ca57.svg" alt=""
+						<img src="/images/arrow.0aa5ca57.svg" alt=""
 							class="bottom dash"><img
-							src="/static/media/select_question.b37c0634.svg" alt=""
+							src="/images/select_question.b37c0634.svg" alt=""
 							class="select-img">질문 선택
 					</div>
 					<div class="box">
-						<img src="/static/media/arrow.0aa5ca57.svg" alt=""
+						<img src="/images/arrow.0aa5ca57.svg" alt=""
 							class="top dash"><img
-							src="/static/media/report_check.20e45e4d.svg" alt=""
+							src="/images/report_check.20e45e4d.svg" alt=""
 							class="report-img">분석 결과 확인
 					</div>
 					<div class="box">
-						<img src="/static/media/arrow.0aa5ca57.svg" alt=""
+						<img src="/images/arrow.0aa5ca57.svg" alt=""
 							class="left dash"><img
-							src="/static/media/interviewing_man.09854e86.svg" alt=""
+							src="/images/interviewing_man.09854e86.svg" alt=""
 							class="interviewing-img">모의 면접
 					</div>
 				</div>
 			</div>
 			<div class="content comment">
-				<div class="message wow fadeInUp"
-					style="visibility: hidden; animation-name: none;">아이엠터뷰,
+				<div class="message wow fadeInUp">AI_INTERVIEW,
 					사용해보니 어떤가요?</div>
 				<div class="comment-section">
 					<div class="name green">- S기업 해외영업 현직자</div>
@@ -226,17 +227,18 @@ $(document).ready(function() {
 						좋았어요!</div>
 				</div>
 			</div>
-			<div class="content footer">
+			
+			<div class="content footer" style="background-image:url('/images/bg-paint.180ab6a7.png')">
 				<div class="title">그럼, 시작할 준비 되셨나요?</div>
 				<div class="start-btn">
-					<img src="/static/media/click_hand.b88a0798.svg" alt=""
-						class="circle-icon">아이엠터뷰<br>시작하기<img
-						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAHCAYAAAAS9422AAAABHNCSVQICAgIfAhkiAAAAG5JREFUKFNjZKAAWFu7uf7//1/62LHdC3AZw0iB+WCtVlZuWYyM/7WOHt2dg80sii0gZAlVLMBnCdUswGUJo4qKJzul8YCsX0zsb/r///81jx/fnQkSZ7S2dvtBTQtAZv3/z8D4/z9D8PHju7YAACf+LAjYS+o0AAAAAElFTkSuQmCC"
+					<img src="/images/click_hand.b88a0798.svg" alt=""
+						class="circle-icon">AI_INTERVIEW<br>시작하기<img
+						src="/images/arrow_right.png"
 						alt="" class="arrow-icon">
 				</div>
 				<div class="top-btn">
 					<img
-						src="data:image/png;base64,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"
+						src="/images/top_button.png"
 						alt="" class="top-btn-icon">
 				</div>
 				<div class="left">
@@ -266,65 +268,10 @@ $(document).ready(function() {
 					</div>
 				</div>
 				<div class="right">
-					<img
-						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAAA8CAYAAABsKjQEAAAABHNCSVQICAgIfAhkiAAAA5RJREFUeF7tnMFtFTEQhuc/IG6BDoAKIFcukAqIRAEkdyRIBZAKgDsSKYBLKiBB4kzSAQ0ggbgz6F/ZT47jTfzkJZ7dN3uJtLHX8/7Pnhl714aqqmzOdQrg6dx/Lhza/BA6tPkxE4e2EGinInIyw99SMnlPRO4l/1hsTDsE8HYJ0FSVne+JQ5sRTYc2I1jRVIfm0MwoUMoePaaZwVM2xKEZB1Qyz6E5NFsKeCJii0eVNQ6tSiZbhRyaLR5V1ji0KplsFXJotnhUWePQqmSyVcih2eJRZY1Dq5LJViGHZotHlTUOrUomW4Ucmi0eVdY4tCqZbBVyaLZ4VFmjqu9F5FFS+AzA66rKhgst+tWMYd2bTHNoTfL1qezQ+uje1KpDa5KvT2WH1kf3plYdWpN8fSo7tD66N7Xq0Jrk61PZofXRfa1WVXUrLhIA+OrQ1pKvT2FVfSwi30LrtxxaHw5rtbpR0AoLxlGsX2Hj5AcAoxsoVZWb6l+IyK6I3C0oPWxSTPatFzctqupnEXkuIn8AbCXlaccDAPy7ukK7X8KNndzGRY+0K6ClGh0B2M+BhMXmV9cMiVZofPwJgB2HFhTIoB2G2/dDUH+YCHUBXAHYuYiciciPUCduC54CGh95AIBvJIbLR1rYvgsAhd58lOzJHtxQJthvusbcPSWdYSpodI/bAIZO4dBGoAVx+K7te4B5DGBXVQmScYzXpXgS6sW93K3Q2CnuhLZWbtKhXQEtAyAcjarK3s4TEc4BpC9Q00RhKmg8SYJuN8bOYUOnQ7seGk9yeEMiAVo8dmr0+IoJ3SOhMTMluHh0xnbIVD17zGNaEvRXx1ZkI42fJlDAS9eU0MKUIXXTBHggIg6tBE1VU7FifLrJmLYazaq6GvFh5EXXvLnztEL2SFE+JR/+7AM4yuIJszqKxt7/X2JaeiqeqrKddCpSTIY2aXKdnkLElY70CMEhc0xcZjraeJsuNF054TyN8708e6To+ddenON9HFkRuRA3w8hnOzGj3HhopfDEe8cisldYSsrBlern0EpluNrxsgZayGYJ/V3yoM11jwU1mblxJYRwildwlRTx2UiRyaHl05DSXHHR7nEMxk3fD+/DbovIXwA/W9t3aK0Kdqjv0DqI3tqkQ2tVsEN9h9ZB9NYmS9C4YBrfG7U+31p9LgIvcteMNaGntGexZxhPKZK1Zzk0a0Qq7FkMtKUc517BTBaxE/Qfcqp1bNxNolkAAAAASUVORK5CYII="
-						class="doodlin-logo" alt="doodlin-logo">
+					로고자리
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="/static/js/2.f1e4c4b1.chunk.js"></script>
-	<script src="/static/js/main.a74e6755.chunk.js"></script>
-	<div id="ch-plugin">
-		<div id="ch-plugin-core">
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<div data-ch-testid="full-screen-push-message" hidden=""
-				class="FullScreenPushMessagestyled__Wrapper-nxoc25-9 jNIDNu PushMessagestyled__PCPopupMessage-vqm8p7-1 egLHoW"
-				style="z-index: 100000000 !important;">
-				<div
-					class="FullScreenPushMessagestyled__MainWrapper-nxoc25-8 fCsTtf">
-					<div
-						class="FullScreenPushMessagestyled__SVGIconWrapper-nxoc25-0 kmAVFX">
-						<div name="cancel" size="16" width="24" height="24"
-							class="SVGIconstyled__SVGIcon-sc-15isf0b-0 cQJNXd"></div>
-					</div>
-					<div class="FullScreenPushMessagestyled__Header-nxoc25-3 fzszwe">
-						<div size="24" radius="8px"
-							class="Avatarstyled__Avatar-yfy5xq-0 jUtegZ"></div>
-						<div class="FullScreenPushMessagestyled__Name-nxoc25-2 fqimYT">(알
-							수 없음)</div>
-						<div
-							class="FullScreenPushMessagestyled__HeaderContent-nxoc25-1 dVbCKK">9:00
-							AM</div>
-					</div>
-					<div class="FullScreenPushMessagestyled__Content-nxoc25-7 Eohuv">
-						<div class="FullScreenPushMessagestyled__Text-nxoc25-4 kOiAv"></div>
-					</div>
-				</div>
-			</div>
-			<div size="300" class="Screenstyled__Screen-sc-3ge3qf-0 gUFjvy"></div>
-			<div data-ch-testid="launcher"
-				class="Launcherstyled__Wrapper-oef45p-0 ekjiAG">
-				<div class="Launcherstyled__TextLauncher-oef45p-1 lbMRR">
-					<div
-						class="Launcherstyled__TextLauncherContent-oef45p-2 inNMmP textLauncherContent">문제가
-						생겼나요?</div>
-					<div
-						class="Launcherstyled__TextLauncherIcon-oef45p-3 lfSkuP textLauncherIcon">
-						<div data-ch-testid="badge" hidden=""
-							class="Badgestyled__Badge-sc-1ztqq4-0 Launcherstyled__Badge-oef45p-5 bZpFRQ">0</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="ch-plugin-script" style="display: none"
-			class="ch-messenger-hidden">
-			<iframe id="ch-plugin-script-iframe"
-				style="position: relative !important; height: 100% !important; width: 100% !important; border: none !important;"></iframe>
-		</div>
-	</div> -->
-
 	</body>
 </html>
