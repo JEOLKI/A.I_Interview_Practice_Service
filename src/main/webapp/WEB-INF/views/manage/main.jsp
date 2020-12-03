@@ -21,7 +21,7 @@
 	
 	<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %>
 	
-	<div class="w3-container" style="margin-left: 160px">
+	<div class="w3-container" style="margin-left: 200px">
 	
 	
 	</div>
