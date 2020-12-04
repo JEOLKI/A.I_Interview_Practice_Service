@@ -118,7 +118,7 @@ to {
 	  microphone = audioContext.createMediaStreamSource(stream);                                          
 	  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
 	                                                                                                      
-	  analyser.smoothingTimeConstant = 0.8;                                                               
+	  analyser.smoothingTimeConstant = 0.9;                                                               
 	  analyser.fftSize = 1024;                                                                            
 	                                                                                                      
 	  microphone.connect(analyser);                                                                       
@@ -146,8 +146,14 @@ to {
 	
 $(document).ready(function(){
 	$('.body').show();
+	
 	openFullScreenMode();
+	
+	$('.interview-start-btn').on('click',function(){
+		document.location="/interview/start.do";	
+	});
 });
+
 	
 </script>
 </head>
@@ -292,7 +298,7 @@ $(document).ready(function(){
 							<button class="text-btn false">확인하기</button>
 						</div>
 						<div class="InterviewTestAudio">
-							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio>
+<!-- 							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio> -->
 							<div class="VolumeMeter">
 								<div class="none"></div>
 								<div class="none"></div>

@@ -255,7 +255,7 @@ function createAudioElement(blobUrl){
 			<div class="my-bar interview">
 				<div class="title">내 면접</div>
 				<div class="start-btn">
-					<a href="/member/question"> 새 면접 만들기<img
+					<a href="/interview/ready.do"> 새 면접 만들기<img
 						src="/static/media/right.2a3d42b5.svg" alt=""></a>
 				</div>
 			</div>

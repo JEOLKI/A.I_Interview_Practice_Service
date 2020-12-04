@@ -70,7 +70,7 @@ $(document).ready(function(){
 		console.log("클릭");
 	});
 });
-function start(){
+function setting(){
 	document.location="/interview/setting.do";
 }
 
@@ -125,7 +125,7 @@ function start(){
 							</div>
 						</div>
 					</div>
-					<div class="interview-ready-btn Btn none" onclick="start();">면접 시작</div>
+					<div class="interview-ready-btn Btn none" onclick="setting();">면접 시작</div>
 				</div>
 			</div>
 			<footer class="SimpleFooter">
