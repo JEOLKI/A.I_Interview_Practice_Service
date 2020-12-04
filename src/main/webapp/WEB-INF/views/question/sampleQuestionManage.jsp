@@ -94,7 +94,6 @@ $(document).ready(function(){
 /* pagination 페이지 링크 function */
 function linkPage(pageNo){
 	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-	console.log(pageUnit)
 	document.listForm.pageIndex.value = pageNo;
 	document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
    	document.listForm.submit();
