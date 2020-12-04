@@ -1,11 +1,23 @@
 package com.aiinterview.interview.vo;
 
+import java.util.List;
+
 public class QuestionVO extends InterviewVO {
 	
 	private String questSq; // 질문 번호
 	private String questContent; // 질문 내용
 	private String interviewSq; // 면접 번호
 	private String sampQusetSq; // 샘플 질문 번호
+	private List<String> questionList;
+	
+
+	public List<String> getQuestionList() {
+		return questionList;
+	}
+
+	public void setQuestionList(List<String> questionList) {
+		this.questionList = questionList;
+	}
 
 	public String getQuestSq() {
 		return questSq;

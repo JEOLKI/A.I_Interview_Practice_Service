@@ -37,11 +37,16 @@ public class HabitController {
 	
 	/* 페이징 처리 */
 	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList(HabitVO habitVO, Model model) {
+	public String retrievePagingList(HabitVO habitVO, String pageUnit, Model model) {
+		
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
 		
 		/** EgovPropertyService.sample */
 		habitVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		habitVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		habitVO.setPageUnit(pageUnitInt);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();

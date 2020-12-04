@@ -18,7 +18,7 @@
 	#myModal {
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
-		z-index: 1; /* Sit on top */
+		z-index: 100; /* Sit on top */
 		left: 0;
 		top: 0;
 		width: 100%; /* Full width */
@@ -40,7 +40,7 @@
 	#searchModal {
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
-		z-index: 1; /* Sit on top */
+		z-index: 100; /* Sit on top */
 		left: 0;
 		top: 0;
 		width: 100%; /* Full width */
@@ -62,7 +62,7 @@
 	#changeModal {
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
-		z-index: 1; /* Sit on top */
+		z-index: 100; /* Sit on top */
 		left: 0;
 		top: 0;
 		width: 100%; /* Full width */
@@ -227,7 +227,7 @@ $(document).ready(function() {
    			method : "get",
    			success : function(data){
    				if(data.searchMemberVo==null){
-   					html = '일치하는 아이디가 존재하지 않습니다.';
+   					html = '일치하는 회원정보가 존재하지 않습니다.';
 	   				$('#findId').html(html);
    				}else{
 	   				html = '아이디는 ' +data.searchMemberVo.memId +'입니다.';
@@ -251,7 +251,7 @@ $(document).ready(function() {
    			success : function(data){
    				console.log(data.searchMemberVo);
    				if(data.searchMemberVo == null){
-   					html = '일치하는 비밀번호가 존재하지 않습니다.';
+   					html = '일치하는 회원정보가 존재하지 않습니다.';
    					$('#findPw').html(html);
    				}else{
 	   				$('#changeModal').show();

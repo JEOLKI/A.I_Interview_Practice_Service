@@ -36,11 +36,16 @@ public class QuestionGubunController {
 	
 	/* 페이징 처리 */
 	@RequestMapping(value = "/retrievePagingList.do")
-	public String retrievePagingList(QuestionGubunVO questGbVO, Model model) throws Exception {
+	public String retrievePagingList(QuestionGubunVO questGbVO, String pageUnit, Model model) throws Exception {
+		
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
 		
 		/** EgovPropertyService.sample */
 		questGbVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		questGbVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		questGbVO.setPageUnit(pageUnitInt);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();

@@ -3,6 +3,7 @@ package com.aiinterview.plan.dao;
 import java.util.List;
 
 import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
@@ -92,6 +93,20 @@ public interface PlanMapper {
 	 * @return
 	 */
 	int PlanUseCount();
+	
+	
+	
+	
+	public List<PlanUseVO> retrievePagingList(PlanUseVO planUseVO) throws Exception;
+	
+	public int retrievePagingListCnt(PlanUseVO planUseVO) throws Exception;
+	
+	
+	
+	
+	
+	
+	
 }
 
 

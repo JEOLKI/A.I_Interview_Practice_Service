@@ -62,7 +62,7 @@ to {
 <script>
 $(document).ready(function(){
 	$('.NullQuestionBox').on('click',function(){
-		$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요'	value=''><button class='complete-btn'>완료</button><button class='search-btn'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button></div></div>"));
+		$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button class='complete-btn'>완료</button><button class='search-btn'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button></div></div>"));
 	});
 	$('.text').on('click',function(){
 		$(this).parent().removeClass('unchecked');
@@ -70,15 +70,16 @@ $(document).ready(function(){
 		console.log("클릭");
 	});
 });
-function start(){
-	document.location="/interview/start.do";
+
+function setting(){
+	$("#questionFrm").submit();
 }
 
 </script>
 </head>
 
 
-<body>
+<body style="overflow: hidden;" scroll="no">
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="Questions">
@@ -87,45 +88,50 @@ function start(){
 				<div class="QuestionSetBar">
 					<div class="title">면접 질문 미리보기</div>
 					
-					<div class="SetQuestionBox  false">
-						<div draggable="true" class="SetQuestionBoxView false">
-							<div class="label unchecked">
+					<form id="questionFrm" action="${pageContext.request.contextPath }/interview/setting.do" method="get">
+										
+						<div class="SetQuestionBox  false">
+							<div draggable="true" class="SetQuestionBoxView false">
+								<div class="label unchecked">
+									
+								</div>
 								
+								<input type="text" id="question" class="text" placeholder="면접 질문을 입력해주세요"
+									value="" name="questionList">
+								<button class="complete-btn">완료</button>
+								<button class="search-btn">
+									<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
+								</button>
 							</div>
-							
-							<input type="text" id="question" class="text" placeholder="면접 질문을 입력해주세요"
-								value="">
-							<button class="complete-btn">완료</button>
-							<button class="search-btn">
-								<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
-							</button>
 						</div>
-					</div>
-					
-					<div class="SetQuestionBox true">
-						<div draggable="true" class="SetQuestionBoxView false">
-							<div class="label unchecked">
+						
+						<div class="SetQuestionBox true">
+							<div draggable="true" class="SetQuestionBoxView false">
+								<div class="label unchecked">
+									
+								</div>
 								
+								<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
+									value="" name="questionList">
+								<button class="complete-btn">완료</button>
+								<button class="search-btn">
+									<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
+								</button>
 							</div>
-							
-							<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
-								value="">
-							<button class="complete-btn">완료</button>
-							<button class="search-btn">
-								<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
-							</button>
 						</div>
-					</div>
+						
+						<div class="NullQuestionBox">
+							<div class="NullQuestionBox__text">
+								<div class="wrapper">
+									<img src="/images/add.b9b0eddd.svg" alt="">
+									<span>질문 추가</span>
+								</div>
+							</div>
+						</div>
+						<div class="interview-ready-btn Btn none" onclick="setting();">면접 시작</div>
 					
-					<div class="NullQuestionBox">
-						<div class="NullQuestionBox__text">
-							<div class="wrapper">
-								<img src="/images/add.b9b0eddd.svg" alt="">
-								<span>질문 추가</span>
-							</div>
-						</div>
-					</div>
-					<div class="interview-ready-btn Btn none" onclick="start();">면접 시작</div>
+					</form>
+			
 				</div>
 			</div>
 			<footer class="SimpleFooter">

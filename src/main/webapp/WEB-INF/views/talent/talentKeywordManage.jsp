@@ -73,6 +73,10 @@
 	.menu, #keywordList, #paging{
 		margin-left: 100px;
 	}
+	.page{
+		display: inline-block;
+		margin: 5px;
+	}
 	
 </style>
 
@@ -119,9 +123,23 @@
 			$('#massiveForm').submit();
 		})
 		
-	}
+		$('#sort').on('change',function(){
+			pageUnit = $(this).val();
+			document.location="/keyword/keywordManage.do?pageUnit="+pageUnit;
+		})
+		
+	
 		
 	})
+	
+	
+	/* pagination 페이지 링크 function */
+	function linkPage(pageNo){
+		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+		document.listForm.pageIndex.value = pageNo;
+		document.listForm.action = "<c:url value='/talent/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
+	   	document.listForm.submit();
+	}
 </script>
 </head>
 <body>
@@ -167,9 +185,16 @@
 				
 				<div class="menu">
 					<select id="sort">
-						<option value="10">10개씩</option>
-						<option value="15">15개씩</option>
-						<option value="20">20개씩</option>
+						<c:forEach var="value" begin="5" end="20" step="5">
+							<c:choose>
+								<c:when test="${pageUnit == value  }">
+									<option value="${value }" selected="selected" >${value }개씩</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${value }" >${value }개씩</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</select> 
 					<div id="search">
 						<input type="text" id="searchKeyword" >
@@ -193,7 +218,60 @@
 							</form>
 					</c:forEach>
 				</div>
-				<div id="paging"></div>
+				<div id="paging">
+							<ul id="pagination">
+								<!--  << -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == 1}">
+											<span>&lt;&lt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo > 1 }">
+											<span onclick="linkPage(1)">&lt;&lt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								<!--  < -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == 1 }">
+											<span >&lt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo > 1}">
+											<span onclick="linkPage(${paginationInfo.currentPageNo-1})">&lt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								<!-- 페이지번호 -->
+									<c:forEach var="i" begin="${paginationInfo.firstPageNoOnPageList }" end="${paginationInfo.lastPageNoOnPageList }">
+										<li class="page">
+											<span onclick="linkPage(${i})">${i }</span>
+										</li>
+									</c:forEach>
+							<!--  > -->		
+							<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
+											<span >&gt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo < paginationInfo.totalPageCount }">
+											<span onclick="linkPage(${paginationInfo.currentPageNo+1})">&gt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								
+								<!--  >> -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
+											<span >&gt;&gt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo < paginationInfo.totalPageCount }">
+											<span onclick="linkPage(${paginationInfo.totalPageCount})">&gt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+						</ul>				</div>
 			</div>
 </div>
 		</div>

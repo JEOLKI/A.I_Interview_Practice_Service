@@ -36,8 +36,8 @@
 		요금제 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc2" class="w3-hide w3-white w3-card">
-		<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;요금제 관리</a>
-		<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;요금제 통계</a>
+		<a href="/plan/manage.do" class="w3-bar-item w3-button">&ensp;&ensp;요금제 관리</a>
+		<a href="/plan/manageCash.do" class="w3-bar-item w3-button">&ensp;&ensp;결제 내역</a>
 	</div>
 
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3()">
@@ -126,6 +126,7 @@
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
 			x.previousElementSibling.className += " w3-blue";
+		} else {	
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
 					.replace(" w3-blue", "");

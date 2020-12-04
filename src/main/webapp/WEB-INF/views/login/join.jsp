@@ -383,10 +383,10 @@
 								</c:forEach>
 							</select>
 						</div>
-						<div id="firsthalf" class="half select" value="상반기">상반기</div>
-						<div id="secondhalf" class="half false" value="하반기">하반기</div>
+						<div id="firsthalf" class="half select" value="년 상반기">상반기</div>
+						<div id="secondhalf" class="half false" value="년 하반기">하반기</div>
 					</div>
-						<input type="hidden" id="searchJobDate" name="searchJobDate" value="2020상반기">
+						<input type="hidden" id="searchJobDate" name="searchJobDate" value="2020년 상반기">
 
 					<div class="major-flex radio-area">
 						<div class="label bold">전공</div>

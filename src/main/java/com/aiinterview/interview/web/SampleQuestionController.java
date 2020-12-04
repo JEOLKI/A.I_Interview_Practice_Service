@@ -44,12 +44,16 @@ public class SampleQuestionController {
 	
 	
 	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList( QuestionGubunVO questGbVO, SampleQuestionVO sampQuestVO,Model model) throws Exception {
+	public String retrievePagingList( QuestionGubunVO questGbVO, SampleQuestionVO sampQuestVO, String pageUnit, Model model) throws Exception{
+	
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
 		
-		logger.debug("페이징 컨트롤러  sampQuestVO : {}",sampQuestVO);
 		/** EgovPropertyService.sample */
 		sampQuestVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		sampQuestVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		sampQuestVO.setPageUnit(pageUnitInt);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -57,15 +61,12 @@ public class SampleQuestionController {
 		paginationInfo.setRecordCountPerPage(sampQuestVO.getPageUnit());
 		paginationInfo.setPageSize(sampQuestVO.getPageSize());
 		
-		logger.debug("paginationInfo : "+ paginationInfo);
-
 		
 		sampQuestVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		sampQuestVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		sampQuestVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		List<SampleQuestionVO> resultList = sampleQuestionService.retrievePagingList(sampQuestVO);
-		logger.debug("페이징 resultList : "+resultList);
 		model.addAttribute("resultList", resultList);
 
 		int totCnt = sampleQuestionService.retrievePagingListCnt(sampQuestVO);

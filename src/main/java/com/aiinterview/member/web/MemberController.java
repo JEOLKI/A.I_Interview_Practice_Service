@@ -72,7 +72,6 @@ public class MemberController {
 	
 	@RequestMapping(path = "/updatepw.do", method = { RequestMethod.GET })
 	public String updatePw(MemberVO memberVo, Model model){
-		logger.debug("update진입");
 		int updateCnt = 0;
 		try {
 			updateCnt = memberService.updatePw(memberVo);

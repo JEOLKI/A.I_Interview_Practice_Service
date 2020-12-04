@@ -63,7 +63,6 @@ to {
   height: 10px;                                                                                       
   display: inline-block;                                                                              
   margin: 5px;   
-  z-index: 500px;                                                                                     
 }                  
 </style>
 <script type="text/javascript" >
@@ -96,71 +95,144 @@ to {
 		$('.InterviewTutorial.PopUp').hide();
 	}
 
-	/* 아래부터 볼륨 조절 코드 */
-	function colorPids(vol) {                                                                             
-		  let all_pids = $('.pid');                                                                       
-		  let amout_of_pids = Math.round(vol/5);                                                         
-		  let elem_range = all_pids.slice(0, amout_of_pids)                                               
-		  for (var i = 0; i < all_pids.length; i++) {                                                     
-		    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
-		  }                                                                                               
-		  for (var i = 0; i < elem_range.length; i++) {                                                   
-	                                                                                                      
-		    // console.log(elem_range[i]);                                                                
-		    elem_range[i].style.backgroundColor="#FFFFFF";                                                
-		  }                                                                                               
-		}                                                                                                 
-		                                                                                                  
-		                                                                                                  
-	navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
-	.then(function(stream) {                                                                              
-	  audioContext = new AudioContext();                                                                  
-	  analyser = audioContext.createAnalyser();                                                           
-	  microphone = audioContext.createMediaStreamSource(stream);                                          
-	  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
-	                                                                                                      
-	  analyser.smoothingTimeConstant = 0.8;                                                               
-	  analyser.fftSize = 1024;                                                                            
-	                                                                                                      
-	  microphone.connect(analyser);                                                                       
-	  analyser.connect(javascriptNode);                                                                   
-	  javascriptNode.connect(audioContext.destination);                                                   
-	  javascriptNode.onaudioprocess = function() {                                                        
-	      var array = new Uint8Array(analyser.frequencyBinCount);                                         
-	      analyser.getByteFrequencyData(array);                                                           
-	      var values = 0;                                                                                 
-	                                                                                                      
-	      var length = array.length;                                                                      
-	      for (var i = 0; i < length; i++) {                                                              
-	        values += (array[i]);                                                                         
-	      }                                                                                               
-	                                                                                                      
-	      var average = values / length;                                                                  
-	                                                                                                      
-	    console.log(Math.round(average));                                                                 
-	    colorPids(average);                                                                               
-	  }                                                                                                   
-	  })                                                                                                  
-	  .catch(function(err) {                                                                              
-	    /* handle the error */                                                                            
-	}); 
+	
 	
 $(document).ready(function(){
 	$('.body').show();
+	$('#micCheckCancel').hide();
+	
 	openFullScreenMode();
+	
+	$('.interview-start-btn').on('click',function(){
+		closeFullScreenMode();
+		document.location="/interview/start.do";	
+	});
+	
+	$('#micCheckCancel').on('click',function(){
+		$('#micCheckCancel').toggle('slow');
+		
+		$('#micCheck').show('slow');
+		
+		function colorPids(vol) {                                                                             
+			  let all_pids = $('.none');                                                                       
+			  let amout_of_pids = Math.round(vol);                                                         
+			  let elem_range = all_pids.slice(0, amout_of_pids)                                               
+			  for (var i = 0; i < all_pids.length; i++) {                                                     
+			    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
+			  }                                                                                               
+			  for (var i = 0; i < elem_range.length; i++) {                                                   
+		                                                                                                      
+			    // console.log(elem_range[i]);                                                                
+			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
+			  }                                                                                               
+			}                                                                                                 
+			                                                                                                  
+			                                                                                                  
+		navigator.mediaDevices.getUserMedia({ audio: false, video: true })                                     
+		.then(function(stream) {                                                                              
+		  audioContext = new AudioContext();                                                                  
+		  analyser = audioContext.createAnalyser();                                                           
+		  microphone = audioContext.createMediaStreamSource(stream);                                          
+		  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
+		                                                                                                      
+		  analyser.smoothingTimeConstant = 0.9;                                                               
+		  analyser.fftSize = 1024;                                                                            
+		                                                                                                      
+		  microphone.connect(analyser);                                                                       
+		  analyser.connect(javascriptNode);                                                                   
+		  javascriptNode.connect(audioContext.destination);                                                   
+		  javascriptNode.onaudioprocess = function() {                                                        
+		      var array = new Uint8Array(analyser.frequencyBinCount);                                         
+		      analyser.getByteFrequencyData(array);                                                           
+		      var values = 0;                                                                                 
+		                                                                                                      
+		      var length = array.length;                                                                      
+		      for (var i = 0; i < length; i++) {                                                              
+		        values += (array[i]);                                                                         
+		      }                                                                                               
+		                                                                                                      
+		      var average = values / length;                                                                  
+		                                                                                                      
+		    console.log(Math.round(average));                                                                 
+		    colorPids(average);                                                                               
+		  }                                                                                                   
+		  })                                                                                                  
+		  .catch(function(err) {                                                                              
+		    /* handle the error */                                                                            
+		}); 
+	});
+	
+	$('#micCheck').on('click',function(){
+		$('#micCheck').toggle('slow');
+		
+		$('#micCheckCancel').show('slow');
+		
+		console.log("찍힌다!")
+		/* 아래부터 볼륨 조절 코드 */
+		function colorPids(vol) {                                                                             
+			  let all_pids = $('.none');                                                                       
+			  let amout_of_pids = Math.round(vol);                                                         
+			  let elem_range = all_pids.slice(0, amout_of_pids)                                               
+			  for (var i = 0; i < all_pids.length; i++) {                                                     
+			    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
+			  }                                                                                               
+			  for (var i = 0; i < elem_range.length; i++) {                                                   
+		                                                                                                      
+			    // console.log(elem_range[i]);                                                                
+			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
+			  }                                                                                               
+			}                                                                                                 
+			                                                                                                  
+			                                                                                                  
+		navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
+		.then(function(stream) {                                                                              
+		  audioContext = new AudioContext();                                                                  
+		  analyser = audioContext.createAnalyser();                                                           
+		  microphone = audioContext.createMediaStreamSource(stream);                                          
+		  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
+		                                                                                                      
+		  analyser.smoothingTimeConstant = 0.9;                                                               
+		  analyser.fftSize = 1024;                                                                            
+		                                                                                                      
+		  microphone.connect(analyser);                                                                       
+		  analyser.connect(javascriptNode);                                                                   
+		  javascriptNode.connect(audioContext.destination);                                                   
+		  javascriptNode.onaudioprocess = function() {                                                        
+		      var array = new Uint8Array(analyser.frequencyBinCount);                                         
+		      analyser.getByteFrequencyData(array);                                                           
+		      var values = 0;                                                                                 
+		                                                                                                      
+		      var length = array.length;                                                                      
+		      for (var i = 0; i < length; i++) {                                                              
+		        values += (array[i]);                                                                         
+		      }                                                                                               
+		                                                                                                      
+		      var average = values / length;                                                                  
+		                                                                                                      
+		    console.log(Math.round(average));                                                                 
+		    colorPids(average);                                                                               
+		  }                                                                                                   
+		  })                                                                                                  
+		  .catch(function(err) {                                                                              
+		    /* handle the error */                                                                            
+		}); 
+	});
+	
 });
+
 	
 </script>
 </head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body style="overflow: hidden;" scroll="no">
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="InterviewTest false">
 			<div class="InterviewTutorial PopUp">
 				<div class="tutorial-box">
+				
 					<div class="title">
 						모의면접을 시작하기 전에<br>아래 유의사항을 확인해 주세요!
 					</div>
@@ -231,7 +303,11 @@ $(document).ready(function(){
 <!-- 				화면출력 -->
 				
 				<div class="center">
+					<a onclick="closeFullScreenMode();"  > 
+						<img alt=""	src="/images/fullSize_cancel.png" style="height: 70px;width: 70px">
+					</a>
 					<div class="top-message">카메라와 마이크 상태를 점검해 주세요.</div>
+					<br>
 					<div class="bottom-message">
 						모든 면접은 녹화되며, 분석이 끝난 후 확인할 수 있습니다.<br>보다 정확한 평가를 위해 얼굴이 중앙의 영역
 						안으로 오도록 조절해 주세요.
@@ -240,57 +316,56 @@ $(document).ready(function(){
 				<div class="right">
 					<div class="test">
 						<div class="InterviewTestMic">
-							<div class="VolumeMeter ">
-							<div class="pids-wrapper"  ">
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-							</div>
+							<div class="VolumeMeter">
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
 							</div>
 							<img
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="
 								alt="mic-volume">
 							<div class="label">마이크 테스트</div>
-							<button class="text-btn false">확인하기</button>
+							<button id="micCheck" class="text-btn false">확인하기</button>
+							<button id="micCheckCancel" class="text-btn false">그만하기</button>
 						</div>
 						<div class="InterviewTestAudio">
-							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio>
+<!-- 							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio> -->
 							<div class="VolumeMeter">
 								<div class="none"></div>
 								<div class="none"></div>
