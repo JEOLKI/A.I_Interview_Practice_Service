@@ -161,17 +161,20 @@ public class TalentController {
 	}
 	
 	@RequestMapping("/keywordManage.do")
-	public String keywordManage(String talentSq, String pageUnit, Model model) {
+	public String keywordManage(String talentSq, String pageUnit,String pageIndex, String searchKeyword, Model model) {
 		
 		// 인재상 가져오기
 		TalentVO talentVO = talentService.retrieve(talentSq);
 		model.addAttribute("talentVO",talentVO);
 		
-		
+		// 정렬 개수
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
 		
+		// 현재 페이지 번호
+		int pageIndexInt = pageIndex == null? 1 : Integer.parseInt(pageIndex);
 		
+	
 		
 		// 해당 인재상에 매칭된 키워드 목록 가져오기
 		KeywordVO keywordVO = new KeywordVO();
@@ -181,6 +184,7 @@ public class TalentController {
 		keywordVO.setPageSize(propertiesService.getInt("pageSize"));
 		
 		keywordVO.setPageUnit(pageUnitInt);
+		keywordVO.setPageIndex(pageIndexInt);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -197,13 +201,14 @@ public class TalentController {
 		retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
 		retrieveMap.put("lastIndex", keywordVO.getLastIndex());
 		retrieveMap.put("talentSq", talentSq);
+		retrieveMap.put("searchKeyword", searchKeyword);
 		
 		
 		List<KeywordVO> resultList = null;
 		
 		
 		try {
-			resultList = keywordService.retrieveTalentKeywordList(retrieveMap);
+			resultList = keywordService.retrieveTalentKeywordPagingList(retrieveMap);
 			model.addAttribute("resultList", resultList);
 
 			int totCnt = talentService.retrievePagingListCnt(talentVO);

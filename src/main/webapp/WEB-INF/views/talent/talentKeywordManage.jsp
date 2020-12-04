@@ -96,25 +96,8 @@
 	
 	$('#searchBtn').on('click', function(){
 		searchKeyword = $('#searchKeyword').val();
-		$.ajax({url:"/keyword/retrieveSearchList.do",
-			    data : {"searchKeyword" : searchKeyword},
-			    dataType : "json",
-			    success : function(data){
-			    	var html = "";
-			    	for(var i = 0; i<data.keywordSearchList.length; i++ ){
-				    	var keyword = data.keywordSearchList[i];
-				    	html += '<form class="keywordUpdateFrm">'
-				    	html += '<input type="hidden" value="'+keyword.keywordSq+'">';
-				    	html += '<input type="text" name="keywordContent" value="'+keyword.keywordContent+'">';
-				    	html += '<input type="hidden" class="deleteBtn" value="'+keyword.keywordSq+'">';
-				    	html += '</form>';
-			    	}
-			    	$('#keywordList').empty();
-			    	$('#keywordList').append(html);
-			    }
+			document.location = "/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit+"&searchKeyword="+searchKeyword;
 		})
-	})
-		
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
 		})
@@ -125,21 +108,28 @@
 		
 		$('#sort').on('change',function(){
 			pageUnit = $(this).val();
-			document.location="/keyword/keywordManage.do?pageUnit="+pageUnit;
+			document.location="/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit;
 		})
+	})
+		
 		
 	
-		
-	})
 	
 	
 	/* pagination 페이지 링크 function */
 	function linkPage(pageNo){
 		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-		document.listForm.pageIndex.value = pageNo;
-		document.listForm.action = "<c:url value='/talent/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
-	   	document.listForm.submit();
+		document.location = "/talent/keywordManage.do?pageIndex="+pageNo+"&talentSq=${talentVO.talentSq }&pageUnit="+pageUnit;
 	}
+	
+	/* 검색 */
+	function search(){
+		var searchKeyword = $('#searchKeyword').val();
+		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+		document.location = "/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit+"&searchKeyword="+searchKeyword;
+	
+	}
+	
 </script>
 </head>
 <body>
@@ -177,11 +167,12 @@
 				<hr>
 				<div class="keyword">
 				<label>키워드</label>
-				<form id="keywordRegistFrm">
+				<form id="keywordRegistFrm" action="/keyword/create.do">
 					<input type="hidden" class="talentSq" name="talentSq" value="${talentVO.talentSq }">
-					<input type="text" id="keywordContent" >
+					<input type="text" id="keywordContent" name="keywordContent">
 					<button type="submit" id="registBtn">등록</button>
 				</form>
+				<div id="msg"><label></label><span style="color:red;">${msg }</span></div>
 				
 				<div class="menu">
 					<select id="sort">
@@ -198,13 +189,13 @@
 					</select> 
 					<div id="search">
 						<input type="text" id="searchKeyword" >
-						<span id="searchBtn">검색</span>
+						<span onclick="search()">검색</span>
 					</div>
 
-					<a href="${cp }/talent/list/excelDown.do">↓ 목록 내려받기</a> 
+					<a href="${cp }/keyword/list/excelDown.do?talentSq=${talentVO.talentSq}">↓ 목록 내려받기</a> 
 					<span id="massiveCreate">↑ 일괄등록</span>
 					<!-- excel file 읽어오기 -->
-				    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/talent/massiveCreateProcess.do"/>" >
+				    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/keyword/massiveCreateProcess.do?talentSq=${talentVO.talentSq}"/>" >
 				        <input hidden type="file" name="excelFile" />
 				    </form>
 				</div>
@@ -213,6 +204,7 @@
 					<c:forEach items="${resultList }" var="keyword">
 						<form class="talentUpdateFrm" action="${cp }/keyword/delete.do" method="post">
 							<input type="hidden" name="talentSq" value="${talentVO.talentSq}">
+							<input type="hidden" name="keywordSq" value="${keyword.keywordSq}">
 							<input type="text" class="keywordContent" name="keywordContent" value="${keyword.keywordContent}">
 								<button type="submit" class="deleteBtn">삭제</button>
 							</form>
@@ -245,7 +237,14 @@
 								<!-- 페이지번호 -->
 									<c:forEach var="i" begin="${paginationInfo.firstPageNoOnPageList }" end="${paginationInfo.lastPageNoOnPageList }">
 										<li class="page">
-											<span onclick="linkPage(${i})">${i }</span>
+											<c:choose>
+												<c:when test="${paginationInfo.currentPageNo == i }">
+													<span style="font-weight:bold;">${i }</span>
+												</c:when>
+												<c:otherwise>
+													<span onclick="linkPage(${i})">${i }</span>
+												</c:otherwise>
+											</c:choose>
 										</li>
 									</c:forEach>
 							<!--  > -->		

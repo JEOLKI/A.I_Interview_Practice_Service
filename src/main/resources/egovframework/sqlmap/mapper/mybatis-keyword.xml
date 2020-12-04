@@ -23,8 +23,7 @@
 	<!-- 수정 -->
 	<update id="update">
 		UPDATE keyword 
-		   SET keyword_content = #{keywordContent},
-			   keyword_st = #{keywordSt}
+		   SET keyword_content = #{keywordContent}
 		 WHERE keyword = #{keywordSq} 
 	</update>
 	
@@ -37,8 +36,7 @@
 		  		   S.*
 		      FROM (
 		      	SELECT keyword_sq, 
-		      		   keyword_content, 
-		      		   keyword_st
+		      		   keyword_content
 		          FROM keyword
 		         WHERE 1=1
 		          <if test="searchKeyword != null and searchKeyword != ''">
@@ -63,7 +61,7 @@
 	<!-- //페이징 -->
 	
 	<!-- 인재상별 키워드 목록 조회 -->
-	<select id="retrieveTalentKeywordList" parameterType="hashmap" resultType="com.aiinterview.interview.vo.KeywordVO">
+	<select id="retrieveTalentKeywordPagingList" parameterType="hashmap" resultType="com.aiinterview.interview.vo.KeywordVO">
 		SELECT A.*
 		  FROM (
 		  	SELECT ROWNUM RNUM, 
@@ -88,19 +86,31 @@
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 이하 모델링 수정 이후 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
-	<!-- 해당 내용의 keywordVO 추출 -->
-	<select id="retrieve" parameterType="String" resultType="com.aiinterview.interview.vo.KeywordVO" >
-		SELECT * 
+	<!-- 해당 내용의 keywordVO 개수 추출 -->
+	<select id="retrieve" parameterType="String"  resultType="int" >
+		SELECT count(*)
 		  FROM keyword
-		 WHERE keywordContent = #{keywordContent}
+		 WHERE keyword_content = #{keywordContent}
 	</select>
 	
-	<insert id="create" parameterType="String">
-		<selectKey keyProperty="keywordSq" resultType="String" order="BEFORE">
-			SELECT keyword_sq.nextval FROM dual 
-		</selectKey>
+	<!-- 해당 내용의 keywordVO 추출 -->
+	<select id="retrieveKeywordSq" parameterType="String" resultType="int" >
+		SELECT keyword_sq
+		  FROM keyword
+		 WHERE keyword_content = #{keywordContent}
+	</select>
+	
+	<insert id="create" >
 		INSERT INTO keyword (keyword_sq, keyword_content)
-			VALUES (#{keywordSq},#{keywordContent})		
+			VALUES (keyword_sq.NEXTVAL, #{keywordContent})		
 	</insert>
+	
+	<select id="retrieveTalentKeywordAllList" parameterType="String" resultType="com.aiinterview.interview.vo.KeywordVO">
+		SELECT *
+		  FROM keyword
+		 WHERE keyword_sq IN (SELECT keyword_sq
+		                        FROM keyword_matching
+		                       WHERE talent_sq = #{talentSq})
+	</select>
 	
 </mapper>

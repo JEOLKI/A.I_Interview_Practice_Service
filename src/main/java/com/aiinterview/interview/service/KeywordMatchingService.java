@@ -39,7 +39,7 @@ public class KeywordMatchingService {
 	 * @param createMap
 	 * @return
 	 */
-	public KeywordMatchingVO retrieve(Map<String, String> createMap) throws Exception{
+	public int retrieve(Map<String, String> createMap) throws Exception{
 		return keywordMatchingMapper.retrieve(createMap);
 	}
 

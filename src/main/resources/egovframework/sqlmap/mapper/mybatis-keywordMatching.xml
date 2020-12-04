@@ -32,8 +32,8 @@
 		    VALUES (#{talentSq}, #{keywordSq})
 	</insert>
 	
-	<select id="retrieve" parameterType="hashmap" resultType="com.aiinterview.interview.vo.KeywordMatchingVO">
-		SELECT *
+	<select id="retrieve" parameterType="hashmap" resultType="int">
+		SELECT count(*)
 		  FROM keyword_matching 
 		 WHERE talent_sq = #{talentSq}
 		   AND keyword_sq = #{keywordSq}
@@ -42,8 +42,8 @@
 	<delete id="delete" parameterType="hashmap">
 		DELETE
 		  FROM keyword_matching
-		 WHERE talent_sq = #{talentSq}
-		   AND keyword_sq = #{keywordSq}
+		 WHERE talent_sq = TO_NUMBER(#{talentSq})
+		   AND keyword_sq = TO_NUMBER(#{keywordSq})
 	</delete>
 	
 </mapper>
