@@ -58,21 +58,88 @@ to {
 	left: 0;
 	top: 0;
 }
+/* The Modal (background) */
+#questionSearch {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 100; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+/* #content-box { */
+/* 	position:absolute; */
+/* 	top: 40px; */
+/* 	margin-left: 40%; */
+/* 	width: 996px; /* Could be more or less, depending on screen size */ */
+/* 	border-radius: 8px solid #888; */
+/* 	background-color: #fefefe; */
+/* 	text-align: left; */
+	
+	
+/* 	margin: 15% auto; /* 15% from the top and centered */ */
+/* 	padding: 20px; */
+/* 	height: 15%; */
+/* } */
 </style>
 <script>
 $(document).ready(function(){
+	$('.search-btn').hide();
+	
+	count = 1;
+	
 	$('.NullQuestionBox').on('click',function(){
-		$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button class='complete-btn'>완료</button><button class='search-btn'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button></div></div>"));
+		if(count < 5 ){
+			$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='vertical-align: middle;' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
+			count++;
+		}else{
+			alert('질문 개수 제한은 5개입니다')			
+		}
 	});
-	$('.text').on('click',function(){
-		$(this).parent().removeClass('unchecked');
-// 		$(this)parent().addClass('checked');
-		console.log("클릭");
+	
+	$(document).on('click','.SetQuestionBox',function(){
+		if(!$(this).hasClass('delete-btn')){
+			$(this).find('button').show();
+			$(this).find('.delete-btn').hide();
+			$(this).addClass('checked');
+			$(this).children().addClass('checked');
+		}
+	});
+	
+	$(document).on('click','.delete-btn',function(){
+		$(this).parent().parent().remove();
+		count--;
+	});
+	
+	$(document).on('click','.search-btn',function(){
+		$('#questionSearch').show();
+	});
+	
+	$('.close-btn').on('click',function(){
+		$('#questionSearch').hide();
+	});
+	
+	$(document).mouseup(function(){
+		$('.SetQuestionBox button').hide();
+		$('.delete-btn').show();
+		$('.SetQuestionBox').children().removeClass('checked');
+		$('.SetQuestionBox').removeClass('checked');
 	});
 });
 
+
 function setting(){
-	$("#questionFrm").submit();
+// 	if($(document).val('.text',function())==''){
+// 		alert('빈칸인 질문이 있습니다.')
+// 	}else{
+// 		$("#questionFrm").submit();
+// 	}
 }
 
 </script>
@@ -83,55 +150,72 @@ function setting(){
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="Questions">
-			<%@include file="/WEB-INF/views/layout/header.jsp" %>
+			<%@include file="/WEB-INF/views/layout/header.jsp"%>
 			<div class="body">
+				<div class="NewQuestionSearch">
+					<div id="questionSearch" class="modal">
+
+							<div class="content-box" style="margin-left: 23%;">
+								<div class="close-btn">
+									<img src="/images/close-btn.9663b787.svg" alt="" style="height: 60%;width: 60%;">
+								</div>
+								<div class="input-bar false">
+									<span aria-hidden="true" class="fa fa-search fa undefined">
+									</span> <input type="text" placeholder="회사명, 직무명 등 키워드로 질문을 검색하세요."
+										value="">
+								</div>
+								<div class="questions-area">
+									<div class="recommend-question">
+										<div class="label">추천 질문</div>
+										<div class="searched-question recommend">
+											<button class="refresh-btn">
+												<span aria-hidden="true" class="fa fa-refresh fa undefined"></span>
+											</button>
+											저희 팀 업무가 힘든편인데 잘할 수 있겠나요?
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+
+				</div>
 				<div class="QuestionSetBar">
 					<div class="title">면접 질문 미리보기</div>
-					
-					<form id="questionFrm" action="${pageContext.request.contextPath }/interview/setting.do" method="get">
-										
-						<div class="SetQuestionBox  false">
-							<div draggable="true" class="SetQuestionBoxView false">
-								<div class="label unchecked">
-									
-								</div>
-								
-								<input type="text" id="question" class="text" placeholder="면접 질문을 입력해주세요"
-									value="" name="questionList">
-								<button class="complete-btn">완료</button>
-								<button class="search-btn">
-									<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
+
+					<form id="questionFrm"
+						action="${pageContext.request.contextPath }/interview/setting.do"
+						method="get">
+
+						<div class="SetQuestionBox">
+							<div draggable="true" class="SetQuestionBoxView">
+								<div class="label unchecked"></div>
+
+								<input type="text" id="question" class="text"
+									placeholder="면접 질문을 입력해주세요" value="" name="questionList">
+								<!-- 								<button type="button" id="complete" class="complete-btn" >완료</button> -->
+								<button type="button" class="search-btn">
+									<img src="/images/search.ed51fb59.svg" alt=""
+										class="search-icon">
 								</button>
+								<div class="delete-btn">
+									<img src="/images/close-btn.9663b787.svg" alt="">
+								</div>
 							</div>
 						</div>
-						
-						<div class="SetQuestionBox true">
-							<div draggable="true" class="SetQuestionBoxView false">
-								<div class="label unchecked">
-									
-								</div>
-								
-								<input type="text" class="text" placeholder="면접 질문을 입력해주세요"
-									value="" name="questionList">
-								<button class="complete-btn">완료</button>
-								<button class="search-btn">
-									<img src="/images/search.ed51fb59.svg" alt="" class="search-icon">
-								</button>
-							</div>
-						</div>
-						
+
 						<div class="NullQuestionBox">
 							<div class="NullQuestionBox__text">
 								<div class="wrapper">
-									<img src="/images/add.b9b0eddd.svg" alt="">
-									<span>질문 추가</span>
+									<img src="/images/add.b9b0eddd.svg" alt=""> <span>질문
+										추가</span>
 								</div>
 							</div>
 						</div>
-						<div class="interview-ready-btn Btn none" onclick="setting();">면접 시작</div>
-					
+						<div class="interview-ready-btn Btn none" onclick="setting();">면접
+							시작</div>
+
 					</form>
-			
+
 				</div>
 			</div>
 			<footer class="SimpleFooter">
@@ -155,58 +239,9 @@ function setting(){
 			</footer>
 		</div>
 	</div>
-	<script src="/static/js/2.f1e4c4b1.chunk.js"></script>
-	<script src="/static/js/main.a74e6755.chunk.js"></script>
-	<div id="ch-plugin">
-		<div id="ch-plugin-core">
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<div data-ch-testid="full-screen-push-message" hidden=""
-				class="FullScreenPushMessagestyled__Wrapper-nxoc25-9 jNIDNu PushMessagestyled__PCPopupMessage-vqm8p7-1 egLHoW"
-				style="z-index: 100000000 !important;">
-				<div
-					class="FullScreenPushMessagestyled__MainWrapper-nxoc25-8 fCsTtf">
-					<div
-						class="FullScreenPushMessagestyled__SVGIconWrapper-nxoc25-0 kmAVFX">
-						<div name="cancel" size="16" width="24" height="24"
-							class="SVGIconstyled__SVGIcon-sc-15isf0b-0 cQJNXd"></div>
-					</div>
-					<div class="FullScreenPushMessagestyled__Header-nxoc25-3 fzszwe">
-						<div size="24" radius="8px"
-							class="Avatarstyled__Avatar-yfy5xq-0 jUtegZ"></div>
-						<div class="FullScreenPushMessagestyled__Name-nxoc25-2 fqimYT">(알
-							수 없음)</div>
-						<div
-							class="FullScreenPushMessagestyled__HeaderContent-nxoc25-1 dVbCKK">9:00
-							AM</div>
-					</div>
-					<div class="FullScreenPushMessagestyled__Content-nxoc25-7 Eohuv">
-						<div class="FullScreenPushMessagestyled__Text-nxoc25-4 kOiAv"></div>
-					</div>
-				</div>
-			</div>
-			<div size="300" class="Screenstyled__Screen-sc-3ge3qf-0 gUFjvy"></div>
-			<div data-ch-testid="launcher"
-				class="Launcherstyled__Wrapper-oef45p-0 ekjiAG">
-				<div class="Launcherstyled__TextLauncher-oef45p-1 lbMRR">
-					<div
-						class="Launcherstyled__TextLauncherContent-oef45p-2 inNMmP textLauncherContent">문제가
-						생겼나요?</div>
-					<div
-						class="Launcherstyled__TextLauncherIcon-oef45p-3 lfSkuP textLauncherIcon">
-						<div data-ch-testid="badge" hidden=""
-							class="Badgestyled__Badge-sc-1ztqq4-0 Launcherstyled__Badge-oef45p-5 bZpFRQ">0</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="ch-plugin-script" style="display: none"
-			class="ch-messenger-hidden">
-			<iframe id="ch-plugin-script-iframe"
-				style="position: relative !important; height: 100% !important; width: 100% !important; border: none !important;"></iframe>
-		</div>
-	</div>
-	<style data-styled="active" data-styled-version="5.1.1"></style>
-</body>
+	<script src="/js/2.f1e4c4b1.chunk.js"></script>
+	<script src="/js/main.a74e6755.chunk.js"></script>
 
+	
+</body>
 </html>
