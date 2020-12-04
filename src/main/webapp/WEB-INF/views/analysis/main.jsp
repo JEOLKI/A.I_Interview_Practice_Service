@@ -46,6 +46,17 @@ body * {
 	text-align: center;
 	margin-right: 10px;
 }
+/* 
+.pids-wrapper{
+	height : 100%;
+}
+
+.pid{
+	width : 10px;
+	heigh : calc(10%-10px);
+	display : inline-block;
+	margin : 5px;
+} */
 </style>
 
 
@@ -114,7 +125,7 @@ to {
 
 .modal-box {
 	width: 330px;
-	height: 350px;
+	height: 420px;
 	padding : 10px;
 }
 
@@ -130,6 +141,13 @@ $(document).ready(function() {
 	$('#stopTestBtn').hide();
 });   
 
+/* function startAnalysis(){
+	$.ajax({
+		url : "/scriptTest/startAnalysis.do",
+		data : {scriptGbSq:scriptGbSq, }
+	})
+}
+ */
 function random(scriptGbSq){
 	console.log("scriptGbSq : "+scriptGbSq);
 	$.ajax(
@@ -150,8 +168,6 @@ function random(scriptGbSq){
    		});
 }
 
-
-
 //브라우저에 미디어 스트림 사용 요청
 var audio = document.querySelector('audio');
 function captureMicrophone(callback){
@@ -168,11 +184,13 @@ function captureMicrophone(callback){
 };
 
 
+
 //성공시 호출된  callback 함수에 회원이 테스트한 audio media stream값을 인자로 전달 가능
 //받아온 stream 바로 재생 및 특정 포맷으로 녹음
 var recorder;
 	//녹음 시작시 시작하기 버튼 비활성화
 function startTest(){
+
 	//document.getElementById('scriptGbBtn').disabled=true;
 	$('#startTestBtn').hide();
 	
@@ -230,9 +248,6 @@ function stopRecordingCallback(){
 	//console.log("blob log : "+window.URL.createObjectURL(blob));
 	let audioUrl = window.URL.createObjectURL(blob); //결과 나옴
 	
-
-	
-	
 	//console.log(audioUrl);
 	
 	audioSource = document.querySelector('audio > source');
@@ -250,13 +265,16 @@ function stopRecordingCallback(){
 	//recorder.stop();
 	//recorder.stop(audioUrl);
 	
-
+	
+	$('#modal-close-box').empty();
+	
 	//파일 다운로드창 오픈
 	createAudioElement(audioUrl);
 };
 
 //다운로드 받을 수 있는 링크 생성해주는 function
 function createAudioElement(blobUrl){
+
 	console.log("createAudioElement")
 	let today =  new Date();
 	let Y = today.getFullYear();
@@ -292,8 +310,72 @@ function createAudioElement(blobUrl){
 	document.getElementById("modal-close-box").appendChild(downloadEl);
 	//document.body.appendChild(audioEl);
 	//document.body.appendChild(downloadEl);
-};		
+};	
 
+//  var recordingblob = null;
+// audioRecorder && audioRecorder.exportWAV(function (blob) {
+//     recordingblob = blob;
+// });
+// $("#myform").submit(function () {
+//     event.preventDefault();
+//     var formData = new FormData($(this)[0]);
+//     if (recordingblob) {
+//         var recording = new Blob([recordingblob], { type: "audio/wav" });
+//         formData.append("recording", recording);
+//     }
+//     $.ajax({
+//         url: myurl,
+//         type: 'POST',
+//         data: formData,
+//         //etc
+//     });
+// }
+ 
+//이 밑으로 마이크테스트
+// 오른쪽 상단에 사용자가 입력하는 마이크 볼륨 출력
+// function colorPids(vol){
+// 	//마이크 게이지 바
+// 	let all_pids = $('.pid');
+	
+	
+// 	let amount_of_pids = Math.round(vol/10);
+// 	let elem_range = all_pids.slice(0, amount_of_pids)
+	
+// 	for(var i=0; i<elem_range.length; i++){
+// 	all_pids[i].style.backgroundcolor="#69ce2b";
+// 	}
+// }
+
+// navigator.mediaDevices.getUserMedia({audio : true}).then(function (stream){
+// 		var audioContext = new AudioContext();
+// 		var analyser = audioContext.createAnalyser();
+// 		var mic = audioContext.createMediaStreamSource(stream);
+// 		javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+// 		analyser.smoothingTimeConstant = 0.8;
+// 		analyser.fftSize = 1024;
+		
+// 		mic.connect(analyser);
+// 		analyser.connect(javascriptNode);
+// 		javascriptNode.connect(audioContext.destination);
+// 		javascriptNode.onaudioprocess = function(){
+// 			var array = new Uint8Array(analyser.frequencyBinCount);
+// 			analyser.getByteFrequencyData(array);
+// 			var values=0;
+			
+// 			var length = array.length;
+// 			for(var i=0; i<length; i++){
+// 				values +=(array[i]);
+// 			}
+			
+// 			var average = values/length;
+			
+// 			console.log(Math.round(average));
+// 			colorPids(average);
+// 		}
+// 	}).catch(function(err){
+// 		handle the error
+// 	});
 </script>
 
 </head>
@@ -649,21 +731,78 @@ function createAudioElement(blobUrl){
 						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
 					</button>
 				</c:forEach>
+				<button id="modal-close-btn" class="sdfsadf" style="float:right;">close</button>
+
+				<!-- 마이크 테스트 아 다른거 먼저 하자
+				<div class="right">
+					<img
+						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="
+						alt="mic-volume">
+					<div class="test">
+						<div class="scripTestMic">
+							<div class="VolumeMeter">
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+							</div>
+						</div>
 					</div>
+				</div> -->
+
+
+
+
+			</div>
 					<div class="modal-content pro" id="scriptModalContent">
-					
+						
 					</div>
 			
 					
 			
 		
-			<div class="modal-close-box" id="modal-close-box">
+			<div class="modal-close-box" id="modal-close-box" onclick="startAnalysis()">
 				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.</label><br>
-				<button id="startTestBtn" onclick="startTest()">시작 하기</button>
-				<button id="stopTestBtn" onclick="stopTest()">종료 하기</button>
-				<button id="modal-close-btn">close</button>
-				<br><br><br>
+				<button class="processBtn" id="startTestBtn" onclick="startTest()">시작 하기</button>
+				<button class="processBtn" id="stopTestBtn" onclick="stopTest()">종료 하기</button>
 			</div>
+				
+				<br><br><br>
 		</div>
 	</div>
 	
