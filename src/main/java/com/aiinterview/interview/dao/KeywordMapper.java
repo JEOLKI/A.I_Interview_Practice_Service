@@ -1,6 +1,7 @@
 package com.aiinterview.interview.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.interview.vo.KeywordVO;
 
@@ -48,10 +49,10 @@ public interface KeywordMapper {
 
 	/**
 	 * 인재상별 키워드 목록을 조회하는 메서드
-	 * @param talentSq
+	 * @param retrieveMap
 	 * @return
 	 */
-	public List<KeywordVO> retrieveTalentKeywordList(String talentSq);
+	public List<KeywordVO> retrieveTalentKeywordList(Map<String, Object> retrieveMap);
 
 	
 /////////////////////////////////// 이하 모델링 수정 이후 ///////////////////////////////////

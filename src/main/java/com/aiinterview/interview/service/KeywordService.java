@@ -139,11 +139,11 @@ public class KeywordService {
 
 	/**
 	 * 인재상별 키워드 목록을 조회하는 메서드
-	 * @param talentSq
+	 * @param retrieveMap
 	 * @return
 	 */
-	public List<KeywordVO> retrieveTalentKeywordList(String talentSq) throws Exception{
-		return keywordMapper.retrieveTalentKeywordList(talentSq);
+	public List<KeywordVO> retrieveTalentKeywordList(Map<String, Object> retrieveMap) throws Exception{
+		return keywordMapper.retrieveTalentKeywordList(retrieveMap);
 	}
 
 ////////////////////////////////////////// 이하 모델링 수정 이후/////////////////////////////////////////////

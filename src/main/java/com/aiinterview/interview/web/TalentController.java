@@ -161,16 +161,57 @@ public class TalentController {
 	}
 	
 	@RequestMapping("/keywordManage.do")
-	public String keywordManage(String talentSq, Model model) {
+	public String keywordManage(String talentSq, String pageUnit, Model model) {
 		
 		// 인재상 가져오기
 		TalentVO talentVO = talentService.retrieve(talentSq);
 		model.addAttribute("talentVO",talentVO);
-	
-		// 해당 인재상에 매칭된 키워드 목록 가져오기
-//		List<KeywordVO> resultList = keywordService.retrieveTalentKeywordList(talentVO.getTalentSq());
-//		model.addAttribute("resultList", resultList);
 		
+		
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
+		
+		
+		
+		// 해당 인재상에 매칭된 키워드 목록 가져오기
+		KeywordVO keywordVO = new KeywordVO();
+		
+		/** EgovPropertyService.sample */
+		keywordVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		keywordVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		keywordVO.setPageUnit(pageUnitInt);
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(keywordVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(keywordVO.getPageUnit());
+		paginationInfo.setPageSize(keywordVO.getPageSize());
+		
+		keywordVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		keywordVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		keywordVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		
+		Map<String, Object> retrieveMap = new HashMap<>();
+		retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
+		retrieveMap.put("lastIndex", keywordVO.getLastIndex());
+		retrieveMap.put("talentSq", talentSq);
+		
+		
+		List<KeywordVO> resultList = null;
+		
+		
+		try {
+			resultList = keywordService.retrieveTalentKeywordList(retrieveMap);
+			model.addAttribute("resultList", resultList);
+
+			int totCnt = talentService.retrievePagingListCnt(talentVO);
+			paginationInfo.setTotalRecordCount(totCnt);
+			model.addAttribute("paginationInfo", paginationInfo);
+			return "talent/talentKeywordManage";
+		} catch (Exception e) {
+		}
 		return "talent/talentKeywordManage";
 	}
 
