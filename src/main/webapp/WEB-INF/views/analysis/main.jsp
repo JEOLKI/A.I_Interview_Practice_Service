@@ -140,11 +140,11 @@ function random(scriptGbSq){
    				console.log(data);
    				console.log(data.scriptVO.scriptContent);
 	   				$('#scriptModalContent').html('');
-	   				$('#scriptModalContent').html(data.scriptVO.scriptContent);
+	   				$('#scriptModalContent').html('<br><br>'+data.scriptVO.scriptContent);
    			},
    			error: function(data){
    				$('#scriptModalContent').html('');
-   				$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
+   				$('#scriptModalContent').html('<br><br>해당하는 스크립트가 없습니다.');
    				console.log(data.status);
    			}
    		});
@@ -156,7 +156,6 @@ function random(scriptGbSq){
 var audio = document.querySelector('audio');
 function captureMicrophone(callback){
 	//브라우저 호환을 위해 ||로 여러개 요청
-	navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 	
 	//오디오 타입의 미디어 형식을 사용할 거니까 audio : true
 	//실행 시 callback과 실패시 callback 함수 지정
@@ -196,7 +195,7 @@ function startTest(){
 		recorder.startRecording();
 
 		//스트림을 microphone에 연결하고,, 나중에 정지할 때 따로 해제함
-		recorder.microphone = microphone;
+		recorder.src = microphone;
 		
 		$('#stopTestBtn').show();
 		//document.getElementById('stopTestBtn').disabled=false;
@@ -205,13 +204,13 @@ function startTest(){
 	
 //녹음 정지 + 콜백함수 전달 받음
 function stopTest(){
-	this.disabled = true;
 	recorder.stopRecording(stopRecordingCallback);
 	$('#startTestBtn').show();
 	$('#stopTestBtn').hide();
 	//document.getElementById('startTestBtn').disabled = false;
 };
 
+var audioSource;
 function stopRecordingCallback(){
 	
 	console.log("immediately stopRecording") //확인
@@ -227,15 +226,16 @@ function stopRecordingCallback(){
 	//console.log("audioSource : "+audioSource);
 	//브라우저 내부의 저장소의 URL을 생성하고 audio에 연결
 	console.log(blob);
-	console.log("찍히냐")
-	console.log("blob log : "+window.URL.createObjectURL(blob));
+	//console.log("찍히냐")
+	//console.log("blob log : "+window.URL.createObjectURL(blob));
 	let audioUrl = window.URL.createObjectURL(blob); //결과 나옴
 	
+
 	
 	
 	//console.log(audioUrl);
 	
-	var audioSource = document.querySelector('audio > source');
+	audioSource = document.querySelector('audio > source');
 	audioSource.src = audioUrl;
 	//audio.src = audioUrl; // null
 	//audio.src = "blob:http://localhost/d72f77f7-eb92-49c8-90f4-04a2f799ee98";
@@ -243,20 +243,39 @@ function stopRecordingCallback(){
 	//녹음 마치면 녹음된 내용 자동으로 플레이
 	//audioSource.play();
 	//아까 연결한거 해지
-	recorder.microphone.stop();
+	//recorder.microphone.stop();
+	//microphone.stop();
+	
+//	recorder.microphone.stop(audioUrl);
+	//recorder.stop();
+	//recorder.stop(audioUrl);
 	
 
-	//파일 다운로드
-	createAudioElement(window.URL.createObjectURL(blob));
+	//파일 다운로드창 오픈
+	createAudioElement(audioUrl);
 };
 
 //다운로드 받을 수 있는 링크 생성해주는 function
 function createAudioElement(blobUrl){
 	console.log("createAudioElement")
+	let today =  new Date();
+	let Y = today.getFullYear();
+	let M = today.getMonth();
+	let D = today.getDate();
+	let H = today.getHours();
+	let N = today.getMinutes();
+	let S = today.getSeconds();
+	
+	let now = Y.toString()+M.toString()+D.toString()+H.toString()+N.toString()+S.toString();
+
+	//download폴더에 자동 저장,.,., 일단 버튼 클릭으로,,하고ㄴ
+	//window.navigator.msSaveBlob(blob, "STFofAI_Interview"+now+".wav");
+	//alert("발음 테스트를 위해 음성 파일이 사용자의 local Directory에 저장되었습니다.")
+	
 	const downloadEl = document.createElement('a');
 	downloadEl.style = 'display : block';
-	//downloadEl.innerHTML = 'download';
-	downloadEl.download = 'audio.wav';
+	downloadEl.download = 'STFofAI_Interview'+now+'.wav';
+	downloadEl.innerHTML = '✔ 이 곳을 눌러 파일을 다운로드 해주세요!✔<br> 다운로드와 동시에 발음 분석이 시작됩니다.';
 	downloadEl.href = blobUrl;
 	
 	const audioEl = document.createElement('audio');
@@ -264,21 +283,23 @@ function createAudioElement(blobUrl){
 	
 	const sourceEl = document.createElement('source');
 	sourceEl.src = blobUrl;
-	console.log("blobUrl :"+blobUrl);
+//	console.log("blobUrl :"+blobUrl);
 	sourceEl.type = 'audio/wav';
 
 	audioEl.appendChild(sourceEl);
 	
-	document.body.appendChild(audioEl);
-	document.body.appendChild(downloadEl);
+	document.getElementById("modal-close-box").appendChild(audioEl);
+	document.getElementById("modal-close-box").appendChild(downloadEl);
+	//document.body.appendChild(audioEl);
+	//document.body.appendChild(downloadEl);
 };		
 
 </script>
 
 </head>
 <body>
-	나의 발음 들어보기<br>
-	<audio controls autoplay>
+	
+	<audio controls autoplay >
 			<source src="">
 	</audio>
 	<div id="root">
@@ -630,16 +651,18 @@ function createAudioElement(blobUrl){
 				</c:forEach>
 					</div>
 					<div class="modal-content pro" id="scriptModalContent">
+					
 					</div>
 			
 					
 			
 		
-			<div class="modal-close-box">
+			<div class="modal-close-box" id="modal-close-box">
 				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.</label><br>
 				<button id="startTestBtn" onclick="startTest()">시작 하기</button>
 				<button id="stopTestBtn" onclick="stopTest()">종료 하기</button>
 				<button id="modal-close-btn">close</button>
+				<br><br><br>
 			</div>
 		</div>
 	</div>
