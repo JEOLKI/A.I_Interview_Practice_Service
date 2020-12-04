@@ -33,7 +33,7 @@ public class KeywordController {
 	@Resource(name="keywordService")
 	private KeywordService keywordService;
 	
-	@Resource(name="keywordMathingService")
+	@Resource(name="keywordMatchingService")
 	private KeywordMatchingService keywordMathingService;
 	
 	@Resource(name="talentService")
