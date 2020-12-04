@@ -83,7 +83,7 @@
 		WHERE rn BETWEEN (#{pageIndex} - 1) * #{pageUnit} + 1  AND #{pageIndex} * #{pageUnit}
 	</select>
 	
-	<select id="PlanUseCount" parameterType="int">
+	<select id="PlanUseCount" resultType="int">
 		SELECT COUNT(*)
 		FROM plan_use	
 	</select>

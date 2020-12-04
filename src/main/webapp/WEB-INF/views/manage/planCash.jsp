@@ -13,17 +13,19 @@
 	$(document).ready(function(){
 		CashList();
 		
+		CashList("${page }", "${pageSize }")
 	})
-function CashList(){
+function CashList(pA, pS){
 		
 	$.ajax({url : "/plan/manageCashajax.do",
 		method : "get",
 		dataType : "json",
+		data : {page : pA, pageSize : pS},
 		success : function(data){
 			console.log(data)
 			var html ="";
-			for(var i = 0; i< data.puvList.length ; i++){
-				var cash = data.puvList[i];
+			for(var i = 0; i< data.cashList.length ; i++){
+				var cash = data.cashList[i];
 				var start = data.startList[i];
 				var end = data.endList[i];
 				
@@ -87,6 +89,41 @@ function CashList(){
 					</div>
 					
 				</div>
+				
+								
+								
+									<a class="page-link" href="/plan/manageCash.do?page=1">＜＜</a>
+									
+									
+									&nbsp&nbsp
+									<c:choose>
+									<c:when test="${page == 1}">
+										<a class="page-link" href="${pageContext.request.contextPath }/plan/manageCash.do?page=${page}"  >
+										＜  </a>
+									</c:when>
+									<c:when test="${page != 1}">
+										<a class="page-link" href="${pageContext.request.contextPath }/plan/manageCash.do?page=${page-1}" >
+										＜ </a>
+									</c:when>
+								</c:choose>
+									&nbsp&nbsp
+									
+									<a class="page-link" href="#">${page }</a>
+									
+									&nbsp&nbsp
+									<c:choose>
+									<c:when test="${page != pages}">
+										<a class="page-link" href="${pageContext.request.contextPath }/plan/manageCash.do?page=${page+1}"  >
+										＞</a>
+									</c:when>
+									<c:when test="${page == pages}">
+										<a class="page-link" href="${pageContext.request.contextPath }/plan/manageCash.do?page=${page}"  >                         
+										＞</a>
+									</c:when>
+								</c:choose>			
+									&nbsp&nbsp
+									<a class="page-link" href="/plan/manageCash.do?page=${pages }">＞＞</a>
+
 			</div>
 			<footer class="SemiFooter --undefined">
 				<%@ include file="/WEB-INF/views/layout/myPageFooter.jsp" %>

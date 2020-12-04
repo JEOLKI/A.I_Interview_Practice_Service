@@ -251,52 +251,85 @@ public class PlanController {
 	}
 	
 	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
-	public String manageCash(BaseVO bv) {
+	public String manageCash(Model model ) {
+		BaseVO bv = new BaseVO();
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("memberList", planService.managePlanUseList(bv));
-
 			int totalCnt = planService.PlanUseCount();
 			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
-			System.out.println("결과값" + pages);
-			map.put("pages", pages);
+			int page  = bv.getPageIndex();
+			int pageSize = bv.getPageUnit() ;
+			
+			model.addAttribute("page", page);
+			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("cashList", planService.managePlanUseList(bv));
+			model.addAttribute("pages", pages);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "manage/planCash";
 	}
 	
 	@RequestMapping(path = "/manageCashajax.do", method = RequestMethod.GET)
-	public String manageCashAjax(Model model) {
+	public String manageCashAjax(Model model, BaseVO bv) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 		try {
-			List<PlanUseVO> puvList =  planService.managePlanUse();
+			
+			System.out.println(bv.getPageIndex() + "@@확인");
+			
+			int page = bv.getPageIndex() == 0 ?  1 : bv.getPageIndex();
+			int pageSize = bv.getPageUnit() == 0 ?  5 : bv.getPageUnit();
+			int totalCnt = planService.PlanUseCount();
+			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
+//			int page  = bv.getPageIndex();
+//			int pageSize = bv.getPageUnit() ;
+			
+			model.addAttribute("page", page);
+			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("cashList", planService.managePlanUseList(bv));
+			model.addAttribute("pages", pages);
+			
+			List<PlanUseVO> puvList =   planService.managePlanUseList(bv);
 			List<String> startList = new ArrayList<>(); 
 			List<String> endList = new ArrayList<>();
 			for (int i = 0; i < puvList.size(); i++) {
 				startList.add(sdf.format(puvList.get(i).getStartDate()));
 				endList.add(sdf.format(puvList.get(i).getEndDate()));
 			}
+			
 			model.addAttribute("startList", startList);
 			model.addAttribute("endList", endList);
-			model.addAttribute("puvList", puvList);
+//			model.addAttribute("puvList", puSvList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "jsonView";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(path = "/cashList.do", method = RequestMethod.GET)
-	public String cashListView(Model model, HttpSession session) {
+	public String cashListView(Model model, HttpSession session, BaseVO bv) {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일"); 
-
 		MemberVO mv  =(MemberVO) session.getAttribute("S_MEMBER");
 		PlanUseVO puv = new PlanUseVO();
 		puv.setMemId(mv.getMemId());
 		try {
+
 			List<PlanUseVO> cashList = planService.CashList(puv);
 			List<String> startList = new ArrayList<>(); 
 			List<String> endList = new ArrayList<>();
@@ -316,7 +349,6 @@ public class PlanController {
 	}
 	
 
-	
 	
 	
 	@RequestMapping(path = "/payComplete.do")
