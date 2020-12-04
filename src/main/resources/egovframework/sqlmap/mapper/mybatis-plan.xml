@@ -78,7 +78,7 @@
 	<select id="managePlanUseList" resultType="com.aiinterview.plan.vo.PlanUseVO" parameterType="com.aiinterview.base.vo.BaseVO">
 		 SELECT * FROM
 		    (SELECT ROWNUM rn, a.* FROM
-		        (SELECT * FROM plan_use
+		        (SELECT * FROM  plan A inner join plan_use B on A.plan_sq = B.plan_sq
 		         ORDER BY use_sq) a)
 		WHERE rn BETWEEN (#{pageIndex} - 1) * #{pageUnit} + 1  AND #{pageIndex} * #{pageUnit}
 	</select>
