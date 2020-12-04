@@ -72,7 +72,6 @@ public class MemberController {
 	
 	@RequestMapping(path = "/updatepw.do", method = { RequestMethod.GET })
 	public String updatePw(MemberVO memberVo, Model model){
-		logger.debug("update진입");
 		int updateCnt = 0;
 		try {
 			updateCnt = memberService.updatePw(memberVo);
@@ -220,6 +219,7 @@ public class MemberController {
 	public String update(MemberVO memberVo, Model model, HttpSession session,
 			@RequestParam(name="profile",required = false) MultipartFile profile) {
 		
+		logger.debug("???:{}",memberVo);
 		if(profile.getSize() > 0) {
 			// 확장자 추출
 			int index = profile.getOriginalFilename().lastIndexOf(".");

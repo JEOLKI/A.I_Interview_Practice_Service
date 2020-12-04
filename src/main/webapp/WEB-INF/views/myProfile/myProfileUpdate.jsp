@@ -51,6 +51,7 @@ to {
 	left: 0;
 	top: 0;
 }
+
 </style>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -59,7 +60,7 @@ $(document).ready(function(){
 		html = '<span style="color:green; font-size:11px;">사용가능한 닉네임입니다</span>';
 		$('#checkAlias').append(html);
 	}
-	if($('#memPw1').val()==$('#memPw2').val()){
+	if($('#memPwOne').val()==$('#memPwTwo').val()){
 		$('#check').val('Y');
 	}else{
 		$('#check').val('N');
@@ -76,7 +77,7 @@ $(document).ready(function(){
 	
 	$(document).ready(function(){
 		$('.memPw').on('input',function(){
-			if($('#memPw1').val()!=$('#memPw2').val()){
+			if($('#memPwOne').val()!=$('#memPwTwo').val()){
 				$('#checkPw').empty();
 				$('#checkPw').append('<span style="color:red; font-size:13px;">비밀번호가 일치하지 않습니다</span>');
 				$('#check').val('N');
@@ -139,13 +140,17 @@ $(document).ready(function(){
 	});
 	
 	$('#editBtn').on('click',function(){
-		if(		$('#memPw1').val()=='' ||
-				$('#memPw2').val()=='' ||
+		if(		$('#memPwOne').val()=='' ||
+				$('#memPwTwo').val()=='' ||
 				$('#memAlias').val()=='' ||
-				$('#memTel').val()=='' ||
 				$('#memCareer').val()==''||
 				$('#memAddr1').val()==''
 				){
+			console.log($('#memPwOne').val());
+			console.log($('#memPwTwo').val());
+			console.log($('#memAlias').val());
+			console.log($('#memCareer').val());
+			console.log($('#memAddr1').val());
 			alert('필수입력사항을 입력해주세요');
 			return false;
 		}else if($('#check').val()=='N'){
@@ -193,7 +198,6 @@ $.ajax({
 </script>
 </head>
 <body>
-	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<form id="fr" action="/member/update.do" method="post"enctype="multipart/form-data">
 		<div id="root">
 			<div class="ProfileEdit">
@@ -208,7 +212,7 @@ $.ajax({
 									src="/member/profile.do?memId=${S_MEMBER.memId }"
 									alt="" class="profile-img">
 									<input type="file" id="file" name="profile">
-									<input type="hidden" id="memId" name="memId" value="${S_MEMBER.memId }">
+<%-- 									<input type="hidden" id="memId" name="memId" value="${S_MEMBER.memId }"> --%>
 									<input type="hidden" id="memProfileNm" name="memProfileNm" value="${S_MEMBER.memProfileNm }">
 									<input type="hidden" id="memProfilePath" name="memProfilePath" value="${S_MEMBER.memProfilePath }">
 							</div>
@@ -233,8 +237,8 @@ $.ajax({
 								비밀번호<span>(필수)</span>
 							</div>
 							<div class="content name-area" style="flex-direction: column">
-								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw }" name="memPw" id="memPw1" style="height: 44px;"><br>
-								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw }" id="memPw2" style="height: 44px;">
+								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwOne"   style="height: 44px;"><br>
+								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwTwo" style="height: 44px;">
 								<span id="checkPw" class="check"></span>
 							</div>
 						</div>
@@ -378,7 +382,7 @@ $.ajax({
 							</div>
 						</div>
 						<div class="info-flex">
-							<div class="label">주소</div>
+							<div class="label">주소<span>(필수)</span></div>
 							<div class="content radio-area">
 								<div class="CustomRadio grid two">
 									<div class="company">
@@ -430,6 +434,6 @@ $.ajax({
 			</div>
 		</div>
 	</form>
-<!-- 	<style data-styled="active" data-styled-version="5.1.1"></style> -->
+	<style data-styled="active" data-styled-version="5.1.1"></style>
 </body>
 </html>

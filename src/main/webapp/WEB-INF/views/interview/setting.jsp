@@ -150,6 +150,7 @@ $(document).ready(function(){
 	openFullScreenMode();
 	
 	$('.interview-start-btn').on('click',function(){
+		closeFullScreenMode();
 		document.location="/interview/start.do";	
 	});
 });
@@ -160,7 +161,7 @@ $(document).ready(function(){
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body style="overflow: hidden;" scroll="no">
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="InterviewTest false">

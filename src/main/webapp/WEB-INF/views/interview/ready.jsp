@@ -78,7 +78,7 @@ function setting(){
 </head>
 
 
-<body>
+<body style="overflow: hidden;" scroll="no">
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="Questions">
