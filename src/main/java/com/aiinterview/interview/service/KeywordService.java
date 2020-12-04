@@ -1,6 +1,5 @@
 package com.aiinterview.interview.service;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -8,14 +7,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.aiinterview.common.util.excel.option.ReadOption;
-import com.aiinterview.common.util.excel.read.ExcelRead;
 import com.aiinterview.interview.dao.KeywordMapper;
 import com.aiinterview.interview.dao.KeywordMatchingMapper;
 import com.aiinterview.interview.dao.TalentMapper;
 import com.aiinterview.interview.vo.KeywordMatchingVO;
 import com.aiinterview.interview.vo.KeywordVO;
-import com.aiinterview.interview.vo.TalentVO;
 
 @Service("keywordService")
 public class KeywordService {
@@ -71,43 +67,6 @@ public class KeywordService {
 		}
 	}
 	
-	/**
-	 * 키워드를 일괄등록하는 메서드
-	 * @param destFile
-	 * @throws Exception 
-	 */
-	public void createMassiveKyeword(File destFile) throws Exception {
-		ReadOption readOption = new ReadOption();
-		  readOption.setFilePath(destFile.getAbsolutePath());
-		  readOption.setOutputColumns("A","B","C");
-		  readOption.setStartRow(2);
-		  
-		  List<TalentVO> talentUsingList = talentMapper.retrieveUsingList();
-		  
-		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
-
-		  KeywordVO keywordVO = null;
-		  KeywordMatchingVO keywordMatchingVO = null;
-		  for(Map<String, String> keyword : excelContent) {
-			  keywordVO = new KeywordVO();
-			  keywordVO.setKeywordContent(keyword.get("B"));
-			  keywordVO.setKeywordSt(keyword.get("C"));
-			  
-			  String keywordSq = keywordMapper.create(keywordVO);
-			  
-			  /* 키워드 매칭 테이블 insert */
-			  keywordMatchingVO = new KeywordMatchingVO();
-			  keywordMatchingVO.setKeywordSq(keywordSq);
-			  for(int i=0; i < talentUsingList.size(); i++) {
-				  if(keyword.get("A").equals(talentUsingList.get(i).getTalentNm())) {
-					  keywordMatchingVO.setTalentSq(talentUsingList.get(i).getTalentSq());
-				  }
-			  }
-			  keywordMatchingMapper.create(keywordMatchingVO);
-		  }
-		  
-		
-	}
 
 	
 	/**
@@ -142,27 +101,52 @@ public class KeywordService {
 	 * @param retrieveMap
 	 * @return
 	 */
-	public List<KeywordVO> retrieveTalentKeywordList(Map<String, Object> retrieveMap) throws Exception{
-		return keywordMapper.retrieveTalentKeywordList(retrieveMap);
+	public List<KeywordVO> retrieveTalentKeywordPagingList(Map<String, Object> retrieveMap) throws Exception{
+		return keywordMapper.retrieveTalentKeywordPagingList(retrieveMap);
 	}
 
 ////////////////////////////////////////// 이하 모델링 수정 이후/////////////////////////////////////////////
 	
 	/**
-	 * 해당 내용의 키워드를 조회하는 메서드
+	 * 해당 내용의 키워드 존재여부를 조회하는 메서드
 	 * @param keywordContent
 	 * @return
 	 */
-	public KeywordVO retrieve(String keywordContent) throws Exception{
+	public int retrieve(String keywordContent) throws Exception{
 		return keywordMapper.retrieve(keywordContent);
 	}
 
 	/**
 	 * 해당 내용의 키워드를 생성하는 메서드
 	 * @param keywordContent
+	 * @return 
+	 * @return 
 	 * @return
 	 */
-	public String create(String keywordContent) throws Exception{
-		return keywordMapper.create(keywordContent);
+	public void create(String keywordContent) throws Exception{
+		System.out.println("서비스 keywordContent : "+ keywordContent);
+		keywordMapper.create(keywordContent);
+	}
+
+	
+	/**
+	 * 해당내용의 키워드를 조회하는 메서드
+	 * @param keywordContent
+	 * @return
+	 * @throws Exception 
+	 */
+	public int retrieveKeywordSq(String keywordContent) throws Exception {
+		return keywordMapper.retrieveKeywordSq(keywordContent);
+	}
+
+
+	/**
+	 * 인재상별 모든 키워드 리스트 조회하는 메서드 
+	 * 다운로드용
+	 * @param talentSq
+	 * @return
+	 */
+	public List<KeywordVO> retrieveTalentKeywordAllList(String talentSq) {
+		return keywordMapper.retrieveTalentKeywordAllList(talentSq);
 	}
 }

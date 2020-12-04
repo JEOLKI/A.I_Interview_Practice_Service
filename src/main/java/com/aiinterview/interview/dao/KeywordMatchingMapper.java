@@ -44,7 +44,7 @@ public interface KeywordMatchingMapper {
 	 * @param createMap
 	 * @return
 	 */
-	public KeywordMatchingVO retrieve(Map<String, String> createMap);
+	public int retrieve(Map<String, String> createMap);
 	
 	
 	
