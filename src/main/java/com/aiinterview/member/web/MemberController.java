@@ -219,7 +219,6 @@ public class MemberController {
 	public String update(MemberVO memberVo, Model model, HttpSession session,
 			@RequestParam(name="profile",required = false) MultipartFile profile) {
 		
-		logger.debug("???:{}",memberVo);
 		if(profile.getSize() > 0) {
 			// 확장자 추출
 			int index = profile.getOriginalFilename().lastIndexOf(".");

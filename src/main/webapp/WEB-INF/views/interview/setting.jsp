@@ -95,57 +95,11 @@ to {
 		$('.InterviewTutorial.PopUp').hide();
 	}
 
-	/* 아래부터 볼륨 조절 코드 */
-	function colorPids(vol) {                                                                             
-		  let all_pids = $('.none');                                                                       
-		  let amout_of_pids = Math.round(vol);                                                         
-		  let elem_range = all_pids.slice(0, amout_of_pids)                                               
-		  for (var i = 0; i < all_pids.length; i++) {                                                     
-		    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
-		  }                                                                                               
-		  for (var i = 0; i < elem_range.length; i++) {                                                   
-	                                                                                                      
-		    // console.log(elem_range[i]);                                                                
-		    elem_range[i].style.backgroundColor="#FFFFFF";                                                
-		  }                                                                                               
-		}                                                                                                 
-		                                                                                                  
-		                                                                                                  
-	navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
-	.then(function(stream) {                                                                              
-	  audioContext = new AudioContext();                                                                  
-	  analyser = audioContext.createAnalyser();                                                           
-	  microphone = audioContext.createMediaStreamSource(stream);                                          
-	  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
-	                                                                                                      
-	  analyser.smoothingTimeConstant = 0.9;                                                               
-	  analyser.fftSize = 1024;                                                                            
-	                                                                                                      
-	  microphone.connect(analyser);                                                                       
-	  analyser.connect(javascriptNode);                                                                   
-	  javascriptNode.connect(audioContext.destination);                                                   
-	  javascriptNode.onaudioprocess = function() {                                                        
-	      var array = new Uint8Array(analyser.frequencyBinCount);                                         
-	      analyser.getByteFrequencyData(array);                                                           
-	      var values = 0;                                                                                 
-	                                                                                                      
-	      var length = array.length;                                                                      
-	      for (var i = 0; i < length; i++) {                                                              
-	        values += (array[i]);                                                                         
-	      }                                                                                               
-	                                                                                                      
-	      var average = values / length;                                                                  
-	                                                                                                      
-	    console.log(Math.round(average));                                                                 
-	    colorPids(average);                                                                               
-	  }                                                                                                   
-	  })                                                                                                  
-	  .catch(function(err) {                                                                              
-	    /* handle the error */                                                                            
-	}); 
+	
 	
 $(document).ready(function(){
 	$('.body').show();
+	$('#micCheckCancel').hide();
 	
 	openFullScreenMode();
 	
@@ -153,6 +107,117 @@ $(document).ready(function(){
 		closeFullScreenMode();
 		document.location="/interview/start.do";	
 	});
+	
+	$('#micCheckCancel').on('click',function(){
+		$('#micCheckCancel').toggle('slow');
+		
+		$('#micCheck').show('slow');
+		
+		function colorPids(vol) {                                                                             
+			  let all_pids = $('.none');                                                                       
+			  let amout_of_pids = Math.round(vol);                                                         
+			  let elem_range = all_pids.slice(0, amout_of_pids)                                               
+			  for (var i = 0; i < all_pids.length; i++) {                                                     
+			    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
+			  }                                                                                               
+			  for (var i = 0; i < elem_range.length; i++) {                                                   
+		                                                                                                      
+			    // console.log(elem_range[i]);                                                                
+			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
+			  }                                                                                               
+			}                                                                                                 
+			                                                                                                  
+			                                                                                                  
+		navigator.mediaDevices.getUserMedia({ audio: false, video: true })                                     
+		.then(function(stream) {                                                                              
+		  audioContext = new AudioContext();                                                                  
+		  analyser = audioContext.createAnalyser();                                                           
+		  microphone = audioContext.createMediaStreamSource(stream);                                          
+		  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
+		                                                                                                      
+		  analyser.smoothingTimeConstant = 0.9;                                                               
+		  analyser.fftSize = 1024;                                                                            
+		                                                                                                      
+		  microphone.connect(analyser);                                                                       
+		  analyser.connect(javascriptNode);                                                                   
+		  javascriptNode.connect(audioContext.destination);                                                   
+		  javascriptNode.onaudioprocess = function() {                                                        
+		      var array = new Uint8Array(analyser.frequencyBinCount);                                         
+		      analyser.getByteFrequencyData(array);                                                           
+		      var values = 0;                                                                                 
+		                                                                                                      
+		      var length = array.length;                                                                      
+		      for (var i = 0; i < length; i++) {                                                              
+		        values += (array[i]);                                                                         
+		      }                                                                                               
+		                                                                                                      
+		      var average = values / length;                                                                  
+		                                                                                                      
+		    console.log(Math.round(average));                                                                 
+		    colorPids(average);                                                                               
+		  }                                                                                                   
+		  })                                                                                                  
+		  .catch(function(err) {                                                                              
+		    /* handle the error */                                                                            
+		}); 
+	});
+	
+	$('#micCheck').on('click',function(){
+		$('#micCheck').toggle('slow');
+		
+		$('#micCheckCancel').show('slow');
+		
+		console.log("찍힌다!")
+		/* 아래부터 볼륨 조절 코드 */
+		function colorPids(vol) {                                                                             
+			  let all_pids = $('.none');                                                                       
+			  let amout_of_pids = Math.round(vol);                                                         
+			  let elem_range = all_pids.slice(0, amout_of_pids)                                               
+			  for (var i = 0; i < all_pids.length; i++) {                                                     
+			    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
+			  }                                                                                               
+			  for (var i = 0; i < elem_range.length; i++) {                                                   
+		                                                                                                      
+			    // console.log(elem_range[i]);                                                                
+			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
+			  }                                                                                               
+			}                                                                                                 
+			                                                                                                  
+			                                                                                                  
+		navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
+		.then(function(stream) {                                                                              
+		  audioContext = new AudioContext();                                                                  
+		  analyser = audioContext.createAnalyser();                                                           
+		  microphone = audioContext.createMediaStreamSource(stream);                                          
+		  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
+		                                                                                                      
+		  analyser.smoothingTimeConstant = 0.9;                                                               
+		  analyser.fftSize = 1024;                                                                            
+		                                                                                                      
+		  microphone.connect(analyser);                                                                       
+		  analyser.connect(javascriptNode);                                                                   
+		  javascriptNode.connect(audioContext.destination);                                                   
+		  javascriptNode.onaudioprocess = function() {                                                        
+		      var array = new Uint8Array(analyser.frequencyBinCount);                                         
+		      analyser.getByteFrequencyData(array);                                                           
+		      var values = 0;                                                                                 
+		                                                                                                      
+		      var length = array.length;                                                                      
+		      for (var i = 0; i < length; i++) {                                                              
+		        values += (array[i]);                                                                         
+		      }                                                                                               
+		                                                                                                      
+		      var average = values / length;                                                                  
+		                                                                                                      
+		    console.log(Math.round(average));                                                                 
+		    colorPids(average);                                                                               
+		  }                                                                                                   
+		  })                                                                                                  
+		  .catch(function(err) {                                                                              
+		    /* handle the error */                                                                            
+		}); 
+	});
+	
 });
 
 	
@@ -296,7 +361,8 @@ $(document).ready(function(){
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="
 								alt="mic-volume">
 							<div class="label">마이크 테스트</div>
-							<button class="text-btn false">확인하기</button>
+							<button id="micCheck" class="text-btn false">확인하기</button>
+							<button id="micCheckCancel" class="text-btn false">그만하기</button>
 						</div>
 						<div class="InterviewTestAudio">
 <!-- 							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio> -->
