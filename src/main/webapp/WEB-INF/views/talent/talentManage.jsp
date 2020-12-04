@@ -90,7 +90,26 @@
 			$('#massiveForm').submit();
 		})
 		
+		$('#sort').on('change',function(){
+		pageUnit = $(this).val();
+		document.location="/talent/retrievePagingList.do?pageUnit="+pageUnit;
 	})
+		
+	})
+	
+	/* pagination 페이지 링크 function */
+	function linkPage(pageNo){
+		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+		document.listForm.pageIndex.value = pageNo;
+		document.listForm.action = "<c:url value='/talent/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
+	   	document.listForm.submit();
+	}
+	
+	/* 검색 */
+	function searchList(){
+	document.listForm.action = "<c:url value='/talent/retrievePagingList.do'/>";
+		document.listForm.submit();
+	}
 </script>
 </head>
 <body>
@@ -129,11 +148,16 @@
 
 				<div class="menu">
 					<select id="sort">
-						<option value="">정렬</option>
-						<option value="">5개씩</option>
-						<option value="">10개씩</option>
-						<option value="">15개씩</option>
-						<option value="">20개씩</option>
+						<c:forEach var="value" begin="5" end="20" step="5">
+						<c:choose>
+							<c:when test="${pageUnit == value  }">
+								<option value="${value }" selected="selected" >${value }개씩</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${value }" >${value }개씩</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 					</select> 
 					<div id="search">
 						<ul>

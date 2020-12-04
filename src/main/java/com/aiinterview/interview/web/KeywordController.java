@@ -45,11 +45,16 @@ public class KeywordController {
 	
 	
 	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList(KeywordVO keywordVO, TalentVO talentVO,Model model) throws Exception {
+	public String retrievePagingList(KeywordVO keywordVO, TalentVO talentVO, String pageUnit, Model model) throws Exception {
+		
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
 		
 		/** EgovPropertyService.sample */
 		keywordVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		keywordVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		keywordVO.setPageUnit(pageUnitInt);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();

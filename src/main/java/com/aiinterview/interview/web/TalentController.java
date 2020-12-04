@@ -42,11 +42,16 @@ public class TalentController {
 	
 	/* 페이징 처리 */
 	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList(TalentVO talentVO, Model model) {
+	public String retrievePagingList(TalentVO talentVO, String pageUnit, Model model) {
+		
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
 		
 		/** EgovPropertyService.sample */
 		talentVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		talentVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		talentVO.setPageUnit(pageUnitInt);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
