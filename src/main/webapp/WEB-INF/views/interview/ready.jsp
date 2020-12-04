@@ -91,12 +91,13 @@ to {
 <script>
 $(document).ready(function(){
 	$('.search-btn').hide();
+	$('#complete').hide();
 	
 	count = 1;
 	
 	$('.NullQuestionBox').on('click',function(){
 		if(count < 5 ){
-			$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''> <input type='hidden' id='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='vertical-align: middle;' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
+			$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button> <input type='hidden' id='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='vertical-align: middle;' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
 			count++;
 		}else{
 			alert('질문 개수 제한은 5개입니다')			
@@ -135,7 +136,7 @@ $(document).ready(function(){
 
 
 function setting(){
-// 	if($(document).val('.text',function())==''){
+// 	if($('.text').prop()==''){
 // 		alert('빈칸인 질문이 있습니다.')
 // 	}else{
  		$("#questionFrm").submit();
@@ -161,8 +162,8 @@ function setting(){
 								</div>
 								<div class="input-bar false">
 									<span aria-hidden="true" class="fa fa-search fa undefined">
-									</span> <input type="text" placeholder="회사명, 직무명 등 키워드로 질문을 검색하세요."
-										value="">
+									</span> 
+									<input type="text" placeholder="회사명, 직무명 등 키워드로 질문을 검색하세요."value="">
 								</div>
 								<div class="questions-area">
 									<div class="recommend-question">
@@ -193,7 +194,7 @@ function setting(){
 								<input type="text" id="question" class="text"
 									placeholder="면접 질문을 입력해주세요" value="" name="questionList">
 								<input type="hidden" id="sampQuestSq" value="0" name="sampQuestSqList">
-								<!-- 								<button type="button" id="complete" class="complete-btn" >완료</button> -->
+								<button type="button" id="complete" class="complete-btn" >완료</button>
 								<button type="button" class="search-btn">
 									<img src="/images/search.ed51fb59.svg" alt=""
 										class="search-icon">

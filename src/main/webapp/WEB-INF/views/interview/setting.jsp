@@ -281,25 +281,13 @@ $(document).ready(function(){
 			
 <!-- 				화면 출력 -->
 <!-- 				<div class="contentarea"> -->
-<!-- 					<h1>MDN - WebRTC: Still photo capture demo</h1> -->
-<!-- 					<p>This example demonstrates how to set up a media stream using -->
-<!-- 						your built-in webcam, fetch an image from that stream, and create -->
-<!-- 						a PNG using that image.</p> -->
 <!-- 					<div class="camera"> -->
-<!-- 						<video id="video" autoplay>Video stream not available.</video> -->
 <!-- 						<button id="startbutton">Take photo</button> -->
 <!-- 					</div> -->
-<!-- 					<canvas id="canvas"> </canvas> -->
+<%-- 					<canvas id="canvas"> </canvas> --%>
 <!-- 					<div class="output"> -->
 <!-- 						<img id="photo" alt="The screen capture will appear in this box."> -->
 <!-- 					</div> -->
-<!-- 					<p> -->
-<!-- 						Visit our article <a -->
-<!-- 							href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos"> -->
-<!-- 							Taking still photos with WebRTC</a> to learn more about the -->
-<!-- 						technologies used here. -->
-<!-- 					</p> -->
-
 <!-- 					<div id="imgurl"></div> -->
 <!-- 				</div> -->
 <!-- 				화면출력 -->
@@ -435,7 +423,7 @@ $(document).ready(function(){
 			</div>
 			<div class="bg-video camera">
 				<div class="bg-layer"></div>
-				<video id="video" class="user-camera-video false" autoplay></video>
+				<video id="video" src="/images/RecordedVideo.webm" class="user-camera-video false" autoplay></video>
 <!-- 				<canvas id="canvas"> </canvas> -->
 			</div>
 		</div>
