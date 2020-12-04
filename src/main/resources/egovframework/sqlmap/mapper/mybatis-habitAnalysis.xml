@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.analysis.dao.HabitAnalysisMapper">
+
+	<insert id="create">
+		INSERT INTO HABIT_ANALYSIS (HABIT_SQ,
+									ANS_SQ,
+									HABIT_COUNT)
+		     VALUES (#{habitSq},
+						#{ansSq},
+						#{habitCount})
+	</insert>
+	
+	<select id="retrieveList" resultType="com.aiinterview.analysis.vo.HabitAnalysisVO">
+		SELECT *
+		FROM HABIT_ANALYSIS
+		WHERE ANS_SQ = #{ansSq}
+	</select>
+	
+
+</mapper>

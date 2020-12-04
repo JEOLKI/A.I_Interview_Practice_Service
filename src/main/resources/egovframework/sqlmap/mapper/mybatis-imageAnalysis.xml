@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.analysis.dao.ImageAnalysisMapper">
+
+	<insert id="create">
+		INSERT INTO IMAGE_ANALYSIS (IMAGE_ANALYSIS_SQ,
+									ANGER,
+									CONTEMPT,
+									FEAR,
+									DISGUST,
+									HAPPINESS,
+									LAUGH,
+									NATURAL,
+									SADNESS,
+									SURPRISED,
+									FACE_TOP,
+									FACE_LEFT,
+									FACE_WIDTH,
+									FACE_HEIGHT,
+									ANS_SQ)
+		     VALUES (IMAGE_ANALYSIS_SQ.NEXTVAL,
+						#{anger},
+						#{contempt},
+						#{fear},
+						#{disgust},
+						#{happiness},
+						#{laugh},
+						#{natural},
+						#{sadness},
+						#{surprised},
+						#{faceTop},
+						#{faceLeft},
+						#{faceWidth},
+						#{faceHeight},
+						#{ansSq})
+	</insert>
+	
+	<select id="retrieveList" resultType="com.aiinterview.analysis.vo.ImageAnalysisVO">
+		SELECT *
+		FROM IMAGE_ANALYSIS
+		WHERE ANS_SQ = #{ansSq}
+	</select>
+	
+
+</mapper>
