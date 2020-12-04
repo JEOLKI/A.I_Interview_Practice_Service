@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js";></script> 
+<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script> 
 <title>아이엠터뷰</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
@@ -127,7 +127,7 @@ to {
 </style>
 <script>
 $(document).ready(function() {   
-
+	$('#stopTestBtn').hide();
 });   
 
 function random(scriptGbSq){
@@ -174,16 +174,13 @@ function captureMicrophone(callback){
 var recorder;
 	//녹음 시작시 시작하기 버튼 비활성화
 function startTest(){
-$('#startTestBtn').disabled = true;
+	//document.getElementById('scriptGbBtn').disabled=true;
+	$('#startTestBtn').hide();
 	
 	//위의 captureMicrophone 함수 실행
 	//media stream -> microphone
 	captureMicrophone(function (microphone){
-		
-		//받아온 microphone인자의 URL을 생성해서 audio에 연결
-		audio.src = URL.createObjectURL(microphone);
-		//즉시 play. 녹음 중 청취 가능
-		audio.play();
+		console.log("captureMicrophone inner startTestBtn");
 		
 		//가져온 microphone을 RecordRTC에연결
 		//RecordRTC가 우리가 사용할 수 있는 객체 반환
@@ -200,37 +197,65 @@ $('#startTestBtn').disabled = true;
 
 		//스트림을 microphone에 연결하고,, 나중에 정지할 때 따로 해제함
 		recorder.microphone = microphone;
-		document.getElementById('stopTestBtn').disabled=false;
+		
+		$('#stopTestBtn').show();
+		//document.getElementById('stopTestBtn').disabled=false;
 	});
-	};
+};
 	
 //녹음 정지 + 콜백함수 전달 받음
-function startTest(){
+function stopTest(){
 	this.disabled = true;
 	recorder.stopRecording(stopRecordingCallback);
-	document.getElementById('startTestBtn').disabled = false;
+	$('#startTestBtn').show();
+	$('#stopTestBtn').hide();
+	//document.getElementById('startTestBtn').disabled = false;
 };
 
 function stopRecordingCallback(){
 	
+	console.log("immediately stopRecording") //확인
+	
 	//녹음된 오디오의 blob파일 받아옴
 	var blob = recorder.getBlob();
+	console.log("blob : "+blob) // = [objectBlob]
+	console.log("blob.length : "+blob.size); 	// 확인
+	console.log("blob.length : "+blob.type); 	// 확인
+	
+	
+	//var audioSource = document.querySelector('.audio > source');
+	//console.log("audioSource : "+audioSource);
 	//브라우저 내부의 저장소의 URL을 생성하고 audio에 연결
-	audio.src = URL.createObjectURL(blob);
+	console.log(blob);
+	console.log("찍히냐")
+	console.log("blob log : "+window.URL.createObjectURL(blob));
+	let audioUrl = window.URL.createObjectURL(blob); //결과 나옴
+	
+	
+	
+	//console.log(audioUrl);
+	
+	var audioSource = document.querySelector('audio > source');
+	audioSource.src = audioUrl;
+	//audio.src = audioUrl; // null
+	//audio.src = "blob:http://localhost/d72f77f7-eb92-49c8-90f4-04a2f799ee98";
+	
 	//녹음 마치면 녹음된 내용 자동으로 플레이
-	audio.play();
+	//audioSource.play();
 	//아까 연결한거 해지
 	recorder.microphone.stop();
 	
 
+	//파일 다운로드
 	createAudioElement(window.URL.createObjectURL(blob));
 };
 
 //다운로드 받을 수 있는 링크 생성해주는 function
 function createAudioElement(blobUrl){
+	console.log("createAudioElement")
 	const downloadEl = document.createElement('a');
 	downloadEl.style = 'display : block';
-	downloadEl.innerHTML = 'download';
+	//downloadEl.innerHTML = 'download';
 	downloadEl.download = 'audio.wav';
 	downloadEl.href = blobUrl;
 	
@@ -238,8 +263,12 @@ function createAudioElement(blobUrl){
 	audioEl.controls = true;
 	
 	const sourceEl = document.createElement('source');
-	sourceEl.srt = blob.Url;
-	sourceEl.appendChild(sourceEl);
+	sourceEl.src = blobUrl;
+	console.log("blobUrl :"+blobUrl);
+	sourceEl.type = 'audio/wav';
+
+	audioEl.appendChild(sourceEl);
+	
 	document.body.appendChild(audioEl);
 	document.body.appendChild(downloadEl);
 };		
@@ -248,7 +277,10 @@ function createAudioElement(blobUrl){
 
 </head>
 <body>
-<audio controls autoplay></audio>
+	나의 발음 들어보기<br>
+	<audio controls autoplay>
+			<source src="">
+	</audio>
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -604,9 +636,9 @@ function createAudioElement(blobUrl){
 			
 		
 			<div class="modal-close-box">
-				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.<br></label>
+				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.</label><br>
 				<button id="startTestBtn" onclick="startTest()">시작 하기</button>
-				<button id="stopTestBtn" onclick="stopTest()" disabled>종료 하기</button>
+				<button id="stopTestBtn" onclick="stopTest()">종료 하기</button>
 				<button id="modal-close-btn">close</button>
 			</div>
 		</div>
