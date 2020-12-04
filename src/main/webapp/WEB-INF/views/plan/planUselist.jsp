@@ -50,7 +50,7 @@ function searchList(){
 	}
 	.button-search{
 		text-align: right;
- 		margin-left: 21%;
+ 		margin-right: 15%;
  		margin-top: 30px;  
 	
 	}
@@ -60,31 +60,40 @@ function searchList(){
 	.write{
 		text-align: right;
 	}
+		
+	.blogmain{
+		width: 70%;
+		margin: auto;
+		
+	}
 </style>
 </head>
 <body>
-<br>
-<br>
-<br>
 <form:form commandName="planUseVO" id="listForm" name="listForm" method="get">
 	<div id="root boarding">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			
+			<section class="hero contentbox"">
+				<div class="hero__content" >
+					<div class="content__title">결제내역</div>
+				</div>
+			</section>
 			<div class="body" >
 			
-				<div class="col-sm-10 blog-main">
+				<div class=" blog-main">
 			
-					<div class="input-group" id="search">
+					<div class="input-group boarding" >
 		        		<ul class = "button-search">
 		        			<li>
 		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
 		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
 		        					<form:option value="0" label="이용권" />
-		        					<form:option value="1" label="날짜" />
+		        					<form:option value="1" label="아이디" />
+		        					<form:option value="2" label="날짜" />
 		        				</form:select>
 		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-3"/>
+		                        <form:input path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
 		        	            <span class="btn btn-primary">
 		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
 		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
@@ -98,7 +107,7 @@ function searchList(){
 					</div>
 					
 					<div class="table-responsive">
-						<table class="table-bordered table" id="dataTable">
+						<table class="table blogmain" id="dataTable">
 						<thead>
 							<tr>
 								<th class="label menu">구매일</th>
@@ -122,7 +131,7 @@ function searchList(){
 					</table>
 						
 				</div>
-			
+			<br>
 			<div class = "paging">
 				
 				<ul class="pagination boarding">
@@ -135,6 +144,7 @@ function searchList(){
 			</div>
 		</div>
 	</div>
+	
 </form:form>
 </body>
 </html>

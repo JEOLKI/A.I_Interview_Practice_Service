@@ -15,9 +15,6 @@
 
 <style type="text/css">
 	
-	#search{
-		display: inline-block;
-	}
 	
 	#table, table{
 		width:1000px;
@@ -30,20 +27,25 @@
 	#boardGu1{
 		background-color: #56c0ce;
 	}
-	.boarding{
-		display: inline-block;
-	}
-	.button-search{
-		text-align: right;
- 		margin-left: 21%;
- 		margin-top: 30px;  
-	
-	}
+ 	.boarding{ 
+ 		display: inline-block; 
+ 	} 
+	.button-search{ 
+		text-align: right; 
+		margin-top: 30px;   
+		margin-right : 15%;
+ 	} 
 	.paging{ 
 		text-align: center;
 	}
 	.write{
 		text-align: right;
+	}
+	
+	.blogmain{
+		width: 70%;
+		margin: auto;
+		
 	}
 	
 </style>
@@ -94,12 +96,12 @@
 				</div>
 			</section>
 			
-			<div class="body" >
+			<div class="body paging" >
 			
-				<div class="col-sm-10 blog-main">
+				<div class="blog-main">
 			
-					<div class="input-group " id="search">
-		        		<ul  class = "button-search">
+					<div class="input-group boarding ">
+		        		<ul  class = "button-search ">
 		        			<li>
 		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
 		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
@@ -107,7 +109,7 @@
 		        					<form:option value="1" label="작성자" />
 		        				</form:select>
 		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-3"/>
+		                        <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
 		        	            <span class="btn btn-primary">
 		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
 		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
@@ -118,10 +120,10 @@
 			
 			
 					<div class="table-responsive">
-						<table class="table table-bordered" id="dataTable">
-						<thead>
-							<tr>
-								<th>번호</th>
+						<table class="table blogmain table-hover" id="dataTable">
+						<thead >
+							<tr >
+								<th >번호</th>
 								<th>제목</th>
 								<th>작성자 아이디</th>
 								<th>작성일시</th>
@@ -164,7 +166,7 @@
 				</div>
 				
 				<div class = "paging">
-				
+				<br>
 				<ul class="pagination boarding">
 				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 				</ul>
