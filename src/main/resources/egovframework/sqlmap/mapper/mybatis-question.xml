@@ -15,7 +15,15 @@
 		     VALUES (#{questSq},
 					#{questContent},
 					#{interviewSq},
-					#{sampQusetSq})
+					<choose>
+				            <when test="sampQuestSq != null and sampQuestSq != '0'">
+							#{sampQuestSq}						
+							</when>
+				            <when test="sampQusetSq == null and sampQuestSq == '0'">
+							''
+							</when>
+					</choose>
+					)
 	</insert>
 	
 	<select id="retrieve" resultType="com.aiinterview.interview.vo.QuestionVO">

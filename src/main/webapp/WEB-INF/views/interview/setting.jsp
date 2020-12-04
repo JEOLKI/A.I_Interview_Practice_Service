@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -415,7 +417,20 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<div class="txt"></div>
-					<div class="interview-start-btn">면접 시작</div>
+					<form id="interviewFrm" action="${pageContext.request.contextPath }/interview/start.do" method="get">
+					
+						<c:forEach items="${questionList}" var="question">
+							<input type="hidden" name="questionList" value="${question }" >
+						</c:forEach>
+						
+						<c:forEach items="${sampQuestSqList}" var="sampQuestSq">
+							<input type="hidden" name="sampQuestSqList" value="${sampQuestSq }" >
+						</c:forEach>
+
+						<input type="hidden" value="${S_MEMBER.memId }" name="memId">
+						<input type="submit" class="interview-start-btn" value="면접 시작" style="border: 0; border-radius: 2px; color:#FFFFFF">
+					
+					</form>
 				</div>
 			</div>
 			<div class="bg-video camera">

@@ -9,6 +9,14 @@ public class InterviewVO extends BaseVO {
 	private String interviewDate; // 면접 일자
 	private String memId; // 회원 아이디
 
+	public InterviewVO() {
+
+	}
+	
+	public InterviewVO(String memId) {
+		this.memId = memId;
+	}
+
 	public String getInterviewSq() {
 		return interviewSq;
 	}

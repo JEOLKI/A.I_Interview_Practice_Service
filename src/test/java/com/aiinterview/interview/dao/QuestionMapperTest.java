@@ -80,7 +80,7 @@ public class QuestionMapperTest extends ModelTestConfig{
 		QuestionVO questionVO = new QuestionVO();
 		questionVO.setQuestContent("TESTQUESTION");
 		questionVO.setInterviewSq("1");
-		questionVO.setSampQusetSq("1");
+		questionVO.setSampQuestSq("1");
 		
 		/***When***/
 		questionMapper.create(questionVO);

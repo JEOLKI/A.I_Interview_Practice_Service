@@ -1,22 +1,19 @@
 package com.aiinterview.interview.vo;
 
-import java.util.List;
-
 public class QuestionVO extends InterviewVO {
-	
+
 	private String questSq; // 질문 번호
 	private String questContent; // 질문 내용
 	private String interviewSq; // 면접 번호
-	private String sampQusetSq; // 샘플 질문 번호
-	private List<String> questionList;
-	
+	private String sampQuestSq; // 샘플 질문 번호
 
-	public List<String> getQuestionList() {
-		return questionList;
+	public QuestionVO() {
+
 	}
-
-	public void setQuestionList(List<String> questionList) {
-		this.questionList = questionList;
+	
+	public QuestionVO(String questContent, String sampQuestSq) {
+		this.questContent = questContent;
+		this.sampQuestSq = sampQuestSq;
 	}
 
 	public String getQuestSq() {
@@ -43,18 +40,12 @@ public class QuestionVO extends InterviewVO {
 		this.interviewSq = interviewSq;
 	}
 
-	public String getSampQusetSq() {
-		return sampQusetSq;
+	public String getSampQuestSq() {
+		return sampQuestSq;
 	}
 
-	public void setSampQusetSq(String sampQusetSq) {
-		this.sampQusetSq = sampQusetSq;
-	}
-
-	@Override
-	public String toString() {
-		return "QuestionVO [questSq=" + questSq + ", questContent=" + questContent + ", interviewSq=" + interviewSq
-				+ ", sampQusetSq=" + sampQusetSq + "]";
+	public void setSampQuestSq(String sampQuestSq) {
+		this.sampQuestSq = sampQuestSq;
 	}
 
 }

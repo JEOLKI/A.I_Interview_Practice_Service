@@ -44,9 +44,9 @@ public class InterviewService {
 		interviewMapper.create(interviewVO);
 		String interviewSq = interviewVO.getInterviewSq();
 		
-		List<QuestionVO> questionList = (List<QuestionVO>) map.get("questionList");
+		List<QuestionVO> questionVOList = (List<QuestionVO>) map.get("questionVOList");
 		
-		for(QuestionVO questionVO : questionList) {
+		for(QuestionVO questionVO : questionVOList) {
 			questionVO.setInterviewSq(interviewSq);
 			questionMapper.create(questionVO);
 		}
