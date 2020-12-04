@@ -61,6 +61,14 @@
 		   AND samp_quest_content LIKE '%'||#{searchKeyword}||'%'	
 		  </if>
 	</select>
-	
 	<!-- //페이징 -->
+	
+	<select id="retrieve" parameterType="String" resultType="com.aiinterview.interview.vo.SampleQuestionVO">
+		SELECT *
+          FROM sample_question
+         WHERE 1=1
+		   AND samp_quest_content LIKE '%' || #{searchKeyword} || '%'
+	</select>
+		
+	
 </mapper>

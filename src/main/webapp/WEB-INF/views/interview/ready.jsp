@@ -132,6 +132,32 @@ $(document).ready(function(){
 		$('.SetQuestionBox').children().removeClass('checked');
 		$('.SetQuestionBox').removeClass('checked');
 	});
+	
+	$(document).on('click','.searched-question.recommend',function(){
+		console.log($(this).children('div').text());
+	})
+	
+	// 키워드 검색 에이잭스
+	$("#searchBtn").on('click',function(){
+		searchKeyword = $('#search').val();
+		
+		$.ajax(
+			{url:"/sampQuest/retrieve.do",
+			data : {searchKeyword : searchKeyword},
+			method : "get",
+			success : function(data){
+				html = "";
+				$('.recommend-question').append(html);
+				for(i=0; i< data.sampQuestList.length; i++){
+					html += '<div>' + data.sampQuestList[i].sampQuestContent + '</div><br>';
+				}
+				$('.recommend-question').append(html);
+			},
+			error : function(data){
+				console.log(data.status);
+			}
+		});
+	})
 });
 
 
@@ -142,6 +168,8 @@ function setting(){
  		$("#questionFrm").submit();
 // 	}
 }
+
+
 
 </script>
 </head>
@@ -155,7 +183,7 @@ function setting(){
 			<div class="body">
 				<div class="NewQuestionSearch">
 					<div id="questionSearch" class="modal">
-
+						<form action="" method="post" >
 							<div class="content-box" style="margin-left: 23%;">
 								<div class="close-btn">
 									<img src="/images/close-btn.9663b787.svg" alt="" style="height: 60%;width: 60%;">
@@ -163,20 +191,21 @@ function setting(){
 								<div class="input-bar false">
 									<span aria-hidden="true" class="fa fa-search fa undefined">
 									</span> 
-									<input type="text" placeholder="회사명, 직무명 등 키워드로 질문을 검색하세요."value="">
+									<input id="search" type="text" placeholder="회사명, 직무명 등 키워드로 질문을 검색하세요."value="">
+									<input id="searchBtn" type="button" value="검색">
 								</div>
 								<div class="questions-area">
 									<div class="recommend-question">
 										<div class="label">추천 질문</div>
 										<div class="searched-question recommend">
-											<button class="refresh-btn">
+											<button type="button" class="refresh-btn">
 												<span aria-hidden="true" class="fa fa-refresh fa undefined"></span>
 											</button>
-											저희 팀 업무가 힘든편인데 잘할 수 있겠나요?
 										</div>
 									</div>
 								</div>
 							</div>
+						</form>
 					</div>
 
 				</div>
@@ -213,7 +242,7 @@ function setting(){
 								</div>
 							</div>
 						</div>
-						<div class="interview-ready-btn Btn none" onclick="setting();">면접
+						<div class="interview-ready-btn Btn none">면접
 							시작</div>
 
 					</form>

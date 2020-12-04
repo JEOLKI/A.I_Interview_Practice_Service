@@ -45,5 +45,12 @@ public interface SampleQuestionMapper {
 	 * @return
 	 */
 	public int update(SampleQuestionVO sampQuestVO);
+	
+	/**
+	 * 샘플질문을 검색하는 메서드
+	 * @param sampQuestContent
+	 * @return
+	 */
+	public List<SampleQuestionVO> retrieve(String searchKeyword);
 
 }

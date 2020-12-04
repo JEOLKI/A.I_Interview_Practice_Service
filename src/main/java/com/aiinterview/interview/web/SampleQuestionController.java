@@ -167,4 +167,11 @@ public class SampleQuestionController {
 			return "question/sampleQuestionManage";
 		}
 	}
+	
+	@RequestMapping(path = "/retrieve.do", method = { RequestMethod.GET })
+	public String retrieve(String searchKeyword, Model model) {
+		List<SampleQuestionVO> sampQuestList = sampleQuestionService.retrieve(searchKeyword);
+		model.addAttribute("sampQuestList",sampQuestList);
+		return "jsonView";
+	}
 }
