@@ -63,7 +63,6 @@ to {
   height: 10px;                                                                                       
   display: inline-block;                                                                              
   margin: 5px;   
-  z-index: 500px;                                                                                     
 }                  
 </style>
 <script type="text/javascript" >
@@ -98,8 +97,8 @@ to {
 
 	/* 아래부터 볼륨 조절 코드 */
 	function colorPids(vol) {                                                                             
-		  let all_pids = $('.pid');                                                                       
-		  let amout_of_pids = Math.round(vol/5);                                                         
+		  let all_pids = $('.none');                                                                       
+		  let amout_of_pids = Math.round(vol);                                                         
 		  let elem_range = all_pids.slice(0, amout_of_pids)                                               
 		  for (var i = 0; i < all_pids.length; i++) {                                                     
 		    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
@@ -161,6 +160,7 @@ $(document).ready(function(){
 		<div class="InterviewTest false">
 			<div class="InterviewTutorial PopUp">
 				<div class="tutorial-box">
+				
 					<div class="title">
 						모의면접을 시작하기 전에<br>아래 유의사항을 확인해 주세요!
 					</div>
@@ -231,7 +231,11 @@ $(document).ready(function(){
 <!-- 				화면출력 -->
 				
 				<div class="center">
+					<a onclick="closeFullScreenMode();"  > 
+						<img alt=""	src="/images/fullSize_cancel.png" style="height: 70px;width: 70px">
+					</a>
 					<div class="top-message">카메라와 마이크 상태를 점검해 주세요.</div>
+					<br>
 					<div class="bottom-message">
 						모든 면접은 녹화되며, 분석이 끝난 후 확인할 수 있습니다.<br>보다 정확한 평가를 위해 얼굴이 중앙의 영역
 						안으로 오도록 조절해 주세요.
@@ -240,48 +244,46 @@ $(document).ready(function(){
 				<div class="right">
 					<div class="test">
 						<div class="InterviewTestMic">
-							<div class="VolumeMeter ">
-							<div class="pids-wrapper"  ">
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-								<div class="pid"></div>
-							</div>
+							<div class="VolumeMeter">
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
+								<div class="none"></div>
 							</div>
 							<img
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="

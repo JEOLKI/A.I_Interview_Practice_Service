@@ -71,7 +71,7 @@ $(document).ready(function(){
 	});
 });
 function start(){
-	document.location="/interview/start.do";
+	document.location="/interview/setting.do";
 }
 
 </script>

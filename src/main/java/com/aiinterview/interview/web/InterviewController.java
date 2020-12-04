@@ -17,16 +17,15 @@ public class InterviewController {
 		return "interview/ready";
 	}
 	
+	@RequestMapping(path="/setting.do",method = { RequestMethod.GET })
+	public String interviewSetting() {
+		logger.debug("InterviewController.interviewSetting()진입");
+		return "interview/setting";
+	}
+	
 	@RequestMapping(path="/start.do",method = { RequestMethod.GET })
 	public String interviewStart() {
 		logger.debug("InterviewController.interviewStart()진입");
-		return "interview/interview";
+		return "interview/start";
 	}
-	
-	@RequestMapping(path="/test.do",method = { RequestMethod.GET })
-	public String interviewTest() {
-		logger.debug("InterviewController.interviewTest()진입");
-		return "interview/interviewMain";
-	}
-	
 }
