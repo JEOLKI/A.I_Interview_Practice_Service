@@ -95,7 +95,44 @@
 <!-- 		where plan_sq = #{planSq} -->
 <!-- 	</update> -->
 
-
+		<select id="retrievePagingList" resultType="com.aiinterview.plan.vo.PlanUseVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT	* 
+					FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	PLAN_NM LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+			FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
+		<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	PLAN_NM LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
 
 
 

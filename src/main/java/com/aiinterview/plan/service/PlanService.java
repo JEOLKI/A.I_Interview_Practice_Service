@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.plan.dao.PlanMapper;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
@@ -67,6 +68,17 @@ public class PlanService {
 	public int PlanUseCount() throws Exception{
 		return planMapper.PlanUseCount();
 	}
+	
+	
+	public List<PlanUseVO> retrievePagingList(PlanUseVO planUseVO) throws Exception {
+		return planMapper.retrievePagingList(planUseVO);
+	}
+	
+	public int retrievePagingListCnt(PlanUseVO planUseVO) throws Exception {
+		return planMapper.retrievePagingListCnt(planUseVO);
+	}
+	
+	
 	
 	
 }

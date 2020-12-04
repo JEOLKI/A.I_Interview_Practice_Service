@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/interview")
 @Controller
 public class InterviewController {
+
 	private static final Logger logger = LoggerFactory.getLogger(InterviewController.class);
-	
+
 	@RequestMapping(path="/ready.do",method = { RequestMethod.GET })
 	public String interviewReady() {
 		logger.debug("InterviewController.interviewReady()진입");
@@ -28,4 +29,6 @@ public class InterviewController {
 		logger.debug("InterviewController.interviewStart()진입");
 		return "interview/start";
 	}
+	
+	
 }

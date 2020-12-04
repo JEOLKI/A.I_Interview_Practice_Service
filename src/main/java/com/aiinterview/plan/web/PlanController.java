@@ -14,16 +14,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.member.web.LoginController;
 import com.aiinterview.plan.service.PlanService;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
+
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @RequestMapping("/plan")
 @Controller
@@ -309,18 +314,6 @@ public class PlanController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(path = "/cashList.do", method = RequestMethod.GET)
 	public String cashListView(Model model, HttpSession session, BaseVO bv) {
 		
@@ -364,6 +357,83 @@ public class PlanController {
 	public String buyPlanTest(Model model) {
 		return "plan/buyPlanTest";
 	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
+	
+	
+	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String retrievePagingList(PlanUseVO planuseVO, HttpSession session, ModelMap model) {
+		
+
+		/** EgovPropertyService.sample */
+		planuseVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		planuseVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(planuseVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(planuseVO.getPageUnit());
+		paginationInfo.setPageSize(planuseVO.getPageSize());
+
+		planuseVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		planuseVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		planuseVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<PlanUseVO> resultList = new ArrayList<>();
+		try {
+			resultList = planService.retrievePagingList(planuseVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("resultList", resultList);
+
+		int totCnt = 0;
+		try {
+			totCnt = planService.retrievePagingListCnt(planuseVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		return "plan/planUselist";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

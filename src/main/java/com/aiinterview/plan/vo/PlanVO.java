@@ -2,7 +2,9 @@ package com.aiinterview.plan.vo;
 
 import java.text.DecimalFormat;
 
-public class PlanVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class PlanVO extends BaseVO{
 	
 	
 	private String planSq          ;
