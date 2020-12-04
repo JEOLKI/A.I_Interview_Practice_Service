@@ -30,7 +30,22 @@
 	#boardGu1{
 		background-color: #56c0ce;
 	}
-
+	.boarding{
+		display: inline-block;
+	}
+	.button-search{
+		text-align: right;
+ 		margin-left: 21%;
+ 		margin-top: 30px;  
+	
+	}
+	.paging{ 
+		text-align: center;
+	}
+	.write{
+		text-align: right;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -69,7 +84,7 @@
 </head>
 <body>
 <form:form commandName="boardVO" id="listForm" name="listForm" method="get">
-	<div id="root">
+	<div id="root boarding">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			
@@ -81,21 +96,18 @@
 			
 			<div class="body" >
 			
-				<div class="col-sm-8 blog-main">
+				<div class="col-sm-10 blog-main">
 			
-					<div class="input-group" id="search">
-		        		<ul>
+					<div class="input-group " id="search">
+		        		<ul  class = "button-search">
 		        			<li>
 		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
-		        				<form:select path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm">
+		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
 		        					<form:option value="0" label="제목" />
 		        					<form:option value="1" label="작성자" />
 		        				</form:select>
-		        			</li>
-		        			<li><label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input path="searchKeyword" cssClass="txt form-control bg-light border-0 small"/>
-		                    </li>
-		        			<li>
+		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+		                        <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-3"/>
 		        	            <span class="btn btn-primary">
 		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
 		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
@@ -146,24 +158,37 @@
 								<td>${board.memId } </td>
 								<td>${board.boardDate }</td>
 						
-								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
+				
+				<div class = "paging">
+				
+				<ul class="pagination boarding">
+				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+				</ul>
+				<a class="btn createBtn write" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
+				<form:hidden path="pageIndex" />
+				<input hidden name="boardGbSq" value="${boardGbSq}"/>
+				<input hidden name="boardGbNm" value="${boardGbNm}"/>
+			
+				</div>
+			</div>
 			</div>
 			
-			<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"/>
-			<form:hidden path="pageIndex" />
-			<input hidden name="boardGbSq" value="${boardGbSq}"/>
-			<input hidden name="boardGbNm" value="${boardGbNm}"/>
-		
-			<a class="btn createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
-	
+			
 		</div>
 	</div>
 </form:form>
-
+<!-- 			<button class= "btn">a</button> -->
+<!-- 			<button class= "btn hover" type = "button">b</button> -->
+<!-- 			<button class= "btn focus" class= "-moz-focus-inner">c</button> -->
+<!-- 			<button class="btn-outline-primary">ㅁㅁ</button> -->
+<!-- 			<button class="btn-group">ㅁㅁ</button> -->
+<!-- 			<button class=".btn-toolbar">ㅁㅁ</button> -->
+<!-- 			<button class="btn-facebook">ㅁㅁ</button> -->
+			
 			
 </body>
 </html>

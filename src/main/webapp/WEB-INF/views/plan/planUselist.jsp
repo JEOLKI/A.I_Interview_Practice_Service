@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
@@ -29,71 +29,109 @@ function searchList(){
 }
 
 </script>
-
+<style>
+	#search{
+		display: inline-block;
+	}
+	
+	#table, table{
+		width:1000px;
+	}
+	
+	table, th, td{
+		border: solid 1px black;
+	}
+	
+	#boardGu1{
+		background-color: #56c0ce;
+	}
+	.boarding{
+		display: inline-block;
+	}
+	.button-search{
+		text-align: right;
+ 		margin-left: 21%;
+ 		margin-top: 30px;  
+	
+	}
+	.paging{ 
+		text-align: center;
+	}
+	.write{
+		text-align: right;
+	}
+</style>
 </head>
 <body>
+<br>
+<br>
+<br>
 <form:form commandName="planUseVO" id="listForm" name="listForm" method="get">
-	<div id="root">
+	<div id="root boarding">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			
 			<div class="body" >
 			
-				<div class="col-sm-8 blog-main">
+				<div class="col-sm-10 blog-main">
 			
 					<div class="input-group" id="search">
-		        		<ul>
+		        		<ul class = "button-search">
 		        			<li>
 		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
-		        				<form:select path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm">
-		        					<form:option value="0" label="이름" />
-		        					<form:option value="1" label="작성자" />
+		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
+		        					<form:option value="0" label="이용권" />
+		        					<form:option value="1" label="날짜" />
 		        				</form:select>
-		        			</li>
-		        			<li><label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input path="searchKeyword" cssClass="txt form-control bg-light border-0 small"/>
-		                    </li>
-		        			<li>
+		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+		                        <form:input path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-3"/>
 		        	            <span class="btn btn-primary">
 		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
 		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
 		        	            </span>
 		        	        </li>
+		        	        <li class = "down">
+		        	        <a  href="/plan/planUseExcel.do">↓ 목록 내려받기</a>
+		        	        </li>
 		                </ul>
-		        	</div>
-			
-			
+		        	
+					</div>
+					
 					<div class="table-responsive">
-						<table class="table table-bordered" id="dataTable">
+						<table class="table-bordered table" id="dataTable">
 						<thead>
 							<tr>
-								<th>구매일</th>
-								<th>이용권</th>
-								<th>회원 아이디</th>
-								<th>결제 금액</th>
-								<th>시작일</th>
-								<th>마지막날</th>
+								<th class="label menu">구매일</th>
+								<th class="label menu">이용권</th>
+								<th class="label menu">회원 아이디</th>
+								<th class="label menu">결제 금액</th>
+								<th class="label menu">기간</th>
 							</tr>
 						</thead>
 						<tbody id="boardList">
 							<c:forEach items="${resultList }" var="planuse">
 								<tr>
-								<td>${planuse.startDate }</td>	
+								<td>${planuse.startDay }</td>	
 								<td>${planuse.planNm }</td>
 								<td>${planuse.memId } </td>
-								<td>${planuse.planPrice } </td>
-								<td>${planuse.startDate }</td>
-								<td>${planuse.endDate }</td>
+								<td>${planuse.fmtPlanPrice } </td>
+								<td>${planuse.startDay }~${planuse.endDay }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
+						
 				</div>
-			</div>
 			
-			<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"/>
-			<form:hidden path="pageIndex" />
+			<div class = "paging">
+				
+				<ul class="pagination boarding">
+				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+				</ul>
+				<form:hidden path="pageIndex" />
+			</div>
 		
+			</div>
 			</div>
 		</div>
 	</div>

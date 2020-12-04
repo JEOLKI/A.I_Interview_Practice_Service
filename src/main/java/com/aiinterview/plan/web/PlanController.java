@@ -125,7 +125,7 @@ public class PlanController {
 	@RequestMapping(path = "/manage.do", method = RequestMethod.GET)
 	public String createView() {
 		
-		return "manage/planManage";
+		return "plan/planManage";
 	}
 	
 	
@@ -363,23 +363,6 @@ public class PlanController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
@@ -387,7 +370,7 @@ public class PlanController {
 	
 	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(PlanUseVO planuseVO, HttpSession session, ModelMap model) {
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 
 		/** EgovPropertyService.sample */
 		planuseVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -410,7 +393,9 @@ public class PlanController {
 			e.printStackTrace();
 		}
 		model.addAttribute("resultList", resultList);
-
+		
+		
+		
 		int totCnt = 0;
 		try {
 			totCnt = planService.retrievePagingListCnt(planuseVO);

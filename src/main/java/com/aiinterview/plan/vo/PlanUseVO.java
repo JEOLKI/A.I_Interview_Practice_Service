@@ -1,5 +1,6 @@
 package com.aiinterview.plan.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PlanUseVO extends PlanVO{
@@ -10,6 +11,24 @@ public class PlanUseVO extends PlanVO{
 	private String memId;
 	private String planSq;
 	private int term;
+	private String startDay ; 
+	private String endDay ;
+	
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+	
+	public String getStartDay() {
+		this.startDay = sdf.format(startDate);
+		return startDay;
+	}
+	public String getEndDay() {
+		this.endDay = sdf.format(endDate);
+		return endDay;
+	}
+	
+//	startList.add(sdf.format(resultList.get(i).getStartDate()));
+//	endList.add(sdf.format(resultList.get(i).getEndDate()));
+	
 	
 	public int getTerm() {
 		return term;

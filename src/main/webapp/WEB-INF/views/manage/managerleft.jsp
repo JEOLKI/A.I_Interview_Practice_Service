@@ -37,7 +37,7 @@
 	</button>
 	<div id="demoAcc2" class="w3-hide w3-white w3-card">
 		<a href="/plan/manage.do" class="w3-bar-item w3-button">&ensp;&ensp;요금제 관리</a>
-		<a href="/plan/manageCash.do" class="w3-bar-item w3-button">&ensp;&ensp;결제 내역</a>
+		<a href="/plan/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;결제 내역</a>
 	</div>
 
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3()">

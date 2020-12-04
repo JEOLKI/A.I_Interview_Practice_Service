@@ -99,16 +99,10 @@
 			<tr id='tr1'>
 				<td class='tdMenu'>제목 :</td>
 				<td id='boardTitle'>[ ${boardVO.catContent} ] ${boardVO.boardTitle }</td>
-				<td class='tdMenu'>작성자 :</td>
-				<td id='memId'>${boardVO.memId }</td>
-				<td class='tdMenu'>작성일자 :</td>
-				<td id='boardDate'>${boardVO.boardDate }</td>
+				<td class='tdMenu' id='memId'>작성자 : ${boardVO.memId }</td>
+				<td class='tdMenu' id='boardDate'>작성일자 :${boardVO.boardDate }</td>
 			</tr>
 			
-			<tr>
-				<td class='tdMenu content'>내용 :</td>
-				<td id='boardContent' colspan='5'>${boardVO.boardContent}</td>
-			</tr>
 			
 			<tr>
 				<td class='tdMenu'>첨부파일 :</td>
@@ -120,17 +114,22 @@
 			</tr>
 			
 			<tr>
+				<td class='tdMenu content'>내용 :</td>
+				<td id='boardContent' colspan='5'>${boardVO.boardContent}</td>
+			</tr>
+			
 				<tr id='tr2'>
-				<td class='tdMenu' id="reMenu">  댓    글 : </td>
+				<td class='tdMenu' id="reMenu"> 댓    글 : </td>
 				<td id='replyList' colspan='5'>
 					<form id="newReplyfrm" action="${pageContext.request.contextPath }/reply/update.do" method="GET">
 					<table class="replyTable table table-bordered" id="dataTable">
 						<c:forEach items="${replyList }" var="replyVO">
 							<c:if test="${replyVO.replySt == 'Y'}">
 								<tr>
-									<td class='replyMem' rowspan='2'>${replyVO.memId }</td>
+									<td class='replyMem' rowspan='1'>${replyVO.memId }</td>
+									<td class='replyContent' id='replyContent${replyVO.replySq }' colspan='4' >${replyVO.replyContent }	</td>
 									<td class='replyDate'>${replyVO.replyDate }</td>
-									<td class='butgroup2' rowspan='2'>
+									<td class='butgroup2' rowspan='1'>
 									
 									<c:if test="${replyVO.memId == S_MEMBER.memId }">
 										<button class='updateReply' data-reply_sq="${replyVO.replySq }" type='button'>수정</button>
@@ -141,13 +140,15 @@
 									</td>
 								</tr>
 								<tr>
-									<td class='replyContent' id='replyContent${replyVO.replySq }' colspan='4' >${replyVO.replyContent }</td>
 								</tr>
 							</c:if>
 						</c:forEach>
 					</table>
+					
+				
 					<input HIDDEN type="text" name="boardSq" value="${boardVO.boardSq }">
 					<input HIDDEN type="text" name="memId" value="${S_MEMBER.memId }">
+					
 					</form>
 				</td>
 			</tr>
@@ -156,7 +157,7 @@
 					<form id="replyfrm" action="${pageContext.request.contextPath }/reply/create.do" method="GET">
 						<input HIDDEN type="text" name="boardSq" value="${boardVO.boardSq }">
 						<input HIDDEN type="text" name="memId" value="${S_MEMBER.memId }">
-						<textarea id="replyContent" name="replyContent" rows="" cols=""></textarea>
+						<input type = "text" id="replyContent" name="replyContent"/>
 						<button id="replyRegBtn" type="button">댓글저장</button>
 					</form>
 				</td>

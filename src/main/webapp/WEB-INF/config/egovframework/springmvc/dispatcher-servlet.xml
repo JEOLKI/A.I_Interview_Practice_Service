@@ -118,6 +118,13 @@
     
     <bean id="chatHandler" class="com.aiinterview.chat.web.ChatHandler"></bean>
 
+
+<bean id="EgovImgPaginationRenderer" class="com.aiinterview.common.web.EgovImgPaginationRenderer"/>
+
+
+
+
+
 	<websocket:handlers>
 	<websocket:mapping handler="chatHandler"
 		path="/chatting.do" />
