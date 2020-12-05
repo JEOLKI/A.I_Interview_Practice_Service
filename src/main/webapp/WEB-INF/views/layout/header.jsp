@@ -7,7 +7,12 @@
     .leftbox{
         margin-top: 52px;
     }
+    
     .contentbox{
+        margin-top: 52px;
+    }
+    
+    .managerbox{
         margin-top: 100px;
         margin-left: 250px;
     }
