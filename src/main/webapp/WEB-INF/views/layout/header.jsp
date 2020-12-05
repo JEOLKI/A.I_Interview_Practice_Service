@@ -2,10 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
- <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <style>
 
-    
     .contentbox{
         margin-top: 52px;
     }
@@ -135,44 +133,53 @@
 		margin-bottom: 10%;
 	}
 	.dropbtn {
-  background-color: #ea2129;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-}
+		background : white;
+		color: black;
+		padding: 15px;
+		font-size: 16px;
+		border: none;
+	}
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+	.dropdown {
+	  position: relative;
+	  display: inline-block;
+	}
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
+	.dropdown-content {
+	  display: none;
+	  position: absolute;
+	  min-width: 160px;
+	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	  z-index: 1;
+	}
 
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
+	.dropdown-content a {
+	  color: black;
+	  padding: 12px 16px;
+	  text-decoration: none;
+	  display: block;
+	}
 
-.dropdown-content a:hover {background-color: #ddd;}
-
-.dropdown:hover .dropdown-content {display: block;}
-
-.dropdown:hover {background-color: #3e8e41;}
-
-.user-popup{
-	display: none;
-}
-
+	.dropdown-content a:hover {background-color: #ddd;}
+	
+	.dropdown:hover .dropdown-content {display: block;}
+	
+	.dropdown:hover {background-color: #3e8e41;}
+	
+	.user-popup{
+		display: none;
+	}
+	
+	.logo{
+		width: 175px;
+		height: 52px;
+		margin-top: 5px;
+		margin-left: 6px;		
+	}
+	
+	.nav{
+		padding-top: 17px; 
+	}
 </style>
 
 <script>
@@ -327,12 +334,13 @@ function boardGubunList(){
 }
 
 </script>
+
 <!-- header -->
 <div class="TopBar undefined" id  ="header" >
 	<div class="navigation-bar">
-		<a class="iam-logo" href="/login/main.do"><img
-			src="/images/Ai_Interview 로고.png" alt="iam-logo"
-			class="iam-img"></a>
+		<a class="iam-logo" href="/login/main.do">
+			<img src="/images/Ai_Interview 로고.png" alt="logo" class="logo">
+		</a>
 		<div class="nav">
 			<c:choose>
 				<c:when test="${S_MEMBER.memId == null }">
@@ -343,7 +351,7 @@ function boardGubunList(){
 				</c:otherwise>
 			</c:choose>
 			<div class="dropdown">
-				<button class="lecture false dropbtn">게시판</button>
+				<a class="main false dropbtn">게시판</a>
 				<div class="dropdown-content" id="boardGubunList">
 				</div>
 			</div>
