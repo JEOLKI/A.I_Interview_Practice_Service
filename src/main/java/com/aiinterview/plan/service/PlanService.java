@@ -1,6 +1,7 @@
 package com.aiinterview.plan.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.plan.dao.PlanMapper;
+import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
@@ -77,6 +79,16 @@ public class PlanService {
 	public int retrievePagingListCnt(PlanUseVO planUseVO) throws Exception {
 		return planMapper.retrievePagingListCnt(planUseVO);
 	}
+
+	/**
+	 * 전체 요금제 사용 통계 조회
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap) {
+		return planMapper.retrieveTotalUse(statisticMap);
+	}
+
 	
 	
 	

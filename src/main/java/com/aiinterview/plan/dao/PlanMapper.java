@@ -1,9 +1,11 @@
 package com.aiinterview.plan.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.base.vo.BaseVO;
 import com.aiinterview.board.vo.BoardVO;
+import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
@@ -100,6 +102,14 @@ public interface PlanMapper {
 	public List<PlanUseVO> retrievePagingList(PlanUseVO planUseVO) throws Exception;
 	
 	public int retrievePagingListCnt(PlanUseVO planUseVO) throws Exception;
+
+	/**
+	 * 전체 요금제 사용 통계 조회
+	 * @param statisticMap
+	 * @return
+	 */
+	List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap);
+
 	
 	
 	

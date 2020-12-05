@@ -24,6 +24,7 @@ import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.member.web.LoginController;
 import com.aiinterview.plan.service.PlanService;
+import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
@@ -408,21 +409,40 @@ public class PlanController {
 		return "plan/planUselist";
 	}
 	
-	
+	/* chart.js 테스트 */
 	@RequestMapping("/chartjs.do")
 	public String chartjs() {
-		
-		
 		return "plan/chartJsTest";
 	}
 	
+	/* AMChart 테스트 */
 	@RequestMapping("/amchart.do")
-	public String statistics() {
-		
-		
+	public String amchart() {
 		return "plan/amChartTest";
 	}
 	
+	/* 요금제 통계 화면 */
+	@RequestMapping("/statistics.do")
+	public String statistics(Model model) {
+		return "plan/planStatistics";
+	}
+	
+	/* 요금제 통계 (기간별) */
+	@RequestMapping("/totalStatistics.do")
+	public String totalStatistics(String startDate, String endDate, String searchKeyword) {
+		
+		System.out.println("startDate : "+ startDate + ", endDate : "+ endDate+", searchKeyword : "+searchKeyword);
+		
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("searchKeyword", searchKeyword);
+		
+		
+		List<PlanStatisticsVO> totalUseList = planService.retrieveTotalUse(statisticMap);
+		
+		return "jsonView";
+	}
 	
 	
 	
