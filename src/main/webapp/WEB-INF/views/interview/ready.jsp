@@ -72,21 +72,10 @@ to {
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-/* Modal Content/Box */
-/* #content-box { */
-/* 	position:absolute; */
-/* 	top: 40px; */
-/* 	margin-left: 40%; */
-/* 	width: 996px; /* Could be more or less, depending on screen size */ */
-/* 	border-radius: 8px solid #888; */
-/* 	background-color: #fefefe; */
-/* 	text-align: left; */
-	
-	
-/* 	margin: 15% auto; /* 15% from the top and centered */ */
-/* 	padding: 20px; */
-/* 	height: 15%; */
-/* } */
+.nothing{
+	cursor: pointer;
+	padding : 13px 40px;
+}
 </style>
 <script>
 $(document).ready(function(){
@@ -94,11 +83,12 @@ $(document).ready(function(){
 	$('#complete').hide();
 	
 	count = 1;
+	choose = 0;
 	
 	$('.NullQuestionBox').on('click',function(){
 		if(count < 5 ){
-			$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button> <input type='hidden' id='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='vertical-align: middle;' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
 			count++;
+			$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' id='question' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button> <input type='hidden' id='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='vertical-align: middle;' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
 		}else{
 			alert('질문 개수 제한은 5개입니다')			
 		}
@@ -114,16 +104,26 @@ $(document).ready(function(){
 	});
 	
 	$(document).on('click','.delete-btn',function(){
-		$(this).parent().parent().remove();
-		count--;
+		if(count  == 1){
+			alert('최소 하나의 질문은 필요합니다')
+		}else{
+			$(this).parent().parent().remove();
+			count--;
+		}
 	});
 	
 	$(document).on('click','.search-btn',function(){
 		$('#questionSearch').show();
+		console.log($('.SetQuestionBox').find().index(this));
 	});
 	
-	$('.close-btn').on('click',function(){
-		$('#questionSearch').hide();
+	$(document).on('click','.close-btn',function(){
+		$('#search').val(''); // 검색칸 초기화
+		$('.searched-question.recommend').show(); // 추천질문 표시
+		$('.recommend-question').show(); // 
+		$('.nothing').remove(); // 검색결과 없음 지우기
+		$('.searched-question').remove(); // 검색된 결과 지웅기
+		$('#questionSearch').hide(); // 모달창 닫기
 	});
 	
 	$(document).mouseup(function(){
@@ -133,8 +133,24 @@ $(document).ready(function(){
 		$('.SetQuestionBox').removeClass('checked');
 	});
 	
+	// 추천질문
 	$(document).on('click','.searched-question.recommend',function(){
 		console.log($(this).children('div').text());
+	})
+	
+	// 검색한 샘플질문 선택
+	$(document).on('click','.searched-question',function(){
+		console.log("카운트는"+count);
+		// 샘플질문 선택 시 
+		// 1. 
+		// 2.
+		
+// 		console.log($('.SetQuestionBox:eq("c")'))
+// 		console.log($('#questionFrm>.SetQuestionBox:eq('+count-1+')>.SetQuestionBoxView>.text'));
+// 		console.log($('#questionFrm').children().index($('.SetQuestionBox')));
+	
+		console.log($(this).text());
+		
 	})
 	
 	// 키워드 검색 에이잭스
@@ -146,12 +162,22 @@ $(document).ready(function(){
 			data : {searchKeyword : searchKeyword},
 			method : "get",
 			success : function(data){
-				html = "";
-				$('.recommend-question').append(html);
-				for(i=0; i< data.sampQuestList.length; i++){
-					html += '<div>' + data.sampQuestList[i].sampQuestContent + '</div><br>';
+				$('.nothing').remove();
+				$('.searched-question').remove();
+				
+				if(data.sampQuestList.length == 0){
+					html="";
+					html += "<div class='nothing'>결과가 없습니다</div>";
+// 					$('.recommend-question').hide();
+					$('.search-result').append(html);
+				}else{
+					html = "";
+					for(i=0; i< data.sampQuestList.length; i++){
+						html += "<div class='searched-question'>" + data.sampQuestList[i].sampQuestContent + "</div>";
+					}
+// 					$('.recommend-question').hide();
+					$('.search-result').append(html);
 				}
-				$('.recommend-question').append(html);
 			},
 			error : function(data){
 				console.log(data.status);
@@ -195,6 +221,9 @@ function setting(){
 									<input id="searchBtn" type="button" value="검색">
 								</div>
 								<div class="questions-area">
+									<div class="search-result">
+										
+									</div>
 									<div class="recommend-question">
 										<div class="label">추천 질문</div>
 										<div class="searched-question recommend">
@@ -242,7 +271,7 @@ function setting(){
 								</div>
 							</div>
 						</div>
-						<div class="interview-ready-btn Btn none">면접
+						<div class="interview-ready-btn Btn none" onclick="setting();">면접
 							시작</div>
 
 					</form>
