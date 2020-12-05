@@ -409,6 +409,19 @@ public class PlanController {
 	}
 	
 	
+	@RequestMapping("/chartjs.do")
+	public String chartjs() {
+		
+		
+		return "plan/chartJsTest";
+	}
+	
+	@RequestMapping("/amchart.do")
+	public String statistics() {
+		
+		
+		return "plan/amChartTest";
+	}
 	
 	
 	
