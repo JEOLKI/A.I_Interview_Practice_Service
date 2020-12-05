@@ -423,7 +423,7 @@ $(document).ready(function(){
 			</div>
 			<div class="bg-video camera">
 				<div class="bg-layer"></div>
-				<video id="video" src="/images/RecordedVideo.webm" class="user-camera-video false" autoplay></video>
+				<video id="video" class="user-camera-video false" autoplay></video>
 <!-- 				<canvas id="canvas"> </canvas> -->
 			</div>
 		</div>
