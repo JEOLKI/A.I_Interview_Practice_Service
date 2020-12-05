@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import com.aiinterview.interview.service.QuestionGubunService;
 import com.aiinterview.interview.service.SampleQuestionService;
 import com.aiinterview.interview.vo.QuestionGubunVO;
 import com.aiinterview.interview.vo.SampleQuestionVO;
+import com.aiinterview.script.vo.ScriptVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -167,11 +169,28 @@ public class SampleQuestionController {
 			return "question/sampleQuestionManage";
 		}
 	}
-	
-	@RequestMapping(path = "/retrieve.do", method = { RequestMethod.GET })
+	/* 샘플질문 검색*/
+	@RequestMapping(path = "/retrieve.do")
 	public String retrieve(String searchKeyword, Model model) {
 		List<SampleQuestionVO> sampQuestList = sampleQuestionService.retrieve(searchKeyword);
 		model.addAttribute("sampQuestList",sampQuestList);
+		return "jsonView";
+	}
+	
+	@RequestMapping(path = "/retrieveRandom.do")
+	public String retrieveRandom(Model model){
+		List<SampleQuestionVO>sampleQuestionList =  sampleQuestionService.retrieveList();
+		List<SampleQuestionVO> randomQuestionList = new ArrayList<>();
+		
+		for (SampleQuestionVO sampleQuestionVO : sampleQuestionList) {
+			if(sampleQuestionVO.getSampQuestSt().equals("Y")) {
+				randomQuestionList.add(sampleQuestionVO);
+			}
+		}
+		int randomInt = (int)(Math.random()*randomQuestionList.size());
+		SampleQuestionVO sampleQuestionVO = randomQuestionList.get(randomInt);
+		
+		model.addAttribute("sampleQuestionVO",sampleQuestionVO);
 		return "jsonView";
 	}
 }

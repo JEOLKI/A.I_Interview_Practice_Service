@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>아이엠터뷰</title>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -126,7 +126,8 @@ $(document).ready(function(){
 		$('.searched-question.recommend').show(); // 추천질문 표시
 		$('.recommend-question').show(); // 
 		$('.nothing').remove(); // 검색결과 없음 지우기
-		$('.searched-question').remove(); // 검색된 결과 지우기
+		$('.result').remove(); // 검색된 결과 지우기
+		$('#randomQuestion').remove(); // 검색된 결과 지우기
 		$('#questionSearch').hide(); // 모달창 닫기
 	});
 	
@@ -138,7 +139,7 @@ $(document).ready(function(){
 	});
 	
 	// 질문 클릭 시
-	$(document).on('click','.searched-question',function(){
+	$(document).on('click','.search-result .searched-question',function(){
 		console.log($(this).text());
 		console.log($(this).data('sq'));
 		
@@ -151,16 +152,28 @@ $(document).ready(function(){
 		$('.searched-question.recommend').show(); // 추천질문 표시
 		$('.recommend-question').show(); // 추천질문 표시
 		$('.nothing').remove(); // 검색결과 없음 지우기
-		$('.searched-question').remove(); // 검색된 결과 지우기
+		$('.result').remove(); // 검색된 결과 지우기
+		$('#randomQuestion').remove(); // 검색된 결과 지우기
 		$('#questionSearch').hide();
 		
 	});
 	
+	// 랜덤질문을 클릭 시
+	$(document).on('click','#randomQuestion',function(){
+		content = $(this).text(); 
+		console.log(content);
+		
+		$('#questionFrm .SetQuestionBox').eq(number).find($('.text')).val(content);
+		
+		$('#search').val(''); // 검색칸 초기화
+		$('.searched-question.recommend').show(); // 추천질문 표시
+		$('.recommend-question').show(); // 
+		$('.nothing').remove(); // 검색결과 없음 지우기
+		$('.result').remove(); // 검색된 결과 지우기
+		$('#randomQuestion').remove(); // 검색된 결과 지우기
+		$('#questionSearch').hide(); // 모달창 닫기
+	});
 	
-	// 추천질문
-	$(document).on('click','.searched-question.recommend',function(){
-		console.log($(this).children('div').text());
-	})
 	
 	// 키워드 검색 에이잭스
 	$("#searchBtn").on('click',function(){
@@ -172,7 +185,7 @@ $(document).ready(function(){
 			method : "get",
 			success : function(data){
 				$('.nothing').remove();
-				$('.searched-question').remove();
+				$('.searched-question.result').remove();
 				
 				if(data.sampQuestList.length == 0){
 					html="";
@@ -182,11 +195,29 @@ $(document).ready(function(){
 				}else{
 					html = "";
 					for(i=0; i< data.sampQuestList.length; i++){
-						html += "<div class='searched-question' data-sq="+data.sampQuestList[i].sampQuestSq+" '>" + data.sampQuestList[i].sampQuestContent + "</div>";
+						html += "<div class='searched-question result' id='result' data-sq="+data.sampQuestList[i].sampQuestSq+" '>" + data.sampQuestList[i].sampQuestContent + "</div>";
 					}
 // 					$('.recommend-question').hide();
 					$('.search-result').append(html);
 				}
+			},
+			error : function(data){
+				console.log(data.status);
+			}
+		});
+	});
+	
+	// 랜덤 질문 생성
+	$(document).on('click','#random',function(){
+		$.ajax({
+			url : "/sampQuest/retrieveRandom.do",
+			method : "get",
+			success : function(data){
+				console.log( data.sampleQuestionVO.sampQuestContent);
+				$('#randomQuestion').remove();
+				html=""
+				html+="<div class='searched-question' id='randomQuestion'>"+data.sampleQuestionVO.sampQuestContent+"</div>";
+				$('.searched-question.recommend').append(html);
 			},
 			error : function(data){
 				console.log(data.status);
@@ -198,11 +229,15 @@ $(document).ready(function(){
 
 
 function setting(){
-// 	if($('.text').prop()==''){
-// 		alert('빈칸인 질문이 있습니다.')
-// 	}else{
- 		$("#questionFrm").submit();
-// 	}
+	console.log(number);
+	for(i=0; i<$('.text').length; i++){
+		if($('.text').eq(i).val()==''){
+			alert('빈칸인 질문이 있습니다.')
+			
+			return false;
+		}
+	}
+	$("#questionFrm").submit();
 }
 
 
@@ -237,7 +272,7 @@ function setting(){
 									<div class="recommend-question">
 										<div class="label">추천 질문</div>
 										<div class="searched-question recommend">
-											<button type="button" class="refresh-btn">
+											<button  id="random" type="button" class="refresh-btn">
 												<span aria-hidden="true" class="fa fa-refresh fa undefined"></span>
 											</button>
 										</div>
@@ -281,7 +316,7 @@ function setting(){
 								</div>
 							</div>
 						</div>
-						<div class="interview-ready-btn Btn none" onclick="setting();">면접
+						<div class="interview-ready-btn Btn none" onclick="setting();" return false;>면접
 							시작</div>
 
 					</form>
