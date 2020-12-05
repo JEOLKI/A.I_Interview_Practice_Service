@@ -278,7 +278,7 @@ function startTest(){
 		recorder.src = microphone;
 	
 		$('#stopTestBtn').show();
-		var phraseDiv = $('#phraseDiv').val();
+		var phraseDiv = $('#scriptModalContent').val();
 		console.log("phraseDiv : "+phraseDiv);
 		
 		var scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
