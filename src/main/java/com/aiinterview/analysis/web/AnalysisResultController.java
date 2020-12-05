@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import com.aiinterview.script.vo.ScriptVO;
 @RequestMapping("/analysisresult")
 @Controller
 public class AnalysisResultController {
+	private static final Logger logger = LoggerFactory.getLogger(AnalysisResultController.class);
 	@Resource(name = "scriptService")
 	private ScriptService scriptService;
 
@@ -78,5 +81,4 @@ public class AnalysisResultController {
 	public String interviewListView() {
 		return "analysis/interviewList";
 	}
-	
 }
