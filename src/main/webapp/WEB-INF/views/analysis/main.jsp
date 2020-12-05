@@ -9,11 +9,14 @@
 <title>Insert title here</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script> 
+<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+<script src="/js/audiodisplay.js"></script>
+<script src="/js/recorderjs/recorder.js"></script>
 <title>아이엠터뷰</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <style>
 body * {
 	box-sizing: border-box;
@@ -126,7 +129,7 @@ to {
 .modal-box {
 	width: 330px;
 	height: 420px;
-	padding : 10px;
+	padding: 10px;
 }
 
 .pro {
@@ -141,15 +144,94 @@ $(document).ready(function() {
 	$('#stopTestBtn').hide();
 });   
 
-/* function startAnalysis(){
-	$.ajax({
-		url : "/scriptTest/startAnalysis.do",
-		data : {scriptGbSq:scriptGbSq, }
-	})
-}
- */
+var authorizationEndpoint = "token.php";
+function RequestAuthorizationToken() {
+    if (authorizationEndpoint) {
+      var a = new XMLHttpRequest();
+      a.open("GET", authorizationEndpoint);
+      a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      a.send("");
+      a.onload = function() {
+          var token = JSON.parse(atob(this.responseText.split(".")[1]));
+          serviceRegion.value = token.region;
+          authorizationToken = this.responseText;
+          subscriptionKey.disabled = true;
+          subscriptionKey.value = "using authorization token (hit F5 to refresh)";
+          console.log("Got an authorization token: " + token);
+      }
+    }
+  }
+
+var phraseDiv;
+var startRecognizeOnceAsyncButton;
+
+// subscription key and region for speech services.
+var subscriptionKey, serviceRegion;
+var authorizationToken;
+var SpeechSDK;
+var recognizer;
+
+document.addEventListener("DOMContentLoaded", function () {
+  startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
+  subscriptionKey = document.getElementById("scriptModalContent");
+  serviceRegion = document.getElementById("serviceRegion");
+  phraseDiv = document.getElementById("phraseDiv");
+
+  startRecognizeOnceAsyncButton.addEventListener("click", function () {
+    startRecognizeOnceAsyncButton.disabled = true;
+    phraseDiv.innerHTML = "";
+
+    // if we got an authorization token, use the token. Otherwise use the provided subscription key
+    var speechConfig;
+    if (authorizationToken) {
+      speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, serviceRegion.value);
+    } else {
+      if (subscriptionKey.value === "" || subscriptionKey.value === "subscription") {
+        alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+        return;
+      }
+      speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
+    }
+
+    speechConfig.speechRecognitionLanguage = "ko-KR";
+    var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+    recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+    recognizer.recognizeOnceAsync(
+      function (result) {
+        startRecognizeOnceAsyncButton.disabled = false;
+        phraseDiv.innerHTML += result.text;
+        window.console.log(result);
+
+        recognizer.close();
+        recognizer = undefined;
+      },
+      function (err) {
+        startRecognizeOnceAsyncButton.disabled = false;
+        phraseDiv.innerHTML += err;
+        window.console.log(err);
+
+        recognizer.close();
+        recognizer = undefined;
+      });
+  });
+
+  if (!!window.SpeechSDK) {
+    SpeechSDK = window.SpeechSDK;
+    startRecognizeOnceAsyncButton.disabled = false;
+
+    document.getElementById('content').style.display = 'block';
+    document.getElementById('warning').style.display = 'none';
+
+    // in case we have a function for getting an authorization token, call it.
+    if (typeof RequestAuthorizationToken === "function") {
+        RequestAuthorizationToken();
+    }
+  }
+});
+
+var scriptContent;
 function random(scriptGbSq){
-	console.log("scriptGbSq : "+scriptGbSq);
 	$.ajax(
    			{url:"/script/retrieveScriptList.do",
    			data : {scriptGbSq : scriptGbSq},
@@ -159,6 +241,7 @@ function random(scriptGbSq){
    				console.log(data.scriptVO.scriptContent);
 	   				$('#scriptModalContent').html('');
 	   				$('#scriptModalContent').html('<br><br>'+data.scriptVO.scriptContent);
+	   				scriptContent = data.scriptVO.scriptContent;
    			},
    			error: function(data){
    				$('#scriptModalContent').html('');
@@ -168,14 +251,8 @@ function random(scriptGbSq){
    		});
 }
 
-//브라우저에 미디어 스트림 사용 요청
 var audio = document.querySelector('audio');
 function captureMicrophone(callback){
-	//브라우저 호환을 위해 ||로 여러개 요청
-	
-	//오디오 타입의 미디어 형식을 사용할 거니까 audio : true
-	//실행 시 callback과 실패시 callback 함수 지정
-	//성공시 function captureMicrophone의 인자로 받도록 함
 	navigator.getUserMedia({audio : true}, callback,
 							function(error){
 								alert('마이크를 연결해주세요.');
@@ -183,88 +260,61 @@ function captureMicrophone(callback){
 	});
 };
 
-
-
-//성공시 호출된  callback 함수에 회원이 테스트한 audio media stream값을 인자로 전달 가능
-//받아온 stream 바로 재생 및 특정 포맷으로 녹음
 var recorder;
-	//녹음 시작시 시작하기 버튼 비활성화
+//녹음 시작
 function startTest(){
 
-	//document.getElementById('scriptGbBtn').disabled=true;
 	$('#startTestBtn').hide();
 	
-	//위의 captureMicrophone 함수 실행
-	//media stream -> microphone
 	captureMicrophone(function (microphone){
-		console.log("captureMicrophone inner startTestBtn");
-		
-		//가져온 microphone을 RecordRTC에연결
-		//RecordRTC가 우리가 사용할 수 있는 객체 반환
 		recorder = RecordRTC(microphone, {
 			type : 'audio', //audio 타입 포맷 전송
 			recorderType : StereoAudioRecorder,
 			numberOfAudioChannels : 1, 
-			//recordRTC는 스테레오타입(마잌 두개)만 지원하는데,, 채널1로 하면 마이크 하나로만 인식함
 			desiredSampRate : 16000	//초당 audio 샘플 채취 수
 		});
 		
-		//녹음 시작
 		recorder.startRecording();
-
-		//스트림을 microphone에 연결하고,, 나중에 정지할 때 따로 해제함
 		recorder.src = microphone;
-		
+	
 		$('#stopTestBtn').show();
-		//document.getElementById('stopTestBtn').disabled=false;
-	});
+		var phraseDiv = $('#phraseDiv').val();
+		console.log("phraseDiv : "+phraseDiv);
+		
+		var scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
+		var result = $.post('/scriptTest/startTest.do', {
+			scriptContent : scriptContent,
+			scriptGbSq : scriptGbSq,
+			phraseDiv : phraseDiv},function(data) {
+				}).done(function(data){
+					var html = "분석중입니다. 잠시만 기다려주세요!";
+					$('#scriptModalContent').append(html);
+				}).fail(function(data){
+					alert("Error! : "+data.status);
+				});
+		});
 };
+
 	
 //녹음 정지 + 콜백함수 전달 받음
 function stopTest(){
 	recorder.stopRecording(stopRecordingCallback);
 	$('#startTestBtn').show();
 	$('#stopTestBtn').hide();
-	//document.getElementById('startTestBtn').disabled = false;
 };
 
 var audioSource;
+var blob;
+let audioUrl;
 function stopRecordingCallback(){
 	
-	console.log("immediately stopRecording") //확인
+	//녹음된 오디오의 blob파일
+	blob = recorder.getBlob();
 	
-	//녹음된 오디오의 blob파일 받아옴
-	var blob = recorder.getBlob();
-	console.log("blob : "+blob) // = [objectBlob]
-	console.log("blob.length : "+blob.size); 	// 확인
-	console.log("blob.length : "+blob.type); 	// 확인
-	
-	
-	//var audioSource = document.querySelector('.audio > source');
-	//console.log("audioSource : "+audioSource);
-	//브라우저 내부의 저장소의 URL을 생성하고 audio에 연결
-	console.log(blob);
-	//console.log("찍히냐")
-	//console.log("blob log : "+window.URL.createObjectURL(blob));
-	let audioUrl = window.URL.createObjectURL(blob); //결과 나옴
-	
-	//console.log(audioUrl);
+	audioUrl = window.URL.createObjectURL(blob);
 	
 	audioSource = document.querySelector('audio > source');
 	audioSource.src = audioUrl;
-	//audio.src = audioUrl; // null
-	//audio.src = "blob:http://localhost/d72f77f7-eb92-49c8-90f4-04a2f799ee98";
-	
-	//녹음 마치면 녹음된 내용 자동으로 플레이
-	//audioSource.play();
-	//아까 연결한거 해지
-	//recorder.microphone.stop();
-	//microphone.stop();
-	
-//	recorder.microphone.stop(audioUrl);
-	//recorder.stop();
-	//recorder.stop(audioUrl);
-	
 	
 	$('#modal-close-box').empty();
 	
@@ -275,7 +325,7 @@ function stopRecordingCallback(){
 //다운로드 받을 수 있는 링크 생성해주는 function
 function createAudioElement(blobUrl){
 
-	console.log("createAudioElement")
+	console.log("createAudioElement");
 	let today =  new Date();
 	let Y = today.getFullYear();
 	let M = today.getMonth();
@@ -286,14 +336,10 @@ function createAudioElement(blobUrl){
 	
 	let now = Y.toString()+M.toString()+D.toString()+H.toString()+N.toString()+S.toString();
 
-	//download폴더에 자동 저장,.,., 일단 버튼 클릭으로,,하고ㄴ
-	//window.navigator.msSaveBlob(blob, "STFofAI_Interview"+now+".wav");
-	//alert("발음 테스트를 위해 음성 파일이 사용자의 local Directory에 저장되었습니다.")
-	
 	const downloadEl = document.createElement('a');
 	downloadEl.style = 'display : block';
 	downloadEl.download = 'STFofAI_Interview'+now+'.wav';
-	downloadEl.innerHTML = '✔ 이 곳을 눌러 파일을 다운로드 해주세요!✔<br> 다운로드와 동시에 발음 분석이 시작됩니다.';
+	downloadEl.innerHTML = '✔ 내 목소리 들어보기✔';
 	downloadEl.href = blobUrl;
 	
 	const audioEl = document.createElement('audio');
@@ -301,35 +347,13 @@ function createAudioElement(blobUrl){
 	
 	const sourceEl = document.createElement('source');
 	sourceEl.src = blobUrl;
-//	console.log("blobUrl :"+blobUrl);
 	sourceEl.type = 'audio/wav';
 
 	audioEl.appendChild(sourceEl);
 	
 	document.getElementById("modal-close-box").appendChild(audioEl);
 	document.getElementById("modal-close-box").appendChild(downloadEl);
-	//document.body.appendChild(audioEl);
-	//document.body.appendChild(downloadEl);
-};	
-
-//  var recordingblob = null;
-// audioRecorder && audioRecorder.exportWAV(function (blob) {
-//     recordingblob = blob;
-// });
-// $("#myform").submit(function () {
-//     event.preventDefault();
-//     var formData = new FormData($(this)[0]);
-//     if (recordingblob) {
-//         var recording = new Blob([recordingblob], { type: "audio/wav" });
-//         formData.append("recording", recording);
-//     }
-//     $.ajax({
-//         url: myurl,
-//         type: 'POST',
-//         data: formData,
-//         //etc
-//     });
-// }
+};
  
 //이 밑으로 마이크테스트
 // 오른쪽 상단에 사용자가 입력하는 마이크 볼륨 출력
@@ -376,14 +400,16 @@ function createAudioElement(blobUrl){
 // 	}).catch(function(err){
 // 		handle the error
 // 	});
+
 </script>
 
 </head>
 <body>
-	
-	<audio controls autoplay >
-			<source src="">
+
+	<audio id="audioTag" controls autoplay>
+		<source src="" id="sourceTag">
 	</audio>
+	
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -725,15 +751,16 @@ function createAudioElement(blobUrl){
 
 	<div class="modal-wrapper">
 		<div class="modal-box">
-				<div>
-				<c:forEach items="${scriptGbList }" var="scriptGb">
-					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }" onclick="random(${scriptGb.scriptGbSq });">
-						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
-					</button>
-				</c:forEach>
-				<button id="modal-close-btn" class="sdfsadf" style="float:right;">close</button>
+					<div>
+					<c:forEach items="${scriptGbList }" var="scriptGb">
+						<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }" onclick="random(${scriptGb.scriptGbSq });">
+							<div class="label thislabel">${scriptGb.scriptGbContent }</div>
+						</button>
+						<input type="hidden" name="scritGbSq" value="${scriptGb.scriptGbSq }">
+					</c:forEach>
+					<button id="modal-close-btn" style="float: right;">close</button>
 
-				<!-- 마이크 테스트 아 다른거 먼저 하자
+					<!-- 마이크 테스트 아 다른거 먼저 하자
 				<div class="right">
 					<img
 						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="
@@ -784,29 +811,33 @@ function createAudioElement(blobUrl){
 						</div>
 					</div>
 				</div> -->
-
-
-
-
-			</div>
-					<div class="modal-content pro" id="scriptModalContent">
-						
-					</div>
 			
-					
-			
-		
-			<div class="modal-close-box" id="modal-close-box" onclick="startAnalysis()">
-				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.</label><br>
-				<button class="processBtn" id="startTestBtn" onclick="startTest()">시작 하기</button>
-				<button class="processBtn" id="stopTestBtn" onclick="stopTest()">종료 하기</button>
 			</div>
-				
-				<br><br><br>
+
+			<div class="modal-content pro" id="scriptModalContent">
+			
+			</div>
+			ㅇㅣ게 뭐야 ?<br>
+			<input id="serviceRegion" type="text" size="40" value="YourServiceRegion">
+			
+			나의 스크립트<br>
+			<textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea>
+
+			
+			<div class="modal-close-box" id="modal-close-box">
+				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
+				</label><br>
+				<button class="processBtn" id="startTestBtn" onclick="startTest()">시작
+					하기</button>
+				<button class="processBtn" id="stopTestBtn" onclick="stopTest()">종료
+					하기</button>
+			</div>
+
+			<br>
+			<br>
+			<br>
 		</div>
 	</div>
-	
-
 	<script>
       const modalOpenBtn = document.getElementById("modal-open-btn");
       const modalCloseBtn = document.getElementById("modal-close-btn");

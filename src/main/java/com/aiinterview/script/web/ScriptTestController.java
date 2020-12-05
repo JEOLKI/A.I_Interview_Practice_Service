@@ -1,8 +1,11 @@
 package com.aiinterview.script.web;
 
-import javax.annotation.Resource;
-import javax.sound.sampled.AudioFormat;
+import java.util.ArrayList;
 
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,109 +14,107 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.aiinterview.script.service.ScriptGubunService;
 import com.aiinterview.script.service.ScriptService;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
- 
-import com.google.gson.Gson;
-
 @RequestMapping("/scriptTest")
 @Controller
 public class ScriptTestController {
+	private static final Logger logger = LoggerFactory.getLogger(ScriptTestController.class);
+
 	@Resource(name = "scriptService")
 	private ScriptService scriptService;
 
 	@Resource(name = "scriptGubunService")
 	private ScriptGubunService scriptGbService;
 
-	@RequestMapping(path = "/startTest.do",  method = {RequestMethod.POST})
-	public String scriptTestView(Model model, String scriptGbSq){
-		
-		String accessKey = "8cd194e0-d925-4164-b4e0-f5c4124ae53a";    // 발급받은 API Key
-		String openApiURL = null;
-		String languageCode = null; 	//발음평가 코드
-		String script = null;    // 스크립트
-		String audioFilePath = null; // 녹음된 음성 파일 경로
-		
-		if(scriptGbSq.equals("5")) {
-			//한국어 발음 평가
-			openApiURL = "https://aiopen.etri.re.kr:8443/WiseASR/PronunciationKor";
-			languageCode = "korean";
-			//script = scriptContent;
-			//audioFilePath = performScript;
-		} else if(scriptGbSq.equals("7")) {
-			//영어 발음평가
-			openApiURL = "https://aiopen.etri.re.kr:8443/WiseASR/Pronunciation";
-			languageCode = "english";
-			//script = scriptContent;
-			//audioFilePath = performScript;
-		}
-	        
-	        String audioContents = null; 	// audioFile  byte가 들어갈 객체
-	 
-	        
-	        //--------------
-	        
-	        Gson gson = new Gson();
-	 
-	        Map<String, Object> request = new HashMap<>();
-	        Map<String, String> argument = new HashMap<>();
-	 
-	        try {
-	            Path path = Paths.get(audioFilePath);
-	            byte[] audioBytes = Files.readAllBytes(path);
-	            audioContents = Base64.getEncoder().encodeToString(audioBytes);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	 
-	        argument.put("language_code", languageCode);
-	        argument.put("script", script);
-	        argument.put("audio", audioContents);
-	 
-	        request.put("access_key", accessKey);
-	        request.put("argument", argument);
-	 
-	        URL url;
-	        Integer responseCode = null;
-	        String responBody = null;
-	        try {
-	            url = new URL(openApiURL);
-	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	            con.setRequestMethod("POST");
-	            con.setDoOutput(true);
-	 
-	            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-	            wr.write(gson.toJson(request).getBytes("UTF-8"));
-	            wr.flush();
-	            wr.close();
-	 
-	            responseCode = con.getResponseCode();
-	            InputStream is = con.getInputStream();
-	            byte[] buffer = new byte[is.available()];
-	            int byteRead = is.read(buffer);
-	            responBody = new String(buffer);
-	 
-	            System.out.println("[responseCode] " + responseCode);
-	            System.out.println("[responBody]");
-	            System.out.println(responBody);
-	 
-	        } catch (MalformedURLException e) {
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		return "";
+	@RequestMapping(path = "/startTest.do", method = { RequestMethod.POST })
+	public String scriptTestProcess(Model model, String scriptContent, String scriptGbSq, String phraseDiv) {
 
+		ScriptTestController test = new ScriptTestController();
+		test.runAlgorithm();
+
+		ArrayList<String> aList = test.ngram(scriptContent); // 스크립트에 출력된 출력 문
+		ArrayList<String> bList = test.ngram(phraseDiv); 	 //사용자가 말한스크립트문
+
+		int result = test.result_ngram(aList, bList);
+		System.out.println("결과 값 : " + result);
+
+		model.addAttribute("result", result);
+		return "analysis/main.do";
 	}
 
+	public int getMinimum(int val1, int val2, int val3) {
+		int minNumber = val1;
+		if (minNumber > val2)
+			minNumber = val2;
+		if (minNumber > val3)
+			minNumber = val3;
+		return minNumber;
+	}
+
+	public int levenshteinDistance(char[] s, char[] t) {
+		int m = s.length;
+		int n = t.length;
+
+		int[][] d = new int[m + 1][n + 1];
+
+		for (int i = 1; i < m; i++) {
+			d[i][0] = i;
+		}
+
+		for (int j = 1; j < n; j++) {
+			d[0][j] = j;
+		}
+
+		for (int j = 1; j < n; j++) {
+			for (int i = 1; i < m; i++) {
+				if (s[i] == t[j]) {
+					d[i][j] = d[i - 1][j - 1];
+				} else {
+					d[i][j] = getMinimum(d[i - 1][j], d[i][j - 1], d[i - 1][j - 1]) + 1;
+				}
+			}
+		}
+		return d[m - 1][n - 1];
+	}
+
+	public void runAlgorithm() {
+		char[] stringA = "오늘 밥을 먹었습니다.".toCharArray();
+		char[] stringB = "오늘ㅁ 밥을 먹었습니다.".toCharArray();
+		// char[] stringB = "오늘 밥말고 다른거를 먹었다.".toCharArray();
+
+		int result = levenshteinDistance(stringA, stringB);
+	}
+
+	public ArrayList<String> ngram(String text) {
+		ArrayList<String> list = new ArrayList();
+		ArrayList<String> result = new ArrayList();
+		for (int i = 0; i <= text.length() - 1; i++) {
+			list.add(Character.toString(text.charAt(i)));
+		}
+		for (int i = 0; i < list.size() - 1; i++) {
+			// System.out.println(String.format("%s%s", list.get(i), list.get(i + 1)));
+			result.add(list.get(i) + list.get(i + 1));
+			System.out.println(result.get(i));
+		}
+		System.out.println("----------------");
+		return result;
+	}
+
+	public int result_ngram(ArrayList<String> compare1, ArrayList<String> compare2) {
+		long count = 0;
+		long size = compare1.size();
+		for (int i = 0; i < compare1.size(); i++) {
+			for (int j = 0; j < compare2.size(); j++) {
+				if (compare1.get(i).equals(compare2.get(j))) {
+					System.out.println("일치 횟수");
+					count += 1;
+				}
+			}
+		}
+		System.out.println("카운트 결과값" + count);
+		System.out.println("Size" + size);
+		System.out.println("compare1사이즈" + compare1.size());
+		int result = (int) ((count * 100) / size);
+		System.out.println("결과값" + (float) ((count * 100) / size));
+		return result;
+	}
 }
