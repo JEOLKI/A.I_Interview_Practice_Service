@@ -9,9 +9,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
- <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 </head>
@@ -21,7 +19,7 @@
 	
 	<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %>
 	
-	<div class="w3-container" style="margin-left: 200px">
+	<div class="w3-container contentbox" style="margin-left: 200px">
 	
 	
 	</div>

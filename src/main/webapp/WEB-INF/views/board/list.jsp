@@ -22,6 +22,7 @@
 	
 	#boardGu1{
 		background: linear-gradient(-40deg,#1c94c1,#75dfc8);
+		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px);
 	}
 	
 	#boardGu2{

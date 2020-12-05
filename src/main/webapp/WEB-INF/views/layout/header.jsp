@@ -4,8 +4,12 @@
     
 <style>
 
-    .contentbox{
+    .leftbox{
         margin-top: 52px;
+    }
+    .contentbox{
+        margin-top: 100px;
+        margin-left: 250px;
     }
     
  	#header{

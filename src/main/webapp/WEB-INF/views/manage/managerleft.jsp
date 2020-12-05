@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 	a{
 		text-decoration: none;
@@ -11,7 +13,7 @@
 	}
 </style>
 
-<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width: 200px; position: relative;">
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-card leftbox" style="width: 200px; position: relative;">
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
 		회원 관리 <i class="fa fa-caret-down"></i>
