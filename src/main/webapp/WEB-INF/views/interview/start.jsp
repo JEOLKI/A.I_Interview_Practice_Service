@@ -13,6 +13,7 @@
 <script type="text/javascript">
 	var docV = document.documentElement;
 	SetTime = 0;
+	startCount = 0;
 	
 	// 전체화면 설정
 	function openFullScreenMode() {
@@ -59,7 +60,8 @@
 		SetTime++;					// 1초씩 증가
 		m = Math.floor(SetTime / 60) + ":" + (SetTime % 60) ;	// 남은 시간 계산
 		
-		var msg = "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
+		msg = "<font color='red' size='7px' style='z-index:200;'>" + '남은시간' + "</font><br>";
+		msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
 		
 		document.all.time.innerHTML = msg;
 		
@@ -78,15 +80,14 @@
 		openFullScreenMode();
 		
 		$('.spacebar-area.false').on('click',function(){
-			$('#attention').show();
-			$('.attention-message.shown').hide();
+			$('.attention-message.shown').text('');
 			TimerStart();
 		});
 		
+		// spacebar 시작
 		$(document).keydown(function(event) {
 			if(event.keyCode == 32){ // space
-				$('#attention').show();
-				$('.attention-message.shown').hide();
+				$('.attention-message.shown').text('');
 				TimerStart();
 			}
 		});
@@ -107,7 +108,7 @@
 					<canvas width="600" height="600"></canvas>
 				</div>
 				<img src="/images/bg.355cdfd9.png" alt="" class="bg">
-				<div class="attention-message shown">
+				<div class="attention-message shown" style="position:relative; display: block; margin-left: auto; margin-right: auto; width: 400px; height: 200px; margin-top: -35%; background-size:100% ; padding-top:200px; background-image: url('/images/interview_circle.png');" >
 					이곳을 주목해주세요!
 				</div>
 				<div style="text-align: center;">

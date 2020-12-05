@@ -4,12 +4,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-	a{
-		text-decoration: none;
-		padding-left: 20px;
-	}
 	a:hover{
+	}
+	a, button{
+		border : none;
+		cursor : pointer;
 		text-decoration: none;
+		color: inherit;
+		font: inherit;
+	}
+	.TopBar .navigation-bar .nav a {
+		padding: 0 18px;
+		font-size: 16px;
+		font-weight: 900;
+		opacity: .6;
+		transition: .2s ease;
 	}
 </style>
 

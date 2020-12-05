@@ -161,9 +161,11 @@ $(document).ready(function(){
 	// 랜덤질문을 클릭 시
 	$(document).on('click','#randomQuestion',function(){
 		content = $(this).text(); 
+		sq = $(this).data('sq');
 		console.log(content);
 		
 		$('#questionFrm .SetQuestionBox').eq(number).find($('.text')).val(content);
+		$('#questionFrm .SetQuestionBox').eq(number).find($('#sampQuestSq')).val(sq);
 		
 		$('#search').val(''); // 검색칸 초기화
 		$('.searched-question.recommend').show(); // 추천질문 표시
@@ -195,7 +197,7 @@ $(document).ready(function(){
 				}else{
 					html = "";
 					for(i=0; i< data.sampQuestList.length; i++){
-						html += "<div class='searched-question result' id='result' data-sq="+data.sampQuestList[i].sampQuestSq+" '>" + data.sampQuestList[i].sampQuestContent + "</div>";
+						html += "<div class='searched-question result' id='result' data-sq="+data.sampQuestList[i].sampQuestSq+">" + data.sampQuestList[i].sampQuestContent + "</div>";
 					}
 // 					$('.recommend-question').hide();
 					$('.search-result').append(html);
@@ -216,7 +218,7 @@ $(document).ready(function(){
 				console.log( data.sampleQuestionVO.sampQuestContent);
 				$('#randomQuestion').remove();
 				html=""
-				html+="<div class='searched-question' id='randomQuestion'>"+data.sampleQuestionVO.sampQuestContent+"</div>";
+				html+="<div class='searched-question' id='randomQuestion' data-sq="+data.sampleQuestionVO.sampQuestSq+">"+data.sampleQuestionVO.sampQuestContent+"</div>";
 				$('.searched-question.recommend').append(html);
 			},
 			error : function(data){
