@@ -83,7 +83,7 @@ $(document).ready(function(){
 	$('#complete').hide();
 	
 	count = 1;
-	choose = 0;
+	number = 0;
 	
 	$('.NullQuestionBox').on('click',function(){
 		if(count < 5 ){
@@ -112,17 +112,21 @@ $(document).ready(function(){
 		}
 	});
 	
+	// input의 모달 열기 버튼
 	$(document).on('click','.search-btn',function(){
 		$('#questionSearch').show();
-		console.log($('.SetQuestionBox').find().index(this));
+		console.log($('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox')))); 
+		number = $('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox'))); // 폼안의 몇번째div 인지 인덱스값
+		// number전역변수의 값을 index값으로 바꿈
 	});
 	
+	// 닫기 버튼 클릭 시
 	$(document).on('click','.close-btn',function(){
 		$('#search').val(''); // 검색칸 초기화
 		$('.searched-question.recommend').show(); // 추천질문 표시
 		$('.recommend-question').show(); // 
 		$('.nothing').remove(); // 검색결과 없음 지우기
-		$('.searched-question').remove(); // 검색된 결과 지웅기
+		$('.searched-question').remove(); // 검색된 결과 지우기
 		$('#questionSearch').hide(); // 모달창 닫기
 	});
 	
@@ -133,24 +137,29 @@ $(document).ready(function(){
 		$('.SetQuestionBox').removeClass('checked');
 	});
 	
+	// 질문 클릭 시
+	$(document).on('click','.searched-question',function(){
+		console.log($(this).text());
+		console.log($(this).data('sq'));
+		
+		content = $(this).text();
+		sq = $(this).data('sq');
+		
+		$('#questionFrm .SetQuestionBox').eq(number).find($('.text')).val(content);
+		$('#questionFrm .SetQuestionBox').eq(number).find($('#sampQuestSq')).val(sq);
+		$('#search').val(''); // 검색칸 초기화
+		$('.searched-question.recommend').show(); // 추천질문 표시
+		$('.recommend-question').show(); // 추천질문 표시
+		$('.nothing').remove(); // 검색결과 없음 지우기
+		$('.searched-question').remove(); // 검색된 결과 지우기
+		$('#questionSearch').hide();
+		
+	});
+	
+	
 	// 추천질문
 	$(document).on('click','.searched-question.recommend',function(){
 		console.log($(this).children('div').text());
-	})
-	
-	// 검색한 샘플질문 선택
-	$(document).on('click','.searched-question',function(){
-		console.log("카운트는"+count);
-		// 샘플질문 선택 시 
-		// 1. 
-		// 2.
-		
-// 		console.log($('.SetQuestionBox:eq("c")'))
-// 		console.log($('#questionFrm>.SetQuestionBox:eq('+count-1+')>.SetQuestionBoxView>.text'));
-// 		console.log($('#questionFrm').children().index($('.SetQuestionBox')));
-	
-		console.log($(this).text());
-		
 	})
 	
 	// 키워드 검색 에이잭스
@@ -173,7 +182,7 @@ $(document).ready(function(){
 				}else{
 					html = "";
 					for(i=0; i< data.sampQuestList.length; i++){
-						html += "<div class='searched-question'>" + data.sampQuestList[i].sampQuestContent + "</div>";
+						html += "<div class='searched-question' data-sq="+data.sampQuestList[i].sampQuestSq+" '>" + data.sampQuestList[i].sampQuestContent + "</div>";
 					}
 // 					$('.recommend-question').hide();
 					$('.search-result').append(html);
@@ -183,8 +192,9 @@ $(document).ready(function(){
 				console.log(data.status);
 			}
 		});
-	})
+	});
 });
+
 
 
 function setting(){

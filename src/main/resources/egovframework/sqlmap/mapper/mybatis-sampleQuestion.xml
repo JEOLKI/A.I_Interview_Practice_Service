@@ -68,6 +68,7 @@
           FROM sample_question
          WHERE 1=1
 		   AND samp_quest_content LIKE '%' || #{searchKeyword} || '%'
+		   AND samp_quest_st = 'Y' 
 	</select>
 		
 	
