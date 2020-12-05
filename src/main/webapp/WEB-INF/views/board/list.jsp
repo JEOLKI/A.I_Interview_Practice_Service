@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -25,19 +21,35 @@
 	}
 	
 	#boardGu1{
-		background-color: #56c0ce;
+		background: linear-gradient(-40deg,#1c94c1,#75dfc8);
 	}
+	
+	#boardGu2{
+		background: linear-gradient(-40deg,#140d57,#1391aa);
+	}
+	
+	#boardGu3{
+		background: linear-gradient(-40deg,#8b1c1c,#2717a3);
+	}
+	
+	#boardGu4{
+		background: linear-gradient(-40deg,#8b1c1c,#2717a3);
+	}
+	
  	.boarding{ 
  		display: inline-block; 
- 	} 
+ 	}
+ 	
 	.button-search{ 
 		text-align: right; 
 		margin-top: 30px;   
 		margin-right : 15%;
- 	} 
+ 	}
+ 	
 	.paging{ 
 		text-align: center;
 	}
+	
 	.write{
 		text-align: right;
 	}
@@ -45,7 +57,17 @@
 	.blogmain{
 		width: 70%;
 		margin: auto;
-		
+	}
+	
+	#catContent{
+		font-size: 0.8em;
+		font-weight: bold;
+		display : inline-block;
+		border: 1px solid black;
+		border-radius: 3px;
+		padding: 1px 10px;
+		background-color: white;
+		margin-right: 5px;
 	}
 	
 </style>
@@ -152,7 +174,7 @@
 									<c:otherwise>
 									<td><c:forEach var="i" begin="1" end="${boardVO.level}" >&nbsp;&nbsp;</c:forEach>
 		                           		<c:if test="${board.level != 1 }">└─</c:if>
-											[${board.catContent }] ${board.boardTitle }
+											<div id="catContent">${board.catContent }</div> ${board.boardTitle }
 										</td>
 									</c:otherwise>
 								</c:choose>
@@ -172,8 +194,8 @@
 				</ul>
 				<a class="btn createBtn write" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
 				<form:hidden path="pageIndex" />
-				<input hidden name="boardGbSq" value="${boardGbSq}"/>
-				<input hidden name="boardGbNm" value="${boardGbNm}"/>
+				<input type="hidden" name="boardGbSq" value="${boardGbSq}"/>
+				<input type="hidden" name="boardGbNm" value="${boardGbNm}"/>
 			
 				</div>
 			</div>
@@ -183,14 +205,6 @@
 		</div>
 	</div>
 </form:form>
-<!-- 			<button class= "btn">a</button> -->
-<!-- 			<button class= "btn hover" type = "button">b</button> -->
-<!-- 			<button class= "btn focus" class= "-moz-focus-inner">c</button> -->
-<!-- 			<button class="btn-outline-primary">ㅁㅁ</button> -->
-<!-- 			<button class="btn-group">ㅁㅁ</button> -->
-<!-- 			<button class=".btn-toolbar">ㅁㅁ</button> -->
-<!-- 			<button class="btn-facebook">ㅁㅁ</button> -->
-			
 			
 </body>
 </html>

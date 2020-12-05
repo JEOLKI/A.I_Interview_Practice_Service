@@ -129,9 +129,11 @@
 		height: 70px;
 		margin-left: 3%;
 	}
+	
 	.input-right{
 		margin-bottom: 10%;
 	}
+	
 	.dropbtn {
 		background : white;
 		color: black;
@@ -146,16 +148,19 @@
 	}
 
 	.dropdown-content {
-	  display: none;
-	  position: absolute;
-	  min-width: 160px;
-	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	  z-index: 1;
+		height: 150px;
+		display: none;
+		position: absolute;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		background : white;
+		z-index: 1;
 	}
 
 	.dropdown-content a {
 	  color: black;
-	  padding: 12px 16px;
+	  margin: 10px;
+	  padding: 0px;
 	  text-decoration: none;
 	  display: block;
 	}
@@ -163,8 +168,6 @@
 	.dropdown-content a:hover {background-color: #ddd;}
 	
 	.dropdown:hover .dropdown-content {display: block;}
-	
-	.dropdown:hover {background-color: #3e8e41;}
 	
 	.user-popup{
 		display: none;
@@ -180,6 +183,7 @@
 	.nav{
 		padding-top: 17px; 
 	}
+	
 </style>
 
 <script>
