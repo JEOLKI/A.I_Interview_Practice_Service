@@ -53,7 +53,7 @@
 		margin-bottom: 30px;
 	}
 	h1{
-		font-weight:bold;
+		font-weight:bold; 
 	}
 	#check{
 		display: inline-block; 
@@ -119,7 +119,7 @@
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
-<div class="w3-container" style="margin-left: 200px">
+<div class="w3-container managerbox" style="margin-left: 200px">
 			<div class="body">
 				<div class="content__title"><h1>인재상 관리</h1></div>
 

@@ -114,7 +114,7 @@
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
-<div class="w3-container" style="margin-left: 200px">
+<div class="w3-container managerbox" style="margin-left: 200px">
 			<div class="body" >
 				<div class="content__title"><h1>질문 구분 관리</h1></div>
 			<div class="registQuestionGubun">

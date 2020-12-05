@@ -62,31 +62,24 @@
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;인재상 통계</a>
 		</div>
 		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_c()">
-			&ensp;&ensp;키워드 관리<i class="fa fa-caret-down"></i>
-		</button>
-		<div id="demoAcc3_c" class="w3-hide w3-white w3-card">
-			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;키워드 관리</a>
-			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;키워드 통계</a>
-		</div>
-		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_d()">
 			&ensp;&ensp;질문 관리<i class="fa fa-caret-down"></i>
 		</button>
-		<div id="demoAcc3_d" class="w3-hide w3-white w3-card">
+		<div id="demoAcc3_c" class="w3-hide w3-white w3-card">
 			<a href="/questGb/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;질문 구분 관리</a>
 			<a href="/sampQuest/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;샘플 질문 관리</a>
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;질문 통계</a>
 		</div>
-		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_e()">
+		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_d()">
 			&ensp;&ensp;습관어 관리<i class="fa fa-caret-down"></i>
 		</button>
-		<div id="demoAcc3_e" class="w3-hide w3-white w3-card">
+		<div id="demoAcc3_d" class="w3-hide w3-white w3-card">
 			<a href="/habit/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;습관어 관리</a>
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;습관어 통계</a>
 		</div>
-		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_f()">
+		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_e()">
 			&ensp;&ensp;스크립트 관리<i class="fa fa-caret-down"></i>
 		</button>
-		<div id="demoAcc3_f" class="w3-hide w3-white w3-card">
+		<div id="demoAcc3_e" class="w3-hide w3-white w3-card">
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;스크립트 구분 관리</a>
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;스크립트 관리</a>
 			<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;&ensp;&ensp;스크립트 통계</a>
@@ -175,7 +168,7 @@
 		}
 	}
 	
-	/* 면접 관리  - 키워드 관리 */
+	/* 면접 관리  - 질문 관리 */
 	function myAccFunc3_c() {
 		var x = document.getElementById("demoAcc3_c");
 		if (x.className.indexOf("w3-show") == -1) {
@@ -188,7 +181,7 @@
 		}
 	}
 	
-	/* 면접 관리  - 키워드 관리 */
+	/* 면접 관리  - 습관어 관리 */
 	function myAccFunc3_d() {
 		var x = document.getElementById("demoAcc3_d");
 		if (x.className.indexOf("w3-show") == -1) {
@@ -201,7 +194,7 @@
 		}
 	}
 	
-	/* 면접 관리  - 질문 관리 */
+	/* 면접 관리  - 스크립트 관리 */
 	function myAccFunc3_e() {
 		var x = document.getElementById("demoAcc3_e");
 		if (x.className.indexOf("w3-show") == -1) {
@@ -214,17 +207,5 @@
 		}
 	}
 	
-	/* 면접 관리  - 스크립트 관리 */
-	function myAccFunc3_f() {
-		var x = document.getElementById("demoAcc3_f");
-		if (x.className.indexOf("w3-show") == -1) {
-			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-pale-blue";
-		} else {
-			x.className = x.className.replace(" w3-show", "");
-			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-pale-blue", "");
-		}
-	}
 </script>
 
