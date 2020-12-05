@@ -39,8 +39,8 @@ public class InterviewController {
 	}
 
 	@RequestMapping(path = "/setting.do", method = { RequestMethod.GET })
-	public String interviewSetting(@RequestParam("questionList") List<String> questionList,
-								   @RequestParam("sampQuestSqList") List<String> sampQuestSqList, Model model) {
+	public String interviewSetting(@RequestParam(name="questionList") List<String> questionList,
+								   @RequestParam(name="sampQuestSqList") List<String> sampQuestSqList, Model model) {
 		model.addAttribute("questionList", questionList);
 		model.addAttribute("sampQuestSqList", sampQuestSqList);
 
