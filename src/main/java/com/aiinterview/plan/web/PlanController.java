@@ -427,9 +427,9 @@ public class PlanController {
 		return "plan/planStatistics";
 	}
 	
-	/* 요금제 통계 (기간별) */
+	/* 요금제 통계 (전체, 기간별, 검색) */
 	@RequestMapping("/totalStatistics.do")
-	public String totalStatistics(String startDate, String endDate, String searchKeyword) {
+	public String totalStatistics(String startDate, String endDate, String searchKeyword, Model model) {
 		
 		System.out.println("startDate : "+ startDate + ", endDate : "+ endDate+", searchKeyword : "+searchKeyword);
 		
@@ -439,7 +439,14 @@ public class PlanController {
 		statisticMap.put("searchKeyword", searchKeyword);
 		
 		
-		List<PlanStatisticsVO> totalUseList = planService.retrieveTotalUse(statisticMap);
+		List<PlanStatisticsVO> totalUseList;
+		try {
+			totalUseList = planService.retrieveTotalUse(statisticMap);
+			model.addAttribute("totalUseList", totalUseList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		return "jsonView";
 	}

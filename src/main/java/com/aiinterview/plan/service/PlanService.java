@@ -85,7 +85,7 @@ public class PlanService {
 	 * @param statisticMap
 	 * @return
 	 */
-	public List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap) {
+	public List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap) throws Exception {
 		return planMapper.retrieveTotalUse(statisticMap);
 	}
 

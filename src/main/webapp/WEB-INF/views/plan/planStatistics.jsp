@@ -30,43 +30,22 @@
 	.body{
 		margin : 30px;
 	}
-	#massiveCreate{
-		margin-left: 20px;
-	}
-	
-	.updateBtn{
-		padding-left: 10px;
-		padding-right: 10px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-	
-	.questGbUpdateFrm {
-		margin-top: 10px;
-		margin-bottom: 10px;
-	}
-	
-	#questGbRegistBtn{
-		padding-left: 10px;
-		padding-right: 10px;
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-	
-	.questGbContent{
-		width: 400px;
-		margin-bottom: 10px;
-	}
 	
 	.content__title{
 		margin-bottom: 30px;
 	}
+	
 	h1{
 		font-weight:bold;
 	}
-	#check{
-		display: inline-block; 
-		height: 20px;
+	
+	#content{
+		display: inline-block;
+		width: 50%;
+		
+	}
+	tbody td{
+		width: 300px;
 	}
 </style>
 <script>
@@ -105,16 +84,35 @@ $(document).ready(function(){
 		console.log($(this).val());
 		$('#endDate').val($(this).val());
 	})
+	
+	// 전체 이용자 수 
 	$('#searchBtn').on('click',function(){
 		var startDate = $('#startDate').val();
 		var endDate = $('#endDate').val();
+		var sum = 0;
 		$.ajax({ url : "/plan/totalStatistics.do", 
 				 data : {"startDate" : startDate,
 					 	 "endDate" 	 : endDate},
 				 dataType : "json",
 				 success : function(data){
-					 html = "기간별 전체 요금제 통계";
-					 $('#content').html(html);
+					 console.log("성공");
+					 html="성공";
+// 					 for(var i=0; i< data.totalUseList.length; i++){
+// 						 var planUse = data.totalUseList[i];
+// 						 html += '<tr>';
+// 						 html += '<td>'+planUse.rn+'</td>';
+// 						 html += '<td id="planNm">'+planUse.planNm+'</td>';
+// 						 html += '<td id="useCount">'+planUse.useCount+'</td>';
+// 						 html += '</tr>';
+						 
+// 						 sum += planUse.useCount;
+// 					 }
+// 					 html += '<hr>';
+// 					 html += '<tr>';
+// 					 html += '<td>합  계</td>';
+// 					 html += '<td></td>';
+// 					 html += '<td>'+sum+'</td>';
+					 $('#content').append(html);
 				 }
 			
 		})
@@ -198,7 +196,16 @@ $(document).ready(function(){
 							    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 							  </div>
 							  <div id="content">
-							  
+							  	<table>
+							  		<tr>
+							  			<th></th>
+							  			<th>요 금 제</th>
+							  			<th>이용자 수</th>
+							  		</tr>
+							  		<tbody>
+											
+							  		</tbody>
+							  	</table>
 							  </div>
 							</div>
 						</div>

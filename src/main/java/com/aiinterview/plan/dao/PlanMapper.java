@@ -108,7 +108,7 @@ public interface PlanMapper {
 	 * @param statisticMap
 	 * @return
 	 */
-	List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap);
+	List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap) throws Exception;
 
 	
 	
