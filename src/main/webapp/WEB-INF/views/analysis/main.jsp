@@ -16,6 +16,7 @@
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
 <script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <style>
 body * {
@@ -37,7 +38,7 @@ body * {
 .modal-box {
 	background: white;
 	width: 200px;
-	height: 150px;
+	height: 200px;
 	border-radius: 10px;
 }
 
@@ -128,20 +129,19 @@ to {
 
 .modal-box {
 	width: 330px;
-	height: 420px;
+	height: 450px;
 	padding: 10px;
 }
 
 .pro {
 	margin: 10px;
 	border: 1px solid black;
-	height: 65%;
-}
+	height: 50%;
 }
 </style>
+
 <script>
 $(document).ready(function() {   
-	$('#stopTestBtn').hide();
 });   
 
 var authorizationEndpoint = "token.php";
@@ -150,80 +150,97 @@ function RequestAuthorizationToken() {
       var a = new XMLHttpRequest();
       a.open("GET", authorizationEndpoint);
       a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      a.send("");
       a.onload = function() {
-          var token = JSON.parse(atob(this.responseText.split(".")[1]));
-          serviceRegion.value = token.region;
+    	  
+          serviceRegion.value = 'koreacentral'; 
           authorizationToken = this.responseText;
           subscriptionKey.disabled = true;
           subscriptionKey.value = "using authorization token (hit F5 to refresh)";
-          console.log("Got an authorization token: " + token);
       }
     }
   }
 
-var phraseDiv;
-var startRecognizeOnceAsyncButton;
+ 	var phraseDiv;
+    var startRecognizeOnceAsyncButton;
 
-// subscription key and region for speech services.
-var subscriptionKey, serviceRegion;
-var authorizationToken;
-var SpeechSDK;
-var recognizer;
+   var subscriptionKey, serviceRegion;
+    var authorizationToken;
+    var SpeechSDK;
+    var recognizer;
 
 document.addEventListener("DOMContentLoaded", function () {
   startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
-  subscriptionKey = document.getElementById("scriptModalContent");
+  subscriptionKey = document.getElementById("subscriptionKey");
   serviceRegion = document.getElementById("serviceRegion");
   phraseDiv = document.getElementById("phraseDiv");
 
   startRecognizeOnceAsyncButton.addEventListener("click", function () {
+	  
+	$('#startTestBtn').hide();
+
     startRecognizeOnceAsyncButton.disabled = true;
     phraseDiv.innerHTML = "";
 
-    // if we got an authorization token, use the token. Otherwise use the provided subscription key
     var speechConfig;
-    if (authorizationToken) {
-      speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, serviceRegion.value);
-    } else {
-      if (subscriptionKey.value === "" || subscriptionKey.value === "subscription") {
-        alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
-        return;
-      }
-      speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
-    }
+        if (authorizationToken) {
+          speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, serviceRegion.value);
+        } else {
+          if (subscriptionKey.value === "" || subscriptionKey.value === "subscription") {
+            alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+            return;
+          }
+          speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
+        }
 
-    speechConfig.speechRecognitionLanguage = "ko-KR";
-    var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-    recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        speechConfig.speechRecognitionLanguage = "ko-KR";
+        var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+        recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+    
+        recognizer.recognizeOnceAsync(
+        		
+        		
+                function (result) {
+                	startRecognizeOnceAsyncButton.disabled = false;
 
-    recognizer.recognizeOnceAsync(
-      function (result) {
-        startRecognizeOnceAsyncButton.disabled = false;
-        phraseDiv.innerHTML += result.text;
-        window.console.log(result);
+                	var resultScript = result.text;
+// 					var systemScriptList = [];
+// 					var memberScriptList = [];
+                	
+//                 	systemScriptList = nGram(scriptContent);
+//                 	memberScriptList = nGram(resultScript);
+                	
+                //	var realResult = resultNGram(list, memberScriptList);
+                	
+                	//console.log("realResult : "+realResult);
+                	
+                	var scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
+          			var result = $.post('/scriptTest/startTest.do', {
+          				scriptContent : scriptContent,
+          				scriptGbSq : scriptGbSq,
+          				phraseDiv : resultScript}
+          			,function(data) {
+          				//$('#phraseDiv').append('<label>와의 일치도는  '+valiResult+'%입니다. </label>');
+          			});
+          		$('#phraseDiv').val(resultScript);
+          		$('#valiPercent').html(${result});
+                  recognizer.close();
+                  recognizer = undefined;
+                },
+                function (err) {
+                  startRecognizeOnceAsyncButton.disabled = false;
+                  phraseDiv.innerHTML += err;
+                  window.console.log(err);
 
-        recognizer.close();
-        recognizer = undefined;
-      },
-      function (err) {
-        startRecognizeOnceAsyncButton.disabled = false;
-        phraseDiv.innerHTML += err;
-        window.console.log(err);
+                  recognizer.close();
+                  recognizer = undefined;
+                });
 
-        recognizer.close();
-        recognizer = undefined;
-      });
   });
 
   if (!!window.SpeechSDK) {
     SpeechSDK = window.SpeechSDK;
     startRecognizeOnceAsyncButton.disabled = false;
 
-    document.getElementById('content').style.display = 'block';
-    document.getElementById('warning').style.display = 'none';
-
-    // in case we have a function for getting an authorization token, call it.
     if (typeof RequestAuthorizationToken === "function") {
         RequestAuthorizationToken();
     }
@@ -251,6 +268,41 @@ function random(scriptGbSq){
    		});
 }
 
+// var list = [];
+// var result =[];
+// function nGram(script){
+// 	console.log("script : "+script);
+	
+// 	for(var i=0; i<script.length; i++){
+// 		list.push(script.charAt(i));
+// 	}
+// 		console.log("list : "+list);
+	
+		
+// 	for(var i=0; i<list.length; i++){
+// 		result.push(list.get[i] +list.get[i+1]);
+// 	}
+	
+// 	console.log("result : "+result);
+	
+// }
+
+
+// var count =0;
+// var nGramResult =0;
+// function resultNGram(systemScriptList, memberScriptList){
+// 	var size = systemScriptList.length;
+	
+// 	for(var i=0; i<systemScriptList.length; i++){
+// 		for(var j=0; j<memberScriptList.length; j++){
+// 			if(systemScriptList.get[i].equals(memberScriptList.get[j])){
+// 				count += 1;
+// 			}
+// 		}
+// 	}
+// 	nGramResult = ((count*100)/size);
+// }
+
 var audio = document.querySelector('audio');
 function captureMicrophone(callback){
 	navigator.getUserMedia({audio : true}, callback,
@@ -260,156 +312,16 @@ function captureMicrophone(callback){
 	});
 };
 
-var recorder;
-//녹음 시작
-function startTest(){
 
-	$('#startTestBtn').hide();
-	
-	captureMicrophone(function (microphone){
-		recorder = RecordRTC(microphone, {
-			type : 'audio', //audio 타입 포맷 전송
-			recorderType : StereoAudioRecorder,
-			numberOfAudioChannels : 1, 
-			desiredSampRate : 16000	//초당 audio 샘플 채취 수
-		});
-		
-		recorder.startRecording();
-		recorder.src = microphone;
-	
-		$('#stopTestBtn').show();
-		var phraseDiv = $('#scriptModalContent').val();
-		console.log("phraseDiv : "+phraseDiv);
-		
-		var scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
-		var result = $.post('/scriptTest/startTest.do', {
-			scriptContent : scriptContent,
-			scriptGbSq : scriptGbSq,
-			phraseDiv : phraseDiv},function(data) {
-				}).done(function(data){
-					var html = "분석중입니다. 잠시만 기다려주세요!";
-					$('#scriptModalContent').append(html);
-				}).fail(function(data){
-					alert("Error! : "+data.status);
-				});
-		});
-};
-
-	
-//녹음 정지 + 콜백함수 전달 받음
-function stopTest(){
-	recorder.stopRecording(stopRecordingCallback);
-	$('#startTestBtn').show();
-	$('#stopTestBtn').hide();
-};
-
-var audioSource;
-var blob;
-let audioUrl;
-function stopRecordingCallback(){
-	
-	//녹음된 오디오의 blob파일
-	blob = recorder.getBlob();
-	
-	audioUrl = window.URL.createObjectURL(blob);
-	
-	audioSource = document.querySelector('audio > source');
-	audioSource.src = audioUrl;
-	
-	$('#modal-close-box').empty();
-	
-	//파일 다운로드창 오픈
-	createAudioElement(audioUrl);
-};
-
-//다운로드 받을 수 있는 링크 생성해주는 function
-function createAudioElement(blobUrl){
-
-	console.log("createAudioElement");
-	let today =  new Date();
-	let Y = today.getFullYear();
-	let M = today.getMonth();
-	let D = today.getDate();
-	let H = today.getHours();
-	let N = today.getMinutes();
-	let S = today.getSeconds();
-	
-	let now = Y.toString()+M.toString()+D.toString()+H.toString()+N.toString()+S.toString();
-
-	const downloadEl = document.createElement('a');
-	downloadEl.style = 'display : block';
-	downloadEl.download = 'STFofAI_Interview'+now+'.wav';
-	downloadEl.innerHTML = '✔ 내 목소리 들어보기✔';
-	downloadEl.href = blobUrl;
-	
-	const audioEl = document.createElement('audio');
-	audioEl.controls = true;
-	
-	const sourceEl = document.createElement('source');
-	sourceEl.src = blobUrl;
-	sourceEl.type = 'audio/wav';
-
-	audioEl.appendChild(sourceEl);
-	
-	document.getElementById("modal-close-box").appendChild(audioEl);
-	document.getElementById("modal-close-box").appendChild(downloadEl);
-};
- 
-//이 밑으로 마이크테스트
-// 오른쪽 상단에 사용자가 입력하는 마이크 볼륨 출력
-// function colorPids(vol){
-// 	//마이크 게이지 바
-// 	let all_pids = $('.pid');
-	
-	
-// 	let amount_of_pids = Math.round(vol/10);
-// 	let elem_range = all_pids.slice(0, amount_of_pids)
-	
-// 	for(var i=0; i<elem_range.length; i++){
-// 	all_pids[i].style.backgroundcolor="#69ce2b";
-// 	}
-// }
-
-// navigator.mediaDevices.getUserMedia({audio : true}).then(function (stream){
-// 		var audioContext = new AudioContext();
-// 		var analyser = audioContext.createAnalyser();
-// 		var mic = audioContext.createMediaStreamSource(stream);
-// 		javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-
-// 		analyser.smoothingTimeConstant = 0.8;
-// 		analyser.fftSize = 1024;
-		
-// 		mic.connect(analyser);
-// 		analyser.connect(javascriptNode);
-// 		javascriptNode.connect(audioContext.destination);
-// 		javascriptNode.onaudioprocess = function(){
-// 			var array = new Uint8Array(analyser.frequencyBinCount);
-// 			analyser.getByteFrequencyData(array);
-// 			var values=0;
-			
-// 			var length = array.length;
-// 			for(var i=0; i<length; i++){
-// 				values +=(array[i]);
-// 			}
-			
-// 			var average = values/length;
-			
-// 			console.log(Math.round(average));
-// 			colorPids(average);
-// 		}
-// 	}).catch(function(err){
-// 		handle the error
-// 	});
 
 </script>
 
 </head>
 <body>
-
-	<audio id="audioTag" controls autoplay>
-		<source src="" id="sourceTag">
-	</audio>
-	
+<!-- 	<audio id="audioTag" controls autoplay> -->
+<!-- 		<source src="" id="sourceTag"> -->
+<!-- 	</audio> -->
+${result }
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -751,91 +663,42 @@ function createAudioElement(blobUrl){
 
 	<div class="modal-wrapper">
 		<div class="modal-box">
-					<div>
-					<c:forEach items="${scriptGbList }" var="scriptGb">
-						<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }" onclick="random(${scriptGb.scriptGbSq });">
-							<div class="label thislabel">${scriptGb.scriptGbContent }</div>
-						</button>
-						<input type="hidden" name="scritGbSq" value="${scriptGb.scriptGbSq }">
-					</c:forEach>
-					<button id="modal-close-btn" style="float: right;">close</button>
+			<div>
+				<c:forEach items="${scriptGbList }" var="scriptGb">
+					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }"
+						onclick="random(${scriptGb.scriptGbSq });">
+						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
+					</button>
+					<input type="hidden" name="scritGbSq"
+						value="${scriptGb.scriptGbSq }">
+				</c:forEach>
+				<button id="modal-close-btn" style="float: right;">close</button>
 
-					<!-- 마이크 테스트 아 다른거 먼저 하자
-				<div class="right">
-					<img
-						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="
-						alt="mic-volume">
-					<div class="test">
-						<div class="scripTestMic">
-							<div class="VolumeMeter">
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-							</div>
-						</div>
-					</div>
-				</div> -->
-			
+
 			</div>
-
 			<div class="modal-content pro" id="scriptModalContent">
-			
-			</div>
-			ㅇㅣ게 뭐야 ?<br>
-			<input id="serviceRegion" type="text" size="40" value="YourServiceRegion">
-			
-			나의 스크립트<br>
-			<textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea>
 
+			</div>
 			
+			<div style="text-align: center">
+			<label>내가 말한</label>
+			<br><input style="text-align: center" type="text" value="" id="phraseDiv"><br>
+			과의 일치도는 <label id="valiPercent"></label>%입니다.
+					
+			</div>
+
 			<div class="modal-close-box" id="modal-close-box">
-				<label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
+				<br><label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
 				</label><br>
-				<button class="processBtn" id="startTestBtn" onclick="startTest()">시작
-					하기</button>
-				<button class="processBtn" id="stopTestBtn" onclick="stopTest()">종료
-					하기</button>
+				<button class="processBtn" id="startTestBtn">
+					시작 하기					<!-- onclick="startTest()" -->
+				</button>
+				<!-- <button class="processBtn" id="stopTestBtn">종료 하기</button> -->
 			</div>
-
-			<br>
-			<br>
-			<br>
+			<input id="subscriptionKey" type="hidden"
+				value="8e1d8a815cd34bd4b7fee2b71344ef49"> <input
+				id="serviceRegion" type="hidden" size="40" value="koreacentral">
+			<br> <br> <br>
 		</div>
 	</div>
 	<script>
