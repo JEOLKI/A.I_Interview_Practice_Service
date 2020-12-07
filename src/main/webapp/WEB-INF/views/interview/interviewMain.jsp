@@ -4,10 +4,11 @@
 <html>
 <head>
 <title>Detect Faces Sample</title>
-	<link rel="stylesheet" href="main.css" type="text/css" media="all">
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="all">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="js/capture.js"></script>
+	<script src="/js/capture.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
 
 
 </head>
@@ -40,6 +41,9 @@
 </div>
 
 	<script type="text/javascript">
+	
+		var face = "";
+	
 		function processImage() {
 			var subscriptionKey = "cae766a534074d6b89f02281da4e14cf";
 			var uriBase = "https://faceanalysis-jh.cognitiveservices.azure.com/face/v1.0/detect";
@@ -72,8 +76,8 @@
 					.done(
 							function(data) {
 								// Show formatted JSON on webpage.
-								$("#responseTextArea").val(
-										JSON.stringify(data, null, 2));
+								face = data[0].faceAttributes.emotion;
+								$("#responseTextArea").val(JSON.stringify(data, null, 2));
 							})
 					.fail(
 							function(jqXHR, textStatus, errorThrown) {
@@ -113,6 +117,23 @@
             return new Blob([uInt8Array], { type: contentType });
         }
 		
+		$(document).ready(function(){
+			
+			$("#testgo").on('click', function(){
+				
+				$.ajax({url : "/test/test.do",
+					data : face,
+					method : "post",
+					success : function(data){
+					
+						
+					}
+			});
+			
+			
+			});		
+		});		
+		
 	</script>
 
 
@@ -139,6 +160,10 @@
 			<br> <img id="sourceImage" width="400" />
 		</div>
 	</div>
+
+	<button id="testgo">전송테스트</button>
+
+
 
 
 </body>
