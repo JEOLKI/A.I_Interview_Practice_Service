@@ -1,11 +1,13 @@
 package com.aiinterview.interview.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.analysis.dao.ImageAnalysisMapper;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
@@ -21,16 +23,30 @@ public class AnswerService {
 	@Resource(name="answerMapper")
 	private AnswerMapper answerMapper;
 	
+	@Resource(name="imageAnalysisMapper")
+	private ImageAnalysisMapper imageAnalysisMapper;
+	
 	public AnswerVO retrieve(String questSq) throws Exception{
 		return answerMapper.retrieve(questSq);
 	}
 	public void create(Map<String, Object> map) throws Exception{
 		
-		HabitAnalysisVO habitAnalysisVO = (HabitAnalysisVO) map.get("habitAnalysisVO");
-		ImageAnalysisVO imageAnalysisVO = (ImageAnalysisVO) map.get("imageAnalysisVO");
-		KeywordAnalysisVO keywordAnalysisVO = (KeywordAnalysisVO) map.get("keywordAnalysisVO");
-		RepetAnalysisVO repetAnalysisVO = (RepetAnalysisVO) map.get("repetAnalysisVO");
-		VoiceAnalysisVO voiceAnalysisVO = (VoiceAnalysisVO) map.get("voiceAnalysisVO");
+		AnswerVO answerVO = (AnswerVO) map.get("answerVO");
+		
+		answerMapper.create(answerVO);
+		String ansSq = answerVO.getAnsSq();
+		
+		List<ImageAnalysisVO> imageAnalysisList = (List<ImageAnalysisVO>) map.get("imageAnalysisList");
+		for (ImageAnalysisVO imageAnalysisVO : imageAnalysisList) {
+			imageAnalysisVO.setAnsSq(ansSq);
+			imageAnalysisMapper.create(imageAnalysisVO);
+		}
+		
+		
+//		HabitAnalysisVO habitAnalysisVO = (HabitAnalysisVO) map.get("habitAnalysisVO");
+//		KeywordAnalysisVO keywordAnalysisVO = (KeywordAnalysisVO) map.get("keywordAnalysisVO");
+//		RepetAnalysisVO repetAnalysisVO = (RepetAnalysisVO) map.get("repetAnalysisVO");
+//		VoiceAnalysisVO voiceAnalysisVO = (VoiceAnalysisVO) map.get("voiceAnalysisVO");
 		
 	}
 

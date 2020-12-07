@@ -18,6 +18,7 @@ public interface AnswerMapper {
 	/**
 	 * 답변을 등록하기 위한 메서드
 	 * @param answerVO 해당 답변의 정보를 담은 객체
+	 * @return 
 	 * @throws Exception
 	 */
 	public void create(AnswerVO answerVO) throws Exception;
