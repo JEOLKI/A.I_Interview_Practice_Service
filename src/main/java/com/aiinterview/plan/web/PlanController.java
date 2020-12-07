@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aiinterview.base.vo.BaseVO;
-import com.aiinterview.board.vo.BoardVO;
-import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.member.web.LoginController;
 import com.aiinterview.plan.service.PlanService;
 import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -439,14 +439,13 @@ public class PlanController {
 		statisticMap.put("searchKeyword", searchKeyword);
 		
 		
-		List<PlanStatisticsVO> totalUseList;
+		List<PlanStatisticsVO> totalUseList = null;
 		try {
 			totalUseList = planService.retrieveTotalUse(statisticMap);
 			model.addAttribute("totalUseList", totalUseList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		return "jsonView";
 	}
