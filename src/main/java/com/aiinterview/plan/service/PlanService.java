@@ -89,6 +89,15 @@ public class PlanService {
 		return planMapper.retrieveTotalUse(statisticMap);
 	}
 
+	/**
+	 * 전체 요금제 매출 조회
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap)throws Exception  {
+		return planMapper.retrieveTotalSale(statisticMap);
+	}
+
 	
 	
 	

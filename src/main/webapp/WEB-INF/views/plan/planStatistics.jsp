@@ -64,10 +64,10 @@
 		border-top: 1px solid black;
 		font-weight: bold;
 	}
-	#title{
+	.title{
 		border-bottom: 2px solid black;
 	}
-	.useList, .chart{
+	.useList, .saleList, .chart{
 		display: inline-block;
 		float : left;
 		width: 45%;
@@ -104,23 +104,33 @@ $(document).ready(function(){
 		document.location="/questGb/retrievePagingList.do?pageUnit="+pageUnit;
 	})
 	
-	$('#start').on('change',function(){
+	$('#useStart').on('change',function(){
 		console.log($(this).val());
-		$('#startDate').val($(this).val());
+		$('#useStartDate').val($(this).val());
 	})
 	
-	$('#end').on('change',function(){
+	$('#useEnd').on('change',function(){
 		console.log($(this).val());
-		$('#endDate').val($(this).val());
+		$('#useEndDate').val($(this).val());
+	})
+	
+	$('#saleStart').on('change',function(){
+		console.log($(this).val());
+		$('#saleStartDate').val($(this).val());
+	})
+	
+	$('#saleEnd').on('change',function(){
+		console.log($(this).val());
+		$('#saleEndDate').val($(this).val());
 	})
 	
 	// 전체 이용자 수 
-	$('#searchBtn').on('click',function(){
-		var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
-		var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
+	$('#useSearchBtn').on('click',function(){
+		var startDate = $('#useStartDate').val() == ''? '2000-01-01' : $('#useStartDate').val();
+		var endDate = $('#useEndDate').val() == ''? 'sysdate' : $('#useEndDate').val();
 		console.log(startDate);
 		console.log(endDate);
-		$.ajax({ url : "/plan/totalStatistics.do", 
+		$.ajax({ url : "/plan/totalUseStatistics.do", 
 				 data : {"startDate" : startDate,
 					 	 "endDate" 	 : endDate},
 				 dataType : "json",
@@ -163,8 +173,8 @@ $(document).ready(function(){
 					 html += '<td>합  계</td>';
 					 html += '<td></td>';
 					 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-					 $('#contentList').empty();
-					 $('#contentList').append(html);
+					 $('#useList').empty();
+					 $('#useList').append(html);
 					chartData2.push({plan:"Total", useCount:sum})
 					chart.data =  chartData2;
 					
@@ -236,6 +246,134 @@ $(document).ready(function(){
 	})
 	
 	
+	// 매출
+	$('#saleSearchBtn').on('click',function(){
+		var startDate = $('#saleStartDate').val() == ''? '2000-01-01' : $('#saleStartDate').val();
+		var endDate = $('#saleEndDate').val() == ''? 'sysdate' : $('#saleEndDate').val();
+		console.log(startDate);
+		console.log(endDate);
+		$.ajax({ url : "/plan/totalSaleStatistics.do", 
+				 data : {"startDate" : startDate,
+					 	 "endDate" 	 : endDate},
+				 dataType : "json",
+				 success : function(data){
+					 console.log(data);
+					 html="";
+				
+					 // Themes begin
+					am4core.useTheme(am4themes_kelly);
+					am4core.useTheme(am4themes_animated);
+					// Themes end
+					
+						 
+					 var chart = am4core.create("saleChart", am4charts.XYChart);
+						chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+						console.log("차트");
+					
+						
+ 				   var countSum = 0;
+ 				   var saleSum = 0;
+					var chartData2 = [];
+					var plan="";
+					var sale=0;
+					for(var i=0; i< data.totalSaleList.length; i++){
+						var planUse = data.totalSaleList[i];
+						
+						plan=planUse.planNm;
+						sale=planUse.sale;
+						
+					    chartData2.push({plan:plan, sale: sale}); 
+							
+						 html += '<tr class="plan">';
+						 html += '<td>'+planUse.rn+'</td>';
+						 html += '<td class="planNm">'+planUse.planNm+'</td>';
+						 html += '<td class="planPrice" value="'+planUse.planPrice+'">'+planUse.planPrice+'</td>';
+						 html += '<td class="useCount" value="'+planUse.useCount+'">'+planUse.useCount+'</td>';
+						 html += '<td class="sale" value="'+planUse.sale+'">'+planUse.sale+'</td>';
+						 html += '</tr>';
+						 
+						 countSum += planUse.useCount;
+						 saleSum += planUse.sale;
+					 }
+					 html += '<tr id="sum">';
+					 html += '<td>합  계</td>';
+					 html += '<td></td>';
+					 html += '<td></td>';
+					 html += '<td id="countSum" value="'+countSum+'">'+countSum+'</td>';
+					 html += '<td id="countSum" value="'+saleSum+'">'+saleSum+'</td>';
+					 $('#saleList').empty();
+					 $('#saleList').append(html);
+					chartData2.push({plan:"Total", sale:saleSum})
+					chart.data =  chartData2;
+					
+					console.log(chart.data);
+						   
+
+						var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+						categoryAxis.renderer.grid.template.location = 0;
+						categoryAxis.dataFields.category = "plan";
+						categoryAxis.renderer.minGridDistance = 40;
+						categoryAxis.fontSize = 11;
+
+						var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+						valueAxis.min = 0;
+						valueAxis.max =  100000;
+						valueAxis.strictMinMax = true;
+						valueAxis.renderer.minGridDistance = 30;
+						// axis break
+						var axisBreak = valueAxis.axisBreaks.create();
+// 						axisBreak.startValue = 4;
+// 						axisBreak.endValue = 8;
+// 						axisBreak.breakSize = 0.005;
+
+						// fixed axis break
+						var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+						axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
+
+						// make break expand on hover
+						var hoverState = axisBreak.states.create("hover");
+						hoverState.properties.breakSize = 1;
+						hoverState.properties.opacity = 0.1;
+						hoverState.transitionDuration = 1500;
+
+						axisBreak.defaultState.transitionDuration = 1000;
+						/*
+						// this is exactly the same, but with events
+						axisBreak.events.on("over", function() {
+						  axisBreak.animate(
+						    [{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
+						    1500,
+						    am4core.ease.sinOut
+						  );
+						});
+						axisBreak.events.on("out", function() {
+						  axisBreak.animate(
+						    [{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
+						    1000,
+						    am4core.ease.quadOut
+						  );
+						});*/
+
+						var series = chart.series.push(new am4charts.ColumnSeries());
+						series.dataFields.categoryX = "plan";
+						series.dataFields.valueY = "sale";
+						series.columns.template.tooltipText = "{valueY.value}";
+						series.columns.template.tooltipY = 0;
+						series.columns.template.strokeOpacity = 0;
+
+						// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+						series.columns.template.adapter.add("fill", function(fill, target) {
+						  return chart.colors.getIndex(target.dataItem.index);
+						});// end am4core.ready()
+
+
+					 
+				 }
+			
+		
+	})
+	
+	})
 
 
 })
@@ -263,15 +401,19 @@ $(document).ready(function(){
 							</ul>
 							<br><br>
 							<div class="tab-content">
+							 
+							 
+							 <!-- 사용자 탭 -->
+							  <div id="use" class="tab-pane fade in active">
 								    <div class="conditionmenu">
 								    	<form id="conditionStatisticsFrm" action="${cp }/plan/totalStatistics.do"> 
 								    	기간 : 
-								    	<input id="start" type="date">
+								    	<input id="useStart" type="date">
 								    	~
-								    	<input id="end" type="date">
-								    		<input type="hidden" id="startDate" name="startDate" >
-								    		<input type="hidden" id="endDate" name="endDate" >
-								    		<img id="searchBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
+								    	<input id="useEnd" type="date">
+								    		<input type="hidden" id="useStartDate" name="startDate" >
+								    		<input type="hidden" id="useEndDate" name="endDate" >
+								    		<img id="useSearchBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
 								    	</form>
 								    </div>
 								    <div class="listmenu">
@@ -297,18 +439,14 @@ $(document).ready(function(){
 									        <input type="file" name="excelFile" style="display:none;"/>
 									    </form>
 								    </div>
-							 
-							 
-							 <!-- 사용자 탭 -->
-							  <div id="use" class="tab-pane fade in active">
 								    <div class="use">
 								  	<table class="useList">
-								  		<tr id="title">
+								  		<tr class="title">
 								  			<th></th>
 								  			<th>요 금 제</th>
 								  			<th>이용자 수</th>
 								  		</tr>
-								  		<tbody id="contentList">
+								  		<tbody id="useList">
 								  		</tbody>
 								  	</table>
 								  </div>	
@@ -318,7 +456,54 @@ $(document).ready(function(){
 							
 							<!-- 매출 탭 -->
 							 <div id="sale" class="tab-pane fade">
-							  <div class="sale"></div>
+							 		<div class="conditionmenu">
+								    	<form id="conditionStatisticsFrm" action="${cp }/plan/totalStatistics.do"> 
+								    	기간 : 
+								    	<input id="saleStart" type="date">
+								    	~
+								    	<input id="saleEnd" type="date">
+								    		<input type="hidden" id="saleStartDate" name="startDate" >
+								    		<input type="hidden" id="saleEndDate" name="endDate" >
+								    		<img id="saleSearchBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
+								    	</form>
+								    </div>
+								    <div class="listmenu">
+								    	<select id="sort">
+											<c:forEach var="value" begin="5" end="20" step="5">
+												<c:choose>
+													<c:when test="${pageUnit == value  }">
+														<option value="${value }" selected="selected" >${value }개씩</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${value }" >${value }개씩</option>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</select> 
+										<div id="search">
+											<input type="text" id="searchKeyword" >
+											<span onclick="search()">검색</span>
+										</div>
+								    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
+										<!-- excel file 읽어오기 -->
+									    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/plan/massiveCreateProcess.do"/>" >
+									        <input type="file" name="excelFile" style="display:none;"/>
+									    </form>
+								    </div>
+							  <div class="sale">
+							  	<table class="saleList">
+								  	<tr class="title">
+								  			<th></th>
+								  			<th>요 금 제</th>
+								  			<th>가  격</th>
+								  			<th>이용자 수</th>
+								  			<th>매  출</th>
+								  	</tr>
+								  	<tbody id="saleList">
+								  	</tbody>
+								</table>
+							  </div>
+							  <div id="saleChart" class="sale chart"></div>
 							</div>
 							</div>
 					</div>

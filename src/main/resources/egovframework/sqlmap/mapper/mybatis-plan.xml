@@ -157,10 +157,10 @@ FROM
 			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
 				<choose>
 		            <when test="endDate == 'sysdate'">
-             AND B.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
+             AND b.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
              		</when>
              		<when test="endDate != 'sysdate'">
-             AND B.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD')
+             AND b.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD')
              		</when>
              		</choose>
             </if>
@@ -168,6 +168,37 @@ FROM
             a.plan_nm
     ) c
 	</select>
+	
+	<select id="retrieveTotalSale" parameterType="hashmap" resultType="com.aiinterview.plan.vo.PlanStatisticsVO">
+		SELECT ROWNUM rn,
+			   c.*
+		  FROM
+		     (
+		        SELECT
+		            a.plan_nm as planNm,
+		            a.plan_price as planPrice,
+		            b.useCount,
+		            a.plan_price * b.useCount AS sale
+		        FROM
+		            plan a,
+		            (SELECT plan_sq, count(*) as useCount
+		               FROM plan_use
+		               <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+						<choose>
+				            <when test="endDate == 'sysdate'">
+		          	  WHERE start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
+		             		</when>
+		             		<when test="endDate != 'sysdate'">
+		              WHERE start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD')
+		             		</when>
+		             		</choose>
+		            </if>
+		              GROUP BY plan_sq)b
+		        WHERE
+		            a.plan_sq = b.plan_sq 
+		    ) c
+	</select>
+	
 
 
 

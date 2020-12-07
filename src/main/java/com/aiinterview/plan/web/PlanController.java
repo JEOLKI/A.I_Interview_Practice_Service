@@ -428,7 +428,7 @@ public class PlanController {
 	}
 	
 	/* 요금제 통계 (전체, 기간별, 검색) */
-	@RequestMapping("/totalStatistics.do")
+	@RequestMapping("/totalUseStatistics.do")
 	public String totalStatistics(String startDate, String endDate, String searchKeyword, Model model) {
 		
 		System.out.println("startDate : "+ startDate + ", endDate : "+ endDate+", searchKeyword : "+searchKeyword);
@@ -449,6 +449,30 @@ public class PlanController {
 		
 		return "jsonView";
 	}
+	
+	/* 요금제 매출 통계 (전체, 기간별, 검색) */
+	@RequestMapping("/totalSaleStatistics.do")
+	public String totalSaleStatistics(String startDate, String endDate, String searchKeyword, Model model) {
+		
+		System.out.println("startDate : "+ startDate + ", endDate : "+ endDate+", searchKeyword : "+searchKeyword);
+		
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("searchKeyword", searchKeyword);
+		
+		
+		List<PlanStatisticsVO> totalSaleList = null;
+		try {
+			totalSaleList = planService.retrieveTotalSale(statisticMap);
+			model.addAttribute("totalSaleList", totalSaleList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView";
+	}
+	
 	
 	
 	

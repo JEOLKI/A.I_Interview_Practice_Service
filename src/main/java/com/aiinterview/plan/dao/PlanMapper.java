@@ -110,6 +110,14 @@ public interface PlanMapper {
 	 */
 	List<PlanStatisticsVO> retrieveTotalUse(Map<String, String> statisticMap) throws Exception;
 
+
+	/**
+	 * 전체 요금제 매출 조회
+	 * @param statisticMap
+	 * @return
+	 */
+	List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap)throws Exception;
+
 	
 	
 	
