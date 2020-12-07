@@ -92,7 +92,6 @@ public class CategoryMapperTest extends ModelTestConfig {
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCatContent("TESTCODE");
 		categoryVO.setCatSt("Y");
-		categoryVO.setCatGbSq("1");
 		
 		/***When***/
 		categoryMapper.create(categoryVO);

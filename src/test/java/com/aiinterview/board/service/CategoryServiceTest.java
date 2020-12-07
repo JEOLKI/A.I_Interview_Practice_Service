@@ -92,7 +92,6 @@ public class CategoryServiceTest extends ModelTestConfig{
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCatContent("TESTCODE");
 		categoryVO.setCatSt("Y");
-		categoryVO.setCatGbSq("1");
 		
 		/***When***/
 		categoryService.create(categoryVO);
