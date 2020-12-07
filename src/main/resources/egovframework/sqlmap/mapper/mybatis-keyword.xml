@@ -113,4 +113,10 @@
 		                       WHERE talent_sq = #{talentSq})
 	</select>
 	
+	<!-- 해당 내용의 keywordVO 추출 -->
+	<select id="retrieveMathcingKeyword" parameterType="String" resultType="com.aiinterview.interview.vo.KeywordVO" >
+		SELECT *
+		  FROM keyword
+		 WHERE keyword_sq = #{keywordSq}
+	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.aiinterview.interview.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -41,6 +42,14 @@ public class KeywordMatchingService {
 	 */
 	public int retrieve(Map<String, String> createMap) throws Exception{
 		return keywordMatchingMapper.retrieve(createMap);
+	}
+
+	/**
+	 * 키워드 매칭 리스트를 조회하는 메서드
+	 * @return
+	 */
+	public List<KeywordMatchingVO> retrieveList() throws Exception{
+		return keywordMatchingMapper.retrieveList();
 	}
 
 }

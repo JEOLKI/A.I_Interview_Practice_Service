@@ -1,5 +1,6 @@
 package com.aiinterview.interview.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.aiinterview.interview.vo.KeywordMatchingVO;
@@ -44,7 +45,13 @@ public interface KeywordMatchingMapper {
 	 * @param createMap
 	 * @return
 	 */
-	public int retrieve(Map<String, String> createMap);
+	public int retrieve(Map<String, String> createMap) throws Exception;
+
+	/**
+	 * 키워드 매칭 리스트를 조회하는 메서드
+	 * @return
+	 */
+	public List<KeywordMatchingVO> retrieveList() throws Exception;
 	
 	
 	

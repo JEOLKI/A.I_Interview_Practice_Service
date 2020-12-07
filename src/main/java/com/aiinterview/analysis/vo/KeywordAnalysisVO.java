@@ -7,6 +7,12 @@ public class KeywordAnalysisVO {
 	private String keywordSq; // 키워드 번호
 	private String keywordCount; // 키워드 횟수
 
+	public KeywordAnalysisVO() {
+	}
+	public KeywordAnalysisVO(String ansSq) {
+		this.ansSq = ansSq;
+	}
+
 	public String getAnsSq() {
 		return ansSq;
 	}

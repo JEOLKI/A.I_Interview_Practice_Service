@@ -149,4 +149,17 @@ public class KeywordService {
 	public List<KeywordVO> retrieveTalentKeywordAllList(String talentSq) {
 		return keywordMapper.retrieveTalentKeywordAllList(talentSq);
 	}
+
+
+	/**
+	 * 인재상별 모든 키워드 리스트 조회하는 메서드 
+	 * 다운로드용
+	 * @param talentSq
+	 * @return
+	 */
+	public KeywordVO retrieveMathcingKeyword(String keywordSq) {
+		return keywordMapper.retrieveMathcingKeyword(keywordSq);
+	}
+	
+	
 }

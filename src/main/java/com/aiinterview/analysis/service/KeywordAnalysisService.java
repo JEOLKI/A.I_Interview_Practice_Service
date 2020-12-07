@@ -19,4 +19,15 @@ public class KeywordAnalysisService {
 		return keywordAnalysisMapper.retrieveList(ansSq);
 	}
 
+	/**
+	 * 답변에 대한 인재상 분석 생성을 위한 메서드
+	 * @param keywordAnalysisList
+	 * @throws Exception 
+	 */
+	public void create(List<KeywordAnalysisVO> keywordAnalysisList) throws Exception {
+		for(int i=0; i<keywordAnalysisList.size(); i++) {
+			keywordAnalysisMapper.create(keywordAnalysisList.get(i));
+		}
+	}
+
 }

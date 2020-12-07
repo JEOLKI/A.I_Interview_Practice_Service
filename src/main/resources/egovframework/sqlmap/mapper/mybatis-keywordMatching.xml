@@ -46,4 +46,9 @@
 		   AND keyword_sq = TO_NUMBER(#{keywordSq})
 	</delete>
 	
+	<select id="retrieveList" resultType="com.aiinterview.interview.vo.KeywordMatchingVO">
+		SELECT count(*)
+		  FROM keyword_matching
+	</select>
+	
 </mapper>
