@@ -95,7 +95,7 @@
 	}
 	
 	// 웹캠기능
-	var face = "";
+	var index = 0;
 
 	function processImage() {
 		var subscriptionKey = "cae766a534074d6b89f02281da4e14cf";
@@ -106,6 +106,7 @@
 			"returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
 			"returnFaceId" : "true"
 		};
+		
 		// Display the image.
 		var sourceImageUrl = document.getElementById("inputImage").value;
 		document.querySelector("#sourceImage").src = sourceImageUrl;
@@ -129,7 +130,25 @@
 				.done(
 						function(data) {
 							// Show formatted JSON on webpage.
-							face += JSON.stringify(data[0].faceAttributes.emotion);
+							emotion = data[0].faceAttributes.emotion;
+							face = data[0].faceRectangle
+							var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
+							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
+							
+							$("#analysisData").append(html);
+							
+							 index += 1;
+							 
 							$("#responseTextArea").val(JSON.stringify(data, null, 2));
 						})
 				.fail(
@@ -173,16 +192,9 @@
 	$(document).ready(function(){
 		
 		$("#testgo").on('click', function(){
+			$("#analysisData").submit();
 			
-			$.ajax({url : "/test/test.do",
-				data : face,
-				method : "post",
-				success : function(data){
-				
-					
-				}
-			});
-		});		
+		})
 	});		
 	
 	
@@ -293,7 +305,7 @@
 			      }                                                                                               
 			                                                                                                      
 
-			      average += values / length / 1000;                                                                  
+			      average += values / length;                                                                  
 			                                                                                                      
 			    console.log(Math.round(average));                                                                 
 			  }                                                                                                   
@@ -305,37 +317,36 @@
 <body style="">
 
 
-	<div class="webcam" style="display: none;">
+	<div class="webcam">
 		<div class="contentarea">
 			<div class="camera">
-				<video id="video" autoplay></video>
-				<button id="startbutton">Take photo</button>
+				<video id="video" autoplay >Video stream not available.</video>
+				<button id="startbutton">Take photo</button> 
 			</div>
-			<canvas id="canvas"> </canvas>
+			<canvas id="canvas"></canvas>
 			<div class="output">
-				<img id="photo" alt="The screen capture will appear in this box.">
+				<img id="photo" alt="The screen capture will appear in this box."> 
 			</div>
-
 			<div id="imgurl"></div>
-
-		</div>
-		<br> Image to analyze: <input type="text" name="inputImage"
-			id="inputImage" value="" />
-		<button onclick="processImage()">Analyze face</button>
-		<button id="voice">음성</button>
-		<br> <br>
-		<div id="wrapper" style="width: 1020px; display: table;">
-			<div id="jsonOutput" style="width: 600px; display: table-cell;">
-				Response:<br> <br>
-				<textarea id="responseTextArea" class="UIInput"
-					style="width: 580px; height: 400px;"></textarea>
+			
+			<input type="text" name="inputImage" id="inputImage" value="" />
+			<button onclick="processImage()">Analyze face</button>
+			<div id="wrapper" style="width: 1020px; display: table;">
+				<div id="jsonOutput" style="width: 600px; display: table-cell;">
+					Response:<br><br>
+					<textarea id="responseTextArea" class="UIInput" style="width: 580px; height: 400px;"></textarea>
+				</div>
+				<div id="imageDiv" style="width: 420px; display: table-cell;">
+					Source image:<br>
+					<br> <img id="sourceImage" width="400" />
+				</div>
 			</div>
-			<div id="imageDiv" style="width: 420px; display: table-cell;">
-				Source image:<br> <br> <img id="sourceImage" width="400" />
-			</div>
+			<button id="testgo">전송테스트</button>
 		</div>
-
-		<button id="testgo">전송테스트</button>
+		<form id="analysisData" action="/answer/create.do" method="post">
+		
+		
+		</form>
 	</div>
 	
 
