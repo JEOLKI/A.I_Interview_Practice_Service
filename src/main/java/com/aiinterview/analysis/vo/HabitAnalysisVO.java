@@ -6,6 +6,13 @@ public class HabitAnalysisVO {
 	private String ansSq; // 답변 번호
 	private String habitCount; // 습관어
 
+	public HabitAnalysisVO() {
+	}
+	
+	public HabitAnalysisVO(String ansSq2) {
+		this.ansSq = ansSq;
+	}
+
 	public String getHabitSq() {
 		return habitSq;
 	}

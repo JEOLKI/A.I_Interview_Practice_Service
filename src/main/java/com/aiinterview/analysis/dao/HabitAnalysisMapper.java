@@ -11,6 +11,12 @@ public interface HabitAnalysisMapper {
 	
 	public List<HabitAnalysisVO> retrieveList(String ansSq) throws Exception;
 	
+
+	/**
+	 * 페이징처리를 위한 전체 habitVO 개수 구하는 메서드
+	 * @param habitVO
+	 * @return 전체 habitVO 개수
+	 */
 	public void create(HabitAnalysisVO habitanalysisVO) throws Exception;
 	
 }
