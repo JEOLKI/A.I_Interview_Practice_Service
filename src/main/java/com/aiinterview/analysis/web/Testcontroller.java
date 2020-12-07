@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 
@@ -20,7 +19,7 @@ public class Testcontroller {
 	}
 	
 	@RequestMapping(path="/test.do", method = {RequestMethod.POST})
-	public String dds(@ModelAttribute("face") ImageAnalysisVO imageAnalysisVO) {
+	public String dds(@ModelAttribute("face") List<ImageAnalysisVO> imageAnalysisVO) {
 			
 		
 		return "interview/interviewMain";
