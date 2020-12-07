@@ -1,5 +1,7 @@
 package com.aiinterview.analysis.vo;
 
+import java.util.List;
+
 public class ImageAnalysisVO {
 
 	private String imageAnalysisSq;	// 이미지 분석 번호
@@ -17,6 +19,18 @@ public class ImageAnalysisVO {
 	private String faceWidth;		// 얼굴 프레임의 가로길이
 	private String faceHeight;		// 얼굴 프레임의 세로길
 	private String ansSq;			// 답변의 번호
+	private List<ImageAnalysisVO> imageAnalysisVOList;
+	
+	
+	
+	
+	
+	public List<ImageAnalysisVO> getImageAnalysisVOList() {
+		return imageAnalysisVOList;
+	}
+	public void setImageAnalysisVOList(List<ImageAnalysisVO> imageAnalysisVOList) {
+		this.imageAnalysisVOList = imageAnalysisVOList;
+	}
 	public String getImageAnalysisSq() {
 		return imageAnalysisSq;
 	}
@@ -107,6 +121,16 @@ public class ImageAnalysisVO {
 	public void setAnsSq(String ansSq) {
 		this.ansSq = ansSq;
 	}
+	@Override
+	public String toString() {
+		return "ImageAnalysisVO [imageAnalysisSq=" + imageAnalysisSq + ", anger=" + anger + ", contempt=" + contempt
+				+ ", fear=" + fear + ", disgust=" + disgust + ", happiness=" + happiness + ", laugh=" + laugh
+				+ ", neutral=" + neutral + ", sadness=" + sadness + ", surprised=" + surprised + ", faceTop=" + faceTop
+				+ ", faceLeft=" + faceLeft + ", faceWidth=" + faceWidth + ", faceHeight=" + faceHeight + ", ansSq="
+				+ ansSq + ", imageAnalysisVOList=" + imageAnalysisVOList + "]";
+	}
+	
+	
 
 	
 
