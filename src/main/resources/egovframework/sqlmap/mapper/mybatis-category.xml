@@ -41,6 +41,7 @@
 		      FROM (
 		      	SELECT *
 					FROM CATEGORY
+					WHERE  B.BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
 					<if test="searchKeyword != null and searchKeyword != ''">
 				        <choose>
 				            <when test="searchCondition == 0">
@@ -58,6 +59,7 @@
 	<select id="retrievePagingListCnt" resultType="int">	    
       	SELECT count(*) totCnt
 		FROM   CATEGORY
+		WHERE  B.BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
 		<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
@@ -69,11 +71,8 @@
 	
 	<select id="retrieveList" resultType="com.aiinterview.board.vo.CategoryVO">
 		SELECT *
-		FROM   CATEGORY A, CATEGORY_GB B
-		WHERE  A.CAT_GB_SQ = B.CAT_GB_SQ
-		<if test="boardGbSq != null and boardGbSq != ''">
-		AND    B.BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
-		</if>	
+		FROM   CATEGORY 
+		WHERE  BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
 	</select>
 
 

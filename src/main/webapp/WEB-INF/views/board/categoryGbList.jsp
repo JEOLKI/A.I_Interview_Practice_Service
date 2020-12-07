@@ -8,53 +8,49 @@
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
-<script type="text/javascript" language="javascript" defer="defer">
-	
+<script type="text/javascript">
+
 	$(document).ready(function() {
-	
-		$('#boardGubunRegistFrm').on('click', function() {
-			if($('#boardGbNm').val()==''){
+
+		$('#categoryRegistFrm').on('click', function() {
+			if($('#catGbContent').val()==''){
 				var html = '<span style="color:red">**내용을 입력해주세요</span><br><br>';
 				$('#check').empty();
 				$('#check').append(html);
 			}else{
-				$('#boardGubunRegistFrm').submit();
+				$('#categoryRegistFrm').submit();
 			}
 		})
 		
 		$('.categoryMngBtn').on('click', function(){
-			boardGbSq= $(this).val();
-			console.log(boardGbSq);
-			document.location="/category/retrievePagingList.do?boardGbSq="+boardGbSq;
+			catGbSq= $(this).val();
+			console.log(catGbSq);
+			//document.location="/talent/keywordManage.do?talentSq="+talentSq;
 		})
-		
-		
+
 	})
 	
 	/* pagination 페이지 링크 function */
 	function linkPage(pageNo){
 		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
 		document.listForm.pageIndex.value = pageNo;
-		document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
+		document.listForm.action = "<c:url value='/talent/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
 	   	document.listForm.submit();
 	}
 	
 	/* 검색 */
 	function searchList(){
-	document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
-		document.listForm.submit();
+		document.listForm.action = "<c:url value='/talent/retrievePagingList.do'/>";
+			document.listForm.submit();
 	}
-	
-	
-	
-	
-</script>
 
+
+</script>
 
 
 </head>
 <body>
-<form:form commandName="boardGubunVO" id="listForm" name="listForm" method="get">
+<form:form commandName="categoryGubunVO" id="listForm" name="listForm" method="get">
 	<div id="root boarding">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -63,16 +59,19 @@
 			
 			<div class="body paging managerbox">
 				
-				
 				<div class="registdiv">
-					<form id="boardGubunRegistFrm" action="${cp }/boardGubun/create.do" method="post">
+					<form id="categoryRegistFrm" action="${cp }/categoryGubun/create.do" method="post">
 						<label>게시판 이름 : </label>
-						<input type="text" id="boardGbNm" name="boardGbNm" value="">
-						<select id="boardGbSt" name="boardGbSt">
+						<input type="text" id="catGbContent" name="catGbContent" value="">
+						<select id="catGbSt" name="catGbSt">
 							<option value="Y" selected="selected">사용</option>
 							<option value="N">미사용</option>
 						</select> 
-						<button type="button" id="boardGbRegBtn">등록</button>
+						<select id="boardGbSq" name="boardGbSq">
+							<option value="Y" selected="selected">사용</option>
+							<option value="N">미사용</option>
+						</select> 
+						<button type="button" id="categoryGbRegBtn">등록</button>
 					</form>
 					<div id="check"></div>
 				</div>
@@ -100,13 +99,13 @@
 			
 			
 					<div class="table-responsive">
-						<c:forEach items="${resultList }" var="boardGubun">
-							<form class="talentUpdateFrm" action="${cp }/boardGubun/update.do" method="post">
-								<input type="hidden" name="boardGbSq" value="${boardGubun.boardGbSq}">
-								<input type="text" class="boardGbNm" name="boardGbNm" value="${boardGubun.boardGbNm}">
-								<select class="boardGbSt" name="boardGbSt">
+						<c:forEach items="${resultList }" var="categoryGubun">
+							<form class="talentUpdateFrm" action="${cp }/categoryGubun/update.do" method="post">
+								<input type="hidden" name="catGbSq" value="${categoryGubun.catGbSq}">
+								<input type="text" class="catGbContent" name="catGbContent" value="${categoryGubun.catGbContent}">
+								<select class="catGbSt" name="catGbSt">
 										<c:choose>
-											<c:when test="${boardGubun.boardGbSt == 'Y' }">
+											<c:when test="${categoryGubun.catGbSt == 'Y' }">
 												<option value="Y" selected="selected">사용</option>
 												<option value="N">미사용</option>
 											</c:when>
@@ -117,7 +116,7 @@
 										</c:choose>
 								</select>
 								<button type="submit" class="updateBtn">수정</button>
-								<button type="button" class="categoryMngBtn" value="${boardGubun.boardGbSq }">말머리 관리</button>
+								<button type="button" class="categoryMngBtn" value="${categoryGubun.catGbSq }">말머리 관리</button>
 							</form>
 						</c:forEach>
 					</div>
@@ -136,6 +135,5 @@
 		</div>
 	</div>
 </form:form>
-
 </body>
 </html>

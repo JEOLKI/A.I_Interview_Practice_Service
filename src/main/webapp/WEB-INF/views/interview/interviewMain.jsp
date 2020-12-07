@@ -76,7 +76,7 @@
 					.done(
 							function(data) {
 								// Show formatted JSON on webpage.
-								face = data[0].faceAttributes.emotion;
+								face += JSON.stringify(data[0].faceAttributes.emotion);
 								$("#responseTextArea").val(JSON.stringify(data, null, 2));
 							})
 					.fail(

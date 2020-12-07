@@ -39,7 +39,7 @@
 	</button>
 	<div id="demoAcc1" class="w3-hide w3-white w3-card">
 		<a href="/boardGubun/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;게시판 관리</a>
-		<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;말머리 관리</a>
+		<a href="/categoryGubun/retrievePagingList.do" class="w3-bar-item w3-button">&ensp;&ensp;말머리 관리</a>
 		<a href="#" class="w3-bar-item w3-button">&ensp;&ensp;게시판 통계</a>
 	</div>
 	
