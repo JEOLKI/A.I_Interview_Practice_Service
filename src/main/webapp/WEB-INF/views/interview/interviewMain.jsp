@@ -41,8 +41,8 @@
 </div>
 
 	<script type="text/javascript">
-	
-		var face = "";
+		
+		var index = 0;
 	
 		function processImage() {
 			var subscriptionKey = "cae766a534074d6b89f02281da4e14cf";
@@ -53,6 +53,7 @@
 				"returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
 				"returnFaceId" : "true"
 			};
+			
 			// Display the image.
 			var sourceImageUrl = document.getElementById("inputImage").value;
 			document.querySelector("#sourceImage").src = sourceImageUrl;
@@ -76,7 +77,25 @@
 					.done(
 							function(data) {
 								// Show formatted JSON on webpage.
-								face += JSON.stringify(data[0].faceAttributes.emotion);
+								emotion = data[0].faceAttributes.emotion;
+								face = data[0].faceRectangle
+								var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
+								html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
+								 html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
+								
+								$("#ddd").append(html);
+								
+								 index += 1;
+								 
 								$("#responseTextArea").val(JSON.stringify(data, null, 2));
 							})
 					.fail(
@@ -119,19 +138,29 @@
 		
 		$(document).ready(function(){
 			
+			
+			
+			/* var jsonData = JSON.stringify(param);
+		    jQuery.ajaxSettings.traditional = true;
+		    */
+			
 			$("#testgo").on('click', function(){
+				$("#ddd").submit();
 				
-				$.ajax({url : "/test/test.do",
-					data : face,
-					method : "post",
+			})
+				/* $.ajax({url : "/test/test.do",
+					 type: 'POST',
+			        headers: {
+			            "mode" : CommonConstant.RequestMode.regist
+			        },
+			        data: {"jsonData" : jsonData},
+			        dataType:'json',
 					success : function(data){
 					
 						
-					}
-			});
+					} */
 			
 			
-			});		
 		});		
 		
 	</script>
@@ -163,7 +192,9 @@
 
 	<button id="testgo">전송테스트</button>
 
-
+	<form id="ddd" action="/test/test.do" method="post">
+	
+	</form>
 
 
 </body>
