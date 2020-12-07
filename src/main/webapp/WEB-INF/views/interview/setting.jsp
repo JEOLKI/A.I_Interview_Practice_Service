@@ -159,9 +159,6 @@ $(document).ready(function(){
 		    colorPids(average);                                                                               
 		  }                                                                                                   
 		  })                                                                                                  
-		  .catch(function(err) {                                                                              
-		    /* handle the error */                                                                            
-		}); 
 	});
 	
 	$('#micCheck').on('click',function(){
@@ -215,9 +212,6 @@ $(document).ready(function(){
 		    colorPids(average);                                                                               
 		  }                                                                                                   
 		  })                                                                                                  
-		  .catch(function(err) {                                                                              
-		    /* handle the error */                                                                            
-		}); 
 	});
 	
 });

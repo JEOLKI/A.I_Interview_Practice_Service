@@ -15,14 +15,12 @@
 		     VALUES (#{questSq},
 					#{questContent},
 					#{interviewSq},
-					<choose>
-				            <when test="sampQuestSq != null and sampQuestSq != '0'">
+			            <if test="sampQuestSq != null and sampQuestSq != 0">
 							#{sampQuestSq}						
-							</when>
-				            <when test="sampQusetSq == null and sampQuestSq == '0'">
-							''
-							</when>
-					</choose>
+						</if>
+			            <if test="sampQuestSq == 0 or sampQuestSq == null">
+							null
+						</if>
 					)
 	</insert>
 	

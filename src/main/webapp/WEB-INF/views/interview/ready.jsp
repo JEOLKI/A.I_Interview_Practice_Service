@@ -88,7 +88,7 @@ $(document).ready(function(){
 	$('.NullQuestionBox').on('click',function(){
 		if(count < 5 ){
 			count++;
-			$('.NullQuestionBox').before($("<div class='SetQuestionBox true'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' id='question' class='text' placeholder='면접 질문을 입력해주세요' name='questionList' value=''><button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button> <input type='hidden' id='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='vertical-align: middle;' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
+			$('.NullQuestionBox').before($("<div class='SetQuestionBox'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' id='question' class='text' placeholder='면접 질문을 입력해주세요'value='' name='questionList'><input type='hidden' class='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button><button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
 		}else{
 			alert('질문 개수 제한은 5개입니다')			
 		}
@@ -112,10 +112,10 @@ $(document).ready(function(){
 		}
 	});
 	
-	// input의 모달 열기 버튼
+	// 검색창 열기
 	$(document).on('click','.search-btn',function(){
 		$('#questionSearch').show();
-		console.log($('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox')))); 
+// 		console.log($('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox')))); // 인덱스값 출력
 		number = $('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox'))); // 폼안의 몇번째div 인지 인덱스값
 		// number전역변수의 값을 index값으로 바꿈
 	});
@@ -140,14 +140,12 @@ $(document).ready(function(){
 	
 	// 질문 클릭 시
 	$(document).on('click','.search-result .searched-question',function(){
-		console.log($(this).text());
-		console.log($(this).data('sq'));
 		
 		content = $(this).text();
 		sq = $(this).data('sq');
 		
 		$('#questionFrm .SetQuestionBox').eq(number).find($('.text')).val(content);
-		$('#questionFrm .SetQuestionBox').eq(number).find($('#sampQuestSq')).val(sq);
+		$('#questionFrm .SetQuestionBox').eq(number).find($('.sampQuestSq')).val(sq);
 		$('#search').val(''); // 검색칸 초기화
 		$('.searched-question.recommend').show(); // 추천질문 표시
 		$('.recommend-question').show(); // 추천질문 표시
@@ -162,10 +160,9 @@ $(document).ready(function(){
 	$(document).on('click','#randomQuestion',function(){
 		content = $(this).text(); 
 		sq = $(this).data('sq');
-		console.log(content);
 		
+		$('#questionFrm .SetQuestionBox').eq(number).find($('.sampQuestSq')).val(sq);
 		$('#questionFrm .SetQuestionBox').eq(number).find($('.text')).val(content);
-		$('#questionFrm .SetQuestionBox').eq(number).find($('#sampQuestSq')).val(sq);
 		
 		$('#search').val(''); // 검색칸 초기화
 		$('.searched-question.recommend').show(); // 추천질문 표시
@@ -176,6 +173,10 @@ $(document).ready(function(){
 		$('#questionSearch').hide(); // 모달창 닫기
 	});
 	
+	// 샘플질문을 수정 시 임의 질문으로 변경
+	$(document).on('change',$('#questionFrm .SetQuestionBox').eq(number).find($('.text')).val(),function(){
+		$('#questionFrm .SetQuestionBox').eq(number).find($('.sampQuestSq')).val(0);
+	});
 	
 	// 키워드 검색 에이잭스
 	$("#searchBtn").on('click',function(){
@@ -298,7 +299,7 @@ function setting(){
 
 								<input type="text" id="question" class="text"
 									placeholder="면접 질문을 입력해주세요" value="" name="questionList">
-								<input type="hidden" id="sampQuestSq" value="0" name="sampQuestSqList">
+								<input type="hidden" class="sampQuestSq" value="0" name="sampQuestSqList">
 								<button type="button" id="complete" class="complete-btn" >완료</button>
 								<button type="button" class="search-btn">
 									<img src="/images/search.ed51fb59.svg" alt=""

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.aiinterview.interview.dao.InterviewMapper;
@@ -14,6 +16,7 @@ import com.aiinterview.interview.vo.QuestionVO;
 
 @Service("interviewService")
 public class InterviewService {
+	private static final Logger logger = LoggerFactory.getLogger(InterviewService.class);
 	
 	@Resource(name="interviewMapper")
 	private InterviewMapper interviewMapper;
@@ -46,7 +49,7 @@ public class InterviewService {
 		
 		List<QuestionVO> questionVOList = (List<QuestionVO>) map.get("questionVOList");
 		
-		for(QuestionVO questionVO : questionVOList) {
+		for(QuestionVO questionVO : questionVOList) { // 질문 생성 
 			questionVO.setInterviewSq(interviewSq);
 			questionMapper.create(questionVO);
 		}
