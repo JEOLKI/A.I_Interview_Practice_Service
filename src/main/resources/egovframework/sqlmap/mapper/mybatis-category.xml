@@ -41,7 +41,7 @@
 		      FROM (
 		      	SELECT *
 					FROM CATEGORY
-					WHERE  B.BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
+					WHERE BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
 					<if test="searchKeyword != null and searchKeyword != ''">
 				        <choose>
 				            <when test="searchCondition == 0">
@@ -59,7 +59,7 @@
 	<select id="retrievePagingListCnt" resultType="int">	    
       	SELECT count(*) totCnt
 		FROM   CATEGORY
-		WHERE  B.BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
+		WHERE  BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
 		<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
