@@ -5,17 +5,144 @@
 <html>
 <head>
 <script src="/js/capture.js"></script>
+<script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <link rel="stylesheet" href="/css/main.css" type="text/css" media="all">
-
-<!-- <link rel="manifest" href="/manifest.json"> -->
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script type="text/javascript">
 	var docV = document.documentElement;
-	SetTime = 00;
+	SetTime = 0;
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
+	time = 0;
 	var tid;
+	var aid;
     var average;
+    script = ""; // 면접 질문 받는 변수
+    questSq = 0;
+    
+    
+  // 아래쪽 음성스크립트 추출 부분
+    var phraseDiv;
+    var startRecognizeOnceAsyncButton;
+    var stopRecognizeOnceAsyncButton;
+    var subscriptionKey, serviceRegion;
+    var authorizationToken;
+    var SpeechSDK;
+    var recognizer;
+    answer = ""; // 대답을 모두 담는 변수
+    
+    document.addEventListener("DOMContentLoaded", function () {
+ 	startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
+ 	//   $('#startRecognizeOnceAsyncButton')[0]
+ 	stopRecognizeOnceAsyncButton = document.getElementById("stopRecognizeOnceAsyncButton");
+ 	//   $('#stopRecognizeOnceAsyncButton')[0]
+ 	subscriptionKey = document.getElementById("subscriptionKey");
+ 	//   $('#subscriptionKey')[0]
+ 	serviceRegion = document.getElementById("serviceRegion");
+ 	//   $('#serviceRegion')[0]
+ 	phraseDiv = document.getElementById("phraseDiv");
+ 	//   $('#phraseDiv')[0]
+ 	
+ 	// 녹음 버튼 클릭 시 
+	startRecognizeOnceAsyncButton.addEventListener("click", function () {
+	startRecognizeOnceAsyncButton.disabled = true;
+    phraseDiv.innerHTML = "";
+
+    var speechConfig;
+    if (authorizationToken) {
+      speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, serviceRegion.value);
+    } else {
+      if (subscriptionKey.value === "" || subscriptionKey.value === "subscription") {
+        alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+        return;
+      }
+      speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
+    }
+
+    speechConfig.speechRecognitionLanguage = "ko-KR";
+    var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+    recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+   	recognizer.startContinuousRecognitionAsync();
+    	
+    recognizer.recognizing = (s, e) => {
+  	  console.log(`RECOGNIZING: Text=${e.result.text}`);
+    phraseDiv.innerHTML = e.result.text;
+   	answer += phraseDiv.innerHTML; // 입력한 답변을 담는 변수
+    };
+        
+   	recognizer.recognized = (s, e) => {
+ 	   if (e.result.reason == ResultReason.RecognizedSpeech) {
+		console.log(`RECOGNIZED: Text=${e.result.text}`);
+           window.console.log(e.result.text);
+    	        
+    	}
+    	else if (e.result.reason == ResultReason.NoMatch) {
+    	   console.log("NOMATCH: Speech could not be recognized.");
+   	    }
+   	};
+    	
+    recognizer.canceled = (s, e) => { // 중간취소
+    	console.log(`CANCELED: Reason=${e.reason}`);
+
+  	    if (e.reason == CancellationReason.Error) {
+  	        console.log(`"CANCELED: ErrorCode=${e.errorCode}`);
+  	        console.log(`"CANCELED: ErrorDetails=${e.errorDetails}`);
+  	        console.log("CANCELED: Did you update the subscription info?");
+  	    }
+
+  	    recognizer.stopContinuousRecognitionAsync();
+  	};
+  	
+  	recognizer.sessionStopped = (s, e) => { // 세션 끊어짐
+  	    console.log("\n    Session stopped event.");
+  	    recognizer.stopContinuousRecognitionAsync();
+  	};
+ });
+ 	
+	// 음성 스탑버튼 클릭 시 
+  	stopRecognizeOnceAsyncButton.addEventListener("click", function () {
+		console.log('스탑');
+		startRecognizeOnceAsyncButton.disabled = false;
+		 
+	   	recognizer.stopContinuousRecognitionAsync();
+   	
+  	});
+	
+	// 음성 추출 관한 내용
+  	if (!!window.SpeechSDK) {
+  	    SpeechSDK = window.SpeechSDK;
+  	    startRecognizeOnceAsyncButton.disabled = false;
+
+  	    document.getElementById('content').style.display = 'block';
+  	    document.getElementById('warning').style.display = 'none';
+
+  	    // in case we have a function for getting an authorization token, call it.
+  	    if (typeof RequestAuthorizationToken === "function") {
+  	        RequestAuthorizationToken();
+  	    }
+  	  }
+  	});
+    
+    // 음성추출 권한 받아오기
+    var authorizationEndpoint = "token.php";
+
+    function RequestAuthorizationToken() {
+      if (authorizationEndpoint) {
+        var a = new XMLHttpRequest();
+        a.open("GET", authorizationEndpoint);
+        a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        a.send("");
+        a.onload = function() {
+            var token = JSON.parse(atob(this.responseText.split(".")[1]));
+            serviceRegion.value = token.region;
+            authorizationToken = this.responseText;
+            subscriptionKey.disabled = true;
+            subscriptionKey.value = "using authorization token (hit F5 to refresh)";
+            console.log("Got an authorization token: " + token);
+        }
+      }
+    }
 	
 	// 모든 질문을 출력 했을 경우
 	if(startCount>=endCount){ 
@@ -96,6 +223,11 @@
 		tid=setInterval('timer()',1000);
 	}
 	
+	// 분석을 매 10초마다 시작하는 메서드
+	function analyzeStart(){
+		aid=setInterval('processImage()',10000);
+	}
+	
 	// 웹캠기능
 	var index = 0;
 
@@ -109,6 +241,8 @@
 			"returnFaceAttributes": "age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise",
 			"returnFaceId" : "true"
 		};
+		
+		$('#startbutton').trigger('click'); // 영상 캡쳐
 		
 		// Display the image.
 		var sourceImageUrl = document.getElementById("inputImage").value;
@@ -147,7 +281,7 @@
 				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
 				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
 				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
-				
+
 				$("#analysisData").append(html);
 				
 				 index += 1;
@@ -169,7 +303,33 @@
 			});
 	};
 
-
+	// 질문 끝날 때 answerVO 넘기는 ajax
+	
+	function createAnswer(){
+		ansContent = answer; // 해당 질문내용
+		ansTime = time; // 경과시간 입력
+		ansSpeed = (ansContent.length)/ansTime; // 말빠르기
+		
+		// 확인용 console.log
+		console.log(ansContent);
+		console.log(ansTime);
+		console.log(ansSpeed);
+		console.log(startCount);
+		console.log(questSq);
+			
+		$.ajax(
+			{url:"/answer/create.do",
+			data : {ansContent : ansContent, ansTime : ansTime, ansSpeed : ansSpeed, questSq : questSq},
+			method : "post",
+			success : function(data){
+				console.log("성공");
+				
+			},
+			error : function(data){
+				console.log(data.status);
+			}
+		});
+	}
 	// blob 데이터 넘기기
 	makeblob = function (dataURL) {
            var BASE64_MARKER = ';base64,';
@@ -223,21 +383,19 @@
 	  recorder.start(100);
 	}
 	
-	// From @samdutton's "Record Audio and Video with MediaRecorder"
-	// https://developers.google.com/web/updates/2016/01/mediarecorder
 	function download() {
-	  theRecorder.stop();
+// 	  theRecorder.stop();
 	  theStream.getTracks().forEach(track => { track.stop(); });
 	
 	  var blob = new Blob(recordedChunks, {type: "video/webm"});
 	  var url =  URL.createObjectURL(blob);
 	  var a = document.createElement("a");
-	  document.body.appendChild(a);
-	  a.style = "display: none";
-	  a.href = url;
-	  a.download = 'test.webm';
-	  a.click();
-	//   setTimeout() here is needed for Firefox.
+// 	  document.body.appendChild(a);
+// 	  a.style = "display: none";
+// 	  a.href = url;
+// 	  a.download = 'test.webm';
+// 	  a.click();
+// 	  setTimeout() here is needed for Firefox.
 	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
 	}
 	
@@ -261,37 +419,52 @@
 		 // 클릭의 경우
 		$(document).on('click','.spacebar-area.false',function(){
 			if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-				console.log($('.quest').eq(startCount).val())
+				console.log($('.quest').eq(startCount).val()); // 확인용 콘솔
+				
 				startFunction(); // 녹화 시작
-				script=$('.quest').eq(startCount).val(); // 면접 질문 표시
+				script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
+				questSq=$('.quest').eq(startCount).data('sq');
+				$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
+				
+				TimerStart();
+				analyzeStart(); // 10초마다 이미지 분석
 				
 				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
 				$('.message-balloon').empty();
 				$('.message-balloon').text(script);
 				
-// 				$(document).on('click','.spacebar-area.false',function(){
-					console.log('타이머 시작')				
-					$('.attention-message.shown').text('');
-					TimerStart();
-// 				});
+				console.log('타이머 시작')				
+				$('.attention-message.shown').text('');
 			}else{ // 타이머 진행 중에서 space
-				startCount++;
-				script = "다음 질문을 준비해주세요.";
-				
-				clearInterval(tid);		// 타이머 해제
-				console.log('타이머 멈추기')	;	
+				console.log('타이머 멈추기')	;
 				console.log('시작카운트 : '+startCount);
 				console.log('종료카운트 : '+endCount);
-					
+				
+				startCount++;
+				$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
+				
+				
+				clearInterval(tid);		// 타이머 해제
+				clearInterval(aid);		// 10초마다 이미지 분석 종료
+				
+				time = 120 - SetTime; // 경과시간 입력
+				
+				createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
+				download(); // 녹화 중지
+				
+				
+				script = "다음 질문을 준비해주세요.";
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 					download(); // 녹화 중지
 					clearInterval(tid);		// 타이머 해제
-					alert('면접 종료');					
+					clearInterval(aid);		// 10초마다 이미지 분석 종료
+					
+					alert('면접 종료');			
 				}else{
+					SetTime=0; // 타이머 시간 되돌리기
 					$('.message-balloon').empty(); // 메세지 창 지우기
 					$('#time').empty(); // 타이머 표시 지우기
 					$('.message-balloon').text(script); // 다음질문 준비 표시
-					SetTime=0; // 타이머 시간 되돌리기
 					$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
 				}
 			}
@@ -301,50 +474,59 @@
 		$(document).keydown(function(event) {
 			if(event.keyCode == 32){ // space
 				if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-					
 					console.log($('.quest').eq(startCount).val()); // 확인용 콘솔
+					
 					
 					startFunction(); // 녹화 시작
 					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
+					questSq=$('.quest').eq(startCount).data('sq');
+					$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
 					
-					$('#startbutton').trigger('click'); // 영상 캡쳐
-					processImage(); // 얼굴 분석
+					TimerStart(); // 타이머 시작
+					analyzeStart(); // 10초마다 이미지 분석
 						
-					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>");
+					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 					$('.message-balloon').empty();
 					$('.message-balloon').text(script);
 					
 					console.log('타이머 시작')				
 					$('.attention-message.shown').text('');
-					TimerStart();
-				}else{ // 타이머 진행 중에서 space
-					startCount++;
-					script = "다음 질문을 준비해주세요.";
-					download(); // 녹화 중지
-					
-					clearInterval(tid);		// 타이머 해제
-					$("#analysisData").submit(); // 얼굴 캡쳐데이터 전송
+				}else{ // 타이머 진행 중에서 space(질문 종료)
 					console.log('타이머 멈추기')	;	
 					console.log('시작카운트 : '+startCount);
 					console.log('종료카운트 : '+endCount);
-						
+					console.log('최종 답변 스크립트 : ' + script);
+					
+					startCount++;
+					$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
+					
+					clearInterval(tid);		// 타이머 해제
+					clearInterval(aid);		// 10초마다 이미지 분석 종료
+					
+					time = 120 - SetTime; // 경과시간 입력
+					
+					createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
+					download(); // 녹화 중지
+					
+					script = "다음 질문을 준비해주세요.";
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
-						download(); // 녹화 중지
+						download(); // 녹화 중지에 문제 있음
 						clearInterval(tid);		// 타이머 해제
-						$("#analysisData").submit(); // 얼굴 캡쳐데이터 전송
-						alert('면접 종료');					
+						clearInterval(aid);		// 10초마다 이미지 분석 종료
+						
+						alert('면접 종료');			
 					}else{
+						SetTime=0; // 타이머 시간 되돌리기
 						$('.message-balloon').empty(); // 메세지 창 지우기
 						$('#time').empty(); // 타이머 표시 지우기
 						$('.message-balloon').text(script); // 다음질문 준비 표시
-						SetTime=0; // 타이머 시간 되돌리기
 						$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
 					}
 				}
 			}
 		});
 		
-		// 보이스 테스트
+		// 데시벨 테스트
 		$(document).on('click','#voice',function(){
 			navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
 			.then(function(stream) {                                                                              
@@ -380,9 +562,39 @@
 	});
 </script>
 </head>
-<body style="">
+<body style=""> <!-- 나중에 overflow hidden 해야함 -->.
+	<!-- 음성 script위한 부분 -->
+	<div id="content" style="display: none">
+		<table width="100%">
+			<tr>
+				<td align="right"><a
+					href="https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started"
+					target="_blank">Subscription</a>:</td>
+				<td><input id="subscriptionKey" type="text" size="40"
+					value="8e1d8a815cd34bd4b7fee2b71344ef49"></td>
+			</tr>
+			<tr>
+				<td align="right">Region</td>
+				<td><input id="serviceRegion" type="text" size="40"
+					value="koreacentral"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button id="startRecognizeOnceAsyncButton">Startrecognition</button>
+					<button id="stopRecognizeOnceAsyncButton">Stoprecognition</button>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" valign="top">Results</td>
+				<td><textarea id="phraseDiv"
+						style="display: inline-block; width: 500px; height: 200px"></textarea></td>
+			</tr>
+		</table>
+	</div>
+	<!-- 여기까지 음성 스크립트 -->
 
-
+	<!-- 웹캠부분 -->
 	<div class="webcam">
 		<div class="contentarea">
 			<div class="camera">
@@ -416,21 +628,19 @@
 			<button id="testgo">전송테스트</button>
 		</div>
 		<form id="analysisData" action="/answer/create.do" method="post">
-			<input type="text" name="ansContent" value="몰라 썅">
+		
 			<input type="text" name="videoPath" value="c:\video">
-			<input type="text" name="ansTime" value="1">
-			<input type="text" name="ansSpeed" value="1">
-			<input type="text" name="questSq" value="1">
+			
 		</form>
 	</div>
-	
+	<!-- 여기까지 웹캠부분 -->
 
 	<div id="root">
 		<div class="Interview">
 			<div class="FullButton" style="display: inline-block;"></div>
 			
 			<c:forEach var="quest" begin="0" end="${questionGoList.size()-1}">
-				<input type="hidden" value='${questionGoList[quest].questContent}' class="quest" >
+				<input type="hidden" value='${questionGoList[quest].questContent}' data-sq='${questionGoList[quest].questSq}' class="quest" >
 			</c:forEach>
 			
 			<div class="InterviewCircle">

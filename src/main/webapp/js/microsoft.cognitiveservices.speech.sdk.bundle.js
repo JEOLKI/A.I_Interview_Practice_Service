@@ -113,7 +113,7 @@ var Exports_2 = __webpack_require__(4);
 // Common.Storage.SetSessionStorage(new Common.Browser.SessionStorage());
 Exports_2.Events.instance.attachListener(new Exports_1.ConsoleLoggingListener());
 // Speech SDK API
-__export(__webpack_require__(49));
+__export(__webpack_require__(47));
 
 
 
@@ -130,15 +130,15 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(3));
-__export(__webpack_require__(43));
+__export(__webpack_require__(41));
+__export(__webpack_require__(204));
+__export(__webpack_require__(205));
 __export(__webpack_require__(206));
 __export(__webpack_require__(207));
-__export(__webpack_require__(208));
-__export(__webpack_require__(209));
+__export(__webpack_require__(224));
+__export(__webpack_require__(225));
 __export(__webpack_require__(226));
-__export(__webpack_require__(227));
-__export(__webpack_require__(228));
-__export(__webpack_require__(183));
+__export(__webpack_require__(181));
 
 
 
@@ -232,25 +232,24 @@ __export(__webpack_require__(5));
 __export(__webpack_require__(23));
 __export(__webpack_require__(24));
 __export(__webpack_require__(26));
-__export(__webpack_require__(27));
 __export(__webpack_require__(25));
+__export(__webpack_require__(27));
+__export(__webpack_require__(28));
+__export(__webpack_require__(7));
 __export(__webpack_require__(29));
 __export(__webpack_require__(30));
-__export(__webpack_require__(7));
+__export(__webpack_require__(6));
 __export(__webpack_require__(31));
 __export(__webpack_require__(32));
-__export(__webpack_require__(6));
 __export(__webpack_require__(33));
 __export(__webpack_require__(34));
 __export(__webpack_require__(35));
-__export(__webpack_require__(36));
-__export(__webpack_require__(37));
-var TranslationStatus_1 = __webpack_require__(38);
+var TranslationStatus_1 = __webpack_require__(36);
 exports.TranslationStatus = TranslationStatus_1.TranslationStatus;
+__export(__webpack_require__(37));
+__export(__webpack_require__(38));
 __export(__webpack_require__(39));
 __export(__webpack_require__(40));
-__export(__webpack_require__(41));
-__export(__webpack_require__(42));
 
 
 
@@ -1717,76 +1716,8 @@ exports.ConnectionOpenResponse = ConnectionOpenResponse;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var ws_1 = __webpack_require__(28);
-// tslint:disable-next-line:max-classes-per-file
-var CustomEmitter = /** @class */ (function () {
-    function CustomEmitter() {
-        this.target = null;
-        try {
-            this.target = new EventTarget();
-        }
-        catch (error) {
-            if (typeof window !== "undefined") {
-                this.target = window.document.createElement("eventTarget");
-            }
-            else {
-                throw error;
-            }
-        }
-    }
-    CustomEmitter.prototype.on = function (eventName, listener) {
-        return this.target.addEventListener(eventName, listener);
-    };
-    CustomEmitter.prototype.off = function (eventName, listener) {
-        return this.target.removeEventListener(eventName, listener);
-    };
-    CustomEmitter.prototype.emit = function (eventName, detail) {
-        this.target.dispatchEvent(new CustomEvent(eventName, { detail: detail }));
-    };
-    return CustomEmitter;
-}());
-// tslint:disable-next-line:max-classes-per-file
-var PlatformEmitter = /** @class */ (function () {
-    function PlatformEmitter() {
-        if (ws_1.EventEmitter !== undefined) {
-            this.privEmitter = new ws_1.EventEmitter();
-        }
-        else {
-            this.privEmitter = new CustomEmitter();
-        }
-    }
-    PlatformEmitter.prototype.on = function (eventName, fn) {
-        this.privEmitter.on(eventName, fn);
-    };
-    PlatformEmitter.prototype.off = function (eventName, fn) {
-        this.privEmitter.off(eventName, fn);
-    };
-    PlatformEmitter.prototype.emit = function (eventName, params) {
-        this.privEmitter.emit(eventName, params);
-    };
-    return PlatformEmitter;
-}());
-exports.PlatformEmitter = PlatformEmitter;
-
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license.
-Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = __webpack_require__(25);
-var EventSource_1 = __webpack_require__(30);
+var EventSource_1 = __webpack_require__(28);
 var Events = /** @class */ (function () {
     function Events() {
     }
@@ -1811,7 +1742,7 @@ exports.Events = Events;
 
 
 /***/ }),
-/* 30 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1819,13 +1750,12 @@ exports.Events = Events;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Emitter_1 = __webpack_require__(27);
 var Error_1 = __webpack_require__(25);
 var Guid_1 = __webpack_require__(7);
 var EventSource = /** @class */ (function () {
     function EventSource(metadata) {
         var _this = this;
-        this.privEventIds = {};
+        this.privEventListeners = {};
         this.privIsDisposed = false;
         this.onEvent = function (event) {
             if (_this.isDisposed()) {
@@ -1842,20 +1772,18 @@ var EventSource = /** @class */ (function () {
                     }
                 }
             }
-            for (var eventId in _this.privEventIds) {
-                if (eventId && _this.privEventIds[eventId]) {
-                    _this.privEmitter.emit(eventId, event);
+            for (var eventId in _this.privEventListeners) {
+                if (eventId && _this.privEventListeners[eventId]) {
+                    _this.privEventListeners[eventId](event);
                 }
             }
         };
         this.attach = function (onEventCallback) {
             var id = Guid_1.createNoDashGuid();
-            _this.privEmitter.on(id, onEventCallback);
-            _this.privEventIds[id] = true;
+            _this.privEventListeners[id] = onEventCallback;
             return {
                 detach: function () {
-                    _this.privEmitter.off(id, onEventCallback);
-                    delete _this.privEventIds[id];
+                    delete _this.privEventListeners[id];
                     return Promise.resolve();
                 },
             };
@@ -1867,10 +1795,10 @@ var EventSource = /** @class */ (function () {
             return _this.privIsDisposed;
         };
         this.dispose = function () {
+            _this.privEventListeners = null;
             _this.privIsDisposed = true;
         };
         this.privMetadata = metadata;
-        this.privEmitter = new Emitter_1.PlatformEmitter();
     }
     Object.defineProperty(EventSource.prototype, "metadata", {
         get: function () {
@@ -1886,7 +1814,7 @@ exports.EventSource = EventSource;
 
 
 /***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1905,7 +1833,7 @@ var ConnectionState;
 
 
 /***/ }),
-/* 32 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2120,7 +2048,7 @@ exports.List = List;
 
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2370,7 +2298,7 @@ exports.marshalPromiseToCallbacks = marshalPromiseToCallbacks;
 
 
 /***/ }),
-/* 34 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2415,8 +2343,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = __webpack_require__(25);
-var List_1 = __webpack_require__(32);
-var Promise_1 = __webpack_require__(33);
+var List_1 = __webpack_require__(30);
+var Promise_1 = __webpack_require__(31);
 var SubscriberType;
 (function (SubscriberType) {
     SubscriberType[SubscriberType["Dequeue"] = 0] = "Dequeue";
@@ -2613,7 +2541,7 @@ exports.Queue = Queue;
 
 
 /***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2688,7 +2616,7 @@ exports.RawWebsocketMessage = RawWebsocketMessage;
 
 
 /***/ }),
-/* 36 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2752,7 +2680,7 @@ exports.RiffPcmEncoder = RiffPcmEncoder;
 
 
 /***/ }),
-/* 37 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2798,7 +2726,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = __webpack_require__(25);
 var Guid_1 = __webpack_require__(7);
-var Queue_1 = __webpack_require__(34);
+var Queue_1 = __webpack_require__(32);
 var Stream = /** @class */ (function () {
     function Stream(streamId) {
         var _this = this;
@@ -2887,7 +2815,7 @@ exports.Stream = Stream;
 
 
 /***/ }),
-/* 38 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2914,7 +2842,7 @@ var TranslationStatus;
 
 
 /***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2995,7 +2923,7 @@ exports.ChunkedArrayBufferStream = ChunkedArrayBufferStream;
 
 
 /***/ }),
-/* 40 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3106,7 +3034,7 @@ exports.Timeout = Timeout;
 
 
 /***/ }),
-/* 41 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3302,7 +3230,7 @@ exports.OCSPCacheUpdateErrorEvent = OCSPCacheUpdateErrorEvent;
 
 
 /***/ }),
-/* 42 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3345,7 +3273,7 @@ exports.BackgroundEvent = BackgroundEvent;
 
 
 /***/ }),
-/* 43 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3389,9 +3317,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var AudioStreamFormat_1 = __webpack_require__(60);
+var AudioStreamFormat_1 = __webpack_require__(58);
 exports.AudioWorkletSourceURLPropertyName = "MICROPHONE-WorkletSourceUrl";
 var MicAudioSource = /** @class */ (function () {
     function MicAudioSource(privRecorder, deviceId, audioSourceId, mediaStream) {
@@ -3698,7 +3626,7 @@ exports.MicAudioSource = MicAudioSource;
 
 
 /***/ }),
-/* 44 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3711,12 +3639,14 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Make sure not to export internal modules.
 //
+__export(__webpack_require__(43));
 __export(__webpack_require__(45));
-__export(__webpack_require__(47));
+__export(__webpack_require__(44));
 __export(__webpack_require__(46));
-__export(__webpack_require__(48));
-__export(__webpack_require__(147));
+__export(__webpack_require__(145));
+__export(__webpack_require__(146));
 __export(__webpack_require__(148));
+__export(__webpack_require__(149));
 __export(__webpack_require__(150));
 __export(__webpack_require__(151));
 __export(__webpack_require__(152));
@@ -3737,20 +3667,18 @@ __export(__webpack_require__(166));
 __export(__webpack_require__(167));
 __export(__webpack_require__(168));
 __export(__webpack_require__(169));
-__export(__webpack_require__(170));
 __export(__webpack_require__(171));
+__export(__webpack_require__(172));
 __export(__webpack_require__(173));
-__export(__webpack_require__(174));
-__export(__webpack_require__(175));
-__export(__webpack_require__(179));
-__export(__webpack_require__(180));
+__export(__webpack_require__(177));
+__export(__webpack_require__(178));
+__export(__webpack_require__(196));
+__export(__webpack_require__(197));
 __export(__webpack_require__(198));
-__export(__webpack_require__(199));
 __export(__webpack_require__(200));
+__export(__webpack_require__(201));
 __export(__webpack_require__(202));
 __export(__webpack_require__(203));
-__export(__webpack_require__(204));
-__export(__webpack_require__(205));
 exports.OutputFormatPropertyName = "OutputFormat";
 exports.CancellationErrorCodePropertyName = "CancellationErrorCode";
 exports.ServicePropertiesPropertyName = "ServiceProperties";
@@ -3760,7 +3688,7 @@ exports.AutoDetectSourceLanguagesOpenRangeOptionName = "OpenRange";
 
 
 /***/ }),
-/* 45 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3769,7 +3697,7 @@ exports.AutoDetectSourceLanguagesOpenRangeOptionName = "OpenRange";
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var IAuthentication_1 = __webpack_require__(46);
+var IAuthentication_1 = __webpack_require__(44);
 var AuthHeader = "Ocp-Apim-Subscription-Key";
 /**
  * @class
@@ -3814,7 +3742,7 @@ exports.CognitiveSubscriptionKeyAuthentication = CognitiveSubscriptionKeyAuthent
 
 
 /***/ }),
-/* 46 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3848,7 +3776,7 @@ exports.AuthInfo = AuthInfo;
 
 
 /***/ }),
-/* 47 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3857,7 +3785,7 @@ exports.AuthInfo = AuthInfo;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var IAuthentication_1 = __webpack_require__(46);
+var IAuthentication_1 = __webpack_require__(44);
 var AuthHeader = "Authorization";
 var CognitiveTokenAuthentication = /** @class */ (function () {
     function CognitiveTokenAuthentication(fetchCallback, fetchOnExpiryCallback) {
@@ -3884,7 +3812,7 @@ exports.CognitiveTokenAuthentication = CognitiveTokenAuthentication;
 
 
 /***/ }),
-/* 48 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3906,9 +3834,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(49);
-var ConnectionFactoryBase_1 = __webpack_require__(111);
-var Exports_3 = __webpack_require__(44);
+var Exports_2 = __webpack_require__(47);
+var ConnectionFactoryBase_1 = __webpack_require__(109);
+var Exports_3 = __webpack_require__(42);
 var TestHooksParamName = "testhooks";
 var ConnectionIdHeader = "X-ConnectionId";
 var IntentConnectionFactory = /** @class */ (function (_super) {
@@ -3999,7 +3927,7 @@ exports.IntentConnectionFactory = IntentConnectionFactory;
 
 
 /***/ }),
-/* 49 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4007,148 +3935,148 @@ exports.IntentConnectionFactory = IntentConnectionFactory;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var AudioConfig_1 = __webpack_require__(50);
+var AudioConfig_1 = __webpack_require__(48);
 exports.AudioConfig = AudioConfig_1.AudioConfig;
-var AudioStreamFormat_1 = __webpack_require__(60);
+var AudioStreamFormat_1 = __webpack_require__(58);
 exports.AudioStreamFormat = AudioStreamFormat_1.AudioStreamFormat;
-var AudioInputStream_1 = __webpack_require__(54);
+var AudioInputStream_1 = __webpack_require__(52);
 exports.AudioInputStream = AudioInputStream_1.AudioInputStream;
 exports.PullAudioInputStream = AudioInputStream_1.PullAudioInputStream;
 exports.PushAudioInputStream = AudioInputStream_1.PushAudioInputStream;
-var AudioOutputStream_1 = __webpack_require__(61);
+var AudioOutputStream_1 = __webpack_require__(59);
 exports.AudioOutputStream = AudioOutputStream_1.AudioOutputStream;
 exports.PullAudioOutputStream = AudioOutputStream_1.PullAudioOutputStream;
 exports.PushAudioOutputStream = AudioOutputStream_1.PushAudioOutputStream;
-var CancellationReason_1 = __webpack_require__(64);
+var CancellationReason_1 = __webpack_require__(62);
 exports.CancellationReason = CancellationReason_1.CancellationReason;
-var PullAudioInputStreamCallback_1 = __webpack_require__(65);
+var PullAudioInputStreamCallback_1 = __webpack_require__(63);
 exports.PullAudioInputStreamCallback = PullAudioInputStreamCallback_1.PullAudioInputStreamCallback;
-var PushAudioOutputStreamCallback_1 = __webpack_require__(66);
+var PushAudioOutputStreamCallback_1 = __webpack_require__(64);
 exports.PushAudioOutputStreamCallback = PushAudioOutputStreamCallback_1.PushAudioOutputStreamCallback;
-var KeywordRecognitionModel_1 = __webpack_require__(67);
+var KeywordRecognitionModel_1 = __webpack_require__(65);
 exports.KeywordRecognitionModel = KeywordRecognitionModel_1.KeywordRecognitionModel;
-var SessionEventArgs_1 = __webpack_require__(68);
+var SessionEventArgs_1 = __webpack_require__(66);
 exports.SessionEventArgs = SessionEventArgs_1.SessionEventArgs;
-var RecognitionEventArgs_1 = __webpack_require__(69);
+var RecognitionEventArgs_1 = __webpack_require__(67);
 exports.RecognitionEventArgs = RecognitionEventArgs_1.RecognitionEventArgs;
-var OutputFormat_1 = __webpack_require__(70);
+var OutputFormat_1 = __webpack_require__(68);
 exports.OutputFormat = OutputFormat_1.OutputFormat;
-var IntentRecognitionEventArgs_1 = __webpack_require__(71);
+var IntentRecognitionEventArgs_1 = __webpack_require__(69);
 exports.IntentRecognitionEventArgs = IntentRecognitionEventArgs_1.IntentRecognitionEventArgs;
-var RecognitionResult_1 = __webpack_require__(72);
+var RecognitionResult_1 = __webpack_require__(70);
 exports.RecognitionResult = RecognitionResult_1.RecognitionResult;
-var SpeechRecognitionResult_1 = __webpack_require__(73);
+var SpeechRecognitionResult_1 = __webpack_require__(71);
 exports.SpeechRecognitionResult = SpeechRecognitionResult_1.SpeechRecognitionResult;
-var IntentRecognitionResult_1 = __webpack_require__(74);
+var IntentRecognitionResult_1 = __webpack_require__(72);
 exports.IntentRecognitionResult = IntentRecognitionResult_1.IntentRecognitionResult;
-var LanguageUnderstandingModel_1 = __webpack_require__(75);
+var LanguageUnderstandingModel_1 = __webpack_require__(73);
 exports.LanguageUnderstandingModel = LanguageUnderstandingModel_1.LanguageUnderstandingModel;
-var SpeechRecognitionEventArgs_1 = __webpack_require__(76);
+var SpeechRecognitionEventArgs_1 = __webpack_require__(74);
 exports.SpeechRecognitionEventArgs = SpeechRecognitionEventArgs_1.SpeechRecognitionEventArgs;
 exports.ConversationTranscriptionEventArgs = SpeechRecognitionEventArgs_1.ConversationTranscriptionEventArgs;
-var SpeechRecognitionCanceledEventArgs_1 = __webpack_require__(77);
+var SpeechRecognitionCanceledEventArgs_1 = __webpack_require__(75);
 exports.SpeechRecognitionCanceledEventArgs = SpeechRecognitionCanceledEventArgs_1.SpeechRecognitionCanceledEventArgs;
-var TranslationRecognitionEventArgs_1 = __webpack_require__(79);
+var TranslationRecognitionEventArgs_1 = __webpack_require__(77);
 exports.TranslationRecognitionEventArgs = TranslationRecognitionEventArgs_1.TranslationRecognitionEventArgs;
-var TranslationSynthesisEventArgs_1 = __webpack_require__(80);
+var TranslationSynthesisEventArgs_1 = __webpack_require__(78);
 exports.TranslationSynthesisEventArgs = TranslationSynthesisEventArgs_1.TranslationSynthesisEventArgs;
-var TranslationRecognitionResult_1 = __webpack_require__(81);
+var TranslationRecognitionResult_1 = __webpack_require__(79);
 exports.TranslationRecognitionResult = TranslationRecognitionResult_1.TranslationRecognitionResult;
-var TranslationSynthesisResult_1 = __webpack_require__(82);
+var TranslationSynthesisResult_1 = __webpack_require__(80);
 exports.TranslationSynthesisResult = TranslationSynthesisResult_1.TranslationSynthesisResult;
-var ResultReason_1 = __webpack_require__(83);
+var ResultReason_1 = __webpack_require__(81);
 exports.ResultReason = ResultReason_1.ResultReason;
-var SpeechConfig_1 = __webpack_require__(84);
+var SpeechConfig_1 = __webpack_require__(82);
 exports.SpeechConfig = SpeechConfig_1.SpeechConfig;
 exports.SpeechConfigImpl = SpeechConfig_1.SpeechConfigImpl;
-var SpeechTranslationConfig_1 = __webpack_require__(85);
+var SpeechTranslationConfig_1 = __webpack_require__(83);
 exports.SpeechTranslationConfig = SpeechTranslationConfig_1.SpeechTranslationConfig;
 exports.SpeechTranslationConfigImpl = SpeechTranslationConfig_1.SpeechTranslationConfigImpl;
-var PropertyCollection_1 = __webpack_require__(86);
+var PropertyCollection_1 = __webpack_require__(84);
 exports.PropertyCollection = PropertyCollection_1.PropertyCollection;
-var PropertyId_1 = __webpack_require__(87);
+var PropertyId_1 = __webpack_require__(85);
 exports.PropertyId = PropertyId_1.PropertyId;
-var Recognizer_1 = __webpack_require__(88);
+var Recognizer_1 = __webpack_require__(86);
 exports.Recognizer = Recognizer_1.Recognizer;
-var SpeechRecognizer_1 = __webpack_require__(89);
+var SpeechRecognizer_1 = __webpack_require__(87);
 exports.SpeechRecognizer = SpeechRecognizer_1.SpeechRecognizer;
-var IntentRecognizer_1 = __webpack_require__(90);
+var IntentRecognizer_1 = __webpack_require__(88);
 exports.IntentRecognizer = IntentRecognizer_1.IntentRecognizer;
-var VoiceProfileType_1 = __webpack_require__(91);
+var VoiceProfileType_1 = __webpack_require__(89);
 exports.VoiceProfileType = VoiceProfileType_1.VoiceProfileType;
-var TranslationRecognizer_1 = __webpack_require__(92);
+var TranslationRecognizer_1 = __webpack_require__(90);
 exports.TranslationRecognizer = TranslationRecognizer_1.TranslationRecognizer;
-var Translations_1 = __webpack_require__(93);
+var Translations_1 = __webpack_require__(91);
 exports.Translations = Translations_1.Translations;
-var NoMatchReason_1 = __webpack_require__(94);
+var NoMatchReason_1 = __webpack_require__(92);
 exports.NoMatchReason = NoMatchReason_1.NoMatchReason;
-var NoMatchDetails_1 = __webpack_require__(95);
+var NoMatchDetails_1 = __webpack_require__(93);
 exports.NoMatchDetails = NoMatchDetails_1.NoMatchDetails;
-var TranslationRecognitionCanceledEventArgs_1 = __webpack_require__(96);
+var TranslationRecognitionCanceledEventArgs_1 = __webpack_require__(94);
 exports.TranslationRecognitionCanceledEventArgs = TranslationRecognitionCanceledEventArgs_1.TranslationRecognitionCanceledEventArgs;
-var IntentRecognitionCanceledEventArgs_1 = __webpack_require__(97);
+var IntentRecognitionCanceledEventArgs_1 = __webpack_require__(95);
 exports.IntentRecognitionCanceledEventArgs = IntentRecognitionCanceledEventArgs_1.IntentRecognitionCanceledEventArgs;
-var CancellationDetailsBase_1 = __webpack_require__(98);
+var CancellationDetailsBase_1 = __webpack_require__(96);
 exports.CancellationDetailsBase = CancellationDetailsBase_1.CancellationDetailsBase;
-var CancellationDetails_1 = __webpack_require__(99);
+var CancellationDetails_1 = __webpack_require__(97);
 exports.CancellationDetails = CancellationDetails_1.CancellationDetails;
-var CancellationErrorCodes_1 = __webpack_require__(100);
+var CancellationErrorCodes_1 = __webpack_require__(98);
 exports.CancellationErrorCode = CancellationErrorCodes_1.CancellationErrorCode;
-var ConnectionEventArgs_1 = __webpack_require__(101);
+var ConnectionEventArgs_1 = __webpack_require__(99);
 exports.ConnectionEventArgs = ConnectionEventArgs_1.ConnectionEventArgs;
-var ServiceEventArgs_1 = __webpack_require__(102);
+var ServiceEventArgs_1 = __webpack_require__(100);
 exports.ServiceEventArgs = ServiceEventArgs_1.ServiceEventArgs;
-var Connection_1 = __webpack_require__(103);
+var Connection_1 = __webpack_require__(101);
 exports.Connection = Connection_1.Connection;
-var PhraseListGrammar_1 = __webpack_require__(105);
+var PhraseListGrammar_1 = __webpack_require__(103);
 exports.PhraseListGrammar = PhraseListGrammar_1.PhraseListGrammar;
-var DialogServiceConfig_1 = __webpack_require__(106);
+var DialogServiceConfig_1 = __webpack_require__(104);
 exports.DialogServiceConfig = DialogServiceConfig_1.DialogServiceConfig;
-var BotFrameworkConfig_1 = __webpack_require__(107);
+var BotFrameworkConfig_1 = __webpack_require__(105);
 exports.BotFrameworkConfig = BotFrameworkConfig_1.BotFrameworkConfig;
-var CustomCommandsConfig_1 = __webpack_require__(108);
+var CustomCommandsConfig_1 = __webpack_require__(106);
 exports.CustomCommandsConfig = CustomCommandsConfig_1.CustomCommandsConfig;
-var DialogServiceConnector_1 = __webpack_require__(109);
+var DialogServiceConnector_1 = __webpack_require__(107);
 exports.DialogServiceConnector = DialogServiceConnector_1.DialogServiceConnector;
-var ActivityReceivedEventArgs_1 = __webpack_require__(113);
+var ActivityReceivedEventArgs_1 = __webpack_require__(111);
 exports.ActivityReceivedEventArgs = ActivityReceivedEventArgs_1.ActivityReceivedEventArgs;
-var ServicePropertyChannel_1 = __webpack_require__(114);
+var ServicePropertyChannel_1 = __webpack_require__(112);
 exports.ServicePropertyChannel = ServicePropertyChannel_1.ServicePropertyChannel;
-var ProfanityOption_1 = __webpack_require__(115);
+var ProfanityOption_1 = __webpack_require__(113);
 exports.ProfanityOption = ProfanityOption_1.ProfanityOption;
-var BaseAudioPlayer_1 = __webpack_require__(116);
+var BaseAudioPlayer_1 = __webpack_require__(114);
 exports.BaseAudioPlayer = BaseAudioPlayer_1.BaseAudioPlayer;
-var ConnectionMessageEventArgs_1 = __webpack_require__(117);
+var ConnectionMessageEventArgs_1 = __webpack_require__(115);
 exports.ConnectionMessageEventArgs = ConnectionMessageEventArgs_1.ConnectionMessageEventArgs;
-var ConnectionMessage_1 = __webpack_require__(104);
+var ConnectionMessage_1 = __webpack_require__(102);
 exports.ConnectionMessage = ConnectionMessage_1.ConnectionMessage;
-var VoiceProfile_1 = __webpack_require__(118);
+var VoiceProfile_1 = __webpack_require__(116);
 exports.VoiceProfile = VoiceProfile_1.VoiceProfile;
-var VoiceProfileEnrollmentResult_1 = __webpack_require__(119);
+var VoiceProfileEnrollmentResult_1 = __webpack_require__(117);
 exports.VoiceProfileEnrollmentResult = VoiceProfileEnrollmentResult_1.VoiceProfileEnrollmentResult;
 exports.VoiceProfileEnrollmentCancellationDetails = VoiceProfileEnrollmentResult_1.VoiceProfileEnrollmentCancellationDetails;
-var VoiceProfileResult_1 = __webpack_require__(120);
+var VoiceProfileResult_1 = __webpack_require__(118);
 exports.VoiceProfileResult = VoiceProfileResult_1.VoiceProfileResult;
 exports.VoiceProfileCancellationDetails = VoiceProfileResult_1.VoiceProfileCancellationDetails;
-var VoiceProfileClient_1 = __webpack_require__(121);
+var VoiceProfileClient_1 = __webpack_require__(119);
 exports.VoiceProfileClient = VoiceProfileClient_1.VoiceProfileClient;
-var SpeakerRecognizer_1 = __webpack_require__(122);
+var SpeakerRecognizer_1 = __webpack_require__(120);
 exports.SpeakerRecognizer = SpeakerRecognizer_1.SpeakerRecognizer;
-var SpeakerIdentificationModel_1 = __webpack_require__(123);
+var SpeakerIdentificationModel_1 = __webpack_require__(121);
 exports.SpeakerIdentificationModel = SpeakerIdentificationModel_1.SpeakerIdentificationModel;
-var SpeakerVerificationModel_1 = __webpack_require__(124);
+var SpeakerVerificationModel_1 = __webpack_require__(122);
 exports.SpeakerVerificationModel = SpeakerVerificationModel_1.SpeakerVerificationModel;
-var AutoDetectSourceLanguageConfig_1 = __webpack_require__(125);
+var AutoDetectSourceLanguageConfig_1 = __webpack_require__(123);
 exports.AutoDetectSourceLanguageConfig = AutoDetectSourceLanguageConfig_1.AutoDetectSourceLanguageConfig;
-var AutoDetectSourceLanguageResult_1 = __webpack_require__(126);
+var AutoDetectSourceLanguageResult_1 = __webpack_require__(124);
 exports.AutoDetectSourceLanguageResult = AutoDetectSourceLanguageResult_1.AutoDetectSourceLanguageResult;
-var SourceLanguageConfig_1 = __webpack_require__(127);
+var SourceLanguageConfig_1 = __webpack_require__(125);
 exports.SourceLanguageConfig = SourceLanguageConfig_1.SourceLanguageConfig;
-var SpeakerRecognitionResult_1 = __webpack_require__(128);
+var SpeakerRecognitionResult_1 = __webpack_require__(126);
 exports.SpeakerRecognitionResult = SpeakerRecognitionResult_1.SpeakerRecognitionResult;
 exports.SpeakerRecognitionResultType = SpeakerRecognitionResult_1.SpeakerRecognitionResultType;
 exports.SpeakerRecognitionCancellationDetails = SpeakerRecognitionResult_1.SpeakerRecognitionCancellationDetails;
-var Exports_1 = __webpack_require__(129);
+var Exports_1 = __webpack_require__(127);
 exports.Conversation = Exports_1.Conversation;
 exports.ConversationExpirationEventArgs = Exports_1.ConversationExpirationEventArgs;
 exports.ConversationParticipantsChangedEventArgs = Exports_1.ConversationParticipantsChangedEventArgs;
@@ -4160,25 +4088,25 @@ exports.ConversationTranscriber = Exports_1.ConversationTranscriber;
 exports.Participant = Exports_1.Participant;
 exports.ParticipantChangedReason = Exports_1.ParticipantChangedReason;
 exports.User = Exports_1.User;
-var SpeechSynthesisOutputFormat_1 = __webpack_require__(63);
+var SpeechSynthesisOutputFormat_1 = __webpack_require__(61);
 exports.SpeechSynthesisOutputFormat = SpeechSynthesisOutputFormat_1.SpeechSynthesisOutputFormat;
-var SpeechSynthesizer_1 = __webpack_require__(141);
+var SpeechSynthesizer_1 = __webpack_require__(139);
 exports.SpeechSynthesizer = SpeechSynthesizer_1.SpeechSynthesizer;
-var SpeechSynthesisResult_1 = __webpack_require__(142);
+var SpeechSynthesisResult_1 = __webpack_require__(140);
 exports.SpeechSynthesisResult = SpeechSynthesisResult_1.SpeechSynthesisResult;
-var SpeechSynthesisEventArgs_1 = __webpack_require__(143);
+var SpeechSynthesisEventArgs_1 = __webpack_require__(141);
 exports.SpeechSynthesisEventArgs = SpeechSynthesisEventArgs_1.SpeechSynthesisEventArgs;
-var SpeechSynthesisWordBoundaryEventArgs_1 = __webpack_require__(144);
+var SpeechSynthesisWordBoundaryEventArgs_1 = __webpack_require__(142);
 exports.SpeechSynthesisWordBoundaryEventArgs = SpeechSynthesisWordBoundaryEventArgs_1.SpeechSynthesisWordBoundaryEventArgs;
-var SpeakerAudioDestination_1 = __webpack_require__(145);
+var SpeakerAudioDestination_1 = __webpack_require__(143);
 exports.SpeakerAudioDestination = SpeakerAudioDestination_1.SpeakerAudioDestination;
-var ConversationTranscriptionCanceledEventArgs_1 = __webpack_require__(146);
+var ConversationTranscriptionCanceledEventArgs_1 = __webpack_require__(144);
 exports.ConversationTranscriptionCanceledEventArgs = ConversationTranscriptionCanceledEventArgs_1.ConversationTranscriptionCanceledEventArgs;
 
 
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4200,11 +4128,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
-var AudioFileWriter_1 = __webpack_require__(52);
-var AudioInputStream_1 = __webpack_require__(54);
-var AudioOutputStream_1 = __webpack_require__(61);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
+var AudioFileWriter_1 = __webpack_require__(50);
+var AudioInputStream_1 = __webpack_require__(52);
+var AudioOutputStream_1 = __webpack_require__(59);
 /**
  * Represents audio input configuration used for specifying what type of input to use (microphone, file, stream).
  * @class AudioConfig
@@ -4521,7 +4449,7 @@ exports.AudioOutputConfigImpl = AudioOutputConfigImpl;
 
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4583,7 +4511,7 @@ exports.Contracts = Contracts;
 
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4598,8 +4526,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = __importStar(__webpack_require__(53));
-var Contracts_1 = __webpack_require__(51);
+var fs = __importStar(__webpack_require__(51));
+var Contracts_1 = __webpack_require__(49);
 var AudioFileWriter = /** @class */ (function () {
     function AudioFileWriter(filename) {
         var _this = this;
@@ -4650,13 +4578,13 @@ exports.AudioFileWriter = AudioFileWriter;
 
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4713,11 +4641,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
 var Guid_1 = __webpack_require__(7);
-var Exports_3 = __webpack_require__(49);
-var AudioStreamFormat_1 = __webpack_require__(60);
+var Exports_3 = __webpack_require__(47);
+var AudioStreamFormat_1 = __webpack_require__(58);
 /**
  * Represents audio input stream used for custom audio input configurations.
  * @class AudioInputStream
@@ -4860,7 +4788,7 @@ var PushAudioInputStreamImpl = /** @class */ (function (_super) {
                 var readCycle = function () {
                     return audioNode.read().then(function (audioStreamChunk) {
                         if (!audioStreamChunk || audioStreamChunk.isEnd) {
-                            if (typeof (XMLHttpRequest) !== "undefined") {
+                            if (typeof (XMLHttpRequest) !== "undefined" && typeof (Blob) !== "undefined") {
                                 return Promise.resolve(new Blob(data));
                             }
                             else {
@@ -5153,10 +5081,10 @@ var PullAudioInputStreamImpl = /** @class */ (function (_super) {
 exports.PullAudioInputStreamImpl = PullAudioInputStreamImpl;
 
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(55).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(53).Buffer))
 
 /***/ }),
-/* 55 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5170,9 +5098,9 @@ exports.PullAudioInputStreamImpl = PullAudioInputStreamImpl;
 
 
 
-var base64 = __webpack_require__(57)
-var ieee754 = __webpack_require__(58)
-var isArray = __webpack_require__(59)
+var base64 = __webpack_require__(55)
+var ieee754 = __webpack_require__(56)
+var isArray = __webpack_require__(57)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -6950,10 +6878,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(56)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(54)))
 
 /***/ }),
-/* 56 */
+/* 54 */
 /***/ (function(module, exports) {
 
 var g;
@@ -6979,7 +6907,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7138,7 +7066,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -7228,7 +7156,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -7239,7 +7167,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7410,7 +7338,7 @@ exports.AudioStreamFormatImpl = AudioStreamFormatImpl;
 
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7468,8 +7396,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var AudioOutputFormat_1 = __webpack_require__(62);
+var Contracts_1 = __webpack_require__(49);
+var AudioOutputFormat_1 = __webpack_require__(60);
 /**
  * Represents audio output stream used for custom audio output configurations.
  * @class AudioOutputStream
@@ -7735,7 +7663,7 @@ exports.PushAudioOutputStreamImpl = PushAudioOutputStreamImpl;
 
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7757,8 +7685,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var SpeechSynthesisOutputFormat_1 = __webpack_require__(63);
-var AudioStreamFormat_1 = __webpack_require__(60);
+var SpeechSynthesisOutputFormat_1 = __webpack_require__(61);
+var AudioStreamFormat_1 = __webpack_require__(58);
 var AudioFormatTag;
 (function (AudioFormatTag) {
     AudioFormatTag[AudioFormatTag["PCM"] = 1] = "PCM";
@@ -7934,7 +7862,7 @@ exports.AudioOutputFormatImpl = AudioOutputFormatImpl;
 
 
 /***/ }),
-/* 63 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8049,7 +7977,7 @@ var SpeechSynthesisOutputFormat;
 
 
 /***/ }),
-/* 64 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8078,7 +8006,7 @@ var CancellationReason;
 
 
 /***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8101,7 +8029,7 @@ exports.PullAudioInputStreamCallback = PullAudioInputStreamCallback;
 
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8124,7 +8052,7 @@ exports.PushAudioOutputStreamCallback = PushAudioOutputStreamCallback;
 
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8132,7 +8060,7 @@ exports.PushAudioOutputStreamCallback = PushAudioOutputStreamCallback;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
+var Contracts_1 = __webpack_require__(49);
 /**
  * Represents a keyword recognition model for recognizing when
  * the user says a keyword to initiate further speech recognition.
@@ -8192,7 +8120,7 @@ exports.KeywordRecognitionModel = KeywordRecognitionModel;
 
 
 /***/ }),
-/* 68 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8234,7 +8162,7 @@ exports.SessionEventArgs = SessionEventArgs;
 
 
 /***/ }),
-/* 69 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8255,7 +8183,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines payload for session events like Speech Start/End Detected
  * @class
@@ -8293,7 +8221,7 @@ exports.RecognitionEventArgs = RecognitionEventArgs;
 
 
 /***/ }),
-/* 70 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8320,7 +8248,7 @@ var OutputFormat;
 
 
 /***/ }),
-/* 71 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8341,7 +8269,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Intent recognition result event arguments.
  * @class
@@ -8381,7 +8309,7 @@ exports.IntentRecognitionEventArgs = IntentRecognitionEventArgs;
 
 
 /***/ }),
-/* 72 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8567,7 +8495,7 @@ exports.RecognitionResult = RecognitionResult;
 
 
 /***/ }),
-/* 73 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8588,7 +8516,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines result of speech recognition.
  * @class SpeechRecognitionResult
@@ -8637,7 +8565,7 @@ exports.SpeechRecognitionResult = SpeechRecognitionResult;
 
 
 /***/ }),
-/* 74 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8658,7 +8586,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Intent recognition result.
  * @class
@@ -8706,7 +8634,7 @@ exports.IntentRecognitionResult = IntentRecognitionResult;
 
 
 /***/ }),
-/* 75 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8727,7 +8655,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
+var Contracts_1 = __webpack_require__(49);
 /**
  * Language understanding model
  * @class LanguageUnderstandingModel
@@ -8831,7 +8759,7 @@ exports.LanguageUnderstandingModelImpl = LanguageUnderstandingModelImpl;
 
 
 /***/ }),
-/* 76 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8852,7 +8780,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines contents of speech recognizing/recognized event.
  * @class SpeechRecognitionEventArgs
@@ -8905,7 +8833,7 @@ exports.ConversationTranscriptionEventArgs = ConversationTranscriptionEventArgs;
 
 
 /***/ }),
-/* 77 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8926,7 +8854,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CancellationEventArgsBase_1 = __webpack_require__(78);
+var CancellationEventArgsBase_1 = __webpack_require__(76);
 var SpeechRecognitionCanceledEventArgs = /** @class */ (function (_super) {
     __extends(SpeechRecognitionCanceledEventArgs, _super);
     function SpeechRecognitionCanceledEventArgs() {
@@ -8939,7 +8867,7 @@ exports.SpeechRecognitionCanceledEventArgs = SpeechRecognitionCanceledEventArgs;
 
 
 /***/ }),
-/* 78 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8960,7 +8888,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines content of a CancellationEvent.
  * @class CancellationEventArgsBase
@@ -9028,7 +8956,7 @@ exports.CancellationEventArgsBase = CancellationEventArgsBase;
 
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9049,7 +8977,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Translation text result event arguments.
  * @class TranslationRecognitionEventArgs
@@ -9089,7 +9017,7 @@ exports.TranslationRecognitionEventArgs = TranslationRecognitionEventArgs;
 
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9110,7 +9038,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Translation Synthesis event arguments
  * @class TranslationSynthesisEventArgs
@@ -9149,7 +9077,7 @@ exports.TranslationSynthesisEventArgs = TranslationSynthesisEventArgs;
 
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9170,7 +9098,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Translation text result.
  * @class TranslationRecognitionResult
@@ -9219,7 +9147,7 @@ exports.TranslationRecognitionResult = TranslationRecognitionResult;
 
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9278,7 +9206,7 @@ exports.TranslationSynthesisResult = TranslationSynthesisResult;
 
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9387,7 +9315,7 @@ var ResultReason;
 
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9408,9 +9336,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 /**
  * Speech configuration.
  * @class SpeechConfig
@@ -9693,7 +9621,7 @@ exports.SpeechConfigImpl = SpeechConfigImpl;
 
 
 /***/ }),
-/* 85 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9714,9 +9642,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 /**
  * Speech translation configuration.
  * @class SpeechTranslationConfig
@@ -10111,7 +10039,7 @@ exports.SpeechTranslationConfigImpl = SpeechTranslationConfigImpl;
 
 
 /***/ }),
-/* 86 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10119,7 +10047,7 @@ exports.SpeechTranslationConfigImpl = SpeechTranslationConfigImpl;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Represents collection of properties and their values.
  * @class PropertyCollection
@@ -10219,7 +10147,7 @@ exports.PropertyCollection = PropertyCollection;
 
 
 /***/ }),
-/* 87 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10536,7 +10464,7 @@ var PropertyId;
 
 
 /***/ }),
-/* 88 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10580,10 +10508,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Defines the base class Recognizer which mainly contains common event handlers.
  * @class Recognizer
@@ -10788,7 +10716,7 @@ exports.Recognizer = Recognizer;
 
 
 /***/ }),
-/* 89 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10845,10 +10773,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Performs speech recognition from microphone, file, or other audio input streams, and gets transcribed text as result.
  * @class SpeechRecognizer
@@ -11098,7 +11026,7 @@ exports.SpeechRecognizer = SpeechRecognizer;
 
 
 /***/ }),
-/* 90 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11155,10 +11083,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Intent recognizer.
  * @class
@@ -11468,7 +11396,7 @@ exports.IntentRecognizer = IntentRecognizer;
 
 
 /***/ }),
-/* 91 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11502,7 +11430,7 @@ var VoiceProfileType;
 
 
 /***/ }),
-/* 92 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11559,10 +11487,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Translation recognizer
  * @class TranslationRecognizer
@@ -11758,7 +11686,7 @@ exports.TranslationRecognizer = TranslationRecognizer;
 
 
 /***/ }),
-/* 93 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11766,7 +11694,7 @@ exports.TranslationRecognizer = TranslationRecognizer;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Represents collection of parameters and their values.
  * @class Translation
@@ -11808,7 +11736,7 @@ exports.Translations = Translations;
 
 
 /***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11844,7 +11772,7 @@ var NoMatchReason;
 
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11852,8 +11780,8 @@ var NoMatchReason;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Exports_2 = __webpack_require__(47);
 /**
  * Contains detailed information for NoMatch recognition results.
  * @class NoMatchDetails
@@ -11913,7 +11841,7 @@ exports.NoMatchDetails = NoMatchDetails;
 
 
 /***/ }),
-/* 96 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12016,7 +11944,7 @@ exports.TranslationRecognitionCanceledEventArgs = TranslationRecognitionCanceled
 
 
 /***/ }),
-/* 97 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12037,7 +11965,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Define payload of intent recognition canceled result events.
  * @class IntentRecognitionCanceledEventArgs
@@ -12105,7 +12033,7 @@ exports.IntentRecognitionCanceledEventArgs = IntentRecognitionCanceledEventArgs;
 
 
 /***/ }),
-/* 98 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12176,7 +12104,7 @@ exports.CancellationDetailsBase = CancellationDetailsBase;
 
 
 /***/ }),
-/* 99 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12197,9 +12125,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var CancellationDetailsBase_1 = __webpack_require__(98);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var CancellationDetailsBase_1 = __webpack_require__(96);
+var Exports_2 = __webpack_require__(47);
 /**
  * Contains detailed information about why a result was canceled.
  * @class CancellationDetails
@@ -12236,7 +12164,7 @@ exports.CancellationDetails = CancellationDetails;
 
 
 /***/ }),
-/* 100 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12288,7 +12216,7 @@ var CancellationErrorCode;
 
 
 /***/ }),
-/* 101 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12311,7 +12239,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines payload for connection events like Connected/Disconnected.
  * Added in version 1.2.0
@@ -12328,7 +12256,7 @@ exports.ConnectionEventArgs = ConnectionEventArgs;
 
 
 /***/ }),
-/* 102 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12351,7 +12279,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines payload for any Service message event
  * Added in version 1.9.0
@@ -12390,7 +12318,7 @@ exports.ServiceEventArgs = ServiceEventArgs;
 
 
 /***/ }),
-/* 103 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12400,11 +12328,11 @@ exports.ServiceEventArgs = ServiceEventArgs;
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var ConnectionMessage_1 = __webpack_require__(104);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var ConnectionMessage_1 = __webpack_require__(102);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Connection is a proxy class for managing connection to the speech service of the specified Recognizer.
  * By default, a Recognizer autonomously manages connection to service when needed.
@@ -12550,7 +12478,7 @@ exports.Connection = Connection;
 
 
 /***/ }),
-/* 104 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12561,8 +12489,8 @@ exports.Connection = Connection;
 //
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var PropertyCollection_1 = __webpack_require__(86);
-var PropertyId_1 = __webpack_require__(87);
+var PropertyCollection_1 = __webpack_require__(84);
+var PropertyId_1 = __webpack_require__(85);
 /**
  * ConnectionMessage represents implementation specific messages sent to and received from
  * the speech service. These messages are provided for debugging purposes and should not
@@ -12668,7 +12596,7 @@ exports.ConnectionMessageImpl = ConnectionMessageImpl;
 
 
 /***/ }),
-/* 105 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12721,7 +12649,7 @@ exports.PhraseListGrammar = PhraseListGrammar;
 
 
 /***/ }),
-/* 106 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12742,8 +12670,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
-var Exports_1 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Class that defines base configurations for dialog service connector
  * @class DialogServiceConfig
@@ -12895,7 +12823,7 @@ exports.DialogServiceConfigImpl = DialogServiceConfigImpl;
 
 
 /***/ }),
-/* 107 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12916,9 +12844,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
-var DialogServiceConfig_1 = __webpack_require__(106);
-var Exports_1 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var DialogServiceConfig_1 = __webpack_require__(104);
+var Exports_1 = __webpack_require__(47);
 /**
  * Class that defines configurations for the dialog service connector object for using a Bot Framework backend.
  * @class BotFrameworkConfig
@@ -12983,7 +12911,7 @@ exports.BotFrameworkConfig = BotFrameworkConfig;
 
 
 /***/ }),
-/* 108 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13004,9 +12932,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
-var DialogServiceConfig_1 = __webpack_require__(106);
-var Exports_1 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var DialogServiceConfig_1 = __webpack_require__(104);
+var Exports_1 = __webpack_require__(47);
 /**
  * Class that defines configurations for the dialog service connector object for using a CustomCommands backend.
  * @class CustomCommandsConfig
@@ -13098,7 +13026,7 @@ exports.CustomCommandsConfig = CustomCommandsConfig;
 
 
 /***/ }),
-/* 109 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13155,13 +13083,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DialogConnectorFactory_1 = __webpack_require__(110);
-var Exports_1 = __webpack_require__(44);
+var DialogConnectorFactory_1 = __webpack_require__(108);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
-var PropertyId_1 = __webpack_require__(87);
-var SpeechSynthesisOutputFormat_1 = __webpack_require__(63);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
+var PropertyId_1 = __webpack_require__(85);
+var SpeechSynthesisOutputFormat_1 = __webpack_require__(61);
 /**
  * Dialog Service Connector
  * @class DialogServiceConnector
@@ -13377,7 +13305,7 @@ exports.DialogServiceConnector = DialogServiceConnector;
 
 
 /***/ }),
-/* 110 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13399,11 +13327,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(44);
-var Exports_3 = __webpack_require__(49);
-var ConnectionFactoryBase_1 = __webpack_require__(111);
-var Exports_4 = __webpack_require__(44);
-var QueryParameterNames_1 = __webpack_require__(112);
+var Exports_2 = __webpack_require__(42);
+var Exports_3 = __webpack_require__(47);
+var ConnectionFactoryBase_1 = __webpack_require__(109);
+var Exports_4 = __webpack_require__(42);
+var QueryParameterNames_1 = __webpack_require__(110);
 var baseUrl = "convai.speech";
 var botFramework = {
     authHeader: "X-DLS-Secret",
@@ -13472,7 +13400,7 @@ exports.DialogConnectionFactory = DialogConnectionFactory;
 
 
 /***/ }),
-/* 111 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13480,9 +13408,9 @@ exports.DialogConnectionFactory = DialogConnectionFactory;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Exports_2 = __webpack_require__(49);
-var QueryParameterNames_1 = __webpack_require__(112);
+var Exports_1 = __webpack_require__(42);
+var Exports_2 = __webpack_require__(47);
+var QueryParameterNames_1 = __webpack_require__(110);
 var ConnectionFactoryBase = /** @class */ (function () {
     function ConnectionFactoryBase() {
     }
@@ -13511,7 +13439,7 @@ exports.ConnectionFactoryBase = ConnectionFactoryBase;
 
 
 /***/ }),
-/* 112 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13634,7 +13562,7 @@ exports.QueryParameterNames = QueryParameterNames;
 
 
 /***/ }),
-/* 113 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13684,7 +13612,7 @@ exports.ActivityReceivedEventArgs = ActivityReceivedEventArgs;
 
 
 /***/ }),
-/* 114 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13707,7 +13635,7 @@ var ServicePropertyChannel;
 
 
 /***/ }),
-/* 115 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13729,7 +13657,7 @@ var ProfanityOption;
 
 
 /***/ }),
-/* 116 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13774,9 +13702,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = __webpack_require__(25);
-var Promise_1 = __webpack_require__(33);
-var Exports_1 = __webpack_require__(49);
-var AudioStreamFormat_1 = __webpack_require__(60);
+var Promise_1 = __webpack_require__(31);
+var Exports_1 = __webpack_require__(47);
+var AudioStreamFormat_1 = __webpack_require__(58);
 /**
  * Base audio player class
  * TODO: Plays only PCM for now.
@@ -13946,7 +13874,7 @@ exports.BaseAudioPlayer = BaseAudioPlayer;
 
 
 /***/ }),
-/* 117 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13983,7 +13911,7 @@ exports.ConnectionMessageEventArgs = ConnectionMessageEventArgs;
 
 
 /***/ }),
-/* 118 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14041,7 +13969,7 @@ exports.VoiceProfile = VoiceProfile;
 
 
 /***/ }),
-/* 119 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14062,9 +13990,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 /**
  * Output format
  * @class VoiceProfileEnrollmentResult
@@ -14162,7 +14090,7 @@ exports.VoiceProfileEnrollmentCancellationDetails = VoiceProfileEnrollmentCancel
 
 
 /***/ }),
-/* 120 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14183,9 +14111,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 /**
  * Output format
  * @class VoiceProfileResult
@@ -14256,7 +14184,7 @@ exports.VoiceProfileCancellationDetails = VoiceProfileCancellationDetails;
 
 
 /***/ }),
-/* 121 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14300,10 +14228,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Defines VoiceProfileClient class for Speaker Recognition
  * Handles operations from user for Voice Profile operations (e.g. createProfile, deleteProfile)
@@ -14493,7 +14421,7 @@ exports.VoiceProfileClient = VoiceProfileClient;
 
 
 /***/ }),
-/* 122 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14537,10 +14465,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Defines SpeakerRecognizer class for Speaker Recognition
  * Handles operations from user for Voice Profile operations (e.g. createProfile, deleteProfile)
@@ -14663,7 +14591,7 @@ exports.SpeakerRecognizer = SpeakerRecognizer;
 
 
 /***/ }),
-/* 123 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14671,8 +14599,8 @@ exports.SpeakerRecognizer = SpeakerRecognizer;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
-var Exports_1 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines SpeakerIdentificationModel class for Speaker Recognition
  * Model contains a set of profiles against which to identify speaker(s)
@@ -14710,7 +14638,7 @@ exports.SpeakerIdentificationModel = SpeakerIdentificationModel;
 
 
 /***/ }),
-/* 124 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14718,8 +14646,8 @@ exports.SpeakerIdentificationModel = SpeakerIdentificationModel;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
-var Exports_1 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 /**
  * Defines SpeakerVerificationModel class for Speaker Recognition
  * Model contains a profile against which to verify a speaker
@@ -14750,7 +14678,7 @@ exports.SpeakerVerificationModel = SpeakerVerificationModel;
 
 
 /***/ }),
-/* 125 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14758,9 +14686,9 @@ exports.SpeakerVerificationModel = SpeakerVerificationModel;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 /**
  * Language auto detect configuration.
  * @class AutoDetectSourceLanguageConfig
@@ -14843,7 +14771,7 @@ exports.AutoDetectSourceLanguageConfig = AutoDetectSourceLanguageConfig;
 
 
 /***/ }),
-/* 126 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14851,7 +14779,7 @@ exports.AutoDetectSourceLanguageConfig = AutoDetectSourceLanguageConfig;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
+var Contracts_1 = __webpack_require__(49);
 /**
  * Output format
  * @class AutoDetectSourceLanguageResult
@@ -14895,7 +14823,7 @@ exports.AutoDetectSourceLanguageResult = AutoDetectSourceLanguageResult;
 
 
 /***/ }),
-/* 127 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14903,7 +14831,7 @@ exports.AutoDetectSourceLanguageResult = AutoDetectSourceLanguageResult;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
+var Contracts_1 = __webpack_require__(49);
 /**
  * Source Language configuration.
  * @class SourceLanguageConfig
@@ -14948,7 +14876,7 @@ exports.SourceLanguageConfig = SourceLanguageConfig;
 
 
 /***/ }),
-/* 128 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14969,9 +14897,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(42);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 var SpeakerRecognitionResultType;
 (function (SpeakerRecognitionResultType) {
     SpeakerRecognitionResultType[SpeakerRecognitionResultType["Verify"] = 0] = "Verify";
@@ -15083,7 +15011,7 @@ exports.SpeakerRecognitionCancellationDetails = SpeakerRecognitionCancellationDe
 
 
 /***/ }),
-/* 129 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15092,35 +15020,35 @@ exports.SpeakerRecognitionCancellationDetails = SpeakerRecognitionCancellationDe
 // Licensed under the MIT license.
 // Multi-device Conversation is a Preview feature.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Conversation_1 = __webpack_require__(130);
+var Conversation_1 = __webpack_require__(128);
 exports.Conversation = Conversation_1.Conversation;
 exports.ConversationImpl = Conversation_1.ConversationImpl;
-var ConversationCommon_1 = __webpack_require__(131);
+var ConversationCommon_1 = __webpack_require__(129);
 exports.ConversationCommon = ConversationCommon_1.ConversationCommon;
-var ConversationExpirationEventArgs_1 = __webpack_require__(132);
+var ConversationExpirationEventArgs_1 = __webpack_require__(130);
 exports.ConversationExpirationEventArgs = ConversationExpirationEventArgs_1.ConversationExpirationEventArgs;
-var ConversationParticipantsChangedEventArgs_1 = __webpack_require__(133);
+var ConversationParticipantsChangedEventArgs_1 = __webpack_require__(131);
 exports.ConversationParticipantsChangedEventArgs = ConversationParticipantsChangedEventArgs_1.ConversationParticipantsChangedEventArgs;
-var ConversationTranslationCanceledEventArgs_1 = __webpack_require__(134);
+var ConversationTranslationCanceledEventArgs_1 = __webpack_require__(132);
 exports.ConversationTranslationCanceledEventArgs = ConversationTranslationCanceledEventArgs_1.ConversationTranslationCanceledEventArgs;
-var ConversationTranslationEventArgs_1 = __webpack_require__(135);
+var ConversationTranslationEventArgs_1 = __webpack_require__(133);
 exports.ConversationTranslationEventArgs = ConversationTranslationEventArgs_1.ConversationTranslationEventArgs;
-var ConversationTranslationResult_1 = __webpack_require__(136);
+var ConversationTranslationResult_1 = __webpack_require__(134);
 exports.ConversationTranslationResult = ConversationTranslationResult_1.ConversationTranslationResult;
-var ConversationTranslator_1 = __webpack_require__(137);
+var ConversationTranslator_1 = __webpack_require__(135);
 exports.ConversationTranslator = ConversationTranslator_1.ConversationTranslator;
-var ConversationTranscriber_1 = __webpack_require__(138);
+var ConversationTranscriber_1 = __webpack_require__(136);
 exports.ConversationTranscriber = ConversationTranscriber_1.ConversationTranscriber;
-var IParticipant_1 = __webpack_require__(139);
+var IParticipant_1 = __webpack_require__(137);
 exports.Participant = IParticipant_1.Participant;
 exports.User = IParticipant_1.User;
-var ParticipantChangedReason_1 = __webpack_require__(140);
+var ParticipantChangedReason_1 = __webpack_require__(138);
 exports.ParticipantChangedReason = ParticipantChangedReason_1.ParticipantChangedReason;
 
 
 
 /***/ }),
-/* 130 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15185,10 +15113,10 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 var Conversation = /** @class */ (function () {
     function Conversation() {
     }
@@ -16263,7 +16191,7 @@ exports.ConversationImpl = ConversationImpl;
 
 
 /***/ }),
-/* 131 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16306,7 +16234,7 @@ exports.ConversationCommon = ConversationCommon;
 
 
 /***/ }),
-/* 132 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16328,7 +16256,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var ConversationExpirationEventArgs = /** @class */ (function (_super) {
     __extends(ConversationExpirationEventArgs, _super);
     function ConversationExpirationEventArgs(expirationTime, sessionId) {
@@ -16351,7 +16279,7 @@ exports.ConversationExpirationEventArgs = ConversationExpirationEventArgs;
 
 
 /***/ }),
-/* 133 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16373,7 +16301,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var ConversationParticipantsChangedEventArgs = /** @class */ (function (_super) {
     __extends(ConversationParticipantsChangedEventArgs, _super);
     function ConversationParticipantsChangedEventArgs(reason, participants, sessionId) {
@@ -16403,7 +16331,7 @@ exports.ConversationParticipantsChangedEventArgs = ConversationParticipantsChang
 
 
 /***/ }),
-/* 134 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16425,7 +16353,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CancellationEventArgsBase_1 = __webpack_require__(78);
+var CancellationEventArgsBase_1 = __webpack_require__(76);
 var ConversationTranslationCanceledEventArgs = /** @class */ (function (_super) {
     __extends(ConversationTranslationCanceledEventArgs, _super);
     function ConversationTranslationCanceledEventArgs() {
@@ -16438,7 +16366,7 @@ exports.ConversationTranslationCanceledEventArgs = ConversationTranslationCancel
 
 
 /***/ }),
-/* 135 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16460,7 +16388,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var ConversationTranslationEventArgs = /** @class */ (function (_super) {
     __extends(ConversationTranslationEventArgs, _super);
     /**
@@ -16493,7 +16421,7 @@ exports.ConversationTranslationEventArgs = ConversationTranslationEventArgs;
 
 
 /***/ }),
-/* 136 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16515,7 +16443,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var TranslationRecognitionResult_1 = __webpack_require__(81);
+var TranslationRecognitionResult_1 = __webpack_require__(79);
 var ConversationTranslationResult = /** @class */ (function (_super) {
     __extends(ConversationTranslationResult, _super);
     function ConversationTranslationResult(participantId, translations, originalLanguage, resultId, reason, text, duration, offset, errorDetails, json, properties) {
@@ -16551,7 +16479,7 @@ exports.ConversationTranslationResult = ConversationTranslationResult;
 
 
 /***/ }),
-/* 137 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16609,12 +16537,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
-var Conversation_1 = __webpack_require__(130);
-var Exports_4 = __webpack_require__(129);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
+var Conversation_1 = __webpack_require__(128);
+var Exports_4 = __webpack_require__(127);
 var SpeechState;
 (function (SpeechState) {
     SpeechState[SpeechState["Inactive"] = 0] = "Inactive";
@@ -17086,7 +17014,7 @@ exports.ConversationTranslator = ConversationTranslator;
 
 
 /***/ }),
-/* 138 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17130,10 +17058,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 var ConversationTranscriber = /** @class */ (function () {
     /**
      * ConversationTranscriber constructor.
@@ -17284,7 +17212,7 @@ exports.ConversationTranscriber = ConversationTranscriber;
 
 
 /***/ }),
-/* 139 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17293,7 +17221,7 @@ exports.ConversationTranscriber = ConversationTranscriber;
 // Licensed under the MIT license.
 // Multi-device Conversation is a Preview feature.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var User = /** @class */ (function () {
     function User(userId) {
         this.privUserId = userId;
@@ -17394,7 +17322,7 @@ exports.Participant = Participant;
 
 
 /***/ }),
-/* 140 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17418,7 +17346,7 @@ var ParticipantChangedReason;
 
 
 /***/ }),
-/* 141 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17462,13 +17390,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var AudioFileWriter_1 = __webpack_require__(52);
-var AudioOutputFormat_1 = __webpack_require__(62);
-var AudioOutputStream_1 = __webpack_require__(61);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
+var AudioFileWriter_1 = __webpack_require__(50);
+var AudioOutputFormat_1 = __webpack_require__(60);
+var AudioOutputStream_1 = __webpack_require__(59);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
 /**
  * Defines the class SpeechSynthesizer for text to speech.
  * Added in version 1.11.0
@@ -17849,7 +17777,7 @@ exports.SynthesisRequest = SynthesisRequest;
 
 
 /***/ }),
-/* 142 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17956,7 +17884,7 @@ exports.SpeechSynthesisResult = SpeechSynthesisResult;
 
 
 /***/ }),
-/* 143 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17999,7 +17927,7 @@ exports.SpeechSynthesisEventArgs = SpeechSynthesisEventArgs;
 
 
 /***/ }),
-/* 144 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18090,7 +18018,7 @@ exports.SpeechSynthesisWordBoundaryEventArgs = SpeechSynthesisWordBoundaryEventA
 
 
 /***/ }),
-/* 145 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18135,10 +18063,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var AudioOutputFormat_1 = __webpack_require__(62);
-var AudioOutputStream_1 = __webpack_require__(61);
+var AudioOutputFormat_1 = __webpack_require__(60);
+var AudioOutputStream_1 = __webpack_require__(59);
 var MediaDurationPlaceholderSeconds = 60 * 30;
 var AudioFormatToMimeType = (_a = {},
     _a[AudioOutputFormat_1.AudioFormatTag.PCM] = "audio/wav",
@@ -18403,7 +18331,7 @@ exports.SpeakerAudioDestination = SpeakerAudioDestination;
 
 
 /***/ }),
-/* 146 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18424,7 +18352,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var CancellationEventArgsBase_1 = __webpack_require__(78);
+var CancellationEventArgsBase_1 = __webpack_require__(76);
 /**
  * Defines content of a RecognitionErrorEvent.
  * @class ConversationTranscriptionCanceledEventArgs
@@ -18441,7 +18369,7 @@ exports.ConversationTranscriptionCanceledEventArgs = ConversationTranscriptionCa
 
 
 /***/ }),
-/* 147 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18668,7 +18596,7 @@ exports.RecognitionEndedEvent = RecognitionEndedEvent;
 
 
 /***/ }),
-/* 148 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18714,9 +18642,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
 var Exports_2 = __webpack_require__(4);
-var Exports_3 = __webpack_require__(49);
-var Exports_4 = __webpack_require__(44);
-var SpeechConnectionMessage_Internal_1 = __webpack_require__(149);
+var Exports_3 = __webpack_require__(47);
+var Exports_4 = __webpack_require__(42);
+var SpeechConnectionMessage_Internal_1 = __webpack_require__(147);
 var ServiceRecognizerBase = /** @class */ (function () {
     function ServiceRecognizerBase(authentication, connectionFactory, audioSource, recognizerConfig, recognizer) {
         var _this = this;
@@ -19514,7 +19442,7 @@ exports.ServiceRecognizerBase = ServiceRecognizerBase;
 
 
 /***/ }),
-/* 149 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19656,7 +19584,7 @@ exports.SpeechConnectionMessage = SpeechConnectionMessage;
 
 
 /***/ }),
-/* 150 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19664,7 +19592,7 @@ exports.SpeechConnectionMessage = SpeechConnectionMessage;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var RecognitionMode;
 (function (RecognitionMode) {
     RecognitionMode[RecognitionMode["Interactive"] = 0] = "Interactive";
@@ -19786,7 +19714,7 @@ exports.Context = Context;
 var System = /** @class */ (function () {
     function System() {
         // Note: below will be patched for official builds.
-        var SPEECHSDK_CLIENTSDK_VERSION = "1.14.0";
+        var SPEECHSDK_CLIENTSDK_VERSION = "1.14.1";
         this.name = "SpeechSDK";
         this.version = SPEECHSDK_CLIENTSDK_VERSION;
         this.build = "JavaScript";
@@ -19842,7 +19770,7 @@ var type;
 
 
 /***/ }),
-/* 151 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19978,7 +19906,7 @@ exports.WebsocketMessageFormatter = WebsocketMessageFormatter;
 
 
 /***/ }),
-/* 152 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20000,11 +19928,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(44);
-var Exports_3 = __webpack_require__(49);
-var ConnectionFactoryBase_1 = __webpack_require__(111);
-var Exports_4 = __webpack_require__(44);
-var QueryParameterNames_1 = __webpack_require__(112);
+var Exports_2 = __webpack_require__(42);
+var Exports_3 = __webpack_require__(47);
+var ConnectionFactoryBase_1 = __webpack_require__(109);
+var Exports_4 = __webpack_require__(42);
+var QueryParameterNames_1 = __webpack_require__(110);
 var SpeechConnectionFactory = /** @class */ (function (_super) {
     __extends(SpeechConnectionFactory, _super);
     function SpeechConnectionFactory() {
@@ -20072,7 +20000,7 @@ exports.SpeechConnectionFactory = SpeechConnectionFactory;
 
 
 /***/ }),
-/* 153 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20094,10 +20022,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(49);
-var ConnectionFactoryBase_1 = __webpack_require__(111);
-var Exports_3 = __webpack_require__(44);
-var QueryParameterNames_1 = __webpack_require__(112);
+var Exports_2 = __webpack_require__(47);
+var ConnectionFactoryBase_1 = __webpack_require__(109);
+var Exports_3 = __webpack_require__(42);
+var QueryParameterNames_1 = __webpack_require__(110);
 var TranscriberConnectionFactory = /** @class */ (function (_super) {
     __extends(TranscriberConnectionFactory, _super);
     function TranscriberConnectionFactory() {
@@ -20143,7 +20071,7 @@ exports.TranscriberConnectionFactory = TranscriberConnectionFactory;
 
 
 /***/ }),
-/* 154 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20165,10 +20093,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(49);
-var ConnectionFactoryBase_1 = __webpack_require__(111);
-var Exports_3 = __webpack_require__(44);
-var QueryParameterNames_1 = __webpack_require__(112);
+var Exports_2 = __webpack_require__(47);
+var ConnectionFactoryBase_1 = __webpack_require__(109);
+var Exports_3 = __webpack_require__(42);
+var QueryParameterNames_1 = __webpack_require__(110);
 var TestHooksParamName = "testhooks";
 var ConnectionIdHeader = "X-ConnectionId";
 var TranslationConnectionFactory = /** @class */ (function (_super) {
@@ -20212,7 +20140,7 @@ exports.TranslationConnectionFactory = TranslationConnectionFactory;
 
 
 /***/ }),
-/* 155 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20221,9 +20149,9 @@ exports.TranslationConnectionFactory = TranslationConnectionFactory;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
-var QueryParameterNames_1 = __webpack_require__(112);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
+var QueryParameterNames_1 = __webpack_require__(110);
 var SpeechSynthesisConnectionFactory = /** @class */ (function () {
     function SpeechSynthesisConnectionFactory() {
         var _this = this;
@@ -20253,7 +20181,7 @@ exports.SpeechSynthesisConnectionFactory = SpeechSynthesisConnectionFactory;
 
 
 /***/ }),
-/* 156 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20261,8 +20189,8 @@ exports.SpeechSynthesisConnectionFactory = SpeechSynthesisConnectionFactory;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
-var Exports_2 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(47);
+var Exports_2 = __webpack_require__(42);
 var EnumTranslation = /** @class */ (function () {
     function EnumTranslation() {
     }
@@ -20324,7 +20252,7 @@ exports.EnumTranslation = EnumTranslation;
 
 
 /***/ }),
-/* 157 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20368,7 +20296,7 @@ var RecognitionStatus;
 
 
 /***/ }),
-/* 158 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20376,7 +20304,7 @@ var RecognitionStatus;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var TranslationSynthesisEnd = /** @class */ (function () {
     function TranslationSynthesisEnd(json) {
         this.privSynthesisEnd = JSON.parse(json);
@@ -20406,7 +20334,7 @@ exports.TranslationSynthesisEnd = TranslationSynthesisEnd;
 
 
 /***/ }),
-/* 159 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20414,7 +20342,7 @@ exports.TranslationSynthesisEnd = TranslationSynthesisEnd;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var TranslationStatus_1 = __webpack_require__(38);
+var TranslationStatus_1 = __webpack_require__(36);
 var TranslationHypothesis = /** @class */ (function () {
     function TranslationHypothesis(json) {
         this.privTranslationHypothesis = JSON.parse(json);
@@ -20458,7 +20386,7 @@ exports.TranslationHypothesis = TranslationHypothesis;
 
 
 /***/ }),
-/* 160 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20466,8 +20394,8 @@ exports.TranslationHypothesis = TranslationHypothesis;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
-var TranslationStatus_1 = __webpack_require__(38);
+var Exports_1 = __webpack_require__(42);
+var TranslationStatus_1 = __webpack_require__(36);
 var TranslationPhrase = /** @class */ (function () {
     function TranslationPhrase(json) {
         this.privTranslationPhrase = JSON.parse(json);
@@ -20521,7 +20449,7 @@ exports.TranslationPhrase = TranslationPhrase;
 
 
 /***/ }),
-/* 161 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20579,8 +20507,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
 // tslint:disable-next-line:max-classes-per-file
 var TranslationServiceRecognizer = /** @class */ (function (_super) {
     __extends(TranslationServiceRecognizer, _super);
@@ -20819,7 +20747,7 @@ exports.TranslationServiceRecognizer = TranslationServiceRecognizer;
 
 
 /***/ }),
-/* 162 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20848,7 +20776,7 @@ exports.SpeechDetected = SpeechDetected;
 
 
 /***/ }),
-/* 163 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20912,7 +20840,7 @@ exports.SpeechHypothesis = SpeechHypothesis;
 
 
 /***/ }),
-/* 164 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20969,8 +20897,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
-var Exports_2 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(47);
+var Exports_2 = __webpack_require__(42);
 // tslint:disable-next-line:max-classes-per-file
 var SpeechServiceRecognizer = /** @class */ (function (_super) {
     __extends(SpeechServiceRecognizer, _super);
@@ -21124,7 +21052,7 @@ exports.SpeechServiceRecognizer = SpeechServiceRecognizer;
 
 
 /***/ }),
-/* 165 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21182,9 +21110,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
-var SpeechConnectionMessage_Internal_1 = __webpack_require__(149);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
+var SpeechConnectionMessage_Internal_1 = __webpack_require__(147);
 // tslint:disable-next-line:max-classes-per-file
 var TranscriptionServiceRecognizer = /** @class */ (function (_super) {
     __extends(TranscriptionServiceRecognizer, _super);
@@ -21379,7 +21307,7 @@ exports.TranscriptionServiceRecognizer = TranscriptionServiceRecognizer;
 
 
 /***/ }),
-/* 166 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21387,7 +21315,7 @@ exports.TranscriptionServiceRecognizer = TranscriptionServiceRecognizer;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var DetailedSpeechPhrase = /** @class */ (function () {
     function DetailedSpeechPhrase(json) {
         this.privDetailedSpeechPhrase = JSON.parse(json);
@@ -21445,7 +21373,7 @@ exports.DetailedSpeechPhrase = DetailedSpeechPhrase;
 
 
 /***/ }),
-/* 167 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21453,7 +21381,7 @@ exports.DetailedSpeechPhrase = DetailedSpeechPhrase;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var SimpleSpeechPhrase = /** @class */ (function () {
     function SimpleSpeechPhrase(json) {
         this.privSimpleSpeechPhrase = JSON.parse(json);
@@ -21518,7 +21446,7 @@ exports.SimpleSpeechPhrase = SimpleSpeechPhrase;
 
 
 /***/ }),
-/* 168 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21548,7 +21476,7 @@ exports.AddedLmIntent = AddedLmIntent;
 
 
 /***/ }),
-/* 169 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21606,8 +21534,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
 // tslint:disable-next-line:max-classes-per-file
 var IntentServiceRecognizer = /** @class */ (function (_super) {
     __extends(IntentServiceRecognizer, _super);
@@ -21797,7 +21725,7 @@ exports.IntentServiceRecognizer = IntentServiceRecognizer;
 
 
 /***/ }),
-/* 170 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21841,7 +21769,7 @@ exports.IntentResponse = IntentResponse;
 
 
 /***/ }),
-/* 171 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21886,8 +21814,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var RecognitionEvents_1 = __webpack_require__(147);
-var ServiceTelemetryListener_Internal_1 = __webpack_require__(172);
+var RecognitionEvents_1 = __webpack_require__(145);
+var ServiceTelemetryListener_Internal_1 = __webpack_require__(170);
 var RequestSession = /** @class */ (function () {
     function RequestSession(audioSourceId) {
         var _this = this;
@@ -22202,7 +22130,7 @@ exports.RequestSession = RequestSession;
 
 
 /***/ }),
-/* 172 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22211,7 +22139,7 @@ exports.RequestSession = RequestSession;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var RecognitionEvents_1 = __webpack_require__(147);
+var RecognitionEvents_1 = __webpack_require__(145);
 // tslint:disable-next-line:max-classes-per-file
 var ServiceTelemetryListener = /** @class */ (function () {
     function ServiceTelemetryListener(requestId, audioSourceId, audioNodeId) {
@@ -22410,7 +22338,7 @@ exports.ServiceTelemetryListener = ServiceTelemetryListener;
 
 
 /***/ }),
-/* 173 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22448,7 +22376,7 @@ exports.SpeechContext = SpeechContext;
 
 
 /***/ }),
-/* 174 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22523,7 +22451,7 @@ exports.DynamicGrammarBuilder = DynamicGrammarBuilder;
 
 
 /***/ }),
-/* 175 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22582,11 +22510,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
 var Exports_2 = __webpack_require__(4);
-var Exports_3 = __webpack_require__(49);
-var DialogServiceTurnStateManager_1 = __webpack_require__(176);
-var Exports_4 = __webpack_require__(44);
-var ActivityResponsePayload_1 = __webpack_require__(178);
-var SpeechConnectionMessage_Internal_1 = __webpack_require__(149);
+var Exports_3 = __webpack_require__(47);
+var DialogServiceTurnStateManager_1 = __webpack_require__(174);
+var Exports_4 = __webpack_require__(42);
+var ActivityResponsePayload_1 = __webpack_require__(176);
+var SpeechConnectionMessage_Internal_1 = __webpack_require__(147);
 var DialogServiceAdapter = /** @class */ (function (_super) {
     __extends(DialogServiceAdapter, _super);
     function DialogServiceAdapter(authentication, connectionFactory, audioSource, recognizerConfig, dialogServiceConnector) {
@@ -23098,7 +23026,7 @@ exports.DialogServiceAdapter = DialogServiceAdapter;
 
 
 /***/ }),
-/* 176 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23107,7 +23035,7 @@ exports.DialogServiceAdapter = DialogServiceAdapter;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = __webpack_require__(25);
-var DialogServiceTurnState_1 = __webpack_require__(177);
+var DialogServiceTurnState_1 = __webpack_require__(175);
 var DialogServiceTurnStateManager = /** @class */ (function () {
     function DialogServiceTurnStateManager() {
         this.privTurnMap = new Map();
@@ -23140,7 +23068,7 @@ exports.DialogServiceTurnStateManager = DialogServiceTurnStateManager;
 
 
 /***/ }),
-/* 177 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23148,9 +23076,9 @@ exports.DialogServiceTurnStateManager = DialogServiceTurnStateManager;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var AudioOutputFormat_1 = __webpack_require__(62);
-var AudioOutputStream_1 = __webpack_require__(61);
-var ActivityResponsePayload_1 = __webpack_require__(178);
+var AudioOutputFormat_1 = __webpack_require__(60);
+var AudioOutputStream_1 = __webpack_require__(59);
+var ActivityResponsePayload_1 = __webpack_require__(176);
 var DialogServiceTurnState = /** @class */ (function () {
     function DialogServiceTurnState(manager, requestId) {
         this.privRequestId = requestId;
@@ -23211,7 +23139,7 @@ exports.DialogServiceTurnState = DialogServiceTurnState;
 
 
 /***/ }),
-/* 178 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23267,7 +23195,7 @@ var MessageDataStreamType;
 
 
 /***/ }),
-/* 179 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23301,7 +23229,7 @@ exports.AgentConfig = AgentConfig;
 
 
 /***/ }),
-/* 180 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23309,22 +23237,22 @@ exports.AgentConfig = AgentConfig;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var ConversationManager_1 = __webpack_require__(181);
+var ConversationManager_1 = __webpack_require__(179);
 exports.ConversationManager = ConversationManager_1.ConversationManager;
-var ConversationConnectionConfig_1 = __webpack_require__(182);
+var ConversationConnectionConfig_1 = __webpack_require__(180);
 exports.ConversationConnectionConfig = ConversationConnectionConfig_1.ConversationConnectionConfig;
-var ConversationTranslatorRecognizer_1 = __webpack_require__(185);
+var ConversationTranslatorRecognizer_1 = __webpack_require__(183);
 exports.ConversationRecognizerFactory = ConversationTranslatorRecognizer_1.ConversationRecognizerFactory;
-var TranscriberRecognizer_1 = __webpack_require__(197);
+var TranscriberRecognizer_1 = __webpack_require__(195);
 exports.TranscriberRecognizer = TranscriberRecognizer_1.TranscriberRecognizer;
-var ConversationTranslatorEventArgs_1 = __webpack_require__(191);
+var ConversationTranslatorEventArgs_1 = __webpack_require__(189);
 exports.ConversationReceivedTranslationEventArgs = ConversationTranslatorEventArgs_1.ConversationReceivedTranslationEventArgs;
 exports.LockRoomEventArgs = ConversationTranslatorEventArgs_1.LockRoomEventArgs;
 exports.MuteAllEventArgs = ConversationTranslatorEventArgs_1.MuteAllEventArgs;
 exports.ParticipantAttributeEventArgs = ConversationTranslatorEventArgs_1.ParticipantAttributeEventArgs;
 exports.ParticipantEventArgs = ConversationTranslatorEventArgs_1.ParticipantEventArgs;
 exports.ParticipantsListEventArgs = ConversationTranslatorEventArgs_1.ParticipantsListEventArgs;
-var ConversationTranslatorInterfaces_1 = __webpack_require__(192);
+var ConversationTranslatorInterfaces_1 = __webpack_require__(190);
 exports.ConversationTranslatorCommandTypes = ConversationTranslatorInterfaces_1.ConversationTranslatorCommandTypes;
 exports.ConversationTranslatorMessageTypes = ConversationTranslatorInterfaces_1.ConversationTranslatorMessageTypes;
 exports.InternalParticipants = ConversationTranslatorInterfaces_1.InternalParticipants;
@@ -23332,7 +23260,7 @@ exports.InternalParticipants = ConversationTranslatorInterfaces_1.InternalPartic
 
 
 /***/ }),
-/* 181 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23340,10 +23268,10 @@ exports.InternalParticipants = ConversationTranslatorInterfaces_1.InternalPartic
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Contracts_1 = __webpack_require__(51);
-var Exports_1 = __webpack_require__(49);
-var ConversationConnectionConfig_1 = __webpack_require__(182);
-var ConversationUtils_1 = __webpack_require__(184);
+var Contracts_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
+var ConversationConnectionConfig_1 = __webpack_require__(180);
+var ConversationUtils_1 = __webpack_require__(182);
 var ConversationManager = /** @class */ (function () {
     function ConversationManager() {
         //
@@ -23503,7 +23431,7 @@ exports.ConversationManager = ConversationManager;
 
 
 /***/ }),
-/* 182 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23524,7 +23452,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var RestConfigBase_1 = __webpack_require__(183);
+var RestConfigBase_1 = __webpack_require__(181);
 var ConversationConnectionConfig = /** @class */ (function (_super) {
     __extends(ConversationConnectionConfig, _super);
     function ConversationConnectionConfig() {
@@ -23609,7 +23537,7 @@ exports.ConversationConnectionConfig = ConversationConnectionConfig;
 
 
 /***/ }),
-/* 183 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23683,7 +23611,7 @@ exports.RestConfigBase = RestConfigBase;
 
 
 /***/ }),
-/* 184 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23691,7 +23619,7 @@ exports.RestConfigBase = RestConfigBase;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var RestConfigBase_1 = __webpack_require__(183);
+var RestConfigBase_1 = __webpack_require__(181);
 /**
  * Config settings for Conversation Translator
  */
@@ -23820,7 +23748,7 @@ exports.PromiseToEmptyCallback = PromiseToEmptyCallback;
 
 
 /***/ }),
-/* 185 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23877,13 +23805,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
-var ConversationConnectionFactory_1 = __webpack_require__(186);
-var ConversationServiceAdapter_1 = __webpack_require__(189);
-var ConversationUtils_1 = __webpack_require__(184);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
+var ConversationConnectionFactory_1 = __webpack_require__(184);
+var ConversationServiceAdapter_1 = __webpack_require__(187);
+var ConversationUtils_1 = __webpack_require__(182);
 var ConversationRecognizerFactory = /** @class */ (function () {
     function ConversationRecognizerFactory() {
     }
@@ -24108,7 +24036,7 @@ exports.ConversationTranslatorRecognizer = ConversationTranslatorRecognizer;
 
 
 /***/ }),
-/* 186 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24131,11 +24059,11 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
 var Exports_2 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_3 = __webpack_require__(49);
-var ConnectionFactoryBase_1 = __webpack_require__(111);
-var ConversationConnectionConfig_1 = __webpack_require__(182);
-var ConversationWebsocketMessageFormatter_1 = __webpack_require__(187);
+var Contracts_1 = __webpack_require__(49);
+var Exports_3 = __webpack_require__(47);
+var ConnectionFactoryBase_1 = __webpack_require__(109);
+var ConversationConnectionConfig_1 = __webpack_require__(180);
+var ConversationWebsocketMessageFormatter_1 = __webpack_require__(185);
 /**
  * Create a connection to the Conversation Translator websocket for sending instant messages and commands, and for receiving translated messages.
  * The conversation must already have been started or joined.
@@ -24164,7 +24092,7 @@ exports.ConversationConnectionFactory = ConversationConnectionFactory;
 
 
 /***/ }),
-/* 187 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24173,7 +24101,7 @@ exports.ConversationConnectionFactory = ConversationConnectionFactory;
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var ConversationConnectionMessage_1 = __webpack_require__(188);
+var ConversationConnectionMessage_1 = __webpack_require__(186);
 /**
  * Based off WebsocketMessageFormatter. The messages for Conversation Translator have some variations from the Speech messages.
  */
@@ -24222,7 +24150,7 @@ exports.ConversationWebsocketMessageFormatter = ConversationWebsocketMessageForm
 
 
 /***/ }),
-/* 188 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24268,7 +24196,7 @@ exports.ConversationConnectionMessage = ConversationConnectionMessage;
 
 
 /***/ }),
-/* 189 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24326,13 +24254,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
-var ConversationConnectionMessage_1 = __webpack_require__(188);
-var ConversationRequestSession_1 = __webpack_require__(190);
-var ConversationTranslatorEventArgs_1 = __webpack_require__(191);
-var ConversationTranslatorInterfaces_1 = __webpack_require__(192);
-var Exports_4 = __webpack_require__(193);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
+var ConversationConnectionMessage_1 = __webpack_require__(186);
+var ConversationRequestSession_1 = __webpack_require__(188);
+var ConversationTranslatorEventArgs_1 = __webpack_require__(189);
+var ConversationTranslatorInterfaces_1 = __webpack_require__(190);
+var Exports_4 = __webpack_require__(191);
 /***
  * The service adapter handles sending and receiving messages to the Conversation Translator websocket.
  */
@@ -24751,7 +24679,7 @@ exports.ConversationServiceAdapter = ConversationServiceAdapter;
 
 
 /***/ }),
-/* 190 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24890,7 +24818,7 @@ exports.ConversationRequestSession = ConversationRequestSession;
 
 
 /***/ }),
-/* 191 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24911,7 +24839,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var MuteAllEventArgs = /** @class */ (function (_super) {
     __extends(MuteAllEventArgs, _super);
     function MuteAllEventArgs(isMuted, sessionId) {
@@ -25108,7 +25036,7 @@ exports.ConversationReceivedTranslationEventArgs = ConversationReceivedTranslati
 
 
 /***/ }),
-/* 192 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25219,25 +25147,25 @@ exports.ConversationTranslatorCommandTypes = {
 
 
 /***/ }),
-/* 193 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var CommandResponsePayload_1 = __webpack_require__(194);
+var CommandResponsePayload_1 = __webpack_require__(192);
 exports.CommandResponsePayload = CommandResponsePayload_1.CommandResponsePayload;
-var ParticipantResponsePayload_1 = __webpack_require__(195);
+var ParticipantResponsePayload_1 = __webpack_require__(193);
 exports.ParticipantsListPayloadResponse = ParticipantResponsePayload_1.ParticipantsListPayloadResponse;
 exports.ParticipantPayloadResponse = ParticipantResponsePayload_1.ParticipantPayloadResponse;
-var TranslationResponsePayload_1 = __webpack_require__(196);
+var TranslationResponsePayload_1 = __webpack_require__(194);
 exports.SpeechResponsePayload = TranslationResponsePayload_1.SpeechResponsePayload;
 exports.TextResponsePayload = TranslationResponsePayload_1.TextResponsePayload;
 
 
 
 /***/ }),
-/* 194 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25308,7 +25236,7 @@ exports.CommandResponsePayload = CommandResponsePayload;
 
 
 /***/ }),
-/* 195 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25467,7 +25395,7 @@ exports.ParticipantPayloadResponse = ParticipantPayloadResponse;
 
 
 /***/ }),
-/* 196 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25633,7 +25561,7 @@ exports.TextResponsePayload = TextResponsePayload;
 
 
 /***/ }),
-/* 197 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25691,9 +25619,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Contracts_1 = __webpack_require__(51);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
+var Contracts_1 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
 var TranscriberRecognizer = /** @class */ (function (_super) {
     __extends(TranscriberRecognizer, _super);
     /**
@@ -25862,7 +25790,7 @@ exports.TranscriberRecognizer = TranscriberRecognizer;
 
 
 /***/ }),
-/* 198 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25891,7 +25819,7 @@ exports.SynthesisAudioMetadata = SynthesisAudioMetadata;
 
 
 /***/ }),
-/* 199 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25936,9 +25864,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var AudioOutputStream_1 = __webpack_require__(61);
-var SynthesisAdapterBase_1 = __webpack_require__(200);
-var SynthesisEvents_1 = __webpack_require__(201);
+var AudioOutputStream_1 = __webpack_require__(59);
+var SynthesisAdapterBase_1 = __webpack_require__(198);
+var SynthesisEvents_1 = __webpack_require__(199);
 var SynthesisTurn = /** @class */ (function () {
     function SynthesisTurn() {
         var _this = this;
@@ -26193,7 +26121,7 @@ exports.SynthesisTurn = SynthesisTurn;
 
 
 /***/ }),
-/* 200 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26238,9 +26166,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var Exports_2 = __webpack_require__(49);
-var Exports_3 = __webpack_require__(44);
-var SpeechConnectionMessage_Internal_1 = __webpack_require__(149);
+var Exports_2 = __webpack_require__(47);
+var Exports_3 = __webpack_require__(42);
+var SpeechConnectionMessage_Internal_1 = __webpack_require__(147);
 var SynthesisAdapterBase = /** @class */ (function () {
     function SynthesisAdapterBase(authentication, connectionFactory, synthesizerConfig, speechSynthesizer, audioDestination) {
         var _this = this;
@@ -26716,7 +26644,7 @@ exports.SynthesisAdapterBase = SynthesisAdapterBase;
 
 
 /***/ }),
-/* 201 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26822,7 +26750,7 @@ exports.SynthesisStartedEvent = SynthesisStartedEvent;
 
 
 /***/ }),
-/* 202 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26830,7 +26758,7 @@ exports.SynthesisStartedEvent = SynthesisStartedEvent;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var SynthesisServiceType;
 (function (SynthesisServiceType) {
     SynthesisServiceType[SynthesisServiceType["Standard"] = 0] = "Standard";
@@ -26873,7 +26801,7 @@ exports.SynthesizerConfig = SynthesizerConfig;
 
 
 /***/ }),
-/* 203 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26935,7 +26863,7 @@ exports.SynthesisContext = SynthesisContext;
 
 
 /***/ }),
-/* 204 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26943,7 +26871,7 @@ exports.SynthesisContext = SynthesisContext;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var SpeakerRecognitionConfig = /** @class */ (function () {
     function SpeakerRecognitionConfig(context, parameters) {
         this.privContext = context ? context : new Exports_1.Context(null);
@@ -26970,7 +26898,7 @@ exports.SpeakerRecognitionConfig = SpeakerRecognitionConfig;
 
 
 /***/ }),
-/* 205 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27013,7 +26941,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(2);
-var Exports_2 = __webpack_require__(49);
+var Exports_2 = __webpack_require__(47);
 /**
  * Implements methods for speaker recognition classes, sending requests to endpoint
  * and parsing response into expected format
@@ -27158,7 +27086,7 @@ exports.SpeakerIdMessageAdapter = SpeakerIdMessageAdapter;
 
 
 /***/ }),
-/* 206 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27202,9 +27130,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(44);
+var Exports_1 = __webpack_require__(42);
 var Exports_2 = __webpack_require__(4);
-var AudioStreamFormat_1 = __webpack_require__(60);
+var AudioStreamFormat_1 = __webpack_require__(58);
 var FileAudioSource = /** @class */ (function () {
     function FileAudioSource(file, audioSourceId) {
         var _this = this;
@@ -27417,7 +27345,7 @@ exports.FileAudioSource = FileAudioSource;
 
 
 /***/ }),
-/* 207 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27538,7 +27466,7 @@ exports.PcmRecorder = PcmRecorder;
 
 
 /***/ }),
-/* 208 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27583,7 +27511,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
-var WebsocketMessageAdapter_1 = __webpack_require__(209);
+var WebsocketMessageAdapter_1 = __webpack_require__(207);
 var WebsocketConnection = /** @class */ (function () {
     function WebsocketConnection(uri, queryParameters, headers, messageFormatter, proxyInfo, connectionId) {
         var _this = this;
@@ -27673,7 +27601,7 @@ exports.WebsocketConnection = WebsocketConnection;
 
 
 /***/ }),
-/* 209 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27722,8 +27650,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
 // Node.JS specific web socket / browser support.
-var ws_1 = __importDefault(__webpack_require__(210));
-var CertChecks_1 = __webpack_require__(211);
+var ws_1 = __importDefault(__webpack_require__(208));
+var CertChecks_1 = __webpack_require__(209);
 var WebsocketMessageAdapter = /** @class */ (function () {
     function WebsocketMessageAdapter(uri, connectionId, messageFormatter, proxyInfo, headers) {
         var _this = this;
@@ -27991,13 +27919,13 @@ exports.WebsocketMessageAdapter = WebsocketMessageAdapter;
 
 
 /***/ }),
-/* 210 */
+/* 208 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 211 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28062,16 +27990,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var tls = __importStar(__webpack_require__(213));
-var url = __importStar(__webpack_require__(214));
-var ocsp = __importStar(__webpack_require__(221));
+var tls = __importStar(__webpack_require__(211));
+var url = __importStar(__webpack_require__(212));
+var ocsp = __importStar(__webpack_require__(219));
 var Exports_1 = __webpack_require__(4);
-var agent_base_1 = __importDefault(__webpack_require__(222));
+var agent_base_1 = __importDefault(__webpack_require__(220));
 // @ts-ignore
-var async_disk_cache_1 = __importDefault(__webpack_require__(223));
-var https_proxy_agent_1 = __importDefault(__webpack_require__(224));
-var net = __importStar(__webpack_require__(225));
-var OCSPEvents_1 = __webpack_require__(41);
+var async_disk_cache_1 = __importDefault(__webpack_require__(221));
+var https_proxy_agent_1 = __importDefault(__webpack_require__(222));
+var net = __importStar(__webpack_require__(223));
+var OCSPEvents_1 = __webpack_require__(39);
 var CertCheckAgent = /** @class */ (function () {
     function CertCheckAgent(proxyInfo) {
         if (!!proxyInfo) {
@@ -28422,10 +28350,10 @@ var CertCheckAgent = /** @class */ (function () {
 exports.CertCheckAgent = CertCheckAgent;
 
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(212), __webpack_require__(55).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(210), __webpack_require__(53).Buffer))
 
 /***/ }),
-/* 212 */
+/* 210 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -28615,13 +28543,13 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 213 */
+/* 211 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 214 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28648,8 +28576,8 @@ process.umask = function() { return 0; };
 
 
 
-var punycode = __webpack_require__(215);
-var util = __webpack_require__(217);
+var punycode = __webpack_require__(213);
+var util = __webpack_require__(215);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -28724,7 +28652,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(218);
+    querystring = __webpack_require__(216);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -29360,7 +29288,7 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 215 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -29883,10 +29811,10 @@ Url.prototype.parseHost = function() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(216)(module), __webpack_require__(56)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(214)(module), __webpack_require__(54)))
 
 /***/ }),
-/* 216 */
+/* 214 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -29914,7 +29842,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 217 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29937,18 +29865,18 @@ module.exports = {
 
 
 /***/ }),
-/* 218 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(219);
-exports.encode = exports.stringify = __webpack_require__(220);
+exports.decode = exports.parse = __webpack_require__(217);
+exports.encode = exports.stringify = __webpack_require__(218);
 
 
 /***/ }),
-/* 219 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30039,7 +29967,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 220 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30131,6 +30059,18 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
+/* 219 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 220 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
 /* 221 */
 /***/ (function(module, exports) {
 
@@ -30150,18 +30090,6 @@ var objectKeys = Object.keys || function (obj) {
 
 /***/ }),
 /* 224 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 225 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30291,7 +30219,7 @@ var BufferEntry = /** @class */ (function () {
 
 
 /***/ }),
-/* 227 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30299,7 +30227,7 @@ var BufferEntry = /** @class */ (function () {
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-var Exports_1 = __webpack_require__(49);
+var Exports_1 = __webpack_require__(47);
 var ProxyInfo = /** @class */ (function () {
     function ProxyInfo(proxyHostName, proxyPort, proxyUserName, proxyPassword) {
         this.privProxyHostName = proxyHostName;
@@ -30348,7 +30276,7 @@ exports.ProxyInfo = ProxyInfo;
 
 
 /***/ }),
-/* 228 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30365,7 +30293,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Exports_1 = __webpack_require__(4);
 // Node.JS specific xmlhttprequest / browser support.
-var XHR = __importStar(__webpack_require__(229));
+var XHR = __importStar(__webpack_require__(227));
 var RestRequestType;
 (function (RestRequestType) {
     RestRequestType["Get"] = "get";
@@ -30469,7 +30397,7 @@ exports.RestMessageAdapter = RestMessageAdapter;
 
 
 /***/ }),
-/* 229 */
+/* 227 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
