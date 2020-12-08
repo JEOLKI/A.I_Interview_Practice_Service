@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
+import com.aiinterview.interview.vo.KeywordVO;
 import com.aiinterview.interview.vo.QuestionGubunVO;
 import com.aiinterview.script.dao.ScriptGubunMapper;
 import com.aiinterview.script.vo.ScriptGubunVO;
@@ -49,7 +50,7 @@ public class ScriptGubunService {
 	}
 	
 	/**
-	 * 스크립트 구분의 활성 상태를 수정하는 메서드
+	 * 스크립트 구분의 상태를 수정하는 메서드
 	 * @param ScriptGbVO
 	 * @return 성공 시 1, 실패 시 0
 	 * @throws Exception
@@ -57,6 +58,34 @@ public class ScriptGubunService {
 	public int update(ScriptGubunVO ScriptGbVO) throws Exception{
 		return scriptGubunMapper.update(ScriptGbVO);
 	}
+	
+//	/**
+//	 * 페이징처리를 위한 스크립트 구분의 총 개수를 구하는 메서드
+//	 * @param ScriptGbVO
+//	 * @return 스크립트 구분 총 갯수
+//	 */
+//	public int retrievePagingListCnt(ScriptGubunVO scriptGbVO) {
+//		return scriptGubunMapper.retrievePagingListCnt(scriptGbVO);
+//	}
+//	
+//	/**
+//	 * 페이징처리를 위한  해당페이지 스크립트 구분 리스트 추출
+//	 * @param ScriptGbVO
+//	 * @return
+//	 */
+//	public List<ScriptGubunVO> retrievePagingList(ScriptGubunVO scriptGbVO) {
+//		return scriptGubunMapper.retrievePagingList(scriptGbVO);
+//	}
+//	
+//	/**
+//	 * 해당내용의 키워드를 조회하는 메서드
+//	 * @param keywordContent
+//	 * @return
+//	 * @throws Exception 
+//	 */
+//	public int retrieveScriptGbSq(String scriptGbContent) throws Exception {
+//		return scriptGubunMapper.retrieveScriptGbSq(scriptGbContent);
+//	}
 	
 //	/**
 //	 * 스크립트 구분을 일괄등록하는 메서드
@@ -81,13 +110,4 @@ public class ScriptGubunService {
 //		  }
 //	}
 	
-//	/**
-//	 * 스크립트 구분 검색 목록을 조회하는 메서드
-//	 * @return questGbList
-//	 * @throws Exception 
-//	 */
-//	public List<ScriptGubunVO> retrieveSearchList(String keyword) throws Exception {
-//		System.out.println("스크립트 구분 검색  service keyword : "+keyword);
-//		return scriptGubunMapper.retrieveSearchList(keyword);
-//	}
 }

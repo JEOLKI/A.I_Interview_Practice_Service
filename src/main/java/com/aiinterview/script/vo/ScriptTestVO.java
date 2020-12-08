@@ -2,7 +2,7 @@ package com.aiinterview.script.vo;
 
 public class ScriptTestVO {
 	private String scriptTestSq;	//스크립트 테스트의 고유번호
-	private String scriptTestScore;	//테스트 결과 점수
+	private int scriptTestScore;	//테스트 결과 점수
 	private String performScript;	//사용자의 테스트시 만들어진 음원파일에서 추출한 스크립트
 	private String scriptTestDate;	//테스트 실시 날짜
 	private String memId;			//테스트에 응시한 회원ID
@@ -12,50 +12,61 @@ public class ScriptTestVO {
 		
 	}
 	
-	public ScriptTestVO(String scriptTestScore, String performScript, String scriptTestDate,
-			String memId, String scriptSq) {
+	public ScriptTestVO(int scriptTestScore, String performScript, String memId, String scriptSq) {
 		this.scriptTestScore = scriptTestScore;
 		this.performScript = performScript;
-		this.scriptTestDate = scriptTestDate;
 		this.memId = memId;
 		this.scriptSq = scriptSq;
 	}
+
 	public String getScriptTestSq() {
 		return scriptTestSq;
 	}
+
 	public void setScriptTestSq(String scriptTestSq) {
 		this.scriptTestSq = scriptTestSq;
 	}
-	public String getScriptTestScore() {
+
+	public int getScriptTestScore() {
 		return scriptTestScore;
 	}
-	public void setScriptTestScore(String scriptTestScore) {
+
+	public void setScriptTestScore(int scriptTestScore) {
 		this.scriptTestScore = scriptTestScore;
 	}
+
 	public String getPerformScript() {
 		return performScript;
 	}
+
 	public void setPerformScript(String performScript) {
 		this.performScript = performScript;
 	}
+
 	public String getScriptTestDate() {
 		return scriptTestDate;
 	}
+
 	public void setScriptTestDate(String scriptTestDate) {
 		this.scriptTestDate = scriptTestDate;
 	}
+
 	public String getMemId() {
 		return memId;
 	}
+
 	public void setMemId(String memId) {
 		this.memId = memId;
 	}
+
 	public String getScriptSq() {
 		return scriptSq;
 	}
+
 	public void setScriptSq(String scriptSq) {
 		this.scriptSq = scriptSq;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -64,10 +75,11 @@ public class ScriptTestVO {
 		result = prime * result + ((performScript == null) ? 0 : performScript.hashCode());
 		result = prime * result + ((scriptSq == null) ? 0 : scriptSq.hashCode());
 		result = prime * result + ((scriptTestDate == null) ? 0 : scriptTestDate.hashCode());
-		result = prime * result + ((scriptTestScore == null) ? 0 : scriptTestScore.hashCode());
+		result = prime * result + scriptTestScore;
 		result = prime * result + ((scriptTestSq == null) ? 0 : scriptTestSq.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -97,10 +109,7 @@ public class ScriptTestVO {
 				return false;
 		} else if (!scriptTestDate.equals(other.scriptTestDate))
 			return false;
-		if (scriptTestScore == null) {
-			if (other.scriptTestScore != null)
-				return false;
-		} else if (!scriptTestScore.equals(other.scriptTestScore))
+		if (scriptTestScore != other.scriptTestScore)
 			return false;
 		if (scriptTestSq == null) {
 			if (other.scriptTestSq != null)
@@ -109,10 +118,12 @@ public class ScriptTestVO {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "ScriptTestVO [scriptTestSq=" + scriptTestSq + ", scriptTestScore=" + scriptTestScore
 				+ ", performScript=" + performScript + ", scriptTestDate=" + scriptTestDate + ", memId=" + memId
 				+ ", scriptSq=" + scriptSq + "]";
 	}
+	
 }

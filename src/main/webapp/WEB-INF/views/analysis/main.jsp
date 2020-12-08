@@ -168,6 +168,8 @@ function RequestAuthorizationToken() {
     var SpeechSDK;
     var recognizer;
 
+    var scriptGbSq;
+    var scriptGbContent = $('#scriptGbContent').val();
 document.addEventListener("DOMContentLoaded", function () {
   startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
   subscriptionKey = document.getElementById("subscriptionKey");
@@ -175,9 +177,8 @@ document.addEventListener("DOMContentLoaded", function () {
   phraseDiv = document.getElementById("phraseDiv");
 
   startRecognizeOnceAsyncButton.addEventListener("click", function () {
-	  
-	$('#startTestBtn').hide();
 
+	$('#startTestBtn').hide();
     startRecognizeOnceAsyncButton.disabled = true;
     phraseDiv.innerHTML = "";
 
@@ -191,8 +192,15 @@ document.addEventListener("DOMContentLoaded", function () {
           }
           speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
         }
-
-        speechConfig.speechRecognitionLanguage = "ko-KR";
+        
+        if(scriptGbContent == "한국어"){
+	        speechConfig.speechRecognitionLanguage = "ko-KR";        	
+        }else if(scriptGbContent == "영어"){
+	        speechConfig.speechRecognitionLanguage = "en-US";        	
+        }else{
+	        speechConfig.speechRecognitionLanguage = "ko-KR";        	
+        }
+        
         var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
     
@@ -203,26 +211,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 	startRecognizeOnceAsyncButton.disabled = false;
 
                 	var resultScript = result.text;
-// 					var systemScriptList = [];
-// 					var memberScriptList = [];
                 	
-//                 	systemScriptList = nGram(scriptContent);
-//                 	memberScriptList = nGram(resultScript);
-                	
-                //	var realResult = resultNGram(list, memberScriptList);
-                	
-                	//console.log("realResult : "+realResult);
-                	
-                	var scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
-          			var result = $.post('/scriptTest/startTest.do', {
-          				scriptContent : scriptContent,
-          				scriptGbSq : scriptGbSq,
-          				phraseDiv : resultScript}
+                	scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
+          			var result = $.post('/scriptTest/create.do', {
+          				scriptSq : scriptSq,
+          				performScript : resultScript}
           			,function(data) {
-          				//$('#phraseDiv').append('<label>와의 일치도는  '+valiResult+'%입니다. </label>');
+          				const jsonData = JSON.parse(data);
+          				console.log(jsonData.result);
+          				
+          				$("#result").text('과의 일치도는' + jsonData.result + '% 입니다.');
+          				
+          				
           			});
           		$('#phraseDiv').val(resultScript);
-          		$('#valiPercent').html(${result});
+        		//$('#phraseDiv').append('<label>와의 일치도는  '+valiResult+'%입니다. </label>');
                   recognizer.close();
                   recognizer = undefined;
                 },
@@ -247,8 +250,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-var scriptContent;
+var scriptSq;
 function random(scriptGbSq){
+	$('#startTestBtn').show();
 	$.ajax(
    			{url:"/script/retrieveScriptList.do",
    			data : {scriptGbSq : scriptGbSq},
@@ -258,7 +262,7 @@ function random(scriptGbSq){
    				console.log(data.scriptVO.scriptContent);
 	   				$('#scriptModalContent').html('');
 	   				$('#scriptModalContent').html('<br><br>'+data.scriptVO.scriptContent);
-	   				scriptContent = data.scriptVO.scriptContent;
+	   				scriptSq = data.scriptVO.scriptSq;
    			},
    			error: function(data){
    				$('#scriptModalContent').html('');
@@ -318,10 +322,11 @@ function captureMicrophone(callback){
 
 </head>
 <body>
+
+
 <!-- 	<audio id="audioTag" controls autoplay> -->
 <!-- 		<source src="" id="sourceTag"> -->
 <!-- 	</audio> -->
-${result }
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -671,6 +676,7 @@ ${result }
 					</button>
 					<input type="hidden" name="scritGbSq"
 						value="${scriptGb.scriptGbSq }">
+					<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
 				</c:forEach>
 				<button id="modal-close-btn" style="float: right;">close</button>
 
@@ -683,8 +689,7 @@ ${result }
 			<div style="text-align: center">
 			<label>내가 말한</label>
 			<br><input style="text-align: center" type="text" value="" id="phraseDiv"><br>
-			과의 일치도는 <label id="valiPercent"></label>%입니다.
-					
+			<span id="result">과의 일치도는${scriptTestresult } %입니다.</span>			
 			</div>
 
 			<div class="modal-close-box" id="modal-close-box">
