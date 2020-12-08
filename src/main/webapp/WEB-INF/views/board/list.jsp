@@ -192,13 +192,12 @@
 				<br>
 				<ul class="pagination boarding">
 				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
-				</ul>
-				<a class="btn createBtn write" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
 				<form:hidden path="pageIndex" />
+				</ul>
 				<input type="hidden" name="boardGbSq" value="${boardGbSq}"/>
 				<input type="hidden" name="boardGbNm" value="${boardGbNm}"/>
-			
 				</div>
+				<a class="btn createBtn write" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
 			</div>
 			</div>
 			
