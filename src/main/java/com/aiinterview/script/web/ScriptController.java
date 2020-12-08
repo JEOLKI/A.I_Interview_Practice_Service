@@ -50,6 +50,8 @@ public class ScriptController {
 
 		//전체 스크립트 리스트
 		model.addAttribute("scriptList", scriptList);
+		//전체 스크립트 구분 리스트
+		model.addAttribute("scriptGbList", scriptGbList);
 		
 		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
 		for (ScriptGubunVO scriptGb : scriptGbList) {
@@ -59,7 +61,7 @@ public class ScriptController {
 		}
 		
 		//활성상태가 "Y"인 스크립트 구분의 리스트
-		model.addAttribute("scriptGbList", availableGbList);
+		//model.addAttribute("availableScriptGbList", availableGbList);
 		return "jsonView";
 	}
 
