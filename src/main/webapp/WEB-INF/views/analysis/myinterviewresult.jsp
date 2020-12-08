@@ -12,67 +12,160 @@
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+<script src="/js/Chart.js"></script>
 <script>
 	$(document).ready(function() {
-		$("#review-id").hide();
+		//$("#review-id").hide();
 		$('.open').on('click', function() {
 			$("#review-id").toggle();
 		})
+		
+		
+		$(".question-toggle").on('click', function(){
+			var questSq = $(this).data("quest_sq");
+			console.log(questSq);
+				
+			$.ajax({
+					url : "/analysis/answer/retrieve.do",
+					data : { "questSq" : questSq },
+					dataType : "json",
+					success : function(data){
+						
+						console.log(data);
+					}
+				
+			})
+			
+		})
+		
+		var ctx = document.getElementById('positiveChart');
+		var myChart = new Chart(ctx, {
+		    type: 'doughnut',
+		    data: {
+		        labels: ['happiness', 'other'],
+		        datasets: [{
+		            label: 'score',
+		            data: [12, 19],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1	
+		        }]
+		    },
+		    options: {maintainAspectRatio: false,
+		          legend: {
+		            display: false
+		          },
+		          cutoutPercentage: 80,}
+		});
+		
+		ctx = document.getElementById('neutralChart');
+		var myChart = new Chart(ctx, {
+		    type: 'doughnut',
+		    data: {
+		        labels: ['netural', 'other'],
+		        datasets: [{
+		            label: 'score',
+		            data: [122, 19],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1	
+		        }]
+		    },
+		    options: {maintainAspectRatio: false,
+		          legend: {
+		            display: false
+		          },
+		          cutoutPercentage: 80,}
+		});
+		
+		ctx = document.getElementById('negativeChart');
+		var myChart = new Chart(ctx, {
+		    type: 'doughnut',
+		    data: {
+		        labels: ['anger', 'contempt', 'disgust', 'sadness', 'other'],
+		        datasets: [{
+		            label: 'score',
+		            data: [0.2, 0.1, 0.2, 0.3, 0.3],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1	
+		        }]
+		    },
+		    options: {maintainAspectRatio: false,
+		          legend: {
+		            display: false
+		          },
+		          cutoutPercentage: 80,}
+		});
+		
+		ctx = document.getElementById('panicChart');
+		var myChart = new Chart(ctx, {
+		    type: 'doughnut',
+		    data: {
+		        labels: ['fear', 'surprise', 'other'],
+		        datasets: [{
+		            label: 'score',
+		            data: [0.2, 0.1, 0.2],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(54, 162, 235, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1	
+		        }]
+		    },
+		    options: {maintainAspectRatio: false,
+		          legend: {
+		            display: false
+		          },
+		          cutoutPercentage: 80,}
+		});
+		
+		
+		
 	});
+	
+	
+	
 </script>
 
-<style type="text/css">/* Chart.js */
-/*
- * DOM element rendering detection
- * https://davidwalsh.name/detect-node-insertion
- */
-@
-keyframes chartjs-render-animation {from { opacity:0.99;
-	
+<style type="text/css">
+
+#imagechartdiv {
+  width: 100px;
+  height: 100px;
 }
 
-to {
-	opacity: 1;
-}
 
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 0.001s;
-}
-
-/*
- * DOM element resizing detection
- * https://github.com/marcj/css-element-queries
- */
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1;
-}
-
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0;
-}
-
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0;
-}
 </style>
 </head>
 
@@ -101,16 +194,19 @@ to {
 					</div>
 				</div>
 
-
 				<div class="QuestionReview open">
-					<div class="question-toggle">
-						<div class="mark-color"></div>
-						<div class="no">질문 1</div>
-						<div class="question">질문1입니다.</div>
-						<img
-							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAXCAYAAAAC9s/ZAAAABHNCSVQICAgIfAhkiAAAAOpJREFUOE/t1D0OgkAQBeA3JiaWHIFOKgkF1HoS8QR6A/UkchVbKACrLTkCrYnJmEHXwGYXLS3YihDex/7MDsExgqI+ATgCOKs4lGfroAnAtAf4hz3wy9Jroqg1K/LnUl7mVXWf89pEvgFBXmcqCVMKipqZWZBNHxkDJAzCVsUhdYBM30RcgA5L5gXktxTEFxOxAf0wmHYqWWVdKduQxWN26PcDW1iyn7tgIgBdibCXhgKGL2vuTur9Z31qg8vUR/QHDG4J5NnCgxnogA1xha2AuSdjYScwQIw1mxXrbCgdUpa+iqLG1Xjl/ROZHtQYX28HyAAAAABJRU5ErkJggg=="
-							alt="up-down-dash" class="up-down-dash">
-					</div>
+					<c:forEach items="${resultList }" var="question">
+					
+							<div class="question-toggle" data-quest_sq="${question.questSq }">
+								<div class="mark-color"></div>
+								<div class="no">질문 ${question.rnum }</div>
+								<div class="question">${question.questContent }</div>
+								<img
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAXCAYAAAAC9s/ZAAAABHNCSVQICAgIfAhkiAAAAOpJREFUOE/t1D0OgkAQBeA3JiaWHIFOKgkF1HoS8QR6A/UkchVbKACrLTkCrYnJmEHXwGYXLS3YihDex/7MDsExgqI+ATgCOKs4lGfroAnAtAf4hz3wy9Jroqg1K/LnUl7mVXWf89pEvgFBXmcqCVMKipqZWZBNHxkDJAzCVsUhdYBM30RcgA5L5gXktxTEFxOxAf0wmHYqWWVdKduQxWN26PcDW1iyn7tgIgBdibCXhgKGL2vuTur9Z31qg8vUR/QHDG4J5NnCgxnogA1xha2AuSdjYScwQIw1mxXrbCgdUpa+iqLG1Xjl/ROZHtQYX28HyAAAAABJRU5ErkJggg=="
+									alt="up-down-dash" class="up-down-dash">
+							</div>
+						
+					</c:forEach>
 				</div>
 
 
@@ -165,6 +261,8 @@ to {
 							</div>
 						</div>
 					</div>
+					
+					
 					<div class="MyAnswer">
 						<div class="title">나의 답변</div>
 						<div class="content-box">
@@ -201,6 +299,8 @@ to {
 							</div>
 						</div>
 					</div>
+					
+					
 					<div class="answer-flex">
 						<div class="JobCompetency">
 							<div class="title">답변에 드러난 인재상</div>
@@ -233,6 +333,8 @@ to {
 								</div>
 							</div>
 						</div>
+						
+						
 						<div class="AnswerSpeed">
 							<div class="title">말하기 속도</div>
 							<div class="content-box slow">
@@ -255,6 +357,8 @@ to {
 							</div>
 						</div>
 					</div>
+					
+					
 					<div class="AudioReview">
 						<div class="title">목소리 크기</div>
 						<div class="content-box intensity">
@@ -311,6 +415,8 @@ to {
 							</div>
 						</div>
 					</div>
+					
+					
 					<div class="EmotionGraph">
 						<div class="title">표정 분석</div>
 						<div class="message">면접 중의 지으신 표정의 비율을 확인해 보세요.</div>
@@ -322,24 +428,27 @@ to {
 								<img src="/images/surprised.783e5dfe.png" alt="character">
 						</div>
 						<div class="canvas-flex">
+						<!-- HTML -->
 							<div>
-								<canvas width="160" height="160"></canvas>
+								<canvas id="positiveChart" width="160" height="160"></canvas>
 								41%
 							</div>
 							<div>
-								<canvas width="160" height="160"></canvas>
+								<canvas id="neutralChart" width="160" height="160"></canvas>
 								36%
 							</div>
 							<div>
-								<canvas width="160" height="160"></canvas>
+								<canvas id="negativeChart" width="160" height="160"></canvas>
 								17%
 							</div>
 							<div>
-								<canvas width="160" height="160"></canvas>
+								<canvas id="panicChart" width="160" height="160"></canvas>
 								6%
 							</div>
 						</div>
 					</div>
+					
+					
 					<div class="GazeGraph">
 						<div class="title">움직임 분포도</div>
 						<div class="message">
