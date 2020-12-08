@@ -17,9 +17,10 @@
 		     VALUES (#{ansSq},
 						#{ansContent},
 						#{videoPath},
-						#{ansTime},
-						#{ansSpeed},
-						#{questSq})
+						TO_NUMBER(#{ansTime}),
+						TO_NUMBER(#{ansSpeed}),
+						TO_NUMBER(#{questSq})
+						)
 	</insert>
 	
 	

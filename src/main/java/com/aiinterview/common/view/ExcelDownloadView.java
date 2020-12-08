@@ -3,7 +3,6 @@ package com.aiinterview.common.view;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,25 +12,23 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.servlet.view.AbstractView;
-import org.stringtemplate.v4.compiler.STParser.mapExpr_return;
 
 public class ExcelDownloadView extends AbstractView {
 	@Override
-	protected void renderMergedOutputModel(Map<String, Object> model, 
-										   HttpServletRequest request, 
-										   HttpServletResponse response) throws Exception {
-		
+	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
 		// model 객체에서 header, data, fileName, sheetName가져오기
-		List<String> header =(List<String>) model.get("header");
-		List<Map<String, String>> data =(List<Map<String, String>>) model.get("data");
-		String fileName = (String)model.get("fileName");
-		String sheetName = (String)model.get("sheetName");
-		
+		List<String> header = (List<String>) model.get("header");
+		List<Map<String, String>> data = (List<Map<String, String>>) model.get("data");
+		String fileName = (String) model.get("fileName");
+		String sheetName = (String) model.get("sheetName");
+
 		// excel 파일 contentType : application/vnd.ms-excel; UTF-8
 		response.setContentType("application/vnd.ms-excel; UTF-8");
 
 		// 첨부파일임을 암시
-		response.setHeader("Content-Disposition", "attachment; filename="+fileName+".xlsx");
+		response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
 
 		// poi 라이브러리를 이용하여 엑셀 파일을 생성
 		Workbook workbook = new XSSFWorkbook();// poi 라이브러리에서는 엑셀파일을 workbook이라고 함
@@ -49,16 +46,13 @@ public class ExcelDownloadView extends AbstractView {
 			row.createCell(column++).setCellValue(h);
 		}
 
-		
-		
-		 
 		// data 설정
 		for (Map<String, String> map : data) {
 			// 행 생성
 			row = sheet.createRow(rowNum++);
 			// 셀 채우기
 			column = 0; // 매 행마다 셀 인덱스값은 초기화 되어야 함
-			for(int i=0; i<header.size(); i++) {
+			for (int i = 0; i < header.size(); i++) {
 				row.createCell(column++).setCellValue(map.get(header.get(i)));
 			}
 		}
@@ -70,7 +64,6 @@ public class ExcelDownloadView extends AbstractView {
 		os.close();
 
 		workbook.close();
-
 	}
 
 }

@@ -176,6 +176,9 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 			    </form>
 	    	</div>
 		
+		
+		
+		
 				<div class="existSampQuest" id="sampQuestList">
 					<c:forEach items="${resultList }" var="sampQuest">
 						<form class="sampQuestUpdateFrm" action="${cp }/sampQuest/updateProcess.do" method="post">
@@ -209,6 +212,11 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 						</form>
 					</c:forEach>
 				</div>
+				
+				
+				
+				
+				
 				<div id="paging">
 					<ul class="pagination boarding">
 						<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />

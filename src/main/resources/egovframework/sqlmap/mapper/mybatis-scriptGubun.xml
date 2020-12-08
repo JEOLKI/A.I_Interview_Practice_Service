@@ -29,4 +29,49 @@
 		 	   script_gb_st = #{scriptGbSt}
 		 WHERE script_gb_sq = #{scriptGbSq} 
 	</update>
+	
+<!-- 	페이징 : 해당 페이지리스트 select -->
+<!-- 	<select id="retrievePagingList" resultType="com.aiinterview.script.vo.ScriptGubunVO"> -->
+<!-- 		SELECT A.* -->
+<!-- 		  FROM ( -->
+<!-- 		  	SELECT ROWNUM RNUM,  -->
+<!-- 		  		   S.* -->
+<!-- 		      FROM ( -->
+<!-- 		      	SELECT script_gb_sq,  -->
+<!-- 		      		   script_gb_content -->
+<!-- 		          FROM script_gb -->
+<!-- 		         WHERE 1=1 -->
+<!-- 		          <if test="searchKeyword != null and searchKeyword != ''"> -->
+<!-- 				   AND scripg_gb_content LIKE '%' || #{searchKeyword} || '%' -->
+<!-- 				  </if> -->
+<!-- 		         ORDER BY script_gb_Sq -->
+<!-- 		   	) S -->
+<!-- 		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} -->
+<!-- 	   ) A  -->
+<!-- 	<![CDATA[WHERE A.RNUM > #{firstIndex}]]> -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="retrievePagingListCnt" resultType="int"> -->
+<!-- 		SELECT count(*) totCnt -->
+<!-- 		  FROM script_gb -->
+<!-- 		 WHERE 1=1 -->
+<!-- 		  <if test="searchKeyword != null and searchKeyword !=''"> -->
+<!-- 		   AND script_gb_sq LIKE '%'||#{searchKeyword}||'%'	 -->
+<!-- 		  </if> -->
+<!-- 	</select> -->
+<!-- 	 //페이징 --> 
+	
+<!-- 		 해당 내용의 keywordVO 개수 추출 -->
+<!-- 	<select id="retrieve" parameterType="String"  resultType="int" > -->
+<!-- 		SELECT count(*) -->
+<!-- 		  FROM script_gb -->
+<!-- 		 WHERE script_gb_content = #{scriptGbContent} -->
+<!-- 	</select> -->
+	
+<!-- 	해당 내용의 keywordVO 추출 -->
+<!-- 	<select id="retrieveScriptGbSq" parameterType="String" resultType="int" > -->
+<!-- 		SELECT script_gb_sq -->
+<!-- 		  FROM script_gb -->
+<!-- 		 WHERE script_gb_sq = #{scriptGbContent} -->
+<!-- 	</select> -->
 </mapper>

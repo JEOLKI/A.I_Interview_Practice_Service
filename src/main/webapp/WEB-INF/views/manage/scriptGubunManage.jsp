@@ -85,19 +85,12 @@ a {
 					</select> <input id="keyword" type="text">
 					<button type="button">검색</button>
 
-					<a href="#">↓목록 내려받기</a>
+					<a href="/scriptGubun/list/excelDown.do">↓목록 내려받기</a>
 
 				</div>
 
 				<div class="existScript" id="scriptGbList">
 				
-					<%-- 		<c:forEach items="${categoryList }" var="category"> --%>
-					<!-- 			<label></label> -->
-					<%-- 			<input type="text" value="${category.말머리 내용 }"> --%>
-					<!-- 			<input type="button" value="수정">  -->
-					<!-- 			<input type="button" value="삭제"> 				 -->
-					<%-- 		</c:forEach> --%>
-
 			
 				<hr>
 				

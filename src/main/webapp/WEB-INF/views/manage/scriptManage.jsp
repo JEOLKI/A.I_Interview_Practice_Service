@@ -18,62 +18,58 @@ a {
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
 
 <script>
-	$(document).ready(function() {
-		$("#regBtn").on("click", function() {
-			$("#regForm").submit();
-		});
+	var scriptList = [];
+	var scriptGbList = [];
+	$(document)
+			.ready(
+					function() {
+						$("#regBtn").on("click", function() {
+							$("#regForm").submit();
+						});
 
+						var html = "";
+								$.ajax({
+									url : "/script/list.do",
+									method : "get",
+									dataType : "json",
+									success : function(data) {
 
-	$.ajax({url : "/script/list.do",
-			method : "get",
-			dataType : "json",
-			success : function(data){
-				var html="";
-				
-			/* 	var scriptGb = document.getElementById("scriptGbSq");
-				for (var i = 0; i < scriptGb.options.length; i++) {
-					scriptGb.options[i].defaultSelected = i == scriptGb.selectedIndex;
-				} */
-				
-					for (var i = 0; i < data.scriptList.length; i++) {
-						html += '<form class="updForm" action="/script/updateProcess.do" method="post" enctype="utf-8">';
-						html += '	<input type="hidden" name="scriptSq" value="'+data.scriptList[i].scriptSq+'">';
-						html += '	<label>스크립트  : </label><input type="text" name="scriptContent" value="'+data.scriptList[i].scriptContent+'">';
-						html += '	<select class="scriptGb" name="scriptGbSq">';
+										for (var i = 0; i < data.scriptList.length; i++) {
+											html += '<form class="updForm" action="/script/updateProcess.do" method="post" enctype="utf-8">';
+											html += '	<input type="hidden" name="scriptSq" value="'+data.scriptList[i].scriptSq+'">';
+											html += '	<label>스크립트  : </label><input type="text" name="scriptContent" value="'+data.scriptList[i].scriptContent+'">';
+											html += '	<select class="scriptGb" name="scriptGbSq">';
 
-						for(var j=0; j<data.scriptGbList.length; j++){
-							if(data.scriptList[i].scriptGbSq == data.scriptGbList[j].scriptGbSq){
-								$(this).attr("selected", "selected");
-								html += '<option class="scriptGbOption" name="scriptGbSq" value="'+data.scriptGbList[j].scriptGbSq+'">';
-								html += data.scriptGbList[j].scriptGbContent;
-								html += '</option>';
-							}
-							
-							/* const removeItem = data.scriptGbList.indexOf(data.scriptList[i].scriptGbSq)+1;
-							console.log(removeItem);
-							data.scriptGbList.splice(removeItem, 1);
-								html += '<option name="scriptGbSq" value="'+data.scriptGbList[j].scriptGbSq+'">';
-								html += data.scriptGbList[j].scriptGbContent;
-								html += '</option>'; */
-						}
-						html +='</select>';
-						 
-						html += '<select class="scriptSt" name="scriptSt">';
-						if (data.scriptList[i].scriptSt == "Y") {
-							html += '<option value="Y" selected="selected">사용</option>';
-							html += '<option value="N">미사용</option>';
-						} else {
-							html += '<option value="Y">사용</option>';
-							html += '<option value="N" selected="selected">미사용</option>';
-						}
-						html += '</select>';
-						html += '<button class="updBtn" type="submit">수정</button>';
-						html += '</form>';
-				}
-				$('#scripList').append(html);
-			}
-		});
-	});
+											for (var j = 0; j < data.scriptGbList.length; j++) {
+												if (data.scriptList[i].scriptGbSq == data.scriptGbList[j].scriptGbSq) {
+													html += '<option value='+data.scriptGbList[j].scriptGbSq+' selected="selected">'
+															+ data.scriptGbList[j].scriptGbContent
+															+ '</option>';
+												} else {
+													html += '<option value='+data.scriptGbList[j].scriptGbSq+' >'
+															+ data.scriptGbList[j].scriptGbContent
+															+ '</option>';
+												}
+											}
+											html += '</select>';
+
+											html += '<select class="scriptSt" name="scriptSt">';
+											if (data.scriptList[i].scriptSt == "Y") {
+												html += '<option value="Y" selected="selected">사용</option>';
+												html += '<option value="N">미사용</option>';
+											} else {
+												html += '<option value="Y">사용</option>';
+												html += '<option value="N" selected="selected">미사용</option>';
+											}
+											html += '</select>';
+											html += '<button class="updBtn" type="submit">수정</button>';
+											html += '</form>';
+										}
+										$('#scripList').append(html);
+
+									}
+								});
+					});
 </script>
 
 </head>
@@ -89,17 +85,17 @@ a {
 			</section>
 			<div class="body">
 				<div class="registScript">
-				<form id="regForm" action="/script/createProcess.do" method="post" enctype="utf-8">
-					<label>스크립트 : </label> <input type="text" name="scriptContent">
-					<select id="scriptGbSq" name="scriptGbSq">
-						<c:forEach items="${scriptGbList }" var="scriptGb">
-							<option value="${scriptGb.scriptGbSq }">${scriptGb.scriptGbContent }</option>
-						</c:forEach>
-					</select>
-					<select id="status" name="scriptSt">
-						<option value="Y" selected>활성화</option>
-						<option value="N">비활성화</option>
-					</select> <input id="regBtn" type="button" value="등록">
+					<form id="regForm" action="/script/createProcess.do" method="post"
+						enctype="utf-8">
+						<label>스크립트 : </label> <input type="text" name="scriptContent">
+						<select id="scriptGbSq" name="scriptGbSq">
+							<c:forEach items="${scriptGbList }" var="scriptGb">
+								<option value="${scriptGb.scriptGbSq }">${scriptGb.scriptGbContent }</option>
+							</c:forEach>
+						</select> <select id="status" name="scriptSt">
+							<option value="Y" selected>활성화</option>
+							<option value="N">비활성화</option>
+						</select> <input id="regBtn" type="button" value="등록">
 					</form>
 				</div>
 				<hr>
@@ -113,18 +109,12 @@ a {
 					</select> <input id="keyword" type="text">
 					<button type="button">검색</button>
 
-					<a href="#">↓목록 내려받기</a>
+					<a href="/script/list/excelDown.do"">↓목록 내려받기</a>
 				</div>
-				<div class="existScript" id="scripList">
-				
-					<%-- 		<c:forEach items="${categoryList }" var="category"> --%>
-					<!-- 			<label></label> -->
-					<%-- 			<input type="text" value="${category.말머리 내용 }"> --%>
-					<!-- 			<input type="button" value="수정">  -->
-					<!-- 			<input type="button" value="삭제"> 				 -->
-					<%-- 		</c:forEach> --%>
-				
-				</div>
+				<div class="existScript" id="scripList"></div>
+
+
+
 				<a href="#">↑ 일괄등록</a>
 			</div>
 		</div>

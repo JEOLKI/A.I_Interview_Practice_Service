@@ -41,12 +41,23 @@ public interface ScriptGubunMapper {
 	public int update(ScriptGubunVO ScriptGbVO) throws Exception;
 	
 //	/**
-//	 * 스크립트 구분의 검색 목록을 반환하는 메서드
-//	 * @param keyword
-//	 * @return ScriptGubunVO
-//	 * @throws Exception
+//	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
+//	 * @param ScriptGbVO
+//	 * @return 해당페이지 목록
 //	 */
-//	public List<ScriptGubunVO> retrieveSearchList(String keyword) throws Exception;
-
-	
+//	public List<ScriptGubunVO> retrievePagingList(ScriptGubunVO scriptGbVO);
+//
+//	/**
+//	 * 페이징처리를 위한 전체 ScriptGbVO 개수 구하는 메서드
+//	 * @param ScriptGbVO
+//	 * @return 전체 ScriptGbVO 개수
+//	 */
+//	public int retrievePagingListCnt(ScriptGubunVO scriptGbVO);
+//	
+//	/**
+//	 * 해당내용의 키워드를 조회하는 메서드
+//	 * @param scriptGbContent
+//	 * @return
+//	 */
+//	public int retrieveScriptGbSq(String scriptGbContent) throws Exception;
 }

@@ -10,10 +10,9 @@ public class ImageAnalysisVO {
 	private String fear;			// 두려움
 	private String disgust;			// 역겨움
 	private String happiness;		// 행복
-	private String laugh;			// 웃음
 	private String neutral;			// 무표정
 	private String sadness;			// 슬픔
-	private String surprised;		// 놀람
+	private String surprise;		// 놀람
 	private String faceTop;			// 얼굴 프레임 상단 왼쪽을 기준으로한 y좌표  
 	private String faceLeft;		// 얼굴 프레임 상단 왼쪽을 기준으로한 x좌표
 	private String faceWidth;		// 얼굴 프레임의 가로길이
@@ -67,12 +66,6 @@ public class ImageAnalysisVO {
 	public void setHappiness(String happiness) {
 		this.happiness = happiness;
 	}
-	public String getLaugh() {
-		return laugh;
-	}
-	public void setLaugh(String laugh) {
-		this.laugh = laugh;
-	}
 	public String getNeutral() {
 		return neutral;
 	}
@@ -85,11 +78,11 @@ public class ImageAnalysisVO {
 	public void setSadness(String sadness) {
 		this.sadness = sadness;
 	}
-	public String getSurprised() {
-		return surprised;
+	public String getSurprise() {
+		return surprise;
 	}
-	public void setSurprised(String surprised) {
-		this.surprised = surprised;
+	public void setSurprise(String surprise) {
+		this.surprise = surprise;
 	}
 	public String getFaceTop() {
 		return faceTop;
@@ -124,8 +117,8 @@ public class ImageAnalysisVO {
 	@Override
 	public String toString() {
 		return "ImageAnalysisVO [imageAnalysisSq=" + imageAnalysisSq + ", anger=" + anger + ", contempt=" + contempt
-				+ ", fear=" + fear + ", disgust=" + disgust + ", happiness=" + happiness + ", laugh=" + laugh
-				+ ", neutral=" + neutral + ", sadness=" + sadness + ", surprised=" + surprised + ", faceTop=" + faceTop
+				+ ", fear=" + fear + ", disgust=" + disgust + ", happiness=" + happiness
+				+ ", neutral=" + neutral + ", sadness=" + sadness + ", surprise=" + surprise + ", faceTop=" + faceTop
 				+ ", faceLeft=" + faceLeft + ", faceWidth=" + faceWidth + ", faceHeight=" + faceHeight + ", ansSq="
 				+ ansSq + ", imageAnalysisVOList=" + imageAnalysisVOList + "]";
 	}

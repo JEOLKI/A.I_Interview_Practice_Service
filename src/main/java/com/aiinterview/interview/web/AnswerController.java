@@ -28,6 +28,7 @@ public class AnswerController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("answerVO", answerVO);
 		map.put("imageAnalysisList", imageAnalysisList);
 		
 		try {

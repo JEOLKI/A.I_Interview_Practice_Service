@@ -57,7 +57,6 @@
 		   AND keyword_content LIKE '%'||#{searchKeyword}||'%'	
 		  </if>
 	</select>
-	
 	<!-- //페이징 -->
 	
 	<!-- 인재상별 키워드 목록 조회 -->
