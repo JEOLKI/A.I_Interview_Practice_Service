@@ -65,6 +65,7 @@
 		
 		// 시간이 종료 되었으면..
 		if (SetTime >= 120) {
+			download();
 			
 			startCount++;
 			script = "다음 질문을 준비해주세요.";
@@ -75,6 +76,7 @@
 			console.log('종료카운트 : '+endCount);
 				
 			if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+				download(); // 녹화 중지
 				clearInterval(tid);		// 타이머 해제
 // 				alert('면접 종료');					
 			}else{
@@ -97,6 +99,7 @@
 	// 웹캠기능
 	var index = 0;
 
+	// 이미지 분석
 	function processImage() {
 		var subscriptionKey = "cae766a534074d6b89f02281da4e14cf";
 		var uriBase = "https://faceanalysis-jh.cognitiveservices.azure.com/face/v1.0/detect";
@@ -112,61 +115,62 @@
 		document.querySelector("#sourceImage").src = sourceImageUrl;
 		// Perform the REST API call.
 		$.ajax({
-							url : uriBase + "?" + $.param(params),
-							// Request headers.
-							processData: false,
-							beforeSend : function(xhrObj) {
-								xhrObj.setRequestHeader("Content-Type",
-										"application/octet-stream");
-								xhrObj.setRequestHeader(
-										"Ocp-Apim-Subscription-Key",
-										subscriptionKey);
-							},
-							type : "POST",
-							
-							// Request body.
-							data : makeblob($('#inputImage').val()),
-						})
-				.done(
-						function(data) {
-							// Show formatted JSON on webpage.
-							emotion = data[0].faceAttributes.emotion;
-							face = data[0].faceRectangle
-							var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
-							html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
-							
-							$("#analysisData").append(html);
-							
-							 index += 1;
-							 
-							$("#responseTextArea").val(JSON.stringify(data, null, 2));
-						})
-				.fail(
-						function(jqXHR, textStatus, errorThrown) {
-							// Display error message.
-							var errorString = (errorThrown === "") ? "Error. "
-									: errorThrown + " (" + jqXHR.status
-											+ "): ";
-							errorString += (jqXHR.responseText === "") ? ""
-									: (jQuery.parseJSON(jqXHR.responseText).message) ? jQuery
-											.parseJSON(jqXHR.responseText).message
-											: jQuery
-													.parseJSON(jqXHR.responseText).error.message;
-							alert(errorString);
-						});
+				url : uriBase + "?" + $.param(params),
+				// Request headers.
+				processData: false,
+				beforeSend : function(xhrObj) {
+					xhrObj.setRequestHeader("Content-Type",
+							"application/octet-stream");
+					xhrObj.setRequestHeader(
+							"Ocp-Apim-Subscription-Key",
+							subscriptionKey);
+				},
+				type : "POST",
+				
+				// Request body.
+				data : makeblob($('#inputImage').val()),
+			})
+	.done(
+			function(data) {
+				// Show formatted JSON on webpage.
+				emotion = data[0].faceAttributes.emotion;
+				face = data[0].faceRectangle
+				var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
+				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
+				
+				$("#analysisData").append(html);
+				
+				 index += 1;
+				 
+				$("#responseTextArea").val(JSON.stringify(data, null, 2));
+			})
+	.fail(
+			function(jqXHR, textStatus, errorThrown) {
+				// Display error message.
+				var errorString = (errorThrown === "") ? "Error. "
+						: errorThrown + " (" + jqXHR.status
+								+ "): ";
+				errorString += (jqXHR.responseText === "") ? ""
+						: (jQuery.parseJSON(jqXHR.responseText).message) ? jQuery
+								.parseJSON(jqXHR.responseText).message
+								: jQuery
+										.parseJSON(jqXHR.responseText).error.message;
+				alert(errorString);
+			});
 	};
 
 
+	// blob 데이터 넘기기
 	makeblob = function (dataURL) {
            var BASE64_MARKER = ';base64,';
            if (dataURL.indexOf(BASE64_MARKER) == -1) {
@@ -189,6 +193,56 @@
            return new Blob([uInt8Array], { type: contentType });
        }
 	
+	
+	// 여기부터 녹화
+	const constraints = { "video": { width: { max: 320 } }, "audio" : true };
+	var theStream;
+	var theRecorder;
+	var recordedChunks = [];
+	
+	function startFunction() {
+	  navigator.mediaDevices.getUserMedia(constraints)
+	      .then(gotMedia)
+	      .catch(e => { console.error('getUserMedia() failed: ' + e); });
+	}
+	
+	function gotMedia(stream) {
+	  theStream = stream;
+	  var video = document.querySelector('video');
+	  video.srcObject = stream;
+	  try {
+	    recorder = new MediaRecorder(stream, {mimeType : "video/webm"});
+	  } catch (e) {
+	    console.error('Exception while creating MediaRecorder: ' + e);
+	    return;
+	  }
+	  
+	  theRecorder = recorder;
+	  recorder.ondataavailable = 
+	      (event) => { recordedChunks.push(event.data); };
+	  recorder.start(100);
+	}
+	
+	// From @samdutton's "Record Audio and Video with MediaRecorder"
+	// https://developers.google.com/web/updates/2016/01/mediarecorder
+	function download() {
+	  theRecorder.stop();
+	  theStream.getTracks().forEach(track => { track.stop(); });
+	
+	  var blob = new Blob(recordedChunks, {type: "video/webm"});
+	  var url =  URL.createObjectURL(blob);
+	  var a = document.createElement("a");
+	  document.body.appendChild(a);
+	  a.style = "display: none";
+	  a.href = url;
+	  a.download = 'test.webm';
+	  a.click();
+	//   setTimeout() here is needed for Firefox.
+	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
+	}
+	
+	// 여기까지 녹화
+	
 	$(document).ready(function(){
 		
 		$("#testgo").on('click', function(){
@@ -207,7 +261,8 @@
 		 // 클릭의 경우
 		$(document).on('click','.spacebar-area.false',function(){
 			if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-				console.log($('.quest').eq(startCount).val())  
+				console.log($('.quest').eq(startCount).val())
+				startFunction(); // 녹화 시작
 				script=$('.quest').eq(startCount).val(); // 면접 질문 표시
 				
 				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
@@ -229,6 +284,7 @@
 				console.log('종료카운트 : '+endCount);
 					
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+					download(); // 녹화 중지
 					clearInterval(tid);		// 타이머 해제
 					alert('면접 종료');					
 				}else{
@@ -245,8 +301,14 @@
 		$(document).keydown(function(event) {
 			if(event.keyCode == 32){ // space
 				if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-					console.log($('.quest').eq(startCount).val()) 
-					script=$('.quest').eq(startCount).val();
+					
+					console.log($('.quest').eq(startCount).val()); // 확인용 콘솔
+					
+					startFunction(); // 녹화 시작
+					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
+					
+					$('#startbutton').trigger('click'); // 영상 캡쳐
+					processImage(); // 얼굴 분석
 						
 					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>");
 					$('.message-balloon').empty();
@@ -258,14 +320,18 @@
 				}else{ // 타이머 진행 중에서 space
 					startCount++;
 					script = "다음 질문을 준비해주세요.";
+					download(); // 녹화 중지
 					
 					clearInterval(tid);		// 타이머 해제
+					$("#analysisData").submit(); // 얼굴 캡쳐데이터 전송
 					console.log('타이머 멈추기')	;	
 					console.log('시작카운트 : '+startCount);
 					console.log('종료카운트 : '+endCount);
 						
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+						download(); // 녹화 중지
 						clearInterval(tid);		// 타이머 해제
+						$("#analysisData").submit(); // 얼굴 캡쳐데이터 전송
 						alert('면접 종료');					
 					}else{
 						$('.message-balloon').empty(); // 메세지 창 지우기
@@ -320,7 +386,13 @@
 	<div class="webcam">
 		<div class="contentarea">
 			<div class="camera">
-				<video id="video" autoplay >Video stream not available.</video>
+				<video id="video"  autoplay >Video stream not available.</video>
+<!-- 				<p> -->
+<!-- 					<button onclick="startFunction()">Grab video & start recording</button> -->
+<!-- 				</p> -->
+<!-- 				<p> -->
+<!-- 					<button onclick="download()">Download! (and stop video)</button> -->
+<!-- 				</p> -->
 				<button id="startbutton">Take photo</button> 
 			</div>
 			<canvas id="canvas"></canvas>
@@ -344,8 +416,11 @@
 			<button id="testgo">전송테스트</button>
 		</div>
 		<form id="analysisData" action="/answer/create.do" method="post">
-		
-		
+			<input type="text" name="ansContent" value="몰라 썅">
+			<input type="text" name="videoPath" value="c:\video">
+			<input type="text" name="ansTime" value="1">
+			<input type="text" name="ansSpeed" value="1">
+			<input type="text" name="questSq" value="1">
 		</form>
 	</div>
 	

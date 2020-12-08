@@ -11,8 +11,7 @@
 									FEAR,
 									DISGUST,
 									HAPPINESS,
-									LAUGH,
-									NATURAL,
+									NEUTRAL,
 									SADNESS,
 									SURPRISED,
 									FACE_TOP,
@@ -21,20 +20,20 @@
 									FACE_HEIGHT,
 									ANS_SQ)
 		     VALUES (IMAGE_ANALYSIS_SQ.NEXTVAL,
-						#{anger},
-						#{contempt},
-						#{fear},
-						#{disgust},
-						#{happiness},
-						#{laugh},
-						#{natural},
-						#{sadness},
-						#{surprised},
-						#{faceTop},
-						#{faceLeft},
-						#{faceWidth},
-						#{faceHeight},
-						#{ansSq})
+						TO_NUMBER(#{anger}),
+						TO_NUMBER(#{contempt}),
+						TO_NUMBER(#{fear}),
+						TO_NUMBER(#{disgust}),
+						TO_NUMBER(#{happiness}),
+						TO_NUMBER(#{neutral}),
+						TO_NUMBER(#{sadness}),
+						TO_NUMBER(#{surprise}),
+						TO_NUMBER(#{faceTop}),
+						TO_NUMBER(#{faceLeft}),
+						TO_NUMBER(#{faceWidth}),
+						TO_NUMBER(#{faceHeight}),
+						TO_NUMBER(#{ansSq})
+						)
 	</insert>
 	
 	<select id="retrieveList" resultType="com.aiinterview.analysis.vo.ImageAnalysisVO">
