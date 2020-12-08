@@ -47,7 +47,7 @@
 	</delete>
 	
 	<select id="retrieveList" resultType="com.aiinterview.interview.vo.KeywordMatchingVO">
-		SELECT count(*)
+		SELECT *
 		  FROM keyword_matching
 	</select>
 	

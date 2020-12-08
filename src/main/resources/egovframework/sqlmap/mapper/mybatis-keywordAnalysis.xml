@@ -9,9 +9,9 @@
 										TALENT_SQ,
 										KEYWORD_SQ,
 										KEYWORD_COUNT)
-		     VALUES (#{ansSq},
-						#{talentSq},
-						#{keywordSq},
+		     VALUES (TO_NUMBER(#{ansSq}),
+						TO_NUMBER(#{talentSq}),
+						TO_NUMBER(#{keywordSq}),
 						#{keywordCount})
 	</insert>
 	

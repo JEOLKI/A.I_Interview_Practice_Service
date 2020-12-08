@@ -157,7 +157,7 @@ public class KeywordService {
 	 * @param talentSq
 	 * @return
 	 */
-	public KeywordVO retrieveMathcingKeyword(String keywordSq) {
+	public String retrieveMathcingKeyword(String keywordSq) {
 		return keywordMapper.retrieveMathcingKeyword(keywordSq);
 	}
 	
