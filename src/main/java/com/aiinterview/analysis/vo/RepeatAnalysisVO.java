@@ -7,27 +7,27 @@ public class RepeatAnalysisVO {
 	private String repeatContent;		// 반복어 내용
 	private String ansSq;				// 답변 내용
 
-	public String getrepeatAnalysisSq() {
+	public String getRepeatAnalysisSq() {
 		return repeatAnalysisSq;
 	}
 
-	public void setrepeatAnalysisSq(String repeatAnalysisSq) {
+	public void setRepeatAnalysisSq(String repeatAnalysisSq) {
 		this.repeatAnalysisSq = repeatAnalysisSq;
 	}
 
-	public String getrepeatCount() {
+	public String getRepeatCount() {
 		return repeatCount;
 	}
 
-	public void setrepeatCount(String repeatCount) {
+	public void setRepeatCount(String repeatCount) {
 		this.repeatCount = repeatCount;
 	}
 
-	public String getrepeatContent() {
+	public String getRepeatContent() {
 		return repeatContent;
 	}
 
-	public void setrepeatContent(String repeatContent) {
+	public void setRepeatContent(String repeatContent) {
 		this.repeatContent = repeatContent;
 	}
 

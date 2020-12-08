@@ -232,8 +232,8 @@ public class AnswerTestController {
                 	// db에 보낼 반복어 객체 생성
                 	RepeatAnalysisVO repeatAnalysisVO = new RepeatAnalysisVO();
                 	repeatAnalysisVO.setAnsSq(ansSq);
-                	repeatAnalysisVO.setrepeatContent(morpheme.text);
-                	repeatAnalysisVO.setrepeatCount(morpheme.count+"");
+                	repeatAnalysisVO.setRepeatContent(morpheme.text);
+                	repeatAnalysisVO.setRepeatCount(morpheme.count+"");
                 	repeatList.add(repeatAnalysisVO);
                 });
 				repeatAnalysisService.create(repeatList);
