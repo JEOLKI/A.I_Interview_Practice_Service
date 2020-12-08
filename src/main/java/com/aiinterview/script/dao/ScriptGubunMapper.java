@@ -24,7 +24,6 @@ public interface ScriptGubunMapper {
 	 */
 	public List<ScriptGubunVO> retrieveList() throws Exception;
 	
-	
 	/**
 	 * 스크립트 구분을 추가하는 메서드
 	 * @return 
@@ -33,7 +32,7 @@ public interface ScriptGubunMapper {
 	public void create(ScriptGubunVO ScriptGbVO) throws Exception;
 	
 	/**
-	 * 스크립트 구분의 활성 상태를 수정하는 메서드
+	 * 스크립트 구분의 상태를 수정하는 메서드
 	 * @param ScriptGbVO
 	 * @return 성공 시 1, 실패 시 0
 	 * @throws Exception
@@ -45,15 +44,22 @@ public interface ScriptGubunMapper {
 //	 * @param ScriptGbVO
 //	 * @return 해당페이지 목록
 //	 */
-//	public List<ScriptGubunVO> retrievePagingList(ScriptGubunVO scriptGbVO);
+//	public List<ScriptGubunVO> retrievePagingList(ScriptGubunVO scriptGbVO) throws Exception;
 //
 //	/**
 //	 * 페이징처리를 위한 전체 ScriptGbVO 개수 구하는 메서드
 //	 * @param ScriptGbVO
 //	 * @return 전체 ScriptGbVO 개수
 //	 */
-//	public int retrievePagingListCnt(ScriptGubunVO scriptGbVO);
+//	public int retrievePagingListCnt(ScriptGubunVO scriptGbVO) throws Exception;
 //	
+//	/**
+//	 * 스크립트 구분을 검색하는 메서드
+//	 * @param searchKeyword
+//	 * @return
+//	 */
+//	public List<ScriptGubunVO> searchRetrieve(String searchKeyword) throws Exception;
+	
 //	/**
 //	 * 해당내용의 키워드를 조회하는 메서드
 //	 * @param scriptGbContent

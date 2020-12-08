@@ -1,17 +1,11 @@
 package com.aiinterview.script.service;
 
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.aiinterview.common.util.excel.option.ReadOption;
-import com.aiinterview.common.util.excel.read.ExcelRead;
-import com.aiinterview.interview.vo.KeywordVO;
-import com.aiinterview.interview.vo.QuestionGubunVO;
 import com.aiinterview.script.dao.ScriptGubunMapper;
 import com.aiinterview.script.vo.ScriptGubunVO;
 
@@ -58,34 +52,60 @@ public class ScriptGubunService {
 	public int update(ScriptGubunVO ScriptGbVO) throws Exception{
 		return scriptGubunMapper.update(ScriptGbVO);
 	}
+
+//	/**
+//	 * 스크립트 구분을 일괄등록하는 메서드
+//	 * @param destFile
+//	 * @throws Exception
+//	 */
+//	public void createMassiveScriptGubun(File destFile) throws Exception {
+//		ReadOption readOption = new ReadOption();
+//		readOption.setFilePath(destFile.getAbsolutePath());
+//		readOption.setOutputColumns("A", "B", "C");
+//		readOption.setStartRow(2);
+//		
+//		List<Map<String, String>> excelContent = ExcelRead.read(readOption);
+//		
+//		ScriptGubunVO scriptGbVO = null;
+//		for(Map<String, String> scriptGb : excelContent) {
+//			scriptGbVO = new ScriptGubunVO();
+//			scriptGbVO.setScriptGbContent(scriptGb.get("B"));
+//			scriptGbVO.setScriptGbSt(scriptGb.get("C"));
+//			
+//			scriptGubunMapper.create(scriptGbVO);
+//		}
+//	}
 	
 //	/**
 //	 * 페이징처리를 위한 스크립트 구분의 총 개수를 구하는 메서드
 //	 * @param ScriptGbVO
 //	 * @return 스크립트 구분 총 갯수
+//	 * @throws Exception
 //	 */
-//	public int retrievePagingListCnt(ScriptGubunVO scriptGbVO) {
+//	public int retrievePagingListCnt(ScriptGubunVO scriptGbVO) throws Exception {
 //		return scriptGubunMapper.retrievePagingListCnt(scriptGbVO);
 //	}
 //	
 //	/**
-//	 * 페이징처리를 위한  해당페이지 스크립트 구분 리스트 추출
+//	 * 페이징처리를 위한  해당페이지 스크립트 구분 리스트
 //	 * @param ScriptGbVO
 //	 * @return
+//	 * @throws Exception
 //	 */
-//	public List<ScriptGubunVO> retrievePagingList(ScriptGubunVO scriptGbVO) {
+//	public List<ScriptGubunVO> retrievePagingList(ScriptGubunVO scriptGbVO) throws Exception {
 //		return scriptGubunMapper.retrievePagingList(scriptGbVO);
 //	}
 //	
 //	/**
-//	 * 해당내용의 키워드를 조회하는 메서드
-//	 * @param keywordContent
+//	 * 스크립트 구분을 검색하는 메서드
+//	 * @param searchKeyword
 //	 * @return
-//	 * @throws Exception 
+//	 * @throws Exception
 //	 */
-//	public int retrieveScriptGbSq(String scriptGbContent) throws Exception {
-//		return scriptGubunMapper.retrieveScriptGbSq(scriptGbContent);
+//	public List<ScriptGubunVO> searchRetrieve(String searchKeyword)throws Exception {
+//		return scriptGubunMapper.searchRetrieve(searchKeyword);
 //	}
+
 	
 //	/**
 //	 * 스크립트 구분을 일괄등록하는 메서드

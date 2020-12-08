@@ -1,6 +1,8 @@
 package com.aiinterview.script.vo;
 
-public class ScriptGubunVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class ScriptGubunVO extends BaseVO{
 	private String scriptGbSq; 		//스크립트 구분 언어의 고유번호
 	private String scriptGbContent; //스크립트 구분 언어
 	private String scriptGbSt;		//스크립트 언어의 활성화 여부

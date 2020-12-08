@@ -91,29 +91,7 @@ public class ScriptController {
 			return "manage/scriptManage";
 		}
 	}
-	
-	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
-	public String retrieveSelectList(String scriptGbSq ,Model model) {
-		
-		List<ScriptVO> scriptList = null;
-		try {
-			scriptList = scriptService.retrieveSelectList(scriptGbSq);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		logger.debug("사이즈는 : {}",scriptList.size());
-		int randomInt = (int)(Math.random()*scriptList.size());
-		logger.debug("랜덤 번호는 : {}",randomInt);
-		
-		ScriptVO scriptVO = scriptList.get(randomInt);
-		
-		logger.debug("scriptVO : {}",scriptVO);
-		model.addAttribute("scriptVO", scriptVO);
-		return "jsonView";
-	}
-	
+
 	/* 일괄 다운로드 */
 	@RequestMapping("/list/excelDown.do")
 	public String excelDown(Model model) {

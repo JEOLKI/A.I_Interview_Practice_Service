@@ -2,6 +2,7 @@ package com.aiinterview.script.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.script.service.ScriptGubunService;
 import com.aiinterview.script.service.ScriptService;
 import com.aiinterview.script.service.ScriptTestService;
+import com.aiinterview.script.vo.ScriptGubunVO;
 import com.aiinterview.script.vo.ScriptTestVO;
 import com.aiinterview.script.vo.ScriptVO;
 
@@ -31,17 +34,10 @@ public class ScriptTestController {
 	
 	@Resource(name = "scriptService")
 	private ScriptService scriptService;
-
-
-//	@RequestMapping(path="/startTestView.do", method = { RequestMethod.GET })
-//	public String scriptTestView(Model model, String result){
-//		
-//		logger.debug("View result : {}", result);
-//		
-//		
-//		model.addAttribute("result", result);
-//		return "analysis/main";
-//	}
+	
+	@Resource(name = "scriptGubunService")
+	private ScriptGubunService scriptGbService;
+	
 	
 	@RequestMapping(path = "/create.do")
 	public String create(Model model, String performScript, HttpSession session, String scriptSq) {
@@ -53,10 +49,6 @@ public class ScriptTestController {
 			e.printStackTrace();
 		}
 		String scriptContent = scriptVO.getScriptContent();
-	
-		//logger.debug("scriptContent : {}", scriptContent);
-		//logger.debug("scriptGbSq : {}", scriptGbSq);
-		//logger.debug("phraseDiv : {}", performScript);
 		
 		ScriptTestController scriptTest = new ScriptTestController();
 		
@@ -77,12 +69,63 @@ public class ScriptTestController {
 			ex.printStackTrace();
 		}
 		
-		//logger.debug("result : {}", result);
 		model.addAttribute("result", result);
-		//return "redirect:/scriptTest/startTestView.do";
-		
 		return "analysis/scriptTestResult";
 	}
+	
+	//문제 x
+	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
+	public String testPopup(Model model) {
+		List<ScriptVO> scriptList = null;
+		try {
+			scriptList = scriptService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 전체 스크립트 구분 리스트
+		List<ScriptGubunVO> scriptGbList = null;
+		try {
+			scriptGbList = scriptGbService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
+		// 활성상태가 "Y"인 스크립트 구분 리스트
+		for (ScriptGubunVO scriptGb : scriptGbList) {
+			if (scriptGb.getScriptGbSt().equals("Y")) {
+				availableGbList.add(scriptGb);
+			}
+		}
+		model.addAttribute("scriptList", scriptList);
+		model.addAttribute("scriptGbList", availableGbList);
+		return "script/testPopup";
+	}
+	
+	
+	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
+	public String retrieveSelectList(String scriptGbSq ,Model model) {
+		
+		//logger.debug("scriptGbSq : {}", scriptGbSq);
+		
+		List<ScriptVO> scriptList = null;
+		try {
+			scriptList = scriptService.retrieveSelectList(scriptGbSq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.debug("사이즈는 : {}",scriptList.size());
+		int randomInt = (int)(Math.random()*scriptList.size());
+		logger.debug("랜덤 번호는 : {}",randomInt);
+		
+		ScriptVO scriptVO = scriptList.get(randomInt);
+		
+		logger.debug("scriptVO : {}",scriptVO);
+		model.addAttribute("scriptVO", scriptVO);
+		return "jsonView";
+	}
+	
 	
 	/**
 	 * 각각의 스크립트를 리스트내에 두 음절씩 분리하여 입력하는 메소드

@@ -106,9 +106,35 @@ public class ScriptGubunController {
 		return "excelView";
 	}
 	
+//	/* 일괄 등록 */
+//	@RequestMapping("/massiveCreateProcess.do")
+//	public String createMassiveHabit(MultipartHttpServletRequest request) {
+//		MultipartFile excelFile = request.getFile("excelFile");
+//		if(excelFile == null || excelFile.isEmpty()) {
+//			throw new RuntimeException("엑셀파일을 선택해주세요.");
+//		}
+//		
+//		File destFile = new File("D:\\"+excelFile.getOriginalFilename());
+//		
+//		try {
+//			excelFile.transferTo(destFile);
+//		} catch (IllegalStateException | IOException e) {
+//			throw new RuntimeException(e.getMessage(), e);
+//		}
+//		
+//		try {
+//			scriptGubunService.createMassiveScriptGubun(destFile);
+//		} catch (Exception e) {
+//		}
+//		
+//		destFile.delete();
+//		
+//		return "redirect:/scriptGubun/retrievePagingList.do";
+//	}
 	
+//	/* 페이징 리스트 별 스크립트 구분*/
 //	@RequestMapping("/retrievePagingList.do")
-//	public String retrievePagingList(ScriptGubunVO scriptGbVO, String pageUnit, Model model) throws Exception {
+//	public String retrievePagingList(ScriptGubunVO scriptGbVO, String pageUnit, Model model) {
 //		
 //		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 //		model.addAttribute("pageUnit" , pageUnitInt);
@@ -125,22 +151,38 @@ public class ScriptGubunController {
 //		paginationInfo.setRecordCountPerPage(scriptGbVO.getPageUnit());
 //		paginationInfo.setPageSize(scriptGbVO.getPageSize());
 //		
-//
-//		
 //		scriptGbVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 //		scriptGbVO.setLastIndex(paginationInfo.getLastRecordIndex());
 //		scriptGbVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 //
-//		List<KeywordVO> resultList = scriptGbService.retrievePagingList(scriptGbVO);
+//		List<ScriptGubunVO> resultList=null;
+//		try {
+//			resultList = scriptGubunService.retrievePagingList(scriptGbVO);
+//		} catch (Exception e) {
+//		}
 //		model.addAttribute("resultList", resultList);
 //
-//		int totCnt = scriptGbService.retrievePagingListCnt(scriptGbVO);
+//		int totCnt=0;
+//		try {
+//			totCnt = scriptGubunService.retrievePagingListCnt(scriptGbVO);
+//		} catch (Exception e) {
+//		}
 //		paginationInfo.setTotalRecordCount(totCnt);
 //		model.addAttribute("paginationInfo", paginationInfo);
 //		
+//		return "script/scriptGubunManage";
+//	}
 //	
-//		
-//		return "keyword/keywordManage";
+//	/* 샘플질문 검색*/
+//	@RequestMapping(path = "/searchRetrieve.do")
+//	public String searchRetrieve(String searchKeyword, Model model) {
+//		List<ScriptGubunVO> scriptGbList = null;
+//		try {
+//			scriptGbList = scriptGubunService.searchRetrieve(searchKeyword);
+//		} catch (Exception e) {
+//		}
+//		model.addAttribute("scriptGbList",scriptGbList);
+//		return "jsonView";
 //	}
 	
 }
