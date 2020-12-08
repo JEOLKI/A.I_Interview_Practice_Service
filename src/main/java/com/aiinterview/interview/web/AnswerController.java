@@ -2,6 +2,7 @@ package com.aiinterview.interview.web;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,17 +13,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
+import com.aiinterview.board.vo.AttachmentVO;
+import com.aiinterview.common.util.FileUploadUtil;
 import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.AnswerTestService;
 import com.aiinterview.interview.service.HabitService;
@@ -55,15 +61,27 @@ public class AnswerController {
 	private AnswerTestService answerTestService;
 	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
-	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO){
+	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, MultipartHttpServletRequest mtfRequest){
 		
 		List<ImageAnalysisVO> imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("answerVO", answerVO);
 		map.put("imageAnalysisList", imageAnalysisList);
 		
+		/* 영상 다운로드 */
+		MultipartFile answerVideo = mtfRequest.getFile("answerVideo");
+		if(answerVideo.getSize() > 0) {
+			String videoPath = "D:\\answerVideo\\" + UUID.randomUUID().toString() + ".webm";
+			answerVO.setVideoPath(videoPath);
+			map.put("answerVO", answerVO);
+			File uploadVideo = new File(videoPath);
+			try {
+				answerVideo.transferTo(uploadVideo);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  언어 분석  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
