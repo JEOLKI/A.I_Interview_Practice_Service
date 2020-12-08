@@ -22,11 +22,14 @@ import com.aiinterview.analysis.service.HabitAnalysisService;
 import com.aiinterview.analysis.service.KeywordAnalysisService;
 import com.aiinterview.analysis.service.RepeatAnalysisService;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
+import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
+import com.aiinterview.interview.service.AnswerTestService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.KeywordMatchingService;
 import com.aiinterview.interview.service.KeywordService;
+import com.aiinterview.interview.vo.AnswerVO;
 import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.interview.vo.KeywordMatchingVO;
 import com.aiinterview.interview.vo.KeywordVO;
@@ -42,20 +45,15 @@ public class AnswerTestController {
 	@Resource(name="habitService")
 	private HabitService habitService;
 	
-	@Resource(name="habitAnalysisService")
-	private HabitAnalysisService habitAnalysisService;
-	
-	@Resource(name="repeatAnalysisService")
-	private RepeatAnalysisService repeatAnalysisService; 
-	
 	@Resource(name="keywordMatchingService")
 	private KeywordMatchingService keywordMatchingService;
 	
 	@Resource(name="keywordService")
 	private KeywordService keywordService;
 	
-	@Resource(name="keywordAnalysisService")
-	private KeywordAnalysisService keywordAnalysisService; 
+	@Resource(name="answerTestService")
+	private AnswerTestService answerTestService;
+	
 	
 	@RequestMapping("/test.do")
 	public String answerTest() {
@@ -63,10 +61,12 @@ public class AnswerTestController {
 	}
 	
 	@RequestMapping("/regist.do")
-	public String regist(String script, String ansSq) {
+	public String regist(String script) {//AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO) {
 		
+//		String script = answerVO.getAnsContent();
 		System.out.println("스크립트 : "+script);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		/* 습관어 분석 */
 		List<HabitVO> habitList = habitService.retrieveList();
@@ -76,25 +76,21 @@ public class AnswerTestController {
 		List<HabitAnalysisVO> habitAnalysisVOList = new ArrayList<>();
 		
 		for(int i=0; i<habitList.size(); i++) {
-			habitAnalysisVO = new HabitAnalysisVO(ansSq);
+			habitAnalysisVO = new HabitAnalysisVO(); 
 			String[] habitArr = script.split(habitList.get(i).getHabitGb());
 			habitAnalysisVO.setHabitSq(habitList.get(i).getHabitSq());
 			habitAnalysisVO.setHabitCount(habitArr.length-1+"");
 			habitAnalysisVOList.add(habitAnalysisVO);
 		}
-		
-		try {
-			habitAnalysisService.create(habitAnalysisVOList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		 System.out.println("습관어 분석  : "+habitAnalysisVOList);
+		map.put("habitAnalysisVOList", habitAnalysisVOList);
 		
 		/* 반복어 분석 */
 		// 언어 분석 기술 문어/구어 중 한가지만 선택해 사용
         // 언어 분석 기술(문어)
-        String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU";  
+//        String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU";  
         // 언어 분석 기술(구어)
-        //String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU_spoken";         
+        String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU_spoken";         
         String accessKey = "d119ee9a-e502-4236-8f15-61ac9e8dad04";   // 발급받은 API Key
         String analysisCode = "ner";        // 언어 분석 코드
         String text = script;           // 분석할 텍스트 데이터
@@ -231,13 +227,14 @@ public class AnswerTestController {
                 .forEach(morpheme -> {
                 	// db에 보낼 반복어 객체 생성
                 	RepeatAnalysisVO repeatAnalysisVO = new RepeatAnalysisVO();
-                	repeatAnalysisVO.setAnsSq(ansSq);
                 	repeatAnalysisVO.setRepeatContent(morpheme.text);
+                	System.out.println(morpheme.text);
                 	repeatAnalysisVO.setRepeatCount(morpheme.count+"");
+                	System.out.println(morpheme.count+"");
                 	repeatList.add(repeatAnalysisVO);
                 });
-				repeatAnalysisService.create(repeatList);
-            
+            System.out.println("반복어 분석  : "+repeatList);
+            map.put("repeatList", repeatList);
             
             /*
             // 형태소들 중 동사들에 대해서 많이 노출된 순으로 출력 ( 최대 5개 )
@@ -271,18 +268,21 @@ public class AnswerTestController {
 				List<KeywordAnalysisVO> keywordAnalysisList = new ArrayList<>();
 				
 				for(int i=0; i<keywordMatchingList.size(); i++) {
-					KeywordVO keywordVO = keywordService.retrieveMathcingKeyword(keywordMatchingList.get(i).getKeywordSq());
-					String[] keywordArr = script.split(keywordVO.getKeywordContent());
-					KeywordAnalysisVO keywordAnalysisVO = new KeywordAnalysisVO(ansSq);
-					keywordAnalysisVO.setKeywordSq(keywordVO.getKeywordSq());
+					String kyewordContent = keywordService.retrieveMathcingKeyword(keywordMatchingList.get(i).getKeywordSq());
+					System.out.println("kyewordContent : " + kyewordContent);
+					String[] keywordArr = script.split(kyewordContent);
+					KeywordAnalysisVO keywordAnalysisVO = new KeywordAnalysisVO();
+					keywordAnalysisVO.setKeywordSq(keywordMatchingList.get(i).getKeywordSq());
 					keywordAnalysisVO.setTalentSq(keywordMatchingList.get(i).getTalentSq());
 					keywordAnalysisVO.setKeywordCount(keywordArr.length-1+"");
 					
 					keywordAnalysisList.add(keywordAnalysisVO);
 				}
 				
+				System.out.println("인재상 분석  : "+keywordAnalysisList);
+				map.put("keywordAnalysisList", keywordAnalysisList);
 				
-				keywordAnalysisService.create(keywordAnalysisList);
+				answerTestService.create(map);
 				
 				
 				

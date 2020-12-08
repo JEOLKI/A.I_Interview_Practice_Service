@@ -113,8 +113,8 @@
 	</select>
 	
 	<!-- 해당 내용의 keywordVO 추출 -->
-	<select id="retrieveMathcingKeyword" parameterType="String" resultType="com.aiinterview.interview.vo.KeywordVO" >
-		SELECT *
+	<select id="retrieveMathcingKeyword" parameterType="String" resultType="String" >
+		SELECT keyword_content
 		  FROM keyword
 		 WHERE keyword_sq = #{keywordSq}
 	</select>

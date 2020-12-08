@@ -89,10 +89,10 @@ public interface KeywordMapper {
 
 
 	/**
-	 * 인재상별 모든 키워드 리스트 조회하는 메서드 
+	 * 해당 번호의 키워드 내용을 조회하는 메서드
 	 * 다운로드용
 	 * @param talentSq
 	 * @return
 	 */
-	public KeywordVO retrieveMathcingKeyword(String keywordSq);
+	public String retrieveMathcingKeyword(String keywordSq);
 }
