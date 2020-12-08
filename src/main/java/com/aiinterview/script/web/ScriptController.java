@@ -1,7 +1,9 @@
 package com.aiinterview.script.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -110,6 +112,46 @@ public class ScriptController {
 		logger.debug("scriptVO : {}",scriptVO);
 		model.addAttribute("scriptVO", scriptVO);
 		return "jsonView";
+	}
+	
+	/* 일괄 다운로드 */
+	@RequestMapping("/list/excelDown.do")
+	public String excelDown(Model model) {
+	
+		//출력할 스크립트 구분 전체 리스트
+		List<ScriptVO> scriptList = null;
+		try {
+			scriptList = scriptService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//excel 파일의 header
+		List<String> header = new ArrayList<String>();
+		header.add("SCRIPT_SQ");
+		header.add("SCRIPT_CONTENT");
+		header.add("SCRIPT_ST");
+		header.add("SCRIPT_GB_SQ");
+
+		//excel 파일의 data
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		
+		Map<String, String> map = null;
+		for(ScriptVO script : scriptList) {
+			map = new HashMap<String, String>();
+			map.put("SCRIPT_SQ", script.getScriptSq());
+			map.put("SCRIPT_CONTENT", script.getScriptContent());
+			map.put("SCRIPT_ST", script.getScriptSt());
+			map.put("SCRIPT_GB_SQ", script.getScriptGbSq());
+			data.add(map);
+		}
+		
+		model.addAttribute("header", header);
+		model.addAttribute("data", data);
+		model.addAttribute("fileName", "SCRIPT");
+		model.addAttribute("sheetName", "SCRIPT");
+	
+		return "excelView";
 	}
 
 }

@@ -51,7 +51,6 @@ a {
 															+ '</option>';
 												}
 											}
-
 											html += '</select>';
 
 											html += '<select class="scriptSt" name="scriptSt">';
@@ -110,7 +109,7 @@ a {
 					</select> <input id="keyword" type="text">
 					<button type="button">검색</button>
 
-					<a href="#">↓목록 내려받기</a>
+					<a href="/script/list/excelDown.do"">↓목록 내려받기</a>
 				</div>
 				<div class="existScript" id="scripList"></div>
 
