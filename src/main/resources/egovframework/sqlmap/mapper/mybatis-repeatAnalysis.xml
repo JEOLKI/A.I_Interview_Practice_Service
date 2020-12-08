@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiinterview.analysis.dao.RepeatAnalysisMapper">
+
+	<insert id="create">
+		INSERT INTO REPEAT_ANALYSIS (REPEAT_ANALYSIS_SQ,
+									REPEAT_COUNT,
+									REPEAT_CONTENT,
+									ANS_SQ)
+		     VALUES (REPEAT_ANALYSIS_SQ.NEXTVAL,
+						#{repeatCount},
+						#{repeatContent},
+						#{ansSq})
+	</insert>
+	
+	<select id="retrieveList" resultType="com.aiinterview.analysis.vo.RepeatAnalysisVO">
+		SELECT *
+		FROM REPEAT_ANALYSIS
+		WHERE ANS_SQ = #{ansSq}
+	</select>
+	
+</mapper>

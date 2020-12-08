@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aiinterview.analysis.service.HabitAnalysisService;
 import com.aiinterview.analysis.service.KeywordAnalysisService;
-import com.aiinterview.analysis.service.RepetAnalysisService;
+import com.aiinterview.analysis.service.RepeatAnalysisService;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
-import com.aiinterview.analysis.vo.RepetAnalysisVO;
+import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.KeywordMatchingService;
 import com.aiinterview.interview.service.KeywordService;
@@ -45,8 +45,8 @@ public class AnswerTestController {
 	@Resource(name="habitAnalysisService")
 	private HabitAnalysisService habitAnalysisService;
 	
-	@Resource(name="repetAnalysisService")
-	private RepetAnalysisService repetAnalysisService; 
+	@Resource(name="repeatAnalysisService")
+	private RepeatAnalysisService repeatAnalysisService; 
 	
 	@Resource(name="keywordMatchingService")
 	private KeywordMatchingService keywordMatchingService;
@@ -217,7 +217,7 @@ public class AnswerTestController {
             
             
             // 반복어 리스트
-            List<RepetAnalysisVO> repetList = new ArrayList<>();
+            List<RepeatAnalysisVO> repeatList = new ArrayList<>();
             
             // 형태소들 중 명사들에 대해서 많이 노출된 순으로 출력 ( 최대 5개 )
             morphemes
@@ -230,13 +230,13 @@ public class AnswerTestController {
                 .limit(3)
                 .forEach(morpheme -> {
                 	// db에 보낼 반복어 객체 생성
-                	RepetAnalysisVO repetAnalysisVO = new RepetAnalysisVO();
-                	repetAnalysisVO.setAnsSq(ansSq);
-                	repetAnalysisVO.setRepetContent(morpheme.text);
-                	repetAnalysisVO.setRepetCount(morpheme.count+"");
-                	repetList.add(repetAnalysisVO);
+                	RepeatAnalysisVO repeatAnalysisVO = new RepeatAnalysisVO();
+                	repeatAnalysisVO.setAnsSq(ansSq);
+                	repeatAnalysisVO.setrepeatContent(morpheme.text);
+                	repeatAnalysisVO.setrepeatCount(morpheme.count+"");
+                	repeatList.add(repeatAnalysisVO);
                 });
-				repetAnalysisService.create(repetList);
+				repeatAnalysisService.create(repeatList);
             
             
             /*

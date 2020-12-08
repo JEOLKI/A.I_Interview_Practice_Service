@@ -11,7 +11,7 @@ import com.aiinterview.analysis.dao.ImageAnalysisMapper;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
-import com.aiinterview.analysis.vo.RepetAnalysisVO;
+import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.analysis.vo.VoiceAnalysisVO;
 import com.aiinterview.interview.dao.AnswerMapper;
 import com.aiinterview.interview.vo.AnswerVO;
@@ -45,7 +45,7 @@ public class AnswerService {
 		
 //		HabitAnalysisVO habitAnalysisVO = (HabitAnalysisVO) map.get("habitAnalysisVO");
 //		KeywordAnalysisVO keywordAnalysisVO = (KeywordAnalysisVO) map.get("keywordAnalysisVO");
-//		RepetAnalysisVO repetAnalysisVO = (RepetAnalysisVO) map.get("repetAnalysisVO");
+//		repeatAnalysisVO repeatAnalysisVO = (repeatAnalysisVO) map.get("repeatAnalysisVO");
 //		VoiceAnalysisVO voiceAnalysisVO = (VoiceAnalysisVO) map.get("voiceAnalysisVO");
 		
 	}
