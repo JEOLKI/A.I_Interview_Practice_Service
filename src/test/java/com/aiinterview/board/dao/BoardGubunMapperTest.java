@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.board.vo.BoardGubunVO;
-import com.aiinterview.board.web.BoardController;
 
 public class BoardGubunMapperTest extends ModelTestConfig{
 	
