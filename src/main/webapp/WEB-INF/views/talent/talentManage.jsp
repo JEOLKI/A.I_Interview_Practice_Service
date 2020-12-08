@@ -201,8 +201,10 @@
 					</c:forEach>
 				</div>
 				<div id="paging">
-					<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
-					<form:hidden path="pageIndex" />
+					<ul class="pagination boarding">
+						<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
+						<form:hidden path="pageIndex" />
+					</ul>
 				</div>
 			</div>
 </div>

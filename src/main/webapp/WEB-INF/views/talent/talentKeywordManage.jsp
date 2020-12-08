@@ -211,7 +211,7 @@
 					</c:forEach>
 				</div>
 				<div id="paging">
-							<ul id="pagination">
+							<ul id="pagination" class="pagination boarding">
 								<!--  << -->
 								<li class="page">
 									<c:choose>
@@ -261,6 +261,7 @@
 								
 								<!--  >> -->
 								<li class="page">
+							
 									<c:choose>
 										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
 											<span >&gt;&gt;</span>
