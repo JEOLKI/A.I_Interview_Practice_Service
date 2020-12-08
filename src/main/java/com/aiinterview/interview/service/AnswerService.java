@@ -7,7 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.analysis.dao.HabitAnalysisMapper;
 import com.aiinterview.analysis.dao.ImageAnalysisMapper;
+import com.aiinterview.analysis.dao.KeywordAnalysisMapper;
+import com.aiinterview.analysis.dao.RepeatAnalysisMapper;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
@@ -26,6 +29,15 @@ public class AnswerService {
 	@Resource(name="imageAnalysisMapper")
 	private ImageAnalysisMapper imageAnalysisMapper;
 	
+	@Resource(name="habitAnalysisMapper")
+	private HabitAnalysisMapper habitAnalysisMapper;
+	
+	@Resource(name="repeatAnalysisMapper")
+	private RepeatAnalysisMapper repeatAnalysisMapper;
+	
+	@Resource(name="keywordAnalysisMapper")
+	private KeywordAnalysisMapper keywordAnalysisMapper;
+	
 	public AnswerVO retrieve(String questSq) throws Exception{
 		return answerMapper.retrieve(questSq);
 	}
@@ -43,10 +55,27 @@ public class AnswerService {
 		}
 		
 		
-//		HabitAnalysisVO habitAnalysisVO = (HabitAnalysisVO) map.get("habitAnalysisVO");
-//		KeywordAnalysisVO keywordAnalysisVO = (KeywordAnalysisVO) map.get("keywordAnalysisVO");
-//		repeatAnalysisVO repeatAnalysisVO = (repeatAnalysisVO) map.get("repeatAnalysisVO");
-//		VoiceAnalysisVO voiceAnalysisVO = (VoiceAnalysisVO) map.get("voiceAnalysisVO");
+		/* 습관어 insert */
+		List<HabitAnalysisVO> habitAnalysisVOList = (List<HabitAnalysisVO>) map.get("habitAnalysisVOList");
+		for (HabitAnalysisVO habitAnalysisVO : habitAnalysisVOList) {
+			habitAnalysisVO.setAnsSq(ansSq);
+			habitAnalysisMapper.create(habitAnalysisVO);
+		}
+		
+		/* 반복어 insert */
+		List<RepeatAnalysisVO> repeatList = (List<RepeatAnalysisVO>) map.get("repeatList");
+		for (RepeatAnalysisVO repeatAnalysisVO : repeatList) {
+			repeatAnalysisVO.setAnsSq(ansSq);
+			repeatAnalysisMapper.create(repeatAnalysisVO);
+		}
+		
+		/* 키워드 분석 (인재상 ) insert */
+		List<KeywordAnalysisVO> keywordAnalysisList = (List<KeywordAnalysisVO>) map.get("keywordAnalysisList");
+		for (KeywordAnalysisVO keywordAnalysisVO : keywordAnalysisList) {
+			keywordAnalysisVO.setAnsSq(ansSq);
+			keywordAnalysisMapper.create(keywordAnalysisVO);
+		}
+		
 		
 	}
 
