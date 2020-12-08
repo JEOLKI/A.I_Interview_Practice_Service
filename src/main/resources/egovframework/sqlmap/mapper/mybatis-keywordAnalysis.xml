@@ -20,6 +20,15 @@
 		FROM KEYWORD_ANALYSIS
 		WHERE ANS_SQ = #{ansSq}
 	</select>
+	
+	<select id="talentAnalysisList" parameterType="String" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
+		SELECT b.keyword_content, sum(a.keyword_count) 
+		  FROM keyword_analysis a, keyword b
+		 WHERE a.keyword_sq = b.keyword_sq
+		   AND a.ans_sq = #{questSq}
+		   AND a.keyword_count > 0
+		 GROUP BY b.keyword_content
+	</select>
 
 
 </mapper>

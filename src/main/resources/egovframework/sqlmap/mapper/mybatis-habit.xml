@@ -9,6 +9,18 @@
 		FROM habit
 	</select>
 	
+	<select id="retrieveUsingList" resultType="com.aiinterview.interview.vo.HabitVO">
+		SELECT *
+		FROM habit
+		WHERE habit_st = 'Y'
+	</select>
+	
+	<select id="retrieve" parameterType="String"  resultType="String">
+		SELECT habit_gb
+		FROM habit
+		WHERE habit_sq = #{habitSq}
+	</select>
+	
 	<insert id="create" >
 		<selectKey keyProperty="habitSq" resultType="String" order="BEFORE">
 			SELECT habit_sq.nextval FROM dual 
@@ -55,4 +67,5 @@
 		  </if>
 	</select>
 	<!-- //페이징 -->
+	
 </mapper>

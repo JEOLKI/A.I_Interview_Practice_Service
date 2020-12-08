@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.aiinterview.analysis.dao.KeywordAnalysisMapper;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
+import com.aiinterview.analysis.vo.TalentAnalysisVO;
 
 @Service("keywordAnalysisService")
 public class KeywordAnalysisService {
@@ -29,5 +30,9 @@ public class KeywordAnalysisService {
 			keywordAnalysisMapper.create(keywordAnalysisList.get(i));
 		}
 	}
+	
 
+	public List<TalentAnalysisVO> talentAnalysisList(String talentSq) throws Exception{
+		return keywordAnalysisMapper.talentAnalysisList(talentSq);
+	}
 }

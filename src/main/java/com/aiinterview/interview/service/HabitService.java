@@ -25,29 +25,48 @@ public class HabitService {
 	 * @throws Exception
 	 */
 	public void create(HabitVO habitVO) throws Exception {
-		System.out.println("습관어 등록  service"); 
 		habitMapper.create(habitVO);
-		System.out.println("습관어 등록 service 후");
 	}
 
 	/**
 	 * 습관어 리스트를 조회하는 메서드
+	 * 목록 출력용(엑셀)
 	 * @return 습관어 목록
+	 * @throws Exception 
 	 */
-	public List<HabitVO> retrieveList() {
-		System.out.println("습관어 리스트 조회 service");
+	public List<HabitVO> retrieveList() throws Exception {
 		return habitMapper.retrieveList();
+	}
+	
+	/**
+	 * 해당 번호의 습관어 내용을 조회하는 메서드
+	 * 리포트 출력용
+	 * @param habitSq
+	 * @return
+	 * @throws Exception
+	 */
+	public String retrieve(String habitSq) throws Exception{
+		return habitMapper.retrieve(habitSq);
+	}
+	
+	/**
+	 * 사용중인 습관어 리스트를 조회하는 메서드
+	 * 분석용
+	 * @return 습관어 목록
+	 * @throws Exception 
+	 */
+	public List<HabitVO> retrieveUsingList() throws Exception {
+		return habitMapper.retrieveUsingList();
 	}
 
 	/**
 	 * 습관어를 수정하는 메서드
 	 * @param habitVO
 	 * @return 1: 수정 성공 / 0: 수정 실패
+	 * @throws Exception 
 	 */
-	public int update(HabitVO habitVO) {
-		System.out.println("습관어 수정  service");
+	public int update(HabitVO habitVO) throws Exception {
 		int updateCnt = habitMapper.update(habitVO);
-		System.out.println("습관어 수정  service updateCnt : "+updateCnt);
 		return updateCnt;
 		
 	}
@@ -79,8 +98,9 @@ public class HabitService {
 	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
 	 * @param HabitVO
 	 * @return 해당페이지 목록
+	 * @throws Exception 
 	 */
-	public List<HabitVO> retrievePagingList(HabitVO habitVO) {
+	public List<HabitVO> retrievePagingList(HabitVO habitVO) throws Exception {
 		return habitMapper.retrievePagingList(habitVO);
 	}
 
@@ -88,8 +108,9 @@ public class HabitService {
 	 * 페이징처리를 위한 전체 habitVO 개수 구하는 메서드
 	 * @param habitVO
 	 * @return 전체 habitVO 개수
+	 * @throws Exception 
 	 */
-	public int retrievePagingListCnt(HabitVO habitVO) {
+	public int retrievePagingListCnt(HabitVO habitVO) throws Exception {
 		return habitMapper.retrievePagingListCnt(habitVO);	}
 
 

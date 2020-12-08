@@ -30,7 +30,6 @@ import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.board.vo.AttachmentVO;
 import com.aiinterview.common.util.FileUploadUtil;
 import com.aiinterview.interview.service.AnswerService;
-import com.aiinterview.interview.service.AnswerTestService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.KeywordMatchingService;
 import com.aiinterview.interview.service.KeywordService;
@@ -57,8 +56,6 @@ public class AnswerController {
 	@Resource(name="keywordService")
 	private KeywordService keywordService;
 	
-	@Resource(name="answerTestService")
-	private AnswerTestService answerTestService;
 	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
 	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, MultipartHttpServletRequest mtfRequest){
@@ -89,21 +86,25 @@ public class AnswerController {
 		
 		
 		/* 습관어 분석 */
-		List<HabitVO> habitList = habitService.retrieveList();
-		
-		HabitAnalysisVO habitAnalysisVO = null;
-		
-		List<HabitAnalysisVO> habitAnalysisVOList = new ArrayList<>();
-		
-		for(int i=0; i<habitList.size(); i++) {
-			habitAnalysisVO = new HabitAnalysisVO(); 
-			String[] habitArr = script.split(habitList.get(i).getHabitGb());
-			habitAnalysisVO.setHabitSq(habitList.get(i).getHabitSq());
-			habitAnalysisVO.setHabitCount(habitArr.length-1+"");
-			habitAnalysisVOList.add(habitAnalysisVO);
+		List<HabitVO> habitList;
+		try {
+			habitList = habitService.retrieveUsingList();
+			HabitAnalysisVO habitAnalysisVO = null;
+			
+			List<HabitAnalysisVO> habitAnalysisVOList = new ArrayList<>();
+			
+			for(int i=0; i<habitList.size(); i++) {
+				habitAnalysisVO = new HabitAnalysisVO(); 
+				String[] habitArr = script.split(habitList.get(i).getHabitGb());
+				habitAnalysisVO.setHabitSq(habitList.get(i).getHabitSq());
+				habitAnalysisVO.setHabitCount(habitArr.length-1+"");
+				habitAnalysisVOList.add(habitAnalysisVO);
+			}
+			map.put("habitAnalysisVOList", habitAnalysisVOList);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
-		 System.out.println("습관어 분석  : "+habitAnalysisVOList);
-		map.put("habitAnalysisVOList", habitAnalysisVOList);
+		
 		
 		/* 반복어 분석 */
 		// 언어 분석 기술 문어/구어 중 한가지만 선택해 사용
