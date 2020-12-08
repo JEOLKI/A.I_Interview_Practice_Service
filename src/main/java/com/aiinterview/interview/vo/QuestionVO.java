@@ -1,7 +1,8 @@
 package com.aiinterview.interview.vo;
 
 public class QuestionVO extends InterviewVO {
-
+	
+	private String rnum;
 	private String questSq; // 질문 번호
 	private String questContent; // 질문 내용
 	private String interviewSq; // 면접 번호
@@ -14,6 +15,14 @@ public class QuestionVO extends InterviewVO {
 	public QuestionVO(String questContent, String sampQuestSq) {
 		this.questContent = questContent;
 		this.sampQuestSq = sampQuestSq;
+	}
+	
+	public String getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(String rnum) {
+		this.rnum = rnum;
 	}
 
 	public String getQuestSq() {
