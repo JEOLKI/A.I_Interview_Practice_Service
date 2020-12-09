@@ -360,7 +360,7 @@ function boardGubunList(){
 					<a class="main false" href="/login/home.do">내 면접</a>
 				</c:when>
 				<c:otherwise>
-					<a class="main false" href="/analysisresult/main.do">내 면접</a>
+					<a class="main false" href="/analysis/interview/retrievePagingList.do">내 면접</a>
 				</c:otherwise>
 			</c:choose>
 			<div class="dropdown">
