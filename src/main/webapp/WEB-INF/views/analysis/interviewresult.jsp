@@ -346,8 +346,7 @@ to {
 							면접 시 면접관을 응시하는 것이 중요합니다.
 						</div>
 						<div class="content-box">
-							<img src="/images/interviewer-character.2272ffa3.png"
-								alt="interviewer-character">
+							<img src="/images/interviewer-character.2272ffa3.png" alt="interviewer-character">
 							<div class="background-box"></div>
 							<div class="x-axis"></div>
 							<div class="y-axis"></div>
