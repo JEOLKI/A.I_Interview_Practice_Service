@@ -44,7 +44,7 @@
 						NVL(INTERVIEW_SQ, 0) INTERVIEW_SQ,
 						NVL(SAMP_QUEST_SQ, 0) SAMP_QUEST_SQ
 					FROM QUESTION
-					WHERE 1=1
+					WHERE INTERVIEW_SQ = #{interviewSq}
 					<if test="searchKeyword != null and searchKeyword != ''">
 				        <choose>
 				            <when test="searchCondition == 0">
@@ -64,7 +64,7 @@
 	<select id="retrievePagingListCnt" resultType="int">	    
       	SELECT count(*) totCnt
 			FROM QUESTION
-			WHERE 1=1
+			WHERE INTERVIEW_SQ = #{interviewSq}
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
