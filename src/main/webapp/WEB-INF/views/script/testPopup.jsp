@@ -17,7 +17,7 @@
 <script type="text/javascript" language="javascript" defer="defer">
 $(document).ready(function() {
 	$('#scriptModalContent').html('<br><br>이곳에 스크립트가 출력됩니다.');
-	$('#phraseDiv').hide();
+	//$('#phraseDiv').hide();
 	
 });
 
@@ -95,14 +95,12 @@ var speechConfig;
       				performScript : resultScript}
       			,function(data) {
       				const jsonData = JSON.parse(data);
-      				console.log(jsonData.result);
+      				console.log(jsonData.testResult);
       				
-      				$("#result").text('과의 일치도는' + jsonData.result + '% 입니다.');
-      				
-      				
+      				$("#testResult").text(jsonData.testResult);
       			});
-      		$('#phraseDiv').show();
-      		$('#phraseDiv').val(resultScript);
+      		//$('#phraseDiv').show();
+      		phraseDiv.innerHTML += resultScript;
               recognizer.close();
               recognizer = undefined;
             },
@@ -131,6 +129,7 @@ if (typeof RequestAuthorizationToken === "function") {
 
 var scriptSq;
 function random(scriptGbSq){
+	$('#scriptModalContent').html('');
 	$('#startTestBtn').show();
 	$.ajax(
    			{url:"/scriptTest/retrieveScriptList.do",
@@ -139,12 +138,10 @@ function random(scriptGbSq){
    			success : function(data){
    				console.log(data);
    				console.log(data.scriptVO.scriptContent);
-	   				$('#scriptModalContent').html('');
 	   				$('#scriptModalContent').html('<br><br>'+data.scriptVO.scriptContent);
 	   				scriptSq = data.scriptVO.scriptSq;
    			},
    			error: function(data){
-   				$('#scriptModalContent').html('');
    				$('#scriptModalContent').html('<br><br>해당하는 스크립트가 없습니다.');
    				console.log(data.status);
    			}
@@ -165,7 +162,7 @@ function captureMicrophone(callback){
 
 #phraseDiv{
 	text-align: center;
-	border-bottom: 1px solid black;
+	text-decoration: underline;
 }
 
 #scriptModalContent {
@@ -243,9 +240,13 @@ function captureMicrophone(callback){
 			<div style="text-align: center"><br><br>
 			<label class="informLbl">내가 말한</label>
 			<br>
-			<div id="phraseDiv"></div>
+			<div id="phraseDiv">
+			
+			</div>
 			<br>
-			<span id="result" class="informLbl">과의 일치도는${scriptTestresult } %입니다.</span>			
+			과의 일치도는
+			<span id="testResult" class="informLbl"></span>
+			% 입니다.			
 			</div>
 
 			<div class="popup-close-box" id="popup-close-box">
