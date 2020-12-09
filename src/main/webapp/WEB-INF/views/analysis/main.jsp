@@ -414,7 +414,7 @@ to {
       popUpOpenBtn.addEventListener("click", () => {
     	  var url = '/scriptTest/testPopup.do';
     	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-        window.open(url,"", options);
+        window.open(url, "", options);
       });
     </script>
 </body>

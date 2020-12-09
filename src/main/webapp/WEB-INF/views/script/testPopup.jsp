@@ -15,9 +15,12 @@
 
 
 <script type="text/javascript" language="javascript" defer="defer">
-	$(document).ready(function() {
-		
+$(document).ready(function() {
+	$('#scriptModalContent').html('<br><br>이곳에 스크립트가 출력됩니다.');
+	$('#phraseDiv').hide();
 	
+});
+
 var authorizationEndpoint = "token.php";
 function RequestAuthorizationToken() {
     if (authorizationEndpoint) {
@@ -86,7 +89,7 @@ var speechConfig;
 
             	var resultScript = result.text;
             	
-            	scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
+            	scriptGbSq = $('.scriptGbBtn').val();
       			var result = $.post('/scriptTest/create.do', {
       				scriptSq : scriptSq,
       				performScript : resultScript}
@@ -98,6 +101,7 @@ var speechConfig;
       				
       				
       			});
+      		$('#phraseDiv').show();
       		$('#phraseDiv').val(resultScript);
               recognizer.close();
               recognizer = undefined;
@@ -110,6 +114,7 @@ var speechConfig;
               recognizer.close();
               recognizer = undefined;
             });
+    $('#startTestBtn').show();
 
 });
 
@@ -153,29 +158,30 @@ function captureMicrophone(callback){
 								alert('마이크를 연결해주세요.');
 								console.error(error);
 	});
-};
-	});
+	};
 </script>
 
 <style>
 
-.popup-wrapper {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	display: none;
-	justify-content: center;
-	align-items: center;
+#phraseDiv{
+	text-align: center;
+	border-bottom: 1px solid black;
 }
 
-.popup-box {
-	background: white;
-	width: 200px;
-	height: 200px;
-	border-radius: 10px;
+#scriptModalContent {
+	position: relative;
+	background-color : #EBECF0;
+	top: 0px;
+	left: 0;
+	width : 550px;
+	height : 250px;
+	justify-content: center;
+	align-items: center;
+	border : 3px solid black;
+	font-size : 18pt;
+	display: block;
+	margin : auto;
+	padding: auto;
 }
 
 .popup-title, .popup-content {
@@ -189,48 +195,63 @@ function captureMicrophone(callback){
 
 .pro {
 	margin: 10px;
-	border: 1px solid black;
+	border-bottom: 3px solid black;
 	height: 50%;
 }
 
-.popup-box {
-	width: 330px;
-	height: 450px;
-	padding: 10px;
+.menuSelect {
+	margin-right: 10px;
+	padding : 10px;
 }
 
+.processBtn {
+	text-align: center;
+	margin-right: 10px;
+	padding : 10px;
+}
+
+#startTestBtn{
+	border-radius: 30px;
+	font-size : 15pt;
+}
+
+.informLbl{
+	margin-top: 30px;
+}
 </style>
 </head>
 
 <body>
-	<div class="popup-wrapper">
-		<div class="popup-box">
-			<div>
-				<c:forEach items="${scriptGbList }" var="scriptGb">
-					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }"
-						onclick="random(${scriptGb.scriptGbSq });">
-						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
-					</button>
-					<input type="hidden" name="scritGbSq"
-						value="${scriptGb.scriptGbSq }">
-					<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
-				</c:forEach>
-
-
-			</div>
-			<div class="popup-content pro" id="scriptModalContent">
-
+	<div class="pro">
+		<div class="menuSelect">
+			<c:forEach items="${scriptGbList }" var="scriptGb">
+						<button class="processBtn" value="${scriptGb.scriptGbSq }" style="text-align: left" onclick="random(${scriptGb.scriptGbSq });">
+							<div class="label thislabel">${scriptGb.scriptGbContent }</div>
+						</button>
+						<input type="hidden" name="scritGbSq"
+							value="${scriptGb.scriptGbSq }">
+						<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
+			</c:forEach>
+		<button class="processBtn" id="testCloseBtn">close</button>
+		</div>
+	</div>
+			
+			<div class="popup-content" id="scriptModalContent">
+				
 			</div>
 			
-			<div style="text-align: center">
-			<label>내가 말한</label>
-			<br><input style="text-align: center" type="text" value="" id="phraseDiv"><br>
-			<span id="result">과의 일치도는${scriptTestresult } %입니다.</span>			
+			<div style="text-align: center"><br><br>
+			<label class="informLbl">내가 말한</label>
+			<br>
+			<div id="phraseDiv"></div>
+			<br>
+			<span id="result" class="informLbl">과의 일치도는${scriptTestresult } %입니다.</span>			
 			</div>
 
 			<div class="popup-close-box" id="popup-close-box">
-				<br><label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
-				</label><br>
+				<br><label class="informLbl">
+				시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
+				</label><br><br>
 				<button class="processBtn" id="startTestBtn">
 					시작 하기
 				</button>
@@ -239,7 +260,13 @@ function captureMicrophone(callback){
 				value="8e1d8a815cd34bd4b7fee2b71344ef49"> <input
 				id="serviceRegion" type="hidden" size="40" value="koreacentral">
 			<br> <br> <br>
-		</div>
-	</div>
 </body>
+
+<script>
+const modalCloseBtn = document.getElementById("testCloseBtn");
+
+modalCloseBtn.addEventListener("click", () => {
+	window.close();
+  });
+</script>
 </html>

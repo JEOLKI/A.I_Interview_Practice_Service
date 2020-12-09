@@ -39,6 +39,34 @@ public class ScriptTestController {
 	private ScriptGubunService scriptGbService;
 	
 	
+	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
+	public String testPopup(Model model) {
+		List<ScriptVO> scriptList = null;
+		try {
+			scriptList = scriptService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 전체 스크립트 구분 리스트
+		List<ScriptGubunVO> scriptGbList = null;
+		try {
+			scriptGbList = scriptGbService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
+		// 활성상태가 "Y"인 스크립트 구분 리스트
+		for (ScriptGubunVO scriptGb : scriptGbList) {
+			if (scriptGb.getScriptGbSt().equals("Y")) {
+				availableGbList.add(scriptGb);
+			}
+		}
+		model.addAttribute("scriptList", scriptList);
+		model.addAttribute("scriptGbList", availableGbList);
+		return "script/testPopup";
+	}
+	
 	@RequestMapping(path = "/create.do")
 	public String create(Model model, String performScript, HttpSession session, String scriptSq) {
 		
@@ -72,35 +100,7 @@ public class ScriptTestController {
 		model.addAttribute("result", result);
 		return "analysis/scriptTestResult";
 	}
-	
-	//문제 x
-	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
-	public String testPopup(Model model) {
-		List<ScriptVO> scriptList = null;
-		try {
-			scriptList = scriptService.retrieveList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// 전체 스크립트 구분 리스트
-		List<ScriptGubunVO> scriptGbList = null;
-		try {
-			scriptGbList = scriptGbService.retrieveList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
-		// 활성상태가 "Y"인 스크립트 구분 리스트
-		for (ScriptGubunVO scriptGb : scriptGbList) {
-			if (scriptGb.getScriptGbSt().equals("Y")) {
-				availableGbList.add(scriptGb);
-			}
-		}
-		model.addAttribute("scriptList", scriptList);
-		model.addAttribute("scriptGbList", availableGbList);
-		return "script/testPopup";
-	}
 	
 	
 	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
@@ -123,6 +123,9 @@ public class ScriptTestController {
 		
 		logger.debug("scriptVO : {}",scriptVO);
 		model.addAttribute("scriptVO", scriptVO);
+		
+		logger.debug("scriptGbSq : {}", scriptGbSq);
+		
 		return "jsonView";
 	}
 	
