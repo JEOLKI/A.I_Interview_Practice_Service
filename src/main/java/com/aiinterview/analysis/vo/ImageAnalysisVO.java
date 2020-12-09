@@ -18,12 +18,18 @@ public class ImageAnalysisVO {
 	private String faceWidth;		// 얼굴 프레임의 가로길이
 	private String faceHeight;		// 얼굴 프레임의 세로길
 	private String ansSq;			// 답변의 번호
-	private List<ImageAnalysisVO> imageAnalysisVOList;
+	
+	private List<ImageAnalysisVO> imageAnalysisVOList; // ImageAnalysisVO를 담은 List
+	private String totalCnt;
 	
 	
 	
-	
-	
+	public String getTotalCnt() {
+		return totalCnt;
+	}
+	public void setTotalCnt(String totalCnt) {
+		this.totalCnt = totalCnt;
+	}
 	public List<ImageAnalysisVO> getImageAnalysisVOList() {
 		return imageAnalysisVOList;
 	}
@@ -114,6 +120,7 @@ public class ImageAnalysisVO {
 	public void setAnsSq(String ansSq) {
 		this.ansSq = ansSq;
 	}
+	
 	@Override
 	public String toString() {
 		return "ImageAnalysisVO [imageAnalysisSq=" + imageAnalysisSq + ", anger=" + anger + ", contempt=" + contempt
