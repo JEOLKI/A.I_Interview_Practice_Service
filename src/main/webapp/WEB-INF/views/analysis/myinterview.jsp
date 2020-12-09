@@ -76,10 +76,8 @@ function TestChart(){
   $.ajax({url : "/speech/speechChart.do",
 	  method : "get",
 	  success : function(data){
-		  console.log(data)
 		  var html = data;	
-		  $("#helloChart").html(html)
-		  $("#helloChart").html(data);
+		  $("#TestChart").html(html);
 	  }
   })
 }
@@ -218,9 +216,10 @@ function imageGrowthChart(ctx, labels, title, analysis){
 						
 							<div class="label"></div>
 							<div class="title"> 발음연습 &nbsp &nbsp
-								<button id="popUpOpenBtn">발음 평가</button>
+								<button id="popUpOpenBtn">발음 평가</button>&nbsp &nbsp
+								<button id="speechOpen">발음 평가</button>
 							</div>
-							<div id="helloChart"></div>	
+							<div id="TestChart"></div>	
 							<br>
 							
 						</div>
@@ -452,6 +451,16 @@ function imageGrowthChart(ctx, labels, title, analysis){
     	  var url = '/scriptTest/testPopup.do';
     	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
         window.open(url, "", options);
+      });
+      
+      const speechOpen = document.getElementById("speechOpen");
+
+      speechOpen.addEventListener("click", () => {
+    	  var url = '/speech/speech.do';
+    	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+      window.open(url, "", options);
+
+        
       });
     </script>
 </body>
