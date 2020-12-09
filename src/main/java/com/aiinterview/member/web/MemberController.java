@@ -152,7 +152,8 @@ public class MemberController {
 		
 		try {
 			if (planService.planUseCount(puv) > 0) {
-				PlanUseVO planUseCheck = planService.planUseCheck(puv);
+				PlanUseVO planUseCheck =  
+						planService.planUseCheck(puv);
 				
 				pv.setPlanSq(planUseCheck.getPlanSq());
 				PlanVO planUse = planService.planContent(pv);
@@ -163,9 +164,14 @@ public class MemberController {
 				
 				model.addAttribute("planUse", planUse);
 				model.addAttribute("planUseCheck", planUseCheck);
+				System.out.println(planUseCheck);
+				System.out.println("오류 확인");
 			}else {
-				puv.setPlanSq("0");
+				puv.setTerm(-1);
+				
+				System.out.println(puv);
 				model.addAttribute("planUseCheck", puv);
+				
 			}
 			
 		} catch (Exception e) {

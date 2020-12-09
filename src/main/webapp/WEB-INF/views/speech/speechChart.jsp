@@ -1,32 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>부트스트랩 차트그리기</title>
 
 <!-- 차트 링크 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-</head>
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
-
-
 <style>
+	.content{
+		padding-top: 20px;
+	}
 </style>
-<body>
+
 	<div class="content">
 		<canvas id="myChart" class="graph-canvas emotion chartjs-render-monitor"
-			style="display: block; height: 20px; width: 120px;" width="80"
-			height="50"></canvas>
-		<div class="graduation-bar">
-			<div class="graduation"></div>
-			<div class="graduation"></div>
-		</div>
+			style="display: block; height: 228px; width: 365px;" width="365"
+			height="228"></canvas>
 	</div>
+	
 	<script>
 	
 	var count = [];
@@ -53,8 +43,8 @@
 	
 	
 	
-	var ctx = document.getElementById('myChart').getContext('2d'); 
-	var chart = new Chart(ctx, { 
+	var ctx = document.getElementById('myChart'); 
+	var chart = new Chart(ctx,{ 
 		//챠트 종류를 선택  
 		type: 'line', 
 	
@@ -109,6 +99,3 @@
 		
 		});
 	</script>
-</body>
-
-</html>

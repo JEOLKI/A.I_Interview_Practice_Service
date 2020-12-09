@@ -12,78 +12,52 @@
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <style>
 body * {
 	box-sizing: border-box;
 }
 
-</style>
-
-
-<style type="text/css">/* Chart.js */
-/*
- * DOM element rendering detection
- * https://davidwalsh.name/detect-node-insertion
- */
-keyframes chartjs-render-animation {from { opacity:0.99;
+.TestChart{
+	background:transparent;
+	background-color: white;
+	height: 500px;
 	
 }
-
-to {
-	opacity: 1;
+/* .OrderArea{ */
+/* 	margin : 40px 0px 0px; */
+	
+/* } */
+.helloChart{
+	width: 60%;
+	hegiht : 70%;
 }
-
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 0.001s;
-}
-
-/*
- * DOM element resizing detection
- * https://github.com/marcj/css-element-queries
- */
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1;
-}
-
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0;
-}
-
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0;
-}
-
-.thislabel {
-	font-size: 12px;
-	padding: 2px 10px;
-	background-color: #e9edf1;
-	border-radius: 30px;
-	width: -webkit-max-content;
-	width: -moz-max-content;
-	width: max-content;
-	margin-left: 12px;
+.chartgraph{
+	padding-left: 9%;
+	padding-top: 10%;
 }
 
 </style>
+
+<script>
+$(document).ready(function() {
+	TestChart();
+})
+
+function TestChart(){
+  $.ajax({url : "/speech/speechChart.do",
+	  method : "get",
+	  success : function(data){
+		  console.log(data)
+		  var html = data;	
+		  $("#helloChart").html(html)
+		  $("#helloChart").html(data);
+	  }
+  })
+
+  
+}
+</script>
 
 </head>
 <body>
@@ -137,12 +111,15 @@ to {
 
 
 						<div class="HelpArea box">
+						
 							<div class="label"></div>
 							<div class="title"> 발음연습 &nbsp &nbsp
 								<button id="popUpOpenBtn">발음 평가</button>
 							</div>
-
+							<div id="helloChart"></div>	
 							<br>
+							
+							
 							<div class="graph-area">
 								<div class="Emotion graph-area">
 									<div class="area bright">
@@ -154,7 +131,7 @@ to {
 												<div class=""></div>
 											</div>
 										</div>
-										<div class="label thislabel">한국어</div>
+										
 										<div>
 											<canvas class="graph-canvas emotion chartjs-render-monitor"
 												style="display: block; height: 20px; width: 120px;"
