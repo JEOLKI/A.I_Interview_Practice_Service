@@ -32,7 +32,7 @@
 				ANS_SPEED,
 				NVL(QUEST_SQ, 0) QUEST_SQ
 		FROM ANSWER
-	   WHERE ANS_SQ = #{ansSq}
+	   WHERE QUEST_SQ = #{questSq}
 	</select>
 	
 
