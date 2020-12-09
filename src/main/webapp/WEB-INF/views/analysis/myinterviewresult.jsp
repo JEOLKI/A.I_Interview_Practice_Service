@@ -9,9 +9,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>아이엠터뷰</title>
 
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-
+<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
+<script src="/js/2.f1e4c4b1.chunk.js"></script>
+<script src="/js/main.a74e6755.chunk.js"></script>
 <script src="/js/Chart.js"></script>
 <script>
 	
@@ -40,8 +41,10 @@
 						
 						/* 스크립트 */
 						script = data.answerVO.ansContent;
+						scriptLength = script.length;
+						console.log(scriptLength);
 						$('.MyAnswer .stt').text(script);
-						$('.MyAnswer .length span').text(script.length);
+						$('.MyAnswer .length span').text(scriptLength);
 						
 						/* 습관어 */
 						habitMap = data.habitAnalysisMap;
@@ -50,6 +53,10 @@
 						/* 반복어 */
 						repeatList = data.repeatAnalysisList;
 						createRepeatHtml(repeatList);
+						
+						/* 빠르기 */
+						speed = data.answerVO.ansSpeed;
+						createSpeedHtml(speed,scriptLength);
 						
 						/* 인재상 - 인재상 & 퍼센트 */
 						talentList = data.talentAnalysisList;
@@ -66,6 +73,43 @@
 		
 		
 	});
+	
+	/* 속도 */
+	function createSpeedHtml(speed,scriptLength){
+		
+		// 속도 그래프
+		speedHtml ='<span>1분당</span><br><b>'+speed+'</b>자';
+		$('.minute-text').html(speedHtml);
+		
+		// 평균대비 속도 퍼센트
+		errorHtml = '';
+		if(speed < 300){
+			slow = 100 -Math.ceil(speed/300*100);
+			errorHtml += '평균보다<b class="num">'+slow+'% 느려요</b>';
+		} else if(speed = 300){
+			errorHtml += '평균과<b class="num">일치합니다</b>';
+		} else {
+			slow = Math.ceil(speed/300*100) - 100;
+			errorHtml += '평균보다<b class="num">'+slow+'% 빨라요</b>';
+		}
+		$('.error-percent').html(errorHtml);
+		
+		// 추천시간
+		goodTime = Math.ceil(Number(scriptLength)*60/300);
+		goodMin =  Math.floor(Number(goodTime)/60);
+		goodSec = Number(goodTime)%60;
+		console.log("goodTime : "+goodTime);
+		console.log("goodMin : "+goodMin);
+		console.log("goodSec : "+goodSec);
+		messageHtml = '';
+		if(Number(goodMin)==0 && Number(goodSec)==0){
+			messageHtml += '적당한 속도로 이야기하고 있습니다. 지금 속도를 유지해 주세요!';
+		}else {
+			messageHtml += '답변하신 내용은 <b>'+Number(goodMin)+'분 '+Number(goodSec-2)+'초 ~ '+Number(goodMin)+'분 '+Number(goodSec+2)+'초</b>정도 안에<br>이야기하시면 적당한 속도입니다.<br>다시 한 번 연습해 보세요!';
+		}
+		$('.message').html(messageHtml);
+	}
+	
 	
 	/* 인재상 - 키워드 리포트*/
 	function createKeywordHtml(keywordSet){
@@ -111,9 +155,9 @@
 			key = Object.keys(habitMap)[i]; 
 			value = habitMap[key];
 			
-			html += '<div class="label">'+value+'회</div>';
-			html += '<div class="rectangle" style="height: '+value*10+'px;"></div>';
-			html += '<div class="name">'+key+'</div>';
+			habitHtml += '<div class="label">'+value+'회</div>';
+			habitHtml += '<div class="rectangle" style="height: '+value*10+'px;"></div>';
+			habitHtml += '<div class="name">'+key+'</div>';
 		}
 		$('.habitual.word-graph.select.habitual').empty();
 		$('.habitual.word-graph.select.habitual').html(habitHtml);
