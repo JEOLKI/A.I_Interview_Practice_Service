@@ -23,4 +23,7 @@ public class ImageAnalysisService {
 		return imageAnalysisMapper.retrieveAnalysis(ansSq);
 	}
 	
+	public List<ImageAnalysisVO> retrieveGrowth(String memId) throws Exception{
+		return imageAnalysisMapper.retrieveGrowth(memId);
+	}
 }
