@@ -21,14 +21,25 @@
 		WHERE ANS_SQ = #{ansSq}
 	</select>
 	
-	<select id="talentAnalysisList" parameterType="String" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
-		SELECT c.talent_nm, b.keyword_content, a.keyword_count 
-		  FROM keyword_analysis a, keyword b, talent c
-		 WHERE a.keyword_sq = b.keyword_sq
-           and a.talent_sq = c.talent_sq
+	<select id="retrieveTalentPercentList" parameterType="String" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
+		SELECT e.talent_nm, SUM(percent) AS percent
+  		  FROM
+				(SELECT c.talent_nm, b.keyword_content, a.keyword_count, ROUND(LENGTH(b.keyword_content)/LENGTH(d.ans_content)*100 ,2) AS percent 
+		  		   FROM keyword_analysis a, keyword b, talent c, answer d
+		 		  WHERE a.keyword_sq = b.keyword_sq
+           			AND a.talent_sq = c.talent_sq
+           AND a.ans_sq = d.ans_sq
 		   AND a.ans_sq = #{ansSq}
-		   AND a.keyword_count > 0
+		   AND a.keyword_count > 0) e
+		 GROUP BY e.talent_nm
+		 ORDER BY percent DESC
 	</select>
 
-
+	<select id="retrieveKeywordList" parameterType="String" resultType="String">
+		SELECT b.keyword_content
+ 		  FROM keyword_analysis a, keyword b
+  		 WHERE a.keyword_sq = b.keyword_sq
+  		   AND a.ans_sq = #{ansSq}
+  		   AND a.keyword_count > 0
+	</select>
 </mapper>

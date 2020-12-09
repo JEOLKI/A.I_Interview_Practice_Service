@@ -31,8 +31,23 @@ public class KeywordAnalysisService {
 		}
 	}
 	
-
-	public List<TalentAnalysisVO> talentAnalysisList(String talentSq) throws Exception{
-		return keywordAnalysisMapper.talentAnalysisList(talentSq);
+	/**
+	 * 답변에 대한 인재상, 퍼센트를 조회하는 메서드
+	 * @param talentSq
+	 * @return
+	 * @throws Exception
+	 */
+	public List<TalentAnalysisVO> retrieveTalentPercentList(String ansSq) throws Exception{
+		return keywordAnalysisMapper.retrieveTalentPercentList(ansSq);
+	}
+	
+	/**
+	 * 답변에 대한 인재상을 도출한 키워드 리스트
+	 * @param talentSq
+	 * @return
+	 * @throws Exception
+	 */
+	public List<String> retrieveKeywordList(String ansSq) throws Exception{
+		return keywordAnalysisMapper.retrieveKeywordList(ansSq);
 	}
 }

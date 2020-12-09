@@ -14,6 +14,8 @@ public interface KeywordAnalysisMapper {
 	
 	public void create(KeywordAnalysisVO keywordAnalysisVO) throws Exception;
 
-	public List<TalentAnalysisVO> talentAnalysisList(String talentSq);
+	public List<TalentAnalysisVO> retrieveTalentPercentList(String talentSq) throws Exception;
+
+	public List<String> retrieveKeywordList(String ansSq) throws Exception;
 	
 }

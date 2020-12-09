@@ -37,6 +37,27 @@
 						imageAnalysis = data.imageAnalysis;
 						imageAnalysisChart(imageAnalysis);
 						
+						
+						/* 스크립트 */
+						script = data.answerVO.ansContent;
+						$('.MyAnswer .stt').text(script);
+						$('.MyAnswer .length span').text(script.length);
+						
+						/* 습관어 */
+						habitMap = data.habitAnalysisMap;
+						createHabitHtml(habitMap);
+						
+						/* 반복어 */
+						repeatList = data.repeatAnalysisList;
+						createRepeatHtml(repeatList);
+						
+						/* 인재상 - 인재상 & 퍼센트 */
+						talentList = data.talentAnalysisList;
+						createTalentHtml(talentList);
+						
+						/* 인재상 - 키워드 */
+						keywordSet = data.keywordSet;
+						createKeywordHtml(keywordSet);
 					}
 				
 			})
@@ -45,6 +66,58 @@
 		
 		
 	});
+	
+	/* 인재상 - 키워드 리포트*/
+	function createKeywordHtml(keywordSet){
+		keywordArr = Array.from(keywordSet);
+		keywordHtml = '';
+		for(var i=0; i<keywordArr.length; i++){
+			keywordHtml += '<span class="word">'+keywordArr[i]+'</span>';
+		}
+		$('.word-view').html(keywordHtml);
+	}
+	
+	
+	/* 인재상 - 인재상 & 퍼센트  리포트*/
+	function createTalentHtml(talentList){
+		gage = talentList[0].percent;
+		talentHtml = '';
+		for(var i=0; i< talentList.length; i++){
+			talentHtml += '<div class="competency-percent select">';
+			talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[i].talentNm+'</span></div>';
+			talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(150*talentList[i].percent/gage)+'px;"></div>';
+			talentHtml +=	 '<div class="percentage">'+talentList[i].percent+'%</div>';
+			talentHtml += '</div>';
+		}					
+		$('.JobCompetency .result').html(talentHtml);
+	}
+	
+	/* 반복어 리포트 */
+	function createRepeatHtml(repeatList){
+		repeatHtml = "";
+		for(var i=0; i<repeatList.length; i++){
+			repeatHtml += '<div class="label">'+repeatList[i].repeatCount+'회</div>';
+			repeatHtml += '<div class="rectangle" style="height: '+repeatList[i].repeatCount*20+'px;"></div>';
+			repeatHtml += '<div class="name">'+repeatList[i].repeatContent+'</div>';
+		}
+		$('.habitual.word-graph.select.repeat').html(repeatHtml);
+	}
+	
+	/* 습관어 리포트 */
+	function createHabitHtml(habitMap){
+		habitLength = Object.keys(habitMap).length;
+		habitHtml ="";
+		for(var i=0; i<habitLength; i++){ 
+			key = Object.keys(habitMap)[i]; 
+			value = habitMap[key];
+			
+			html += '<div class="label">'+value+'회</div>';
+			html += '<div class="rectangle" style="height: '+value*10+'px;"></div>';
+			html += '<div class="name">'+key+'</div>';
+		}
+		$('.habitual.word-graph.select.habitual').empty();
+		$('.habitual.word-graph.select.habitual').html(habitHtml);
+	}
 
 	function createImageChart(ctx, title, analysis){
 		var myChart = new Chart(ctx, {

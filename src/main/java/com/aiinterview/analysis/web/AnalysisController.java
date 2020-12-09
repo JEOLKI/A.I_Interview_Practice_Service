@@ -2,8 +2,10 @@ package com.aiinterview.analysis.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -183,9 +185,16 @@ public class AnalysisController {
 			model.addAttribute("repeatAnalysisList", repeatAnalysisList);
 			
 			
-			/* 인재상 - talentAnalysisResultList */
-			List<TalentAnalysisVO> talentAnalysisList = keywordAnalysisService.talentAnalysisList(ansSq);
-			model.addAttribute("talentAnalysisList", talentAnalysisList);
+			/* 인재상 - talentAnalysisList(인재상,퍼센트), keywordSet(키워드)*/
+			List<TalentAnalysisVO> talentAnalysisList = keywordAnalysisService.retrieveTalentPercentList(ansSq);
+			model.addAttribute("talentAnalysisList", talentAnalysisList); 
+			
+			List<String> keywordList = keywordAnalysisService.retrieveKeywordList(ansSq);
+			Set<String> keywordSet = new HashSet<String>();
+			for(int i=0; i< keywordList.size(); i++) {
+				keywordSet.add(keywordList.get(i));
+			}
+			model.addAttribute("keywordSet", keywordSet);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
