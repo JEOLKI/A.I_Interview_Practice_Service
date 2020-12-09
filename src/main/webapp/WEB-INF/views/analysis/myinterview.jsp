@@ -24,6 +24,16 @@ body * {
 	height: 500px;
 	
 }
+#pronunciation{
+	padding : 10px 20px;
+}
+#habitant{
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 40px;
+}
+
 /* .OrderArea{ */
 /* 	margin : 40px 0px 0px; */
 	
@@ -110,7 +120,7 @@ function TestChart(){
 						</div>
 
 
-						<div class="HelpArea box">
+						<div class="box HelpArea" id="pronunciation">
 						
 							<div class="label"></div>
 							<div class="title"> 발음연습 &nbsp &nbsp
@@ -119,28 +129,6 @@ function TestChart(){
 							<div id="helloChart"></div>	
 							<br>
 							
-							
-							<div class="graph-area">
-								<div class="Emotion graph-area">
-									<div class="area bright">
-										<div class="chartjs-size-monitor">
-											<div class="chartjs-size-monitor-expand">
-												<div class=""></div>
-											</div>
-											<div class="chartjs-size-monitor-shrinke">
-												<div class=""></div>
-											</div>
-										</div>
-										
-										<div>
-											<canvas class="graph-canvas emotion chartjs-render-monitor"
-												style="display: block; height: 20px; width: 120px;"
-												width="80" height="50"></canvas>
-										</div>
-									</div>
-
-								</div>
-							</div>
 						</div>
 						
 						
@@ -279,7 +267,7 @@ function TestChart(){
 								</div>
 							</div>
 						</div>
-						<div class="HabitArea box">
+						<div class="HabitArea box" id="habitant">
 							<div class="title">내 습관어</div>
 							<div class="bar-area">
 								<div class="unit">(회)</div>
