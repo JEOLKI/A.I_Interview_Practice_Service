@@ -172,7 +172,7 @@
 							</div>
 						
 					</c:forEach>
-				</div>
+				
 
 
 				<div class="review-body" id="review-id">
@@ -435,7 +435,7 @@
 					</div>
 				</div>
 
-
+			</div>	
 
 
 
