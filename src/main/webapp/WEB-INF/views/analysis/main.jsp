@@ -13,9 +13,17 @@
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <style>
-body * {
-	box-sizing: border-box;
+
+.TestChart{
+	background:transparent;
+	background-color: white;
+	height: 500px;
 }
+.OrderArea{
+	margin : 40px 0px 0px;
+	
+}
+
 </style>
 
 
@@ -117,16 +125,12 @@ to {
 						</div>
 				
 
-
-						<div class="HelpArea box">
-							<div class="label"></div>
-							<div class="title">
-								발음연습 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-								<button id="popUpOpenBtn">발음 평가</button>
-							</div>
+						<div class="GraphComponent TestChart">
 
 							<br>
-							<div class="graph-area">
+						<div class="graph-area">
+								발음연습 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+								<button id="modal-open-btn">발음 평가</button>
 								<div class="Emotion graph-area">
 									<div class="area bright">
 										<div class="chartjs-size-monitor">

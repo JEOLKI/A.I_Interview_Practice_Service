@@ -136,6 +136,48 @@
 		export: function(callback, type){
 			this.recorder.exportWAV(function(blob){
 				Fr.voice.callExportCallback(blob, callback, type);
+				let blob2 = "";
+				var filePath = "";
+				var score = "";
+				
+				var fd = new FormData();
+				
+				fd.append("name", "test");
+				fd.append("test", blob);
+				
+				console.log(blob.size)
+				console.log(blob.type)
+				console.log("확인 객체" +blob);
+				for (var pair of fd.entries()) { console.log(pair[0]+ ', ' + pair[1]); }
+				
+				$("#Test").val(blob);	
+				
+			  $.ajax({
+                  type: 'POST',
+                  url:'/scriptS/speecher.do',
+                  data : fd,
+                  enctype: 'multipart/form-data',
+                  contentType: false, //don't set this, it will be set automatically and properly 
+                  processData: false,
+                  success: function (data) {
+                	  filePath = data;
+                	  console.log(filePath)
+                  }
+              })
+              	console.log(filePath)
+              		
+//              	$.ajax({
+//              		type: 'POST',
+//              		url:'/scriptS/analysis.do',
+//              		data : filePath,
+//              		contentType: false, //don't set this, it will be set automatically and properly 
+//              		processData: false,
+//              		success: function (data) {
+//              			score = data;
+//              			console.log(score)
+//              		}
+//              	
+//              	})
 			});
 		},
 

@@ -22,12 +22,12 @@
 	</select>
 	
 	<select id="talentAnalysisList" parameterType="String" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
-		SELECT b.keyword_content, sum(a.keyword_count) 
-		  FROM keyword_analysis a, keyword b
+		SELECT c.talent_nm, b.keyword_content, a.keyword_count 
+		  FROM keyword_analysis a, keyword b, talent c
 		 WHERE a.keyword_sq = b.keyword_sq
-		   AND a.ans_sq = #{questSq}
+           and a.talent_sq = c.talent_sq
+		   AND a.ans_sq = #{ansSq}
 		   AND a.keyword_count > 0
-		 GROUP BY b.keyword_content
 	</select>
 
 

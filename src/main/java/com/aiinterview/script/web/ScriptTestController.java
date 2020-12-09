@@ -89,7 +89,7 @@ public class ScriptTestController {
 		MemberVO memberVo = (MemberVO)session.getAttribute("S_MEMBER");
 		String memId = memberVo.getMemId();
 		
-		ScriptTestVO scriptTestVO = new ScriptTestVO(result, performScript, memId, scriptSq); 
+		ScriptTestVO scriptTestVO = new ScriptTestVO();  
 		
 		try {
 			scriptTestService.create(scriptTestVO);

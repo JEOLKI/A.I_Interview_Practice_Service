@@ -1,5 +1,7 @@
 package com.aiinterview.script.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +26,15 @@ public class ScriptTestService {
 		scriptTestMapper.create(scriptTestVO);
 	}
 	
+	/**
+	 * 스크립트 테스트 결과를 출력하기 위한 메서드
+	 * @param stVo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScriptTestVO> retrieve (ScriptTestVO stVo)throws Exception{
+		return scriptTestMapper.retrieve(stVo);
+	}
 	
 //	/**
 //	 * 스크립트 하나를 반환하는 메서드

@@ -23,6 +23,16 @@
 			VALUES (TO_NUMBER(#{scriptTestSq}), #{scriptTestScore}, #{performScript}, sysdate, #{memId}, #{scriptSq}) 
 	</insert>
 	
+	<select id="retrieve" resultType="com.aiinterview.script.vo.ScriptTestVO" parameterType="com.aiinterview.script.vo.ScriptTestVO">
+		
+		SELECT *
+		FROM script_test A ,script B, script_gb C
+		WHERE  A.script_sq = B.script_sq
+		AND B.script_gb_sq = C.script_gb_sq
+		AND A.mem_id= #{memId }
+		AND C.script_gb_sq = #{scriptGbSq}	
+	</select>
+	
 <!-- 	<update id="update" > -->
 <!-- 		UPDATE script_gb  -->
 <!-- 		   SET script_gb_content = #{scriptGbContent}, -->
