@@ -27,8 +27,7 @@ $(document).ready(function(){
   
   $(document).on("click", "#download:not(.disabled)", function(){
     Fr.voice.export(function(url){
-      $("<a href='"+url+"' download='MyRecording.wav'></a>")[0].click();
-    }, "URL");
+    });
     restore();
   });
   

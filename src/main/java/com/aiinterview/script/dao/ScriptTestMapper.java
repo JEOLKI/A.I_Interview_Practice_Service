@@ -31,6 +31,14 @@ public interface ScriptTestMapper {
 	 */
 	public void create(ScriptTestVO ScriptTestVO) throws Exception;
 	
+	
+	/**
+	 * 스크립트 테스트 결과를 출력하기 위한 메서드
+	 * @param stVo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScriptTestVO> retrieve (ScriptTestVO stVo)throws Exception;
 //	/**
 //	 * 스크립트 테스트의 활성 상태를 수정하는 메서드
 //	 * @param ScriptTestVO
