@@ -26,8 +26,6 @@ import com.aiinterview.interview.service.QuestionService;
 import com.aiinterview.interview.vo.InterviewVO;
 import com.aiinterview.interview.vo.QuestionVO;
 
-import egovframework.rte.fdl.property.EgovPropertyService;
-
 @RequestMapping("/interview")
 @Controller
 public class InterviewController {
@@ -37,10 +35,6 @@ public class InterviewController {
 	
 	@Resource(name = "questionService")
 	private QuestionService questionService;
-	
-	/** EgovPropertyService */
-	@Resource(name = "propertiesService")
-	protected EgovPropertyService propertiesService;
 
 	private static final Logger logger = LoggerFactory.getLogger(InterviewController.class);
 
@@ -98,14 +92,15 @@ public class InterviewController {
 	}
 	
 	
-
 	
 	
 	
 	
 	
 	
-	/////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	
 	@RequestMapping(path = "/blobtest.do", method = RequestMethod.GET)

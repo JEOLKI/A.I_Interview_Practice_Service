@@ -54,7 +54,7 @@ to {
 
 </style>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
 	if($('#memAlias').val()=='${S_MEMBER.memAlias}'){
 		html = '<span style="color:green; font-size:11px;">사용가능한 닉네임입니다</span>';
@@ -74,6 +74,16 @@ $(document).ready(function(){
 	    }).open();
 	});
 });
+
+function readURL(value){
+	if(value.files && value.files[0]){
+		var reader = new FileReader(); 
+		reader.onload = function(e){
+			$('.profile-img').attr('src',e.target.result);
+		}
+		reader.readAsDataURL(value.files[0]);
+	}
+}
 	
 	$(document).ready(function(){
 		$('.memPw').on('input',function(){
@@ -167,9 +177,15 @@ $(document).ready(function(){
 			return true;
 		}
 	});
+	
+     $("#file").on('change', function(){
+         readURL(this);
+     });
 });
+	
 function aliasCheck(){
 	memAlias = $('#memAlias').val();
+
 	
 $.ajax({
 		url : "/member/aliasCheck.do",

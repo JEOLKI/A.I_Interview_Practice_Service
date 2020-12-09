@@ -68,23 +68,32 @@ to {
 }                  
 </style>
 <script type="text/javascript" >
-	var docV = document.documentElement;
+	window.onload = function(){
+		openFullScreenMode();
+	}
+	
 	// 전체화면 설정
 	function openFullScreenMode() {
-	    if (docV.requestFullscreen)
+		var docV = document.documentElement;
+	    if (docV.requestFullscreen){
 	        docV.requestFullscreen();
-	    else if (docV.webkitRequestFullscreen) // Chrome, Safari (webkit)
+	    }
+	    else if (docV.webkitRequestFullscreen){ // Chrome, Safari (webkit)
 	        docV.webkitRequestFullscreen();
-	    else if (docV.mozRequestFullScreen) // Firefox
+	    }
+	    else if (docV.mozRequestFullScreen){ // Firefox
 	        docV.mozRequestFullScreen();
-	    else if (docV.msRequestFullscreen) // IE or Edge
+	    }
+	    else if (docV.msRequestFullscreen){ // IE or Edge
 	        docV.msRequestFullscreen();
+	    }
 	}
 
 	// 전체화면 해제
 	function closeFullScreenMode() {
-	    if (document.exitFullscreen)
+	    if (!document.exitFullscreen){
 	        document.exitFullscreen();
+	    }
 	    else if (document.webkitExitFullscreen) // Chrome, Safari (webkit)
 	        document.webkitExitFullscreen();
 	    else if (document.mozCancelFullScreen) // Firefox
@@ -100,13 +109,13 @@ to {
 	
 	
 $(document).ready(function(){
+	
+	
 	$('.body').show();
 	$('#micCheckCancel').hide();
 	
-	openFullScreenMode();
 	
 	$('.interview-start-btn').on('click',function(){
-		closeFullScreenMode();
 		document.location="/interview/start.do";	
 	});
 	
