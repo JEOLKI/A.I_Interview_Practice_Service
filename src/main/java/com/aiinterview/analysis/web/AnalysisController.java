@@ -165,16 +165,15 @@ public class AnalysisController {
 	@RequestMapping(value = "/answer/retrieve.do")
 	public String retrieve(String questSq, Model model) {
 		
-//		String ansSq = "";
-		String ansSq = questSq;
+		String ansSq = "";
 		
 		try {
-//			AnswerVO answerVO = answerService.retrieve(questSq);
-//			ansSq = answerVO.getAnsSq();
-//			model.addAttribute("answerVO", answerVO);
+			AnswerVO answerVO = answerService.retrieve(questSq);
+			ansSq = answerVO.getAnsSq();
+			model.addAttribute("answerVO", answerVO);
 			
-//			List<ImageAnalysisVO> imageAnalysisList = imageAnalysisService.retrieveList(ansSq);
-//			model.addAttribute("imageAnalysisList", imageAnalysisList);
+			List<ImageAnalysisVO> imageAnalysisList = imageAnalysisService.retrieveList(ansSq);
+			model.addAttribute("imageAnalysisList", imageAnalysisList);
 			
 			/* 습관어  - habitAnalysisResultList*/
 			List<HabitAnalysisVO> habitAnalysisList = habitAnalysisService.retrieveList(ansSq); // 데이터 리스트
