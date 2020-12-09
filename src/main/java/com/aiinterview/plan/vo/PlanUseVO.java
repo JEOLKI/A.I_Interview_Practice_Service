@@ -11,8 +11,8 @@ public class PlanUseVO extends PlanVO{
 	private String memId;
 	private String planSq;
 	private int term;
-	private String startDay ; 
-	private String endDay ;
+	private String startDay ="0" ; 
+	private String endDay = "0" ;
 	
 	
 	@Override

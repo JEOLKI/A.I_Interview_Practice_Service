@@ -2,7 +2,9 @@ package com.aiinterview.analysis.vo;
 
 import java.util.List;
 
-public class ImageAnalysisVO {
+import com.aiinterview.interview.vo.InterviewVO;
+
+public class ImageAnalysisVO extends InterviewVO{
 
 	private String imageAnalysisSq;	// 이미지 분석 번호
 	private String anger;			// 분노
@@ -21,7 +23,6 @@ public class ImageAnalysisVO {
 	
 	private List<ImageAnalysisVO> imageAnalysisVOList; // ImageAnalysisVO를 담은 List
 	private String totalCnt;
-	
 	
 	
 	public String getTotalCnt() {

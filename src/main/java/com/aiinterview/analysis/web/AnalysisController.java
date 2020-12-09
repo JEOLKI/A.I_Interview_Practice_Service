@@ -203,4 +203,21 @@ public class AnalysisController {
 		return "jsonView";
 	}
 	
+	
+	@RequestMapping(value="/image/retrieveGrowth.do")
+	public String imageRetrieveGrowth(HttpSession session, Model model) {
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = memberVO.getMemId();
+		
+		try {
+			List<ImageAnalysisVO> imageAnalysisGrowth = imageAnalysisService.retrieveGrowth(memId);
+			model.addAttribute("imageAnalysisGrowth", imageAnalysisGrowth);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView";
+	}
+	
 }
