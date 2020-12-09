@@ -1,0 +1,65 @@
+diff a/src/main/java/com/aiinterview/script/web/SpeechController.java b/src/main/java/com/aiinterview/script/web/SpeechController.java	(rejected hunks)
+@@ -45,6 +45,12 @@
+    @Resource(name = "scriptTestService")
+    ScriptTestService scriptTestService;
+ 	
++   @RequestMapping(path="/speechChart2.do", method = {RequestMethod.GET})
++   public String testa(Model model) {
++	   
++	   return "speech/speechChartjs2";
++   }
++   
+    @RequestMapping(path="/speechChart.do", method = {RequestMethod.GET})
+    public String speechChartView(Model model) {
+ 	   SpeechVO sv = new SpeechVO();
+@@ -88,6 +94,50 @@
+       return "speech/speechChart";
+    }
+    
++   @RequestMapping(path="/speechChartjs.do", method = {RequestMethod.GET})
++   public String speechChartjsView(Model model) {
++	   SpeechVO sv = new SpeechVO();
++//		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
++//		sv.setMemId(mv.getMemId());
++	    sv.setMemId("TEST_ID");
++	    int count = 0;
++	    try {
++	    	
++			List<SpeechVO> speechList = speechService.retrieve(sv);
++			
++			ScriptTestVO stVo = new ScriptTestVO();
++//			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
++//			stVo.setMemId(mv.getMemId());
++			
++			stVo.setMemId("TEST_ID");
++			stVo.setScriptGbSq("1");
++			
++			List<ScriptTestVO> EnglishList = scriptTestService.retrieve(stVo);
++			
++			stVo.setScriptGbSq("4");
++			List<ScriptTestVO> KoreanList = scriptTestService.retrieve(stVo);
++			
++			int[] data = {speechList.size(), EnglishList.size(), KoreanList.size()};
++			for(int i= 0 ; i < data.length; i++) {
++				if(data[i]> count) {
++					count = data[i];
++				}
++			}
++			
++			model.addAttribute("count", count);
++			model.addAttribute("EnglishList", EnglishList);
++			model.addAttribute("KoreanList", KoreanList);
++			model.addAttribute("speechList", speechList);
++			
++			
++			
++		} catch (Exception e) {
++			e.printStackTrace();
++		}
++      return "speech/speechChartjs";
++   }
++   
++   
+    @RequestMapping(path="/speech.do", method = {RequestMethod.GET})
+    public String scriptView() {
+       

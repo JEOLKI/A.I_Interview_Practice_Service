@@ -23,16 +23,16 @@ function PlanUse(){
 		method : "get",
 		dataType : "json",
 		success : function(data){
-			var html = "";
-			var plan = data.planUse
 			var check = data.planUseCheck
-			
-			if(check.term!="0"){
+			console.log(check.term)
+			if(check.term>0){
+				var html = "";
+				var plan = data.planUse
 				
 				html += '<div class="ticket-area"> ';
 				html += `<div class="PaymentForm sprint" >`;
 				html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')"  >                                 `;
-// 				html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> ';
+// 				html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> '; 
 				html += '	<div class="date">                                          ';
 				html += '		<span>'+check.term+'</span>일 남았습니다.                                    ';
 				html += '	</div>                                                      ';
