@@ -47,13 +47,18 @@ body * {
 	padding-top: 10%;
 }
 
+#gazeChart{
+	display: none;
+}
+
+
 </style>
 
 <script>
 
 var imageAnalysisList;
 var labels = [];
-var analysis = [0];
+
 
 $(document).ready(function() {
 	TestChart();
@@ -67,8 +72,14 @@ $(document).ready(function() {
 		}
 	})
 	
-	
-	
+	$(".btn").on('click', function(){
+		target = $(this).data("target");
+		$(".btn").removeClass("select");
+		$(this).addClass("select");
+		$(".graph-content").hide();
+		$("#"+target+"").show();
+		console.log(target);
+	})
 	
 })
 
@@ -85,42 +96,56 @@ function TestChart(){
 
 function imageGrowthdata(imageAnalysisList){
 	
+	var max = 1;
+	
 	for(var i = 0; i < imageAnalysisList.length ; i++){
 		labels.push(i);
+		analysis = [0];
 		analysis.push(imageAnalysisList[i].happiness);
 	}
 	var title = ['happiness']
 	var ctx = document.getElementById('positiveChart');
-	imageGrowthChart(ctx, labels, title, analysis);
+	imageGrowthChart(ctx, labels, title, analysis, max);
 	
 	title = ['netural']
 	for(var i = 0; i < imageAnalysisList.length ; i++){
-		analysis.push(imageAnalysisList[i].netural);
+		analysis = [0];
+		analysis.push(imageAnalysisList[i].neutral);
 	}
 	ctx = document.getElementById('neutralChart');
-	imageGrowthChart(ctx, labels, title, analysis);
+	imageGrowthChart(ctx, labels, title, analysis, max);
 	
 	title = ['negative']
 	for(var i = 0; i < imageAnalysisList.length ; i++){
 		negative = imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
+		analysis = [0];
 		analysis.push(negative);
 	}
 	ctx = document.getElementById('negativeChart');
-	imageGrowthChart(ctx, labels, title, analysis);
+	imageGrowthChart(ctx, labels, title, analysis, max);
 	
 	title = ['panic']
 	for(var i = 0; i < imageAnalysisList.length ; i++){
 		panic = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
+		analysis = [0];
 		analysis.push(panic);
 	}
 	ctx = document.getElementById('panicChart');
-	imageGrowthChart(ctx, labels, title, analysis);
+	imageGrowthChart(ctx, labels, title, analysis, max);
 	
-	
+	max = 30;
+	title = ['facePosition']
+	for(var i = 0; i < imageAnalysisList.length ; i++){
+		position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
+		analysis = [0];
+		analysis.push(position);
+	}
+	ctx = document.getElementById('faceChart');
+	imageGrowthChart(ctx, labels, title, analysis, max);
 	
 }
 
-function imageGrowthChart(ctx, labels, title, analysis){
+function imageGrowthChart(ctx, labels, title, analysis, max){
 	var myChart = new Chart(ctx, {
 		type: 'line',
 	    data: {
@@ -147,7 +172,7 @@ function imageGrowthChart(ctx, labels, title, analysis){
 	                display: true,
 	                ticks: {
 	                    suggestedMin: 0,
-	                    suggestedMax: 1
+	                    suggestedMax: max
 	                }
 	            }]
 	        }
@@ -239,15 +264,15 @@ function imageGrowthChart(ctx, labels, title, analysis){
 									<div class="sub">(최근 5회)</div>
 								</div>
 								<div class="select-area">
-									<div class="emotion btn select">
+									<div class="emotion btn select" data-target="emotionChart">
 										<div class="pot"></div>
 										표정<img
 											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
 											alt="" class="dash">
 									</div>
-									<div class="gaze btn false">
+									<div class="gaze btn false" data-target="gazeChart">
 										<div class="pot"></div>
-										시선<img
+										움직임<img
 											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
 											alt="" class="dash">
 									</div>
@@ -273,7 +298,8 @@ function imageGrowthChart(ctx, labels, title, analysis){
 							</div>
 							
 							<div class="graph-area">
-								<div class="Emotion graph-area">
+							
+								<div id="emotionChart" class="Emotion graph-area graph-content">
 									<div class="area bright">
 										<div class="label">긍정</div>
 										<canvas id="positiveChart" class="graph-canvas emotion chartjs-render-monitor"
@@ -293,11 +319,18 @@ function imageGrowthChart(ctx, labels, title, analysis){
 									</div>
 									<div class="area surprised">
 										<div class="label">당황</div>
-										<canvas id="panicChart" class="graph-canvas emotion chartjs-render-monitor"
+										<canvas id="panicChart" class="graph-canvas"
 											width="215" height="107"
 											style="display: block; height: 119px; width: 240px;"></canvas>
 									</div>
 								</div>
+								
+								<div id="gazeChart" class="Gaze graph-area graph-content">
+									<div class="area">
+										<canvas id="faceChart" class="graph-canvas" width="500" height="400"></canvas>
+									</div>
+								</div>
+								
 							</div>
 							
 						</div>
