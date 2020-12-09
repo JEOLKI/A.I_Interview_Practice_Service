@@ -166,8 +166,8 @@ public class AnalysisController {
 			ansSq = answerVO.getAnsSq();
 			model.addAttribute("answerVO", answerVO);
 			
-			List<ImageAnalysisVO> imageAnalysisList = imageAnalysisService.retrieveList(ansSq);
-			model.addAttribute("imageAnalysisList", imageAnalysisList);
+			ImageAnalysisVO imageAnalysis = imageAnalysisService.retrieveAnalysis(ansSq);
+			model.addAttribute("imageAnalysis", imageAnalysis);
 			
 			/* 습관어  - habitAnalysisResultList*/
             List<HabitAnalysisVO> habitAnalysisList = habitAnalysisService.retrieveList(ansSq); // 데이터 리스트
