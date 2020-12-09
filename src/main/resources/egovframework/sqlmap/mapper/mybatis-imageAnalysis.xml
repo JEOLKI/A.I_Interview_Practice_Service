@@ -60,5 +60,23 @@
 		WHERE ANS_SQ = #{ansSq}
 	</select>
 	
+	<select id="retrieveGrowth" resultType="com.aiinterview.analysis.vo.ImageAnalysisVO">
+		SELECT A.INTERVIEW_SQ, ROUND(SUM(D.ANGER)/COUNT(*),3) ANGER,
+                       ROUND(SUM(D.CONTEMPT)/COUNT(*),3) CONTEMPT,
+                       ROUND(SUM(D.FEAR)/COUNT(*),3) FEAR,
+                       ROUND(SUM(D.DISGUST)/COUNT(*),3) DISGUST,
+                       ROUND(SUM(D.HAPPINESS)/COUNT(*),3) HAPPINESS,
+                       ROUND(SUM(D.NEUTRAL)/COUNT(*),3) NEUTRAL,
+                       ROUND(SUM(D.SADNESS)/COUNT(*),3) SADNESS,
+                       ROUND(SUM(D.SURPRISE)/COUNT(*),3) SURPRISE,
+                       MAX(D.FACE_TOP) - MIN(D.FACE_TOP) FACE_TOP,
+                       MAX(D.FACE_LEFT) - MIN(D.FACE_LEFT) FACE_LEFT
+		FROM INTERVIEW A, QUESTION B, ANSWER C, IMAGE_ANALYSIS D
+		WHERE A.MEM_ID = #{memId}
+		AND A.INTERVIEW_SQ = B.INTERVIEW_SQ
+		AND B.QUEST_SQ = C.QUEST_SQ
+		AND C.ANS_SQ = D.ANS_SQ
+		GROUP BY A.INTERVIEW_SQ
+	</select>
 
 </mapper>
