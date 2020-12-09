@@ -17,6 +17,7 @@
 		SELECT *
 		FROM HABIT_ANALYSIS
 		WHERE ANS_SQ = #{ansSq}
+		  AND habit_count > 0
 	</select>
 	
 
