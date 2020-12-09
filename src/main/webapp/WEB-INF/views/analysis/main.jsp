@@ -7,15 +7,67 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+<script src="/js/audiodisplay.js"></script>
+<script src="/js/recorderjs/recorder.js"></script>
 <title>아이엠터뷰</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+<script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <style>
-body * {
-	box-sizing: border-box;
+
+.TestChart{
+	background:transparent;
+	background-color: white;
+	height: 500px;
 }
+.OrderArea{
+	margin : 40px 0px 0px;
+	
+}
+
+.modal-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-box {
+	background: white;
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+}
+
+.modal-title, .modal-content {
+	text-align: center;
+}
+
+.modal-close-box {
+	text-align: center;
+	margin-right: 10px;
+}
+/* 
+.pids-wrapper{
+	height : 100%;
+}
+
+.pid{
+	width : 10px;
+	heigh : calc(10%-10px);
+	display : inline-block;
+	margin : 5px;
+} */
 </style>
 
 
@@ -82,12 +134,206 @@ to {
 	margin-left: 12px;
 }
 
+.modal-box {
+	width: 330px;
+	height: 450px;
+	padding: 10px;
+}
 
+.pro {
+	margin: 10px;
+	border: 1px solid black;
+	height: 50%;
+}
 </style>
 
+<script>
+$(document).ready(function() {   
+});   
+
+var authorizationEndpoint = "token.php";
+function RequestAuthorizationToken() {
+    if (authorizationEndpoint) {
+      var a = new XMLHttpRequest();
+      a.open("GET", authorizationEndpoint);
+      a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      a.onload = function() {
+    	  
+          serviceRegion.value = 'koreacentral'; 
+          authorizationToken = this.responseText;
+          subscriptionKey.disabled = true;
+          subscriptionKey.value = "using authorization token (hit F5 to refresh)";
+      }
+    }
+  }
+
+ 	var phraseDiv;
+    var startRecognizeOnceAsyncButton;
+
+   var subscriptionKey, serviceRegion;
+    var authorizationToken;
+    var SpeechSDK;
+    var recognizer;
+
+    var scriptGbSq;
+    var scriptGbContent = $('#scriptGbContent').val();
+document.addEventListener("DOMContentLoaded", function () {
+  startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
+  subscriptionKey = document.getElementById("subscriptionKey");
+  serviceRegion = document.getElementById("serviceRegion");
+  phraseDiv = document.getElementById("phraseDiv");
+
+  startRecognizeOnceAsyncButton.addEventListener("click", function () {
+
+	$('#startTestBtn').hide();
+    startRecognizeOnceAsyncButton.disabled = true;
+    phraseDiv.innerHTML = "";
+
+    var speechConfig;
+        if (authorizationToken) {
+          speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, serviceRegion.value);
+        } else {
+          if (subscriptionKey.value === "" || subscriptionKey.value === "subscription") {
+            alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+            return;
+          }
+          speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
+        }
+        
+        if(scriptGbContent == "한국어"){
+	        speechConfig.speechRecognitionLanguage = "ko-KR";        	
+        }else if(scriptGbContent == "영어"){
+	        speechConfig.speechRecognitionLanguage = "en-US";        	
+        }else{
+	        speechConfig.speechRecognitionLanguage = "ko-KR";        	
+        }
+        
+        var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+        recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+    
+        recognizer.recognizeOnceAsync(
+        		
+        		
+                function (result) {
+                	startRecognizeOnceAsyncButton.disabled = false;
+
+                	var resultScript = result.text;
+                	
+                	scriptGbSq = $('.scriptGbBtn').val(); 	//question_type
+          			var result = $.post('/scriptTest/create.do', {
+          				scriptSq : scriptSq,
+          				performScript : resultScript}
+          			,function(data) {
+          				const jsonData = JSON.parse(data);
+          				console.log(jsonData.result);
+          				
+          				$("#result").text('과의 일치도는' + jsonData.result + '% 입니다.');
+          				
+          				
+          			});
+          		$('#phraseDiv').val(resultScript);
+        		//$('#phraseDiv').append('<label>와의 일치도는  '+valiResult+'%입니다. </label>');
+                  recognizer.close();
+                  recognizer = undefined;
+                },
+                function (err) {
+                  startRecognizeOnceAsyncButton.disabled = false;
+                  phraseDiv.innerHTML += err;
+                  window.console.log(err);
+
+                  recognizer.close();
+                  recognizer = undefined;
+                });
+
+  });
+
+  if (!!window.SpeechSDK) {
+    SpeechSDK = window.SpeechSDK;
+    startRecognizeOnceAsyncButton.disabled = false;
+
+    if (typeof RequestAuthorizationToken === "function") {
+        RequestAuthorizationToken();
+    }
+  }
+});
+
+var scriptSq;
+function random(scriptGbSq){
+	$('#startTestBtn').show();
+	$.ajax(
+   			{url:"/script/retrieveScriptList.do",
+   			data : {scriptGbSq : scriptGbSq},
+   			method : "post",
+   			success : function(data){
+   				console.log(data);
+   				console.log(data.scriptVO.scriptContent);
+	   				$('#scriptModalContent').html('');
+	   				$('#scriptModalContent').html('<br><br>'+data.scriptVO.scriptContent);
+	   				scriptSq = data.scriptVO.scriptSq;
+   			},
+   			error: function(data){
+   				$('#scriptModalContent').html('');
+   				$('#scriptModalContent').html('<br><br>해당하는 스크립트가 없습니다.');
+   				console.log(data.status);
+   			}
+   		});
+}
+
+// var list = [];
+// var result =[];
+// function nGram(script){
+// 	console.log("script : "+script);
+	
+// 	for(var i=0; i<script.length; i++){
+// 		list.push(script.charAt(i));
+// 	}
+// 		console.log("list : "+list);
+	
+		
+// 	for(var i=0; i<list.length; i++){
+// 		result.push(list.get[i] +list.get[i+1]);
+// 	}
+	
+// 	console.log("result : "+result);
+	
+// }
+
+
+// var count =0;
+// var nGramResult =0;
+// function resultNGram(systemScriptList, memberScriptList){
+// 	var size = systemScriptList.length;
+	
+// 	for(var i=0; i<systemScriptList.length; i++){
+// 		for(var j=0; j<memberScriptList.length; j++){
+// 			if(systemScriptList.get[i].equals(memberScriptList.get[j])){
+// 				count += 1;
+// 			}
+// 		}
+// 	}
+// 	nGramResult = ((count*100)/size);
+// }
+
+var audio = document.querySelector('audio');
+function captureMicrophone(callback){
+	navigator.getUserMedia({audio : true}, callback,
+							function(error){
+								alert('마이크를 연결해주세요.');
+								console.error(error);
+	});
+};
+
+
+
+</script>
 
 </head>
 <body>
+
+
+<!-- 	<audio id="audioTag" controls autoplay> -->
+<!-- 		<source src="" id="sourceTag"> -->
+<!-- 	</audio> -->
 	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
@@ -115,18 +361,35 @@ to {
 								보기</a> <a class="review-btn" href="/analysisresult/interviewlist.do">면접
 								분석</a>
 						</div>
-				
+						
+<!-- 						<div class="area bright"> -->
+<!-- 							<div class="title"> -->
+<!-- 								목표기업<a class="link" href="/personal-info">내 프로필</a> -->
+<!-- 							</div> -->
+<!-- 							<div class="flex"> -->
+<!-- 								<span>기업</span> -->
+<!-- 								<div class="prospect null false"> -->
+<!-- 									없음 -->
+<!-- 									<div class="under-line"></div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="flex"> -->
+<!-- 								<span>직무</span> -->
+<!-- 								<div class="prospect null false"> -->
+<!-- 									없음 -->
+<!-- 									<div class="under-line"></div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 
 
-						<div class="HelpArea box">
-							<div class="label"></div>
-							<div class="title">
-								발음연습 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-								<button id="popUpOpenBtn">발음 평가</button>
-							</div>
+
+						<div class="GraphComponent TestChart">
 
 							<br>
 							<div class="graph-area">
+								발음연습 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+								<button id="modal-open-btn">발음 평가</button>
 								<div class="Emotion graph-area">
 									<div class="area bright">
 										<div class="chartjs-size-monitor">
@@ -408,13 +671,59 @@ to {
 		</div>
 	</div>
 
-	<script>
-      const popUpOpenBtn = document.getElementById("popUpOpenBtn");
+	<div class="modal-wrapper">
+		<div class="modal-box">
+			<div>
+				<c:forEach items="${scriptGbList }" var="scriptGb">
+					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }"
+						onclick="random(${scriptGb.scriptGbSq });">
+						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
+					</button>
+					<input type="hidden" name="scritGbSq"
+						value="${scriptGb.scriptGbSq }">
+					<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
+				</c:forEach>
+				<button id="modal-close-btn" style="float: right;">close</button>
 
-      popUpOpenBtn.addEventListener("click", () => {
-    	  var url = '/scriptTest/testPopup.do';
-    	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-        window.open(url,"", options);
+
+			</div>
+			<div class="modal-content pro" id="scriptModalContent">
+
+			</div>
+			
+			<div style="text-align: center">
+			<label>내가 말한</label>
+			<br><input style="text-align: center" type="text" value="" id="phraseDiv"><br>
+			<span id="result">과의 일치도는${scriptTestresult } %입니다.</span>			
+			</div>
+
+			<div class="modal-close-box" id="modal-close-box">
+				<br><label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
+				</label><br>
+				<button class="processBtn" id="startTestBtn">
+					시작 하기					<!-- onclick="startTest()" -->
+				</button>
+				<!-- <button class="processBtn" id="stopTestBtn">종료 하기</button> -->
+			</div>
+			<input id="subscriptionKey" type="hidden"
+				value="8e1d8a815cd34bd4b7fee2b71344ef49"> <input
+				id="serviceRegion" type="hidden" size="40" value="koreacentral">
+			<br> <br> <br>
+		</div>
+	</div>
+	<script>
+      const modalOpenBtn = document.getElementById("modal-open-btn");
+      const modalCloseBtn = document.getElementById("modal-close-btn");
+      const modalWrapper = document.querySelector(".modal-wrapper");
+
+      console.log(modalWrapper.style);
+
+      modalOpenBtn.addEventListener("click", () => {
+        modalWrapper.style.display = "flex";
+      });
+
+      modalCloseBtn.addEventListener("click", () => {
+        modalWrapper.style.display = "none";
       });
     </script>
 </body>
