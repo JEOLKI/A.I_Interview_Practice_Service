@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,8 +59,12 @@ public class AnswerController {
 	private KeywordService keywordService;
 	
 	
+	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
-	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, MultipartHttpServletRequest mtfRequest){
+	public String create(AnswerVO answerVO, @ModelAttribute("imageAnalysisVO") ImageAnalysisVO imageAnalysisVO, MultipartHttpServletRequest mtfRequest){
+		
+		System.out.println("앤서 이미지 분석 결과" + answerVO);
+		System.out.println("이미지 분석 결과" + imageAnalysisVO);
 		
 		List<ImageAnalysisVO> imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();
 		
@@ -66,19 +72,49 @@ public class AnswerController {
 		
 		map.put("imageAnalysisList", imageAnalysisList);
 		
-		/* 영상 다운로드 */
-		MultipartFile answerVideo = mtfRequest.getFile("answerVideo");
-		if(answerVideo.getSize() > 0) {
+		// 추가한구문
+		Iterator<String> iter = mtfRequest.getFileNames();
+		MultipartFile answerVideo = null;
+		String fieldName = "";
+		while(iter.hasNext()) {
 			String videoPath = "D:\\answerVideo\\" + UUID.randomUUID().toString() + ".webm";
 			answerVO.setVideoPath(videoPath);
 			map.put("answerVO", answerVO);
-			File uploadVideo = new File(videoPath);
+			
+			fieldName = (String) iter.next(); // 파일이름, 위에서 file1과 file2로 보냈으니 file1, file2로 나온다.
+			answerVideo = mtfRequest.getFile(fieldName); // 저장된 파일 객체
+			
+			System.out.println("결과 1 : " + fieldName);
+			System.out.println("결과 2 : " + answerVideo);
+			System.out.println("결과 3 : " + answerVideo.getName());
+			System.out.println("결과 4 : " + answerVideo.getOriginalFilename());
 			try {
-				answerVideo.transferTo(uploadVideo);
+				answerVideo.transferTo(new File(videoPath));
 			} catch (IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		System.out.println("결과 6 : "+ answerVideo.getSize());
+
+		// 추가한구문
+		
+		
+		
+		/* 영상 다운로드 */
+//		MultipartFile answerVideo = mtfRequest.getFile("name");
+//		System.out.println("영상" + answerVideo.getSize());
+//		if(answerVideo.getSize() > 0) {
+//			String videoPath = "D:\\answerVideo\\" + UUID.randomUUID().toString() + ".webm";
+//			answerVO.setVideoPath(videoPath);
+//			map.put("answerVO", answerVO);
+//			File uploadVideo = new File(videoPath);
+//			try {
+//				answerVideo.transferTo(uploadVideo);
+//			} catch (IllegalStateException | IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  언어 분석  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
@@ -281,7 +317,7 @@ public class AnswerController {
 		}
         
 		
-		return "";
+		return "jsonView";
 	}
 	
 }

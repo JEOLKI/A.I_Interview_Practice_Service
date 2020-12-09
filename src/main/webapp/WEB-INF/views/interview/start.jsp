@@ -14,12 +14,12 @@
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
 	time = 0;
+	
 	var tid;
 	var aid;
     var average;
     script = ""; // 면접 질문 받는 변수
     questSq = 0;
-    
     
   // 아래쪽 음성스크립트 추출 부분
     var phraseDiv;
@@ -63,19 +63,17 @@
     var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
-   	recognizer.startContinuousRecognitionAsync();
     	
     recognizer.recognizing = (s, e) => {
-  	  console.log(`RECOGNIZING: Text=${e.result.text}`);
-    phraseDiv.innerHTML = e.result.text;
-   	answer += phraseDiv.innerHTML; // 입력한 답변을 담는 변수
+  	
+  	console.log(`RECOGNIZING: Text=${e.result.text}`);
     };
         
-   	recognizer.recognized = (s, e) => {
- 	   if (e.result.reason == ResultReason.RecognizedSpeech) {
+   	recognizer.recognized = (s, e) => { // 음성에서 스크립트 추출
 		console.log(`RECOGNIZED: Text=${e.result.text}`);
-           window.console.log(e.result.text);
-    	        
+	    phraseDiv.innerHTML += e.result.text;
+	    answer+=e.result.text;
+ 	   if (e.result.reason == ResultReason.RecognizedSpeech) {
     	}
     	else if (e.result.reason == ResultReason.NoMatch) {
     	   console.log("NOMATCH: Speech could not be recognized.");
@@ -93,6 +91,7 @@
 
   	    recognizer.stopContinuousRecognitionAsync();
   	};
+   	recognizer.startContinuousRecognitionAsync();
   	
   	recognizer.sessionStopped = (s, e) => { // 세션 끊어짐
   	    console.log("\n    Session stopped event.");
@@ -113,11 +112,6 @@
   	if (!!window.SpeechSDK) {
   	    SpeechSDK = window.SpeechSDK;
   	    startRecognizeOnceAsyncButton.disabled = false;
-
-  	    document.getElementById('content').style.display = 'block';
-  	    document.getElementById('warning').style.display = 'none';
-
-  	    // in case we have a function for getting an authorization token, call it.
   	    if (typeof RequestAuthorizationToken === "function") {
   	        RequestAuthorizationToken();
   	    }
@@ -152,8 +146,9 @@
 	
 	// 전체화면 설정
 	function openFullScreenMode() {
-	    if (docV.requestFullscreen)
+	    if (docV.requestFullscreen){
 	        docV.requestFullscreen();
+	    }
 	    else if (docV.webkitRequestFullscreen) // Chrome, Safari (webkit)
 	        docV.webkitRequestFullscreen();
 	    else if (docV.mozRequestFullScreen) // Firefox
@@ -179,6 +174,7 @@
 		SetTime++;					// 1초씩 증가
 		if(SetTime%60<10){
 			m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
+			
 		}else{
 			m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
 		}
@@ -228,7 +224,7 @@
 		aid=setInterval('processImage()',10000);
 	}
 	
-	// 웹캠기능
+	// 이미지 분석자료 보내기위한 변수
 	var index = 0;
 
 	// 이미지 분석
@@ -306,9 +302,19 @@
 	// 질문 끝날 때 answerVO 넘기는 ajax
 	
 	function createAnswer(){
+		var form = $('#analysisData')[0]; // form안에 있는 input들의 모음
+		var fd = new FormData(form); 
+		
 		ansContent = answer; // 해당 질문내용
-		ansTime = time; // 경과시간 입력
+		ansTime = SetTime; // 경과시간 입력
 		ansSpeed = (ansContent.length)/ansTime; // 말빠르기
+		
+		fd.append('name', 'answerVideo'); // name지정
+		fd.append("mtfRequest", blob); // 영상 데이터
+		fd.append("ansContent", ansContent); // 대답 내용
+		fd.append("ansTime", ansTime); // 대답시간(초)
+		fd.append("ansSpeed", ansSpeed); // 대답 속도(대답내용 문자열수/대답시간)
+		fd.append("questSq", questSq); // 대답의 시퀀스 
 		
 		// 확인용 console.log
 		console.log(ansContent);
@@ -316,13 +322,19 @@
 		console.log(ansSpeed);
 		console.log(startCount);
 		console.log(questSq);
+		console.log("blob 확인" + blob)
 			
 		$.ajax(
 			{url:"/answer/create.do",
-			data : {ansContent : ansContent, ansTime : ansTime, ansSpeed : ansSpeed, questSq : questSq},
-			method : "post",
+// 			data : {ansContent : ansContent, ansTime : ansTime, ansSpeed : ansSpeed, questSq : questSq, data: fd},
+			data : fd,
+			type : "post",
+			enctype:'multipart/form-data',
+			contentType: false,
+			processData: false,
 			success : function(data){
 				console.log("성공");
+				console.log(data);
 				
 			},
 			error : function(data){
@@ -330,6 +342,9 @@
 			}
 		});
 	}
+	
+	
+	
 	// blob 데이터 넘기기
 	makeblob = function (dataURL) {
            var BASE64_MARKER = ';base64,';
@@ -384,28 +399,19 @@
 	}
 	
 	function download() {
-// 	  theRecorder.stop();
 	  theStream.getTracks().forEach(track => { track.stop(); });
-	
-	  var blob = new Blob(recordedChunks, {type: "video/webm"});
+	  blob = new Blob(recordedChunks, {type: "video/webm"}); // blob객체로 변환
 	  var url =  URL.createObjectURL(blob);
-	  var a = document.createElement("a");
-// 	  document.body.appendChild(a);
-// 	  a.style = "display: none";
-// 	  a.href = url;
-// 	  a.download = 'test.webm';
-// 	  a.click();
-// 	  setTimeout() here is needed for Firefox.
+	  
+	  console.log("URL 확인 " + url);
+	  console.log("BLOB 확인 " + blob.data);
+	  $('#file').attr('src',url);
 	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
 	}
 	
-	// 여기까지 녹화
-	
 	$(document).ready(function(){
-		
 		$("#testgo").on('click', function(){
 			$("#analysisData").submit();
-			
 		})
 	});		
 	
@@ -414,12 +420,11 @@
 	$(document).ready(function(){
 		
 		// 풀스크린메서드
-		openFullScreenMode(); 
+		openFullScreenMode();
 		
 		 // 클릭의 경우
 		$(document).on('click','.spacebar-area.false',function(){
 			if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-				console.log($('.quest').eq(startCount).val()); // 확인용 콘솔
 				
 				startFunction(); // 녹화 시작
 				script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
@@ -440,17 +445,15 @@
 				console.log('시작카운트 : '+startCount);
 				console.log('종료카운트 : '+endCount);
 				
-				startCount++;
+				startCount++; // 답변 진행되면서 횟수 증가
 				$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 				
 				
 				clearInterval(tid);		// 타이머 해제
 				clearInterval(aid);		// 10초마다 이미지 분석 종료
 				
-				time = 120 - SetTime; // 경과시간 입력
-				
-				createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
 				download(); // 녹화 중지
+				createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
 				
 				
 				script = "다음 질문을 준비해주세요.";
@@ -462,6 +465,7 @@
 					alert('면접 종료');			
 				}else{
 					SetTime=0; // 타이머 시간 되돌리기
+					answer=""; // 답변 내용 초기화
 					$('.message-balloon').empty(); // 메세지 창 지우기
 					$('#time').empty(); // 타이머 표시 지우기
 					$('.message-balloon').text(script); // 다음질문 준비 표시
@@ -474,8 +478,6 @@
 		$(document).keydown(function(event) {
 			if(event.keyCode == 32){ // space
 				if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-					console.log($('.quest').eq(startCount).val()); // 확인용 콘솔
-					
 					
 					startFunction(); // 녹화 시작
 					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
@@ -497,16 +499,16 @@
 					console.log('종료카운트 : '+endCount);
 					console.log('최종 답변 스크립트 : ' + script);
 					
-					startCount++;
+					startCount++; // 답변 진행되면서 횟수 증가
 					$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 					
 					clearInterval(tid);		// 타이머 해제
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
-					time = 120 - SetTime; // 경과시간 입력
+// 					time = 120 - SetTime; // 경과시간 입력
 					
-					createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
 					download(); // 녹화 중지
+					createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
 					
 					script = "다음 질문을 준비해주세요.";
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
@@ -517,6 +519,7 @@
 						alert('면접 종료');			
 					}else{
 						SetTime=0; // 타이머 시간 되돌리기
+						answer=""; // 답변 내용 초기화
 						$('.message-balloon').empty(); // 메세지 창 지우기
 						$('#time').empty(); // 타이머 표시 지우기
 						$('.message-balloon').text(script); // 다음질문 준비 표시
@@ -562,9 +565,9 @@
 	});
 </script>
 </head>
-<body style=""> <!-- 나중에 overflow hidden 해야함 -->.
+<body style="overflow: hidden;"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- 음성 script위한 부분 -->
-	<div id="content" style="display: none">
+	<div id="content" style="display: none;">
 		<table width="100%">
 			<tr>
 				<td align="right"><a
@@ -595,16 +598,10 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam">
+	<div class="webcam" style="display: none;">
 		<div class="contentarea">
 			<div class="camera">
-				<video id="video"  autoplay >Video stream not available.</video>
-<!-- 				<p> -->
-<!-- 					<button onclick="startFunction()">Grab video & start recording</button> -->
-<!-- 				</p> -->
-<!-- 				<p> -->
-<!-- 					<button onclick="download()">Download! (and stop video)</button> -->
-<!-- 				</p> -->
+				<video id="video" autoplay >Video stream not available.</video>
 				<button id="startbutton">Take photo</button> 
 			</div>
 			<canvas id="canvas"></canvas>
@@ -629,8 +626,6 @@
 		</div>
 		<form id="analysisData" action="/answer/create.do" method="post">
 		
-			<input type="text" name="videoPath" value="c:\video">
-			
 		</form>
 	</div>
 	<!-- 여기까지 웹캠부분 -->
@@ -659,9 +654,9 @@
 			</div>
 			<div class="InterviewInterface">
 				<div class="question-message shown">
-					<div class="message-balloon">
+					<div class="message-balloon"style="width: 650px;">
 						<div>
-							<div class="text-line false">지금부터 면접을 시작하겠습니다. 최대 답변 시간은
+							<div class="text-line false" >지금부터 면접을 시작하겠습니다. 최대 답변 시간은
 								2분이며,</div>
 							<div class="text-line false">질문을 잘 듣고 중앙의 원을 보며 차분하게 답변해
 								주세요.</div>
