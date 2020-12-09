@@ -19,4 +19,8 @@ public class ImageAnalysisService {
 		return imageAnalysisMapper.retrieveList(ansSq);
 	}
 	
+	public ImageAnalysisVO retrieveAnalysis(String ansSq) throws Exception{
+		return imageAnalysisMapper.retrieveAnalysis(ansSq);
+	}
+	
 }

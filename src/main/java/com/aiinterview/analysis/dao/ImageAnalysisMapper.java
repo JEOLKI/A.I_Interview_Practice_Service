@@ -13,4 +13,6 @@ public interface ImageAnalysisMapper {
 	
 	public void create(ImageAnalysisVO imageAnalysisVO) throws Exception;
 	
+	public ImageAnalysisVO retrieveAnalysis(String ansSq) throws Exception;
+	
 }
