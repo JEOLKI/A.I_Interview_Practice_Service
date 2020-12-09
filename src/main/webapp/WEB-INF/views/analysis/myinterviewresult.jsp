@@ -14,7 +14,9 @@
 
 <script src="/js/Chart.js"></script>
 <script>
+	
 	$(document).ready(function() {
+		
 		//$("#review-id").hide();
 		$('.open').on('click', function() {
 			$("#review-id").toggle();
@@ -30,87 +32,41 @@
 					data : { "questSq" : questSq },
 					dataType : "json",
 					success : function(data){
-						
 						console.log(data);
+						
+						imageAnalysis = data.imageAnalysis;
+						imageAnalysisChart(imageAnalysis);
+						
 					}
 				
 			})
 			
 		})
 		
-		var ctx = document.getElementById('positiveChart');
-		var myChart = new Chart(ctx, {
-		    type: 'doughnut',
-		    data: {
-		        labels: ['happiness', 'other'],
-		        datasets: [{
-		            label: 'score',
-		            data: [12, 19],
-		            backgroundColor: [
-		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
-		            ],
-		            borderColor: [
-		                'rgba(255, 99, 132, 1)',
-		                'rgba(54, 162, 235, 1)'
-		            ],
-		            borderWidth: 1	
-		        }]
-		    },
-		    options: {maintainAspectRatio: false,
-		          legend: {
-		            display: false
-		          },
-		          cutoutPercentage: 80,}
-		});
 		
-		ctx = document.getElementById('neutralChart');
+	});
+
+	function createImageChart(ctx, title, analysis){
 		var myChart = new Chart(ctx, {
 		    type: 'doughnut',
 		    data: {
-		        labels: ['netural', 'other'],
+		        labels: title,
 		        datasets: [{
 		            label: 'score',
-		            data: [122, 19],
+		            data: analysis,
 		            backgroundColor: [
-		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
-		            ],
-		            borderColor: [
-		                'rgba(255, 99, 132, 1)',
-		                'rgba(54, 162, 235, 1)'
-		            ],
-		            borderWidth: 1	
-		        }]
-		    },
-		    options: {maintainAspectRatio: false,
-		          legend: {
-		            display: false
-		          },
-		          cutoutPercentage: 80,}
-		});
-		
-		ctx = document.getElementById('negativeChart');
-		var myChart = new Chart(ctx, {
-		    type: 'doughnut',
-		    data: {
-		        labels: ['anger', 'contempt', 'disgust', 'sadness', 'other'],
-		        datasets: [{
-		            label: 'score',
-		            data: [0.2, 0.1, 0.2, 0.3, 0.3],
-		            backgroundColor: [
+		                'rgba(54, 162, 235, 0.2)',
 		                'rgba(255, 99, 132, 0.2)',
 		                'rgba(255, 206, 86, 0.2)',
 		                'rgba(75, 192, 192, 0.2)',
-		                'rgba(153, 102, 255, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
+		                'rgba(153, 102, 255, 0.2)'
 		            ],
 		            borderColor: [
+		                'rgba(54, 162, 235, 1)',
 		                'rgba(255, 99, 132, 1)',
 		                'rgba(255, 206, 86, 1)',
 		                'rgba(75, 192, 192, 1)',
-		                'rgba(153, 102, 255, 1)',
-		                'rgba(54, 162, 235, 1)'
+		                'rgba(153, 102, 255, 1)'
 		            ],
 		            borderWidth: 1	
 		        }]
@@ -121,39 +77,44 @@
 		          },
 		          cutoutPercentage: 80,}
 		});
-		
-		ctx = document.getElementById('panicChart');
-		var myChart = new Chart(ctx, {
-		    type: 'doughnut',
-		    data: {
-		        labels: ['fear', 'surprise', 'other'],
-		        datasets: [{
-		            label: 'score',
-		            data: [0.2, 0.1, 0.2],
-		            backgroundColor: [
-		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(255, 206, 86, 0.2)',
-		                'rgba(54, 162, 235, 0.2)'
-		            ],
-		            borderColor: [
-		                'rgba(255, 99, 132, 1)',
-		                'rgba(255, 206, 86, 1)',
-		                'rgba(54, 162, 235, 1)'
-		            ],
-		            borderWidth: 1	
-		        }]
-		    },
-		    options: {maintainAspectRatio: false,
-		          legend: {
-		            display: false
-		          },
-		          cutoutPercentage: 80,}
-		});
-		
-		
-		
-	});
+	}
 	
+	function imageAnalysisChart(imageAnalysis){
+		
+		var title = ['other', 'happiness']
+		var analysis = [ 1 - imageAnalysis.happiness, imageAnalysis.happiness ];
+		var ctx = document.getElementById('positiveChart');
+		createImageChart(ctx, title, analysis);
+		$("#positiveSpan").empty().append(imageAnalysis.happiness*100 + "%")
+		
+		title = ['other', 'netural']
+		analysis = [ 1 - imageAnalysis.neutral,  imageAnalysis.neutral ];
+		ctx = document.getElementById('neutralChart');
+		createImageChart(ctx, title, analysis);
+		$("#neutralSpan").empty().append(imageAnalysis.neutral*100 + "%")
+		
+		var negativeEmotion = imageAnalysis.anger*1 + imageAnalysis.contempt*1 + imageAnalysis.disgust*1 + imageAnalysis.sadness*1;
+		title = ['other', 'anger', 'contempt', 'disgust', 'sadness']
+		analysis = [ 1 - negativeEmotion , imageAnalysis.anger, imageAnalysis.contempt, imageAnalysis.disgust, imageAnalysis.sadness];
+		ctx = document.getElementById('negativeChart');
+		createImageChart(ctx, title, analysis);
+		$("#negativeSpan").empty().append(negativeEmotion*100 + "%")
+		
+		var panicEmotion = imageAnalysis.fear*1 + imageAnalysis.surprise*1;
+		title = ['other', 'fear', 'surprise']
+		analysis = [ 1 - panicEmotion ,  imageAnalysis.fear , imageAnalysis.surprise ];
+		ctx = document.getElementById('panicChart');
+		createImageChart(ctx, title, analysis);
+		$("#panicSpan").empty().append(Math.round(panicEmotion*100) + "%")
+				
+		  var canvas = document.getElementById('faceChart');
+		  if (canvas.getContext) {
+		    var ctx = canvas.getContext('2d');
+		    var faceTop = imageAnalysis.faceTop*1 + 200;
+		    ctx.strokeStyle = 'red';
+		    ctx.strokeRect(faceTop , imageAnalysis.faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
+		  }
+	}
 	
 	
 </script>
@@ -163,6 +124,10 @@
 #imagechartdiv {
   width: 100px;
   height: 100px;
+}
+
+.canvas-flex div{
+	text-align: center;
 }
 
 
@@ -431,19 +396,19 @@
 						<!-- HTML -->
 							<div>
 								<canvas id="positiveChart" width="160" height="160"></canvas>
-								41%
+								<span id="positiveSpan"></span>
 							</div>
-							<div>
+							<div id="neutralDiv">
 								<canvas id="neutralChart" width="160" height="160"></canvas>
-								36%
+								<span id="neutralSpan"></span>
 							</div>
-							<div>
+							<div id="negativeDiv">
 								<canvas id="negativeChart" width="160" height="160"></canvas>
-								17%
+								<span id="negativeSpan"></span>
 							</div>
-							<div>
+							<div id="panicDiv">
 								<canvas id="panicChart" width="160" height="160"></canvas>
-								6%
+								<span id="panicSpan"></span>
 							</div>
 						</div>
 					</div>
@@ -460,7 +425,7 @@
 							<div class="background-box"></div>
 							<div class="x-axis"></div>
 							<div class="y-axis"></div>
-							<canvas width="630" height="375"></canvas>
+							<canvas id="faceChart" width="630" height="375"></canvas>
 						</div>
 					</div>
 					<div class="close-btn">
