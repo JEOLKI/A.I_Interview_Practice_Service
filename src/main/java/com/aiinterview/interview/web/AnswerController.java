@@ -27,6 +27,7 @@ import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
+import com.aiinterview.analysis.vo.VoiceAnalysisVO;
 import com.aiinterview.board.vo.AttachmentVO;
 import com.aiinterview.common.util.FileUploadUtil;
 import com.aiinterview.interview.service.AnswerService;
@@ -58,7 +59,10 @@ public class AnswerController {
 	
 	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
-	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, MultipartHttpServletRequest mtfRequest){
+	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, VoiceAnalysisVO voiceVO, MultipartHttpServletRequest mtfRequest){
+		System.out.println("앤서 확인 :" + answerVO);
+		System.out.println("이미지분석 확인 :" + imageAnalysisVO);
+		System.out.println("음성분석 확인 :" + voiceVO);
 		
 		List<ImageAnalysisVO> imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();
 		
@@ -66,8 +70,10 @@ public class AnswerController {
 		
 		map.put("imageAnalysisList", imageAnalysisList);
 		
+		System.out.println("파일 확인 : " + mtfRequest.getFile("mtfRequest"));
 		/* 영상 다운로드 */
-		MultipartFile answerVideo = mtfRequest.getFile("answerVideo");
+		MultipartFile answerVideo = mtfRequest.getFile("mtfRequest");
+		System.out.println("파일 사이즈 확인 : " + answerVideo.getSize());
 		if(answerVideo.getSize() > 0) {
 			String videoPath = "D:\\answerVideo\\" + UUID.randomUUID().toString() + ".webm";
 			answerVO.setVideoPath(videoPath);
@@ -268,6 +274,15 @@ public class AnswerController {
 			System.out.println("인재상 분석  : "+keywordAnalysisList);
 			map.put("keywordAnalysisList", keywordAnalysisList);
 			
+			
+			/* 음성 분석*/
+			VoiceAnalysisVO voiceAnalysisVO = new VoiceAnalysisVO();
+			voiceAnalysisVO.setVoiceAnalysisSq(voiceVO.getVoiceAnalysisSq());
+			voiceAnalysisVO.setVoiceDecibel(voiceVO.getVoiceDecibel());
+			
+			map.put("voiceAnalysisVO", voiceAnalysisVO);
+			System.out.println("음성 분석  : "+voiceAnalysisVO);
+					
 			answerSeivce.create(map);
 				
 				
@@ -281,7 +296,7 @@ public class AnswerController {
 		}
         
 		
-		return "";
+		return "jsonView";
 	}
 	
 }

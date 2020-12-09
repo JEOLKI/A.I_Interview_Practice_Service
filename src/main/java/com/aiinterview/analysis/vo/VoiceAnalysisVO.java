@@ -39,4 +39,12 @@ public class VoiceAnalysisVO {
 		this.ansSq = ansSq;
 	}
 
+	@Override
+	public String toString() {
+		return "VoiceAnalysisVO [voiceAnalysisSq=" + voiceAnalysisSq + ", voiceDecibel=" + voiceDecibel
+				+ ", voiceRange=" + voiceRange + ", ansSq=" + ansSq + "]";
+	}
+	
+	
+
 }

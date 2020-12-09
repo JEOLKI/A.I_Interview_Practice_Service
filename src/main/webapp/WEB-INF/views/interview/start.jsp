@@ -10,10 +10,10 @@
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script type="text/javascript">
 	var docV = document.documentElement;
-	SetTime = 0;
+	SetTime = 0; // 타이머 초기값(경과시간)
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
-	time = 0;
+	sum = 0; // 데시벨 초기값
 	
 	var tid;
 	var aid;
@@ -33,15 +33,10 @@
     
     document.addEventListener("DOMContentLoaded", function () {
  	startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
- 	//   $('#startRecognizeOnceAsyncButton')[0]
  	stopRecognizeOnceAsyncButton = document.getElementById("stopRecognizeOnceAsyncButton");
- 	//   $('#stopRecognizeOnceAsyncButton')[0]
  	subscriptionKey = document.getElementById("subscriptionKey");
- 	//   $('#subscriptionKey')[0]
  	serviceRegion = document.getElementById("serviceRegion");
- 	//   $('#serviceRegion')[0]
  	phraseDiv = document.getElementById("phraseDiv");
- 	//   $('#phraseDiv')[0]
  	
  	// 녹음 버튼 클릭 시 
 	startRecognizeOnceAsyncButton.addEventListener("click", function () {
@@ -307,7 +302,8 @@
 		
 		ansContent = answer; // 해당 질문내용
 		ansTime = SetTime; // 경과시간 입력
-		ansSpeed = (ansContent.length)/ansTime; // 말빠르기
+		ansSpeed = (ansContent.length)/ansTime*60; // 말빠르기
+		decibel = (sum/ansTime*10/15).toFixed(1); // 모든값 나누기 경과시간
 		
 		fd.append('name', 'answerVideo'); // name지정
 		fd.append("mtfRequest", blob); // 영상 데이터
@@ -315,6 +311,7 @@
 		fd.append("ansTime", ansTime); // 대답시간(초)
 		fd.append("ansSpeed", ansSpeed); // 대답 속도(대답내용 문자열수/대답시간)
 		fd.append("questSq", questSq); // 대답의 시퀀스 
+		fd.append("voiceDecibel", decibel); // 평균 데시벨 
 		
 		// 확인용 console.log
 		console.log(ansContent);
@@ -322,17 +319,17 @@
 		console.log(ansSpeed);
 		console.log(startCount);
 		console.log(questSq);
-		console.log("blob 확인" + blob)
+		console.log("데시벨" + decibel);
 			
 		$.ajax(
 			{url:"/answer/create.do",
-// 			data : {ansContent : ansContent, ansTime : ansTime, ansSpeed : ansSpeed, questSq : questSq, data: fd},
 			data : fd,
 			type : "post",
 			enctype:'multipart/form-data',
 			contentType: false,
 			processData: false,
 			success : function(data){
+				decibel = 0;
 				console.log("성공");
 				console.log(data);
 				
@@ -342,7 +339,6 @@
 			}
 		});
 	}
-	
 	
 	
 	// blob 데이터 넘기기
@@ -409,15 +405,11 @@
 	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
 	}
 	
+	// jquery
 	$(document).ready(function(){
 		$("#testgo").on('click', function(){
 			$("#analysisData").submit();
 		})
-	});		
-	
-	
-	// jquery
-	$(document).ready(function(){
 		
 		// 풀스크린메서드
 		openFullScreenMode();
@@ -433,6 +425,7 @@
 				
 				TimerStart();
 				analyzeStart(); // 10초마다 이미지 분석
+				$('#voice').trigger('click');
 				
 				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
 				$('.message-balloon').empty();
@@ -486,6 +479,7 @@
 					
 					TimerStart(); // 타이머 시작
 					analyzeStart(); // 10초마다 이미지 분석
+					$('#voice').trigger('click'); // 데시벨 측정
 						
 					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 					$('.message-balloon').empty();
@@ -505,7 +499,6 @@
 					clearInterval(tid);		// 타이머 해제
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
-// 					time = 120 - SetTime; // 경과시간 입력
 					
 					download(); // 녹화 중지
 					createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
@@ -531,43 +524,60 @@
 		
 		// 데시벨 테스트
 		$(document).on('click','#voice',function(){
-			navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
+			sum = 0; // 데시벨 초기값
+			navigator.mediaDevices.getUserMedia({ audio: true, video: false })                                     
 			.then(function(stream) {                                                                              
 			  audioContext = new AudioContext();                                                                  
 			  analyser = audioContext.createAnalyser();                                                           
 			  microphone = audioContext.createMediaStreamSource(stream);                                          
-			  javascriptNode = audioContext.createScriptProcessor(256, 1, 1);                                    
+			  javascriptNode = audioContext.createScriptProcessor(16384, 1, 1);                                    
 			                                                                                                      
-			  analyser.smoothingTimeConstant = 0.1;                                                               
+			  analyser.smoothingTimeConstant = 0.9;                                                               
 			  analyser.fftSize = 1024;                                                                            
 			                                                                                                      
 			  microphone.connect(analyser);                                                                       
 			  analyser.connect(javascriptNode);                                                                   
-			  javascriptNode.connect(audioContext.destination);                                                   
-			  javascriptNode.onaudioprocess = 
-			function() {                                                        
+			  javascriptNode.connect(audioContext.destination);    
+			  
+			  
+			  javascriptNode.onaudioprocess = function() {                                                        
 			      var array = new Uint8Array(analyser.frequencyBinCount);                                         
 			      analyser.getByteFrequencyData(array);                                                           
 			      var values = 0;                                                                                 
 			                                                                                                      
 			      var length = array.length;                                                                      
 			      for (var i = 0; i < length; i++) {                                                              
-			        values += (array[i]);                                                                         
-			      }                                                                                               
-			                                                                                                      
-
-			      average += values / length;                                                                  
-			                                                                                                      
-			    console.log(Math.round(average));                                                                 
+			    	  values += (array[i]);   
+			      }          
+			      var average = values / length;                                                                  
+                  
+			      sum+=Math.round(20*Math.log10(Math.round(average+1)));
+				  console.log(Math.round(20*Math.log10(Math.round(average+1))));	
 			  }                                                                                                   
 			});                                                                                                  
 		});
+		
+		// 데시벨메서드 중지 진행중
+		$(document).on('click','#stopBtn',function(){
+			console.log('중지')
+			sum = 0; // 데시벨 초기값
+			navigator.mediaDevices.getUserMedia({ audio: true, video: false })                                     
+			.then(function(stream) {                                                                              
+			  audioContext = new AudioContext();                                                                  
+			  analyser = audioContext.createAnalyser();                                                           
+			  microphone = audioContext.createMediaStreamSource(stream);                                          
+			  javascriptNode = audioContext.createScriptProcessor(16384, 1, 1);  
+			javascriptNode.stop(0,1);
+			})
+		})
 	});
 </script>
 </head>
-<body style="overflow: hidden;"> <!-- 나중에 overflow hidden 해야함 -->
+<body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- 음성 script위한 부분 -->
-	<div id="content" style="display: none;">
+	<div id="content" style="display:">
+		<input type="button" id="voice" value="음성">
+		<input type="button" id="stopBtn" value="멈춤">
 		<table width="100%">
 			<tr>
 				<td align="right"><a
@@ -598,7 +608,7 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam" style="display: none;">
+	<div class="webcam" style="display: ">
 		<div class="contentarea">
 			<div class="camera">
 				<video id="video" autoplay >Video stream not available.</video>

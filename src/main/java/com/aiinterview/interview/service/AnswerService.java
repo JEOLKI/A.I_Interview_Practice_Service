@@ -11,6 +11,7 @@ import com.aiinterview.analysis.dao.HabitAnalysisMapper;
 import com.aiinterview.analysis.dao.ImageAnalysisMapper;
 import com.aiinterview.analysis.dao.KeywordAnalysisMapper;
 import com.aiinterview.analysis.dao.RepeatAnalysisMapper;
+import com.aiinterview.analysis.dao.VoiceAnalysisMapper;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
@@ -38,10 +39,13 @@ public class AnswerService {
 	@Resource(name="keywordAnalysisMapper")
 	private KeywordAnalysisMapper keywordAnalysisMapper;
 	
+	@Resource(name="voiceAnalysisMapper")
+	private VoiceAnalysisMapper voiceAnalysisMapper;
+	
 	public AnswerVO retrieve(String questSq) throws Exception{
 		return answerMapper.retrieve(questSq);
 	}
-	public void create(Map<String, Object> map) throws Exception{
+	public String create(Map<String, Object> map) throws Exception{
 		
 		AnswerVO answerVO = (AnswerVO) map.get("answerVO");
 		
@@ -76,7 +80,12 @@ public class AnswerService {
 			keywordAnalysisMapper.create(keywordAnalysisVO);
 		}
 		
+		/* 음성 분석 (데시벨, 헤르츠 ) insert */
+		VoiceAnalysisVO voiceAnalysisVO = (VoiceAnalysisVO) map.get("voiceAnalysisVO");
+		voiceAnalysisVO.setAnsSq(ansSq);
+		voiceAnalysisMapper.create(voiceAnalysisVO);
 		
+		return ansSq;
 	}
 
 }

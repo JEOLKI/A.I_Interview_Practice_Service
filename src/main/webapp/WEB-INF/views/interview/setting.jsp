@@ -133,7 +133,6 @@ $(document).ready(function(){
 			  }                                                                                               
 			  for (var i = 0; i < elem_range.length; i++) {                                                   
 		                                                                                                      
-			    // console.log(elem_range[i]);                                                                
 			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
 			  }                                                                                               
 			}                                                                                                 
@@ -175,7 +174,6 @@ $(document).ready(function(){
 		
 		$('#micCheckCancel').show('slow');
 		
-		console.log("찍힌다!")
 		/* 아래부터 볼륨 조절 코드 */
 		function colorPids(vol) {                                                                             
 			  let all_pids = $('.none');                                                                       
@@ -186,7 +184,6 @@ $(document).ready(function(){
 			  }                                                                                               
 			  for (var i = 0; i < elem_range.length; i++) {                                                   
 		                                                                                                      
-			    // console.log(elem_range[i]);                                                                
 			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
 			  }                                                                                               
 			}                                                                                                 
@@ -217,7 +214,6 @@ $(document).ready(function(){
 		                                                                                                      
 		      var average = values / length;                                                                  
 		                                                                                                      
-		    console.log(Math.round(average));                                                                 
 		    colorPids(average);                                                                               
 		  }                                                                                                   
 		  })                                                                                                  
@@ -360,45 +356,45 @@ $(document).ready(function(){
 						<div class="InterviewTestAudio">
 <!-- 							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio> -->
 							<div class="VolumeMeter">
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
+								<div class=""></div>
 							</div>
 							<img
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAeCAYAAAA/xX6fAAAABHNCSVQICAgIfAhkiAAAAkxJREFUSEvVlr9rVFEQhb9TaaeVNoIWgpaK/4EKdjYWioKNggFrjRaKWIg/ClsFBRvtIwgKWpo0gpamy5ZJZSpNNTKPucvs2/t237JrwIU0m7f3u2fmzJkndvmjXebx/wLN7BxwH9iQdKWrcgtTaGYrwPkAbQHPJT1ug3sDzewO4H/fJJ1tHxQKHXAi/e9dW20vYMAeAHuAgaQjXSUzs2vAPeBwPDMCnQpswfyMMaCZfQV+A88kffKHzOx7UvtU0rJ/PxFYgY0Bo5QfQ80O8EbSUkB/AseAbeCiX6YT2AHrUvgCuATsy2WMy7iZvBVfvPdV4ARYFRhqfCyKaVzpTUmvzewtcBnYkbRXZrYJHJghcYY9jMNOASulR+m8dUnH4zJ/QuVLB9oMsBGFZraR3NgYw8yeALfjzOuhshhodV6gj8CjqNC2pP2hqFStGYkUCoO5gKl3xaV3PV3SSDRGSarnBwb0Vzi0lPUzcKY4c6HAjp6V3haFPjY3mtCY0zTF8i70h6STY66UlsysKF6fF1iSZOAKPEmSQZq5a5novQNd7tHWaByKSKpNTJ5DH/bTaQZ9m5SQL+V0J78ajsmE1M/hmx+rbosIgQsx4FuSDrZCvPndtPCuQWvbIgeAL9+rUd4cAo2D+6ynNnQE2AroVeBhwHJ5hzE3FVjZbTWF3ic8xuL5DBsqnroPc+NSenRu/FB7K4befz4CmwkYN/fdtlZ7Oaq9GZRRyRfvVdI+2yTGy9PEt/uHrlfFhQFL72rq/4nCPlWYuYd9D5303F8BlG7c1Ln34AAAAABJRU5ErkJggg=="
