@@ -15,4 +15,5 @@ public interface ImageAnalysisMapper {
 	
 	public ImageAnalysisVO retrieveAnalysis(String ansSq) throws Exception;
 	
+	
 }
