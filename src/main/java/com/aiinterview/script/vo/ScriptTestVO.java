@@ -1,6 +1,8 @@
 package com.aiinterview.script.vo;
 
-public class ScriptTestVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class ScriptTestVO extends BaseVO{
 	private String scriptTestSq;	//스크립트 테스트의 고유번호
 	private String scriptTestScore;	//테스트 결과 점수
 	private String performScript;	//사용자의 테스트시 만들어진 음원파일에서 추출한 스크립트

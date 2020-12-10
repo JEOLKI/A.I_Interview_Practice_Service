@@ -1,5 +1,7 @@
 package com.aiinterview.script.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,27 +15,66 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.aiinterview.script.service.ScriptGubunService;
 import com.aiinterview.script.service.ScriptService;
 import com.aiinterview.script.vo.ScriptGubunVO;
 import com.aiinterview.script.vo.ScriptVO;
 
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 @RequestMapping("/script")
 @Controller
 public class ScriptController {
 	private static final Logger logger = LoggerFactory.getLogger(ScriptController.class);
+	
 	@Resource(name = "scriptService")
 	private ScriptService scriptService;
 
 	@Resource(name = "scriptGubunService")
 	private ScriptGubunService scriptGbService;
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
-	@RequestMapping(path = "/manage.do")
-	public String scriptManageView(Model model) throws Exception {
-		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
+	@RequestMapping("/retrievePagingList.do")
+	public String retrievePagingList(ScriptVO scriptVO, String pageUnit, Model model) throws Exception{
+	
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
+		
+		/** EgovPropertyService.sample */
+		scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		scriptVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		scriptVO.setPageUnit(pageUnitInt);
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
+		paginationInfo.setPageSize(scriptVO.getPageSize());
+		
+		
+		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		List<ScriptVO> resultList = scriptService.retrievePagingList(scriptVO);
+		model.addAttribute("scriptList", resultList);
+
+		int totCnt = scriptService.retrievePagingListCnt(scriptVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		
 		// 활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
+		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
 		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
 		for (ScriptGubunVO scriptGb : scriptGbList) {
 			if (scriptGb.getScriptGbSt().equals("Y")) {
@@ -41,40 +82,51 @@ public class ScriptController {
 			}
 		}
 		model.addAttribute("scriptGbList", availableGbList);
-
+		
 		return "manage/scriptManage";
 	}
-
-	@RequestMapping(path = "/list.do")
-	public String retrieveList(Model model) throws Exception {
-		List<ScriptVO> scriptList = scriptService.retrieveList();
-		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
-
-		//전체 스크립트 리스트
-		model.addAttribute("scriptList", scriptList);
-		//전체 스크립트 구분 리스트
-		model.addAttribute("scriptGbList", scriptGbList);
-		
-		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
-		for (ScriptGubunVO scriptGb : scriptGbList) {
-			if (scriptGb.getScriptGbSt().equals("Y")) {
-				availableGbList.add(scriptGb);
-			}
-		}
-		
-		//활성상태가 "Y"인 스크립트 구분의 리스트
-		//model.addAttribute("availableScriptGbList", availableGbList);
-		return "jsonView";
-	}
-
+	
+	/* 등록 */
 	@RequestMapping(path = "/createProcess.do", method = { RequestMethod.POST })
 	public String createProcess(String scriptContent, String scriptGbSq, String scriptSt) throws Exception {
 		ScriptVO scriptVO = new ScriptVO(scriptContent, scriptSt, scriptGbSq);
 		
 		scriptService.create(scriptVO);
-		return "redirect:/script/manage.do";
+		return "redirect:/script/retrievePagingList.do";
 	}
+	
 
+	/* 일괄 등록 */
+	@RequestMapping("/massiveCreateProcess.do")
+	public ModelAndView createMassiveScript(MultipartHttpServletRequest request) {
+		MultipartFile excelFile = request.getFile("excelFile");
+		
+		if(excelFile == null || excelFile.isEmpty()) {
+			throw new RuntimeException("엑셀파일을 선택해 주세요.");
+		}
+		
+		File destFile = new File("D:\\"+excelFile.getOriginalFilename());
+		
+		try {
+			excelFile.transferTo(destFile);
+		} catch (IllegalStateException | IOException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		
+		try {
+			scriptService.createMassiveScript(destFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		destFile.delete();
+		
+		ModelAndView view = new ModelAndView();
+        view.setViewName("redirect:/script/retrievePagingList.do");
+        return view;
+	}
+	
+	/* 단일 수정*/
 	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
 	public String updateProcess(ScriptVO scriptVO) throws Exception {
 		
@@ -86,12 +138,12 @@ public class ScriptController {
 		int updateCnt = scriptService.update(scriptVo);
 
 		if (updateCnt == 1) {
-			return "redirect:/script/manage.do";
+			return "redirect:/script/retrievePagingList.do";
 		} else {
 			return "manage/scriptManage";
 		}
 	}
-
+	
 	/* 일괄 다운로드 */
 	@RequestMapping("/list/excelDown.do")
 	public String excelDown(Model model) {
@@ -131,5 +183,54 @@ public class ScriptController {
 	
 		return "excelView";
 	}
+
+	
+	
+	
+	
+	
+//	@RequestMapping(path = "/manage.do")
+//	public String scriptManageView(Model model) throws Exception {
+//		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
+//
+//		// 활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
+//		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
+//		for (ScriptGubunVO scriptGb : scriptGbList) {
+//			if (scriptGb.getScriptGbSt().equals("Y")) {
+//				availableGbList.add(scriptGb);
+//			}
+//		}
+//		model.addAttribute("scriptGbList", availableGbList);
+//
+//		return "manage/scriptManage";
+//	}
+
+//	@RequestMapping(path = "/list.do")
+//	public String retrieveList(Model model) throws Exception {
+//		List<ScriptVO> scriptList = scriptService.retrieveList();
+//		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
+//
+//		//전체 스크립트 리스트
+//		model.addAttribute("scriptList", scriptList);
+//		//전체 스크립트 구분 리스트
+//		model.addAttribute("scriptGbList", scriptGbList);
+//		
+//		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
+//		for (ScriptGubunVO scriptGb : scriptGbList) {
+//			if (scriptGb.getScriptGbSt().equals("Y")) {
+//				availableGbList.add(scriptGb);
+//			}
+//		}
+//		
+//		//활성상태가 "Y"인 스크립트 구분의 리스트
+//		//model.addAttribute("availableScriptGbList", availableGbList);
+//		return "jsonView";
+//	}
+
+
+
+
+
+	
 
 }

@@ -1,11 +1,16 @@
 package com.aiinterview.script.service;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.common.util.excel.option.ReadOption;
+import com.aiinterview.common.util.excel.read.ExcelRead;
+import com.aiinterview.interview.vo.SampleQuestionVO;
 import com.aiinterview.script.dao.ScriptMapper;
 import com.aiinterview.script.vo.ScriptVO;
 
@@ -16,13 +21,53 @@ public class ScriptService {
 	private ScriptMapper scriptMapper;
 
 	/**
-	 * 스크립트 하나를 반환하는 메서드
-	 * @param scriptSq
-	 * @return ScriptVO
+	 * 페이징 처리 후 해당 페이지의 스크립트 리스트를 반환하는 메서드
+	 * @param scriptVO
+	 * @return
+	 */
+	public List<ScriptVO> retrievePagingList(ScriptVO scriptVO) throws Exception{
+		return scriptMapper.retrievePagingList(scriptVO);
+	}
+
+	/**
+	 * 페이징처리를 위한 스크립트의 총 개수를 구하는 메서드
+	 * @param scriptVO
+	 * @return 샘플질문 총 개수
+	 */
+	public int retrievePagingListCnt(ScriptVO scriptVO) throws Exception{
+		return scriptMapper.retrievePagingListCnt(scriptVO);
+	}
+	
+	/**
+	 * 스크립트 단일 등록 메서드
+	 * @return String
 	 * @throws Exception
 	 */
-	public ScriptVO retrieve(String scriptSq) throws Exception{
-		return scriptMapper.retrieve(scriptSq);
+	public void create(ScriptVO ScriptVO) throws Exception{
+		scriptMapper.create(ScriptVO);
+	}
+	
+	/**
+	 * 스크립트 일괄 등록 메서드
+	 * @param destFile
+	 */
+	public void createMassiveScript(File destFile) throws Exception{
+		ReadOption readOption = new ReadOption();
+		  readOption.setFilePath(destFile.getAbsolutePath());
+		  readOption.setOutputColumns("A","B","C");
+		  readOption.setStartRow(2);
+
+		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
+
+		  ScriptVO scriptVO = null;
+		  for(Map<String, String> script : excelContent) {
+			  scriptVO = new ScriptVO();
+			  scriptVO.setScriptContent(script.get("A"));
+			  scriptVO.setScriptSt(script.get("B"));
+			  scriptVO.setScriptGbSq(script.get("C"));
+			  
+			  scriptMapper.create(scriptVO);
+		  }
 	}
 	
 	/**
@@ -35,58 +80,41 @@ public class ScriptService {
 	}
 	
 	/**
-	 * 스크립트 구분 sq에 맞는 스크립트 전체리스트를 반환하는 메서드
-	 * @return List<ScriptVo>
-	 * @throws Exception
-	 */
-	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception{
-		return scriptMapper.retrieveSelectList(scriptGbSq);
-	}
-	
-//	/**
-//	 * 스크립트의 총 갯수를 반환하는 메서드
-//	 * @param scriptVO
-//	 * @return int
-//	 * @throws Exception
-//	 */
-//	public int retrievePagingListCnt(ScriptVO scriptVO) throws Exception{
-//		return scriptMapper.retrievePagingListCnt(scriptVO);
-//	}
-//	
-//	/**
-//	 * 전체 스크립트를 페이징 처리 후 한 페이지당 보여지는 스크립트의 리스트
-//	 * @return List<ScriptVO>
-//	 * @throws Exception
-//	 */
-//	public List<ScriptVO> retrievePageList() throws Exception{
-//		return scriptMapper.retrievePageList();
-//	}
-//	
-//	/**
-//	 * 특정 스크립트 구분 별로 페이징 처리 후 한 페이지당 보여지는 스크립트의 리스트
-//	 * @return List<ScriptVO>
-//	 * @throws Exception
-//	 */
-//	public List<ScriptVO> retrievePageList(String scriptSq) throws Exception{
-//		return scriptMapper.retrievePageList(scriptSq);
-//	}
-	
-	/**
-	 * 스크립트를 추가하는 메서드
-	 * @return String
-	 * @throws Exception
-	 */
-	public void create(ScriptVO ScriptVO) throws Exception{
-		scriptMapper.create(ScriptVO);
-	}
-	
-	/**
-	 * 스크립트의 활성 상태를 수정하는 메서드
+	 * 스크립트를 수정하는 메서드
 	 * @param ScriptGbVO
 	 * @return 성공 시 1, 실패 시 0
 	 * @throws Exception
 	 */
 	public int update(ScriptVO ScriptVO) throws Exception{
 		return scriptMapper.update(ScriptVO);
+	}
+	
+	/**
+	 * 스크립트 하나를 반환하는 메서드
+	 * @param scriptSq
+	 * @return ScriptVO
+	 * @throws Exception
+	 */
+	public ScriptVO retrieve(String scriptSq) throws Exception{
+		return scriptMapper.retrieve(scriptSq);
+	}
+
+	/**
+	 * 검색한 스크립트 리스트를 반환하는 메서드
+	 * @param keyword
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScriptVO> retrieveScriptSearchList(String keyword)  throws Exception{
+		return scriptMapper.retrieveScriptSearchList(keyword);
+	}
+	
+	/**
+	 * 스크립트 구분 sq에 맞는 스크립트 전체리스트를 반환하는 메서드
+	 * @return List<ScriptVo>
+	 * @throws Exception
+	 */
+	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception{
+		return scriptMapper.retrieveSelectList(scriptGbSq);
 	}
 }

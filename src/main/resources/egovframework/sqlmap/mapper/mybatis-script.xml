@@ -4,45 +4,69 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.script.dao.ScriptMapper">
 
+	<!-- 스크립트 한개 조회 -->
 	<select id="retrieve" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
 		SELECT *
 		FROM	script
 		WHERE	script_sq = #{scriptSq}
 	</select>
 
+	<!-- 전체 리스트 조회 -->
 	<select id="retrieveList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
 		SELECT *
 		FROM script
 	</select>
 	
+	<!-- 스크립트 구분에 맞는 스크립트 조회 -->
 	<select id="retrieveSelectList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
 		SELECT *
 		FROM script
 		WHERE script_gb_sq = #{scriptGbSq}
 	</select>
 	
-<!-- 	<select id="retrievePagingListCnt" parameterType="com.aiinterview.script.vo.ScriptVO" resultType="int">
-		SELECT 	count(*)
-		FROM	script
+	<!-- 페이징 : 해당 페이지리스트 select -->
+	<select id="retrievePagingList" resultType="com.aiinterview.script.vo.ScriptVO">
+		SELECT A.*
+		  FROM (
+		  	SELECT ROWNUM RNUM, 
+		  		   S.*
+		      FROM (
+		      	SELECT script_sq, 
+		      		   script_content, 
+		      		   script_st,
+		      		   script_gb_sq
+		          FROM script
+		         WHERE 1=1
+		          <if test="searchKeyword != null and searchKeyword != ''">
+				   AND script_content LIKE '%' || #{searchKeyword} || '%'
+				  </if>
+		         ORDER BY script_sq 
+		   	) S
+		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
+	   ) A 
+	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
 	</select>
 	
-	<select id="retrievePageList" parameterType="com.aiinterview.common.model.PageVO" resultType="com.aiinterview.script.vo.ScriptVO">
-	SELECT *
-		FROM (SELECT ROWNUM rn, a.*
-			  FROM (SELECT *
-					FROM script
-					ORDER BY script_sq) a)
-		WHERE rn BETWEEN (#{page}-1) * #{pageSize} + 1 AND #{page} * #{pageSize}
-	</select> -->
+	<!-- 페이징 : 전체 스크립트 갯수 -->
+	<select id="retrievePagingListCnt" resultType="int">
+		SELECT count(*) totCnt
+		  FROM script
+		 WHERE 1=1
+		  <if test="searchKeyword != null and searchKeyword !=''">
+		   AND script_content LIKE '%'||#{searchKeyword}||'%'	
+		  </if>
+	</select>
 	
+	<!-- 등록 -->
 	<insert id="create">
-		<selectKey keyProperty="scriptSq" resultType="String" order="BEFORE" keyColumn="scriptSq">
+		<selectKey keyProperty="scriptSq" resultType="String" order="BEFORE">
 			SELECT script_sq.nextval FROM DUAL
 		</selectKey>
 			INSERT INTO script
 			VALUES (TO_NUMBER(#{scriptSq}), #{scriptContent}, #{scriptSt}, #{scriptGbSq}) 
 	</insert>
 	
+	<!-- 수정 -->
 	<update id="update">
 		UPDATE script
 		   SET script_content = #{scriptContent},
@@ -51,5 +75,11 @@
 		 WHERE script_sq = #{scriptSq}
 	</update>
 	
+	<!-- 검색 -->
+	<select id="retrieveScriptSearchList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
+		SELECT *
+		 FROM script
+		WHERE quest_content LIKE '%'||#{keyword}||'%'
+	</select>
 	
 </mapper>

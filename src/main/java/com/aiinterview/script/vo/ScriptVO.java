@@ -1,6 +1,8 @@
 package com.aiinterview.script.vo;
 
-public class ScriptVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class ScriptVO extends BaseVO{
 	private String scriptSq; 		//스크립트 고유 번호
 	private String scriptContent;	//스크립트 내용
 	private String scriptSt;		//스크립트의 활성화, 비활성화 여부
