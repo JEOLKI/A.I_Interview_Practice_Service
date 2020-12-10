@@ -159,7 +159,13 @@ public class AnalysisController {
 	}
 	
 	@RequestMapping(value = "/answer/retrieve.do")
-	public String retrieve(String questSq, Model model) {           
+	public String retrieveView(String questSq, Model model) {    
+		model.addAttribute("questSq", questSq);
+		return "analysis/analysisResult";
+	}
+	
+	@RequestMapping(value = "/answer/retrieveAnalysis.do")
+	public String retrieveAnalysis(String questSq, Model model) {           
 		
 		String ansSq = "";
 		
