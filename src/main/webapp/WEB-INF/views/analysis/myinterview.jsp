@@ -8,181 +8,225 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>아이엠터뷰</title>
+<title>AI_INTERVIEW</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <style>
-body * {
-	box-sizing: border-box;
-}
 
-.TestChart{
-	background:transparent;
-	background-color: white;
-	height: 500px;
+	body * {
+		box-sizing: border-box;
+	}
 	
-}
-#pronunciation{
-	padding : 10px 20px;
-}
-#habitant{
-    font-size: 22px;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 40px;
-}
-
-/* .OrderArea{ */
-/* 	margin : 40px 0px 0px; */
+	.TestChart{
+		background:transparent;
+		background-color: white;
+		height: 500px;
+		
+	}
+	#pronunciation{
+		padding: 30px 30px;
+		padding-bottom: 0px;
+	}
 	
-/* } */
-.helloChart{
-	width: 60%;
-	hegiht : 70%;
-}
-.chartgraph{
-	padding-left: 9%;
-	padding-top: 10%;
-}
-
-#gazeChart{
-	display: none;
-}
-
+	#pronunciation .title{
+		display: inline-block;
+		float: left;
+		margin-left: 20px;
+	}
+	
+	#habitant{
+	    font-size: 22px;
+	    font-weight: 500;
+	    text-align: center;
+	    margin-top: 40px;
+	}
+	
+	/* .OrderArea{ */
+	/* 	margin : 40px 0px 0px; */
+		
+	/* } */
+	.helloChart{
+		width: 60%;
+		hegiht : 70%;
+	}
+	.chartgraph{
+		padding-left: 9%;
+		padding-top: 10%;
+	}
+	
+	#gazeChart{
+		display: none;
+	}
+	
+	#resultBtn{
+		text-align: center;
+	    margin-right: 80px;
+	    padding: 10px;
+	    width: 120px;
+	}
+	
+	.speechBtn{
+		font-size: 14px;
+		border-radius: 50px;
+		border: 1px solid #000d22;
+		padding: 5px 10px;
+	}
+	
+	.speechBtn:hover, #resultBtn:hover {
+		color: #3CA4FF;
+		border-color: #3CA4FF;
+	}
+	
 
 </style>
 
 <script>
 
-var imageAnalysisList;
-var labels = [];
-
-
-$(document).ready(function() {
-	TestChart();
+	var imageAnalysisList;
+	var labels = [];
 	
-	$.ajax({url : "/analysis/image/retrieveGrowth.do",
-		method : "get",
-		success : function(data){
-			console.log(data.imageAnalysisGrowth)
-			imageAnalysisList = data.imageAnalysisGrowth;
-			imageGrowthdata(imageAnalysisList);
+	
+	$(document).ready(function() {
+		TestChart();
+		
+		$.ajax({url : "/analysis/image/retrieveGrowth.do",
+			method : "get",
+			success : function(data){
+				console.log(data.imageAnalysisGrowth)
+				imageAnalysisList = data.imageAnalysisGrowth;
+				imageGrowthdata(imageAnalysisList);
+			}
+		})
+		
+		$(".btn").on('click', function(){
+			target = $(this).data("target");
+			$(".btn").removeClass("select");
+			$(this).addClass("select");
+			$(".graph-content").hide();
+			$("#"+target+"").show();
+			console.log(target);
+		})
+		
+	    const popUpOpenBtn = document.getElementById("popUpOpenBtn");
+	
+	    popUpOpenBtn.addEventListener("click", () => {
+	  	  var url = '/scriptTest/testPopup.do';
+	  	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	      window.open(url, "", options);
+	    });
+	    
+	    const speechOpen = document.getElementById("speechOpen");
+	
+	    speechOpen.addEventListener("click", () => {
+	  	  var url = '/speech/speech.do';
+	  	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	    window.open(url, "", options);
+	
+	      
+	    });
+		
+	})
+	
+	function TestChart(){
+	  $.ajax({url : "/speech/speechChart.do",
+		  method : "get",
+		  success : function(data){
+			  var html = data;	
+			  $("#TestChart").html(html);
+		  }
+	  })
+	}
+	
+	
+	function imageGrowthdata(imageAnalysisList){
+		
+		var max = 1;
+		
+		for(var i = 0; i < imageAnalysisList.length ; i++){
+			labels.push(i);
+			analysis = [0];
+			analysis.push(imageAnalysisList[i].happiness);
 		}
-	})
-	
-	$(".btn").on('click', function(){
-		target = $(this).data("target");
-		$(".btn").removeClass("select");
-		$(this).addClass("select");
-		$(".graph-content").hide();
-		$("#"+target+"").show();
-		console.log(target);
-	})
-	
-})
-
-function TestChart(){
-  $.ajax({url : "/speech/speechChart.do",
-	  method : "get",
-	  success : function(data){
-		  var html = data;	
-		  $("#TestChart").html(html);
-	  }
-  })
-}
-
-
-function imageGrowthdata(imageAnalysisList){
-	
-	var max = 1;
-	
-	for(var i = 0; i < imageAnalysisList.length ; i++){
-		labels.push(i);
-		analysis = [0];
-		analysis.push(imageAnalysisList[i].happiness);
+		var title = ['happiness']
+		var ctx = document.getElementById('positiveChart');
+		imageGrowthChart(ctx, labels, title, analysis, max);
+		
+		title = ['netural']
+		for(var i = 0; i < imageAnalysisList.length ; i++){
+			analysis = [0];
+			analysis.push(imageAnalysisList[i].neutral);
+		}
+		ctx = document.getElementById('neutralChart');
+		imageGrowthChart(ctx, labels, title, analysis, max);
+		
+		title = ['negative']
+		for(var i = 0; i < imageAnalysisList.length ; i++){
+			negative = imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
+			analysis = [0];
+			analysis.push(negative);
+		}
+		ctx = document.getElementById('negativeChart');
+		imageGrowthChart(ctx, labels, title, analysis, max);
+		
+		title = ['panic']
+		for(var i = 0; i < imageAnalysisList.length ; i++){
+			panic = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
+			analysis = [0];
+			analysis.push(panic);
+		}
+		ctx = document.getElementById('panicChart');
+		imageGrowthChart(ctx, labels, title, analysis, max);
+		
+		max = 30;
+		title = ['facePosition']
+		for(var i = 0; i < imageAnalysisList.length ; i++){
+			position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
+			analysis = [0];
+			analysis.push(position);
+		}
+		ctx = document.getElementById('faceChart');
+		imageGrowthChart(ctx, labels, title, analysis, max);
+		
 	}
-	var title = ['happiness']
-	var ctx = document.getElementById('positiveChart');
-	imageGrowthChart(ctx, labels, title, analysis, max);
 	
-	title = ['netural']
-	for(var i = 0; i < imageAnalysisList.length ; i++){
-		analysis = [0];
-		analysis.push(imageAnalysisList[i].neutral);
+	function imageGrowthChart(ctx, labels, title, analysis, max){
+		var myChart = new Chart(ctx, {
+			type: 'line',
+		    data: {
+		        labels: labels,
+		        datasets: [{
+		            label: title,
+		            data: analysis,
+		            borderColor: "rgba(255, 201, 14, 1)",
+		            backgroundColor: "rgba(255, 201, 14, 0.5)",
+		            fill: true,
+		            lineTension: 0
+		        }]
+		    },
+		    options: {
+		        responsive: true,
+		        scales: {
+		            xAxes: [{
+		                display: true,
+		                scaleLabel: {
+		                    display: true,
+		                }
+		            }],
+		            yAxes: [{
+		                display: true,
+		                ticks: {
+		                    suggestedMin: 0,
+		                    suggestedMax: max
+		                }
+		            }]
+		        }
+		    }
+		});
+		
 	}
-	ctx = document.getElementById('neutralChart');
-	imageGrowthChart(ctx, labels, title, analysis, max);
-	
-	title = ['negative']
-	for(var i = 0; i < imageAnalysisList.length ; i++){
-		negative = imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
-		analysis = [0];
-		analysis.push(negative);
-	}
-	ctx = document.getElementById('negativeChart');
-	imageGrowthChart(ctx, labels, title, analysis, max);
-	
-	title = ['panic']
-	for(var i = 0; i < imageAnalysisList.length ; i++){
-		panic = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
-		analysis = [0];
-		analysis.push(panic);
-	}
-	ctx = document.getElementById('panicChart');
-	imageGrowthChart(ctx, labels, title, analysis, max);
-	
-	max = 30;
-	title = ['facePosition']
-	for(var i = 0; i < imageAnalysisList.length ; i++){
-		position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
-		analysis = [0];
-		analysis.push(position);
-	}
-	ctx = document.getElementById('faceChart');
-	imageGrowthChart(ctx, labels, title, analysis, max);
-	
-}
-
-function imageGrowthChart(ctx, labels, title, analysis, max){
-	var myChart = new Chart(ctx, {
-		type: 'line',
-	    data: {
-	        labels: labels,
-	        datasets: [{
-	            label: title,
-	            data: analysis,
-	            borderColor: "rgba(255, 201, 14, 1)",
-	            backgroundColor: "rgba(255, 201, 14, 0.5)",
-	            fill: true,
-	            lineTension: 0
-	        }]
-	    },
-	    options: {
-	        responsive: true,
-	        scales: {
-	            xAxes: [{
-	                display: true,
-	                scaleLabel: {
-	                    display: true,
-	                }
-	            }],
-	            yAxes: [{
-	                display: true,
-	                ticks: {
-	                    suggestedMin: 0,
-	                    suggestedMax: max
-	                }
-	            }]
-	        }
-	    }
-	});
-	
-}
-
-
-
 
 </script>
 
@@ -195,8 +239,7 @@ function imageGrowthChart(ctx, labels, title, analysis, max){
 			<div class="my-bar interview">
 				<div class="title">내 면접</div>
 				<div class="start-btn">
-					<a href="/interview/ready.do"> 새 면접 만들기<img
-						src="/static/media/right.2a3d42b5.svg" alt=""></a>
+					<a href="/interview/ready.do"> 새 면접 만들기<img src="/static/media/right.2a3d42b5.svg" alt=""></a>
 				</div>
 			</div>
 			<div class="MainComponent">
@@ -210,12 +253,14 @@ function imageGrowthChart(ctx, labels, title, analysis, max){
 							</div>
 							<div class="interface">
 								<div class="title">최근 면접</div>
-								면접본 날짜 ex)2020.11.27<br>면접
+								${resultList[0].interviewDate }
+								<br>
+								${resultList[0].interviewNm } 
 							</div>
-							<a class="review-btn" href="/analysisresult/interviewresult.do">결과
-								보기</a> <a class="review-btn" href="/analysisresult/interviewlist.do">면접
-								분석</a>
+							
+							<a id="resultBtn" class="review-btn" href="/analysis/question/retrievePagingList.do?interviewSq=${resultList[0].interviewSq }">결과 보기</a> 
 						</div>
+						
 						<div class="ProspectArea box">
 							<div class="title">
 								목표기업<a class="link" href="/personal-info">내 프로필</a>
@@ -240,10 +285,9 @@ function imageGrowthChart(ctx, labels, title, analysis, max){
 						<div class="box HelpArea" id="pronunciation">
 						
 							<div class="label"></div>
-							<div class="title"> 발음연습 &nbsp &nbsp
-								<button id="popUpOpenBtn">발음 평가</button>&nbsp &nbsp
-								<button id="speechOpen">발음 평가</button>
-							</div>
+							<div class="title">발음연습</div>
+							<a id="popUpOpenBtn" class="speechBtn">읽기 평가</a> &nbsp&nbsp
+							<a id="speechOpen" class="speechBtn">영어 말하기 평가</a>
 							<div id="TestChart"></div>	
 							<br>
 							
@@ -436,65 +480,6 @@ function imageGrowthChart(ctx, labels, title, analysis, max){
 			</footer>
 		</div>
 	</div>
-
-	<div class="modal-wrapper">
-		<div class="modal-box">
-			<div>
-				<c:forEach items="${scriptGbList }" var="scriptGb">
-					<button class="scriptGbBtn" value="${scriptGb.scriptGbSq }"
-						onclick="random(${scriptGb.scriptGbSq });">
-						<div class="label thislabel">${scriptGb.scriptGbContent }</div>
-					</button>
-					<input type="hidden" name="scritGbSq"
-						value="${scriptGb.scriptGbSq }">
-				</c:forEach>
-				<button id="modal-close-btn" style="float: right;">close</button>
-
-
-			</div>
-			<div class="modal-content pro" id="scriptModalContent">
-
-			</div>
-			
-			<div style="text-align: center">
-			<label>내가 말한</label>
-			<br><input style="text-align: center" type="text" value="" id="phraseDiv"><br>
-			과의 일치도는 <label id="valiPercent"></label>%입니다.
-					
-			</div>
-
-			<div class="modal-close-box" id="modal-close-box">
-				<br><label>시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
-				</label><br>
-				<button class="processBtn" id="startTestBtn">
-					시작 하기					<!-- onclick="startTest()" -->
-				</button>
-				<!-- <button class="processBtn" id="stopTestBtn">종료 하기</button> -->
-			</div>
-			<input id="subscriptionKey" type="hidden"
-				value="8e1d8a815cd34bd4b7fee2b71344ef49"> <input
-				id="serviceRegion" type="hidden" size="40" value="koreacentral">
-			<br> <br> <br>
-		</div>
-	</div>
-		<script>
-      const popUpOpenBtn = document.getElementById("popUpOpenBtn");
-
-      popUpOpenBtn.addEventListener("click", () => {
-    	  var url = '/scriptTest/testPopup.do';
-    	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-        window.open(url, "", options);
-      });
-      
-      const speechOpen = document.getElementById("speechOpen");
-
-      speechOpen.addEventListener("click", () => {
-    	  var url = '/speech/speech.do';
-    	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-      window.open(url, "", options);
-
-        
-      });
-    </script>
+	
 </body>
 </html>
