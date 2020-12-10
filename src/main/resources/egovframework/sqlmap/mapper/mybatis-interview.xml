@@ -51,7 +51,7 @@
 					FROM INTERVIEW
 					WHERE 1=1
 					<choose>
-			            <when test="memId == null and memId == ''">
+			            <when test="memId != null and memId != ''">
 						AND	MEM_ID = #{memId}
 						</when>
 					</choose>
@@ -76,7 +76,7 @@
 			FROM INTERVIEW
 			WHERE 1=1
 			<choose>
-		           <when test="memId == null and memId == ''">
+		        <when test="memId != null and memId != ''">
 				AND	MEM_ID = #{memId}
 				</when>
 			</choose>
