@@ -40,7 +40,9 @@ public class CategoryController {
 	
 	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(CategoryVO categoryVO, HttpSession session, ModelMap model) {
-
+		
+		model.addAttribute("boardGbSq", categoryVO.getBoardGbSq());
+		
 		/** EgovPropertyService.sample */
 		categoryVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		categoryVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -75,7 +77,7 @@ public class CategoryController {
 		return "board/categoryList";
 	}
 	
-	@RequestMapping(value = "/create.do")
+	@RequestMapping(value="/create.do")
 	public String create(CategoryVO categoryVO) {
 		
 		try {
@@ -84,7 +86,7 @@ public class CategoryController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/category/retrievePagingList.do";
+		return "redirect:/category/retrievePagingList.do?boardGbSq=" + categoryVO.getBoardGbSq();
 	}
 	
 	@RequestMapping(value = "/update.do")
@@ -96,7 +98,7 @@ public class CategoryController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/category/retrievePagingList.do";
+		return "redirect:/category/retrievePagingList.do?boardGbSq=" + categoryVO.getBoardGbSq();
 	}
 	
 	/* 일괄 다운로드 */

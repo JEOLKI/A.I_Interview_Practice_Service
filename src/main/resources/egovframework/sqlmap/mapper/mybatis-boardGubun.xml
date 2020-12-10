@@ -42,14 +42,16 @@
 	      	SELECT ROWNUM RNUM,
 	           	   S.*
 		      FROM (
-		      	SELECT BOARD_GB_SQ,
-					   BOARD_GB_NM,
-					   BOARD_GB_ST
+		      	SELECT *
 					FROM BOARD_GB
+					WHERE 1=1
 					<if test="searchKeyword != null and searchKeyword != ''">
 				        <choose>
 				            <when test="searchCondition == 0">
-								AND	BOARD_GB_NM '%' || #{searchKeyword} || '%'
+								AND	BOARD_GB_NM LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	BOARD_GB_ST LIKE '%' || #{searchKeyword} || '%'
 							</when>
 						</choose>
 					</if>
@@ -63,13 +65,17 @@
 	<select id="retrievePagingListCnt" resultType="int">	    
       	SELECT count(*) totCnt
 		FROM   BOARD_GB
+		WHERE 1=1
 		<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	BOARD_GB_NM LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>		
+	        <choose>
+	            <when test="searchCondition == 0">
+					AND	BOARD_GB_NM LIKE '%' || #{searchKeyword} || '%'
+				</when>
+	            <when test="searchCondition == 1">
+					AND	BOARD_GB_ST LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>		
 	</select>
 	
 	<select id="retrieveList" resultType="com.aiinterview.board.vo.BoardGubunVO">

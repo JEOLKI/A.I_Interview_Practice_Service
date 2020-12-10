@@ -12,7 +12,7 @@
 	
 	$(document).ready(function() {
 	
-		$('#boardGubunRegistFrm').on('click', function() {
+		$('#boardGbRegBtn').on('click', function() {
 			if($('#boardGbNm').val()==''){
 				var html = '<span style="color:red">**내용을 입력해주세요</span><br><br>';
 				$('#check').empty();
@@ -38,25 +38,23 @@
 		
 	})
 	
-	/* pagination 페이지 링크 function */
-	function linkPage(pageNo){
-		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-		document.listForm.pageIndex.value = pageNo;
-		document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
-	   	document.listForm.submit();
-	}
-	
+	 /* pagination 페이지 링크 function */
+    function linkPage(pageNo){
+    	document.listForm.pageIndex.value = pageNo;
+    	document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
+       	document.listForm.submit();
+    }
+	 
 	/* 검색 */
 	function searchList(){
-	document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
-		document.listForm.submit();
+		document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
+       	document.listForm.submit();
 	}
 	
 </script>
 
 </head>
 <body>
-	<form:form commandName="boardGubunVO" id="listForm" name="listForm" method="get">
 		<div class="registdiv">
 			<form id="boardGubunRegistFrm" action="${cp }/boardGubun/create.do" method="post">
 				<label>게시판 이름 : </label>
@@ -70,24 +68,23 @@
 			<div id="check"></div>
 		</div>
 		
+	<form:form commandName="boardGubunVO" id="listForm" name="listForm" method="get">
 		<div class="blog-main">
-	
 			<div class="input-group boarding ">
 	       		<ul  class = "button-search ">
-	       			<li>
-	       			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
-	       				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
-	       					<form:option value="0" label="제목" />
-	       					<form:option value="1" label="작성자" />
-	       				</form:select>
-	       			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-	                       <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
-	       	            <span class="btn btn-primary">
-	       	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
-	       	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-	       	            </span>
-	       	        </li>
-	               </ul>
+        			<li>
+        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
+        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
+        					<form:option value="0" label="내용" />
+        				</form:select>
+        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+                        <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
+        	            <span class="btn btn-primary">
+        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
+        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
+        	            </span>
+        	        </li>
+                </ul>
 	       	</div>
 	       	
 			<a href="${cp }/boardGubun/list/excelDown.do">↓ 목록 내려받기</a> 

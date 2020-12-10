@@ -8,31 +8,72 @@
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+		$('#categoryRegBtn').on('click', function() {
+			if($('#catContent').val()==''){
+				var html = '<span style="color:red">**내용을 입력해주세요</span><br><br>';
+				$('#check').empty();
+				$('#check').append(html);
+			}else{
+				$('#categoryRegistFrm').submit();
+			}
+		})
+
+		
+		$('#massiveCreate').on('click',function(){
+			$('input[type="file"]').click();
+		})
+		
+		$('input[type="file"]').on('change',function(){
+			$('#massiveForm').submit();
+		})
+		
+	})
+	
+	/* pagination 페이지 링크 function */
+	function linkPage(pageNo){
+		document.listForm.pageIndex.value = pageNo;
+		document.listForm.action = "<c:url value='/category/retrievePagingList.do'/>";
+	   	document.listForm.submit();
+	}
+	
+	/* 검색 */
+	function searchList(){
+	document.listForm.action = "<c:url value='/category/retrievePagingList.do'/>";
+		document.listForm.submit();
+	}
+
+
+</script>
+
 </head>
 <body>
-	<form:form commandName="categoryVO" id="listForm" name="listForm" method="get">
-		<div class="registdiv">
-			<form id="categoryRegistFrm" action="${cp }/category/create.do" method="post">
-				<label>말머리 이름 : </label>
-				<input type="text" id="catContent" name="catContent" value="">
-				<select id="catSt" name="catSt">
-					<option value="Y" selected="selected">사용</option>
-					<option value="N">미사용</option>
-				</select> 
-				<button type="button" id="categoryRegBtn">등록</button>
-			</form>
-			<div id="check"></div>
-		</div>
+	<div class="registdiv">
+		<form id="categoryRegistFrm" action="${cp }/category/create.do" method="post">
+			<label>말머리 이름 : </label>
+			<input type="text" id="catContent" name="catContent" value="">
+			<input type="text" name="boardGbSq" value="${boardGbSq }">
+			<select id="catSt" name="catSt">
+				<option value="Y" selected="selected">사용</option>
+				<option value="N">미사용</option>
+			</select> 
+			<button type="button" id="categoryRegBtn">등록</button>
+		</form>
+		<div id="check"></div>
+	</div>
 		
+	<form:form commandName="categoryVO" id="listForm" name="listForm" method="get">
 		<div class="blog-main">
-	
+			
 			<div class="input-group boarding ">
 	       		<ul  class = "button-search ">
 	       			<li>
 	       			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
 	       				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
-	       					<form:option value="0" label="제목" />
-	       					<form:option value="1" label="작성자" />
+	       					<form:option value="0" label="내용" />
 	       				</form:select>
 	       			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
 	                       <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
@@ -46,6 +87,7 @@
 			
 			<a href="${cp }/category/list/excelDown.do">↓ 목록 내려받기</a> 
 			<span id="massiveCreate">↑ 일괄등록</span>
+			
 			<!-- excel file 읽어오기 -->
 		    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/category/massiveCreateProcess.do"/>" >
 		        <input type="file" name="excelFile" hidden/>
@@ -79,6 +121,7 @@
 				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 			</ul>
 			<form:hidden path="pageIndex" />
+			<input type="text" name="boardGbSq" value="${boardGbSq }">
 			</div>
 		</div>
 	</form:form>

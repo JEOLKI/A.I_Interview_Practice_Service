@@ -8,11 +8,11 @@
 		INSERT INTO CATEGORY (CAT_SQ,
 								CAT_CONTENT,
 								CAT_ST,
-								CAT_GB_SQ)
+								BOARD_GB_SQ)
 		VALUES (CATEGORY_SQ.NEXTVAL,
 				#{catContent},
 				#{catSt},
-				TO_NUMBER(#{catGbSq}))
+				TO_NUMBER(#{boardGbSq}))
 	</insert>
 	
 	<update id="update">
@@ -45,7 +45,10 @@
 					<if test="searchKeyword != null and searchKeyword != ''">
 				        <choose>
 				            <when test="searchCondition == 0">
-								AND	CAT_CONTENT '%' || #{searchKeyword} || '%'
+								AND	CAT_CONTENT LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	CAT_ST LIKE '%' || #{searchKeyword} || '%'
 							</when>
 						</choose>
 					</if>
@@ -61,12 +64,15 @@
 		FROM   CATEGORY
 		WHERE  BOARD_GB_SQ = TO_NUMBER(#{boardGbSq})
 		<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	CAT_CONTENT LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>		
+	        <choose>
+	            <when test="searchCondition == 0">
+					AND	CAT_CONTENT LIKE '%' || #{searchKeyword} || '%'
+				</when>
+	            <when test="searchCondition == 1">
+					AND	CAT_ST LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>		
 	</select>
 	
 	<select id="retrieveList" resultType="com.aiinterview.board.vo.CategoryVO">
