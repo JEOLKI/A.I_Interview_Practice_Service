@@ -12,11 +12,6 @@
         margin-top: 52px;
     }
     
-    .managerbox{
-        margin-top: 100px;
-        margin-left: 250px;
-    }
-    
  	#header{
  		position:fixed;
  	}
