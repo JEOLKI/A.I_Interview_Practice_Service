@@ -55,7 +55,7 @@
 		<form id="categoryRegistFrm" action="${cp }/category/create.do" method="post">
 			<label>말머리 이름 : </label>
 			<input type="text" id="catContent" name="catContent" value="">
-			<input type="text" name="boardGbSq" value="${boardGbSq }">
+			<input type="hidden" name="boardGbSq" value="${boardGbSq }">
 			<select id="catSt" name="catSt">
 				<option value="Y" selected="selected">사용</option>
 				<option value="N">미사용</option>
@@ -96,6 +96,7 @@
 			<div class="table-responsive">
 				<c:forEach items="${resultList }" var="category">
 					<form class="talentUpdateFrm" action="${cp }/category/update.do" method="post">
+						<input type="hidden" name="boardGbSq" value="${boardGbSq }">
 						<input type="hidden" name="catSq" value="${category.catSq}">
 						<input type="text" class="catContent" name="catContent" value="${category.catContent}">
 						<select class="catSt" name="catSt">
@@ -121,7 +122,7 @@
 				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 			</ul>
 			<form:hidden path="pageIndex" />
-			<input type="text" name="boardGbSq" value="${boardGbSq }">
+			<input type="hidden" name="boardGbSq" value="${boardGbSq }">
 			</div>
 		</div>
 	</form:form>
