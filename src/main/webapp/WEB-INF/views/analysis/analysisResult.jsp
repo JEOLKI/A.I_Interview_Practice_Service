@@ -3,6 +3,8 @@
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <script src="/js/Chart.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script>
 	
@@ -50,12 +52,46 @@
 			})
 			
 	});
+	/* 속도 차트 */
+	function createSpeedChart(ctx, speed){
+	
+		
+		
+		var speedChart = new Chart(ctx, {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [speed, 600-speed],
+					backgroundColor: [
+						'rgba(71,65,243, 1)',
+						'rgba(234, 234, 234, 1)'
+					],
+					borderWidth: 0
+				}]
+			},
+			options: {
+				responsive: false,
+				scales: {
+				},
+				circumference :3/2* Math.PI,
+				cutoutPercentage: 90,
+				rotation : 0.75 * Math.PI
+			}
+		});
+		
+	}
 	
 	/* 속도 */
 	function createSpeedHtml(speed,scriptLength){
 		
 		// 속도 그래프
-		speedHtml ='<span>1분당</span><br><b>'+speed+'</b>자';
+		var ctx = document.getElementById('speedChart');
+		createSpeedChart(ctx, speed);
+		if(speed < 100){
+			speedHtml ='<span>1분당</span><br><b>&nbsp;&nbsp;'+speed+'</b>자';
+		}else {
+			speedHtml ='<span>1분당</span><br><b>'+speed+'</b>자';
+		}
 		$('.minute-text').html(speedHtml);
 		
 		// 평균대비 속도 퍼센트
@@ -75,9 +111,6 @@
 		goodTime = Math.ceil(Number(scriptLength)*60/300);
 		goodMin =  Math.floor(Number(goodTime)/60);
 		goodSec = Number(goodTime)%60;
-		console.log("goodTime : "+goodTime);
-		console.log("goodMin : "+goodMin);
-		console.log("goodSec : "+goodSec);
 		messageHtml = '';
 		if(Number(goodMin)==0 && Number(goodSec)==0){
 			messageHtml += '적당한 속도로 이야기하고 있습니다. 지금 속도를 유지해 주세요!';
@@ -347,7 +380,7 @@
 		<div class="AnswerSpeed">
 			<div class="title">말하기 속도</div>
 			<div class="content-box slow">
-				<canvas class="answer-speed-graph" width="250" height="250"></canvas>
+				<canvas id="speedChart" class="answer-speed-graph" style="top:90px;" width="250" height="250"></canvas>
 				<div class="average-speed">
 					합격자 평균 속도<br>
 					<span>300</span>
