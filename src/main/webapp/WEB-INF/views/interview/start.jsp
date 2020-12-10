@@ -79,8 +79,8 @@
     	console.log(`CANCELED: Reason=${e.reason}`);
 
   	    if (e.reason == CancellationReason.Error) {
-  	        console.log(`"CANCELED: ErrorCode=${e.errorCode}`);
-  	        console.log(`"CANCELED: ErrorDetails=${e.errorDetails}`);
+  	        console.log("CANCELED: ErrorCode=${e.errorCode}");
+  	        console.log("CANCELED: ErrorDetails='${e.errorDetails}'");
   	        console.log("CANCELED: Did you update the subscription info?");
   	    }
 
@@ -96,7 +96,6 @@
  	
 	// 음성 스탑버튼 클릭 시 
   	stopRecognizeOnceAsyncButton.addEventListener("click", function () {
-		console.log('스탑');
 		startRecognizeOnceAsyncButton.disabled = false;
 		 
 	   	recognizer.stopContinuousRecognitionAsync();
@@ -132,12 +131,6 @@
         }
       }
     }
-	
-	// 모든 질문을 출력 했을 경우
-	if(startCount>=endCount){ 
-		clearInterval(tid);		
-		alert('면접 종료');					
-	}
 	
 	// 전체화면 설정
 	function openFullScreenMode() {
@@ -196,7 +189,7 @@
 			if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 				download(); // 녹화 중지
 				clearInterval(tid);		// 타이머 해제
-// 				alert('면접 종료');					
+				alert('면접 종료');					
 			}else{
 				$('.message-balloon').empty(); // 메세지 창 지우기
 				$('#time').empty(); // 타이머 표시 지우기
@@ -319,7 +312,7 @@
 		console.log(ansSpeed);
 		console.log(startCount);
 		console.log(questSq);
-		console.log("데시벨" + decibel);
+		console.log('데시벨' + decibel);
 			
 		$.ajax(
 			{url:"/answer/create.do",
@@ -394,13 +387,12 @@
 	  recorder.start(100);
 	}
 	
+	// 녹화 종료하는메서드
 	function download() {
 	  theStream.getTracks().forEach(track => { track.stop(); });
 	  blob = new Blob(recordedChunks, {type: "video/webm"}); // blob객체로 변환
 	  var url =  URL.createObjectURL(blob);
 	  
-	  console.log("URL 확인 " + url);
-	  console.log("BLOB 확인 " + blob.data);
 	  $('#file').attr('src',url);
 	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
 	}
@@ -423,9 +415,9 @@
 				questSq=$('.quest').eq(startCount).data('sq');
 				$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
 				
-				TimerStart();
+				TimerStart(); // 타이머 시작
 				analyzeStart(); // 10초마다 이미지 분석
-				$('#voice').trigger('click');
+				$('#voice').trigger('click'); // 데시벨 측정
 				
 				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
 				$('.message-balloon').empty();
@@ -453,6 +445,7 @@
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 					download(); // 녹화 중지
 					clearInterval(tid);		// 타이머 해제
+					$('#stopBtn').trigger('click'); // 데시벨 측정 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					alert('면접 종료');			
@@ -497,6 +490,7 @@
 					$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 					
 					clearInterval(tid);		// 타이머 해제
+					$('#stopBtn').trigger('click'); // 데시벨 측정 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					
@@ -549,33 +543,25 @@
 			      for (var i = 0; i < length; i++) {                                                              
 			    	  values += (array[i]);   
 			      }          
-			      var average = values / length;                                                                  
+			      average = values / length;                                                                  
                   
 			      sum+=Math.round(20*Math.log10(Math.round(average+1)));
 				  console.log(Math.round(20*Math.log10(Math.round(average+1))));	
-			  }                                                                                                   
+			  }  
+			  // 데시벨 측정 멈추기
+			  stopBtn.onclick = function() {
+				  audioContext.close().then(function() {
+					  
+				  });
+				}
 			});                                                                                                  
 		});
-		
-		// 데시벨메서드 중지 진행중
-		$(document).on('click','#stopBtn',function(){
-			console.log('중지')
-			sum = 0; // 데시벨 초기값
-			navigator.mediaDevices.getUserMedia({ audio: true, video: false })                                     
-			.then(function(stream) {                                                                              
-			  audioContext = new AudioContext();                                                                  
-			  analyser = audioContext.createAnalyser();                                                           
-			  microphone = audioContext.createMediaStreamSource(stream);                                          
-			  javascriptNode = audioContext.createScriptProcessor(16384, 1, 1);  
-			javascriptNode.stop(0,1);
-			})
-		})
 	});
 </script>
 </head>
-<body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
+<body style="overflow:hidden;"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- 음성 script위한 부분 -->
-	<div id="content" style="display:">
+	<div id="content" style="display:none;">
 		<input type="button" id="voice" value="음성">
 		<input type="button" id="stopBtn" value="멈춤">
 		<table width="100%">
@@ -608,7 +594,7 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam" style="display: ">
+	<div class="webcam" style="display:none; ">
 		<div class="contentarea">
 			<div class="camera">
 				<video id="video" autoplay >Video stream not available.</video>
