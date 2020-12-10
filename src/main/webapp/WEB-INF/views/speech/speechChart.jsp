@@ -7,13 +7,14 @@
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <style>
 	.content{
-		padding-top: 20px;
+		padding-top: 30px;
+		padding-bottom: 0px;
 	}
 </style>
 
 	<div class="content">
 		<canvas id="myChart" class="graph-canvas emotion chartjs-render-monitor"
-			style="display: block; height: 228px; width: 365px;" width="365"
+			style="display: block; height: 228px; width: 400px;" width="365"
 			height="228"></canvas>
 	</div>
 	
