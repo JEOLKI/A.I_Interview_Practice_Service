@@ -1,6 +1,7 @@
 package com.aiinterview.analysis.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -47,7 +48,7 @@ public class KeywordAnalysisService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> retrieveKeywordList(String ansSq) throws Exception{
-		return keywordAnalysisMapper.retrieveKeywordList(ansSq);
+	public List<String> retrieveKeywordList(Map<String, String> selectMap) throws Exception{
+		return keywordAnalysisMapper.retrieveKeywordList(selectMap);
 	}
 }

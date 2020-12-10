@@ -1,6 +1,7 @@
 package com.aiinterview.analysis.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
 import com.aiinterview.analysis.vo.TalentAnalysisVO;
@@ -16,6 +17,6 @@ public interface KeywordAnalysisMapper {
 
 	public List<TalentAnalysisVO> retrieveTalentPercentList(String talentSq) throws Exception;
 
-	public List<String> retrieveKeywordList(String ansSq) throws Exception;
+	public List<String> retrieveKeywordList(Map<String, String> selectMap) throws Exception;
 	
 }

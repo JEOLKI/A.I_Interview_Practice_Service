@@ -7,15 +7,13 @@
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script>
-	
+	var talentNm = '';
 	$(document).ready(function() {
-				
 			$.ajax({
 					url : "/analysis/answer/retrieveAnalysis.do",
 					data : { "questSq" : "${questSq}" },
 					dataType : "json",
 					success : function(data){
-						console.log(data);
 						
 						imageAnalysis = data.imageAnalysis;
 						imageAnalysisChart(imageAnalysis);
@@ -24,7 +22,6 @@
 						/* 스크립트 */
 						script = data.answerVO.ansContent;
 						scriptLength = script.length;
-						console.log(scriptLength);
 						$('.MyAnswer .stt').text(script);
 						$('.MyAnswer .length span').text(scriptLength);
 						
@@ -45,22 +42,30 @@
 						createTalentHtml(talentList);
 						
 						/* 인재상 - 키워드 */
-						keywordSet = data.keywordSet;
-						createKeywordHtml(keywordSet);
+						keywordMap = data.keywordResultMap;
+						console.log(keywordMap);
 						
-						/* 음성 - 데시벨*/
-						decibelList = data.voiceAnalysisList;
-						decibelAnalysisChart(decibelList);
 					}
 				
 			})
+			
+			$(document).on("click",".competency-percent",function(){
+				console.log('click');
+	         	$('.competency-percent.select').removeClass('select');
+	          	$('.competency-percent').addClass('unselect');
+	          	$(this).removeClass('unselect');
+	          	$(this).addClass('select');
+	          	talentNm = $(this).find('span').text();
+				console.log(talentNm);
+				createKeywordHtml(keywordMap,talentNm);
+			})
+			
+		
 			
 	});
 	/* 속도 차트 */
 	function createSpeedChart(ctx, speed){
 	
-		
-		
 		var speedChart = new Chart(ctx, {
 			type: 'doughnut',
 			data: {
@@ -91,9 +96,11 @@
 		// 속도 그래프
 		var ctx = document.getElementById('speedChart');
 		createSpeedChart(ctx, speed);
-		if(speed < 100){
+		if(speed < 10){
 			speedHtml ='<span>1분당</span><br><b>&nbsp;&nbsp;'+speed+'</b>자';
-		}else {
+		}else if(speed < 100){
+			speedHtml ='<span>1분당</span><br><b>&nbsp;'+speed+'</b>자';
+		}else{
 			speedHtml ='<span>1분당</span><br><b>'+speed+'</b>자';
 		}
 		$('.minute-text').html(speedHtml);
@@ -126,13 +133,21 @@
 	
 	
 	/* 인재상 - 키워드 리포트*/
-	function createKeywordHtml(keywordSet){
-		keywordArr = Array.from(keywordSet);
+	function createKeywordHtml(keywordMap,talentNm){
+		console.log("키워드 파라미터 : "+talentNm);
+		keywordArr = keywordMap.get(talentNm);
+		console.log("keywordArr : "+keywordArr);
+		console.log(keywordArr);
 		keywordHtml = '';
+		keywordHtml += '<div class="word-view">';
 		for(var i=0; i<keywordArr.length; i++){
+			
 			keywordHtml += '<span class="word">'+keywordArr[i]+'</span>';
 		}
-		$('.word-view').html(keywordHtml);
+		keywordHtml += '</div>';
+		$('.JobCompetency .result').append(keywordHtml);
+		
+		
 	}
 	
 	
@@ -140,14 +155,24 @@
 	function createTalentHtml(talentList){
 		gage = talentList[0].percent;
 		talentHtml = '';
-		for(var i=0; i< talentList.length; i++){
-			talentHtml += '<div class="competency-percent select">';
+		
+		talentHtml += '<div class="competency-percent select">';
+		talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[0].talentNm+'</span></div>';
+		talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[0].percent/gage)+'px;"></div>';
+		talentHtml +=	 '<div class="percentage">'+talentList[0].percent+'%</div>';
+		talentHtml += '</div>';
+		window.talentNm = talentList[0].talentNm;
+		console.log(talentNm)
+		for(var i=1; i< talentList.length; i++){
+			talentHtml += '<div class="competency-percent unselect">';
 			talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[i].talentNm+'</span></div>';
-			talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(150*talentList[i].percent/gage)+'px;"></div>';
+			talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[i].percent/gage)+'px;"></div>';
 			talentHtml +=	 '<div class="percentage">'+talentList[i].percent+'%</div>';
 			talentHtml += '</div>';
 		}					
 		$('.JobCompetency .result').html(talentHtml);
+		
+		
 	}
 	
 	/* 반복어 리포트 */
@@ -251,62 +276,6 @@
 		  }
 	}
 	
-	/* 데시벨 분석 그래프 */ 
-	function decibelAnalysisChart(decibelList){
-		var x = new Array();
-		var decibel = new Array();
-		var sumDecibel=0;
-		
-		for(var i =0; i<decibelList.length; i++){
-			x[i] = i+1;
-		}
-		for(var i =0; i<decibelList.length; i++){
-			decibel[i] = decibelList[i].voiceDecibel;
-			sumDecibel += Number(decibelList[i].voiceDecibel);
-		}
-		averageDecibel = Math.round(sumDecibel/decibelList.length);
-		
-		$('#averageDecibel').text(averageDecibel+"dB");
-		
-		var ctx = document.getElementById('audioChart');
-		var myChart = new Chart(ctx, {
-			type: 'line',
-		    data: {
-		        labels: x,
-		        datasets: [{
-		            label: null,
-		            data: decibel,
-		            borderColor: "rgba(20, 80, 220, 1)",
-		            backgroundColor: "rgba(20, 80, 200, 0.5)",
-		            fill: true,
-		            lineTension: 0.5,
-		            pointRadius:0
-		        }]
-		    },
-		    options: {
-		    	legend: {
-		    		display: false},
-		        responsive: true,
-		        scales: {
-		            xAxes: [{
-		                display: false,
-		                scaleLabel: {
-		                    display: true,
-		                }
-		            }],
-		            yAxes: [{
-		                display: false,
-		                ticks: {
-		                    suggestedMin: 0,
-		                    suggestedMax: 80
-		                }
-		            }]
-		        }
-		    }
-		});
-		
-	}
-	
 	
 </script>
 
@@ -407,31 +376,7 @@
 		<div class="JobCompetency">
 			<div class="title">답변에 드러난 인재상</div>
 			<div class="content-box">
-				<div class="result">
-					<div class="competency-percent select">
-						<div class="name-box">
-							<span class="name">전문성</span>
-						</div>
-						<div class="rectangle" style="width: 150px;"></div>
-						<div class="percentage">2.63%</div>
-					</div>
-					<div class="competency-percent unselect">
-						<div class="name-box">
-							<span class="name">혁신</span>
-						</div>
-						<div class="rectangle" style="width: 150px;"></div>
-						<div class="percentage">2.63%</div>
-					</div>
-					<div class="competency-percent unselect">
-						<div class="name-box">
-							<span class="name">정직</span>
-						</div>
-						<div class="rectangle" style="width: 150px;"></div>
-						<div class="percentage">2.63%</div>
-					</div>
-					<div class="word-view">
-						<span class="word">자기</span>
-					</div>
+				<div class="result flex">
 				</div>
 			</div>
 		</div>
@@ -440,7 +385,7 @@
 		<div class="AnswerSpeed">
 			<div class="title">말하기 속도</div>
 			<div class="content-box slow">
-				<canvas id="speedChart" class="answer-speed-graph" style="top:90px;" width="250" height="250"></canvas>
+				<canvas id="speedChart" class="answer-speed-graph" style="top:70px;" width="250" height="250"></canvas>
 				<div class="average-speed">
 					합격자 평균 속도<br>
 					<span>300</span>
@@ -466,10 +411,10 @@
 		<div class="content-box intensity">
 			<div class="graph-comment">
 				<div class="user-intensity">
-					${S_MEMBER.memAlias }님의 평균 성량<br>
+					dsfaqwef님의 평균 성량<br>
 					<img
-						src="/member/profile.do?memId=${S_MEMBER.memId }"
-						alt="profile-icon" class="profile-icon"><span id="averageDecibel"></span>
+						src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2324.jpg"
+						alt="profile-icon" class="profile-icon"><span>61dB</span>
 				</div>
 				<div class="comment">
 					일반적으로 좋은 평가를 받는 성량은 <b>55dB</b>입니다.<br>
@@ -481,7 +426,7 @@
 					<span>55dB</span>
 				</div>
 			</div>
-			<canvas id="audioChart" class="audio-graph" width="791" height="179"
+			<canvas class="audio-graph" width="791" height="179"
 				style="display: block; height: 200px; width: 880px;"></canvas>
 			<div class="guide-line">
 				55dB

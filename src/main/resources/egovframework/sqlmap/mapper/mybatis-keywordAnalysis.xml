@@ -35,10 +35,12 @@
 		 ORDER BY percent DESC
 	</select>
 
-	<select id="retrieveKeywordList" parameterType="String" resultType="String">
-		SELECT b.keyword_content
- 		  FROM keyword_analysis a, keyword b
-  		 WHERE a.keyword_sq = b.keyword_sq
+	<select id="retrieveKeywordList" parameterType="hashmap" resultType="String">
+		SELECT c.talent_nm, b.keyword_content
+ 		  FROM keyword_analysis a, keyword b, talent c
+ 		 WHERE a.keyword_sq = b.keyword_sq
+  		   AND c.talent_sq = a.talent_sq
+  		   AND c.talent_nm = #{talentNm}
   		   AND a.ans_sq = #{ansSq}
   		   AND a.keyword_count > 0
 	</select>

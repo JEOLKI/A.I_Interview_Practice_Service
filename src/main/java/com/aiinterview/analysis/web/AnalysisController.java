@@ -22,12 +22,10 @@ import com.aiinterview.analysis.service.HabitAnalysisService;
 import com.aiinterview.analysis.service.ImageAnalysisService;
 import com.aiinterview.analysis.service.KeywordAnalysisService;
 import com.aiinterview.analysis.service.RepeatAnalysisService;
-import com.aiinterview.analysis.service.VoiceAnalysisService;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.analysis.vo.TalentAnalysisVO;
-import com.aiinterview.analysis.vo.VoiceAnalysisVO;
 import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.InterviewService;
@@ -69,9 +67,6 @@ public class AnalysisController {
 	
 	@Resource(name = "habitService")
 	private HabitService habitService;
-	
-	@Resource(name = "voiceAnalysisService")
-	private VoiceAnalysisService voiceAnalysisService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -200,16 +195,19 @@ public class AnalysisController {
 			List<TalentAnalysisVO> talentAnalysisList = keywordAnalysisService.retrieveTalentPercentList(ansSq);
 			model.addAttribute("talentAnalysisList", talentAnalysisList); 
 			
-			List<String> keywordList = keywordAnalysisService.retrieveKeywordList(ansSq);
-			Set<String> keywordSet = new HashSet<String>();
-			for(int i=0; i< keywordList.size(); i++) {
-				keywordSet.add(keywordList.get(i));
+			// 인재상 개수만큼 각각 키워드 리스트 받아와
+			Map<String, String> selectMap = new HashMap<>(); //키워드 목록 꺼내올 파라미터
+			Map<String, List<String>> keywordResultMap = new HashMap<>();
+			for(int i=0; i<talentAnalysisList.size();i++) {
+				// 키워드 목록 가져오기
+				selectMap.put("talentNm", talentAnalysisList.get(i).getTalentNm());
+				selectMap.put("ansSq", ansSq);
+				List<String> keywordList = keywordAnalysisService.retrieveKeywordList(selectMap);
+				
+				// 키워드 목록 키워드에 매칭해서 뷰로 보내기
+				keywordResultMap.put(talentAnalysisList.get(i).getTalentNm(), keywordList);
 			}
-			model.addAttribute("keywordSet", keywordSet);
-			
-			/* 음성 - voiceAnalysisList (데시벨,헤르츠(예정)*/
-			List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisService.retrieveList(ansSq);
-			model.addAttribute("voiceAnalysisList", voiceAnalysisList);
+			model.addAttribute("keywordResultMap", keywordResultMap);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
