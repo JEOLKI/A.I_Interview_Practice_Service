@@ -1,18 +1,28 @@
 package com.aiinterview.board.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aiinterview.board.service.CategoryService;
+import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.board.vo.CategoryVO;
+import com.aiinterview.common.util.excel.option.ReadOption;
+import com.aiinterview.common.util.excel.read.ExcelRead;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -62,7 +72,7 @@ public class CategoryController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "";
+		return "board/categoryList";
 	}
 	
 	@RequestMapping(value = "/create.do")
@@ -74,7 +84,7 @@ public class CategoryController {
 			e.printStackTrace();
 		}
 		
-		return "";
+		return "redirect:/category/retrievePagingList.do";
 	}
 	
 	@RequestMapping(value = "/update.do")
@@ -86,7 +96,85 @@ public class CategoryController {
 			e.printStackTrace();
 		}
 		
-		return "";
+		return "redirect:/category/retrievePagingList.do";
+	}
+	
+	/* 일괄 다운로드 */
+	@RequestMapping("/list/excelDown.do")
+	public String excelDown(Model model, String boardGbSq)  {
+		
+		CategoryVO categoryVO = new CategoryVO(boardGbSq);
+		
+		// 출력할 리스트 가져오기
+		List<CategoryVO> categoryList = new ArrayList<>();
+		try {
+			categoryList = categoryService.retrieveList(categoryVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//Model 객체에 header, data
+		List<String> header = new ArrayList<String>();
+		header.add("CAT_SQ");
+		header.add("CAT_CONTENT");
+	
+		// excel 파일 data 설정
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+		for(int i = 0; i< categoryList.size(); i++) {
+			Map<String, String> map = new HashMap<>();
+			map.put("CAT_SQ", categoryList.get(i).getCatSq());
+			map.put("CAT_CONTENT", categoryList.get(i).getCatContent());
+			data.add(map);
+		}
+		
+		model.addAttribute("header",header);
+		model.addAttribute("data",data);
+		model.addAttribute("fileName","CATEGORY");
+		model.addAttribute("sheetName","CATEGORY");
+		
+		return "excelView";
+	}
+	
+	/* 일괄 등록 */
+	@RequestMapping("/massiveCreateProcess.do")
+	public String createMassiveHabit(MultipartHttpServletRequest request, String boardGbSq) {
+		MultipartFile excelFile = request.getFile("excelFile");
+		if (excelFile == null || excelFile.isEmpty()) {
+			throw new RuntimeException("엑셀파일을 선택해 주세요");
+		}
+
+		File destFile = new File("D:\\" + excelFile.getOriginalFilename());
+		try {
+			excelFile.transferTo(destFile);
+		} catch (IllegalStateException | IOException e) {
+			throw new RuntimeException(e.getMessage(), e);
+
+		}
+
+		ReadOption readOption = new ReadOption();
+		readOption.setFilePath(destFile.getAbsolutePath());
+		readOption.setOutputColumns("A");
+		readOption.setStartRow(2);
+		
+		CategoryVO categoryVO = new CategoryVO();
+		List<Map<String, String>> excelContent = ExcelRead.read(readOption);
+		for(Map<String, String> category : excelContent) {
+			try {
+				categoryVO.setBoardGbSq(boardGbSq);
+				categoryVO.setCatContent(category.get("A"));
+				categoryVO.setCatSt(category.get("B"));
+				
+				categoryService.create(categoryVO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		  }
+		
+		destFile.delete();
+
+		return "redirect:/category/retrievePagingList.do";
+
 	}
 	
 

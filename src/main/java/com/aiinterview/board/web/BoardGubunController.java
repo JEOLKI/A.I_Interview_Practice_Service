@@ -1,7 +1,11 @@
 package com.aiinterview.board.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -11,9 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aiinterview.board.service.BoardGubunService;
 import com.aiinterview.board.vo.BoardGubunVO;
+import com.aiinterview.common.util.excel.option.ReadOption;
+import com.aiinterview.common.util.excel.read.ExcelRead;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -101,5 +109,80 @@ public class BoardGubunController {
 		return "redirect:/boardGubun/retrievePagingList.do";
 	}
 	
+	/* 일괄 다운로드 */
+	@RequestMapping("/list/excelDown.do")
+	public String excelDown(Model model, String talentSq)  {
+		
+		// 출력할 리스트 가져오기
+		List<BoardGubunVO> boardGubunList = new ArrayList<>();
+		try {
+			boardGubunList = boardGubunService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//Model 객체에 header, data
+		List<String> header = new ArrayList<String>();
+		header.add("BOARD_GB_SQ");
+		header.add("BOARD_GB_NM");
+	
+		// excel 파일 data 설정
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+		for(int i = 0; i< boardGubunList.size(); i++) {
+			Map<String, String> map = new HashMap<>();
+			map.put("BOARD_GB_SQ", boardGubunList.get(i).getBoardGbSq());
+			map.put("BOARD_GB_NM", boardGubunList.get(i).getBoardGbNm());
+			data.add(map);
+		}
+		
+		model.addAttribute("header",header);
+		model.addAttribute("data",data);
+		model.addAttribute("fileName","BOARDGUBUN");
+		model.addAttribute("sheetName","BOARDGUBUN");
+		
+		return "excelView";
+	}
+	
+	/* 일괄 등록 */
+	@RequestMapping("/massiveCreateProcess.do")
+	public String createMassiveHabit(MultipartHttpServletRequest request) {
+		MultipartFile excelFile = request.getFile("excelFile");
+		if (excelFile == null || excelFile.isEmpty()) {
+			throw new RuntimeException("엑셀파일을 선택해 주세요");
+		}
+
+		File destFile = new File("D:\\" + excelFile.getOriginalFilename());
+		try {
+			excelFile.transferTo(destFile);
+		} catch (IllegalStateException | IOException e) {
+			throw new RuntimeException(e.getMessage(), e);
+
+		}
+
+		ReadOption readOption = new ReadOption();
+		readOption.setFilePath(destFile.getAbsolutePath());
+		readOption.setOutputColumns("A");
+		readOption.setStartRow(2);
+		
+		BoardGubunVO boardGubunVO = new BoardGubunVO();
+		List<Map<String, String>> excelContent = ExcelRead.read(readOption);
+		for(Map<String, String> boardGubun : excelContent) {
+			try {
+				
+				boardGubunVO.setBoardGbNm(boardGubun.get("A"));
+				boardGubunVO.setBoardGbSt(boardGubun.get("B"));
+				
+				boardGubunService.create(boardGubunVO);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		  }
+		
+		destFile.delete();
+
+		return "redirect:/boardGubun/retrievePagingList.do";
+
+	}
 	
 }
