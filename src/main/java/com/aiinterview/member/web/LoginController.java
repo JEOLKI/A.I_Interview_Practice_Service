@@ -44,7 +44,7 @@ public class LoginController {
 		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {
 			model.addAttribute("memId", memId);
 			return "login/main";
-		} else if (memberVo.getMemPw().equals(memPw)) {
+		} else if (memberVo.getMemPw().equals(memPw)&&"Y".equals(memberVo.getMemSt())) {
 			session.setAttribute("S_MEMBER", memberVo);
 			return "redirect:/login/main.do";
 		}

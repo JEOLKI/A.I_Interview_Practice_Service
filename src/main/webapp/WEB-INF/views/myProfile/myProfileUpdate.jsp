@@ -440,7 +440,7 @@ $.ajax({
 								</div>
 							</div>
 						</div>
-						<div class="submit-area">
+						<div class="submit-area" style="display: flex;">
 							<button class="cancel" type="submit" id="editBtn">적용</button>
 							<button class="cancel" type="button" id="cancelBtn" >취소</button>
 						</div>

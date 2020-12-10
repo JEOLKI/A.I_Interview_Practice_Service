@@ -23,7 +23,7 @@ $(document).ready(function() {
 </script>
 
 </head>
-<body>
+<body >
 
 	<div id="root">
 		<div class="LandingNew">
