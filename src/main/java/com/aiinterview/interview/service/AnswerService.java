@@ -81,10 +81,11 @@ public class AnswerService {
 		}
 		
 		/* 음성 분석 (데시벨, 헤르츠 ) insert */
-		VoiceAnalysisVO voiceAnalysisVO = (VoiceAnalysisVO) map.get("voiceAnalysisVO");
-		voiceAnalysisVO.setAnsSq(ansSq);
-		voiceAnalysisMapper.create(voiceAnalysisVO);
-		
+		List<VoiceAnalysisVO> voiceAnalysisList = (List<VoiceAnalysisVO>) map.get("voiceAnalysisList");
+		for (VoiceAnalysisVO voiceAnalysisVO : voiceAnalysisList) {
+			voiceAnalysisVO.setAnsSq(ansSq);
+			voiceAnalysisMapper.create(voiceAnalysisVO);
+		}
 		return ansSq;
 	}
 

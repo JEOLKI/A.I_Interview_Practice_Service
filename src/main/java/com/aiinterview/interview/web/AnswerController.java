@@ -59,10 +59,10 @@ public class AnswerController {
 	
 	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
-	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, VoiceAnalysisVO voiceVO, MultipartHttpServletRequest mtfRequest){
+	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, VoiceAnalysisVO voiceAnalysisVO, MultipartHttpServletRequest mtfRequest){
 		System.out.println("앤서 확인 :" + answerVO);
 		System.out.println("이미지분석 확인 :" + imageAnalysisVO);
-		System.out.println("음성분석 확인 :" + voiceVO);
+		System.out.println("음성분석 확인 :" + voiceAnalysisVO);
 		
 		List<ImageAnalysisVO> imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();
 		
@@ -276,12 +276,9 @@ public class AnswerController {
 			
 			
 			/* 음성 분석*/
-			VoiceAnalysisVO voiceAnalysisVO = new VoiceAnalysisVO();
-			voiceAnalysisVO.setVoiceAnalysisSq(voiceVO.getVoiceAnalysisSq());
-			voiceAnalysisVO.setVoiceDecibel(voiceVO.getVoiceDecibel());
-			
-			map.put("voiceAnalysisVO", voiceAnalysisVO);
-			System.out.println("음성 분석  : "+voiceAnalysisVO);
+			List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisVO.getVoiceAnalysisVOLIst();
+			map.put("voiceAnalysisList", voiceAnalysisList);
+			System.out.println("음성 분석  : "+voiceAnalysisList);
 					
 			answerSeivce.create(map);
 				

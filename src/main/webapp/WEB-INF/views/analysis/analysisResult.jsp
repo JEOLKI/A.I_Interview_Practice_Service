@@ -47,6 +47,10 @@
 						/* 인재상 - 키워드 */
 						keywordSet = data.keywordSet;
 						createKeywordHtml(keywordSet);
+						
+						/* 음성 - 데시벨*/
+						decibelList = data.voiceAnalysisList;
+						decibelAnalysisChart(decibelList);
 					}
 				
 			})
@@ -247,6 +251,62 @@
 		  }
 	}
 	
+	/* 데시벨 분석 그래프 */ 
+	function decibelAnalysisChart(decibelList){
+		var x = new Array();
+		var decibel = new Array();
+		var sumDecibel=0;
+		
+		for(var i =0; i<decibelList.length; i++){
+			x[i] = i+1;
+		}
+		for(var i =0; i<decibelList.length; i++){
+			decibel[i] = decibelList[i].voiceDecibel;
+			sumDecibel += Number(decibelList[i].voiceDecibel);
+		}
+		averageDecibel = Math.round(sumDecibel/decibelList.length);
+		
+		$('#averageDecibel').text(averageDecibel+"dB");
+		
+		var ctx = document.getElementById('audioChart');
+		var myChart = new Chart(ctx, {
+			type: 'line',
+		    data: {
+		        labels: x,
+		        datasets: [{
+		            label: null,
+		            data: decibel,
+		            borderColor: "rgba(20, 80, 220, 1)",
+		            backgroundColor: "rgba(20, 80, 200, 0.5)",
+		            fill: true,
+		            lineTension: 0.5,
+		            pointRadius:0
+		        }]
+		    },
+		    options: {
+		    	legend: {
+		    		display: false},
+		        responsive: true,
+		        scales: {
+		            xAxes: [{
+		                display: false,
+		                scaleLabel: {
+		                    display: true,
+		                }
+		            }],
+		            yAxes: [{
+		                display: false,
+		                ticks: {
+		                    suggestedMin: 0,
+		                    suggestedMax: 80
+		                }
+		            }]
+		        }
+		    }
+		});
+		
+	}
+	
 	
 </script>
 
@@ -406,10 +466,10 @@
 		<div class="content-box intensity">
 			<div class="graph-comment">
 				<div class="user-intensity">
-					dsfaqwef님의 평균 성량<br>
+					${S_MEMBER.memAlias }님의 평균 성량<br>
 					<img
-						src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2324.jpg"
-						alt="profile-icon" class="profile-icon"><span>61dB</span>
+						src="/member/profile.do?memId=${S_MEMBER.memId }"
+						alt="profile-icon" class="profile-icon"><span id="averageDecibel"></span>
 				</div>
 				<div class="comment">
 					일반적으로 좋은 평가를 받는 성량은 <b>55dB</b>입니다.<br>
@@ -421,7 +481,7 @@
 					<span>55dB</span>
 				</div>
 			</div>
-			<canvas class="audio-graph" width="791" height="179"
+			<canvas id="audioChart" class="audio-graph" width="791" height="179"
 				style="display: block; height: 200px; width: 880px;"></canvas>
 			<div class="guide-line">
 				55dB

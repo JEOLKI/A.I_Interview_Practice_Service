@@ -14,6 +14,7 @@
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
 	sum = 0; // 데시벨 초기값
+	var decibelIndex = 0; // 데시벨 인덱스
 	
 	var tid;
 	var aid;
@@ -296,7 +297,6 @@
 		ansContent = answer; // 해당 질문내용
 		ansTime = SetTime; // 경과시간 입력
 		ansSpeed = (ansContent.length)/ansTime*60; // 말빠르기
-		decibel = (sum/ansTime*10/15).toFixed(1); // 모든값 나누기 경과시간
 		
 		fd.append('name', 'answerVideo'); // name지정
 		fd.append("mtfRequest", blob); // 영상 데이터
@@ -304,7 +304,6 @@
 		fd.append("ansTime", ansTime); // 대답시간(초)
 		fd.append("ansSpeed", ansSpeed); // 대답 속도(대답내용 문자열수/대답시간)
 		fd.append("questSq", questSq); // 대답의 시퀀스 
-		fd.append("voiceDecibel", decibel); // 평균 데시벨 
 		
 		// 확인용 console.log
 		console.log(ansContent);
@@ -312,7 +311,6 @@
 		console.log(ansSpeed);
 		console.log(startCount);
 		console.log(questSq);
-		console.log('데시벨' + decibel);
 			
 		$.ajax(
 			{url:"/answer/create.do",
@@ -499,7 +497,7 @@
 					
 					script = "다음 질문을 준비해주세요.";
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
-						download(); // 녹화 중지에 문제 있음
+						download(); // 녹화 중지
 						clearInterval(tid);		// 타이머 해제
 						clearInterval(aid);		// 10초마다 이미지 분석 종료
 						
@@ -543,10 +541,14 @@
 			      for (var i = 0; i < length; i++) {                                                              
 			    	  values += (array[i]);   
 			      }          
-			      average = values / length;                                                                  
-                  
+			      average = values / length;    
+					
 			      sum+=Math.round(20*Math.log10(Math.round(average+1)));
-				  console.log(Math.round(20*Math.log10(Math.round(average+1))));	
+				  console.log(Math.round(20*Math.log10(Math.round(average+1))));
+				  
+				  var decibelHtml = '<input type="text" name="voiceAnalysisVOLIst['+decibelIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
+				  decibelIndex+=1;
+				  $("#analysisData").append(decibelHtml);
 			  }  
 			  // 데시벨 측정 멈추기
 			  stopBtn.onclick = function() {
