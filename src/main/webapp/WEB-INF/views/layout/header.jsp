@@ -140,7 +140,7 @@
 	}
 	
 	.input-right{
-		margin-bottom: 10%;
+		margin-bottom: 5%;
 	}
 	
 	.dropbtn {
@@ -192,7 +192,6 @@
 	.nav{
 		padding-top: 17px; 
 	}
-	
 </style>
 
 <script>
@@ -234,6 +233,10 @@ $(document).ready(function() {
     	alert('로그아웃 되었습니다')
     	document.location="/login/logout.do";
     });
+    
+    $(document).mouseup(function(){
+		$('.user-popup').hide();
+	});
     
     boardGubunList();
 });
@@ -384,11 +387,6 @@ function boardGubunList(){
 				<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
 			</c:when>
 		</c:choose>
-	<%-- 	<c:choose> --%>
-	<%-- 		<c:when test="${S_MEMBER != null }"> --%>
-	<!-- 			<button id="myProfile" class="login" style="margin-left: 0px;">내 프로필</button> -->
-	<%-- 		</c:when> --%>
-	<%-- 	</c:choose> --%>
 	</div>
 		<c:choose>
 			<c:when test="${S_MEMBER != null }">
@@ -473,7 +471,7 @@ function boardGubunList(){
 					<button id="searchIdBtn" type="button">찾기</button>
 				</div>
 			</form>
-			<div>
+			<div style="text-align: center;">
 				<span style="color: red" id="findId"></span>
 			</div>
 			

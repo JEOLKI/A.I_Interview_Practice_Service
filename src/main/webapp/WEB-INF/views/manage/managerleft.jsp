@@ -16,9 +16,33 @@
 	.TopBar .navigation-bar .nav a {
 		padding: 0 18px;
 		font-size: 16px;
-		font-weight: 900;
+		font-weight: 500;
 		opacity: .6;
 		transition: .2s ease;
+	}
+	body{
+		font-size: 16px;
+		font-family: "Noto Sans KR",sans-serif;
+	}
+	a:-webkit-any-link {
+		text-decoration: none;
+	}
+	.w3-button.w3-block.w3-left-align.w3-bar-item{
+		font-size: 16px;
+		font-family: "Noto Sans KR",sans-serif;
+		font-weight: 500;
+		opacity: .6;
+		transition: .2s ease;
+	}
+	.w3-button:hover{
+		text-decoration: none;
+	}
+	.payment-btn{
+		text-decoration: none;	
+	}
+	.profile-btn{
+		padding : 0 34px;
+/* 		letter-spacing : 0.15em; */
 	}
 </style>
 

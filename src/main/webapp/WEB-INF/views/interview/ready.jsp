@@ -115,7 +115,6 @@ $(document).ready(function(){
 	// 검색창 열기
 	$(document).on('click','.search-btn',function(){
 		$('#questionSearch').show();
-// 		console.log($('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox')))); // 인덱스값 출력
 		number = $('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox'))); // 폼안의 몇번째div 인지 인덱스값
 		// number전역변수의 값을 index값으로 바꿈
 	});
