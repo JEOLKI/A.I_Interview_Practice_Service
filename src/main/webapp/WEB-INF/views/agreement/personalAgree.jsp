@@ -263,13 +263,13 @@ to {
 							<div class="label">▶ 개인정보 보호책임자</div>
 							<div class="semi">
 								성명 : 이태규<br>직책 : CEO<br>직급 : 대표이사<br>연락처 : 010.
-								3099. 2394, bryan95@doodlin.co.kr<br>
+								3099. 2394, bryan95@aiInterview.co.kr<br>
 								<div class="comment">※ 개인정보 보호 담당부서로 연결됩니다.</div>
 							</div>
 							<div class="label">▶ 개인정보 보호 담당부서</div>
 							<div class="semi">
 								부서명 : 기술개발부<br>담당자 : 서동민<br>연락처 : 010. 2870. 2481,
-								sdm025@doodlin.co.kr
+								sdm025@aiInterview.co.kr
 							</div>
 						</div>
 						② 정보주체께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제

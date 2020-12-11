@@ -73,7 +73,7 @@
 						회사는 회원님과의 원활환 의사소통을 위해 민원처리센터를 운영하고 있으며 연락처는 다음과 같습니다.
 						<div class="info">
 							<b>전자우편 -</b>
-							[bryan95@doodlin.co.kr](mailto:bryan95@doodlin.co.kr)<br>
+							[bryan95@aiInterview.co.kr](mailto:bryan95@aiInterview.co.kr)<br>
 							<b>전화번호 -</b> 010. 3099. 2394<br>
 							<b>주소 -</b> 서울특별시 마포구 마포대로 122, 프론트원 16층
 						</div>
