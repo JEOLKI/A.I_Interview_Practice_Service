@@ -236,8 +236,8 @@
 	function imageGrowthdata(imageAnalysisList){
 		
 		var max = 100;
-		
-		analysis = [0];
+		lables = [];
+		analysis = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			labels.push(i);
 			analysis.push(imageAnalysisList[i].happiness);
@@ -247,7 +247,7 @@
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['netural']
-		analysis = [0];
+		analysis = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			analysis.push(imageAnalysisList[i].neutral);
 		}
@@ -255,7 +255,7 @@
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['negative']
-		analysis = [0];
+		analysis = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			negative = imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
 			analysis.push(negative);
@@ -264,7 +264,7 @@
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['panic']
-		analysis = [0];
+		analysis = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			panic = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
 			analysis.push(panic);
@@ -273,8 +273,10 @@
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['facePosition']
-		analysis = [0];
+		analysis = [];
+		lables = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
+			labels.push(i);
 			position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
 			analysis.push(position);
 		}
