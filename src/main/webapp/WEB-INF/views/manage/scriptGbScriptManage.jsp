@@ -74,6 +74,10 @@ $(document).ready(function() {
 		}
 	});
 	
+	$('#searchBtn').on('click', function(){
+		searchKeyword = $('#searchKeyword').val();
+			document.location = "/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbVO.scriptGbSq }&pageUnit="+pageUnit+"&searchKeyword="+searchKeyword;
+		})
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
 		})
@@ -83,28 +87,30 @@ $(document).ready(function() {
 		})
 		
 		$('#sort').on('change',function(){
-		pageUnit = $(this).val();
-		document.location="/script/retrievePagingList.do?pageUnit="+pageUnit;
-	})
+			pageUnit = $(this).val();
+			document.location="/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbVO.scriptGbSq }&pageUnit="+pageUnit;
+		})
 });
 
-	/* pagination 페이지 링크 function */
-	function linkPage(pageNo){
-		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-		document.listForm.pageIndex.value = pageNo;
-		document.listForm.action = "<c:url value='/script/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
-	   	document.listForm.submit();
-	}
+
+
+
+/* pagination 페이지 링크 function */
+function linkPage(pageNo){
+	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+	document.location = "/scriptGubun/scriptManage.do?pageIndex="+pageNo+"&scriptGbSq=${scriptGbVO.scriptGbSq }&pageUnit="+pageUnit;
+}
 	
 	/* 검색 */
 	function searchList(){
-	document.listForm.action = "<c:url value='/script/retrievePagingList.do'/>";
-		document.listForm.submit();
+		var searchKeyword = $('#searchKeyword').val();
+		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+		document.location = "/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbVO.scriptGbSq }&pageUnit="+pageUnit+"&searchKeyword="+searchKeyword;
+	
 	}
 </script>
 </head>
 <body>
-<form:form commandName="scriptVO" id="listForm" name="listForm" method="post">
 	<!-- 헤더 -->
 	<div id="root">
 		<div class="Main false">
@@ -112,7 +118,7 @@ $(document).ready(function() {
 			<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %> 
 			<div class="w3-container managerbox" style="margin-left: 200px">
 			<div class="body">
-				<div class="content__title"><h1>스크립트 관리</h1></div>
+				<div class="content__title"><h1>스크립트</h1></div>
 				
 				<div class="registScript">
 					<form id="regForm" action="/script/createProcess.do" method="post" enctype="utf-8">
@@ -150,20 +156,13 @@ $(document).ready(function() {
 					</select> 
 					
 					<div id="search">
-						<ul>
-		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input path="searchKeyword" cssClass="txt"/>
-		                    
-		        	            <span class="btn_blue_l">
-		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
-		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" alt=""/>
-		        	            </span>
-		                </ul>
+						<input type="text" id="searchKeyword" >
+						<span onclick="search()">검색</span>
 					</div>
-					<a href="/script/list/excelDown.do"">↓목록 내려받기</a>
+					<a href="/script/list/excelDown.do?scriptGbSq=${scriptGbVO.scriptGbSq}">↓ 목록 내려받기</a> 
 					<span id="massiveCreate">↑ 일괄등록</span>
 					<!-- excel file 읽어오기 -->
-				    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="script/massiveCreateProcess.do"/>" >
+				    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="/script/massiveCreateProcess.do?scriptGbSq=${scriptGbVO.scriptGbSq}"/>" >
 				        <input hidden type="file" name="excelFile" />
 				    </form>
 				</div>
@@ -174,16 +173,7 @@ $(document).ready(function() {
 					<input type="hidden" name="scriptSq" value="${script.scriptSq }">
  					<input type="text" name="scriptContent" value="${script.scriptContent }">
 					<select class="scriptGb" name="scriptGbSq">
-						<c:forEach items="${scriptGbList }" var="scriptGb">
-							<c:choose>
-								<c:when test="${script.scriptGbSq==scriptGb.scriptGbSq}">
-									<option value="${scriptGb.scriptGbSq }" selected="selected">${scriptGb.scriptGbContent }</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${scriptGb.scriptGbSq }">${scriptGb.scriptGbContent }</option>
-								</c:otherwise>
-							</c:choose>						
-						</c:forEach>
+						<option value="${scriptGbVO.scriptGbSq }" selected="selected">${scriptGbVO.scriptGbContent }</option>
 					</select>
 					
 					<select class="scriptSt" name="scriptSt">
@@ -205,22 +195,72 @@ $(document).ready(function() {
 			
 			
 			</div>
-			
-			
-			
 				<div id="paging">
-					<ul class="pagination boarding">
-						<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
-						<form:hidden path="pageIndex" />
-					</ul>
-				</div>
-			
-			
-			
+							<ul id="pagination" class="pagination boarding">
+								<!--  << -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == 1}">
+											<span>&lt;&lt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo > 1 }">
+											<span onclick="linkPage(1)">&lt;&lt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								<!--  < -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == 1 }">
+											<span >&lt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo > 1}">
+											<span onclick="linkPage(${paginationInfo.currentPageNo-1})">&lt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								<!-- 페이지번호 -->
+									<c:forEach var="i" begin="${paginationInfo.firstPageNoOnPageList }" end="${paginationInfo.lastPageNoOnPageList }">
+										<li class="page">
+											<c:choose>
+												<c:when test="${paginationInfo.currentPageNo == i }">
+													<span style="font-weight:bold;">${i }</span>
+												</c:when>
+												<c:otherwise>
+													<span onclick="linkPage(${i})">${i }</span>
+												</c:otherwise>
+											</c:choose>
+										</li>
+									</c:forEach>
+									<!-- > -->
+							<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
+											<span >&gt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo < paginationInfo.totalPageCount }">
+											<span onclick="linkPage(${paginationInfo.currentPageNo+1})">&gt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								
+								<!--  >> -->
+								<li class="page">
+							
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
+											<span >&gt;&gt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo < paginationInfo.totalPageCount }">
+											<span onclick="linkPage(${paginationInfo.totalPageCount})">&gt;&gt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+							</ul>
+						</div>
 			</div>
 		</div>
 		</div>
 	</div>
-	</form:form>
 </body>
 </html>

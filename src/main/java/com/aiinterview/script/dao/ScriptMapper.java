@@ -1,6 +1,7 @@
 package com.aiinterview.script.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.script.vo.ScriptVO;
 
@@ -31,6 +32,7 @@ public interface ScriptMapper {
 	 * @throws Exception
 	 */
 	public void create(ScriptVO ScriptVO) throws Exception;
+	
 	
 	/**
 	 * 스크립트 전체 리스트를 반환하는 메서드
@@ -69,4 +71,12 @@ public interface ScriptMapper {
 	 * @throws Exception
 	 */
 	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception;
+
+	/**
+	 * 스크립트 구분 별 스크립트 목록을 조회하는 메서드
+	 * @param retrieveMap
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScriptVO> retrieveScriptGbScriptPagingList(Map<String, Object> retrieveMap) throws Exception;
 }

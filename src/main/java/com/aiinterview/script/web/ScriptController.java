@@ -42,6 +42,7 @@ public class ScriptController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
+	/* 페이징 처리 한 조회 */
 	@RequestMapping("/retrievePagingList.do")
 	public String retrievePagingList(ScriptVO scriptVO, String pageUnit, Model model) throws Exception{
 	
@@ -98,7 +99,7 @@ public class ScriptController {
 
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public ModelAndView createMassiveScript(MultipartHttpServletRequest request) {
+	public ModelAndView createMassiveScript(MultipartHttpServletRequest request, String scriptGbSq) {
 		MultipartFile excelFile = request.getFile("excelFile");
 		
 		if(excelFile == null || excelFile.isEmpty()) {
@@ -114,7 +115,7 @@ public class ScriptController {
 		}
 		
 		try {
-			scriptService.createMassiveScript(destFile);
+			scriptService.createMassiveScript(destFile, scriptGbSq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -140,18 +141,18 @@ public class ScriptController {
 		if (updateCnt == 1) {
 			return "redirect:/script/retrievePagingList.do";
 		} else {
-			return "manage/scriptManage";
+			return "manage/scriptGbScriptManage";
 		}
 	}
 	
 	/* 일괄 다운로드 */
 	@RequestMapping("/list/excelDown.do")
-	public String excelDown(Model model) {
+	public String excelDown(Model model, String scriptGbSq) {
 	
-		//출력할 스크립트 구분 전체 리스트
+		//출력할 스크립트 전체 리스트
 		List<ScriptVO> scriptList = null;
 		try {
-			scriptList = scriptService.retrieveList();
+			scriptList = scriptService.retrieveSelectList(scriptGbSq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

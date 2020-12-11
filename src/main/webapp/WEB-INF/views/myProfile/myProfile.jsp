@@ -26,6 +26,7 @@ function PlanUse(){
 			var check = data.planUseCheck
 			console.log(check.term)
 			if(check.term>0){
+				
 				var html = "";
 				var plan = data.planUse
 				

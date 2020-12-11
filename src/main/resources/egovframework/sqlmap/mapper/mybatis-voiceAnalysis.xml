@@ -11,12 +11,7 @@
 									ANS_SQ)
 		     VALUES (VOICE_ANALYSIS_SQ.NEXTVAL,
 						NVL(#{voiceDecibel},0),
-						<if test="voiceRange != null and voiceRange != ''">
-							NVL(#{voiceRange},0),
-						</if>
-						<if test="voiceRange == '' or voiceRange == null">
-							null,
-						</if>
+						NVL(#{voiceRange},0),
 						#{ansSq})
 	</insert>
 	

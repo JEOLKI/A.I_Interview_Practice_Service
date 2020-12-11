@@ -57,13 +57,32 @@
 		  </if>
 	</select>
 	
+	<!-- 스크립트 구분 별 스크립트 목록 조회 -->
+	<select id="retrieveScriptGbScriptPagingList" parameterType="hashmap" resultType="com.aiinterview.script.vo.ScriptVO">
+		SELECT A.*
+		  FROM (
+		  	SELECT ROWNUM RNUM, 
+		  		   S.*
+		      FROM (
+		      	SELECT *
+		          FROM script
+		         WHERE script_gb_sq IN ( SELECT script_gb_sq
+  										 FROM script_gb
+                              			WHERE script_gb_sq = #{scriptGbSq})
+		          <if test="searchKeyword != null and searchKeyword != ''">
+				   AND script_content LIKE '%' || #{searchKeyword} || '%'
+				  </if>
+		         ORDER BY script_sq 
+		   	) S
+		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
+	   ) A 
+	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
 	<!-- 등록 -->
-	<insert id="create">
-		<selectKey keyProperty="scriptSq" resultType="String" order="BEFORE">
-			SELECT script_sq.nextval FROM DUAL
-		</selectKey>
-			INSERT INTO script
-			VALUES (TO_NUMBER(#{scriptSq}), #{scriptContent}, #{scriptSt}, #{scriptGbSq}) 
+	<insert id="create" >
+		INSERT INTO script
+			VALUES (script_sq.nextval, #{scriptContent}, #{scriptSt}, #{scriptGbSq})		
 	</insert>
 	
 	<!-- 수정 -->
@@ -81,5 +100,4 @@
 		 FROM script
 		WHERE quest_content LIKE '%'||#{keyword}||'%'
 	</select>
-	
 </mapper>

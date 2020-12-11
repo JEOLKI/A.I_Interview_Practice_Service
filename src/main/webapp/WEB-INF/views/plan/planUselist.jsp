@@ -72,13 +72,7 @@ function searchList(){
 <form:form commandName="planUseVO" id="listForm" name="listForm" method="get">
 	<div id="root boarding">
 		<div class="Main false">
-			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			
-			<section class="hero contentbox"">
-				<div class="hero__content" >
-					<div class="content__title">결제내역</div>
-				</div>
-			</section>
 			<div class="body" >
 			
 				<div class=" blog-main">

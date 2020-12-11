@@ -21,8 +21,10 @@
 	
 	$(document).ready(function() {
 		
-		$(".question-toggle").on('click', function(){
-			$(".report").empty();
+		$(".QuestionReview").on('click', function(){
+			$(".review-body").empty();
+	         $(this).addClass("open");
+	         $(this).removeClass("close")
 			var questSq = $(this).data("quest_sq");
 			console.log(questSq);
 				
@@ -30,15 +32,11 @@
 					url : "/analysis/answer/retrieve.do",
 					data : { "questSq" : questSq },
 					success : function(data){
-						console.log(data);
 						var html = data;	
 						$("#report"+questSq+"").html(html);
 					}
-				
 			})
-			
 		})
-		
 		
 	});
 	
@@ -55,6 +53,18 @@
 	text-align: center;
 }
 
+#interviewNm{
+	width: auto;
+	display: inline-block;
+}
+
+#interviewNmUpdateBtn{
+	position: absolute;
+	margin-top: 20px;
+	margin-left: 270px;
+	background-color: transparent;
+	z-index: 11;
+}
 
 </style>
 </head>
@@ -68,26 +78,34 @@
 			
 			<div class="body">
 				<div class="date">${interviewVO.interviewDate }</div>
-				<div class="title-flex">
-					<div class="title-form">
-						<input type="text" class="title-text" placeholder="${interviewVO.interviewNm }" maxlength="30" value="${interviewVO.interviewNm }"> 
-							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 
-							&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-							<span> </span>
+				<form action="${cp }/interview/update.do" method="POST">
+					<div class="title-flex">
+						<div class="title-form">
+							<input type="hidden" name="pageNm" value="resultPage">
+							<input type="hidden" name="interviewSq" value="${interviewVO.interviewSq }">
+							<input type="text" name="interviewNm" class="title-text" id="interviewNm" placeholder="${interviewVO.interviewNm }" value="${interviewVO.interviewNm }"> 
+							<span></span>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="interviewNmUpdateBtn" type="submit">
 							<img
 							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAUVJREFUOE+t1L1KxEAUBeBzM0RhC7WwECzUN4jdJou4im6tvY2NjY1PY2Ohjb11IhiQzLKFkAcQ1DcQbCTD5spEYtb8LMkmaVJk5ptzZ+aG0PFDi3iWNVzr9ZZuiXDCzCGAcyk9/UZj8Bczn4jIysKwHwTewUKg4xz7RLSfr4yZd3XK2glt+3BTCFqOY2MFgEZXU5SZP6T0tmsn1BiRCAAS02lkC2Guz6JxjNPx2H2oBaYYEW3pCcx4VyqyTdPc0CiAKym9uzTt3JLzWFYiXpWK9pTCdxj6n7P7WQlqzDDEM0A7FVfrLAjc+/y3UrAqWZYwvpDy8aZsoQLYBiscSlvsH9gF9gd2hSVgl1gCOs7ojQhJ2xT7E5dSutdN/kg0GIy4HKu+GvMWKAWZF8OSkvMJ22AJ2O8fDbMOML4mE/elyZ7lx/4AFWGhFXYrDvUAAAAASUVORK5CYII="
 							alt="edit-icon">
+							</button>
+						</div>
+						<div class="share-btn">
+							<span aria-hidden="true" class="fa fa-share-square-o fa undefined"></span>면접
+							결과 공유하기
+						</div>
 					</div>
-					<div class="share-btn">
-						<span aria-hidden="true" class="fa fa-share-square-o fa undefined"></span>면접
-						결과 공유하기
-					</div>
-				</div>
+				</form>
 
-				<div class="QuestionReview open">
 					<c:forEach items="${resultList }" var="question">
-					
-							<div class="question-toggle" data-quest_sq="${question.questSq }">
+						<div class="QuestionReview close" data-quest_sq="${question.questSq }">
+							<div class="question-toggle">
 								<div class="mark-color"></div>
 								<div class="no">질문 ${question.rnum }</div>
 								<div class="question">${question.questContent }</div>
@@ -95,11 +113,10 @@
 									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAXCAYAAAAC9s/ZAAAABHNCSVQICAgIfAhkiAAAAOpJREFUOE/t1D0OgkAQBeA3JiaWHIFOKgkF1HoS8QR6A/UkchVbKACrLTkCrYnJmEHXwGYXLS3YihDex/7MDsExgqI+ATgCOKs4lGfroAnAtAf4hz3wy9Jroqg1K/LnUl7mVXWf89pEvgFBXmcqCVMKipqZWZBNHxkDJAzCVsUhdYBM30RcgA5L5gXktxTEFxOxAf0wmHYqWWVdKduQxWN26PcDW1iyn7tgIgBdibCXhgKGL2vuTur9Z31qg8vUR/QHDG4J5NnCgxnogA1xha2AuSdjYScwQIw1mxXrbCgdUpa+iqLG1Xjl/ROZHtQYX28HyAAAAABJRU5ErkJggg=="
 									alt="up-down-dash" class="up-down-dash">
 							</div>
-							
-							<div class="report" id="report${question.questSq }"></div>						
+							<div class="review-body" id="report${question.questSq }"> </div>						
+						</div>	
 					</c:forEach>
 
-				</div>	
 
 
 

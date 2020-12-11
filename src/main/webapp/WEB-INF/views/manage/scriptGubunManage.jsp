@@ -88,12 +88,11 @@ $(document).ready(function(){
 			}
 		})
 		
-		//여기
-// 		$('.scriptMngBtn').on('click', function(){
-// 		scriptGbSq= $(this).val();
-// 		//console.log(scriptGbSq);
-// 		document.location="/script/scriptManage.do?scriptGbSq="+scriptGbSq;
-// 	})
+		$('.scriptMngBtn').on('click', function(){
+		scriptGbSq= $(this).val();
+		console.log(scriptGbSq);
+		document.location="/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
+	})
 
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
@@ -216,10 +215,66 @@ function searchList() {
 						</div>
 
 						<div id="paging">
-							<ul class="pagination boarding">
-								<ui:pagination paginationInfo="${paginationInfo}" type="image"
-									jsFunction="linkPage" />
-								<form:hidden path="pageIndex" />
+							<ul id="pagination" class="pagination boarding">
+								<!--  << -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == 1}">
+											<span>&lt;&lt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo > 1 }">
+											<span onclick="linkPage(1)">&lt;&lt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								<!--  < -->
+								<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == 1 }">
+											<span >&lt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo > 1}">
+											<span onclick="linkPage(${paginationInfo.currentPageNo-1})">&lt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								<!-- 페이지번호 -->
+									<c:forEach var="i" begin="${paginationInfo.firstPageNoOnPageList }" end="${paginationInfo.lastPageNoOnPageList }">
+										<li class="page">
+											<c:choose>
+												<c:when test="${paginationInfo.currentPageNo == i }">
+													<span style="font-weight:bold;">${i }</span>
+												</c:when>
+												<c:otherwise>
+													<span onclick="linkPage(${i})">${i }</span>
+												</c:otherwise>
+											</c:choose>
+										</li>
+									</c:forEach>
+									<!-- > -->
+							<li class="page">
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
+											<span >&gt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo < paginationInfo.totalPageCount }">
+											<span onclick="linkPage(${paginationInfo.currentPageNo+1})">&gt;</span>
+										</c:when>
+									</c:choose>
+								</li>
+								
+								<!--  >> -->
+								<li class="page">
+							
+									<c:choose>
+										<c:when test="${paginationInfo.currentPageNo == paginationInfo.totalPageCount }">
+											<span >&gt;&gt;</span>
+										</c:when>
+										<c:when test="${paginationInfo.currentPageNo < paginationInfo.totalPageCount }">
+											<span onclick="linkPage(${paginationInfo.totalPageCount})">&gt;&gt;</span>
+										</c:when>
+									</c:choose>
+								</li>
 							</ul>
 						</div>
 					</div>

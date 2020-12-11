@@ -111,8 +111,8 @@
 			document.location="/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit;
 		})
 	})
-		
-		
+
+	
 	
 	
 	
@@ -271,9 +271,11 @@
 										</c:when>
 									</c:choose>
 								</li>
-						</ul>				</div>
+							</ul>
+						</div>
+					</div>	
+				</div>
 			</div>
-</div>
 		</div>
 	</div>
 </body>

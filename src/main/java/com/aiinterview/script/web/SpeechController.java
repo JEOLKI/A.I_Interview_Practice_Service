@@ -139,8 +139,9 @@ public class SpeechController {
    
    
    @RequestMapping(path="/speech.do", method = {RequestMethod.GET})
-   public String scriptView() {
-      
+   public String scriptView(String score, Model model) {
+      model.addAttribute("score", score);
+	   System.out.println("score 점수 : "+score);
       return "speech/speech";
    }
    
@@ -155,7 +156,7 @@ public class SpeechController {
 		String filePath = "";
 		Map<String, String> map = new HashMap<>();
 		SpeechVO sv = new SpeechVO();
-	
+		System.out.println("호출1");
 		while (iter.hasNext()) {
 			fieldName = (String) iter.next(); // 파일 여러개면 순서대로 나온다.
 			mfile = Test.getFile(fieldName); // 저장된 파일 객체
@@ -165,26 +166,34 @@ public class SpeechController {
 				String str = mfile.toString();
 				String result = str.substring(str.lastIndexOf("@") + 1);
 				filePath = "c:/vo/"+result+".pcm";
-//				filePath = "c:/vo/PRO_M_20csg0029.pcm";
 				mfile.transferTo(new File(filePath));
+				System.out.println(filePath);
 				map = analysis(filePath);
 				
-//				MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-//				sv.setMemId(mv.getMemId());
-				sv.setMemId("TEST_ID");
+				MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+				sv.setMemId(mv.getMemId());
+				
 				sv.setSpeechScript(map.get("speechScript"));
 				sv.setSpeechTestScore(map.get("speechScore"));
 				
 				speechService.create(sv);
 				
 				
-				model.addAttribute("path", filePath);
+				
+				
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return "redirect:/speech/speech.do";
+		
+		if(map.get("speechScore").length()>5) {
+			String[]bb = map.get("speechScore").split("\\.");
+			return bb[0] +"."+ bb[1].substring(0, 2);
+		}else {
+			return map.get("speechScore");
+		}
 	}
     
     public Map<String, String> analysis (String filePath) {
@@ -249,6 +258,9 @@ public class SpeechController {
             
             map.put("speechScore", score);
             map.put("speechScript", split2[0]);
+            
+            
+            
             
             System.out.println("스피치 점수"+map.get("speechScore"));
             System.out.println("스피치 스크립트"+map.get("speechScript"));

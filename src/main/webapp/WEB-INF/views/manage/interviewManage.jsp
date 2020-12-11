@@ -1,77 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style>
-table{
-	border-collapse: collapse;
-}
-a{
-	text-decoration: none;
-	color: black;
-}
-</style>
-<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-</head>
-<body>
-<div id="root">
-      <div class="">
 
-           <%@ include file="/WEB-INF/views/layout/header.jsp" %>
-	<!-- 헤더 -->
-	 <section class="hero">
-			<div class="hero__content" >
-				<div class="content__title">면접 관리</div>
-			</div>
-		</section>
-	<div class="body">
-		<div class="menu">
-			<select id="sort">
-				<option value="">정렬</option>
-				<option value="">5개씩</option>
-				<option value="">10개씩</option>
-				<option value="">15개씩</option>
-				<option value="">20개씩</option>
-			</select> <select id="searchType">
-				<option value="">검색조건</option>
-				<option value="usernm">면접 제목</option>
-				<option value="userid">아이디</option>
-				<option value="usernm">목표 직무</option>
-				<option value="usernm">등록시간</option>
-			</select> <input id="keyword" type="text">
-			<button type="button">검색</button>
-			<a href="#">↓목록 내려받기</a>
-		</div>
-		<br>
-		<div class="list">
-			<div class="table">
-				<table border="1">
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+
+
+<style type="text/css">
+
+	.blog-main{
+		width: 80%;
+	}
+	
+	#excelBtn{
+		border: 1px solid #22741C;
+		background-color: #22741C;
+		color: white;
+		padding: 1px 10px;
+		margin: 100px 5px;
+	}
+	
+	.input-group{
+		display: block;
+		width: 1200px;
+	}
+	
+	
+	#searchCondition{
+		width: 80px;
+	}
+	
+	.input-group, .button-search{
+		width: 1200px;
+	}
+	
+	.button-search li{
+		width: 50%;
+	}
+	
+</style>
+
+</head>
+
+<body>
+	<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
+		<div class="blog-main">
+			<div>
+	       		<ul>
+        			<li>
+        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
+        				<form:select id="searchCondition" class="col-sm-1" path="searchCondition"><!-- 
+        				cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1" -->
+        					<form:option value="0" label="내용" />
+        				</form:select>
+        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+                        <form:input id="searchKeyword" path="searchKeyword" />
+                       <!--  cssClass="txt form-control col-sm-2" -->
+        	            <span class="btn btn-primary">
+        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
+        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
+        	            </span>
+        	        </li>
+                </ul>
+				<a id="excelBtn" href="${cp }/interview/list/excelDown.do">excel 다운로드</a> 
+	       	</div>
+	       	
+		    
+			<div class="table-responsive">
+			
+		 	<table class="table blogmain table-hover" id="dataTable">
+				<thead>
 					<tr>
 						<th>번호</th>
 						<th>면접 제목</th>
-						<th>아이디</th>
-						<th>목표 직무</th>
-						<th>등록시간</th>
-						<!-- yyyy-MM-dd  -->
+						<th>면접 등록 일자</th>
+						<th>회원 아이디</th>
 					</tr>
-					<tbody id="memberList">
-							<tr data-userid="brown">
-								<td>1</td>
-								<td>삼성전자 마케팅</td>
-								<td>brown</td>
-								<td>마케팅</td>
-								<td>2020-11-20</td>
-							</tr>
-					</tbody>
-				</table>
+				</thead>
+				<tbody>
+				<c:forEach items="${resultList }" var="interview">
+					<tr>
+						<td>${interview.interviewSq }</td>	
+						<td>${interview.interviewNm } </td>
+						<td>${interview.interviewDate }</td>
+						<td>${interview.memId }</td>
+					</tr>
+				</c:forEach>
+						</tbody>
+					</table>
+			</div>
+		
+			<div class = "paging">
+			<br>
+			<ul class="pagination boarding">
+				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+			</ul>
+			<form:hidden path="pageIndex" />
 			</div>
 		</div>
-	</div>
-</div>
-</div>
+	</form:form>
+	
 </body>
 </html>

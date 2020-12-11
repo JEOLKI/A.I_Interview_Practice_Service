@@ -116,7 +116,7 @@
 		$.ajax({url : "/analysis/image/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
-				console.log(data.imageAnalysisGrowth)
+				//console.log(data.imageAnalysisGrowth)
 				imageAnalysisList = data.imageAnalysisGrowth;
 				imageGrowthdata(imageAnalysisList);
 			}
@@ -159,6 +159,7 @@
 	      
 	    });
 		
+	    
 	})
 	
 	function TestChart(){
@@ -531,14 +532,17 @@
 					<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
 						<c:forEach items="${resultList }" var="interview">
 							<div class="interview-table">
-								<div class="SetInterviewBox">
-									<div class="date">${interview.interviewDate}</div>
-									<div class="name">${interview.interviewNm}</div>
-									<button class="edit-btn interviewNmUpdateBtn">
-										<img src="/images/question-write.87c3adf2.svg" alt="">
-									</button>
-									<a class="button" href="/analysis/question/retrievePagingList.do?interviewSq=${interview.interviewSq }">결과 보기</a>
-								</div>
+								<form action="${cp }/interview/update.do" method="POST">
+									<div class="SetInterviewBox">
+											<div class="date">${interview.interviewDate}</div>
+											<input type="text" class="name" name="interviewNm" value="${interview.interviewNm}"/>
+											<input type="hidden" name="interviewSq" value="${interview.interviewSq }">
+											<button type="submit" class="edit-btn interviewNmUpdateBtn">
+												<img src="/images/question-write.87c3adf2.svg" alt="">
+											</button>
+										<a class="button" href="/analysis/question/retrievePagingList.do?interviewSq=${interview.interviewSq }">결과 보기</a>
+									</div>
+								</form>
 							</div>
 						</c:forEach>
 					</form:form>
