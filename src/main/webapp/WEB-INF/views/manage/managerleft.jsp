@@ -117,6 +117,13 @@
 			<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;스크립트 통계</a>
 		</div>
 	</div>
+	
+	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc4()">
+		스크립트 관리<i class="fa fa-caret-down"></i>
+	</button>
+	<div id="demoAcc4" class="w3-hide w3-white w3-card">
+		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;스크립트 구분 관리</a>
+	</div>
 </div>
 
 
@@ -229,6 +236,32 @@
 	/* 면접 관리  - 스크립트 관리 */
 	function myAccFunc3_e() {
 		var x = document.getElementById("demoAcc3_e");
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+			x.previousElementSibling.className += " w3-pale-blue";
+		} else {
+			x.className = x.className.replace(" w3-show", "");
+			x.previousElementSibling.className = x.previousElementSibling.className
+					.replace(" w3-pale-blue", "");
+		}
+	}
+	
+	/* 스크립트 관리 */
+	function myAccFunc4() {
+		var x = document.getElementById("demoAcc4");
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+			x.previousElementSibling.className += " w3-blue";
+		} else {
+			x.className = x.className.replace(" w3-show", "");
+			x.previousElementSibling.className = x.previousElementSibling.className
+					.replace(" w3-blue", "");
+		}
+	}
+
+	/* 스크립트 관리  - 스크립트 구분 관리 */
+	function myAccFunc4_a() {
+		var x = document.getElementById("demoAcc4_a");
 		if (x.className.indexOf("w3-show") == -1) {
 			x.className += " w3-show";
 			x.previousElementSibling.className += " w3-pale-blue";

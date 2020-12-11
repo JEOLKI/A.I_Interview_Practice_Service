@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
-import com.aiinterview.interview.vo.SampleQuestionVO;
 import com.aiinterview.script.dao.ScriptMapper;
 import com.aiinterview.script.vo.ScriptVO;
 
@@ -51,10 +50,10 @@ public class ScriptService {
 	 * 스크립트 일괄 등록 메서드
 	 * @param destFile
 	 */
-	public void createMassiveScript(File destFile) throws Exception{
+	public void createMassiveScript(File destFile, String scriptGbSq) throws Exception{
 		ReadOption readOption = new ReadOption();
 		  readOption.setFilePath(destFile.getAbsolutePath());
-		  readOption.setOutputColumns("A","B","C");
+		  readOption.setOutputColumns("A","B");
 		  readOption.setStartRow(2);
 
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
@@ -64,7 +63,7 @@ public class ScriptService {
 			  scriptVO = new ScriptVO();
 			  scriptVO.setScriptContent(script.get("A"));
 			  scriptVO.setScriptSt(script.get("B"));
-			  scriptVO.setScriptGbSq(script.get("C"));
+			  scriptVO.setScriptGbSq(scriptGbSq);
 			  
 			  scriptMapper.create(scriptVO);
 		  }
@@ -116,5 +115,14 @@ public class ScriptService {
 	 */
 	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception{
 		return scriptMapper.retrieveSelectList(scriptGbSq);
+	}
+
+	/**
+	 * 해당 스크립트 구분에 해당하는 스크립트 리스트를 반환하는 메서드
+	 * @param retrieveMap
+	 * @return
+	 */
+	public List<ScriptVO> retrieveScriptGbScriptPagingList(Map<String, Object> retrieveMap)  throws Exception{
+		return scriptMapper.retrieveScriptGbScriptPagingList(retrieveMap);
 	}
 }
