@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.interview.service.InterviewService;
 import com.aiinterview.interview.service.QuestionService;
 import com.aiinterview.interview.vo.InterviewVO;
@@ -92,60 +93,21 @@ public class InterviewController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping(path = "/blobtest.do", method = RequestMethod.GET)
-    public String blobTest(Model model) {
-       
-       return "interview/bloTest";
-    }
-	
-	@RequestMapping(path = "/blobtester.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String blobTestR(Model model, MultipartHttpServletRequest data, String name) {
-
-		Iterator<String> iter = data.getFileNames();
-		MultipartFile mfile = null;
-		String fieldName = "";
-		while (iter.hasNext()) {
-			fieldName = (String) iter.next(); // 파일이름, 위에서 file1과 file2로 보냈으니 file1, file2로 나온다.
-			mfile = data.getFile(fieldName); // 저장된 파일 객체
-			System.out.println("결과 1 : " + fieldName); // 데이터 이름
-			System.out.println("결과 2 : " + mfile); // 주소값
-			System.out.println("결과 3 : " + mfile.getName());
-			System.out.println("결과 4 : " + mfile.getOriginalFilename());
-			try {
-				System.out.println("결과 5 : " + mfile.getBytes());
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			System.out.println("결과 6 : " + mfile.getSize());
-
-			model.addAttribute("result1", mfile);
-
-			try {
-				mfile.transferTo(new File("D:\\test")); // 확장자 붙여야함
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	@RequestMapping(path="/update.do", method = { RequestMethod.POST })
+	public String update(InterviewVO interviewVO,@RequestParam(required=false, defaultValue="") String pageNm, Model model) {
+		
+		try {
+			int result = interviewService.update(interviewVO);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		System.out.println("데이터 결과: " + data);
-		model.addAttribute("result2", data);
-		return "jsonView";
+		
+		if(pageNm.equals("resultPage")) {
+			return "redirect:/analysis/question/retrievePagingList.do?interviewSq=" + interviewVO.getInterviewSq();
+		}
+		
+		return "redirect:/analysis/interview/retrievePagingList.do";
 	}
+	
 
 }
