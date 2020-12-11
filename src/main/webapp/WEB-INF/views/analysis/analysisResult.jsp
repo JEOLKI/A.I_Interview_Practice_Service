@@ -43,20 +43,17 @@
 						
 						/* 인재상 - 키워드 */
 						keywordMap = data.keywordResultMap;
-						console.log(keywordMap);
-						
+						createKeywordHtml(keywordMap,talentNm);
 					}
 				
 			})
 			
 			$(document).on("click",".competency-percent",function(){
-				console.log('click');
 	         	$('.competency-percent.select').removeClass('select');
 	          	$('.competency-percent').addClass('unselect');
 	          	$(this).removeClass('unselect');
 	          	$(this).addClass('select');
 	          	talentNm = $(this).find('span').text();
-				console.log(talentNm);
 				createKeywordHtml(keywordMap,talentNm);
 			})
 			
@@ -134,18 +131,13 @@
 	
 	/* 인재상 - 키워드 리포트*/
 	function createKeywordHtml(keywordMap,talentNm){
-		console.log("키워드 파라미터 : "+talentNm);
-		keywordArr = keywordMap.get(talentNm);
-		console.log("keywordArr : "+keywordArr);
-		console.log(keywordArr);
+		keywordArr =keywordMap[talentNm];
 		keywordHtml = '';
-		keywordHtml += '<div class="word-view">';
 		for(var i=0; i<keywordArr.length; i++){
-			
 			keywordHtml += '<span class="word">'+keywordArr[i]+'</span>';
 		}
-		keywordHtml += '</div>';
-		$('.JobCompetency .result').append(keywordHtml);
+		$('.JobCompetency .word-view').empty();
+		$('.JobCompetency .word-view').append(keywordHtml);
 		
 		
 	}
@@ -162,14 +154,15 @@
 		talentHtml +=	 '<div class="percentage">'+talentList[0].percent+'%</div>';
 		talentHtml += '</div>';
 		window.talentNm = talentList[0].talentNm;
-		console.log(talentNm)
 		for(var i=1; i< talentList.length; i++){
 			talentHtml += '<div class="competency-percent unselect">';
 			talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[i].talentNm+'</span></div>';
 			talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[i].percent/gage)+'px;"></div>';
 			talentHtml +=	 '<div class="percentage">'+talentList[i].percent+'%</div>';
 			talentHtml += '</div>';
-		}					
+		}
+		talentHtml += '<div class="word-view">';
+		talentHtml += '</div>';
 		$('.JobCompetency .result').html(talentHtml);
 		
 		
@@ -376,7 +369,7 @@
 		<div class="JobCompetency">
 			<div class="title">답변에 드러난 인재상</div>
 			<div class="content-box">
-				<div class="result flex">
+				<div class="result">
 				</div>
 			</div>
 		</div>
@@ -385,7 +378,7 @@
 		<div class="AnswerSpeed">
 			<div class="title">말하기 속도</div>
 			<div class="content-box slow">
-				<canvas id="speedChart" class="answer-speed-graph" style="top:70px;" width="250" height="250"></canvas>
+				<canvas id="speedChart" class="answer-speed-graph" style="top:82px;" width="250" height="250"></canvas>
 				<div class="average-speed">
 					합격자 평균 속도<br>
 					<span>300</span>
