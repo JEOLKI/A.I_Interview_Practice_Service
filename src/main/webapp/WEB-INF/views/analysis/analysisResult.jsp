@@ -471,7 +471,6 @@
 			sumRange += Number(voiceList[i].voiceRange);
 		}
 		averageRange = Math.round(sumRange/voiceList.length);
-		
 		$('#averageRange').text(averageRange+"Hz");
 		
 		var ctx = document.getElementById('frequencyChart');
@@ -535,7 +534,7 @@
 					onComplete: function () {
 						var chartInstance = this.chart,
 							ctx = chartInstance.ctx;
-						ctx.font = Chart.helpers.fontString(17, 20, Chart.defaults.global.defaultFontFamily);
+						ctx.font = Chart.helpers.fontString(15, 20, Chart.defaults.global.defaultFontFamily);
 						ctx.fillStyle = 'black';
 						ctx.textAlign = 'center';
 						ctx.textBaseline = 'bottom';
@@ -543,9 +542,12 @@
 						this.data.datasets.forEach(function (dataset, i) {
 							var meta = chartInstance.controller.getDatasetMeta(i);
 							meta.data.forEach(function (bar, index) {
-								var data = '${S_MEMBER.memAlias}'+'님의 평균음역대 :'+'\n'
-								data += averageRange+'Hz';
-								ctx.fillText(data, bar._model.x+12, bar._model.y - 30);
+								var data = '"${S_MEMBER.memAlias}"'+'님의 평균음역대'
+								ctx.fillText(data, bar._model.x+10, bar._model.y - 70);
+								
+								ctx.font = "bold 20px Verdana";
+								data = averageRange+'Hz';
+								ctx.fillText(data, bar._model.x+10, bar._model.y - 25);
 							});
 						});
 					}
@@ -558,8 +560,8 @@
 		                type: 'linear',
 		                position: 'bottom',
 		                ticks:{
-		                	suggestedMin: 0,
-		                	suggestedMax: 300
+		                	suggestedMin: 10,
+		                	suggestedMax: 310
 		                }
 		            }],
 		            yAxes: [{
@@ -725,13 +727,13 @@
 			</div>
 				<canvas id="frequencyChart" class="audio-graph" width="791" height="300"
 					style="display: block; height: 200px; width: 880px; position: absolute; margin-top: 60px;"></canvas>
-			<div class="men-pitch-area">
+			<div class="men-pitch-area" style="margin-left: 31%;">
 				<div class="message">
 					<b>선호되는 남성</b>의<br>평균 음역대<br>
 					<span>110Hz~130Hz</span>
 				</div>
 			</div>
-			<div class="women-pitch-area">
+			<div class="women-pitch-area" style="margin-left: 22%;">
 				<div class="message">
 					<b>선호되는 여성</b>의<br>평균 음역대<br>
 					<span>210Hz~240Hz</span>
