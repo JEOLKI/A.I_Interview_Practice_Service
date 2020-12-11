@@ -35,6 +35,7 @@ import com.aiinterview.interview.service.KeywordService;
 import com.aiinterview.interview.service.QuestionService;
 import com.aiinterview.interview.service.TalentService;
 import com.aiinterview.interview.vo.AnswerVO;
+import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.interview.vo.InterviewVO;
 import com.aiinterview.interview.vo.QuestionVO;
 import com.aiinterview.member.vo.MemberVO;
@@ -259,7 +260,7 @@ public class AnalysisController {
 		return "jsonView";
 	}
 	
-	/* 성장그래프 - 습관어 */
+	/* 성장그래프 - 습관어 (차트 )*/
 	@RequestMapping(value="/habit/retrieveGrowth.do")
 	public String habitRetrieveGrowth(HttpSession session, Model model) {
 		
@@ -275,5 +276,25 @@ public class AnalysisController {
 		
 		return "jsonView";
 	}
+	
+	/* 성장그래프 - 습관어별 (바) */
+	@RequestMapping(value="/habit/retrieveCount.do")
+	public String habitRetrieveCount(HttpSession session, Model model) {
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = memberVO.getMemId();
+		
+		try {
+			List<HabitVO> habitAnalysisCount = habitAnalysisService.retrieveCount(memId);
+			model.addAttribute("habitAnalysisCount", habitAnalysisCount);
+			List<HabitVO> habitList = habitService.retrieveUsingList();
+			model.addAttribute("habitList", habitList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView";
+	}
+
 	
 }

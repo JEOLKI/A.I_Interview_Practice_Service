@@ -32,4 +32,18 @@
 		 GROUP BY a.interview_sq
 		 ORDER BY a.interview_sq DESC
 	</select>
+	
+	<select id="retrieveCount" parameterType="String" resultType="com.aiinterview.interview.vo.HabitVO">
+		SELECT e.habit_gb ,SUM(d.habit_count) AS habit_count
+		  FROM habit e,habit_analysis d, answer c, question b, (SELECT interview_sq 
+		                             				      FROM interview
+		                             				     WHERE mem_id = #{memId}
+                                                           AND ROWNUM <![CDATA[ < ]]> 6) a
+		 WHERE b.interview_sq IN a.interview_sq
+		   AND c.quest_sq IN b.quest_sq
+		   AND d.ans_sq IN c.ans_sq
+           AND d.habit_sq IN e.habit_sq
+		 GROUP BY e.habit_gb
+		 ORDER BY habit_count  DESC
+	</select>
 </mapper>

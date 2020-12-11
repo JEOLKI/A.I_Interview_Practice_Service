@@ -132,6 +132,28 @@
 			}
 		})
 		
+		/* 성장그래프 - 습관어(차트)*/
+		$.ajax({url : "/analysis/habit/retrieveGrowth.do",
+			method : "get",
+			success : function(data){
+				console.log(data.habitAnalysisGrowth);
+				habitGrowthList = data.habitAnalysisGrowth;
+				habitGrowthdata(habitGrowthList);
+			}
+		})
+		
+		/* 성장그래프 - 습관어(바)*/
+		$.ajax({url : "/analysis/habit/retrieveCount.do",
+			method : "get",
+			success : function(data){
+				console.log("습관어 바 : "+data.habitAnalysisCount);
+				habitCountList = data.habitAnalysisCount;
+				habitList = data.habitList;
+				habitCountHtml(habitCountList,habitList);
+			}
+		})
+		
+		
 		$(".btn").on('click', function(){
 			target = $(this).data("target");
 			$(".btn").removeClass("select");
@@ -172,19 +194,112 @@
 	  })
 	}
 	
+
+	/* 성장그래프 - 습관어(바) */
+	function habitCountHtml(habitCountList, habitList){
+		console.log(habitCountList.length);
+// 		var fullGage = 187;
+// 		var max = 0;
+// 		for(var i = 0; i<habitCountList.length; i){
+// 			if(habitCountList[i].habitCount > max ){
+// 				max = habitCountList[i].habitCount;
+// 			}
+// 		}
+// 		console.log("max : "+max)
+// 		habitCountHtml = '<div class="unit">(회)</div>';
+// 		for(var i = 0; i<habitList.length; i){
+// 			habitCountHtml += '<div class="HabitBar">';
+// 			habitCountHtml += '<div class="label">'+habitList[i].habitGb +'..</div>';
+// 			habitCountHtml += '<div class="range">';
+// 			for(var j = 0; j<habitCountList.length; j++){
+// 				if(habitList[i].habitGb == habitCountList[j].habitGb){
+// 					habitCountHtml += '<div class="gaze" style="width: '+Number(fullGage*habitCountList[j].habitCount/max)+'px;"></div>';
+// 				}else {
+// 					habitCountHtml += '<div class="gaze" style="width: 0px;"></div>';
+// 				}
+// 			}
+// 			habitCountHtml += '</div>';
+// 			habitCountHtml += '<div class="count">'+habitCountList[i].habitCount+'</div>';
+// 		}
+// 		$('.bar-area').empty();
+// 		$('.bar-area').html(habitCountHtml);
+	}
+		
+	
+	
+	/* 성장그래프 - 습관어(차트) 데이터 */
+	function habitGrowthdata(habitGrowthList){
+		var max = 20;
+		console.log(habitGrowthList.length);
+		
+		
+		analysis = [0];
+		labels = [0];
+		for(var i = habitGrowthList.length-1 ; i >=0 ; i--){
+			labels.push(habitGrowthList[i].habitCount);
+			analysis.push(habitGrowthList[i].habitCount);
+		}
+		console.log("보내기전 analysis : "+analysis)
+		var ctx = document.getElementById('habitGrowth');
+		habitGrowthChart(ctx,labels,analysis, max);
+		
+	}
+	
+	/* 성장그래프 - 습관어 그래프 */
+	function habitGrowthChart(ctx,labels,analysis,max){
+		console.log("파라미터 analysis : "+analysis)
+		var myChart = new Chart(ctx, {
+			type: 'line',
+		    data: {
+		        labels: labels,
+		        datasets: [{
+		            data: analysis,
+		            borderColor: "rgb(114,219,237, 1)",
+		            backgroundColor: "rgb(206,240,247, 0.5)",
+		            fill: true,
+		            lineTension: 0
+		        }]
+		    },
+		    options: {
+		        responsive: true,
+		        legend: {
+		            display: false
+		          },
+		        scales: {
+		        	  xAxes: [{
+			                display: false,
+			                scaleLabel: {
+			                    display: true,
+			                }
+			            }],
+			            yAxes: [{
+			                display: true,
+			                ticks: {
+			                    suggestedMin: 0,
+			                    suggestedMax: max,
+			                    stepSize : 4
+			                }
+			            }]
+		        }
+		    }
+		});
+	}
+	
+	
+	
+	
 	/* 성장그래프 - 말 빠르기 데이터 */
 	function speedGrowthdata(speedGrowthList){
 		var max = 700;
 		console.log(speedGrowthList.length);
-		
-		
+
 		analysis = [0];
-		lables = [];
+		labels = [0];
 		for(var i = speedGrowthList.length-1 ; i >=0 ; i--){
 			labels.push(speedGrowthList[i].ansSpeed);
 			analysis.push(speedGrowthList[i].ansSpeed);
 		}
-		console.log("보내기전 analysis : "+analysis.toString())
+		console.log("보내기전 analysis : "+analysis)
 		var ctx = document.getElementById('speedGrowth');
 		speedGrowthChart(ctx,labels,analysis, max);
 		
@@ -196,7 +311,7 @@
 		var myChart = new Chart(ctx, {
 			type: 'line',
 		    data: {
-		        labels: labels,
+		    	labels: labels,
 		        datasets: [{
 		            data: analysis,
 		            borderColor: "rgb(114,219,237, 1)",
@@ -472,7 +587,7 @@
 								</div>
 								
 								<div id="habitChart" class="Habit graph-area graph-content">
-									<div class="area">
+									<div class="area" style="margin-top:100px;">
 										<div class="message">※습관어 사용량이 적을수록 좋습니다.</div>
 										<canvas id="habitGrowth" class="graph-canvas" width="446" height="223"></canvas>
 										<div class="graduation-bar">
@@ -488,42 +603,42 @@
 						<div class="HabitArea box" id="habitant">
 							<div class="title">내 습관어</div>
 							<div class="bar-area">
-								<div class="unit">(회)</div>
-								<div class="HabitBar">
-									<div class="label">아..</div>
-									<div class="range">
-										<div class="gaze" style="width: 0px;"></div>
-									</div>
-									<div class="count">0</div>
-								</div>
-								<div class="HabitBar">
-									<div class="label">어..</div>
-									<div class="range">
-										<div class="gaze" style="width: 0px;"></div>
-									</div>
-									<div class="count">0</div>
-								</div>
-								<div class="HabitBar">
-									<div class="label">그..</div>
-									<div class="range">
-										<div class="gaze" style="width: 0px;"></div>
-									</div>
-									<div class="count">0</div>
-								</div>
-								<div class="HabitBar">
-									<div class="label">저..</div>
-									<div class="range">
-										<div class="gaze" style="width: 0px;"></div>
-									</div>
-									<div class="count">0</div>
-								</div>
-								<div class="HabitBar">
-									<div class="label">음..</div>
-									<div class="range">
-										<div class="gaze" style="width: 0px;"></div>
-									</div>
-									<div class="count">0</div>
-								</div>
+<!-- 								<div class="unit">(회)</div> -->
+<!-- 								<div class="HabitBar"> -->
+<!-- 									<div class="label">아..</div> -->
+<!-- 									<div class="range"> -->
+<!-- 										<div class="gaze" style="width: 0px;"></div> -->
+<!-- 									</div> -->
+<!-- 									<div class="count">0</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="HabitBar"> -->
+<!-- 									<div class="label">어..</div> -->
+<!-- 									<div class="range"> -->
+<!-- 										<div class="gaze" style="width: 0px;"></div> -->
+<!-- 									</div> -->
+<!-- 									<div class="count">0</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="HabitBar"> -->
+<!-- 									<div class="label">그..</div> -->
+<!-- 									<div class="range"> -->
+<!-- 										<div class="gaze" style="width: 0px;"></div> -->
+<!-- 									</div> -->
+<!-- 									<div class="count">0</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="HabitBar"> -->
+<!-- 									<div class="label">저..</div> -->
+<!-- 									<div class="range"> -->
+<!-- 										<div class="gaze" style="width: 0px;"></div> -->
+<!-- 									</div> -->
+<!-- 									<div class="count">0</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="HabitBar"> -->
+<!-- 									<div class="label">음..</div> -->
+<!-- 									<div class="range"> -->
+<!-- 										<div class="gaze" style="width: 0px;"></div> -->
+<!-- 									</div> -->
+<!-- 									<div class="count">0</div> -->
+<!-- 								</div> -->
 							</div>
 						</div>
 					</div>
