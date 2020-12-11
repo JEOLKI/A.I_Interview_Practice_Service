@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<script src="https://kit.fontawesome.com/ef761ed31c.js" crossorigin="anonymous"></script>
 <title>AIinterview</title>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
@@ -18,7 +18,45 @@ $(document).ready(function() {
 	$('#home').on('click',function(){
 		document.location = "/login/home.do";
 	});
+	
 });
+
+// 사진 넘
+// 	$(".AnalyzeView").hide();
+// 	$('.AnalyzeView.First').show();
+	
+// 	var currentConve = $(".AnalyzeView.First").attr("value"); 	//1이겠지
+
+// 	$('.before').on('click', function(){
+// 		$(".AnalyzeView").hide();
+// 		if(currentConve == 0){
+// 			currentConve = 5;
+// 			if($(".AnalyzeView").attr("value")==currentConve){
+// 				$(this).show();
+// 			}
+// 		} else{
+// 			currentConve -= 1;
+// 			if($(".AnalyzeView").attr("value")==currentConve){
+// 				$(this).show();
+// 			}
+// 		}
+// 	});
+		
+// 	$('.after').on('click', function(){
+// 		$(".AnalyzeView").hide();
+// 		if(currentConve == 6){
+// 			currentConve = 1;
+// 			if($(".AnalyzeView").attr("value")==currentConve){
+// 				$(this).show();
+// 			}
+// 		}else{
+// 			currentConve += 1;
+// 			if($(".AnalyzeView").attr("value")==currentConve){
+// 				$(this).show();
+// 			}
+// 		}
+// 	})
+
 
 </script>
 
@@ -128,7 +166,9 @@ $(document).ready(function() {
 					</div>
 				</div>
 				
- 				<!-- <div class="content-box analyze">
+				
+				<!-- 완성 X ..... 
+				<div class="content-box analyze">
 					<div class="message wow fadeInUp">
 						<b>면접 영상을 녹화</b>하고 다양한 분석을 제공합니다.
 					</div>
@@ -138,7 +178,10 @@ $(document).ready(function() {
 								<span aria-hidden="true" class="fa fa-angle-left fa undefined"></span>
 							</div>
 							<div class="SlideView view false">
-								<div class="AnalyzeView First">
+
+
+								
+								<div class="AnalyzeView First" value="1">
 									<div class="title">답변내용 자동 입력 및 기업 인재상 분석</div>
 									<div class="txt">
 										<div class="label">답변내용</div>
@@ -148,9 +191,39 @@ $(document).ready(function() {
 									</div>
 									<div class="img">
 										<div class="label">답변에 드러난 인재상</div>
-										<img src="/images/slide_talent.d8311c57.png" alt="">
+										<img src="/images/slide_talent.d8311c57.svg" alt="">
 									</div>
 								</div>
+
+								<div class="AnalyzeView Second" value="2">
+									<div class="title">말 빠르기 분석</div>
+									<img src="/images/slide_speech-tempo.ba3b5210.svg" alt=""
+										class="tempo-img">
+									<div class="txt">
+										답변하신 내용은 <span>1분 23초 ~ 1분 36초 </span>안에 이야기하시면 적당한 속도입니다. 다시
+										한 번 연습해 보세요!
+									</div>
+								</div>
+
+								<div class="AnalyzeView Third" value="3">
+									<div class="title">음성크기(데시벨) 분석</div>
+									<img src="/images/slide_dB.3a7e7b51.svg" alt=""
+										class="volume-img">
+								</div>
+
+								<div class="AnalyzeView Fourth" value="4">
+									<div class="title">표정 비율 분석</div>
+									<img src="/images/slide_face.a29615db.svg" alt=""
+										class="face-img">
+								</div>
+
+								<div class="AnalyzeView Fifth" vlaue="5">
+									<div class="title">시선 분포 분석</div>
+									<img src="/images/slide_gaze.89a97b76.svg" alt=""
+										class="sight-img">
+								</div>
+
+
 							</div>
 							<div class="after">
 								<span aria-hidden="true" class="fa fa-angle-right fa undefined"></span>
@@ -164,9 +237,29 @@ $(document).ready(function() {
 							<div class="pot false"></div>
 						</div>
 					</div>
-				</div> -->
+				</div>
 				
+				-->
+
 			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			<div class="content loop gray">
 			
@@ -251,7 +344,7 @@ $(document).ready(function() {
 					<div class="link">
 						<a target="blank" href="/">ABOUT US</a>
 					</div>
-					<div class="doodlin">
+					<div class="aiInterview">
 						<b>(주) 두들린</b><br>서울시 마포구 마포대로 122, 프론트원 16층<br>대표 : 이태규
 						<div class="icons">
 							<a
@@ -263,7 +356,7 @@ $(document).ready(function() {
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAArdJREFUWEfVma9vFUEQxz9jSCA4FIIEBYpAggIJCQocPxIMWDTugQT+BYJrDaIE1SqSIltF0gZFFckTKFQTSDBLvsfuy3Z7d2/33fbdY5Iz7d7OZ2d25mbmGQuKc+4ccBW4DJwGzgAX/HZT4BfwG/gG7JvZz0VUWclLzjlB3AKuRTC5Wwh6D/hsZoLPkizACOy2t1TW5h2LBLedCzoX0Dl3A3hYASzlFei6mcmqndIL6Jy7C9wbYq6MdzfNbKtrXSugd+kD4GaGghpLdoAPbXezC/DJEuHCAXfMbD097TFA55xcKteOIVtmthkrPgLoA+LpGGSRzrdx4MwA/b17fQLRWnpeRfeLcB9jwDFdmx5i5uoGcIWsF0BnVgyAq2S9ANlYMQC+LPi2Xgf0xHIIfAT+RH9sW/cF0JMjUzN7Zb4qeZPzhl/Tplj/+grsVgTUVhMBqgDQtzZXugD1vnLYj56DlFhQ22wI8Jkvn2oAysXvvauHulg8ewJ8DlzKpfP3L72D8evfgU8d60oteCDAkgARSJ+LA6gAVXGnBykFnArwXYH1cgHlapX6V5K9SwGpBagIVm9yas5hFwKs4WIpVlN0pzJg4+IaQRIsI8CLPZClFmyCpEaaCYrl4sc9ri4FbNJMjUQdKz7f08eUAjaJWulg6KcuVaxOMI1geb4UcFKrWEgVy9X3gbMD0sy/YkEbjNyHdMXUkXJLIw25WTOWVRDNdCYq+/+Pkt+7eVWsOLOeuNK2U1Mr5cUxpb3tDEQjB0x/4x5BqnlXLlum7JrZWqqwb3ikNmBZkOplNrKHR0t29zG3xlbMHWA+OoEcqWhdGzTAjCypFKSiQs/QZC4wjYC3c2bVcy0Ym9uPSASp6X6Y6OcGkobo+7lgYdMiwARWVZDypjpCWViWjX+GkKU0Yzlo2scFf4b4C7quDqJICg9JAAAAAElFTkSuQmCC"
 								alt=""></a>
 						</div>
-						사업자등록번호: 513-86-01891<br>마케팅ㆍ제휴 문의 : bryan95@doodlin.co.kr<br>@Doodlin
+						사업자등록번호: 513-86-01891<br>마케팅ㆍ제휴 문의 : bryan95@aiInterview.co.kr<br>@Doodlin
 						Corp All Rights Reserved.
 					</div>
 				</div>
