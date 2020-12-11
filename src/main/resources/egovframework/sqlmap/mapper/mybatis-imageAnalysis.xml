@@ -61,24 +61,33 @@
 	</select>
 	
 	<select id="retrieveGrowth" resultType="com.aiinterview.analysis.vo.ImageAnalysisVO">
-		SELECT A.INTERVIEW_SQ, ROUND(SUM(D.ANGER)/COUNT(*),3) ANGER,
-               ROUND(SUM(D.CONTEMPT)/COUNT(*),3) CONTEMPT,
-               ROUND(SUM(D.FEAR)/COUNT(*),3) FEAR,
-               ROUND(SUM(D.DISGUST)/COUNT(*),3) DISGUST,
-               ROUND(SUM(D.HAPPINESS)/COUNT(*),3) HAPPINESS,
-               ROUND(SUM(D.NEUTRAL)/COUNT(*),3) NEUTRAL,
-               ROUND(SUM(D.SADNESS)/COUNT(*),3) SADNESS,
-               ROUND(SUM(D.SURPRISE)/COUNT(*),3) SURPRISE,
-               MAX(D.FACE_TOP) - MIN(D.FACE_TOP) FACE_TOP,
-               MAX(D.FACE_LEFT) - MIN(D.FACE_LEFT) FACE_LEFT,
-               MAX(FACE_WIDTH) FACE_WIDTH,
-		       MAX(FACE_HEIGHT) FACE_HEIGHT
-		FROM INTERVIEW A, QUESTION B, ANSWER C, IMAGE_ANALYSIS D
-		WHERE A.MEM_ID = #{memId}
-		AND A.INTERVIEW_SQ = B.INTERVIEW_SQ
-		AND B.QUEST_SQ = C.QUEST_SQ
-		AND C.ANS_SQ = D.ANS_SQ
-		GROUP BY A.INTERVIEW_SQ
+			SELECT A.INTERVIEW_SQ, AVG(D.ANGER)*100 ANGER,
+                        AVG(D.CONTEMPT)*100 CONTEMPT,
+                        AVG(D.FEAR)*100 FEAR,
+                        AVG(D.DISGUST)*100 DISGUST,
+                        AVG(D.HAPPINESS)*100 HAPPINESS,
+                        AVG(D.NEUTRAL)*100 NEUTRAL,
+                        AVG(D.SADNESS)*100 SADNESS,
+                        AVG(D.SURPRISE)*100 SURPRISE,
+                        AVG(D.FACE_TOP) FACE_TOP,
+                        AVG(D.FACE_LEFT) FACE_LEFT
+			FROM INTERVIEW A, QUESTION B, ANSWER C, (SELECT ANS_SQ, ROUND(SUM(ANGER)/COUNT(*),3) ANGER,
+			                                                       ROUND(SUM(CONTEMPT)/COUNT(*),3) CONTEMPT,
+			                                                       ROUND(SUM(FEAR)/COUNT(*),3) FEAR,
+			                                                       ROUND(SUM(DISGUST)/COUNT(*),3) DISGUST,
+			                                                       ROUND(SUM(HAPPINESS)/COUNT(*),3) HAPPINESS,
+			                                                       ROUND(SUM(NEUTRAL)/COUNT(*),3) NEUTRAL,
+			                                                       ROUND(SUM(SADNESS)/COUNT(*),3) SADNESS,
+			                                                       ROUND(SUM(SURPRISE)/COUNT(*),3) SURPRISE,
+			                                                   MAX(FACE_TOP) - MIN(FACE_TOP) FACE_TOP,
+			                                                   MAX(FACE_LEFT) - MIN(FACE_LEFT) FACE_LEFT
+			                                            FROM IMAGE_ANALYSIS
+			                                            GROUP BY ANS_SQ) D
+			WHERE A.MEM_ID = #{memId }
+			AND A.INTERVIEW_SQ = B.INTERVIEW_SQ
+			AND B.QUEST_SQ = C.QUEST_SQ
+			AND C.ANS_SQ = D.ANS_SQ
+			GROUP BY A.INTERVIEW_SQ
 	</select>
 
 </mapper>
