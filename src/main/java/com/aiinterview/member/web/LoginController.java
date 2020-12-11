@@ -61,5 +61,10 @@ public class LoginController {
 		return "login/join";
 	}
 	
+	@RequestMapping(path = "/help.do", method = { RequestMethod.GET })
+	public String help() {
+		return "login/help";
+	}
+	
 
 }
