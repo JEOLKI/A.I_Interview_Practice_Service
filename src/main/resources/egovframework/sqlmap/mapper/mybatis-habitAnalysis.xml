@@ -20,5 +20,16 @@
 		  AND habit_count > 0
 	</select>
 	
-
+	<select id="retrieveGrowth" parameterType="String" resultType="com.aiinterview.analysis.vo.HabitAnalysisVO">
+		SELECT a.interview_sq, SUM(d.habit_count) AS habit_count
+		  FROM habit_analysis d, answer c, question b, (SELECT interview_sq 
+		                             				      FROM interview
+		                             				     WHERE mem_id = #{memId}) a
+		 WHERE b.interview_sq IN a.interview_sq
+		   AND c.quest_sq IN b.quest_sq
+		   AND d.ans_sq IN c.ans_sq
+		   AND ROWNUM <![CDATA[  <  ]]>6
+		 GROUP BY a.interview_sq
+		 ORDER BY a.interview_sq DESC
+	</select>
 </mapper>

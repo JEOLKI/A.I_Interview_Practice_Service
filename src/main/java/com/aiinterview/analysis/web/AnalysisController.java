@@ -259,4 +259,21 @@ public class AnalysisController {
 		return "jsonView";
 	}
 	
+	/* 성장그래프 - 습관어 */
+	@RequestMapping(value="/habit/retrieveGrowth.do")
+	public String habitRetrieveGrowth(HttpSession session, Model model) {
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = memberVO.getMemId();
+		
+		try {
+			List<HabitAnalysisVO> habitAnalysisGrowth = habitAnalysisService.retrieveGrowth(memId);
+			model.addAttribute("habitAnalysisGrowth", habitAnalysisGrowth);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView";
+	}
+	
 }

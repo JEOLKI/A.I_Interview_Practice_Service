@@ -29,5 +29,15 @@ public class HabitAnalysisService {
 			habitAnalysisMapper.create(habitAnalysisVOList.get(i));
 		}
 	}
+
+	/**
+	 * 최근 5회의 습관어 사용 횟수 리스트를 조회하는 메서드
+	 * 성장 그래프
+	 * @param memId
+	 * @return
+	 */
+	public List<HabitAnalysisVO> retrieveGrowth(String memId) throws Exception{
+		return habitAnalysisMapper.retrieveGrowth(memId);
+	}
 	
 }
