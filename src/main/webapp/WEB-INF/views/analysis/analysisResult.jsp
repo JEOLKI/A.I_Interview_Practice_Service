@@ -8,6 +8,8 @@
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script>
 	var talentNm = '';
+	var habitMap = '';
+	var repeatList = '';
 	$(document).ready(function() {
 			$.ajax({
 					url : "/analysis/answer/retrieveAnalysis.do",
@@ -21,17 +23,21 @@
 						
 						/* 스크립트 */
 						script = data.answerVO.ansContent;
-						scriptLength = script.length;
-						$('.MyAnswer .stt').text(script);
-						$('.MyAnswer .length span').text(scriptLength);
+						if(script != null && script !=''){
+							scriptLength = script.length;
+						}else {
+							scriptLength = 0;
+						}
+						createScriptHtml(script,scriptLength);
+						
 						
 						/* 습관어 */
 						habitMap = data.habitAnalysisMap;
-						createHabitHtml(habitMap);
+						habitLength = Object.keys(habitMap).length;
+						createHabitHtml(habitMap,habitLength);
 						
 						/* 반복어 */
 						repeatList = data.repeatAnalysisList;
-						createRepeatHtml(repeatList);
 						
 						/* 빠르기 */
 						speed = data.answerVO.ansSpeed;
@@ -48,6 +54,7 @@
 				
 			})
 			
+			// 인재상 클릭 시 인재상별 키워드 출력 메서드
 			$(document).on("click",".competency-percent",function(){
 	         	$('.competency-percent.select').removeClass('select');
 	          	$('.competency-percent').addClass('unselect');
@@ -55,6 +62,23 @@
 	          	$(this).addClass('select');
 	          	talentNm = $(this).find('span').text();
 				createKeywordHtml(keywordMap,talentNm);
+			})
+			
+			
+			//<div class="habitual toggle select">습관어</div>
+			//<div class="repeat toggle false">반복어</div>
+			// 습관어 / 반복어 토글 작동 메서드
+			$('.toggle').on('click',function(){
+				$('.toggle').removeClass('select');
+				$('.toggle').removeClass('false');
+				$('.toggle').addClass('false');
+				$(this).removeClass('false');
+				$(this).addClass('select');
+				if($(this).text() == '습관어'){
+					createHabitHtml(habitMap);
+				} else if($(this).text() == '반복어'){
+					createRepeatHtml(repeatList);
+				}
 			})
 			
 		
@@ -72,7 +96,7 @@
 						'rgba(71,65,243, 1)',
 						'rgba(234, 234, 234, 1)'
 					],
-					borderWidth: 0
+					borderWidth: 0,
 				}]
 			},
 			options: {
@@ -81,7 +105,9 @@
 				},
 				circumference :3/2* Math.PI,
 				cutoutPercentage: 90,
-				rotation : 0.75 * Math.PI
+				rotation : 0.75 * Math.PI,
+				tooltips: {enabled: false},
+			    hover: {mode: null}
 			}
 		});
 		
@@ -89,43 +115,94 @@
 	
 	/* 속도 */
 	function createSpeedHtml(speed,scriptLength){
-		
-		// 속도 그래프
-		var ctx = document.getElementById('speedChart');
-		createSpeedChart(ctx, speed);
-		if(speed < 10){
-			speedHtml ='<span>1분당</span><br><b>&nbsp;&nbsp;'+speed+'</b>자';
-		}else if(speed < 100){
-			speedHtml ='<span>1분당</span><br><b>&nbsp;'+speed+'</b>자';
-		}else{
-			speedHtml ='<span>1분당</span><br><b>'+speed+'</b>자';
-		}
-		$('.minute-text').html(speedHtml);
-		
-		// 평균대비 속도 퍼센트
-		errorHtml = '';
-		if(speed < 300){
-			slow = 100 -Math.ceil(speed/300*100);
-			errorHtml += '평균보다<b class="num">'+slow+'% 느려요</b>';
-		} else if(speed = 300){
-			errorHtml += '평균과<b class="num">일치합니다</b>';
-		} else {
-			slow = Math.ceil(speed/300*100) - 100;
-			errorHtml += '평균보다<b class="num">'+slow+'% 빨라요</b>';
-		}
-		$('.error-percent').html(errorHtml);
-		
 		// 추천시간
 		goodTime = Math.ceil(Number(scriptLength)*60/300);
 		goodMin =  Math.floor(Number(goodTime)/60);
 		goodSec = Number(goodTime)%60;
-		messageHtml = '';
-		if(Number(goodMin)==0 && Number(goodSec)==0){
-			messageHtml += '적당한 속도로 이야기하고 있습니다. 지금 속도를 유지해 주세요!';
-		}else {
-			messageHtml += '답변하신 내용은 <b>'+Number(goodMin)+'분 '+Number(goodSec-2)+'초 ~ '+Number(goodMin)+'분 '+Number(goodSec+2)+'초</b>정도 안에<br>이야기하시면 적당한 속도입니다.<br>다시 한 번 연습해 보세요!';
+		
+		speedHtml = '<div class="title">말하기 속도</div>';
+		
+		if(speed==null || speed==0){ // 미감지
+			speedHtml += '<div class="content-box none">';
+			speedHtml += '<canvas class="answer-speed-graph" width="250" height="250"></canvas>';
+			speedHtml += '<div class="average-speed">합격자 평균 속도<br>';
+			speedHtml += '<span>300</span></div>';
+			speedHtml += '<div class="minute-text">측정불가</div>';
+			speedHtml += '<div class="error-percent"><b>측정에 실패했습니다</b></div>';
+			speedHtml += '<div class="message">어떤 이유로 인해 측정에 실패했습니다 :(<br>혹시 마이크에 문제가 있는 건 아닌지 확인해 보세요!</div>';
+			speedHtml += '</div>';
+		
+		} else if(speed < 300){ // 평균보다 느릴때
+			speedHtml += '<div class="content-box slow">';
+			speedHtml += 	'<canvas id="speedChart" class="answer-speed-graph" style="top:82px;" width="250" height="250"></canvas>';
+			speedHtml += 	'<div class="average-speed">';
+			speedHtml += 		'합격자 평균 속도<br>';
+			speedHtml += 		'<span>300</span>';
+			speedHtml += 	'</div>';
+			speedHtml += 	'<div class="minute-text">';
+				if(speed < 10){
+					speedHtml +=		'<span>1분당</span><br><b>&nbsp;&nbsp;'+speed+'</b>자';
+				}else if(speed < 100){
+					speedHtml +=		'<span>1분당</span><br><b>&nbsp;'+speed+'</b>자';
+				}else{
+					speedHtml +=		'<span>1분당</span><br><b>'+speed+'</b>자';
+				}
+				speedHtml +=	'</div>';
+// 			// 평균대비 속도 퍼센트
+			speedHtml += 	'<div class="error-percent">';
+			speedHtml += 		'평균보다<b class="num">'+Number(100 - Math.ceil(speed/300*100))+'% 느려요</b>';
+			speedHtml += 	'</div>';
+			speedHtml +=	'<div class="message">';
+			speedHtml += 		'답변하신 내용은 <b>'+Number(goodMin)+'분 '+Number(goodSec-2)+'초 ~ '+Number(goodMin)+'분 '+Number(goodSec+2)+'초</b>정도 안에<br>이야기하시면 적당한 속도입니다.<br>';
+			speedHtml += 		'다시한 번 연습해 보세요!';
+			speedHtml += 	'</div>';
+			speedHtml += '</div>';
+		} else if (speed == 300){ // 평균속도일 때
+			speedHtml += '<div class="content-box">';
+			speedHtml += 	'<canvas id="speedChart" class="answer-speed-graph" style="top:82px;" width="250" height="250"></canvas>';
+			speedHtml += 	'<div class="average-speed">';
+			speedHtml += 		'합격자 평균 속도<br>';
+			speedHtml += 		'<span>300</span>';
+			speedHtml += 	'</div>';
+			speedHtml += 	'<div class="minute-text">';
+			speedHtml +=		'<span>1분당</span><br><b>'+speed+'</b>자';
+			speedHtml +=	'</div>';
+			// 평균대비 속도 퍼센트
+			speedHtml += 	'<div class="error-percent">';
+			speedHtml += 		'평균과<b class="num">일치합니다</b>';
+			speedHtml += 	'</div>';
+			speedHtml +=	'<div class="message">';
+			speedHtml += 		'적당한 속도로 이야기하고 있습니다. 지금 속도를 유지해 주세요!';
+			speedHtml += 	'</div>';
+			speedHtml += '</div>';
+		} else if (speed > 300){ // 평균보다 빠를때
+			speedHtml += '<div class="content-box fast">';
+			speedHtml += 	'<canvas id="speedChart" class="answer-speed-graph" style="top:82px;" width="250" height="250"></canvas>';
+			speedHtml += 	'<div class="average-speed">';
+			speedHtml += 		'합격자 평균 속도<br>';
+			speedHtml += 		'<span>300</span>';
+			speedHtml += 	'</div>';
+			speedHtml += 	'<div class="minute-text">';
+			speedHtml +=		'<span>1분당</span><br><b>'+speed+'</b>자';
+			speedHtml +=		'</div>';
+			// 평균대비 속도 퍼센트
+			speedHtml += 	'<div class="error-percent">';
+			speedHtml += 		'평균보다<b class="num">'+Number(Math.ceil(speed/300*100) - 100)+'% 빨라요</b>';
+			speedHtml += 	'</div>';
+			speedHtml +=	'<div class="message">';
+			speedHtml += 		'답변하신 내용은 <b>'+Number(goodMin)+'분 '+Number(goodSec-2)+'초 ~ '+Number(goodMin)+'분 '+Number(goodSec+2)+'초</b>정도 안에<br>이야기하시면 적당한 속도입니다.<br>';
+			speedHtml += 		'다시한 번 연습해 보세요!';
+			speedHtml += 	'</div>';
+			speedHtml += '</div>';
 		}
-		$('.message').html(messageHtml);
+		$('.AnswerSpeed').empty();
+		$('.AnswerSpeed').append(speedHtml);
+		
+		
+		// 속도 그래프
+		var ctx = document.getElementById('speedChart');
+		createSpeedChart(ctx, speed);
+		
 	}
 	
 	
@@ -133,8 +210,10 @@
 	function createKeywordHtml(keywordMap,talentNm){
 		keywordArr =keywordMap[talentNm];
 		keywordHtml = '';
-		for(var i=0; i<keywordArr.length; i++){
-			keywordHtml += '<span class="word">'+keywordArr[i]+'</span>';
+		if(keywordArr != null && keywordArr !=''){
+			for(var i=0; i<keywordArr.length; i++){
+				keywordHtml += '<span class="word">'+keywordArr[i]+'</span>';
+			}
 		}
 		$('.JobCompetency .word-view').empty();
 		$('.JobCompetency .word-view').append(keywordHtml);
@@ -145,54 +224,102 @@
 	
 	/* 인재상 - 인재상 & 퍼센트  리포트*/
 	function createTalentHtml(talentList){
-		gage = talentList[0].percent;
 		talentHtml = '';
-		
-		talentHtml += '<div class="competency-percent select">';
-		talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[0].talentNm+'</span></div>';
-		talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[0].percent/gage)+'px;"></div>';
-		talentHtml +=	 '<div class="percentage">'+talentList[0].percent+'%</div>';
-		talentHtml += '</div>';
-		window.talentNm = talentList[0].talentNm;
-		for(var i=1; i< talentList.length; i++){
-			talentHtml += '<div class="competency-percent unselect">';
-			talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[i].talentNm+'</span></div>';
-			talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[i].percent/gage)+'px;"></div>';
-			talentHtml +=	 '<div class="percentage">'+talentList[i].percent+'%</div>';
+		if(talentList.length == 0){
+			talentHtml += '<div class="no-result"><div class="question-mark">?</div>인재상 미감지</div>';
+		}else{
+			gage = talentList[0].percent;
+			talentHtml += '<div class="result">';
+			talentHtml += '<div class="competency-percent select">';
+			talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[0].talentNm+'</span></div>';
+			talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[0].percent/gage)+'px;"></div>';
+			talentHtml +=	 '<div class="percentage">'+talentList[0].percent+'%</div>';
+			talentHtml += '</div>';
+			window.talentNm = talentList[0].talentNm;
+			for(var i=1; i< talentList.length; i++){
+				talentHtml += '<div class="competency-percent unselect">';
+				talentHtml +=	 '<div class="name-box"><span class="name">'+talentList[i].talentNm+'</span></div>';
+				talentHtml +=	 '<div class="rectangle" style="width: '+Math.round(200*talentList[i].percent/gage)+'px;"></div>';
+				talentHtml +=	 '<div class="percentage">'+talentList[i].percent+'%</div>';
+				talentHtml += '</div>';
+			}
+			talentHtml += '<div class="word-view">';
+			talentHtml += '</div>';
 			talentHtml += '</div>';
 		}
-		talentHtml += '<div class="word-view">';
-		talentHtml += '</div>';
-		$('.JobCompetency .result').html(talentHtml);
+		$('.JobCompetency .content-box').html(talentHtml);
 		
 		
 	}
 	
 	/* 반복어 리포트 */
 	function createRepeatHtml(repeatList){
-		repeatHtml = "";
-		for(var i=0; i<repeatList.length; i++){
-			repeatHtml += '<div class="label">'+repeatList[i].repeatCount+'회</div>';
-			repeatHtml += '<div class="rectangle" style="height: '+repeatList[i].repeatCount*20+'px;"></div>';
-			repeatHtml += '<div class="name">'+repeatList[i].repeatContent+'</div>';
+		
+		repeatHtml = '';
+		
+		if(repeatList == null || repeatList ==''){
+			repeatHtml += '<div class="comment no-exist">답변 중 반복어 사용 횟수';
+			repeatHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
+			repeatHtml += '<div class="comment-box repeat">한 가지 단어를 지나치게 많이 반복하면 전문성과 언어 구사력에 있어 좋은 인상을 주기 어렵습니다.</div>';
+			repeatHtml += '</div>';
+			repeatHtml += '<div class="no-result-box">반복어 감지가 안되었습니다</div>';
+		} else {
+			repeatHtml += '<div class="comment exist">답변 중 반복어 사용 횟수';
+			repeatHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
+			repeatHtml += '<div class="comment-box repeat">한 가지 단어를 지나치게 많이 반복하면 전문성과 언어 구사력에 있어 좋은 인상을 주기 어렵습니다.</div>';
+			repeatHtml += '</div>';
+			for(var i=0; i<repeatList.length; i++){
+			repeatHtml += '<div class="habitual word-graph select repeat">';
+				repeatHtml += '<div class="label">'+repeatList[i].repeatCount+'회</div>';
+				repeatHtml += '<div class="rectangle" style="height: '+repeatList[i].repeatCount*20+'px;"></div>';
+				repeatHtml += '<div class="name">'+repeatList[i].repeatContent+'</div>';
+				repeatHtml += '</div>';
+			}
 		}
-		$('.habitual.word-graph.select.repeat').html(repeatHtml);
+		repeatHtml += '<div class="bar"></div>';
+		$('.graph-box-flex').empty();
+		$('.graph-box-flex').html(repeatHtml);
 	}
 	
 	/* 습관어 리포트 */
-	function createHabitHtml(habitMap){
-		habitLength = Object.keys(habitMap).length;
-		habitHtml ="";
-		for(var i=0; i<habitLength; i++){ 
-			key = Object.keys(habitMap)[i]; 
-			value = habitMap[key];
+	function createHabitHtml(habitMap,habitLength){
+		habitHtml = '';
+		if(habitMap == null || habitMap =="" || habitLength == 0){
+			habitHtml += '<div class="comment no-exist">답변 중 습관어 사용 횟수';
+			habitHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
+			habitHtml += '<div class="comment-box habitual"> 무의식 중에 내뱉는 습관어는 인터뷰의 흐름을 끊고 자신의 메시지를 효과적으로 전달하는데 방해가 됩니다.</div>';
+			habitHtml += '</div>';
+			habitHtml += '<div class="no-result-box">습관어 감지가 안되었습니다</div>';
+		} else{
+			habitHtml += '<div class="comment exist">답변 중 습관어 사용 횟수';
+			habitHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
+			habitHtml += '<div class="comment-box habitual"> 무의식 중에 내뱉는 습관어는 인터뷰의 흐름을 끊고 자신의 메시지를 효과적으로 전달하는데 방해가 됩니다.</div>';
+			habitHtml += '</div>';
+		
 			
-			habitHtml += '<div class="label">'+value+'회</div>';
-			habitHtml += '<div class="rectangle" style="height: '+value*10+'px;"></div>';
-			habitHtml += '<div class="name">'+key+'</div>';
+			for(var i=0; i<habitLength; i++){ 
+				key = Object.keys(habitMap)[i]; 
+				value = habitMap[key];
+				habitHtml += '<div class="habitual word-graph select habitual">';
+				habitHtml += '<div class="label">'+value+'회</div>';
+				habitHtml += '<div class="rectangle" style="height: '+value*20+'px;"></div>';
+				habitHtml += '<div class="name">'+key+'</div>';
+				habitHtml += '</div>';
+			}
 		}
-		$('.habitual.word-graph.select.habitual').empty();
-		$('.habitual.word-graph.select.habitual').html(habitHtml);
+		habitHtml += '<div class="bar"></div>';
+		$('.graph-box-flex').empty();
+		$('.graph-box-flex').html(habitHtml);
+	}
+	
+	/* 스크립트 리포트*/
+	function createScriptHtml(script,scriptLength){
+		if(script==null || script==''){
+			$('.MyAnswer .stt').html('<span class="false false"></span>')						
+		} else {
+			$('.MyAnswer .stt').text(script);
+		}
+		$('.MyAnswer .length span').text(scriptLength);
 	}
 
 	function createImageChart(ctx, title, analysis){
@@ -347,23 +474,10 @@
 					<div class="repeat toggle false">반복어</div>
 				</div>
 				<div class="graph-box-flex">
-					<div class="comment exist">
-						답변 중 습관어 사용 횟수<span aria-hidden="true"
-							class="fa fa-question-circle fa undefined"></span>
-						<div class="comment-box habitual">무의식 중에 내뱉는 습관어는 인터뷰의
-							흐름을 끊고 자신의 메시지를 효과적으로 전달하는데 방해가 됩니다.</div>
-					</div>
-					<div class="habitual word-graph select habitual">
-						<div class="label">1회</div>
-						<div class="rectangle" style="height: 10px;"></div>
-						<div class="name">아</div>
-					</div>
-					<div class="bar"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 	
 	<div class="answer-flex">
 		<div class="JobCompetency">
@@ -377,24 +491,7 @@
 		
 		<div class="AnswerSpeed">
 			<div class="title">말하기 속도</div>
-			<div class="content-box slow">
-				<canvas id="speedChart" class="answer-speed-graph" style="top:82px;" width="250" height="250"></canvas>
-				<div class="average-speed">
-					합격자 평균 속도<br>
-					<span>300</span>
-				</div>
-				<div class="minute-text">
-					<span>1분당</span><br>
-					<b>240</b>자
-				</div>
-				<div class="error-percent">
-					평균보다<b class="num">20% 느려요</b>
-				</div>
-				<div class="message">
-					답변하신 내용은<b>0분 15초 ~ 0분 19초</b>정도 안에<br>이야기하시면 적당한 속도입니다.<br>다시
-					한 번 연습해 보세요!
-				</div>
-			</div>
+			
 		</div>
 	</div>
 	
