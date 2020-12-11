@@ -1,6 +1,3 @@
-<!-- table -->
-<link href="/css/sb-admin-2.css?v=2" rel="stylesheet">
-<link href="/css/sb-admin-2.min.css?v=2" rel="stylesheet">
 
 <!-- header -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
