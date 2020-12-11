@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +8,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI_INTERVIEW</title>
 
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-latest.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style>
 
@@ -80,6 +76,10 @@
 		border-color: #3CA4FF;
 	}
 	
+	#testBtnGrp{
+		float: right;
+		margin-right: 10px;
+	}
 
 </style>
 
@@ -286,8 +286,10 @@
 						
 							<div class="label"></div>
 							<div class="title">발음연습</div>
+							<div id="testBtnGrp">
 							<a id="popUpOpenBtn" class="speechBtn">읽기 평가</a> &nbsp&nbsp
 							<a id="speechOpen" class="speechBtn">영어 말하기 평가</a>
+							</div>
 							<div id="TestChart"></div>	
 							<br>
 							
