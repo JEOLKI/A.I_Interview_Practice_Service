@@ -112,7 +112,7 @@
 		$.ajax({url : "/analysis/image/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
-				console.log(data.imageAnalysisGrowth)
+				//console.log(data.imageAnalysisGrowth)
 				imageAnalysisList = data.imageAnalysisGrowth;
 				imageGrowthdata(imageAnalysisList);
 			}
