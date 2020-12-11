@@ -53,7 +53,7 @@
 		padding-top: 10%;
 	}
 	
-	#gazeChart{
+	#gazeChart, #speedChart, #habitChart{
 		display: none;
 	}
 	
@@ -97,6 +97,10 @@
 		text-align: right;
 		margin-bottom: 10px;
 	}
+	.message.left{
+		display: inline-block;
+		float: left; 
+	}
 	
 </style>
 
@@ -115,6 +119,16 @@
 				console.log(data.imageAnalysisGrowth)
 				imageAnalysisList = data.imageAnalysisGrowth;
 				imageGrowthdata(imageAnalysisList);
+			}
+		})
+		
+		/* 성장그래프 - 말 빠르기 */
+		$.ajax({url : "/analysis/speed/retrieveGrowth.do",
+			method : "get",
+			success : function(data){
+				console.log(data.answerSpeedGrowth);
+				speedGrowthList = data.answerSpeedGrowth;
+				speedGrowthdata(speedGrowthList);
 			}
 		})
 		
@@ -157,14 +171,74 @@
 	  })
 	}
 	
+	/* 성장그래프 - 말 빠르기 데이터 */
+	function speedGrowthdata(speedGrowthList){
+		var max = 700;
+		console.log(speedGrowthList.length);
+		
+		
+		analysis = [0];
+		lables = [];
+		for(var i = speedGrowthList.length-1 ; i >=0 ; i--){
+			labels.push(speedGrowthList[i].ansSpeed);
+			analysis.push(speedGrowthList[i].ansSpeed);
+		}
+		console.log("보내기전 analysis : "+analysis.toString())
+		var ctx = document.getElementById('speedGrowth');
+		speedGrowthChart(ctx,labels,analysis, max);
+		
+	}
+	
+	/* 성장그래프 - 말 빠르기 그래프 */
+	function speedGrowthChart(ctx,labels,analysis,max){
+		console.log("파라미터 analysis : "+analysis)
+		var myChart = new Chart(ctx, {
+			type: 'line',
+		    data: {
+		        labels: labels,
+		        datasets: [{
+		            data: analysis,
+		            borderColor: "rgb(114,219,237, 1)",
+		            backgroundColor: "rgb(206,240,247, 0.5)",
+		            fill: true,
+		            lineTension: 0
+		        }]
+		    },
+		    options: {
+		        responsive: true,
+		        legend: {
+		            display: false
+		          },
+		        scales: {
+		        	  xAxes: [{
+			                display: false,
+			                scaleLabel: {
+			                    display: true,
+			                }
+			            }],
+			            yAxes: [{
+			                display: true,
+			                ticks: {
+			                    suggestedMin: 0,
+			                    suggestedMax: max
+			                }
+			            }]
+		        }
+		    }
+		});
+		
+	
+		
+	}
+	
 	
 	function imageGrowthdata(imageAnalysisList){
 		
 		var max = 100;
 		
+		analysis = [0];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			labels.push(i);
-			analysis = [0];
 			analysis.push(imageAnalysisList[i].happiness);
 		}
 		var title = ['happiness']
@@ -172,35 +246,35 @@
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['netural']
+		analysis = [0];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
-			analysis = [0];
 			analysis.push(imageAnalysisList[i].neutral);
 		}
 		ctx = document.getElementById('neutralChart');
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['negative']
+		analysis = [0];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			negative = imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
-			analysis = [0];
 			analysis.push(negative);
 		}
 		ctx = document.getElementById('negativeChart');
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['panic']
+		analysis = [0];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			panic = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
-			analysis = [0];
 			analysis.push(panic);
 		}
 		ctx = document.getElementById('panicChart');
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
 		title = ['facePosition']
+		analysis = [0];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
-			analysis = [0];
 			analysis.push(position);
 		}
 		ctx = document.getElementById('faceChart');
@@ -228,19 +302,19 @@
 		            display: false
 		          },
 		        scales: {
-		            xAxes: [{
-		                display: false,
-		                scaleLabel: {
-		                    display: true,
-		                }
-		            }],
-		            yAxes: [{
-		                display: true,
-		                ticks: {
-		                    suggestedMin: 0,
-		                    suggestedMax: max
-		                }
-		            }]
+		        	  xAxes: [{
+			                display: false,
+			                scaleLabel: {
+			                    display: true,
+			                }
+			            }],
+			            yAxes: [{
+			                display: true,
+			                ticks: {
+			                    suggestedMin: 0,
+			                    suggestedMax: max
+			                }
+			            }]
 		        }
 		    }
 		});
@@ -337,7 +411,7 @@
 										<div class="pot"></div>
 										움직임<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
-									<div class="sps btn false">
+									<div class="sps btn false" data-target="speedChart">
 										<div class="pot"></div>
 										말 빠르기<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
@@ -345,7 +419,7 @@
 										<div class="pot"></div>
 										음성<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
-									<div class="habit btn false">
+									<div class="habit btn false" data-target="habitChart">
 										<div class="pot"></div>
 										습관어<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
@@ -381,6 +455,27 @@
 									<div class="area">
 										<div id="gazeMessage">얼굴의 위치가 얼마나 움직였는지 보여줍니다. <br>(0에 가까울수록 움직이지 않음)</div>
 										<canvas id="faceChart" class="graph-canvas" width="500" height="400"></canvas>
+									</div>
+								</div>
+								
+								<div id="speedChart" class="Sps graph-area graph-content">
+									<div class="area"  style="margin-top:60px;">
+										<div class="message left">(음절/분)</div>
+										<div class="message">※적정 빠르기 
+											<div class="gray-box"></div>
+										</div>
+										<canvas id="speedGrowth" class="graph-canvas" width="451" height="330"></canvas>
+									</div>
+								</div>
+								
+								<div id="habitChart" class="Habit graph-area graph-content">
+									<div class="area">
+										<div class="message">※습관어 사용량이 적을수록 좋습니다.</div>
+										<canvas id="habitGrowth" class="graph-canvas" width="446" height="223"></canvas>
+										<div class="graduation-bar">
+											<div class="graduation"></div>
+											<div class="graduation"></div>
+										</div>
 									</div>
 								</div>
 								

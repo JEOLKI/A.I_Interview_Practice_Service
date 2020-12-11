@@ -1,5 +1,7 @@
 package com.aiinterview.interview.dao;
 
+import java.util.List;
+
 import com.aiinterview.interview.vo.AnswerVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -22,5 +24,13 @@ public interface AnswerMapper {
 	 * @throws Exception
 	 */
 	public void create(AnswerVO answerVO) throws Exception;
+
+	/**
+	 * 최근 5회의 답변 속도 평균 리스트를 조회하는 메서드
+	 * 성장 그래프용
+	 * @param memId
+	 * @return
+	 */
+	public List<AnswerVO> retrieveSpeedGrowth(String memId);
 
 }

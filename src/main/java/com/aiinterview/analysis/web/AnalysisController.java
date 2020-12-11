@@ -233,4 +233,21 @@ public class AnalysisController {
 		return "jsonView";
 	}
 	
+	/* 성장그래프 - 말 빠르기 */
+	@RequestMapping(value="/speed/retrieveGrowth.do")
+	public String speedRetrieveGrowth(HttpSession session, Model model) {
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = memberVO.getMemId();
+		
+		try {
+			List<AnswerVO> answerSpeedGrowth = answerService.retrieveSpeedGrowth(memId);
+			model.addAttribute("answerSpeedGrowth", answerSpeedGrowth);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView";
+	}
+	
 }

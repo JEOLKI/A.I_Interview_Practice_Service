@@ -35,5 +35,17 @@
 	   WHERE QUEST_SQ = #{questSq}
 	</select>
 	
+	<select id="retrieveSpeedGrowth" parameterType="String" resultType="com.aiinterview.interview.vo.AnswerVO">
+		SELECT a.interview_sq, ROUND(AVG(c.ans_speed),2) AS ans_speed
+		  FROM answer c, question b, (SELECT interview_sq 
+                              FROM interview
+                             WHERE mem_id = #{memId}) a
+		 WHERE b.interview_sq IN a.interview_sq
+		   AND c.quest_sq IN b.quest_sq
+		   AND ROWNUM <![CDATA[  <  ]]>6
+		 GROUP BY a.interview_sq
+		 ORDER BY a.interview_sq DESC
+	</select>
+	
 
 </mapper>

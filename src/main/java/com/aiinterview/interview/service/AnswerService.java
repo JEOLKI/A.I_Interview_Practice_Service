@@ -88,5 +88,15 @@ public class AnswerService {
 		}
 		return ansSq;
 	}
+	
+	/**
+	 * 최근 5회의 답변 속도 평균 리스트를 조회하는 메서드
+	 * 성장 그래프용
+	 * @param memId
+	 * @return
+	 */
+	public List<AnswerVO> retrieveSpeedGrowth(String memId) {
+		return answerMapper.retrieveSpeedGrowth(memId);
+	}
 
 }
