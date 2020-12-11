@@ -386,8 +386,6 @@ $(document).ready(function(){
 		<!-- 헤더 -->
 		<div id="root">
 			<div class="Main false">
-				<%@ include file="/WEB-INF/views/layout/header.jsp"%>
-				<%@ include file="/WEB-INF/views/manage/managerleft.jsp"%>
 				<div class="w3-container managerbox">
 					<div class="body">
 						<div class="content__title">

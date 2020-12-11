@@ -145,26 +145,24 @@
 				fd.append("name", "test");
 				fd.append("test", blob);
 				
-				console.log(blob.size)
-				console.log(blob.type)
-				console.log("확인 객체" +blob);
-				for (var pair of fd.entries()) { console.log(pair[0]+ ', ' + pair[1]); }
+//				console.log(blob.size)
+//				console.log(blob.type)
+//				console.log("확인 객체" +blob);
+//				for (var pair of fd.entries()) { console.log(pair[0]+ ', ' + pair[1]); }
 				
-				$("#Test").val(blob);	
 				
 			  $.ajax({
                   type: 'POST',
-                  url:'/scriptS/speecher.do',
+                  url:'/speech/speecher.do',
                   data : fd,
                   enctype: 'multipart/form-data',
                   contentType: false, //don't set this, it will be set automatically and properly 
                   processData: false,
                   success: function (data) {
-                	  filePath = data;
-                	  console.log(filePath)
+                	  $(".myScore").html(data)
+                	  
                   }
               })
-              	console.log(filePath)
               		
 //              	$.ajax({
 //              		type: 'POST',

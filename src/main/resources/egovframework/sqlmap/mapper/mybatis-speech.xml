@@ -6,7 +6,7 @@
 
 	<insert id="create" parameterType="com.aiinterview.script.vo.SpeechVO" >
 		insert into speech_test 
-		(SPEECHTEST_SQ, MEM_ID, SPEECH_TEST_SCORE, SPEECH_SCRIPT, SPEECH_TEST_DATE)
+		(SPEECH_TEST_SQ, MEM_ID, SPEECH_TEST_SCORE, SPEECH_SCRIPT, SPEECH_TEST_DATE)
 		values(SPEECH_TEST_SQ.nextval, #{memId}, #{speechTestScore}, #{speechScript}, SYSDATE )
 	</insert>
 

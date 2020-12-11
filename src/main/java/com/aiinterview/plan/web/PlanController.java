@@ -1,6 +1,5 @@
 package com.aiinterview.plan.web;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,16 +34,22 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @Controller
 public class PlanController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
+
 	@Resource(name = "planService")
 	PlanService planService;
-	
+
+	@RequestMapping(path = "/modal.do", method = RequestMethod.GET)
+	public String modal(Model model) {
+
+		return "plan/modal";
+	}
+
 	@RequestMapping(path = "/planList.do", method = RequestMethod.GET)
 	public String planListView(Model model) {
-		
+
 		return "plan/planList";
 	}
-	
+
 	@RequestMapping(path = "/planListAjax.do", method = RequestMethod.GET)
 	public String buyplanAjax(Model model) {
 		List<PlanVO> planList;
@@ -56,38 +61,35 @@ public class PlanController {
 			e.printStackTrace();
 		}
 
-		
 		return "jsonView";
 	}
-	
+
 	@RequestMapping(path = "/planContent.do", method = RequestMethod.GET)
 	public String planContentView(PlanVO pv, Model model, HttpSession session) {
-		
+
 		PlanVO pvContent;
 		try {
 			pvContent = planService.planContent(pv);
 			PlanUseVO puv = new PlanUseVO();
 			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 			puv.setMemId(mv.getMemId());
-			
+
 			PlanUseVO planUseCheck = planService.planUseCheck(puv);
-			
+
 			model.addAttribute("planUseCheck", planUseCheck);
 			model.addAttribute("pvContent", pvContent);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
 		return "plan/planContent";
 	}
-	
-	
+
 	@RequestMapping(path = "/payPlanAjax.do", method = RequestMethod.GET)
 	public String payPlanAjax(PlanVO pv, Model model) {
-		
+
 		PlanVO pvContent;
 		try {
 			pvContent = planService.planContent(pv);
@@ -98,22 +100,19 @@ public class PlanController {
 		}
 		return "jsonView";
 	}
-	
-	
+
 	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.GET)
 	public String planUseCreateView(PlanVO pv, HttpSession session) {
-		
-		
+
 		PlanVO pvContent;
 		try {
 			pvContent = planService.planContent(pv);
 			PlanUseVO puv = new PlanUseVO();
 			puv.setPlanPeriod(pvContent.getPlanPeriod());
-			
+
 			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 			puv.setMemId(mv.getMemId());
-			
-			
+
 			planService.planUseCreate(puv);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -121,17 +120,14 @@ public class PlanController {
 		}
 		return "member/membermain";
 	}
-	
-	
+
 	@RequestMapping(path = "/manage.do", method = RequestMethod.GET)
 	public String createView() {
-		
+
 		return "plan/planManage";
 	}
-	
-	
-	
-	@RequestMapping(path = "/create.do", method =  RequestMethod.POST)
+
+	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
 	public String createProcess(PlanVO pv) {
 		try {
 			planService.create(pv);
@@ -139,24 +135,23 @@ public class PlanController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return "manage/planManage";
 	}
 
 	@RequestMapping(path = "/update.do", method = RequestMethod.GET)
 	public String updateView(PlanVO pv) {
-		
+
 		try {
 			planService.update(pv);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return "manage/planManage";
 	}
-	
-	
+
 	@RequestMapping(path = "/totalPayList.do")
 	public String totalPayList(HttpSession session) {
 		PlanUseVO puv = new PlanUseVO();
@@ -168,19 +163,17 @@ public class PlanController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return "plan/totalPayList";
 	}
-	
-	
-	
+
 	@RequestMapping("/planExcel.do")
-	public String planExcelDown(Model model) throws Exception{
+	public String planExcelDown(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
 		List<PlanVO> planList = planService.managePlan();
 		System.out.println("헤더설정1");
-		// excel 파일 header 설정 
+		// excel 파일 header 설정
 		List<String> header = new ArrayList<String>();
 		header.add("PLAN_SQ");
 		header.add("PLAN_NM");
@@ -192,7 +185,7 @@ public class PlanController {
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
-		for(int i = 0; i<planList.size(); i++) {
+		for (int i = 0; i < planList.size(); i++) {
 			Map<String, String> map = new HashMap<>();
 			map.put("PLAN_SQ", planList.get(i).getPlanSq());
 			map.put("PLAN_NM", planList.get(i).getPlanNm());
@@ -200,25 +193,25 @@ public class PlanController {
 			map.put("PLAN_EXPLAIN", planList.get(i).getPlanExplain());
 			map.put("PLAN_ST", planList.get(i).getPlanSt());
 			map.put("PLAN_PERIOD", planList.get(i).getPlanPeriod());
-			
+
 			data.add(map);
 		}
-		
-		model.addAttribute("header",header);
-		model.addAttribute("data",data);
-		model.addAttribute("fileName","PLAN");
-		model.addAttribute("sheetName","PLAN");
+
+		model.addAttribute("header", header);
+		model.addAttribute("data", data);
+		model.addAttribute("fileName", "PLAN");
+		model.addAttribute("sheetName", "PLAN");
 
 		return "excelView";
 	}
-	
+
 	@RequestMapping("/planUseExcel.do")
 	public String planUseExcel(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
 		List<PlanUseVO> planUseList = planService.managePlanUse();
-		
-		// excel 파일 header 설정 
+
+		// excel 파일 header 설정
 		List<String> header = new ArrayList<String>();
 		header.add("이용번호");
 		header.add("구매일");
@@ -229,42 +222,42 @@ public class PlanController {
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
-		
-		List<String> startList = new ArrayList<>(); 
+
+		List<String> startList = new ArrayList<>();
 		List<String> endList = new ArrayList<>();
 		for (int i = 0; i < planUseList.size(); i++) {
 			startList.add(sdf.format(planUseList.get(i).getStartDate()));
 			endList.add(sdf.format(planUseList.get(i).getEndDate()));
 		}
-		
-		for(int i = 0; i<planUseList.size(); i++) {
+
+		for (int i = 0; i < planUseList.size(); i++) {
 			Map<String, String> map = new HashMap<>();
 			map.put("이용번호", planUseList.get(i).getUseSq());
-			map.put("구매일",startList.get(i));
+			map.put("구매일", startList.get(i));
 			map.put("이용권", planUseList.get(i).getPlanNm());
 			map.put("회원ID", planUseList.get(i).getMemId());
 			map.put("결제 금액", Integer.toString(planUseList.get(i).getPlanPrice()));
-			map.put("서비스 기간", startList.get(i)+"~"+endList.get(i));
+			map.put("서비스 기간", startList.get(i) + "~" + endList.get(i));
 			data.add(map);
 		}
-		
-		model.addAttribute("header",header);
-		model.addAttribute("data",data);
-		model.addAttribute("fileName","PLANUSE");
-		model.addAttribute("sheetName","PLANUSE");
+
+		model.addAttribute("header", header);
+		model.addAttribute("data", data);
+		model.addAttribute("fileName", "PLANUSE");
+		model.addAttribute("sheetName", "PLANUSE");
 
 		return "excelView";
 	}
-	
+
 	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
-	public String manageCash(Model model ) {
+	public String manageCash(Model model) {
 		BaseVO bv = new BaseVO();
 		try {
 			int totalCnt = planService.PlanUseCount();
 			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
-			int page  = bv.getPageIndex();
-			int pageSize = bv.getPageUnit() ;
-			
+			int page = bv.getPageIndex();
+			int pageSize = bv.getPageUnit();
+
 			model.addAttribute("page", page);
 			model.addAttribute("pageSize", pageSize);
 			model.addAttribute("cashList", planService.managePlanUseList(bv));
@@ -275,101 +268,85 @@ public class PlanController {
 		}
 		return "manage/planCash";
 	}
-	
+
 	@RequestMapping(path = "/manageCashajax.do", method = RequestMethod.GET)
 	public String manageCashAjax(Model model, BaseVO bv) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 		try {
-			
+
 			System.out.println(bv.getPageIndex() + "@@확인");
-			
-			int page = bv.getPageIndex() == 0 ?  1 : bv.getPageIndex();
-			int pageSize = bv.getPageUnit() == 0 ?  5 : bv.getPageUnit();
+
+			int page = bv.getPageIndex() == 0 ? 1 : bv.getPageIndex();
+			int pageSize = bv.getPageUnit() == 0 ? 5 : bv.getPageUnit();
 			int totalCnt = planService.PlanUseCount();
 			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
-//			int page  = bv.getPageIndex();
-//			int pageSize = bv.getPageUnit() ;
-			
+			// int page = bv.getPageIndex();
+			// int pageSize = bv.getPageUnit() ;
+
 			model.addAttribute("page", page);
 			model.addAttribute("pageSize", pageSize);
 			model.addAttribute("cashList", planService.managePlanUseList(bv));
 			model.addAttribute("pages", pages);
-			
-			List<PlanUseVO> puvList =   planService.managePlanUseList(bv);
-			List<String> startList = new ArrayList<>(); 
+
+			List<PlanUseVO> puvList = planService.managePlanUseList(bv);
+			List<String> startList = new ArrayList<>();
 			List<String> endList = new ArrayList<>();
 			for (int i = 0; i < puvList.size(); i++) {
 				startList.add(sdf.format(puvList.get(i).getStartDate()));
 				endList.add(sdf.format(puvList.get(i).getEndDate()));
 			}
-			
+
 			model.addAttribute("startList", startList);
 			model.addAttribute("endList", endList);
-//			model.addAttribute("puvList", puSvList);
+			// model.addAttribute("puvList", puSvList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "jsonView";
 	}
-	
-	
-	
-	
+
 	@RequestMapping(path = "/cashList.do", method = RequestMethod.GET)
 	public String cashListView(Model model, HttpSession session, BaseVO bv) {
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일"); 
-		MemberVO mv  =(MemberVO) session.getAttribute("S_MEMBER");
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		PlanUseVO puv = new PlanUseVO();
 		puv.setMemId(mv.getMemId());
 		try {
 
 			List<PlanUseVO> cashList = planService.CashList(puv);
-			List<String> startList = new ArrayList<>(); 
+			List<String> startList = new ArrayList<>();
 			List<String> endList = new ArrayList<>();
-			
+
 			for (int i = 0; i < cashList.size(); i++) {
-						startList.add(sdf.format(cashList.get(i).getStartDate()));
-						endList.add(sdf.format(cashList.get(i).getEndDate()));
+				startList.add(sdf.format(cashList.get(i).getStartDate()));
+				endList.add(sdf.format(cashList.get(i).getEndDate()));
 			}
 			model.addAttribute("startList", startList);
 			model.addAttribute("endList", endList);
 			model.addAttribute("cashList", cashList);
-				
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "jsonView";
 	}
-	
 
-	
-	
 	@RequestMapping(path = "/payComplete.do")
 	public String payComplete() {
 		return "myProfile/myProfile";
 	}
-	
-	
-	
-	
-	
+
 	@RequestMapping(path = "/buyPlanTest.do", method = RequestMethod.GET)
 	public String buyPlanTest(Model model) {
 		return "plan/buyPlanTest";
 	}
-	
 
-	
-	
-	
-	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
-	
-	
-	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
+
+	@RequestMapping(value = "/retrievePagingList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String retrievePagingList(PlanUseVO planuseVO, HttpSession session, ModelMap model) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -394,9 +371,7 @@ public class PlanController {
 			e.printStackTrace();
 		}
 		model.addAttribute("resultList", resultList);
-		
-		
-		
+
 		int totCnt = 0;
 		try {
 			totCnt = planService.retrievePagingListCnt(planuseVO);
@@ -408,37 +383,37 @@ public class PlanController {
 
 		return "plan/planUselist";
 	}
-	
+
 	/* chart.js 테스트 */
 	@RequestMapping("/chartjs.do")
 	public String chartjs() {
 		return "plan/chartJsTest";
 	}
-	
+
 	/* AMChart 테스트 */
 	@RequestMapping("/amchart.do")
 	public String amchart() {
 		return "plan/amChartTest";
 	}
-	
+
 	/* 요금제 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics(Model model) {
 		return "plan/planStatistics";
 	}
-	
+
 	/* 요금제 통계 (전체, 기간별, 검색) */
 	@RequestMapping("/totalUseStatistics.do")
 	public String totalStatistics(String startDate, String endDate, String searchKeyword, Model model) {
-		
-		System.out.println("startDate : "+ startDate + ", endDate : "+ endDate+", searchKeyword : "+searchKeyword);
-		
+
+		System.out
+				.println("startDate : " + startDate + ", endDate : " + endDate + ", searchKeyword : " + searchKeyword);
+
 		Map<String, String> statisticMap = new HashMap<>();
 		statisticMap.put("startDate", startDate);
 		statisticMap.put("endDate", endDate);
 		statisticMap.put("searchKeyword", searchKeyword);
-		
-		
+
 		List<PlanStatisticsVO> totalUseList = null;
 		try {
 			totalUseList = planService.retrieveTotalUse(statisticMap);
@@ -446,22 +421,22 @@ public class PlanController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return "jsonView";
 	}
-	
+
 	/* 요금제 매출 통계 (전체, 기간별, 검색) */
 	@RequestMapping("/totalSaleStatistics.do")
 	public String totalSaleStatistics(String startDate, String endDate, String searchKeyword, Model model) {
-		
-		System.out.println("startDate : "+ startDate + ", endDate : "+ endDate+", searchKeyword : "+searchKeyword);
-		
+
+		System.out
+				.println("startDate : " + startDate + ", endDate : " + endDate + ", searchKeyword : " + searchKeyword);
+
 		Map<String, String> statisticMap = new HashMap<>();
 		statisticMap.put("startDate", startDate);
 		statisticMap.put("endDate", endDate);
 		statisticMap.put("searchKeyword", searchKeyword);
-		
-		
+
 		List<PlanStatisticsVO> totalSaleList = null;
 		try {
 			totalSaleList = planService.retrieveTotalSale(statisticMap);
@@ -469,21 +444,8 @@ public class PlanController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return "jsonView";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

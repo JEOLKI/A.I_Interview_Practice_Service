@@ -72,7 +72,16 @@
 	</select>
 	
 	<select id= "managePlanUse" resultType="com.aiinterview.plan.vo.PlanUseVO">
-		select * FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
+		select B.USE_SQ     ,
+	   B.START_DATE ,
+	   B.END_DATE   ,
+	   B.MEM_ID     ,
+	   B.PLAN_SQ,
+       A.PLAN_NM,
+       A.PLAN_PERIOD,
+       TO_CHAR(B.START_DATE) startDay,
+       TO_CHAR(B.END_DATE) endDay
+	 FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
 	</select>
 	
 	<select id="managePlanUseList" resultType="com.aiinterview.plan.vo.PlanUseVO" parameterType="com.aiinterview.base.vo.BaseVO">
@@ -87,7 +96,6 @@
 		SELECT COUNT(*)
 		FROM plan_use	
 	</select>
-	
 	
 <!-- 	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO"> -->
 <!-- 		UPDATE plan set plan_nm = #{planNm}, plan_price = #{planPrice},  -->
