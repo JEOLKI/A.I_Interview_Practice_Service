@@ -81,6 +81,23 @@
 		margin-right: 10px;
 	}
 
+	.btn.select #bashArrow{
+		display: inline-block;
+	    position: absolute;
+	    margin-top: 7px;
+	}
+	
+	#pronunciationChart{
+		margin-top: 10px;
+	}
+	
+	#gazeMessage{
+		font-size: 0.8em;
+		font: #323333;
+		text-align: right;
+		margin-bottom: 10px;
+	}
+	
 </style>
 
 <script>
@@ -143,7 +160,7 @@
 	
 	function imageGrowthdata(imageAnalysisList){
 		
-		var max = 1;
+		var max = 100;
 		
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			labels.push(i);
@@ -180,7 +197,6 @@
 		ctx = document.getElementById('panicChart');
 		imageGrowthChart(ctx, labels, title, analysis, max);
 		
-		max = 30;
 		title = ['facePosition']
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
@@ -200,17 +216,20 @@
 		        datasets: [{
 		            label: title,
 		            data: analysis,
-		            borderColor: "rgba(255, 201, 14, 1)",
-		            backgroundColor: "rgba(255, 201, 14, 0.5)",
+		            borderColor: "rgb(114,219,237, 1)",
+		            backgroundColor: "rgb(206,240,247, 0.5)",
 		            fill: true,
 		            lineTension: 0
 		        }]
 		    },
 		    options: {
 		        responsive: true,
+		        legend: {
+		            display: false
+		          },
 		        scales: {
 		            xAxes: [{
-		                display: true,
+		                display: false,
 		                scaleLabel: {
 		                    display: true,
 		                }
@@ -239,7 +258,7 @@
 			<div class="my-bar interview">
 				<div class="title">내 면접</div>
 				<div class="start-btn">
-					<a href="/interview/ready.do"> 새 면접 만들기<img src="/static/media/right.2a3d42b5.svg" alt=""></a>
+					<a href="/interview/ready.do"> 새 면접 만들기<img src="/images/right.2a3d42b5.svg" alt=""></a>
 				</div>
 			</div>
 			<div class="MainComponent">
@@ -312,33 +331,23 @@
 								<div class="select-area">
 									<div class="emotion btn select" data-target="emotionChart">
 										<div class="pot"></div>
-										표정<img
-											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-											alt="" class="dash">
+										표정<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
 									<div class="gaze btn false" data-target="gazeChart">
 										<div class="pot"></div>
-										움직임<img
-											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-											alt="" class="dash">
+										움직임<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
 									<div class="sps btn false">
 										<div class="pot"></div>
-										말 빠르기<img
-											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-											alt="" class="dash">
+										말 빠르기<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
 									<div class="audio btn false">
 										<div class="pot"></div>
-										음성<img
-											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-											alt="" class="dash">
+										음성<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
 									<div class="habit btn false">
 										<div class="pot"></div>
-										습관어<img
-											src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAIFJREFUGFdjZOBRWs7w5V4kAxbACBbjVfrP8PkehI0EEAJYFKCqRlOAYRSyFZiSIDu5FS8x/PvpjSnJrRDPwMToyPD5fgKqJLdiHAMTgzPD5/vxIAMQkmgSCEluxVgGJgZXhs/341D9ya0Yw8DE4M7w+X4sZiBwKxgwfH1wAVvwAQCMDiRNmEhjqAAAAABJRU5ErkJggg=="
-											alt="" class="dash">
+										습관어<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
 								</div>
 							</div>
@@ -348,31 +357,29 @@
 								<div id="emotionChart" class="Emotion graph-area graph-content">
 									<div class="area bright">
 										<div class="label">긍정</div>
-										<canvas id="positiveChart" class="graph-canvas emotion chartjs-render-monitor"
-											width="250" height="150"></canvas>
+										<canvas id="positiveChart" class="graph-canvas"
+											width="215" height="160"></canvas>
 									</div>
 									<div class="area neutral">
 										<div class="label">무표정</div>
-										<canvas id="neutralChart" class="graph-canvas emotion chartjs-render-monitor"
-											width="215" height="107"
-											style="display: block; height: 119px; width: 240px;"></canvas>
+										<canvas id="neutralChart" class="graph-canvas"
+											width="215" height="160"></canvas>
 									</div>
 									<div class="area dark">
 										<div class="label">부정</div>
-										<canvas id="negativeChart" class="graph-canvas emotion chartjs-render-monitor"
-											width="215" height="107"
-											style="display: block; height: 119px; width: 240px;"></canvas>
+										<canvas id="negativeChart" class="graph-canvas"
+											width="215" height="160"></canvas>
 									</div>
 									<div class="area surprised">
 										<div class="label">당황</div>
 										<canvas id="panicChart" class="graph-canvas"
-											width="215" height="107"
-											style="display: block; height: 119px; width: 240px;"></canvas>
+											width="215" height="160"></canvas>
 									</div>
 								</div>
 								
 								<div id="gazeChart" class="Gaze graph-area graph-content">
 									<div class="area">
+										<div id="gazeMessage">얼굴의 위치가 얼마나 움직였는지 보여줍니다. <br>(0에 가까울수록 움직이지 않음)</div>
 										<canvas id="faceChart" class="graph-canvas" width="500" height="400"></canvas>
 									</div>
 								</div>

@@ -13,7 +13,7 @@
 </style>
 
 	<div class="content">
-		<canvas id="myChart" class="graph-canvas emotion chartjs-render-monitor"
+		<canvas id="pronunciationChart" class="graph-canvas emotion chartjs-render-monitor"
 			style="display: block; height: 228px; width: 400px;" width="365"
 			height="228"></canvas>
 	</div>
@@ -44,7 +44,7 @@
 	
 	
 	
-	var ctx = document.getElementById('myChart'); 
+	var ctx = document.getElementById('pronunciationChart'); 
 	var chart = new Chart(ctx,{ 
 		//챠트 종류를 선택  
 		type: 'line', 
