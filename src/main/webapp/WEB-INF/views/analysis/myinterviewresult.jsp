@@ -22,7 +22,7 @@
 	$(document).ready(function() {
 		
 		$(".QuestionReview").on('click', function(){
-			$(".review-body").empty();
+			$(".report").empty();
 	         $(this).addClass("open");
 	         $(this).removeClass("close")
 			var questSq = $(this).data("quest_sq");
@@ -113,7 +113,7 @@
 									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAXCAYAAAAC9s/ZAAAABHNCSVQICAgIfAhkiAAAAOpJREFUOE/t1D0OgkAQBeA3JiaWHIFOKgkF1HoS8QR6A/UkchVbKACrLTkCrYnJmEHXwGYXLS3YihDex/7MDsExgqI+ATgCOKs4lGfroAnAtAf4hz3wy9Jroqg1K/LnUl7mVXWf89pEvgFBXmcqCVMKipqZWZBNHxkDJAzCVsUhdYBM30RcgA5L5gXktxTEFxOxAf0wmHYqWWVdKduQxWN26PcDW1iyn7tgIgBdibCXhgKGL2vuTur9Z31qg8vUR/QHDG4J5NnCgxnogA1xha2AuSdjYScwQIw1mxXrbCgdUpa+iqLG1Xjl/ROZHtQYX28HyAAAAABJRU5ErkJggg=="
 									alt="up-down-dash" class="up-down-dash">
 							</div>
-							<div class="review-body" id="report${question.questSq }"> </div>						
+							<div class="report" id="report${question.questSq }"> </div>						
 						</div>	
 					</c:forEach>
 
