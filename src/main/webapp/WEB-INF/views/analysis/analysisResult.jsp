@@ -50,6 +50,11 @@
 						/* 인재상 - 키워드 */
 						keywordMap = data.keywordResultMap;
 						createKeywordHtml(keywordMap,talentNm);
+						
+						/* 음성 */
+						voiceList = data.voiceAnalysisList;
+						decibelAnalysisChart(voiceList);
+						frequencyAnalysisChart(voiceList);
 					}
 				
 			})
@@ -396,6 +401,185 @@
 		  }
 	}
 	
+	/* 데시벨 분석 그래프 */ 
+	function decibelAnalysisChart(voiceList){
+		var x = new Array();
+		var decibel = new Array();
+		var sumDecibel=0;
+		
+		for(var i =0; i<voiceList.length; i++){
+			x[i] = i+1;
+		}
+		for(var i =0; i<voiceList.length; i++){
+			decibel[i] = voiceList[i].voiceDecibel;
+			sumDecibel += Number(voiceList[i].voiceDecibel);
+		}
+		averageDecibel = Math.round(sumDecibel/voiceList.length);
+		
+		$('#averageDecibel').text(averageDecibel+"dB");
+		
+		var ctx = document.getElementById('decibelChart');
+		var myChart = new Chart(ctx, {
+			type: 'line',
+		    data: {
+		        labels: x,
+		        datasets: [{
+		            label: null,
+		            data: decibel,
+		            borderColor: "rgba(20, 80, 220, 1)",
+		            backgroundColor: "rgba(20, 80, 200, 0.5)",
+		            fill: true,
+		            lineTension: 0.5,
+		            pointRadius:0
+		        }]
+		    },
+		    options: {
+		    	legend: {
+		    		display: false},
+		        responsive: true,
+		        scales: {
+		            xAxes: [{
+		                display: false,
+		                scaleLabel: {
+		                    display: true,
+		                }
+		            }],
+		            yAxes: [{
+		                display: false,
+		                ticks: {
+		                    suggestedMin: 0,
+		                    suggestedMax: 80
+		                }
+		            }]
+		        }
+		    }
+		});
+		
+	}
+	
+	function frequencyAnalysisChart(voiceList){
+		var x = new Array();
+		var hrz = [0,50,100,150,200,250,300]; // X축 단위
+		var frequency = new Array();
+		var sumRange=0;
+		
+		for(var i =0; i<voiceList.length; i++){
+			x[i] = i+1;
+		}
+		for(var i =0; i<voiceList.length; i++){
+			frequency[i] = voiceList[i].voiceRange;
+			sumRange += Number(voiceList[i].voiceRange);
+		}
+		averageRange = Math.round(sumRange/voiceList.length);
+		
+		$('#averageRange').text(averageRange+"Hz");
+		
+		var ctx = document.getElementById('frequencyChart');
+		var scatterChart = new Chart(ctx, {
+			customTooltips: function (tooltip) {
+		        var tooltipEl = $('#user').text();
+
+		        if (!tooltip) {
+		            tooltipEl.css({
+		                opacity: 0
+		            });
+		            return;
+		        }
+
+		        tooltipEl.removeClass('above below');
+		        tooltipEl.addClass(tooltip.yAlign);
+
+		        // split out the label and value and make your own tooltip here
+		        var parts = tooltip.text.split(":");
+		        var innerHtml = "<div id='user'  class='user-pitch' style='left: 238px;'><img src='/member/profile.do?memId=${S_MEMBER.memId }'	alt='profile-icon' class='profile-icon'><br><b>${S_MEMBER.memAlias }</b>님의 평균 음역대<br><span id='averageRange'></span><div class='line' ></div><div class='point'></div></div>";
+		        tooltipEl.html(innerHtml);
+
+		        tooltipEl.css({
+		            opacity: 1,
+		            left: tooltip.chart.canvas.offsetLeft + tooltip.x + 'px',
+		            top: tooltip.chart.canvas.offsetTop + tooltip.y + 'px',
+		            fontFamily: tooltip.fontFamily,
+		            fontSize: tooltip.fontSize,
+		            fontStyle: tooltip.fontStyle,
+		        });
+		    },
+		    type: 'scatter',
+		    data: {
+		        datasets: [{
+		            label: 'Scatter Dataset',
+		            data: [{
+		                x: averageRange,
+		                y: 0
+		            }],
+		            pointRadius: 10,
+		            backgroundColor: 'rgba(0, 0, 0, 1)',
+		            borderColor: 'rgba(0, 0, 0, 1)'
+		        }]
+		    },
+		    options: {
+		    	tooltips:{
+		    		enabled:false,
+		            callbacks:{
+		            	label: function(tooltipEl) {
+		                    return tooltipEl;
+		                }
+		            }
+
+		    	},
+		    	responsive: true,
+		    	hover: {
+					animationDuration: 0
+				},
+				animation: {
+					duration: 1,
+					onComplete: function () {
+						var chartInstance = this.chart,
+							ctx = chartInstance.ctx;
+						ctx.font = Chart.helpers.fontString(17, 20, Chart.defaults.global.defaultFontFamily);
+						ctx.fillStyle = 'black';
+						ctx.textAlign = 'center';
+						ctx.textBaseline = 'bottom';
+
+						this.data.datasets.forEach(function (dataset, i) {
+							var meta = chartInstance.controller.getDatasetMeta(i);
+							meta.data.forEach(function (bar, index) {
+								var data = '${S_MEMBER.memAlias}'+'님의 평균음역대 :'+'\n'
+								data += averageRange+'Hz';
+								ctx.fillText(data, bar._model.x+12, bar._model.y - 30);
+							});
+						});
+					}
+				},
+		    	legend: {
+		    		display: false},
+		        scales: {
+		            xAxes: [{
+		            	display:false,
+		                type: 'linear',
+		                position: 'bottom',
+		                ticks:{
+		                	suggestedMin: 0,
+		                	suggestedMax: 300
+		                }
+		            }],
+		            yAxes: [{
+		            	display:false,
+		            	type: 'linear',
+		                position: 'bottom',
+		                ticks:{
+		                	suggestedMin: -100,
+		                	suggestedMax: 100
+		                }
+		            }],
+		            
+		        }
+		    		
+		    }
+		});
+		
+		
+	}
+	
 	
 </script>
 
@@ -501,10 +685,10 @@
 		<div class="content-box intensity">
 			<div class="graph-comment">
 				<div class="user-intensity">
-					dsfaqwef님의 평균 성량<br>
+					${S_MEMBER.memAlias }님의 평균 성량<br>
 					<img
-						src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2324.jpg"
-						alt="profile-icon" class="profile-icon"><span>61dB</span>
+						src="/member/profile.do?memId=${S_MEMBER.memId }"
+						alt="profile-icon" class="profile-icon"><span id="averageDecibel"></span>
 				</div>
 				<div class="comment">
 					일반적으로 좋은 평가를 받는 성량은 <b>55dB</b>입니다.<br>
@@ -516,7 +700,7 @@
 					<span>55dB</span>
 				</div>
 			</div>
-			<canvas class="audio-graph" width="791" height="179"
+			<canvas id="decibelChart" class="audio-graph" width="791" height="179"
 				style="display: block; height: 200px; width: 880px;"></canvas>
 			<div class="guide-line">
 				55dB
@@ -528,16 +712,19 @@
 		</div>
 		<div class="title">목소리 음역대</div>
 		<div class="pitch-graph">
-			<div class="user-pitch" style="left: 238px;">
+			<div class="pitch-line"></div>
+			<div id="user"  class="user-pitch" style="left: 238px; display: none;">
 				<img
-					src="https://aida-users.s3.ap-northeast-2.amazonaws.com/profile/2324.jpg"
+					src="/member/profile.do?memId=${S_MEMBER.memId }"
 					alt="profile-icon" class="profile-icon"><br>
-				<b>dsfaqwef</b> 님의 평균 음역대<br>
-				<span>123Hz</span>
-				<div class="line"></div>
+				<b>${S_MEMBER.memAlias }</b> 
+				님의 평균 음역대<br>
+				<span id="averageRange"></span>
+				<div class="line" ></div>
 				<div class="point"></div>
 			</div>
-			<div class="pitch-line"></div>
+				<canvas id="frequencyChart" class="audio-graph" width="791" height="300"
+					style="display: block; height: 200px; width: 880px; position: absolute; margin-top: 60px;"></canvas>
 			<div class="men-pitch-area">
 				<div class="message">
 					<b>선호되는 남성</b>의<br>평균 음역대<br>

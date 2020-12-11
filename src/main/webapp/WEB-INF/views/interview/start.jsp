@@ -13,8 +13,8 @@
 	SetTime = 0; // 타이머 초기값(경과시간)
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
-	sum = 0; // 데시벨 초기값
 	var decibelIndex = 0; // 데시벨 인덱스
+	var frequencyIndex = 0; // 주파수 인덱스
 	
 	var tid;
 	var aid;
@@ -415,7 +415,7 @@
 				
 				TimerStart(); // 타이머 시작
 				analyzeStart(); // 10초마다 이미지 분석
-				$('#voice').trigger('click'); // 데시벨 측정
+				$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
 				
 				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
 				$('.message-balloon').empty();
@@ -443,7 +443,7 @@
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 					download(); // 녹화 중지
 					clearInterval(tid);		// 타이머 해제
-					$('#stopBtn').trigger('click'); // 데시벨 측정 종료
+					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					alert('면접 종료');			
@@ -470,7 +470,7 @@
 					
 					TimerStart(); // 타이머 시작
 					analyzeStart(); // 10초마다 이미지 분석
-					$('#voice').trigger('click'); // 데시벨 측정
+					$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
 						
 					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 					$('.message-balloon').empty();
@@ -488,7 +488,7 @@
 					$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 					
 					clearInterval(tid);		// 타이머 해제
-					$('#stopBtn').trigger('click'); // 데시벨 측정 종료
+					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					
@@ -514,9 +514,10 @@
 			}
 		});
 		
-		// 데시벨 테스트
+		// 음성 테스트
 		$(document).on('click','#voice',function(){
-			sum = 0; // 데시벨 초기값
+			decibelSum = 0; // 데시벨 초기값
+			frequencySum = 0; // 주파수초기값
 			navigator.mediaDevices.getUserMedia({ audio: true, video: false })                                     
 			.then(function(stream) {                                                                              
 			  audioContext = new AudioContext();                                                                  
@@ -525,16 +526,27 @@
 			  javascriptNode = audioContext.createScriptProcessor(16384, 1, 1);                                    
 			                                                                                                      
 			  analyser.smoothingTimeConstant = 0.9;                                                               
-			  analyser.fftSize = 1024;                                                                            
+			  analyser.fftSize = 32;                                                                            
 			                                                                                                      
 			  microphone.connect(analyser);                                                                       
 			  analyser.connect(javascriptNode);                                                                   
 			  javascriptNode.connect(audioContext.destination);    
 			  
+			  // 주파수 변수 선언
+			  var getAverageVolume  =  function( array){
+			      var length = array.length;
+			      var values = 0;
+			      var i = 0;
+			     for (; i < length; i++) {
+			        values += array[i];
+			     }
+			    return values / length;
+			  }
 			  
-			  javascriptNode.onaudioprocess = function() {                                                        
+			  javascriptNode.onaudioprocess = function() {     
+				  // 데시벨 변수 선언
 			      var array = new Uint8Array(analyser.frequencyBinCount);                                         
-			      analyser.getByteFrequencyData(array);                                                           
+			      analyser.getByteFrequencyData(array);                                                       
 			      var values = 0;                                                                                 
 			                                                                                                      
 			      var length = array.length;                                                                      
@@ -543,29 +555,40 @@
 			      }          
 			      average = values / length;    
 					
-			      sum+=Math.round(20*Math.log10(Math.round(average+1)));
-				  console.log(Math.round(20*Math.log10(Math.round(average+1))));
+			      decibelSum+=Math.round(20*Math.log10(Math.round(average+1)));
+				  console.log('데시벨:'+Math.round(20*Math.log10(Math.round(average+1))));
 				  
 				  var decibelHtml = '<input type="text" name="voiceAnalysisVOLIst['+decibelIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
 				  decibelIndex+=1;
 				  $("#analysisData").append(decibelHtml);
-			  }  
-			  // 데시벨 측정 멈추기
-			  stopBtn.onclick = function() {
-				  audioContext.close().then(function() {
-					  
-				  });
-				}
-			});                                                                                                  
-		});
+				  
+				  // 주파수 부분
+				  var tempArray = new window.Uint8Array(analyser.frequencyBinCount);
+				    analyser.getByteFrequencyData(tempArray);
+				    var latestFrequency = (getAverageVolume(tempArray));
+				    frequencySum+=latestFrequency;
+				    console.log('주파수:' + Math.round(latestFrequency));
+				    
+				  var frequencyHtml = '<input type="text" name="voiceAnalysisVOLIst['+frequencyIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >'
+					frequencyIndex+=1;
+					$("#analysisData").append(frequencyHtml);
+			};
+				  
+		  // 음성 측정 멈추기
+		  $('#voiceStop').on('click',function(){
+				  console.log('음성 측정 종료')
+					  javascriptNode.onaudioprocess = null;
+			});
+		});                                                                                                  
 	});
+});
 </script>
 </head>
-<body style="overflow:hidden;"> <!-- 나중에 overflow hidden 해야함 -->
+<body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- 음성 script위한 부분 -->
-	<div id="content" style="display:none;">
-		<input type="button" id="voice" value="음성">
-		<input type="button" id="stopBtn" value="멈춤">
+	<div id="content" style="display:">
+		<input type="button" id="voice" value="음성분석">
+		<input type="button" id="voiceStop" value="음성분석종료">
 		<table width="100%">
 			<tr>
 				<td align="right"><a
@@ -596,7 +619,7 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam" style="display:none; ">
+	<div class="webcam" style="display: ">
 		<div class="contentarea">
 			<div class="camera">
 				<video id="video" autoplay >Video stream not available.</video>

@@ -10,7 +10,7 @@
 
 
 <!-- 화면 출력 및 얼굴 분석 관련 -->
-<link rel="stylesheet" href="main.css" type="text/css" media="all">
+<!-- <link rel="stylesheet" href="main.css" type="text/css" media="all"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/capture.js"></script>
 <style type="text/css">/* Chart.js */
@@ -107,7 +107,6 @@ to {
 	}
 
 	
-	
 $(document).ready(function(){
 	
 	
@@ -119,56 +118,17 @@ $(document).ready(function(){
 		document.location="/interview/start.do";	
 	});
 	
-	$('#micCheckCancel').on('click',function(){
-		$('#micCheckCancel').toggle('slow');
-		
-		$('#micCheck').show('slow');
-		
-		function colorPids(vol) {                                                                             
-			  let all_pids = $('.none');                                                                       
-			  let amout_of_pids = Math.round(vol);                                                         
-			  let elem_range = all_pids.slice(0, amout_of_pids)                                               
-			  for (var i = 0; i < all_pids.length; i++) {                                                     
-			    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
-			  }                                                                                               
-			  for (var i = 0; i < elem_range.length; i++) {                                                   
-		                                                                                                      
-			    elem_range[i].style.backgroundColor="#FFFFFF";                                                
-			  }                                                                                               
-			}                                                                                                 
-			                                                                                                  
-			                                                                                                  
-		navigator.mediaDevices.getUserMedia({ audio: false, video: true })                                     
-		.then(function(stream) {                                                                              
-		  audioContext = new AudioContext();                                                                  
-		  analyser = audioContext.createAnalyser();                                                           
-		  microphone = audioContext.createMediaStreamSource(stream);                                          
-		  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
-		                                                                                                      
-		  analyser.smoothingTimeConstant = 0.9;                                                               
-		  analyser.fftSize = 1024;                                                                            
-		                                                                                                      
-		  microphone.connect(analyser);                                                                       
-		  analyser.connect(javascriptNode);                                                                   
-		  javascriptNode.connect(audioContext.destination);                                                   
-		  javascriptNode.onaudioprocess = function() {                                                        
-		      var array = new Uint8Array(analyser.frequencyBinCount);                                         
-		      analyser.getByteFrequencyData(array);                                                           
-		      var values = 0;                                                                                 
-		                                                                                                      
-		      var length = array.length;                                                                      
-		      for (var i = 0; i < length; i++) {                                                              
-		        values += (array[i]);                                                                         
-		      }                                                                                               
-		                                                                                                      
-		      var average = values / length;                                                                  
-		                                                                                                      
-		    console.log(Math.round(average));                                                                 
-		    colorPids(average);                                                                               
-		  }                                                                                                   
-		  })                                                                                                  
-	});
+	// 전체화면
 	
+	function setSize(){
+		$('#fullsize').toggle(function(){
+			closeFullScreenMode();
+		},function(){
+			openFullScreenMode();
+		});
+	}
+	
+	// 마이크체크 클릭
 	$('#micCheck').on('click',function(){
 		$('#micCheck').toggle('slow');
 		
@@ -215,8 +175,17 @@ $(document).ready(function(){
 		      var average = values / length;                                                                  
 		                                                                                                      
 		    colorPids(average);                                                                               
-		  }                                                                                                   
-		  })                                                                                                  
+		  }
+		  // 마이크 체크 중지
+		  micCheckCancel.onclick = function() {
+			  colorPids(0);
+				$('#micCheckCancel').toggle('slow');
+				$('#micCheck').show('slow');
+			  audioContext.close().then(function() {
+				  
+			  });
+			}
+		 });                                                                                                  
 	});
 	
 });
@@ -277,23 +246,9 @@ $(document).ready(function(){
 					alt="go-back" class="go-back">돌아가기</a>
 			</div>
 			<div class="body">
-			
-<!-- 				화면 출력 -->
-<!-- 				<div class="contentarea"> -->
-<!-- 					<div class="camera"> -->
-<!-- 						<button id="startbutton">Take photo</button> -->
-<!-- 					</div> -->
-<%-- 					<canvas id="canvas"> </canvas> --%>
-<!-- 					<div class="output"> -->
-<!-- 						<img id="photo" alt="The screen capture will appear in this box."> -->
-<!-- 					</div> -->
-<!-- 					<div id="imgurl"></div> -->
-<!-- 				</div> -->
-<!-- 				화면출력 -->
-				
 				<div class="center">
 					<a onclick="closeFullScreenMode();"  > 
-						<img alt=""	src="/images/fullSize_cancel.png" style="height: 70px;width: 70px">
+						<img alt="" src="/images/fullSize_cancel.png" style="height: 70px;width: 70px"">
 					</a>
 					<div class="top-message">카메라와 마이크 상태를 점검해 주세요.</div>
 					<br>

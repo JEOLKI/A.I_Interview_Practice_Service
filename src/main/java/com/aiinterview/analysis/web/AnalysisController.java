@@ -22,10 +22,12 @@ import com.aiinterview.analysis.service.HabitAnalysisService;
 import com.aiinterview.analysis.service.ImageAnalysisService;
 import com.aiinterview.analysis.service.KeywordAnalysisService;
 import com.aiinterview.analysis.service.RepeatAnalysisService;
+import com.aiinterview.analysis.service.VoiceAnalysisService;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.analysis.vo.TalentAnalysisVO;
+import com.aiinterview.analysis.vo.VoiceAnalysisVO;
 import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.InterviewService;
@@ -67,6 +69,9 @@ public class AnalysisController {
 	
 	@Resource(name = "habitService")
 	private HabitService habitService;
+	
+    @Resource(name = "voiceAnalysisService")
+    private VoiceAnalysisService voiceAnalysisService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -208,6 +213,10 @@ public class AnalysisController {
 				keywordResultMap.put(talentAnalysisList.get(i).getTalentNm(), keywordList);
 			}
 			model.addAttribute("keywordResultMap", keywordResultMap);
+			
+            /* 음성 - voiceAnalysisList (데시벨,헤르츠)*/
+            List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisService.retrieveList(ansSq);
+            model.addAttribute("voiceAnalysisList", voiceAnalysisList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
