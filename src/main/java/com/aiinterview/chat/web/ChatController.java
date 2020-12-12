@@ -32,6 +32,11 @@ public class ChatController {
 		return "chat/admin";
 	}
 	
+	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
+	public String test() {
+		return "chat/chatList";
+	}
+	
 	@RequestMapping(path = "/list.do", method = RequestMethod.GET)
 	public String ListView(Model model, ChatVO cv, HttpSession session) {
 		System.out.println("aaaa");

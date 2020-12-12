@@ -67,14 +67,14 @@ $(document).ready(function() {
 
 </head>
 <body >
-
+<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
 	<div id="root">
 		<div class="LandingNew">
 		
 			<%@ include file="/WEB-INF/views/layout/header.jsp" %>
-		
 			<div class="content intro">
 				<div class="content-box">
+				
 					<div class="title">인공지능으로 연습하는 실전 면접</div>
 					<div class="sub-message">
 						당장 다음 주에 잡힌 면접, 어떻게 해야 할지 막막하신가요?<br>아이엠터뷰와 함께 혼자서도, 집에서도 할 수
