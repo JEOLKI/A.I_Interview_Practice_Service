@@ -10,7 +10,12 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style>
-
+.logo{
+		width: 175px;
+		height: 52px;
+		margin-top: 5px;
+		margin-left: 6px;		
+	}
 </style>
 
 <script>
