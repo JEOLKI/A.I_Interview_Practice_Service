@@ -353,7 +353,7 @@
 	
 	function imageGrowthdata(imageAnalysisList){
 		
-		var max = 100;
+		
 		lables = [];
 		analysis = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
@@ -362,7 +362,7 @@
 		}
 		var title = ['happiness']
 		var ctx = document.getElementById('positiveChart');
-		imageGrowthChart(ctx, labels, title, analysis, max);
+		imageGrowthChart(ctx, labels, title, analysis);
 		
 		title = ['netural']
 		analysis = [];
@@ -370,7 +370,7 @@
 			analysis.push(imageAnalysisList[i].neutral);
 		}
 		ctx = document.getElementById('neutralChart');
-		imageGrowthChart(ctx, labels, title, analysis, max);
+		imageGrowthChart(ctx, labels, title, analysis);
 		
 		title = ['negative']
 		analysis = [];
@@ -379,7 +379,7 @@
 			analysis.push(negative);
 		}
 		ctx = document.getElementById('negativeChart');
-		imageGrowthChart(ctx, labels, title, analysis, max);
+		imageGrowthChart(ctx, labels, title, analysis);
 		
 		title = ['panic']
 		analysis = [];
@@ -388,18 +388,18 @@
 			analysis.push(panic);
 		}
 		ctx = document.getElementById('panicChart');
-		imageGrowthChart(ctx, labels, title, analysis, max);
+		imageGrowthChart(ctx, labels, title, analysis);
 		
 		title = ['facePosition']
 		analysis = [];
-		lables = [];
+		var facelabel = [];	
 		for(var i = 0; i < imageAnalysisList.length ; i++){
-			labels.push(i);
+			facelabel.push(i);
 			position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
 			analysis.push(position);
 		}
 		ctx = document.getElementById('faceChart');
-		imageGrowthChart(ctx, labels, title, analysis, max);
+		imageGrowthChart(ctx, facelabel, title, analysis);
 		
 	}
 	
@@ -433,7 +433,8 @@
 			                display: true,
 			                ticks: {
 			                    suggestedMin: 0,
-			                    suggestedMax: max
+			                    suggestedMax: 100,
+			                    stepSize: 20
 			                }
 			            }]
 		        }
