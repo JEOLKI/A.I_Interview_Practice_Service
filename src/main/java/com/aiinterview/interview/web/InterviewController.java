@@ -157,5 +157,44 @@ public class InterviewController {
 		return "manage/interviewManage";
 	}
 	
+	/* 일괄 다운로드 */
+	@RequestMapping("/list/excelDown.do")
+	public String excelDown(Model model)  {
+		
+		// 출력할 리스트 가져오기
+		List<InterviewVO> interviewList = new ArrayList<>();
+		try {
+			interviewList = interviewService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//Model 객체에 header, data
+		List<String> header = new ArrayList<String>();
+		header.add("INTERVIEW_SQ");
+		header.add("INTERVIEW_NM");
+		header.add("INTERVIEW_DATE");
+		header.add("INTERVIEW_MEMID");
+	
+		// excel 파일 data 설정
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+		for(int i = 0; i< interviewList.size(); i++) {
+			Map<String, String> map = new HashMap<>();
+			map.put("INTERVIEW_SQ", interviewList.get(i).getInterviewSq());
+			map.put("INTERVIEW_NM", interviewList.get(i).getInterviewNm());
+			map.put("INTERVIEW_DATE", interviewList.get(i).getInterviewNm());
+			map.put("INTERVIEW_MEMID", interviewList.get(i).getMemId());
+			data.add(map);
+		}
+		
+		model.addAttribute("header",header);
+		model.addAttribute("data",data);
+		model.addAttribute("fileName","INTERVIEWLIST");
+		model.addAttribute("sheetName","INTERVIEWLIST");
+		
+		return "excelView";
+	}
+	
 
 }
