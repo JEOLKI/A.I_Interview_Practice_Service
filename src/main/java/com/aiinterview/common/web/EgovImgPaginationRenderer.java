@@ -52,11 +52,11 @@ public class EgovImgPaginationRenderer extends AbstractPaginationRenderer implem
 	*/
 	public void initVariables() {
 		
-		firstPageLabel = "<a href=\"#\" onclick=\"{0}({1}); return false;\">" + "</a>&#160;";
-		previousPageLabel = "<li class=\"paginate_button page-item previous\" id=\"dataTable_previous\"> <a href=\"#\" aria-controls=\"dataTable\" data-dt-idx=\"0\" tabindex=\"0\" class=\"page-link\" onclick=\"{0}({1}); return false;\">Previous"+ "</a><li>&#160;";
-		currentPageLabel  = "<li class=\"paginate_button page-item active boarding\"><a href=\"#\" aria-controls=\"dataTable\" data-dt-idx=\"1\" tabindex=\"0\" class=\"page-link\"> {0}&#160;</a> </li> ";
-		otherPageLabel  =   "<li class=\"paginate_button page-item boarding\"> <a href=\"#\" aria-controls=\"dataTable\" data-dt-idx=\"2\" tabindex=\"0\" class=\"page-link\" onclick=\"{0}({1}); return false;\">{2}&#160;</a></li>";
-		nextPageLabel = "<li class=\"paginate_button page-item next\" id=\"dataTable_next\"> <a href=\"#\" aria-controls=\"dataTable\" data-dt-idx=\"7\" tabindex=\"0\" class=\"page-link\" onclick=\"{0}({1}); return false;\">Next" + "</a>&#160;";
+		firstPageLabel = "<a href=\"#\" onclick=\"{0}({1}); return false;\">" + "<image src='" + servletContext.getContextPath() + "/images/egovframework/cmmn/btn_page_pre10.gif' border=0/></a>&#160;";
+		previousPageLabel = "<a href=\"#\" onclick=\"{0}({1}); return false;\">" + "<image src='" + servletContext.getContextPath() + "/images/egovframework/cmmn/btn_page_pre1.gif' border=0/></a>&#160;";
+		currentPageLabel = "<strong>{0}</strong>&#160;";
+		otherPageLabel = "<a href=\"#\" onclick=\"{0}({1}); return false;\">{2}</a>&#160;";
+		nextPageLabel = "<a href=\"#\" onclick=\"{0}({1}); return false;\">" + "<image src='" + servletContext.getContextPath() + "/images/egovframework/cmmn/btn_page_next1.gif' border=0/></a>&#160;";
 		lastPageLabel = "<a href=\"#\" onclick=\"{0}({1}); return false;\">" + "<image src='" + servletContext.getContextPath() + "/images/egovframework/cmmn/btn_page_next10.gif' border=0/></a>&#160;";
 	}
 
