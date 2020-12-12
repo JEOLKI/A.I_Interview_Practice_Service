@@ -366,7 +366,7 @@ function boardGubunList(){
 				<div class="dropdown-content" id="boardGubunList">
 				</div>
 			</div>
-			<a class="service-intro false" href="/service-intro">서비스 소개</a>
+			<a class="service-intro false" href="/login/serviceIntro.do">서비스 소개</a>
 			<a class="help-info false" href="/login/help.do">도움말</a>
 			<c:choose>
 				<c:when test="${S_MEMBER.memAuth == 'Y'}">

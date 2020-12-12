@@ -5,7 +5,7 @@
 <html>
 <head>
 <script src="https://kit.fontawesome.com/ef761ed31c.js" crossorigin="anonymous"></script>
-<title>AIinterview</title>
+<title>AI_INTERVIEW</title>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
@@ -156,7 +156,8 @@ $(document).ready(function() {
 				<div class="content-box second">
 					<img src="/images/notebook.121a50c8.png" alt="" class="notebook">
 					<div class="interface">
-						<div class="message wow fadeInUp">
+						<div class="message w2
+						+-ow fadeInUp">
 							클릭 몇 번으로<br> <b>나만의 면접</b>을
 						</div>
 						<div class="sub-message wow fadeInUp">

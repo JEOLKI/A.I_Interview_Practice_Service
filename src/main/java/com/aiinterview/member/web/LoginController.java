@@ -66,5 +66,19 @@ public class LoginController {
 		return "login/help";
 	}
 	
+	@RequestMapping("/serviceIntro.do")
+	public String serviceIntro() {
+		return "login/serviceIntro";
+	}
+	
+	@RequestMapping("/userAgree.do")
+	public String userAgree() {
+		return "agreement/userAgree";
+	}
+	@RequestMapping("/personalAgree.do")
+	public String personalAgree() {
+		return "agreement/personalAgree";
+	}
+	
 
 }

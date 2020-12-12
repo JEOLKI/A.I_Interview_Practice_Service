@@ -20,10 +20,10 @@
 		</div>
 		<div class="nav-flex">
 			<div class="user-agreement">
-				<a href="/agreement/user-agree">회원이용약관</a>
+				<a href="/login/userAgree.do">회원이용약관</a>
 			</div>
 			<div class="personal-info">
-				<a href="/agreement/personal-agree">개인정보처리방침</a>
+				<a href="/login/personalAgree.do">개인정보처리방침</a>
 			</div>
 			<div class="about-us">ABOUT US</div>
 		</div>
