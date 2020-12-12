@@ -2,10 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-<script src="/js/Chart.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
+
 <script>
 	var talentNm = '';
 	var habitMap = '';
