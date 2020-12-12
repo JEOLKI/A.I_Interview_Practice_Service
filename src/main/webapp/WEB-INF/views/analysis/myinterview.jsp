@@ -197,32 +197,35 @@
 
 	/* 성장그래프 - 습관어(바) */
 	function habitCountHtml(habitCountList, habitList){
-		console.log(habitCountList.length);
-// 		var fullGage = 187;
-// 		var max = 0;
-// 		for(var i = 0; i<habitCountList.length; i){
-// 			if(habitCountList[i].habitCount > max ){
-// 				max = habitCountList[i].habitCount;
-// 			}
-// 		}
-// 		console.log("max : "+max)
-// 		habitCountHtml = '<div class="unit">(회)</div>';
-// 		for(var i = 0; i<habitList.length; i){
-// 			habitCountHtml += '<div class="HabitBar">';
-// 			habitCountHtml += '<div class="label">'+habitList[i].habitGb +'..</div>';
-// 			habitCountHtml += '<div class="range">';
-// 			for(var j = 0; j<habitCountList.length; j++){
-// 				if(habitList[i].habitGb == habitCountList[j].habitGb){
-// 					habitCountHtml += '<div class="gaze" style="width: '+Number(fullGage*habitCountList[j].habitCount/max)+'px;"></div>';
-// 				}else {
-// 					habitCountHtml += '<div class="gaze" style="width: 0px;"></div>';
-// 				}
-// 			}
-// 			habitCountHtml += '</div>';
-// 			habitCountHtml += '<div class="count">'+habitCountList[i].habitCount+'</div>';
-// 		}
-// 		$('.bar-area').empty();
-// 		$('.bar-area').html(habitCountHtml);
+		console.log("파라미터 : "+ habitCountList);
+		var fullGage = 187;
+		var max = 0;
+		for(var i = 0; i<habitCountList.length; i++){
+			if(habitCountList[i].habitCount > max ){
+				max = habitCountList[i].habitCount;
+			}
+		}
+		console.log("max : "+max)
+		habitCountHtml = '<div class="unit">(회)</div>';
+		for(var i = 0; i<habitList.length; i++){
+			var gage = 0;
+			var count = 0;
+			habitCountHtml += '<div class="HabitBar">';
+			habitCountHtml += 	'<div class="label">'+habitList[i].habitGb +'..</div>';
+			habitCountHtml += 	'<div class="range">';
+			for(var j = 0; j<habitCountList.length; j++){
+				if(habitList[i].habitGb == habitCountList[j].habitGb){
+					gage = Number(fullGage*habitCountList[j].habitCount/max);
+					count = habitCountList[j].habitCount;
+				}
+			}
+			habitCountHtml += 		'<div class="gaze" style="width: '+gage+'px;"></div>';
+			habitCountHtml += 	'</div>';
+			habitCountHtml += 	'<div class="count">'+count+'</div>';
+			habitCountHtml += '</div>';
+		}
+		$('.bar-area').empty();
+		$('.bar-area').html(habitCountHtml);
 	}
 		
 	
