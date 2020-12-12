@@ -132,6 +132,7 @@
 			<mvc:exclude-mapping path="/WEB-INF/views/layout/**"/>
 			<mvc:exclude-mapping path="/WEB-INF/config/**"/>
 			<mvc:exclude-mapping path="/common/**"/>
+			<mvc:exclude-mapping path="/boardGubun/**"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors> 
