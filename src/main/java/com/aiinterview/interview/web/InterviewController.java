@@ -85,6 +85,7 @@ public class InterviewController {
 		String interviewSq = "";
 		try {
 			interviewSq = interviewService.create(map);
+			model.addAttribute("interviewSq", interviewSq);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,6 +98,7 @@ public class InterviewController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+		
 		
 		return "interview/start";
 	}
