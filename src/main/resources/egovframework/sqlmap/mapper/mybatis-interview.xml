@@ -65,6 +65,7 @@
 							</when>
 						</choose>
 					</if>
+					ORDER BY INTERVIEW_SQ DESC
 		      ) S
 		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
 	      ) A
