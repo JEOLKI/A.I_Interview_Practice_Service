@@ -100,9 +100,14 @@ public class PlanController {
 		}
 		return "jsonView";
 	}
+	
+	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.POST)
+	public String planUseCreate() {
+		return "jsonView";
+	}
 
 	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.GET)
-	public String planUseCreateView(PlanVO pv, HttpSession session) {
+	public String planUseCreateView(PlanVO pv, HttpSession session, Model model) {
 
 		PlanVO pvContent;
 		try {
@@ -114,11 +119,13 @@ public class PlanController {
 			puv.setMemId(mv.getMemId());
 
 			planService.planUseCreate(puv);
+			//model.addAttribute("puv", puv);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "member/membermain";
+		return "redirect:/member/myprofileview.do";
+		//return "member/membermain";
 	}
 
 	@RequestMapping(path = "/manage.do", method = RequestMethod.GET)

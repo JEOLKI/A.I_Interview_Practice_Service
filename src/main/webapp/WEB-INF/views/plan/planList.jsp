@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <title>AI_Interview</title>
-
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style>
@@ -18,8 +18,9 @@
 <script>
 $(document).ready(function() {
 	buyPlanAjax();
-	
 });
+
+
 
 function buyPlanAjax(){
 	

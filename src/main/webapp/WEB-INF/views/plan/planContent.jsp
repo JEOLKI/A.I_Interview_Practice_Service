@@ -8,6 +8,7 @@
 
 <title>AI_Interview</title>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 
 <script>
@@ -21,10 +22,48 @@ $(document).ready(function() {
 	$('#payment').on('click', function(){
 		var check =  "${planUseCheck.term }"
 		if(check>0){
-			alert("아직 이용권 기간이 남아 있습니다.")
+			alert("아직 이용권 기간이 남아 있습니다.");
 		}else{
-			alert("결제되었습니다.")
-			location.href = "/plan/planUseCreate.do?planSq="+"${pvContent.planSq}"
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp67005883'); 	//가맹점 식별코드
+			IMP.request_pay({
+			    pg : 'html5_inicis',
+			    pay_method : 'card',
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : '${pvContent.planNm}',
+			    amount : '${pvContent.planPrice}',
+			  	buyer_email : 'Enter your E-mail',
+			    buyer_name : '${S_MEMBER.memId}'
+			}, function(rsp) {
+			    if ( rsp.success ) {
+			    	 var msg = '결제가 완료되었습니다.';
+	        /*          msg += '\n고유ID : ' + rsp.imp_uid;
+	                 msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+	                 msg += '\결제 금액 : ' + rsp.paid_amount;
+	                 msg += '카드 승인번호 : ' + rsp.apply_num; */
+	                 
+	                alert(msg);
+
+			    	$.ajax({
+			    		url: "/plan/planUseCreate.do",
+			    		type: 'POST',
+			    		dataType: 'json',
+			    		data: {//기타 필요한 데이터가 있으면 추가 전달
+				    			imp_uid : rsp.imp_uid,
+				    			merchant_uid : rsp.merchant_uid},
+				    	success : function(data){
+			    		
+				    	}
+			    	 });
+			    	 //결제 완료 페이지
+			    	location.href = "/plan/planUseCreate.do?planSq="+"${pvContent.planSq}"
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+
+			        alert(msg);
+			    }
+			});
 		}
 	})
 });
