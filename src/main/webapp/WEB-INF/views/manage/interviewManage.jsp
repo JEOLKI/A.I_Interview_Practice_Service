@@ -26,35 +26,29 @@
 </script>
 
 <style type="text/css">
-
-	.blog-main{
-		width: 80%;
-	}
 	
 	#excelBtn{
 		border: 1px solid #22741C;
 		background-color: #22741C;
+		border-radius: 30px;
 		color: white;
 		padding: 1px 10px;
 		margin: 100px 5px;
 	}
 	
-	.input-group{
-		display: block;
-		width: 1200px;
+	.table-responsive table{
+		width: 75%;
+		border-collapse: collapse;
 	}
 	
-	
-	#searchCondition{
-		width: 80px;
+	.table-responsive td, .table-responsive th{
+		height: 40px;
+		text-align: center;
+		border-bottom: 1px solid black;
 	}
 	
-	.input-group, .button-search{
-		width: 1200px;
-	}
-	
-	.button-search li{
-		width: 50%;
+	.table-responsive th{
+		background: #D9E5FF;
 	}
 	
 </style>
@@ -62,6 +56,9 @@
 </head>
 
 <body>
+	
+	<h1>면접 관리</h1>
+	
 	<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
 		<div class="blog-main">
 			<div>
@@ -87,27 +84,26 @@
 	       	
 		    
 			<div class="table-responsive">
-			
-		 	<table class="table blogmain table-hover" id="dataTable">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>면접 제목</th>
-						<th>면접 등록 일자</th>
-						<th>회원 아이디</th>
-					</tr>
-				</thead>
-				<tbody>
-				<c:forEach items="${resultList }" var="interview">
-					<tr>
-						<td>${interview.interviewSq }</td>	
-						<td>${interview.interviewNm } </td>
-						<td>${interview.interviewDate }</td>
-						<td>${interview.memId }</td>
-					</tr>
-				</c:forEach>
-						</tbody>
-					</table>
+			 	<table class="table blogmain table-hover" id="dataTable">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>면접 제목</th>
+							<th>면접 등록 일자</th>
+							<th>회원 아이디</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${resultList }" var="interview">
+							<tr>
+								<td>${interview.interviewSq }</td>	
+								<td>${interview.interviewNm } </td>
+								<td>${interview.interviewDate }</td>
+								<td>${interview.memId }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		
 			<div class = "paging">
