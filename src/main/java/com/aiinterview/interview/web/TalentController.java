@@ -82,7 +82,7 @@ public class TalentController {
 	}
 	
 	@RequestMapping("/massiveCreateProcess.do")
-	public ModelAndView createMassiveTalent(MultipartHttpServletRequest request) throws Exception {
+	public ModelAndView createMassiveTalent(MultipartHttpServletRequest request) {
 		 MultipartFile excelFile = request.getFile("excelFile");
 	        if(excelFile==null || excelFile.isEmpty()){
 	            throw new RuntimeException("엑셀파일을 선택해 주세요");
@@ -91,13 +91,12 @@ public class TalentController {
 	     File destFile = new File("D:\\"+excelFile.getOriginalFilename());
 	     try {
 	            excelFile.transferTo(destFile);
-	        } catch (IllegalStateException | IOException e) {
+	            talentService.createMassiveTalent(destFile);
+	        } catch (Exception e) {
 	            throw new RuntimeException(e.getMessage(),e);
 	 
 	        }
 
-	     talentService.createMassiveTalent(destFile);
-	     
 	     destFile.delete();
 
 	     ModelAndView view = new ModelAndView();
@@ -129,7 +128,7 @@ public class TalentController {
 	}
 	
 	@RequestMapping("/list/excelDown.do")
-	public String excelDown(Model model) throws Exception {
+	public String excelDown(Model model) {
 
 		// 출력할 리스트 가져오기
 		List<TalentVO> talentList = talentService.retrieveList();

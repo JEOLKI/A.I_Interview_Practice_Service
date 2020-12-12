@@ -47,7 +47,7 @@ public class SampleQuestionController {
 	
 	
 	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList( QuestionGubunVO questGbVO, SampleQuestionVO sampQuestVO, String pageUnit, Model model) throws Exception{
+	public String retrievePagingList( QuestionGubunVO questGbVO, SampleQuestionVO sampQuestVO, String pageUnit, Model model){
 	
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
@@ -88,9 +88,7 @@ public class SampleQuestionController {
 	
 	/* 등록 */
 	@RequestMapping("/createProcess.do")
-	public String createSampQuestProcess(SampleQuestionVO sampQuestVO) throws Exception {
-
-		logger.debug("샘플 질문 등록 : {}", sampQuestVO);
+	public String createSampQuestProcess(SampleQuestionVO sampQuestVO) {
 
 		sampleQuestionService.create(sampQuestVO);
 
@@ -100,7 +98,7 @@ public class SampleQuestionController {
 	
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveHabit(MultipartHttpServletRequest request) throws Exception {
+	public String createMassiveHabit(MultipartHttpServletRequest request){
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
@@ -109,13 +107,10 @@ public class SampleQuestionController {
 		File destFile = new File("D:\\" + excelFile.getOriginalFilename());
 		try {
 			excelFile.transferTo(destFile);
-		} catch (IllegalStateException | IOException e) {
+			sampleQuestionService.createMassiveSampQuest(destFile);
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
-
 		}
-
-		sampleQuestionService.createMassiveSampQuest(destFile);
-
 		destFile.delete();
 
 		return "redirect:/sampQuest/retrievePagingList.do";
@@ -124,7 +119,7 @@ public class SampleQuestionController {
 	
 	/* 일괄 다운로드 */
 	@RequestMapping("/list/excelDown.do")
-	public String excelDown(Model model) throws Exception {
+	public String excelDown(Model model) {
 
 		// 출력할 리스트 가져오기
 		List<SampleQuestionVO> sampQuestList = sampleQuestionService.retrieveList();

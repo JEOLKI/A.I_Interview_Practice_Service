@@ -258,8 +258,6 @@ public class KeywordController {
 				createMap.put("keywordSq", keywordSq+"");
 				createMap.put("talentSq", talentSq);
 				
-				System.out.println("키워드 일괄등록 kyeword : "+keywordSq +", "+ keyword.get("A"));
-				System.out.println("키워드 일괄등록 matching : "+keywordSq +", "+talentSq);
 				keywordMathingService.create(createMap);
 			} catch (Exception e) {
 				e.printStackTrace();

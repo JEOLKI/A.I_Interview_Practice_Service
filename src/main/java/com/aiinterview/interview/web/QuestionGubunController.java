@@ -36,7 +36,7 @@ public class QuestionGubunController {
 	
 	/* 페이징 처리 */
 	@RequestMapping(value = "/retrievePagingList.do")
-	public String retrievePagingList(QuestionGubunVO questGbVO, String pageUnit, Model model) throws Exception {
+	public String retrievePagingList(QuestionGubunVO questGbVO, String pageUnit, Model model){
 		
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
@@ -72,18 +72,27 @@ public class QuestionGubunController {
 	
 	/* 등록 */
 	@RequestMapping("/createProcess.do")
-	public String createQuestGbProcess(QuestionGubunVO questGbVO) throws Exception {
+	public String createQuestGbProcess(QuestionGubunVO questGbVO) {
 		
-		questionGubunService.create(questGbVO);
+		try {
+			questionGubunService.create(questGbVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "redirect:/questGb/retrievePagingList.do";
 	}
 	
 	@RequestMapping("/searchlist.do")
-	public String retrieveQuestGbSearch(String keyword, Model model) throws Exception {
+	public String retrieveQuestGbSearch(String keyword, Model model){
 		System.out.println("질문 구분 검색 keyword : " + keyword);
 
-		List<QuestionGubunVO> questGbSearchList = questionGubunService.retrieveQuestGbSearchList(keyword);
+		List<QuestionGubunVO> questGbSearchList = null;
+		try {
+			questGbSearchList = questionGubunService.retrieveQuestGbSearchList(keyword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("질문 구분 검색 목록 " + questGbSearchList);
 		model.addAttribute("questGbSearchList", questGbSearchList);
 		
@@ -91,7 +100,7 @@ public class QuestionGubunController {
 	}
 
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveHabit(MultipartHttpServletRequest request) throws Exception {
+	public String createMassiveHabit(MultipartHttpServletRequest request){
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
@@ -100,12 +109,11 @@ public class QuestionGubunController {
 		File destFile = new File("D:\\" + excelFile.getOriginalFilename());
 		try {
 			excelFile.transferTo(destFile);
-		} catch (IllegalStateException | IOException e) {
+			questionGubunService.createMassiveQuestGb(destFile);
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 
 		}
-
-		questionGubunService.createMassiveQuestGb(destFile);
 
 		destFile.delete();
 
@@ -127,33 +135,38 @@ public class QuestionGubunController {
 	}
 
 	@RequestMapping("/list/excelDown.do")
-	public String excelDown(Model model) throws Exception {
+	public String excelDown(Model model) {
 
 		// 출력할 리스트 가져오기
-		List<QuestionGubunVO> questGbList = questionGubunService.retrieveList();
-
-		
-		//Model 객체에 header, data
-		List<String> header = new ArrayList<String>();
-		header.add("QUEST_GB_SQ");
-		header.add("QUEST_GB_CONTENT");
-		header.add("QUEST_GB_ST");
-		
-		// excel 파일 data 설정
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-
-		for(int i = 0; i<questGbList.size(); i++) {
-			Map<String, String> map = new HashMap<>();
-			map.put("QUEST_GB_SQ", questGbList.get(i).getQuestGbSq());
-			map.put("QUEST_GB_CONTENT", questGbList.get(i).getQuestGbContent());
-			map.put("QUEST_GB_ST", questGbList.get(i).getQuestGbSt());
-			data.add(map);
+		List<QuestionGubunVO> questGbList;
+		try {
+			questGbList = questionGubunService.retrieveList();
+			//Model 객체에 header, data
+			List<String> header = new ArrayList<String>();
+			header.add("QUEST_GB_SQ");
+			header.add("QUEST_GB_CONTENT");
+			header.add("QUEST_GB_ST");
+			
+			// excel 파일 data 설정
+			List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+			
+			for(int i = 0; i<questGbList.size(); i++) {
+				Map<String, String> map = new HashMap<>();
+				map.put("QUEST_GB_SQ", questGbList.get(i).getQuestGbSq());
+				map.put("QUEST_GB_CONTENT", questGbList.get(i).getQuestGbContent());
+				map.put("QUEST_GB_ST", questGbList.get(i).getQuestGbSt());
+				data.add(map);
+			}
+			
+			model.addAttribute("header",header);
+			model.addAttribute("data",data);
+			model.addAttribute("fileName","QUESTION_GB");
+			model.addAttribute("sheetName","QUESTION_GB");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		model.addAttribute("header",header);
-		model.addAttribute("data",data);
-		model.addAttribute("fileName","QUESTION_GB");
-		model.addAttribute("sheetName","QUESTION_GB");
 		
 		return "excelView";
 	}

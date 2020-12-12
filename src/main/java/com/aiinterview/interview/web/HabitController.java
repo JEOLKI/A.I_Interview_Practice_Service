@@ -113,19 +113,12 @@ public class HabitController {
 	     File destFile = new File("D:\\"+excelFile.getOriginalFilename());
 	     try {
 	            excelFile.transferTo(destFile);
-	        } catch (IllegalStateException | IOException e) {
+	            habitService.createMassiveHabit(destFile);
+	        } catch (Exception e) {
 	            throw new RuntimeException(e.getMessage(),e);
-	 
 	        }
 
-	     try {
-			habitService.createMassiveHabit(destFile);
-			destFile.delete();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	     
-
 	     ModelAndView view = new ModelAndView();
 	        view.setViewName("redirect:/habit/retrievePagingList.do");
 	        return view;
