@@ -8,9 +8,27 @@
 		margin-top: 5px;
 		margin-left: 6px;		
 	}
+#chatting {
+	position: fixed;
+	z-index: 30; <!-- 다른 div나 항목들에 비해 앞쪽으로 -->
+}	
 </style>
 
 <footer class="Footer --undefined">
+	<div data-ch-testid="launcher" class="Launcherstyled__Wrapper-oef45p-0 ekjiAG" id="chatting">
+			<div class="Launcherstyled__TextLauncher-oef45p-1 lbMRR">
+				<div
+					class="Launcherstyled__TextLauncherContent-oef45p-2 inNMmP textLauncherContent">문제가
+					생겼나요?</div>
+				<div
+					class="Launcherstyled__TextLauncherIcon-oef45p-3 kZmISt textLauncherIcon">
+					<div data-ch-testid="badge"
+						class="Badgestyled__Badge-sc-1ztqq4-0 Launcherstyled__Badge-oef45p-5 iwEgLY">1</div>
+				</div>
+			</div>
+		</div>
+
+
 	<div class="footer-body">
 		<div class="info">
 			<span>(주) OURTECH</span><br>대전 중구 중앙로76, 영민빌딩 4층 | 대표 : 홍정기<br>사업자등록번호:

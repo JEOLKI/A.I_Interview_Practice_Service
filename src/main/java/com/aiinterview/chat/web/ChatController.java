@@ -22,13 +22,23 @@ public class ChatController {
 	@Resource(name = "chatService")
 	ChatService chatService;
 	
+	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
+	public String chatting() {
+		return "chat/index";
+	}
+	
+	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
+	public String admin() {
+		return "chat/admin";
+	}
+	
 	@RequestMapping(path = "/list.do", method = RequestMethod.GET)
 	public String ListView(Model model, ChatVO cv, HttpSession session) {
 		System.out.println("aaaa");
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		
-		String receiver = "a002";
+		String receiver = "TEST_ID2";
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
 		cv.setMsgSender(memId);
@@ -65,14 +75,10 @@ public class ChatController {
 		
 	}
 	
-	
-	
 	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
 	public void createProcess(Model model, ChatVO cv, HttpSession session) {
 		chatService.create(cv);
 	}
-	
-	
 	
 	
 }

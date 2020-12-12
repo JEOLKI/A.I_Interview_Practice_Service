@@ -30,15 +30,15 @@ function chatAjax(receiver){
 // 				html += ' <ul>                                              ';
 				if("${S_MEMBER.memId }" == chat.msgSender){      
 				html += ' 		<li><div  class="right">                                        ';
-				html += ' 		<span>'+ chat.msgSender+ '<br>       ';
+				html += ' 		<span>'+ chat.msgSender+''+ chat.msgDate+ '<br>       ';
 				html += ' 		'+chat.msgContent+'</span>            ';
-				html += ' 		</div></li>                        <br>               ';
+				html += ' 		</div></li>                        <br> <br><br>              ';
 				}                                               
 				else if("${S_MEMBER.memId }" == chat.msgReceiver){ 
 				html += ' 		<li><div  class="left">                                        ';
 				html += ' 		<span class="left">'+chat.msgSender+' 너<br>       ';
 				html += ' 		'+chat.msgContent+'</span>            ';
-				html += ' 		</div></li>                        <br>               ';
+				html += ' 		</div></li>                        <br> <br><br>              ';
 				}                                          
 // 				html += ' </ul>                                             ';
 			}
@@ -48,6 +48,8 @@ function chatAjax(receiver){
 	})
 }
 
+
+   
 
 function create(receiver){
 	$.ajax({url : "/chat/create.do",
@@ -72,7 +74,12 @@ function create(receiver){
 	.right{
 		float: right
 	}
+	#chatarea{
+		overflow:scroll;
+		width:350px; 
+		height:200px;
 
+	}
 </style>
 
 
@@ -89,14 +96,17 @@ function create(receiver){
 
 <div id="chatarea" class="" style="width:400px; height:600px; border:1px solid;">
 
-	<ul id = "Ulchatarea">
-		<li><div></div></li>
+<!-- 	<ul id = "Ulchatarea"> -->
+	<ul>
+		<li id = "Ulchatarea"></li>
+		<li id="Ulchat" style="text-align: right;"></li>
 	</ul>
 </div>
-	
-		<input type="text" id="message" />
-		<input type="button" id="send" value="보내기" />
-
+		
+<!-- 		<form action="/chat/create.do" method="POST">	 -->
+		<input onkeyup="enterkey()" type="text" id="message" />
+		<input type="submit" id="send" value="보내기" />
+<!-- 		</form> -->
 </div>
 </body>
 
@@ -106,8 +116,11 @@ function create(receiver){
 
 
 <script type="text/javascript">
+
+
 one = document.getElementById("one");
 two = document.getElementById("two");
+
 document.getElementById("enter").addEventListener("click", function() {
 //웹 소켓 연결해주는 함수 호출
 connect();
@@ -129,12 +142,7 @@ websocket = new SockJS("/chatting.do");
 websocket.onopen = onOpen;
 websocket.onmessage = onMessage;
 websocket.onclose = onClose;
-}
-//퇴장 버튼을 눌렀을 때 호출되는 함수
-function disconnect(){
-msg = document.getElementById("nickname").value;
-websocket.send(msg+"님이 퇴장하셨습니다");
-websocket.close();
+
 }
 
 //보내기 버튼을 눌렀을 때 호출될 함수
@@ -142,7 +150,7 @@ function send(){
 nickname = document.getElementById("nickname").value;
 msg = document.getElementById("message").value;
 
-websocket.send(nickname + ":"+ msg);
+websocket.send(nickname+"<br/>" +msg );
 document.getElementById("message").value = "";
 }
 
@@ -156,16 +164,44 @@ websocket.send(nickname + "님 입장하셨습니다.");
 enter = document.getElementById("enter");
 enter.style.display='none';
 }
-//웹 소켓에서 연결이 해제 되었을 때 호출될 함수
 
+//메시지가 출력될때 나오는 메시지
 function onMessage(evt){
 data= evt.data;
-chatarea = document.getElementById("chatarea");
-chatarea.innerHTML = data + "<br/>" + chatarea.innerHTML
+chatarea = document.getElementById("Ulchat");
+chatarea.innerHTML = chatarea.innerHTML+"<br/>"  + data + "<br/>"
+var chatarea = document.getElementById("chatarea"); 
+chatarea.scrollTop = chatarea.scrollHeight;
 
+// chatarea.append(data+ );
+// chatarea.append()
+// chatarea.append()
+// $("#Ulchat").scrollTop($("#Ulchat")[0].scrollHeight);
+// $('#msgArea').append("</div>");
+// $("#msgArea").scrollTop($("#msgArea")[0].scrollHeight);
 }
+
+//퇴장 버튼을 눌렀을 때 호출되는 함수
+function disconnect(){
+msg = document.getElementById("nickname").value;
+websocket.send(msg+"님이 퇴장하셨습니다");
+websocket.close();
+}
+
 
 function onClose(){
 }
+
+function enterkey() {
+    if (window.event.keyCode == 13) {
+    	nickname = document.getElementById("nickname").value;
+    	msg = document.getElementById("message").value;
+
+    	websocket.send(nickname + ":"+ msg);
+    	document.getElementById("message").value = "";
+         
+    }
+}
+
 </script>
 </html>

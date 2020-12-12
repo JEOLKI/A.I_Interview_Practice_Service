@@ -45,6 +45,12 @@ public class SpeechController {
    @Resource(name = "scriptTestService")
    ScriptTestService scriptTestService;
 	
+   @RequestMapping(path="/Test.do", method = {RequestMethod.GET})
+   public String test(Model model) {
+	   
+	   return "speech/Test";
+   }
+   
    @RequestMapping(path="/speechChart2.do", method = {RequestMethod.GET})
    public String testa(Model model) {
 	   
