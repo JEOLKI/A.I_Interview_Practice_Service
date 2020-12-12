@@ -16,12 +16,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.interview.service.InterviewService;
@@ -62,6 +64,18 @@ public class InterviewController {
 
 		return "interview/setting";
 	}
+	@RequestMapping(path="/redirectStart.do",method = { RequestMethod.GET })
+	public String redirectStart(Model model, String interviewSq){
+		try {
+			List<QuestionVO> questionGoList = questionService.retrieveList(interviewSq);
+			model.addAttribute("questionGoList", questionGoList);
+			logger.debug("questionGoList 내용 {} ", questionGoList.get(0).getQuestContent());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		model.addAttribute("interviewSq",interviewSq);
+		return "interview/start";
+	}
 
 	@RequestMapping(path = "/start.do", method = { RequestMethod.GET })
 	public String interviewStart(@RequestParam("questionList") List<String> questionList,
@@ -85,22 +99,11 @@ public class InterviewController {
 		String interviewSq = "";
 		try {
 			interviewSq = interviewService.create(map);
-			model.addAttribute("interviewSq", interviewSq);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		try {
-			List<QuestionVO> questionGoList = questionService.retrieveList(interviewSq);
-			model.addAttribute("questionGoList", questionGoList);
-			logger.debug("questionGoList 내용 {} ", questionGoList.get(0).getQuestContent());
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		
-		
-		return "interview/start";
+		return "redirect:/interview/redirectStart.do?interviewSq="+interviewSq;
 	}
 	
 	
@@ -196,6 +199,12 @@ public class InterviewController {
 		model.addAttribute("sheetName","INTERVIEWLIST");
 		
 		return "excelView";
+	}
+	
+	@RequestMapping(value="/end.do", method = {RequestMethod.GET})
+	public String end(String interviewSq, RedirectAttributes ra) {
+		ra.addAttribute("interviewSq",interviewSq);
+		return"redirect:/analysis/question/retrievePagingList.do";
 	}
 	
 

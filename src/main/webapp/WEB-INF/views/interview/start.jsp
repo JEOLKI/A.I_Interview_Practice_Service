@@ -66,9 +66,11 @@
     };
         
    	recognizer.recognized = (s, e) => { // 음성에서 스크립트 추출
+//    		editText = e.result.text.replace(/undefined/g,'');
+// 		console.log(`RECOGNIZED: `+editText);
 		console.log(`RECOGNIZED: Text=${e.result.text}`);
-	    phraseDiv.innerHTML += e.result.text;
-	    answer+=e.result.text;
+	    phraseDiv.innerHTML += editText;
+	    answer+=editText;
  	   if (e.result.reason == ResultReason.RecognizedSpeech) {
     	}
     	else if (e.result.reason == ResultReason.NoMatch) {
@@ -190,7 +192,19 @@
 			if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 				download(); // 녹화 중지
 				clearInterval(tid);		// 타이머 해제
-				alert('면접 종료');					
+				$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
+				clearInterval(aid);		// 10초마다 이미지 분석 종료
+				
+				script = "분석중입니다. 잠시만 기다려주세요"
+				$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
+				$('#time').hide();// 타이머 지우기
+				$('.attention-message.shown').css("background-image", "");// 원 지우기
+				$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
+				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 하나만 출력
+				$('.attention-message.shown').css("margin-top", "200px"); // 마진
+				$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
+				
+				window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
 			}else{
 				$('.message-balloon').empty(); // 메세지 창 지우기
 				$('#time').empty(); // 타이머 표시 지우기
@@ -218,6 +232,7 @@
 
 	// 이미지 분석
 	function processImage() {
+		$('.spacebar-area').attr('disabled', true); // 버튼 비활성화 설정
 		var subscriptionKey = "cae766a534074d6b89f02281da4e14cf";
 		var uriBase = "https://faceanalysis-jh.cognitiveservices.azure.com/face/v1.0/detect";
 		// Request parameters.
@@ -252,26 +267,31 @@
 	.done(
 			function(data) {
 				// Show formatted JSON on webpage.
-				emotion = data[0].faceAttributes.emotion;
-				face = data[0].faceRectangle
-				var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
-				html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
-
-				$("#analysisData").append(html);
-				
-				 index += 1;
+				if(data[0]=== undefined){ // 분석할 사진에 문제가 있을경우
+					console.log('영상을 분석할 수 없습니다.')
+				}else{
+					emotion = data[0].faceAttributes.emotion;
+					face = data[0].faceRectangle
+					var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
+					
+					$("#analysisData").append(html);
+					
+					index += 1;
+				}
 				 
 				$("#responseTextArea").val(JSON.stringify(data, null, 2));
+				$('.spacebar-area').attr('disabled', false); // 버튼 비활성화 해제
 			})
 	.fail(
 			function(jqXHR, textStatus, errorThrown) {
@@ -423,12 +443,12 @@
 				
 				console.log('타이머 시작')				
 				$('.attention-message.shown').text('');
-			}else{ // 타이머 진행 중에서 space
+			}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space
 				console.log('타이머 멈추기')	;
 				console.log('시작카운트 : '+startCount);
 				console.log('종료카운트 : '+endCount);
 				
-				startCount++; // 답변 진행되면서 횟수 증가
+				startCount++; // 답변 진행되면서 횟수 증가	
 				$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 				
 				
@@ -446,7 +466,16 @@
 					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
-					alert('면접 종료');			
+					script = "분석중입니다. 잠시만 기다려주세요"
+					$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
+					$('#time').hide();// 타이머 지우기
+					$('.attention-message.shown').css("background-image", "");// 원 지우기
+					$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
+					$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
+					$('.attention-message.shown').css("margin-top", "200px"); // 마진
+					$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
+					
+					window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
 				}else{
 					SetTime=0; // 타이머 시간 되돌리기
 					answer=""; // 답변 내용 초기화
@@ -462,12 +491,11 @@
 		$(document).keydown(function(event) {
 			if(event.keyCode == 32){ // space
 				if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-					
-					startFunction(); // 녹화 시작
 					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
 					questSq=$('.quest').eq(startCount).data('sq');
-					$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
 					
+					startFunction(); // 녹화 시작
+					$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
 					TimerStart(); // 타이머 시작
 					analyzeStart(); // 10초마다 이미지 분석
 					$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
@@ -478,7 +506,7 @@
 					
 					console.log('타이머 시작')				
 					$('.attention-message.shown').text('');
-				}else{ // 타이머 진행 중에서 space(질문 종료)
+				}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space(질문 종료)15초 이후 
 					console.log('타이머 멈추기')	;	
 					console.log('시작카운트 : '+startCount);
 					console.log('종료카운트 : '+endCount);
@@ -499,9 +527,19 @@
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 						download(); // 녹화 중지
 						clearInterval(tid);		// 타이머 해제
+						$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
 						clearInterval(aid);		// 10초마다 이미지 분석 종료
 						
-						alert('면접 종료');			
+						script = "분석중입니다. 잠시만 기다려주세요"
+						$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
+						$('#time').hide();// 타이머 지우기
+						$('.attention-message.shown').css("background-image", "");// 원 지우기
+						$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
+						$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
+						$('.attention-message.shown').css("margin-top", "200px"); // 마진
+						$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
+
+						window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
 					}else{
 						SetTime=0; // 타이머 시간 되돌리기
 						answer=""; // 답변 내용 초기화
@@ -659,7 +697,7 @@
 				<input type="hidden" value='${questionGoList[quest].questContent}' data-sq='${questionGoList[quest].questSq}' class="quest" >
 			</c:forEach>
 			
-			<div class="InterviewCircle">
+			<div class="InterviewCircle" style="background-size: 500px 600px; z-index: 100">
 			<div id="time" style="width: 600px; height: 80px; display: inline-block; text-align: center; margin-top: 200px; position: relative; z-index: 300;"></div>
 					<img id="attention" src="/images/interviewwatch.png" alt="" class="bg" style="width: 400px; height: 400px; position: absolute; margin-left:39.5%; top:100; display: none;">
 				<div class="MovingCircle circle false">
@@ -681,6 +719,7 @@
 								2분이며,</div>
 							<div class="text-line false">질문을 잘 듣고 중앙의 원을 보며 차분하게 답변해
 								주세요.</div>
+							<div class="text-line false" style="color: red; font-weight: bold;">질문 시작 후 15초 이내에는 다음 질문으로 넘어갈 수 없습니다.</div>
 						</div>
 					</div>
 				</div>

@@ -2,16 +2,12 @@ package com.aiinterview.analysis.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,9 +27,7 @@ import com.aiinterview.analysis.vo.VoiceAnalysisVO;
 import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.InterviewService;
-import com.aiinterview.interview.service.KeywordService;
 import com.aiinterview.interview.service.QuestionService;
-import com.aiinterview.interview.service.TalentService;
 import com.aiinterview.interview.vo.AnswerVO;
 import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.interview.vo.InterviewVO;
@@ -177,7 +171,7 @@ public class AnalysisController {
 		
 		try {
 			AnswerVO answerVO = answerService.retrieve(questSq);
-			ansSq = answerVO.getAnsSq();
+			ansSq = answerVO.getAnsSq(); 
 			model.addAttribute("answerVO", answerVO);
 			
 			ImageAnalysisVO imageAnalysis = imageAnalysisService.retrieveAnalysis(ansSq);
@@ -294,6 +288,16 @@ public class AnalysisController {
 		}
 		
 		return "jsonView";
+	}
+	
+	/* 성장그래프- 음성분석 */
+	@RequestMapping(value = "/voice/retrieveGrowth.do")
+	public String voiceRetrieveGrowth(HttpSession session, Model model) {
+		MemberVO memverVO = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = memverVO.getMemId();
+		
+		
+		return "";
 	}
 
 	
