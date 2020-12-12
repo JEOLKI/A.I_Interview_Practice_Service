@@ -131,6 +131,7 @@
 			<mvc:exclude-mapping path="/login/**"/>
 			<mvc:exclude-mapping path="/js/**"/>
 			<mvc:exclude-mapping path="/css/**"/>
+			<mvc:exclude-mapping path="/images/**"/>
 			<mvc:exclude-mapping path="/WEB-INF/views/layout/**"/>
 			<mvc:exclude-mapping path="/WEB-INF/config/**"/>
 			<mvc:exclude-mapping path="/common/**"/>
