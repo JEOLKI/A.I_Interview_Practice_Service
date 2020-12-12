@@ -9,54 +9,46 @@
 
 <style type="text/css">
 	
-	
-	#table, table{
-		width:1000px;
-	}
-	
-	table, th, td{
-		border: solid 1px black;
-	}
-	
 	#boardGu1{
-		background: linear-gradient(-40deg,#1c94c1,#75dfc8);
-		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px);
+		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px),  linear-gradient(-40deg,#1c94c1,#75dfc8);
 	}
 	
 	#boardGu2{
-		background: linear-gradient(-40deg,#140d57,#1391aa);
+		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px),  linear-gradient(-40deg,#140d57,#1391aa);
 	}
 	
 	#boardGu3{
-		background: linear-gradient(-40deg,#8b1c1c,#2717a3);
+		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px),  linear-gradient(-40deg,#8b1c1c,#2717a3);
 	}
 	
 	#boardGu4{
-		background: linear-gradient(-40deg,#8b1c1c,#2717a3);
+		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px), linear-gradient(-40deg, #00b4db, #0083b0);
 	}
 	
- 	.boarding{ 
- 		display: inline-block; 
- 	}
- 	
-	.button-search{ 
-		text-align: right; 
-		margin-top: 30px;   
-		margin-right : 15%;
- 	}
- 	
-	.paging{ 
-		text-align: center;
+	.body{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 50px;
 	}
 	
-	.write{
-		text-align: right;
+	.blog-main{
+		width: 70%
 	}
 	
-	.blogmain{
-		width: 70%;
-		margin: auto;
+	.table-responsive, #dataTable{
+		width: 100%;		
 	}
+	
+	 #dataTable{
+	 	text-align: center;
+	 }
+	 
+	 tr{
+	 	border : 1px solid black;
+	 }
+	 
+	 
 	
 	#catContent{
 		font-size: 0.8em;
@@ -66,7 +58,9 @@
 		border-radius: 3px;
 		padding: 1px 10px;
 		background-color: white;
-		margin-right: 5px;
+		margin-left: 30px;
+		background-color: #D9E5FF;
+		float: left;
 	}
 	
 </style>
@@ -107,7 +101,7 @@
 </head>
 <body>
 <form:form commandName="boardVO" id="listForm" name="listForm" method="get">
-	<div id="root boarding">
+	<div id="root">
 		<div class="Main false">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			
@@ -117,12 +111,12 @@
 				</div>
 			</section>
 			
-			<div class="body paging" >
+			<div class="body">
 			
 				<div class="blog-main">
 			
-					<div class="input-group boarding ">
-		        		<ul  class = "button-search ">
+					<div class="input-group">
+		        		<ul class ="button-search">
 		        			<li>
 		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
 		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
@@ -133,7 +127,6 @@
 		                        <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
 		        	            <span class="btn btn-primary">
 		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
-		        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
 		        	            </span>
 		        	        </li>
 		                </ul>
@@ -142,9 +135,9 @@
 			
 					<div class="table-responsive">
 						<table class="table blogmain table-hover" id="dataTable">
-						<thead >
-							<tr >
-								<th >번호</th>
+						<thead>
+							<tr>
+								<th>번호</th>
 								<th>제목</th>
 								<th>작성자 아이디</th>
 								<th>작성일시</th>
@@ -186,12 +179,10 @@
 					</table>
 				</div>
 				
-				<div class = "paging">
+				<div class ="paging">
 				<br>
-				<ul class="pagination boarding">
 				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 				<form:hidden path="pageIndex" />
-				</ul>
 				<input type="hidden" name="boardGbSq" value="${boardGbSq}"/>
 				<input type="hidden" name="boardGbNm" value="${boardGbNm}"/>
 				</div>
