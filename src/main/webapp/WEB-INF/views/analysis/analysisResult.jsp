@@ -146,11 +146,11 @@
 			speedHtml += 	'</div>';
 			speedHtml += 	'<div class="minute-text">';
 				if(speed < 10){
-					speedHtml +=		'<span>1분당</span><br><b>&nbsp;&nbsp;'+speed+'</b>자';
+					speedHtml +=		'<span>1분당</span><br><b>&nbsp;&nbsp;'+Math.ceil(speed)+'</b>자';
 				}else if(speed < 100){
-					speedHtml +=		'<span>1분당</span><br><b>&nbsp;'+speed+'</b>자';
+					speedHtml +=		'<span>1분당</span><br><b>&nbsp;'+Math.ceil(speed)+'</b>자';
 				}else{
-					speedHtml +=		'<span>1분당</span><br><b>'+speed+'</b>자';
+					speedHtml +=		'<span>1분당</span><br><b>'+Math.ceil(speed)+'</b>자';
 				}
 				speedHtml +=	'</div>';
 // 			// 평균대비 속도 퍼센트
