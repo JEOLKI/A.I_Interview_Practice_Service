@@ -215,11 +215,16 @@ public class KeywordController {
 			data.add(map);
 		}
 		
-		TalentVO talentVO = talentService.retrieve(talentSq);
-		model.addAttribute("header",header);
-		model.addAttribute("data",data);
-		model.addAttribute("fileName","KEYWORD");
-		model.addAttribute("sheetName",talentVO.getTalentNm());
+		TalentVO talentVO;
+		try {
+			talentVO = talentService.retrieve(talentSq);
+			model.addAttribute("header",header);
+			model.addAttribute("data",data);
+			model.addAttribute("fileName","KEYWORD");
+			model.addAttribute("sheetName",talentVO.getTalentNm());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return "excelView";
 	}
