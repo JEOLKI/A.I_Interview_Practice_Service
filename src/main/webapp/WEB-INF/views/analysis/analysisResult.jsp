@@ -326,6 +326,7 @@
 		$('.MyAnswer .length span').text(scriptLength);
 	}
 
+	/* 이미지 분석 */
 	function createImageChart(ctx, title, analysis){
 		var myChart = new Chart(ctx, {
 		    type: 'doughnut',
@@ -399,9 +400,10 @@
 		  var canvas = document.getElementById('faceChart');
 		  if (canvas.getContext) {
 		    var ctx = canvas.getContext('2d');
-		    var faceTop = imageAnalysis.faceTop*1 + 200;
+		    var faceTop = imageAnalysis.faceTop*1 + 300;
+		    var faceLeft = imageAnalysis.faceLeft*1 + 50;
 		    ctx.strokeStyle = 'red';
-		    ctx.strokeRect(faceTop , imageAnalysis.faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
+		    ctx.strokeRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
 		  }
 	}
 	
