@@ -116,7 +116,6 @@
 		$.ajax({url : "/analysis/image/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
-				//console.log(data.imageAnalysisGrowth)
 				imageAnalysisList = data.imageAnalysisGrowth;
 				imageGrowthdata(imageAnalysisList);
 			}
@@ -126,7 +125,6 @@
 		$.ajax({url : "/analysis/speed/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
-				console.log(data.answerSpeedGrowth);
 				speedGrowthList = data.answerSpeedGrowth;
 				speedGrowthdata(speedGrowthList);
 			}
@@ -136,7 +134,6 @@
 		$.ajax({url : "/analysis/habit/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
-				console.log(data.habitAnalysisGrowth);
 				habitGrowthList = data.habitAnalysisGrowth;
 				habitGrowthdata(habitGrowthList);
 			}
@@ -146,7 +143,6 @@
 		$.ajax({url : "/analysis/habit/retrieveCount.do",
 			method : "get",
 			success : function(data){
-				console.log("습관어 바 : "+data.habitAnalysisCount);
 				habitCountList = data.habitAnalysisCount;
 				habitList = data.habitList;
 				habitCountHtml(habitCountList,habitList);
@@ -157,10 +153,7 @@
 		$.ajax({url : "/analysis/voice/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
-				console.log("음성 : " + data.voiceAnalysisGrowth);
 				for (var i = 0; i < data.voiceAnalysisGrowth.length; i++) {
-					console.log("데시벨" + data.voiceAnalysisGrowth[i].voiceDecibel)
-					console.log("주파수" + data.voiceAnalysisGrowth[i].voiceRange)
 				}
 				voiceGrowthList = data.voiceAnalysisGrowth;
 				voiceGrowthdata(voiceGrowthList);
@@ -174,7 +167,6 @@
 			$(this).addClass("select");
 			$(".graph-content").hide();
 			$("#"+target+"").show();
-			console.log(target);
 		})
 		
 	    const popUpOpenBtn = document.getElementById("popUpOpenBtn");
@@ -211,7 +203,6 @@
 
 	/* 성장그래프 - 습관어(바) */
 	function habitCountHtml(habitCountList, habitList){
-		console.log("파라미터 : "+ habitCountList);
 		var fullGage = 187;
 		var max = 0;
 		for(var i = 0; i<habitCountList.length; i++){
@@ -219,7 +210,6 @@
 				max = habitCountList[i].habitCount;
 			}
 		}
-		console.log("max : "+max)
 		habitCountHtml = '<div class="unit">(회)</div>';
 		for(var i = 0; i<habitList.length; i++){
 			var gage = 0;
@@ -247,7 +237,6 @@
 	/* 성장그래프 - 습관어(차트) 데이터 */
 	function habitGrowthdata(habitGrowthList){
 		var max = 20;
-		console.log(habitGrowthList.length);
 		
 		
 		analysis = [0];
@@ -256,7 +245,6 @@
 			labels.push(habitGrowthList[i].habitCount);
 			analysis.push(habitGrowthList[i].habitCount);
 		}
-		console.log("보내기전 analysis : "+analysis)
 		var ctx = document.getElementById('habitGrowth');
 		habitGrowthChart(ctx,labels,analysis, max);
 		
@@ -264,7 +252,6 @@
 	
 	/* 성장그래프 - 습관어 그래프 */
 	function habitGrowthChart(ctx,labels,analysis,max){
-		console.log("파라미터 analysis : "+analysis)
 		var myChart = new Chart(ctx, {
 			type: 'line',
 		    data: {
@@ -308,7 +295,6 @@
 	/* 성장그래프 - 말 빠르기 데이터 */
 	function speedGrowthdata(speedGrowthList){
 		var max = 700;
-		console.log(speedGrowthList.length);
 
 		analysis = [0];
 		labels = [0];
@@ -316,7 +302,6 @@
 			labels.push(speedGrowthList[i].ansSpeed);
 			analysis.push(speedGrowthList[i].ansSpeed);
 		}
-		console.log("보내기전 analysis : "+analysis)
 		var ctx = document.getElementById('speedGrowth');
 		speedGrowthChart(ctx,labels,analysis, max);
 		
@@ -324,7 +309,6 @@
 	
 	/* 성장그래프 - 말 빠르기 그래프 */
 	function speedGrowthChart(ctx,labels,analysis,max){
-		console.log("파라미터 analysis : "+analysis)
 		var myChart = new Chart(ctx, {
 			type: 'line',
 		    data: {
@@ -460,23 +444,19 @@
 	/* 음성분석 데이터*/
 	function voiceGrowthdata(voiceGrowthList){
 		var max = 250;
-		console.log(voiceGrowthList.length);
 
 		labels= [0];
 		analysisDecibel = [0];
-		analysisRange = [0];
 		for(var i = voiceGrowthList.length-1 ; i >=0 ; i--){
 			labels.push(voiceGrowthList[i].interviewSq);
 			analysisDecibel.push(voiceGrowthList[i].voiceDecibel);
-			analysisRange.push(voiceGrowthList[i].voiceRange);
 		}
 		var ctx = document.getElementById('voiceGrowh');
-		voiceGrowthChart(ctx,labels, analysisDecibel ,analysisRange, max);
+		voiceGrowthChart(ctx,labels, analysisDecibel, max);
 	}
 	
 	/* 음성분석 차트*/
-	function voiceGrowthChart(ctx,labels,analysisDecibel, analysisRange, max){
-		console.log("파라미터 analysis : "+analysis)
+	function voiceGrowthChart(ctx,labels,analysisDecibel, max){
 		var myChart = new Chart(ctx, {
 			type: 'line',
 		    data: {
@@ -484,12 +464,6 @@
 		        datasets: [{
 		            data: analysisDecibel,
 		            borderColor: "rgb(114,219,237, 1)",
-		            backgroundColor: "rgb(206,240,247, 0.5)",
-		            fill: true,
-		            lineTension: 0
-		        },{
-		            data: analysisRange,
-		            borderColor: "rgb(0,219,237, 1)",
 		            backgroundColor: "rgb(206,240,247, 0.5)",
 		            fill: true,
 		            lineTension: 0
@@ -668,7 +642,7 @@
 								
 								<div id="voiceChart" class="Voice graph-area graph-content">
 									<div class="area" style="">
-										<div class="message">평균 성량과 평균 음역대를 나타냅니다.</div>
+										<div class="message">평균 성량을 나타냅니다.</div>
 										<canvas id="voiceGrowh" class="graph-canvas" width="451" height="330"></canvas>
 									</div>
 								</div>
