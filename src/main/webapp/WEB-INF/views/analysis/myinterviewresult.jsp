@@ -9,11 +9,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI_INTERVIEW</title>
 
-<script src="https://code.jquery.com/jquery-latest.js"></script>
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
-
-<script src="/js/Chart.js"></script>
 <script>
 	
 	$(document).ready(function() {
