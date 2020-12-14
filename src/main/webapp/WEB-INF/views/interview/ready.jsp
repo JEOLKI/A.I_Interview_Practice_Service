@@ -1,33 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI_INTERVIEW</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-latest.js"></script>
 
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
-<style type="text/css">/* Chart.js */
-@
-keyframes chartjs-render-animation {from { opacity:0.99;
-	
-}
-
-to {
-	opacity: 1;
-}
-
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 0.001s;
-}
+<style type="text/css">
 
 .aiInterview-logo{
 		width: 175px;
@@ -36,35 +17,6 @@ to {
 		margin-left: 6px;		
 	}
 	
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1;
-}
-
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0;
-}
-
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0;
-}
 /* The Modal (background) */
 #questionSearch {
 	display: none; /* Hidden by default */
