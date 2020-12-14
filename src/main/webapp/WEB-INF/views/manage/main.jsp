@@ -62,6 +62,11 @@
         margin-left: 250px;
         width: 85%;
         height: 750px;
+        border: none;
+	}
+	
+	body{
+		background-color : #f5f7fb;
 	}
 	
 </style>
