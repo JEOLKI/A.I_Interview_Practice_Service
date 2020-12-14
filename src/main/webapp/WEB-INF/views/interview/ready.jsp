@@ -235,10 +235,26 @@ $(document).ready(function(){
 	});
 });
 
+function removeComma(str){
+	var test = '가나다라 마바사 가나';
+	var result = test.replace('가', '나');
+
+	console.log(result);
+
+}
+
 
 
 function setting(){
+	questionCount = $('.text').length
+	for(i=0; i<questionCount; i++){ // 모든 질문들 ,-> .로변경
+		var result = $('#questionFrm .SetQuestionBox').eq(i).find($('.text')).val().replace(/,/g, '.');
+		$('#questionFrm .SetQuestionBox').eq(i).find($('.text')).val(result);
+		console.log($('#questionFrm .SetQuestionBox').eq(i).find($('.text')).val())
+	}
+	
 	console.log(number);
+	
 	for(i=0; i<$('.text').length; i++){
 		if($('.text').eq(i).val()==''){
 			alert('빈칸인 질문이 있습니다.')

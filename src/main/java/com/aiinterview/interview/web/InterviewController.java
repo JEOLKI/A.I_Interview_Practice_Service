@@ -1,10 +1,7 @@
 package com.aiinterview.interview.web;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,16 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.interview.service.InterviewService;
 import com.aiinterview.interview.service.QuestionService;
 import com.aiinterview.interview.vo.InterviewVO;
@@ -69,7 +61,6 @@ public class InterviewController {
 		try {
 			List<QuestionVO> questionGoList = questionService.retrieveList(interviewSq);
 			model.addAttribute("questionGoList", questionGoList);
-			logger.debug("questionGoList 내용 {} ", questionGoList.get(0).getQuestContent());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -82,6 +73,16 @@ public class InterviewController {
 								 @RequestParam("sampQuestSqList") List<String> sampQuestSqList,
 								 String memId, Model model) {
 		
+		List<String> editQuestionList = new ArrayList<>(); // 치환시킨 문장을 담을 객체
+		
+		for(int i =0; i<questionList.size(); i++) {
+			String edit = questionList.get(i).replace(".",",");
+			editQuestionList.add(edit);
+		}
+		for(int i =0; i<editQuestionList.size(); i++) {
+			logger.debug("확인{}",editQuestionList.get(i));
+		}
+		
 		InterviewVO interviewVO = new InterviewVO(memId); // 인터뷰 객체 생성
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -89,8 +90,8 @@ public class InterviewController {
 		
 		List<QuestionVO> questionVOList = new ArrayList<>();
 		
-		for(int i=0 ; i < questionList.size(); i++) { // 임의 질문 사이즈만큼
-			QuestionVO questionVO = new QuestionVO(questionList.get(i), sampQuestSqList.get(i));
+		for(int i=0 ; i < editQuestionList.size(); i++) { // 임의 질문 사이즈만큼
+			QuestionVO questionVO = new QuestionVO(editQuestionList.get(i), sampQuestSqList.get(i));
 			questionVOList.add(questionVO); // 최종 질문 목록에 추가
 		}
 		

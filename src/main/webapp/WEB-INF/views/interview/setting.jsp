@@ -114,6 +114,7 @@ $(document).ready(function(){
 	$('#micCheckCancel').hide();
 	
 	
+	// 인터뷰 시작 버튼
 	$('.interview-start-btn').on('click',function(){
 		document.location="/interview/start.do";	
 	});
