@@ -298,10 +298,13 @@ public class AnalysisController {
 	public String voiceRetrieveGrowth(HttpSession session, Model model) {
 		MemberVO memverVO = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = memverVO.getMemId();
-		
-		
-		return "";
-	}
 
-	
+		try {
+			List<VoiceAnalysisVO> voiceAnalysisGrowth = voiceAnalysisService.retrieveGrowth(memId);
+			model.addAttribute("voiceAnalysisGrowth", voiceAnalysisGrowth);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "jsonView";
+	}
 }

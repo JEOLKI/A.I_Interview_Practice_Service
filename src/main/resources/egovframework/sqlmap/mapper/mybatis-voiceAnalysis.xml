@@ -21,22 +21,21 @@
 		WHERE ANS_SQ = #{ansSq}
 	</select>
 	
-	<select id="retrieveGrowth" resultType="com.aiinterview.analysis.vo.VoiceAnalysisVO">
-		SELECT  INTERVIEW_SQ,
-				VOICE_DECIBEL,
-				VOICE_RANGE
-		FROM INTERVIEW A, QUESTION B, ANSWER C, (SELECT ROUND(SUM(VOICE_DECIBEL)/COUNT(*)),
-														ROUND(SUM(VOICE_RANGE)/COUNT(*)),
-														ANS_SQ
-													FROM VOICE_ANALYSIS
-												GROUP BY ANS_SQ) D
-		WHERE A.INTERVIEW_SQ = B.INTERVIEW_SQ
-		AND B.QUEST_SQ = C.QUEST_SQ
-		AND C.ANSWER_SQ = D.ANSWER_sQ
-		AND ROWNUM <![CDATA[  <  ]]>6
-		GROUP BY A.INTERVIEW_SQ
-		ORDER BY A.INTERVIEW_SQ DESC
-		
+	<select id="retrieveGrowth" parameterType="String" resultType="com.aiinterview.analysis.vo.VoiceAnalysisVO">
+		SELECT A.INTERVIEW_SQ,
+		       ROUND(AVG(D.VOICE_DECIBEL)) AS VOICE_DECIBEL,
+   			   ROUND(AVG(D.VOICE_RANGE))AS VOICE_RANGE
+		  FROM VOICE_ANALYSIS D, ANSWER C, QUESTION B, (SELECT INTERVIEW_SQ 
+		                             				      FROM INTERVIEW
+		                             				     WHERE MEM_ID = #{memId}
+                                                         AND ROWNUM <![CDATA[  <  ]]>6
+                                                         ORDER BY INTERVIEW_SQ DESC
+                                                         ) A
+		 WHERE A.INTERVIEW_SQ IN B.INTERVIEW_SQ
+		   AND B.QUEST_SQ IN C.QUEST_SQ
+		   AND C.ANS_SQ IN D.ANS_SQ
+		 GROUP BY A.INTERVIEW_SQ 
+         ORDER BY A.INTERVIEW_SQ DESC
 	</select>
 	
 

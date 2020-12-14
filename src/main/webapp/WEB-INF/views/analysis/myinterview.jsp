@@ -153,6 +153,20 @@
 			}
 		})
 		
+		/* 성장그래프 - 음성 */
+		$.ajax({url : "/analysis/voice/retrieveGrowth.do",
+			method : "get",
+			success : function(data){
+				console.log("음성 : " + data.voiceAnalysisGrowth);
+				for (var i = 0; i < data.voiceAnalysisGrowth.length; i++) {
+					console.log("데시벨" + data.voiceAnalysisGrowth[i].voiceDecibel)
+					console.log("주파수" + data.voiceAnalysisGrowth[i].voiceRange)
+				}
+				voiceGrowthList = data.voiceAnalysisGrowth;
+				voiceGrowthdata(voiceGrowthList);
+			}
+		})
+		
 		
 		$(".btn").on('click', function(){
 			target = $(this).data("target");
@@ -350,7 +364,6 @@
 		
 	}
 	
-	
 	function imageGrowthdata(imageAnalysisList){
 		
 		
@@ -442,6 +455,69 @@
 		});
 		
 	}
+	
+	
+	/* 음성분석 데이터*/
+	function voiceGrowthdata(voiceGrowthList){
+		var max = 250;
+		console.log(voiceGrowthList.length);
+
+		labels= [0];
+		analysisDecibel = [0];
+		analysisRange = [0];
+		for(var i = voiceGrowthList.length-1 ; i >=0 ; i--){
+			labels.push(voiceGrowthList[i].interviewSq);
+			analysisDecibel.push(voiceGrowthList[i].voiceDecibel);
+			analysisRange.push(voiceGrowthList[i].voiceRange);
+		}
+		var ctx = document.getElementById('voiceGrowh');
+		voiceGrowthChart(ctx,labels, analysisDecibel ,analysisRange, max);
+	}
+	
+	/* 음성분석 차트*/
+	function voiceGrowthChart(ctx,labels,analysisDecibel, analysisRange, max){
+		console.log("파라미터 analysis : "+analysis)
+		var myChart = new Chart(ctx, {
+			type: 'line',
+		    data: {
+		    	labels: labels,
+		        datasets: [{
+		            data: analysisDecibel,
+		            borderColor: "rgb(114,219,237, 1)",
+		            backgroundColor: "rgb(206,240,247, 0.5)",
+		            fill: true,
+		            lineTension: 0
+		        },{
+		            data: analysisRange,
+		            borderColor: "rgb(0,219,237, 1)",
+		            backgroundColor: "rgb(206,240,247, 0.5)",
+		            fill: true,
+		            lineTension: 0
+		        }]
+		    },
+		    options: {
+		        responsive: true,
+		        legend: {
+		            display: false
+		          },
+		        scales: {
+		        	  xAxes: [{
+			                display: false,
+			                scaleLabel: {
+			                    display: true,
+			                }
+			            }],
+			            yAxes: [{
+			                display: true,
+			                ticks: {
+			                    suggestedMin: 0,
+			                    suggestedMax: max
+			                }
+			            }]
+		        }
+		    }
+		});
+	}
 
 </script>
 
@@ -515,7 +591,7 @@
 						<div class="OrderArea box">
 							<div class="title">이용권 구매하기</div>
 							<div class="sub-title">1일권 부터 7일권까지 있습니다.</div>
-							<a class="start-btn" href="/plan/planList.do">GO!</a>
+							<a class="start-btn" href="/payment">GO!</a>
 						</div>
 
 						<div class="GraphComponent box">
@@ -537,7 +613,7 @@
 										<div class="pot"></div>
 										말 빠르기<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
-									<div class="audio btn false">
+									<div class="audio btn false" data-target="voiceChart">
 										<div class="pot"></div>
 										음성<img id="bashArrow" src="/images/arrow_small.png" alt="" class="dash">
 									</div>
@@ -587,6 +663,13 @@
 											<div class="gray-box"></div>
 										</div>
 										<canvas id="speedGrowth" class="graph-canvas" width="451" height="330"></canvas>
+									</div>
+								</div>
+								
+								<div id="voiceChart" class="Voice graph-area graph-content">
+									<div class="area" style="">
+										<div class="message">평균 성량과 평균 음역대를 나타냅니다.</div>
+										<canvas id="voiceGrowh" class="graph-canvas" width="451" height="330"></canvas>
 									</div>
 								</div>
 								
@@ -670,7 +753,43 @@
 				</div>
 				
 			</div>
-	<%@ include file="/WEB-INF/views/layout/footer.jsp" %>
+			<footer class="Footer --undefined">
+				<div class="footer-body">
+					<div class="info">
+						<span>(주) 두들린</span><br>서울특별시 마포구 마포대로122, 프론트원 16층 | 대표 :
+						이태규<br>사업자등록번호: 513-86-01891 | 마케팅ㆍ제휴 문의 :
+						bryan95@doodlin.co.kr<br>통신판매업신고번호: 2020-서울강남-03334호 | 연락처 :
+						010-3099-2394<br> <br>@Doodlin Corp. All Rights
+						Reserved.
+					</div>
+					<div class="nav-flex">
+						<div class="user-agreement">
+							<a href="/agreement/user-agree">회원이용약관</a>
+						</div>
+						<div class="personal-info">
+							<a href="/agreement/personal-agree">개인정보처리방침</a>
+						</div>
+						<div class="about-us">ABOUT US</div>
+					</div>
+					<div class="logo-area">
+						<div class="icons">
+							<a
+								href="https://www.facebook.com/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5-%EB%AA%A8%EC%9D%98%EB%A9%B4%EC%A0%91-iamterview-103464748013569"
+								target="blank"><img
+								src="/static/media/facebook-btn.ba58ba0e.svg" alt=""
+								class="link-btn"></a><a
+								href="https://www.instagram.com/iamterview" target="blank"><img
+								src="/static/media/insta-btn.757adbff.svg" alt=""
+								class="link-btn"></a><a
+								href="https://blog.naver.com/iamterview" target="blank"><img
+								src="/static/media/naver-btn.dda55f6e.svg" alt=""
+								class="link-btn"></a>
+						</div>
+						<img src="/static/media/black.68a48bcd.svg" class="doodlin-logo"
+							alt="doodlin-logo">
+					</div>
+				</div>
+			</footer>
 		</div>
 	</div>
 	

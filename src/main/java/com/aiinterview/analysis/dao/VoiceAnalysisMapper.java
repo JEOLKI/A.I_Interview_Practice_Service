@@ -13,4 +13,6 @@ public interface VoiceAnalysisMapper {
 	
 	public void create(VoiceAnalysisVO voiceAnalysisVO) throws Exception;
 	
+	public List<VoiceAnalysisVO> retrieveGrowth(String memId) throws Exception;
+	
 }

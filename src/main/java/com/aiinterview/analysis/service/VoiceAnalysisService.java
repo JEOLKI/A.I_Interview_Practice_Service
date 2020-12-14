@@ -18,4 +18,8 @@ public class VoiceAnalysisService {
 	public List<VoiceAnalysisVO> retrieveList(String ansSq) throws Exception{
 		return voiceAnalysisMapper.retrieveList(ansSq);
 	}
+	
+	public List<VoiceAnalysisVO> retrieveGrowth(String memId) throws Exception{
+		return voiceAnalysisMapper.retrieveGrowth(memId);
+	}
 }
