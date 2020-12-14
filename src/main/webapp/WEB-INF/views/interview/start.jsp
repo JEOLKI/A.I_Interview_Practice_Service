@@ -7,7 +7,6 @@
 <script src="/js/capture.js"></script>
 <script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <link rel="stylesheet" href="/css/main.css" type="text/css" media="all">
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script type="text/javascript">
 	var docV = document.documentElement;
 	SetTime = 0; // 타이머 초기값(경과시간)
@@ -66,11 +65,16 @@
     };
         
    	recognizer.recognized = (s, e) => { // 음성에서 스크립트 추출
-//    		editText = e.result.text.replace(/undefined/g,'');
-// 		console.log(`RECOGNIZED: `+editText);
+   		editText = e.result.text.replace(/undefined/g,'');
+   		console.log('음성인식 : '+ editText);
+   	
 		console.log(`RECOGNIZED: Text=${e.result.text}`);
-	    phraseDiv.innerHTML += e.result.text;
-	    answer+=e.result.text;
+	    phraseDiv.innerHTML += editText;
+	    answer+=editText;
+	    
+// 		console.log(`RECOGNIZED: Text=${e.result.text}`);
+// 	    phraseDiv.innerHTML += e.result.text;
+// 	    answer+=e.result.text;
  	   if (e.result.reason == ResultReason.RecognizedSpeech) {
     	}
     	else if (e.result.reason == ResultReason.NoMatch) {
@@ -657,10 +661,10 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam" style="display: ">
+	<div class="webcam" style="display:">
 		<div class="contentarea">
 			<div class="camera">
-				<video id="video" autoplay >Video stream not available.</video>
+				<video id="video" autoplay muted>Video stream not available.</video>
 				<button id="startbutton">Take photo</button> 
 			</div>
 			<canvas id="canvas"></canvas>
