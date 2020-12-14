@@ -380,8 +380,8 @@
 		
 		$("#negativeChart").empty();
 		var negativeEmotion = imageAnalysis.anger*1 + imageAnalysis.contempt*1 + imageAnalysis.disgust*1 + imageAnalysis.sadness*1;
-		title = ['other', 'anger', 'contempt', 'disgust', 'sadness']
-		analysis = [ 1 - negativeEmotion , imageAnalysis.anger, imageAnalysis.contempt, imageAnalysis.disgust, imageAnalysis.sadness];
+		title = ['other', 'negative']
+		analysis = [ 1 - negativeEmotion , negativeEmotion];
 		ctx = document.getElementById('negativeChart');
 		createImageChart(ctx, title, analysis);
 		$("#negativeSpan").empty().append(Math.round(negativeEmotion*100) + "%")
@@ -389,8 +389,8 @@
 		
 		$("#panicChart").empty();
 		var panicEmotion = imageAnalysis.fear*1 + imageAnalysis.surprise*1;
-		title = ['other', 'fear', 'surprise']
-		analysis = [ 1 - panicEmotion ,  imageAnalysis.fear , imageAnalysis.surprise ];
+		title = ['other', 'panicEmotion']
+		analysis = [ 1 - panicEmotion ,  panicEmotion ];
 		ctx = document.getElementById('panicChart');
 		createImageChart(ctx, title, analysis);
 		$("#panicSpan").empty().append(Math.round(panicEmotion*100) + "%")
