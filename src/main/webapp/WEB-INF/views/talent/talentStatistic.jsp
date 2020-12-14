@@ -21,7 +21,7 @@
 /*   height: 500px; */
 /* } */
 #search{
-		display: inline-block; 
+		display: inline-block;
 	}
 	
 	.listmenu, .conditionmenu{
@@ -39,13 +39,11 @@
 		font-weight:bold;
 	}
 	
-	th, td{
+	td{
 		width: 250px;
 		text-align: center;
 	}
-	th{
-		font-size: 1.2em;
-	}
+	
 	tr{
 		height: 50px;
 	}
@@ -54,9 +52,17 @@
 		float : left;
 		width: 45%;
 	}
-	.title{
+	.title th{
+		width: 250px;
 		border-bottom: 2px solid black;
+		text-align: center;
+		font-size: 1.2em;
 	}
+	
+	table{
+		border-collapse: collapse;
+	}
+	
 	.chart{
 		padding :10px;
 		margin-left: 50px;
