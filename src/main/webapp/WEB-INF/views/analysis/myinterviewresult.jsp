@@ -13,29 +13,44 @@
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 
-<script src="/js/2.f1e4c4b1.chunk.js"></script>
-<script src="/js/main.a74e6755.chunk.js"></script>
-
 <script src="/js/Chart.js"></script>
 <script>
 	
 	$(document).ready(function() {
 		
-		$(".QuestionReview").on('click', function(){
+		$(".question-toggle").on('click', function(){
+			
 			$(".report").empty();
-	         $(this).addClass("open");
-	         $(this).removeClass("close")
-			var questSq = $(this).data("quest_sq");
-			console.log(questSq);
+			
+			if($(this).parent().attr("class").indexOf("close")>0){
 				
-			$.ajax({
-					url : "/analysis/answer/retrieve.do",
-					data : { "questSq" : questSq },
-					success : function(data){
-						var html = data;	
-						$("#report"+questSq+"").html(html);
-					}
-			})
+				$(this).parent().addClass("open");
+				$(this).parent().removeClass("close")
+				
+				$(this).parent().prevAll().addClass("close")
+				$(this).parent().nextAll().addClass("close")
+				
+				$(this).parent().prevAll().removeClass("open")
+				$(this).parent().nextAll().removeClass("open")
+
+				
+				var questSq = $(this).data("quest_sq");
+				console.log(questSq);
+					
+				$.ajax({
+						url : "/analysis/answer/retrieve.do",
+						data : { "questSq" : questSq },
+						success : function(data){
+							var html = data;	
+							$("#report"+questSq+"").html(html);
+						}
+				})
+				
+			}else if($(this).parent().attr("class").indexOf("open")>0){
+				$(this).parent().addClass("close");
+				$(this).parent().removeClass("open");
+			} 
+	
 		})
 		
 	});
@@ -104,8 +119,8 @@
 				</form>
 
 					<c:forEach items="${resultList }" var="question">
-						<div class="QuestionReview close" data-quest_sq="${question.questSq }">
-							<div class="question-toggle">
+						<div class="QuestionReview close">
+							<div class="question-toggle" data-quest_sq="${question.questSq }">
 								<div class="mark-color"></div>
 								<div class="no">질문 ${question.rnum }</div>
 								<div class="question">${question.questContent }</div>
