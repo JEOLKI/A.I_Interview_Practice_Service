@@ -108,21 +108,13 @@
 			<a href="/habit/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;습관어 관리</a>
 			<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;습관어 통계</a>
 		</div>
-		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_e()">
-			&ensp;&ensp;스크립트 관리<i class="fa fa-caret-down"></i>
-		</button>
-		<div id="demoAcc3_e" class="w3-hide w3-white w3-card">
-			<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;스크립트 구분 관리</a>
-			<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;스크립트 관리</a>
-			<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;스크립트 통계</a>
-		</div>
 	</div>
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc4()">
 		스크립트 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc4" class="w3-hide w3-white w3-card">
-		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;스크립트 구분 관리</a>
+		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;스크립트 관리</a>
 	</div>
 </div>
 

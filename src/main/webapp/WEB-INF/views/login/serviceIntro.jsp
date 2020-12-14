@@ -7,13 +7,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI-Interview</title>
 
-
-
-<link rel="stylesheet"
-   href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
 <style type="text/css">/* Chart.js */
 /*
  * DOM element rendering detection

@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Insert title here</title>
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
 <script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
 
 
@@ -155,7 +152,12 @@ function captureMicrophone(callback){
 								alert('마이크를 연결해주세요.');
 								console.error(error);
 	});
-	};
+};
+	
+function select(){
+	//$(this).attr('class') = 'active';
+	$(this).attr({"aria-expanded":"true", "class":"active"});
+}
 </script>
 
 <style>
@@ -170,12 +172,12 @@ function captureMicrophone(callback){
 	background-color : #EBECF0;
 	top: 0px;
 	left: 0;
-	width : 550px;
-	height : 250px;
+	width : 250px;
+	height : 150px;
 	justify-content: center;
 	align-items: center;
 	border : 3px solid black;
-	font-size : 18pt;
+	font-size : 12pt;
 	display: block;
 	margin : auto;
 	padding: auto;
@@ -192,7 +194,6 @@ function captureMicrophone(callback){
 
 .pro {
 	margin: 10px;
-	border-bottom: 3px solid black;
 	height: 50%;
 }
 
@@ -209,7 +210,7 @@ function captureMicrophone(callback){
 
 #startTestBtn{
 	border-radius: 30px;
-	font-size : 15pt;
+	font-size : 12pt;
 }
 
 .informLbl{
@@ -220,24 +221,24 @@ function captureMicrophone(callback){
 
 <body>
 	<div class="pro">
-		<div class="menuSelect">
+		<ul class="nav nav-tabs">
 			<c:forEach items="${scriptGbList }" var="scriptGb">
-						<button class="processBtn" value="${scriptGb.scriptGbSq }" style="text-align: left" onclick="random(${scriptGb.scriptGbSq });">
-							<div class="label thislabel">${scriptGb.scriptGbContent }</div>
-						</button>
-						<input type="hidden" name="scritGbSq"
-							value="${scriptGb.scriptGbSq }">
-						<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
+					<li onclick="select()">
+			    		<a data-toggle="tab" value="${scriptGb.scriptGbSq }" onclick="random(${scriptGb.scriptGbSq });" aria-expanded="false">${scriptGb.scriptGbContent }</a>
+				   </li>	
+				<input type="hidden" name="scritGbSq"
+					value="${scriptGb.scriptGbSq }">
+				<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
 			</c:forEach>
-		<button class="processBtn" id="testCloseBtn">close</button>
-		</div>
+			</ul>
+<!-- 		<button class="processBtn" id="testCloseBtn">close</button> -->
 	</div>
 			
 			<div class="popup-content" id="scriptModalContent">
 				
 			</div>
 			
-			<div style="text-align: center"><br><br>
+			<div style="text-align: center"><br>
 			<label class="informLbl">내가 말한</label>
 			<br>
 			<div id="phraseDiv">
@@ -266,8 +267,8 @@ function captureMicrophone(callback){
 <script>
 const modalCloseBtn = document.getElementById("testCloseBtn");
 
-modalCloseBtn.addEventListener("click", () => {
-	window.close();
-  });
+// modalCloseBtn.addEventListener("click", () => {
+// 	window.close();
+//   });
 </script>
 </html>
