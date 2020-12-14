@@ -8,10 +8,6 @@
 <link href="/css/main.8acfb306.chunk.css?v=2" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- summernote -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-
 
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
@@ -22,3 +18,6 @@
 <!-- chart -->
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<!-- font -->
+<script src="https://kit.fontawesome.com/2f548c6c2d.js" crossorigin="anonymous"></script>
