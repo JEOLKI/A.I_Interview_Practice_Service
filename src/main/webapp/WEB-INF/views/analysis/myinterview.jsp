@@ -528,19 +528,19 @@
 						
 						<div class="ProspectArea box">
 							<div class="title">
-								목표기업<a class="link" href="/personal-info">내 프로필</a>
+								목표기업<a class="link" href="/member/myprofileview.do">내 프로필</a>
 							</div>
 							<div class="flex">
 								<span>기업</span>
-								<div class="prospect null false">
-									없음
+								<div class="prospect">
+									${S_MEMBER.memTargetCompany }
 									<div class="under-line"></div>
 								</div>
 							</div>
 							<div class="flex">
 								<span>직무</span>
-								<div class="prospect null false">
-									없음
+								<div class="prospect">
+									${S_MEMBER.memTargetJob }
 									<div class="under-line"></div>
 								</div>
 							</div>
