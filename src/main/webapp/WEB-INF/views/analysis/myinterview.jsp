@@ -364,7 +364,7 @@
 		var ctx = document.getElementById('positiveChart');
 		imageGrowthChart(ctx, labels, title, analysis);
 		
-		title = ['netural']
+		title = ['neutral']
 		analysis = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			analysis.push(imageAnalysisList[i].neutral);
