@@ -357,6 +357,7 @@
 		});
 	}
 	
+	/** 이미지 분석 **/
 	function imageAnalysisChart(imageAnalysis){
 		$("#positiveChart").empty();
 		var title = ['other', 'happiness']
@@ -588,17 +589,11 @@
 	<div class="title">답변영상 분석</div>
 	<div class="ReviewVideo content-box">
 		<div class="review-video-area">
-			<img
-					src="/images/calm.e5d1123e.png"
-					class="review-video">
-			<div class="review-controller">
-				<div class="full-btn shown">
-					<img
-						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEEAAABKCAYAAADkMDmGAAAABHNCSVQICAgIfAhkiAAAA3pJREFUeF7tnMlqFUEUhr9/ob6AICI+gYhL3bh04TsI7gVdGKdIxIFoEDG6iMPC2SAOKIo4ghtBF4KCwQkEZ3EWVOKsLUe6JF7IpW66c3s4qWWodPX/dVG3zn9OlRhraIwB/0NIkmQaMCjpkSc4f2dCkiSzgRPAxFT8JWC5pOseYCj9+jeA8Q2CE6A/hfGizjAMwllgbhORX4DNQI+kz3WEYRBeApMixD0HVko6ENG3Ul0Mgk37VpqtE4skXW3ln8rcdyQQgp5jwFJJj8ssMObdskCw538DtgLrJX2KGbCMfbJCCJpeA6uAXZJ+l1Fos3fKC0IY4zawQNLlKoHIG0LQfhrokHS/CjBGC4Jp/wFsB1ZL+lBmGKMJIeh+D6wBdkj6WUYY7YAQdN8Dlkg6UzYQ7YQQtFtwZputO2WBUQQE0/7Lfk6BLklvi4ZRFISg+yPQbRsuSbaQFtKKhhBEPwCWSTpeBIWyQAjar6SbrYF2wigbBNNuUe3+NGxvi5lTRghhEgwCG4FNkr6O5swoM4Sg+ynQCRyS1Kr3EcWuChCCEDNzLDi7FqWshU5VghBkHU7NnGct6GzatYoQTJCtEb3ABkm2dmRqVYUQRJtJ3AXsybJeVB1CgHEzjUdGZObUBUKAcTI1c2wHGt3qBsGEfwf6gHWxZk4dIYQZYNGpmTk7JVnUOmyrM4Qg2nwL8zvPD0fBA4Sg/QIwX9KrRhieIJj2h8BMSW+GgvAGwbT3SVroHcItSdO9QxiQNMM7hF5JHZ4hWFpwliRLCP1rnhbGi8C8xl8GI+EBwt10s3TO42bp3ZAcqLttsyVxLIBa6zWAOgUsluQylM5UIVP1hTHYa3uz1EpVFYIZrVvSqjmXRuuRtN46t/rJKs0E18kXS7Ks8JqGc52QtaSrVdJ3SnKZmnddpOG6XMd14Zb7Ej7XxZyuy3pdF3ibubHN3J1YcyM6l55zx9GKHVwf+shkbuT8gaMfl9dMsEyvHQTbncXciH7rnDtmhWBHAs3c6M6jiixnbdGPywLhaFqZnpu5Ef3WOXccCYRaHhM202JKBFw7MG41xv1ZagYjxml7F5sJ+6yMpcnIdnVAj10fUOerA6YClq2d0ADCzI2DZm21y9xo+xRIBwzXidhdKrbKz0n/7us6kaH0kySZDIyT9KSor1LEuGNXDFl9QhHkyzbmHyAfvFpPdmuzAAAAAElFTkSuQmCC"
-						alt="btn-icon">
-				</div>
-				<div class="time">0</div>
-			</div>
+			<video autoplay="autoplay" controls="controls" class="review-video">
+				<source src="${cp }/answer/video.do?questSq=${questSq}"
+            		type="video/webm">
+			
+			</video>
 			<div class="review-emotion">
 				<div class="happy max">
 					긍정적 <b>0%</b>
@@ -616,23 +611,11 @@
 			<div class="review-face"
 				style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
 		</div>
+		
 		<div class="comments">
-			<div class="comment select">
-				<div class="time">0:04</div>
-				<div class="text">너무 경직 되어있습니다. 긴장을 풀어주세요.</div>
-			</div>
-			<div class="comment one">
-				<div class="time">0:04</div>
-				<div class="text">긍정적인 표정입니다. 계속 유지해주세요.</div>
-			</div>
-			<div class="comment two">
-				<div class="time">0:05</div>
-				<div class="text">좀 더 미소를 지으면서 답변하면 좋겠어요.</div>
-			</div>
-			<div class="comment three">
-				<div class="time">0:11</div>
-				<div class="text">목소리 크기가 너무 커요.</div>
-			</div>
+			
+			
+			
 		</div>
 	</div>
 	

@@ -65,6 +65,7 @@
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 	
 	<bean id="ProfileImgView" class="com.aiinterview.common.view.ProfileImgView"/>
+	<bean id="videoView" class="com.aiinterview.common.view.VideoView"/>
 	
 	<bean id="excelView" class="com.aiinterview.common.view.ExcelDownloadView"/>
 	

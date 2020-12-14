@@ -18,6 +18,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +29,6 @@ import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.analysis.vo.VoiceAnalysisVO;
-import com.aiinterview.board.vo.AttachmentVO;
-import com.aiinterview.common.util.FileUploadUtil;
 import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.KeywordMatchingService;
@@ -294,6 +293,21 @@ public class AnswerController {
         
 		
 		return "jsonView";
+	}
+	
+	
+	
+	@RequestMapping(path = "/video.do", method = { RequestMethod.GET })
+	public String profile(String questSq,Model model){
+		
+		AnswerVO answerVO = new AnswerVO();
+		try {
+			answerVO = answerSeivce.retrieve(questSq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("videoPath", answerVO.getVideoPath());
+		return "videoView";
 	}
 	
 }
