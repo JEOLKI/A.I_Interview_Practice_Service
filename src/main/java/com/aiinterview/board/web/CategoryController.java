@@ -74,7 +74,7 @@ public class CategoryController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "board/categoryList";
+		return "manage/categoryManage";
 	}
 	
 	@RequestMapping(value="/create.do")

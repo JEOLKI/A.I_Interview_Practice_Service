@@ -82,7 +82,7 @@ public class BoardGubunController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "board/boardGbList";
+		return "manage/boardGbManage";
 	}
 	
 	@RequestMapping(value = "/create.do")
