@@ -72,22 +72,19 @@ INSERT INTO REPLY VALUES(3,1,'제가 보기엔 조금 과해요',SYSDATE,'Y','TE
 INSERT INTO REPLY VALUES(4,2,'자료 공유 가능할까요',SYSDATE,'Y','TEST_ID');
 
 -- ATTACHMENT
-INSERT INTO ATTACHMENT VALUES(1,1,'D:\brown.png','brown.png');
-INSERT INTO ATTACHMENT VALUES(2,2,'D:\sally.png','sally.png');
-INSERT INTO ATTACHMENT VALUES(3,3,'D:\cony.png','cony.png');
+INSERT INTO ATTACHMENT VALUES(1,1,'brown.png', 'D:\brown.png');
+INSERT INTO ATTACHMENT VALUES(2,2,'sally.png', 'D:\sally.png');
+INSERT INTO ATTACHMENT VALUES(3,3,'cony.png', 'D:\cony.png');
 
 -- SCRIPT_GB
 INSERT INTO SCRIPT_GB VALUES(1,'영어','Y');
-INSERT INTO SCRIPT_GB VALUES(2,'일본어','Y');
-INSERT INTO SCRIPT_GB VALUES(3,'러시아어','Y');
-INSERT INTO SCRIPT_GB VALUES(4,'한국어','Y');
+INSERT INTO SCRIPT_GB VALUES(2,'한국어','Y');
 
 -- SCRIPT
-INSERT INTO SCRIPT VALUES(1,'동해물과 백두산이 마르고 닳도록','Y',4);
-INSERT INTO SCRIPT VALUES(2,'간장공장 공장장은 강공장장이다.','Y',4);
-INSERT INTO SCRIPT VALUES(3,'내가 그린 기린 그림은 긴 기린그림이다.','Y',4);
-INSERT INTO SCRIPT VALUES(4,'치키치키 차카차카 초코초코 초','Y',4);
-INSERT INTO SCRIPT VALUES(5,'私は前転をよくします','Y',2);
+INSERT INTO SCRIPT VALUES(1,'동해물과 백두산이 마르고 닳도록','Y',2);
+INSERT INTO SCRIPT VALUES(2,'간장공장 공장장은 강공장장이다.','Y',2);
+INSERT INTO SCRIPT VALUES(3,'내가 그린 기린 그림은 긴 기린그림이다.','Y',2);
+INSERT INTO SCRIPT VALUES(4,'치키치키 차카차카 초코초코 초','Y',2);
 INSERT INTO SCRIPT VALUES(6,'We are the one','Y',1);
 
 -- SCRIPT_TEST
