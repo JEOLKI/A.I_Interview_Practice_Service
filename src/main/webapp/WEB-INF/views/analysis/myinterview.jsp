@@ -53,7 +53,7 @@
 		padding-top: 10%;
 	}
 	
-	#gazeChart, #speedChart, #habitChart{
+	#gazeChart, #speedChart, #habitChart,#voiceChart{
 		display: none;
 	}
 	
@@ -641,7 +641,7 @@
 								</div>
 								
 								<div id="voiceChart" class="Voice graph-area graph-content">
-									<div class="area" style="">
+									<div class="area" style="margin-top:60px;">
 										<div class="message">평균 성량을 나타냅니다.</div>
 										<canvas id="voiceGrowh" class="graph-canvas" width="451" height="330"></canvas>
 									</div>
