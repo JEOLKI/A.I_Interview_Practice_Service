@@ -163,7 +163,6 @@
 
 </head>
 <body>
-<div id="box">
 	<h1>게시판 관리</h1>
 	
 	<div class="contentBox">
@@ -242,6 +241,5 @@
 			</div>
 		</form:form>
 	</div>
-</div>
 </body>
 </html>
