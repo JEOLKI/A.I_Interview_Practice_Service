@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-
 <script>
 	var talentNm = '';
 	var habitMap = '';
-	var repeatList = '';
+	var habitLength = '';
+	var habitLength = '';
 	$(document).ready(function() {
 			$.ajax({
 					url : "/analysis/answer/retrieveAnalysis.do",
@@ -79,7 +79,7 @@
 				$(this).removeClass('false');
 				$(this).addClass('select');
 				if($(this).text() == '습관어'){
-					createHabitHtml(habitMap);
+					createHabitHtml(habitMap,habitLength);
 				} else if($(this).text() == '반복어'){
 					createRepeatHtml(repeatList);
 				}
