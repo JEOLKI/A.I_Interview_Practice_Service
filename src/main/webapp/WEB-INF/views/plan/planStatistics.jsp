@@ -15,8 +15,6 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
  <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -287,9 +285,10 @@ $(document).ready(function(){
 						 html += '<tr class="plan">';
 						 html += '<td>'+planUse.rn+'</td>';
 						 html += '<td class="planNm">'+planUse.planNm+'</td>';
-						 html += '<td class="planPrice" value="'+planUse.planPrice+'">'+planUse.planPrice+'</td>';
+						 html += '<td class="planPrice" value="'+planUse.planPrice+'">'+numberWithCommas(planUse.planPrice)+'</td>';
 						 html += '<td class="useCount" value="'+planUse.useCount+'">'+planUse.useCount+'</td>';
-						 html += '<td class="sale" value="'+planUse.sale+'">'+planUse.sale+'</td>';
+						 html += '<td class="sale" value="'+planUse.sale+'">'+numberWithCommas(planUse.sale)+'</td>';
+
 						 html += '</tr>';
 						 
 						 countSum += planUse.useCount;
@@ -300,13 +299,12 @@ $(document).ready(function(){
 					 html += '<td></td>';
 					 html += '<td></td>';
 					 html += '<td id="countSum" value="'+countSum+'">'+countSum+'</td>';
-					 html += '<td id="countSum" value="'+saleSum+'">'+saleSum+'</td>';
+					 html += '<td id="countSum" value="'+saleSum+'">'+numberWithCommas(saleSum)+'</td>';
 					 $('#saleList').empty();
 					 $('#saleList').append(html);
 					chartData2.push({plan:"Total", sale:saleSum})
 					chart.data =  chartData2;
 					
-					console.log(chart.data);
 						   
 
 						var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -317,7 +315,7 @@ $(document).ready(function(){
 
 						var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 						valueAxis.min = 0;
-						valueAxis.max =  100000;
+						valueAxis.max =  saleSum+10000;
 						valueAxis.strictMinMax = true;
 						valueAxis.renderer.minGridDistance = 30;
 						// axis break
@@ -377,6 +375,9 @@ $(document).ready(function(){
 
 
 })
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 
 </script>
