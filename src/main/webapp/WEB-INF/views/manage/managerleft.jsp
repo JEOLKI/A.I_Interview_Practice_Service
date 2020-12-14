@@ -91,7 +91,7 @@
 		</button>
 		<div id="demoAcc3_b" class="w3-hide w3-white w3-card">
 			<a href="/talent/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;인재상 관리</a>
-			<a href="#" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;인재상 통계</a>
+			<a href="/talent/statistics.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;인재상 통계</a>
 		</div>
 		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_c()">
 			&ensp;&ensp;질문 관리<i class="fa fa-caret-down"></i>
