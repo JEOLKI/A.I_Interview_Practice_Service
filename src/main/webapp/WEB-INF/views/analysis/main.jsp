@@ -184,7 +184,7 @@ to {
 						<div class="OrderArea box">
 							<div class="title">이용권 구매하기</div>
 							<div class="sub-title">1일권 부터 7일권까지 있습니다.</div>
-							<a class="start-btn" href="/payment">GO!</a>
+							<a class="start-btn" href="/plan/planList.do">GO!</a>
 						</div>
 
 						<div class="GraphComponent box">
