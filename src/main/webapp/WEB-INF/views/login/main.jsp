@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style>
-.logo{
+.aiInterview-logo{
 		width: 175px;
 		height: 52px;
 		margin-top: 5px;
@@ -77,7 +77,7 @@ $(document).ready(function() {
 				
 					<div class="title">인공지능으로 연습하는 실전 면접</div>
 					<div class="sub-message">
-						당장 다음 주에 잡힌 면접, 어떻게 해야 할지 막막하신가요?<br>아이엠터뷰와 함께 혼자서도, 집에서도 할 수
+						당장 다음 주에 잡힌 면접, 어떻게 해야 할지 막막하신가요?<br>AI_INTERVIEW와 함께 혼자서도, 집에서도 할 수
 						있는 면접 트레이닝을 경험해 보세요.
 					</div>
 					<img src="/images/landing_hero_illust.a57fd7e5.svg"
@@ -89,7 +89,7 @@ $(document).ready(function() {
 			
 			<div class="content gray calc">
 				<div class="message">
-					지금도 많은 취업준비생들이<br>아이엠터뷰와 함께 면접을 준비하고 있습니다.
+					지금도 많은 취업준비생들이<br>AI_INTERVIEW와 함께 면접을 준비하고 있습니다.
 				</div>
 				<div class="calc-num wow fadeInUp"
 					style="visibility: visible; animation-name: fadeInUp;">
@@ -274,7 +274,7 @@ $(document).ready(function() {
 						만족할 때까지<br> <b>무제한</b>으로 연습해 보세요.
 					</div>
 					<div class="sub-message wow fadeInUp">
-						아이엠터뷰는 면접 생성부터 분석까지의 과정을<br>여러 번 순환할 수 있도록 구성되어 있습니다.<br>스스로
+						AI_INTERVIEW는 면접 생성부터 분석까지의 과정을<br>여러 번 순환할 수 있도록 구성되어 있습니다.<br>스스로
 						만족할 만한 결과가 나올 때까지 무제한으로 연습해 보세요.
 					</div>
 				</div>
@@ -342,16 +342,16 @@ $(document).ready(function() {
 				</div>
 				<div class="left">
 					<div class="link">
-						<a href="/agreement/user-agree">회원이용약관</a>
+						<a href="/login/userAgree.do">회원이용약관</a>
 					</div>
 					<div class="link">
-						<a href="/agreement/personal-agree"><b>개인정보처리방침</b></a>
+						<a href="/login/personalAgree.do"><b>개인정보처리방침</b></a>
 					</div>
 					<div class="link">
 						<a target="blank" href="/">ABOUT US</a>
 					</div>
 					<div class="aiInterview">
-						<b>(주) 두들린</b><br>서울시 마포구 마포대로 122, 프론트원 16층<br>대표 : 이태규
+						<b>(주) OURTECH</b><br>대전 중구 중앙로76, 영민빌딩 4층<br>대표 : 홍정기
 						<div class="icons">
 							<a
 								href="https://www.facebook.com/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5-%EB%AA%A8%EC%9D%98%EB%A9%B4%EC%A0%91-iamterview-103464748013569"
@@ -362,12 +362,13 @@ $(document).ready(function() {
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAArdJREFUWEfVma9vFUEQxz9jSCA4FIIEBYpAggIJCQocPxIMWDTugQT+BYJrDaIE1SqSIltF0gZFFckTKFQTSDBLvsfuy3Z7d2/33fbdY5Iz7d7OZ2d25mbmGQuKc+4ccBW4DJwGzgAX/HZT4BfwG/gG7JvZz0VUWclLzjlB3AKuRTC5Wwh6D/hsZoLPkizACOy2t1TW5h2LBLedCzoX0Dl3A3hYASzlFei6mcmqndIL6Jy7C9wbYq6MdzfNbKtrXSugd+kD4GaGghpLdoAPbXezC/DJEuHCAXfMbD097TFA55xcKteOIVtmthkrPgLoA+LpGGSRzrdx4MwA/b17fQLRWnpeRfeLcB9jwDFdmx5i5uoGcIWsF0BnVgyAq2S9ANlYMQC+LPi2Xgf0xHIIfAT+RH9sW/cF0JMjUzN7Zb4qeZPzhl/Tplj/+grsVgTUVhMBqgDQtzZXugD1vnLYj56DlFhQ22wI8Jkvn2oAysXvvauHulg8ewJ8DlzKpfP3L72D8evfgU8d60oteCDAkgARSJ+LA6gAVXGnBykFnArwXYH1cgHlapX6V5K9SwGpBagIVm9yas5hFwKs4WIpVlN0pzJg4+IaQRIsI8CLPZClFmyCpEaaCYrl4sc9ri4FbNJMjUQdKz7f08eUAjaJWulg6KcuVaxOMI1geb4UcFKrWEgVy9X3gbMD0sy/YkEbjNyHdMXUkXJLIw25WTOWVRDNdCYq+/+Pkt+7eVWsOLOeuNK2U1Mr5cUxpb3tDEQjB0x/4x5BqnlXLlum7JrZWqqwb3ikNmBZkOplNrKHR0t29zG3xlbMHWA+OoEcqWhdGzTAjCypFKSiQs/QZC4wjYC3c2bVcy0Ym9uPSASp6X6Y6OcGkobo+7lgYdMiwARWVZDypjpCWViWjX+GkKU0Yzlo2scFf4b4C7quDqJICg9JAAAAAElFTkSuQmCC"
 								alt=""></a>
 						</div>
-						사업자등록번호: 513-86-01891<br>마케팅ㆍ제휴 문의 : bryan95@aiInterview.co.kr<br>@Doodlin
+						사업자등록번호: 199-71-00215<br>마케팅ㆍ제휴 문의 : jeolki93@ourtech.co.kr<br>@Ourtech
 						Corp All Rights Reserved.
 					</div>
 				</div>
 				<div class="right">
-					로고자리
+					<img src="/images/Ai_Interview 로고.png" class="aiInterview-logo"
+				alt="aiInterview-logo">
 				</div>
 			</div>
 		</div>

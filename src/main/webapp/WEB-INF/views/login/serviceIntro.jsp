@@ -80,7 +80,7 @@ to {
                   노트북 하나로<br> 면접 트레이닝을
                </div>
                <div class="content__description">
-                  아이엠터뷰는 다른 앱이나 프로그램을 설치할 필요 없이<br>언제 어디서든 간편하게 면접 트레이닝이 가능한
+                  AI_INTERVIEW는 다른 앱이나 프로그램을 설치할 필요 없이<br>언제 어디서든 간편하게 면접 트레이닝이 가능한
                   서비스입니다.
                </div>
             </div>
@@ -213,12 +213,12 @@ to {
 <!--             <div class="live-video__header-text wow fadeInUp"> -->
 <!--                <div class="header-text__title">면접관들이 보는 나는 어떨까요?</div> -->
 <!--                <div class="header-text__sub-title"> -->
-<!--                   보다 나은 면접능력 향상을 위한 <span>아이엠터뷰만의 평가지표</span> -->
+<!--                   보다 나은 면접능력 향상을 위한 <span>AI_INTERVIEW만의 평가지표</span> -->
 <!--                </div> -->
 <!--             </div> -->
 <!--             <div class="live-video__title wow fadeInUp">실시간 영상분석</div> -->
 <!--             <div class="live-video__description wow fadeInUp"> -->
-<!--                아이엠터뷰는 당신의 빠른 성장을 위해 답변중에 일어난 표정변화, 시선처리,<br>목소리 등 특이사항들을 핀포인트 -->
+<!--                AI_INTERVIEW는 당신의 빠른 성장을 위해 답변중에 일어난 표정변화, 시선처리,<br>목소리 등 특이사항들을 핀포인트 -->
 <!--                체크하여 수정 지침을 타임라인 코멘트로 표시합니다. -->
 <!--             </div> -->
 <!--             <div class="live-video__interviewing-area"> -->
@@ -269,7 +269,7 @@ to {
                   alt="" class="face-gray-icon">
                <div class="header__title">시각 분석</div>
                <div class="header__description">
-                  면접관은 면접자의 답변내용만이 아닌 비언어적 신호에도 주목합니다.<br>아이엠터뷰가 제공하는 도표로 자신의
+                  면접관은 면접자의 답변내용만이 아닌 비언어적 신호에도 주목합니다.<br>AI_INTERVIEW가 제공하는 도표로 자신의
                   모습을 점검해 보세요.
                </div>
             </div>
@@ -354,7 +354,7 @@ to {
                   alt="" class="header__word-gray-icon">
                <div class="header__title">언어 분석</div>
                <div class="header__description">
-                  풍부한 어휘 구사와 절제된 잉여표현은 당신을 더욱 프로페셔널한 사람으로 보이게 합니다.<br>아이엠터뷰와 함께
+                  풍부한 어휘 구사와 절제된 잉여표현은 당신을 더욱 프로페셔널한 사람으로 보이게 합니다.<br>AI_INTERVIEW와 함께
                   자신의 어휘구사 상태를 체크하고 답변 속에 드러난 인재상을 확인해 보세요.
                </div>
             </div>

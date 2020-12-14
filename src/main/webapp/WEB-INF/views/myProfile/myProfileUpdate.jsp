@@ -446,7 +446,7 @@ $.ajax({
 						</div>
 					</div>
 				</div>
-				<%@ include file="/WEB-INF/views/layout/myPageFooter.jsp" %>
+				<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 			</div>
 		</div>
 	</form>

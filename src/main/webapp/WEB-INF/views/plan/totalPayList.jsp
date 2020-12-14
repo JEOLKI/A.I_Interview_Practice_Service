@@ -77,9 +77,7 @@ function myCashList(){
 					
 				</div>
 			</div>
-			<footer class="SemiFooter --undefined">
-				<%@ include file="/WEB-INF/views/layout/myPageFooter.jsp" %>
-			</footer>
+			<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 		</div>
 	</div>
 	

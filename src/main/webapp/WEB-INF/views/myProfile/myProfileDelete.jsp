@@ -124,11 +124,11 @@ to {
 					<div class="content">프로필 사진, 사용자 이름, 사용자 정보 삭제</div>
 				</div>
 				<div class="sub-message">
-					<img src="/images/deletePageCheck.png" alt="" class="check"> 탈퇴 후에도 아이엠터뷰 서비스의 개선을 위한 정보는 남아있습니다.
+					<img src="/images/deletePageCheck.png" alt="" class="check"> 탈퇴 후에도 AI_INTERVIEW 서비스의 개선을 위한 정보는 남아있습니다.
 				</div>
 				<div class="grid">
 					<div class="label_custom">면접 정보</div>
-					<div class="content">면접 영상, 면접 음성 (인공지능 러닝 용도로만 사용되며, 아이엠터뷰
+					<div class="content">면접 영상, 면접 음성 (인공지능 러닝 용도로만 사용되며, AI_INTERVIEW
 						관계자 외에는 절대 열람이 불가능합니다)</div>
 				</div>
 				<div class="sub-message flex">
@@ -136,7 +136,7 @@ to {
 					안내사항을 모두 확인했으며 이에 동의합니다.
 				</div>
 				<button id="deleteBtn" class="delete false">회원탈퇴</button>
-				<%@ include file="/WEB-INF/views/layout/myPageFooter.jsp" %>
+				<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 			</div>
 		</div>
 	</div>

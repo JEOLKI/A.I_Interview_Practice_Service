@@ -6,63 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI_Interview</title>
-<meta name="naver-site-verification"
-	content="94f5ba87b40698d4bc6a88a5e19c99a7d3e1e4c0">
-<meta name="google-site-verification"
-	content="rSYfvWZS1ZnErY0j3In-SemXmy4eYuQXYZcmyXHGY54">
-<meta name="keywords"
-	content="면접, ai면접, 공무원면접, 스피치학원, 면접예상질문, 기업분석, 면접1분자기소개예시, 면접질문, 면접자기소개예시, 스피치, 회사면접질문, 1분자기소개, 모의면접, 면접자기소개, 발음연습, 취업, 화상면접, 실무면접, 자기소개, 인공지능, AI, 취업정보사이트, 취업사이트, PT면접, 비대면, 맞춤, 대기업, 공기업, 공무원">
-<meta property="title" content="iamterview">
-<meta property="og:title" content="iamterview">
-<meta name="description" content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!">
-<meta property="og:description"
-	content="집에서 혼자 하더라도 실전 면접 연습은 iamterview에서!">
-<meta property="og:image" content="/iam.ico">
-<meta name="theme-color" content="#000000">
-<link rel="icon" href="/iam.ico">
-<link rel="manifest" href="/manifest.json">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script type="text/javascript" async=""
-	src="https://cdn.channel.io/plugin/ch-plugin-web.js" charset="UTF-8"></script>
-<script type="text/javascript" async=""
-	src="https://testcpay.payple.kr/js/cpay.payple.1.0.1.js"
-	charset="UTF-8"></script>
-<script
-	src="https://connect.facebook.net/signals/config/943528292826757?v=2.9.29&amp;r=stable"
-	async=""></script>
-<script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <style type="text/css">/* Chart.js */
 /*
@@ -122,13 +66,13 @@ to {
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="Agreement">
-			<%@ include file="/WEB-INF/views/layout/myPageHeader.jsp" %>
+			<%@ include file="/WEB-INF/views/layout/semiHeader.jsp" %>
 			<div class="content">
 				<div class="personal">
 					<div class="title">
 						개인정보처리방침
 						<div class="message">
-							주식회사 두들린('https://www.iamterview.com/'이하 '회사')은(는) 개인정보보호법에 따라
+							주식회사 아워테크('https://www.aiinterview.com/'이하 '회사')은(는) 개인정보보호법에 따라
 							이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은
 							처리방침을 두고 있습니다.<br>
 							<br>회사는 개인정보처리방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.<br>
@@ -158,7 +102,7 @@ to {
 					<div class="message">
 						회사가 개인정보 보호법 제32조에 따라 등록․<br>공개하는 개인정보파일의 처리목적은 다음과 같습니다.
 						<div class="paragraph">
-							<b>개인정보 파일명 :</b> 주식회사 두들린<br>
+							<b>개인정보 파일명 :</b> 주식회사 아워테크<br>
 							<b>개인정보 항목 :</b> 이메일, 휴대전화번호, 비밀번호 질문과 답, 비밀번호, 로그인ID, 성별, 생년월일,
 							이름, 학력, 주민등록번호, 서비스 이용 기록, 접속 로그, 쿠키, 접속 IP 정보, 결제기록<br>
 							<b>수집방법 :</b> 홈페이지, 제휴사로부터 제공 받음<br>
@@ -205,7 +149,7 @@ to {
 					<div class="message">
 						이용자는 개인정보주체로써 다음과 같은 권리를 행사할 수 있습니다.
 						<div class="paragraph">
-							① 정보주체는 주식회사 두들린에 대해 언제든지 개인정보 열람, 정정, 삭제, 처리정지 요구 등의 권리를 행사할 수
+							① 정보주체는 주식회사 아워테크에 대해 언제든지 개인정보 열람, 정정, 삭제, 처리정지 요구 등의 권리를 행사할 수
 							있습니다.<br>② 제1항에 따른 권리 행사는 회사에 대해 개인정보 보호법 시행령 제41조 제1항에 따라
 							서면, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며 회사는 이에 대해 지체 없이 조치하겠습니다.<br>③
 							제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우
@@ -262,14 +206,14 @@ to {
 						<div class="paragraph">
 							<div class="label">▶ 개인정보 보호책임자</div>
 							<div class="semi">
-								성명 : 이태규<br>직책 : CEO<br>직급 : 대표이사<br>연락처 : 010.
-								3099. 2394, bryan95@aiInterview.co.kr<br>
+								성명 : 홍정기<br>직책 : CEO<br>직급 : 대표이사<br>연락처 : 010.
+								1993. 1214, jeolki93@ourtech.co.kr<br>
 								<div class="comment">※ 개인정보 보호 담당부서로 연결됩니다.</div>
 							</div>
 							<div class="label">▶ 개인정보 보호 담당부서</div>
 							<div class="semi">
-								부서명 : 기술개발부<br>담당자 : 서동민<br>연락처 : 010. 2870. 2481,
-								sdm025@aiInterview.co.kr
+								부서명 : 기술개발부<br>담당자 : 부룬이<br>연락처 : 010. 1997. 1002,
+								broony97@ourtech.co.kr
 							</div>
 						</div>
 						② 정보주체께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제
@@ -295,65 +239,9 @@ to {
 					</div>
 				</div>
 			</div>
-			<footer class="SemiFooter --undefined">
-				<%@ include file="/WEB-INF/views/layout/myPageFooter.jsp" %>
-			</footer>
+				<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 		</div>
 	</div>
-	<script>!function(e){function r(r){for(var n,f,i=r[0],l=r[1],a=r[2],c=0,s=[];c<i.length;c++)f=i[c],Object.prototype.hasOwnProperty.call(o,f)&&o[f]&&s.push(o[f][0]),o[f]=0;for(n in l)Object.prototype.hasOwnProperty.call(l,n)&&(e[n]=l[n]);for(p&&p(r);s.length;)s.shift()();return u.push.apply(u,a||[]),t()}function t(){for(var e,r=0;r<u.length;r++){for(var t=u[r],n=!0,i=1;i<t.length;i++){var l=t[i];0!==o[l]&&(n=!1)}n&&(u.splice(r--,1),e=f(f.s=t[0]))}return e}var n={},o={1:0},u=[];function f(r){if(n[r])return n[r].exports;var t=n[r]={i:r,l:!1,exports:{}};return e[r].call(t.exports,t,t.exports,f),t.l=!0,t.exports}f.m=e,f.c=n,f.d=function(e,r,t){f.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},f.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},f.t=function(e,r){if(1&r&&(e=f(e)),8&r)return e;if(4&r&&"object"==typeof e&&e&&e.__esModule)return e;var t=Object.create(null);if(f.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:e}),2&r&&"string"!=typeof e)for(var n in e)f.d(t,n,function(r){return e[r]}.bind(null,n));return t},f.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return f.d(r,"a",r),r},f.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},f.p="/";var i=this["webpackJsonpiam-front"]=this["webpackJsonpiam-front"]||[],l=i.push.bind(i);i.push=r,i=i.slice();for(var a=0;a<i.length;a++)r(i[a]);var p=l;t()}([])</script>
-	<script src="/static/js/2.f1e4c4b1.chunk.js"></script>
-	<script src="/static/js/main.a74e6755.chunk.js"></script>
-	<div id="ch-plugin">
-		<div id="ch-plugin-core">
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<style data-styled="active" data-styled-version="5.1.1"></style>
-			<div data-ch-testid="full-screen-push-message" hidden=""
-				class="FullScreenPushMessagestyled__Wrapper-nxoc25-9 jNIDNu PushMessagestyled__PCPopupMessage-vqm8p7-1 egLHoW"
-				style="z-index: 100000000 !important;">
-				<div
-					class="FullScreenPushMessagestyled__MainWrapper-nxoc25-8 fCsTtf">
-					<div
-						class="FullScreenPushMessagestyled__SVGIconWrapper-nxoc25-0 kmAVFX">
-						<div name="cancel" size="16" width="24" height="24"
-							class="SVGIconstyled__SVGIcon-sc-15isf0b-0 cQJNXd"></div>
-					</div>
-					<div class="FullScreenPushMessagestyled__Header-nxoc25-3 fzszwe">
-						<div size="24" radius="8px"
-							class="Avatarstyled__Avatar-yfy5xq-0 jUtegZ"></div>
-						<div class="FullScreenPushMessagestyled__Name-nxoc25-2 fqimYT">(알
-							수 없음)</div>
-						<div
-							class="FullScreenPushMessagestyled__HeaderContent-nxoc25-1 dVbCKK">9:00
-							AM</div>
-					</div>
-					<div class="FullScreenPushMessagestyled__Content-nxoc25-7 Eohuv">
-						<div class="FullScreenPushMessagestyled__Text-nxoc25-4 kOiAv"></div>
-					</div>
-				</div>
-			</div>
-			<div size="300" class="Screenstyled__Screen-sc-3ge3qf-0 gUFjvy"></div>
-			<!-- <div data-ch-testid="launcher"
-				class="Launcherstyled__Wrapper-oef45p-0 ekjiAG">
-				<div class="Launcherstyled__TextLauncher-oef45p-1 lbMRR">
-					<div
-						class="Launcherstyled__TextLauncherContent-oef45p-2 inNMmP textLauncherContent">문제가
-						생겼나요?</div>
-					<div
-						class="Launcherstyled__TextLauncherIcon-oef45p-3 lfSkuP textLauncherIcon">
-						<div data-ch-testid="badge" hidden=""
-							class="Badgestyled__Badge-sc-1ztqq4-0 Launcherstyled__Badge-oef45p-5 bZpFRQ">0</div>
-					</div>
-				</div>
-			</div> -->
-		</div>
-		<div id="ch-plugin-script" style="display: none"
-			class="ch-messenger-hidden">
-			<iframe id="ch-plugin-script-iframe"
-				style="position: relative !important; height: 100% !important; width: 100% !important; border: none !important;"></iframe>
-		</div>
-	</div>
-	<style data-styled="active" data-styled-version="5.1.1"></style>
+
 </body>
 </html>

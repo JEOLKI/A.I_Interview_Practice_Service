@@ -736,7 +736,7 @@ supports (-ms-ime-align: auto ) { .rdrDay { flex-basis:14.285%!important;
 							width="30" height="30"
 							class="Iconstyled__Icon-sc-7igckt-0 jnvKvI"></div>
 					</div>
-					<div class="FullHeaderstyled__Title-sc-1aljhke-4 kmKrhz">iamterview</div>
+					<div class="FullHeaderstyled__Title-sc-1aljhke-4 kmKrhz">AI_INTERVIEW</div>
 					<div class="FullHeaderstyled__Body-sc-1aljhke-7 fZIprm">
 						<div class="FullHeaderstyled__Content-sc-1aljhke-6 hNeMZS">
 							<div class="FullHeaderstyled__ResponseDelay-sc-1aljhke-8 cIBCGp">
@@ -777,10 +777,10 @@ supports (-ms-ime-align: auto ) { .rdrDay { flex-basis:14.285%!important;
 							<div size="34" class="Avatarstyled__Avatar-yfy5xq-0 kkCxWH"></div>
 						</div>
 						<div class="UserChatItemstyled__Content-sc-1m3tdpx-1 dSrTQM">
-							<div class="UserChatItemstyled__Head-sc-1m3tdpx-2 jEjoEK">iamterview</div>
+							<div class="UserChatItemstyled__Head-sc-1m3tdpx-2 jEjoEK">AI_INTERVIEW</div>
 							<div data-ch-testid="user-chat-item-body"
-								class="UserChatItemstyled__Body-sc-1m3tdpx-3 befTZN">[아이엠터뷰X인싸담당자]
-								아이엠터뷰가 YouTube "인싸담당자"와 콜라보했어요! https://youtu.be/s9e306B-_xU</div>
+								class="UserChatItemstyled__Body-sc-1m3tdpx-3 befTZN">[AI_INTERVIEW X 인싸담당자]
+								AI_INTERVIEW가 YouTube "인싸담당자"와 콜라보했어요! https://youtu.be/s9e306B-_xU</div>
 						</div>
 						<div class="UserChatItemstyled__Meta-sc-1m3tdpx-5 dFSXbQ">
 							<div class="UserChatItemstyled__TimeStamp-sc-1m3tdpx-6 ueiPQ">12/10</div>

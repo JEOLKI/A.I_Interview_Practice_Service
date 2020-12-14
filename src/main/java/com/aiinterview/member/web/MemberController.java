@@ -286,5 +286,10 @@ public class MemberController {
 		}
 		
 	}
+	
+	@RequestMapping("/marketingAgree.do")
+	public String marketingAgree() {
+		return "agreement/marketingAgree";
+	}
 
 }

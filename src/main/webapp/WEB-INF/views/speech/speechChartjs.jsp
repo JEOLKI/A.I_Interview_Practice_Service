@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>아이엠터뷰</title>
+<title>AI_INTERVIEW</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -395,43 +395,7 @@ function imageGrowthChart(ctx, labels, title, analysis, max){
 				</div>
 				
 			</div>
-			<footer class="Footer --undefined">
-				<div class="footer-body">
-					<div class="info">
-						<span>(주) 두들린</span><br>서울특별시 마포구 마포대로122, 프론트원 16층 | 대표 :
-						이태규<br>사업자등록번호: 513-86-01891 | 마케팅ㆍ제휴 문의 :
-						bryan95@doodlin.co.kr<br>통신판매업신고번호: 2020-서울강남-03334호 | 연락처 :
-						010-3099-2394<br> <br>@Doodlin Corp. All Rights
-						Reserved.
-					</div>
-					<div class="nav-flex">
-						<div class="user-agreement">
-							<a href="/agreement/user-agree">회원이용약관</a>
-						</div>
-						<div class="personal-info">
-							<a href="/agreement/personal-agree">개인정보처리방침</a>
-						</div>
-						<div class="about-us">ABOUT US</div>
-					</div>
-					<div class="logo-area">
-						<div class="icons">
-							<a
-								href="https://www.facebook.com/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5-%EB%AA%A8%EC%9D%98%EB%A9%B4%EC%A0%91-iamterview-103464748013569"
-								target="blank"><img
-								src="/static/media/facebook-btn.ba58ba0e.svg" alt=""
-								class="link-btn"></a><a
-								href="https://www.instagram.com/iamterview" target="blank"><img
-								src="/static/media/insta-btn.757adbff.svg" alt=""
-								class="link-btn"></a><a
-								href="https://blog.naver.com/iamterview" target="blank"><img
-								src="/static/media/naver-btn.dda55f6e.svg" alt=""
-								class="link-btn"></a>
-						</div>
-						<img src="/static/media/black.68a48bcd.svg" class="doodlin-logo"
-							alt="doodlin-logo">
-					</div>
-				</div>
-			</footer>
+			<%@ include file="/WEB-INF/views/layout/footer.jsp" %>
 		</div>
 	</div>
 
