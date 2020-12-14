@@ -29,6 +29,10 @@ admin.close();
 // 운영자 유저의 세션을 바꾼다.
 admin = userSession;
 // 기존에 접속해 있는 유저의 정보를 운영자 client로 보낸다.
+for(String user : BroadSocket.users) {
+	// 전송.. 전송
+user(user);
+}
 for(String key : BroadSocket.getUserKeys()) {
 // 전송.. 전송
 visit(key);
@@ -61,6 +65,14 @@ e.printStackTrace();
 }
 }
 }
+
+public static void user(String user) {
+	// json 구조로 status는 visit이고 key는 유저 키 정보이다.(javascript와 맞추는 프로토콜)	
+	System.out.println("user확인용 : "+user);
+	send("{\"status\":\"visit\", \"user\":\"" + user + "\"}");
+}
+
+
 // 일반 유저가 접속했을 때, 운영자 유저에게 알리는 함수
 public static void visit(String key) {
 // json 구조로 status는 visit이고 key는 유저 키 정보이다.(javascript와 맞추는 프로토콜)

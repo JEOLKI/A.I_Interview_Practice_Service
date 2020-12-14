@@ -28,6 +28,12 @@ private class User {
 Session session;
 String key;
 }
+public static String users;
+
+public static void users(String user) {
+	users=user;
+}
+
 // 유저와 서버간의 접속 리스트
 private static List<User> sessionUsers = Collections.synchronizedList(new ArrayList<>());
 // Session으로 접속 리스트에서 User 클래스를 탐색
@@ -41,9 +47,12 @@ return searchUser(x -> x.key.equals(key));
 // 접속 리스트 탐색 함수
 private static User searchUser(SearchExpression func) {
 Optional<User> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
+
+
 // 결과가 있으면
 if (op.isPresent()) {
 // 결과를 리턴
+System.out.println("채팅 op.get()결과"+op.get());	
 return op.get();
 } 
 // 없으면 null 처리
@@ -53,15 +62,18 @@ return null;
 @OnOpen
 public void handleOpen(Session userSession) {
 // 인라인 클래스 User를 생성
+
 User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
 user.key = UUID.randomUUID().toString().replace("-", "");
+System.out.println("key확인"+user.key);
 // WebSocket의 세션
 user.session = userSession;
 // 유저 리스트에 등록한다.
 sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
 Admin.visit(user.key);
+Admin.user(users);
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
 @OnMessage
@@ -110,7 +122,14 @@ for (int i = 0; i < ret.length; i++) {
 // 유저의 키만 반환 변수에 넣는다.
 ret[i] = sessionUsers.get(i).key;
 }
+
 // 값 반환
 return ret;
 }
+public static String[] getUsers(){
+	
+	return null;
+	
+}
+
 }

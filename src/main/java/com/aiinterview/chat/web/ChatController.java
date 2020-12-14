@@ -22,13 +22,35 @@ public class ChatController {
 	@Resource(name = "chatService")
 	ChatService chatService;
 	
+	ChatVO cv = new ChatVO();
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
-	public String chatting() {
+	public String chatting(HttpSession session, Model model) {
+		
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = mv.getMemId();
+		
+		String receiver = "TEST_ID2";
+		
+		//내가 보내는 사람이기 때문에 세션에서 가져온다.
+		cv.setMsgSender(memId);
+		cv.setMsgReceiver(receiver);
+		
+		List<ChatVO> chatList =  chatService.List(cv);
+		
+		model.addAttribute("chatList", chatList);
+		model.addAttribute("Receiver", receiver);
+		
+		Admin.user(memId);
+		BroadSocket.users(memId);
 		return "chat/index";
 	}
 	
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
-	public String admin() {
+	public String admin(HttpSession session, Model model) {
+		
+		
+		
+		
 		return "chat/admin";
 	}
 	

@@ -8,17 +8,27 @@
 
 	<select id="List" parameterType="com.aiinterview.chat.vo.ChatVO" resultType="com.aiinterview.chat.vo.ChatVO">
 	select * from(
-	select * from message
+	select MSG_SQ, MSG_CONTENT, 
+	<![CDATA[
+        CASE WHEN TO_CHAR(SYSDATE-1, 'YYYY/MM/DD') < TO_CHAR(MSG_DATE, 'YYYY/MM/DD') THEN TO_CHAR(MSG_DATE,'HH24:MI')
+            ELSE TO_CHAR(MSG_DATE,'YYYY/MM/DD') END AS MSG_DATE,
+             ]]>
+        MSG_SENDER, MSG_RECEIVER from message
 	where msg_sender = #{msgSender} and msg_receiver = #{msgReceiver}
 	union
-	select * from message
+	select MSG_SQ, MSG_CONTENT,
+	<![CDATA[ 
+        CASE WHEN TO_CHAR(SYSDATE-1, 'YYYY/MM/DD') < TO_CHAR(MSG_DATE, 'YYYY/MM/DD') THEN TO_CHAR(MSG_DATE,'HH24:MI')
+            ELSE TO_CHAR(MSG_DATE,'YYYY/MM/DD') END AS MSG_DATE,
+    ]]>       
+        MSG_SENDER, MSG_RECEIVER from message
 	where msg_sender = #{msgReceiver} and msg_receiver = #{msgSender})
-	order by msg_date asc
+	
 	</select>
-
+	
 	<insert id="create" parameterType="com.aiinterview.chat.vo.ChatVO" >
 		INSERT INTO MESSAGE VALUES(message_sq_nextval,#{msgContent},SYSDATE, 
-		#{msgSender}, {msgReceiver})
+		#{msgSender}, #{msgReceiver})
 		
 	</insert>
 	
