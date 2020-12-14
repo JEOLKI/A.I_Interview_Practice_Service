@@ -8,7 +8,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-<link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <%@ include file="/WEB-INF/views/layout/boardLib.jsp" %>
