@@ -27,28 +27,31 @@
 
 <style type="text/css">
 	
-	#excelBtn{
-		border: 1px solid #22741C;
-		background-color: #22741C;
-		border-radius: 30px;
-		color: white;
-		padding: 1px 10px;
-		margin: 100px 5px;
+	body{
+		background-color : #f5f7fb;
 	}
 	
-	.table-responsive table{
-		width: 75%;
-		border-collapse: collapse;
-	}
-	
-	.table-responsive td, .table-responsive th{
-		height: 40px;
+	.paging{
 		text-align: center;
-		border-bottom: 1px solid black;
+		margin-top: 30px;
 	}
 	
-	.table-responsive th{
-		background: #D9E5FF;
+	.paging a, .paging strong{
+		display: inline-block;
+		border: 1px solid #4374D9;
+		border-radius: 5px;
+		width: 25px;
+		padding: 1px;
+	}
+	
+	.paging strong{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	.paging a:hover{
+		background-color: #4374D9;
+	    color: #fff;
 	}
 	
 </style>
@@ -107,11 +110,8 @@
 			</div>
 		
 			<div class = "paging">
-			<br>
-			<ul class="pagination boarding">
 				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
-			</ul>
-			<form:hidden path="pageIndex" />
+				<form:hidden path="pageIndex" />
 			</div>
 		</div>
 	</form:form>

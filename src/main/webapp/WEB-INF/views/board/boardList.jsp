@@ -47,8 +47,6 @@
 	 tr{
 	 	border : 1px solid black;
 	 }
-	 
-	 
 	
 	#catContent{
 		font-size: 0.8em;
@@ -62,6 +60,30 @@
 		background-color: #D9E5FF;
 		float: left;
 	}
+	
+	.paging{
+		text-align: center;
+		margin-top: 30px;
+	}
+	
+	.paging a, .paging strong{
+		display: inline-block;
+		border: 1px solid #4374D9;
+		border-radius: 5px;
+		width: 25px;
+		padding: 1px;
+	}
+	
+	.paging strong{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	.paging a:hover{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
 	
 </style>
 
@@ -179,13 +201,14 @@
 				</div>
 				
 				<div class ="paging">
-				<br>
-				<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
-				<form:hidden path="pageIndex" />
-				<input type="hidden" name="boardGbSq" value="${boardGbSq}"/>
-				<input type="hidden" name="boardGbNm" value="${boardGbNm}"/>
+					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+					<form:hidden path="pageIndex" />
+					<input type="hidden" name="boardGbSq" value="${boardGbSq}"/>
+					<input type="hidden" name="boardGbNm" value="${boardGbNm}"/>
 				</div>
+				
 				<a class="btn createBtn write" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
+			
 			</div>
 			</div>
 			
