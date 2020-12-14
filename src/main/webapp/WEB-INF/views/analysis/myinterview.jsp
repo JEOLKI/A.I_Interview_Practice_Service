@@ -101,6 +101,12 @@
 		display: inline-block;
 		float: left; 
 	}
+	.graph-background{
+		margin-top : 142px;
+		margin-left: -1px;
+		width : 450px;
+		height: 30px;
+	}
 	
 </style>
 
@@ -637,6 +643,7 @@
 											<div class="gray-box"></div>
 										</div>
 										<canvas id="speedGrowth" class="graph-canvas" width="451" height="330"></canvas>
+										<img src="/images/speed.png" class="graph-background sps" alt="">
 									</div>
 								</div>
 								
