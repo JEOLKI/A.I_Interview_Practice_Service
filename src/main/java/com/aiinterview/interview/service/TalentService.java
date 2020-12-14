@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.analysis.vo.TalentAnalysisVO;
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
 import com.aiinterview.interview.dao.TalentMapper;
@@ -25,7 +26,7 @@ public class TalentService{
 	 * @param TalentVO
 	 * @return 해당페이지 목록
 	 */
-	public List<TalentVO> retrievePagingList(TalentVO talentVO) {
+	public List<TalentVO> retrievePagingList(TalentVO talentVO) throws Exception{
 		return talentMapper.retrievePagingList(talentVO);
 	}
 
@@ -34,7 +35,7 @@ public class TalentService{
 	 * @param TalentVO
 	 * @return 전체 talentVO 개수
 	 */
-	public int retrievePagingListCnt(TalentVO talentVO) {
+	public int retrievePagingListCnt(TalentVO talentVO) throws Exception{
 		return talentMapper.retrievePagingListCnt(talentVO);	}
 	
 	
@@ -51,7 +52,7 @@ public class TalentService{
 	 * 인재상 리스트를 조회하는 메서드
 	 * @return 인재상 목록
 	 */
-	public List<TalentVO> retrieveList() {
+	public List<TalentVO> retrieveList() throws Exception{
 		return talentMapper.retrieveList();
 	}
 
@@ -60,7 +61,7 @@ public class TalentService{
 	 * @param talentVO
 	 * @return 1: 수정 성공 / 0: 수정 실패
 	 */
-	public int update(TalentVO talentVO) {
+	public int update(TalentVO talentVO) throws Exception{
 		int updateCnt = talentMapper.update(talentVO);
 		return updateCnt;
 		
@@ -93,7 +94,7 @@ public class TalentService{
 	 * 사용중인 인재상 목록을 조회하기 위한 메서드
 	 * @return
 	 */
-	public List<TalentVO> retrieveUsingList() {
+	public List<TalentVO> retrieveUsingList() throws Exception{
 		return talentMapper.retrieveUsingList();
 	}
 
@@ -102,11 +103,23 @@ public class TalentService{
 	 * @param talentSq
 	 * @return
 	 */
-	public TalentVO retrieve(String talentSq) {
+	public TalentVO retrieve(String talentSq) throws Exception{
 		return talentMapper.retrieve(talentSq);
 	}
 
+	/**
+	 * 인재상 도출 횟수 리스트를 조회하는 메서드
+	 * 인재상 통계용
+	 * @param statisticMap 
+	 * @return
+	 */
+	public List<TalentAnalysisVO> retrieveStatisticsPagingList(Map<String, Object> statisticMap) throws Exception{
+		return talentMapper.retrieveStatisticsPagingList(statisticMap);
+	}
 
+	public int retrieveStatisticsPagingListCnt(Map<String, Object> statisticMap) {
+		return talentMapper.retrieveStatisticsPagingListCnt(statisticMap);
+	}
 	
 
 
