@@ -93,7 +93,7 @@ public class BoardController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "board/list";
+		return "board/boardList";
 	}
 	
 	@RequestMapping(path = "/retrieve.do", method = {RequestMethod.GET})
@@ -110,7 +110,7 @@ public class BoardController {
 		model.addAttribute("attachmentList", map.get("attachmentList"));
 		model.addAttribute("replyList", map.get("replyList"));
 		
-		return "board/board";
+		return "board/boardDetail";
 	}
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.GET })
@@ -125,7 +125,7 @@ public class BoardController {
 		model.addAttribute("parentSq", parentSq);
 		model.addAttribute("groupNo", groupNo);
 		
-		return "board/create";
+		return "board/boardCreate";
 	}
 	
 	@RequestMapping(value = "/create.do", method = { RequestMethod.POST })
@@ -209,7 +209,7 @@ public class BoardController {
 		model.addAttribute("boardVO", boardVO);
 		model.addAttribute("attachmentList", attachmentList);
 		
-		return "board/update";
+		return "board/boardUpdate";
 	}
 	
 	@RequestMapping(path = "/update.do", method = {RequestMethod.POST})
