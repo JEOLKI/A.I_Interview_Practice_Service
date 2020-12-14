@@ -1,8 +1,8 @@
 package com.aiinterview.analysis.vo;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.interview.vo.TalentVO;
 
-public class TalentAnalysisVO extends BaseVO{
+public class TalentAnalysisVO extends TalentVO{
 	
 	private String talentNm;
 	private String percent;
