@@ -134,10 +134,7 @@ public class ExcelRead {
         
         // Map을 리스트로 만들기
         List<Map<String, String>> result = ExcelRead.read(ro);
-        
-        for(Map<String, String> map : result) {
-            System.out.println(map.get("A"));
-        }
+
     }
     
 }

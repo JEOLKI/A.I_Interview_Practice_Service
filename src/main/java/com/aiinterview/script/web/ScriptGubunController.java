@@ -194,10 +194,7 @@ public class ScriptGubunController {
 	/* 단일 수정 */
 	@RequestMapping(path="/updateProcess.do", method = {RequestMethod.POST})
 	public String updateProcess(ScriptGubunVO scriptGbVO) throws Exception {
-		System.out.println(scriptGbVO.getScriptGbSq());
-		System.out.println(scriptGbVO.getScriptGbContent());
-		System.out.println(scriptGbVO.getScriptGbSt());
-		
+
 		ScriptGubunVO scriptGbVo = scriptGubunService.retrieve((scriptGbVO.getScriptGbSq()));
 		scriptGbVo.setScriptGbContent(scriptGbVO.getScriptGbContent());
 		scriptGbVo.setScriptGbSt(scriptGbVO.getScriptGbSt());
