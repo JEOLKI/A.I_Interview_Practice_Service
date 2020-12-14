@@ -378,7 +378,7 @@ function boardGubunList(){
 	<div style="justify-content: flex-end;">
 		<c:choose>
 			<c:when test="${S_MEMBER == null }">
-				<button id="login" class="login" style="margin-left: 0px;">로그인</button>
+				<button id="login" class="login" style="margin-left: 0px; margin-right: 0px;">로그인</button>
 				<button id="join" class="login"  style="margin-left: 0px;">회원가입</button>
 			</c:when>
 		</c:choose>
