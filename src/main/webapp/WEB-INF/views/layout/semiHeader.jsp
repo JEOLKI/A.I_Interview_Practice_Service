@@ -5,7 +5,7 @@
 
 	<div class="TopBar undefined">
 		<div class="navigation-bar">
-			<a class="iam-logo" href="/main"><img src="/images/Ai_Interview 로고.png" alt="iam-logo"
+			<a class="aiInterview-logo" href="/main"><img src="/images/Ai_Interview 로고.png" alt="aiInterview-logo"
 				class="iam-img"></a>
 			<div class="nav">
 				<a class="main false" href="#">내 면접</a><a class="lecture false"

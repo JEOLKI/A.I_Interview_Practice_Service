@@ -51,7 +51,7 @@ $(document).ready(function(){
 								<p>다음 사항을 확인해 보세요.</p>
 								<p class="content__sub-title">1. 크롬 브라우저 사용</p>
 								<p>
-									아이엠터뷰의 여러 분석 시스템과 STT(Speech to Text) 등은 <u>크롬 브라우저</u>에 최적화되어
+									AI_INTERVIEW의 여러 분석 시스템과 STT(Speech to Text) 등은 <u>크롬 브라우저</u>에 최적화되어
 									있습니다.<br>따라서 다른 브라우저 사용 시 분석이 불가하거나 결과의 정확도가 저하될 수 있습니다.
 								</p>
 								<div class="content__wrapper">
@@ -64,7 +64,7 @@ $(document).ready(function(){
 								<div class="content__box">
 									<div class="box__title">**카메라와 마이크 연결 시에도 되지 않는 경우**</div>
 									<span class="box__description">크롬 우측 상단에서 <span>[
-											설정 &gt; 개인정보 및 보안 &gt; 사이트 설정 ]</span> 에서 <span>www.iamterview.com</span>을
+											설정 &gt; 개인정보 및 보안 &gt; 사이트 설정 ]</span> 에서 <span>www.aiinterview.com</span>을
 										눌러 <span>카메라</span>와 <span>마이크</span> 권한을 <span>"허용"</span>으로
 										바꾸어 주세요.
 									</span>
@@ -100,7 +100,7 @@ $(document).ready(function(){
 							</div>
 							<div class="question__content close">
 								<p>
-									아이엠터뷰는 <span>모바일</span>과 <span>태블릿 기기</span>를 지원하지 않습니다. ;( <br>
+									AI_INTERVIEW는 <span>모바일</span>과 <span>태블릿 기기</span>를 지원하지 않습니다. ;( <br>
 									<span>PC</span> 또는 <span>노트북</span>으로 이용해 주세요!
 								</p>
 								<div class="question__ask">
@@ -140,7 +140,7 @@ $(document).ready(function(){
 			<div class="Inquire__content">
 				<div class="content__title">아직 궁금한 점이 해결되지 않으셨나요?</div>
 				<div class="content__sub-title">
-					궁금한 점이나 건의사항, 오류 등 어떤 것이든 좋습니다.<br>아이엠터뷰 팀에게 직접 문의해 보세요!
+					궁금한 점이나 건의사항, 오류 등 어떤 것이든 좋습니다.<br>AI_INTERVIEW 팀에게 직접 문의해 보세요!
 				</div>
 				<div class="wrapper wow fadeInUp">
 					<div class="content__Inquire-btn">문의하기</div>

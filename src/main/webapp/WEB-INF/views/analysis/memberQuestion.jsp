@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>아이엠터뷰</title>
+<title>AI_INTERVIEW</title>
 
 <link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -156,10 +156,10 @@ to {
 			</div>
 			<div class="nav-flex">
 				<div class="user-agreement">
-					<a href="/agreement/user-agree">회원이용약관</a>
+					<a href="/login/userAgree.do">회원이용약관</a>
 				</div>
 				<div class="personal-info">
-					<a href="/agreement/personal-agree">개인정보처리방침</a>
+					<a href="/login/personalAgree.do">개인정보처리방침</a>
 				</div>
 				<div class="about-us">ABOUT US</div>
 			</div>

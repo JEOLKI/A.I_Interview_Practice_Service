@@ -159,8 +159,7 @@ function payPlanAjax(p){
 					</div>
 				</div>
 			</div>
-			<footer class="SemiFooter --undefined">
-			</footer>
+			<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 		</div>
 	</div>
 	

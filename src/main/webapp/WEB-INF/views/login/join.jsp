@@ -433,7 +433,7 @@
 							<div class="txt">
 								개인정보 수집 및 이용에 동의합니다. <span class="red">(필수)</span>
 							</div>
-							<a class="link" target="_blank" href="/agreement/personal-agree">약관
+							<a class="link" target="_blank" href="/login/personalAgree.do">약관
 								전체보기</a>
 						</div>
 						<div class="user flex">
@@ -443,7 +443,7 @@
 							<div class="txt">
 								회원 이용 약관에 동의합니다. <span class="red">(필수)</span>
 							</div>
-							<a class="link" target="_blank" href="/agreement/user-agree">약관
+							<a class="link" target="_blank" href="/login/userAgree.do">약관
 								전체보기</a>
 						</div>
 						<div class="third flex">
@@ -451,7 +451,7 @@
 								src="data:image/png;base64,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"
 								alt="">
 							<div class="txt">제 3자 정보 제공에 동의합니다. (선택)</div>
-							<a class="link" target="_blank" href="/agreement/marketing-agree">내용보기</a>
+							<a class="link" target="_blank" href="/member/marketingAgree.do">내용보기</a>
 						</div>
 					</div>
 					<div class="submit-area">
@@ -459,7 +459,7 @@
 					</div>
 				</div>
 				<div class="message">
-					아이엠터뷰는 회원님의 정보를 보다 나은<br>서비스의 제공을 위해서만 사용하고 있습니다.
+					AI_INTERVIEW는 회원님의 정보를 보다 나은<br>서비스의 제공을 위해서만 사용하고 있습니다.
 				</div>
 			</div>
 		</div>

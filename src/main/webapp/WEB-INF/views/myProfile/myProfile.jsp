@@ -266,12 +266,12 @@ to {
 				</div>
 				
 				<div class="withdraw-message">
-					아이엠터뷰를 더 이상 이용하지 않는다면<a class="withdraw-btn"
+					AI_INTERVIEW를 더 이상 이용하지 않는다면<a class="withdraw-btn"
 						href="/member/deleteview.do">회원탈퇴 바로가기<span aria-hidden="true"
 						class="fa fa-caret-right fa undefined"></span>
 					</a>
 				</div>
-				<%@ include file="/WEB-INF/views/layout/myPageFooter.jsp"%>
+				<%@ include file="/WEB-INF/views/layout/semiFooter.jsp"%>
 			</div>
 		</div>
 	</div>

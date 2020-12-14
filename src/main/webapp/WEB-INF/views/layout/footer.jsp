@@ -32,8 +32,8 @@
 	<div class="footer-body">
 		<div class="info">
 			<span>(주) OURTECH</span><br>대전 중구 중앙로76, 영민빌딩 4층 | 대표 : 홍정기<br>사업자등록번호:
-			199-71-00215 | 마케팅ㆍ제휴 문의 : broony97@ourtech.co.kr<br>통신판매업신고번호:
-			2020-대전중구-03334호 | 연락처 : 010-8525-2468<br> <br>@OURTECH
+			199-71-00215 | 마케팅ㆍ제휴 문의 : jeolki93@ourtech.co.kr<br>통신판매업신고번호:
+			2020-대전중구-03334호 | 연락처 : 010-1993-1214<br> <br>@OURTECH
 			Corp. All Rights Reserved.
 		</div>
 		<div class="nav-flex">
