@@ -118,7 +118,7 @@ function search_close_pop(flag) {
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
-		<div class="Main false">
+		<div class="Main false" style="overflow-y: hidden; overflow-x:hidden; ">
 
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 

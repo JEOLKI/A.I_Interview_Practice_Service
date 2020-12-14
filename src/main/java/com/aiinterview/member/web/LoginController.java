@@ -10,8 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.aiinterview.interview.service.InterviewService;
+import com.aiinterview.interview.vo.InterviewVO;
 import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
+
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @RequestMapping("/login")
 @Controller
@@ -20,6 +25,13 @@ public class LoginController {
 	
 	@Resource(name = "memberService") 
 	private MemberService memberService;
+	
+	@Resource(name = "interviewService")
+	private InterviewService interviewService;
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 
 	@RequestMapping(value = "/main.do", method = { RequestMethod.GET })
 	public String view() {
@@ -41,12 +53,36 @@ public class LoginController {
 	public String login(String memId, String memPw, HttpSession session, Model model) throws Exception {
 		MemberVO memberVo = memberService.retrieve(memId);
 		
+		InterviewVO interviewVO = new InterviewVO();
+		/** EgovPropertyService.sample */
+		interviewVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		interviewVO.setPageSize(propertiesService.getInt("pageSize"));
+		interviewVO.setMemId(memId);
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(interviewVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(interviewVO.getPageUnit());
+		paginationInfo.setPageSize(interviewVO.getPageSize());
+
+		interviewVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		interviewVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		interviewVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
 		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {
 			model.addAttribute("memId", memId);
-			return "login/main";
+			return "redirect:/login/main.do";
 		} else if (memberVo.getMemPw().equals(memPw)&&"Y".equals(memberVo.getMemSt())) {
 			session.setAttribute("S_MEMBER", memberVo);
-			return "redirect:/login/main.do";
+			if(interviewService.retrievePagingList(interviewVO).size()==0){
+				// 면접 결과가 없을 경우
+				logger.debug("면접결과 없을경우 {}",interviewService.retrievePagingList(interviewVO).size());
+				return "redirect:/login/home.do";
+			}else {
+				// 면접 결과가 있을 경우
+				logger.debug("면접결과 있을경우 {}",interviewService.retrievePagingList(interviewVO).size());
+				return "redirect:/analysis/interview/retrievePagingList.do";
+			}
 		}
 		return "redirect:/login/main.do";
 	}

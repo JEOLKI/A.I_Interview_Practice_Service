@@ -110,8 +110,12 @@ public class AnalysisController {
 		}
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-
-		return "analysis/myinterview";
+		
+		if(resultList.size()>0) {
+			return "analysis/myinterview";
+		}else {
+			return "login/home";
+		}
 	}
 	
 	@RequestMapping(value = "/question/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
