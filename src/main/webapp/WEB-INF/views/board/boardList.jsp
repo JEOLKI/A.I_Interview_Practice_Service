@@ -118,7 +118,6 @@
 					<div class="input-group">
 		        		<ul class ="button-search">
 		        			<li>
-		        			    <label for="searchCondition" style="visibility:hidden;"><spring:message code="search.choose" /></label>
 		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
 		        					<form:option value="0" label="제목" />
 		        					<form:option value="1" label="작성자" />
