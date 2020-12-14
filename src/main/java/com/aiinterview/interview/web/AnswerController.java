@@ -59,9 +59,6 @@ public class AnswerController {
 	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
 	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, VoiceAnalysisVO voiceAnalysisVO, MultipartHttpServletRequest mtfRequest){
-		System.out.println("앤서 확인 :" + answerVO);
-		System.out.println("이미지분석 확인 :" + imageAnalysisVO);
-		System.out.println("음성분석 확인 :" + voiceAnalysisVO);
 		
 		List<ImageAnalysisVO> imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();
 		
@@ -70,6 +67,7 @@ public class AnswerController {
 		map.put("imageAnalysisList", imageAnalysisList);
 		
 		System.out.println("파일 확인 : " + mtfRequest.getFile("mtfRequest"));
+		
 		/* 영상 다운로드 */
 		MultipartFile answerVideo = mtfRequest.getFile("mtfRequest");
 		System.out.println("파일 사이즈 확인 : " + answerVideo.getSize());
@@ -85,10 +83,9 @@ public class AnswerController {
 			}
 		}
 		
-		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  언어 분석  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		// 언어분석
 		
 		String script = answerVO.getAnsContent();
-		
 		
 		/* 습관어 분석 */
 		List<HabitVO> habitList;
@@ -290,7 +287,6 @@ public class AnswerController {
         }catch (Exception e) {
 			e.printStackTrace();
 		}
-        
 		
 		return "jsonView";
 	}

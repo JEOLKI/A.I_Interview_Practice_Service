@@ -15,7 +15,9 @@
 					success : function(data){
 						
 						imageAnalysis = data.imageAnalysis;
+						imageAnalysisList = data.imageAnalysisList;
 						imageAnalysisChart(imageAnalysis);
+						videoAnalysisChart(imageAnalysisList);
 						
 						
 						/* 스크립트 */
@@ -357,7 +359,7 @@
 		});
 	}
 	
-	/** 이미지 분석 **/
+	/* 이미지 분석 */
 	function imageAnalysisChart(imageAnalysis){
 		$("#positiveChart").empty();
 		var title = ['other', 'happiness']
@@ -365,6 +367,7 @@
 		var ctx = document.getElementById('positiveChart');
 		createImageChart(ctx, title, analysis);
 		$("#positiveSpan").empty().append(Math.round(imageAnalysis.happiness*100) + "%")
+		$("#positiveBtag").empty().append(Math.round(imageAnalysis.happiness*100) + "%")
 		
 		$("#neutralChart").empty();
 		title = ['other', 'netural']
@@ -372,6 +375,7 @@
 		ctx = document.getElementById('neutralChart');
 		createImageChart(ctx, title, analysis);
 		$("#neutralSpan").empty().append(Math.round(imageAnalysis.neutral*100) + "%")
+		$("#neutralBtag").empty().append(Math.round(imageAnalysis.neutral*100) + "%")
 		
 		$("#negativeChart").empty();
 		var negativeEmotion = imageAnalysis.anger*1 + imageAnalysis.contempt*1 + imageAnalysis.disgust*1 + imageAnalysis.sadness*1;
@@ -380,6 +384,7 @@
 		ctx = document.getElementById('negativeChart');
 		createImageChart(ctx, title, analysis);
 		$("#negativeSpan").empty().append(Math.round(negativeEmotion*100) + "%")
+		$("#negativeBtag").empty().append(Math.round(negativeEmotion*100) + "%")
 		
 		$("#panicChart").empty();
 		var panicEmotion = imageAnalysis.fear*1 + imageAnalysis.surprise*1;
@@ -388,6 +393,7 @@
 		ctx = document.getElementById('panicChart');
 		createImageChart(ctx, title, analysis);
 		$("#panicSpan").empty().append(Math.round(panicEmotion*100) + "%")
+		$("#panicBtag").empty().append(Math.round(panicEmotion*100) + "%")
 				
 		$("#faceChart").empty();
 		  var canvas = document.getElementById('faceChart');
@@ -398,6 +404,92 @@
 		    ctx.strokeRect(faceTop , imageAnalysis.faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
 		  }
 	}
+	
+	/* 비디오 분석 */
+	function videoAnalysisChart(imageAnalysisList){
+		var ctx = document.getElementById('videoChart');
+		
+		labels = [];
+		positive = [];
+		neutral = [];
+		negative = [];
+		panic = [];
+		for(var i = 0; i < imageAnalysisList.length ; i++){
+			labels.push(i);
+			positive.push(imageAnalysisList[i].happiness*100);
+			neutral.push(imageAnalysisList[i].neutral*100);
+			negativeScore= imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
+			negative.push(negativeScore*100);
+			panicScore = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
+			panic.push(panicScore*100);
+		}
+		
+		new Chart(ctx, {
+			    type: 'line',
+			    data: {
+			        labels: labels,
+			        datasets: [
+			        			{
+						            label: 'happiness', 
+									data: positive,
+									borderColor: "#282c37",
+									backgroundColor: 'transparent', 
+									lineTension: 0.2,
+								    fill: true,
+						        },
+			        			{
+						            label: 'neutral',
+									data: neutral,
+									borderColor: "#9baec8",
+									backgroundColor: 'transparent', 
+									lineTension: 0.2,
+								    fill: true,
+						        },
+			        			{
+						            label: 'negative', 
+									data: negative,
+									borderColor: "#d9e1e8",
+									backgroundColor: 'transparent', 
+									lineTension: 0.2,
+								    fill: true,
+						        },
+			        			{
+						            label: 'panic', 
+									data: panic,
+									borderColor: "#2b90d9",
+									backgroundColor: 'transparent', 
+									lineTension: 0.2,
+								    fill: true,
+						        },
+						        ]
+			    },
+			    
+			    options: {
+			        responsive: true,
+			        legend: {
+			            display: true
+			          },
+			        scales: {
+			        	  xAxes: [{
+				                display: false,
+				                scaleLabel: {
+				                    display: true,
+				                }
+				            }],
+				            yAxes: [{
+				                display: true,
+				                ticks: {
+				                    suggestedMin: 0,
+				                    suggestedMax: 100,
+				                    stepSize: 50
+				                }
+				            }]
+			        }
+			    }
+			});
+		
+	}
+	
 	
 	/* 데시벨 분석 그래프 */ 
 	function decibelAnalysisChart(voiceList){
@@ -576,10 +668,7 @@
 		    		
 		    }
 		});
-		
-		
 	}
-	
 	
 </script>
 
@@ -596,16 +685,16 @@
 			</video>
 			<div class="review-emotion">
 				<div class="happy max">
-					긍정적 <b>0%</b>
+					긍정적 <b id="positiveBtag">0%</b>
 				</div>
 				<div class="calm max">
-					무표정 <b>0%</b>
+					무표정 <b id="neutralBtag">0%</b>
 				</div>
 				<div class="dark max">
-					부정적 <b>0%</b>
+					부정적 <b id="negativeBtag">0%</b>
 				</div>
 				<div class="surprised max">
-					당황함 <b>0%</b>
+					당황함 <b id="panicBtag">0%</b>
 				</div>
 			</div>
 			<div class="review-face"
@@ -613,9 +702,7 @@
 		</div>
 		
 		<div class="comments">
-			
-			
-			
+			<canvas id="videoChart"></canvas>
 		</div>
 	</div>
 	
