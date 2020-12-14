@@ -155,8 +155,7 @@ function captureMicrophone(callback){
 };
 	
 function select(){
-	//$(this).attr('class') = 'active';
-	$(this).attr({"aria-expanded":"true", "class":"active"});
+	$(this).attr('class') = 'active';
 }
 </script>
 
@@ -177,7 +176,7 @@ function select(){
 	justify-content: center;
 	align-items: center;
 	border : 3px solid black;
-	font-size : 12pt;
+	font-size : 10pt;
 	display: block;
 	margin : auto;
 	padding: auto;
@@ -231,7 +230,6 @@ function select(){
 				<input type="hidden" id="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
 			</c:forEach>
 			</ul>
-<!-- 		<button class="processBtn" id="testCloseBtn">close</button> -->
 	</div>
 			
 			<div class="popup-content" id="scriptModalContent">

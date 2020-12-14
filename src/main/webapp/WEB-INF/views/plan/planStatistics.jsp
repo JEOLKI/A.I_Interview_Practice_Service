@@ -15,7 +15,6 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -74,7 +73,217 @@
 	}
 </style>
 <script>
+
 $(document).ready(function(){
+
+	var useStartDate = $('#useStartDate').val() == ''? '2000-01-01' : $('#useStartDate').val();
+	var useEndDate = $('#useEndDate').val() == ''? 'sysdate' : $('#useEndDate').val();
+	
+	$.ajax({ url : "/plan/totalUseStatistics.do", 
+		 data : {"startDate" : useStartDate,
+			 	 "endDate" 	 : useEndDate},
+		 dataType : "json",
+		 success : function(data){
+			 console.log(data);
+			 html="";
+		
+			 // Themes begin
+			am4core.useTheme(am4themes_kelly);
+			am4core.useTheme(am4themes_animated);
+			// Themes end
+			
+				 
+			 var chart = am4core.create("useChart", am4charts.XYChart);
+				chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+				console.log("차트");
+			
+				
+		   var sum = 0;
+			var chartData2 = [];
+			var plan="";
+			var useCount=0;
+			for(var i=0; i< data.totalUseList.length; i++){
+				var planUse = data.totalUseList[i];
+				
+				plan=planUse.planNm;
+				useCount=planUse.useCount;
+				
+			    chartData2.push({plan:plan, useCount: useCount}); 
+					
+				 html += '<tr class="plan">';
+				 html += '<td>'+planUse.rn+'</td>';
+				 html += '<td class="planNm">'+planUse.planNm+'</td>';
+				 html += '<td class="useCount" value="'+planUse.useCount+'">'+planUse.useCount+'</td>';
+				 html += '</tr>';
+				 
+				 sum += planUse.useCount;
+			 }
+			 html += '<tr id="sum">';
+			 html += '<td>합  계</td>';
+			 html += '<td></td>';
+			 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
+			 $('#useList').empty();
+			 $('#useList').append(html);
+			chartData2.push({plan:"Total", useCount:sum})
+			chart.data =  chartData2;
+			
+			console.log(chart.data);
+				   
+
+				var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+				categoryAxis.renderer.grid.template.location = 0;
+				categoryAxis.dataFields.category = "plan";
+				categoryAxis.renderer.minGridDistance = 40;
+				categoryAxis.fontSize = 11;
+
+				var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+				valueAxis.min = 0;
+				valueAxis.max = 10;
+				valueAxis.strictMinMax = true;
+				valueAxis.renderer.minGridDistance = 30;
+				// axis break
+				var axisBreak = valueAxis.axisBreaks.create();
+//				axisBreak.startValue = 4;
+//				axisBreak.endValue = 8;
+//				axisBreak.breakSize = 0.005;
+
+				// fixed axis break
+				var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+				axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
+
+				// make break expand on hover
+				var hoverState = axisBreak.states.create("hover");
+				hoverState.properties.breakSize = 1;
+				hoverState.properties.opacity = 0.1;
+				hoverState.transitionDuration = 1500;
+
+				axisBreak.defaultState.transitionDuration = 1000;
+
+				var series = chart.series.push(new am4charts.ColumnSeries());
+				series.dataFields.categoryX = "plan";
+				series.dataFields.valueY = "useCount";
+				series.columns.template.tooltipText = "{valueY.value}";
+				series.columns.template.tooltipY = 0;
+				series.columns.template.strokeOpacity = 0;
+
+				// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+				series.columns.template.adapter.add("fill", function(fill, target) {
+				  return chart.colors.getIndex(target.dataItem.index);
+				});// end am4core.ready()
+
+
+			 
+		 }
+	})
+	
+	
+	$('#saleTab').on('click', function() {
+		
+		var startDate = $('#saleStartDate').val() == ''? '2000-01-01' : $('#saleStartDate').val();
+		var endDate = $('#saleEndDate').val() == ''? 'sysdate' : $('#saleEndDate').val();
+		console.log(startDate);
+		console.log(endDate);
+		$.ajax({ url : "/plan/totalSaleStatistics.do", 
+				 data : {"startDate" : startDate,
+					 	 "endDate" 	 : endDate},
+				 dataType : "json",
+				 success : function(data){
+					 console.log(data);
+					 html="";
+				
+					 // Themes begin
+					am4core.useTheme(am4themes_kelly);
+					am4core.useTheme(am4themes_animated);
+					// Themes end
+					
+						 
+					 var chart = am4core.create("saleChart", am4charts.XYChart);
+						chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+						console.log("차트");
+					
+						
+ 				   var countSum = 0;
+ 				   var saleSum = 0;
+					var chartData2 = [];
+					var plan="";
+					var sale=0;
+					for(var i=0; i< data.totalSaleList.length; i++){
+						var planUse = data.totalSaleList[i];
+						
+						plan=planUse.planNm;
+						sale=planUse.sale;
+						
+					    chartData2.push({plan:plan, sale: sale}); 
+							
+						 html += '<tr class="plan">';
+						 html += '<td>'+planUse.rn+'</td>';
+						 html += '<td class="planNm">'+planUse.planNm+'</td>';
+						 html += '<td class="planPrice" value="'+planUse.planPrice+'">'+numberWithCommas(planUse.planPrice)+'</td>';
+						 html += '<td class="useCount" value="'+planUse.useCount+'">'+planUse.useCount+'</td>';
+						 html += '<td class="sale" value="'+planUse.sale+'">'+numberWithCommas(planUse.sale)+'</td>';
+
+						 html += '</tr>';
+						 
+						 countSum += planUse.useCount;
+						 saleSum += planUse.sale;
+					 }
+					 html += '<tr id="sum">';
+					 html += '<td>합  계</td>';
+					 html += '<td></td>';
+					 html += '<td></td>';
+					 html += '<td id="countSum" value="'+countSum+'">'+countSum+'</td>';
+					 html += '<td id="countSum" value="'+saleSum+'">'+numberWithCommas(saleSum)+'</td>';
+					 $('#saleList').empty();
+					 $('#saleList').append(html);
+					chartData2.push({plan:"Total", sale:saleSum})
+					chart.data =  chartData2;
+					
+						   
+
+						var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+						categoryAxis.renderer.grid.template.location = 0;
+						categoryAxis.dataFields.category = "plan";
+						categoryAxis.renderer.minGridDistance = 40;
+						categoryAxis.fontSize = 11;
+
+						var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+						valueAxis.min = 0;
+						valueAxis.max =  saleSum+10000;
+						valueAxis.strictMinMax = true;
+						valueAxis.renderer.minGridDistance = 30;
+						// axis break
+						var axisBreak = valueAxis.axisBreaks.create();
+// 						axisBreak.startValue = 4;
+// 						axisBreak.endValue = 8;
+// 						axisBreak.breakSize = 0.005;
+
+						// fixed axis break
+						var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+						axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
+
+						// make break expand on hover
+						var hoverState = axisBreak.states.create("hover");
+						hoverState.properties.breakSize = 1;
+						hoverState.properties.opacity = 0.1;
+						hoverState.transitionDuration = 1500;
+
+						axisBreak.defaultState.transitionDuration = 1000;
+
+						var series = chart.series.push(new am4charts.ColumnSeries());
+						series.dataFields.categoryX = "plan";
+						series.dataFields.valueY = "sale";
+						series.columns.template.tooltipText = "{valueY.value}";
+						series.columns.template.tooltipY = 0;
+						series.columns.template.strokeOpacity = 0;
+
+						// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+						series.columns.template.adapter.add("fill", function(fill, target) {
+						  return chart.colors.getIndex(target.dataItem.index);
+						});// end am4core.ready()
+					 
+				 }
+		})
+	})
 	
 	$('#questGbRegistBtn').on('click', function() {
 		if($('#questGbContent').val()==''){
@@ -394,7 +603,7 @@ function numberWithCommas(x) {
 						<div class="planStatistics">
 							<ul class="nav nav-tabs">
 							    <li class="active"><a data-toggle="tab" href="#use">이용자</a></li>
-							    <li><a data-toggle="tab" href="#sale">매출</a></li>
+							    <li><a id="saleTab" data-toggle="tab" href="#sale">매출</a></li>
 							</ul>
 							<br><br>
 							<div class="tab-content">
