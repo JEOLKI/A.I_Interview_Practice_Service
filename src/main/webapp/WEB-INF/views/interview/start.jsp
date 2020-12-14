@@ -69,8 +69,8 @@
 //    		editText = e.result.text.replace(/undefined/g,'');
 // 		console.log(`RECOGNIZED: `+editText);
 		console.log(`RECOGNIZED: Text=${e.result.text}`);
-	    phraseDiv.innerHTML += editText;
-	    answer+=editText;
+	    phraseDiv.innerHTML += e.result.text;
+	    answer+=e.result.text;
  	   if (e.result.reason == ResultReason.RecognizedSpeech) {
     	}
     	else if (e.result.reason == ResultReason.NoMatch) {
