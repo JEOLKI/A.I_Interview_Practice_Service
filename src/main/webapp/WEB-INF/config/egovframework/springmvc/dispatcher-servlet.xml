@@ -101,6 +101,7 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/resources/**" location="/WEB-INF/views/resources/" />
 	<mvc:resources mapping="/profile/**" location="/WEB-INF/views/profile/" />
+	<mvc:resources mapping="/media/**" location="/media/" />
 	
     <!-- For Pagination Tag -->
 <!--     <bean id="imageRenderer" class="egovframework.example.cmmn.web.EgovImgPaginationRenderer"/> -->

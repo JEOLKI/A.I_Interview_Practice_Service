@@ -6,57 +6,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="/css/main.8acfb306.chunk.css" rel="stylesheet">
 
-
-<!-- 화면 출력 및 얼굴 분석 관련 -->
-<!-- <link rel="stylesheet" href="main.css" type="text/css" media="all"> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/js/capture.js"></script>
 <style type="text/css">/* Chart.js */
-@
-keyframes chartjs-render-animation {from { opacity:0.99;
-	
-}
-
 to {
 	opacity: 1;
 }
 
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 0.001s;
-}
-
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1;
-}
-
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0;
-}
-
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0;
-}
 .pids-wrapper{                                                                                        
   width: 100%;                                                                                        
 }                                                                                                     
@@ -70,24 +26,24 @@ to {
 <script type="text/javascript" >
 	window.onload = function(){
 		openFullScreenMode();
+	// 전체화면 설정
+		function openFullScreenMode() {
+			var docV = document.documentElement;
+		    if (docV.requestFullscreen){
+		        docV.requestFullscreen();
+		    }
+		    else if (docV.webkitRequestFullscreen){ // Chrome, Safari (webkit)
+		        docV.webkitRequestFullscreen();
+		    }
+		    else if (docV.mozRequestFullScreen){ // Firefox
+		        docV.mozRequestFullScreen();
+		    }
+		    else if (docV.msRequestFullscreen){ // IE or Edge
+		        docV.msRequestFullscreen();
+		    }
+		}
 	}
 	
-	// 전체화면 설정
-	function openFullScreenMode() {
-		var docV = document.documentElement;
-	    if (docV.requestFullscreen){
-	        docV.requestFullscreen();
-	    }
-	    else if (docV.webkitRequestFullscreen){ // Chrome, Safari (webkit)
-	        docV.webkitRequestFullscreen();
-	    }
-	    else if (docV.mozRequestFullScreen){ // Firefox
-	        docV.mozRequestFullScreen();
-	    }
-	    else if (docV.msRequestFullscreen){ // IE or Edge
-	        docV.msRequestFullscreen();
-	    }
-	}
 
 	// 전체화면 해제
 	function closeFullScreenMode() {
@@ -102,25 +58,18 @@ to {
 	        document.msExitFullscreen();
 	}
 
+	// 최초 확인 모달창
 	function check(){
 		$('.InterviewTutorial.PopUp').hide();
 	}
-
 	
-$(document).ready(function(){
-	
-	
-	$('.body').show();
-	$('#micCheckCancel').hide();
-	
-	
-	// 인터뷰 시작 버튼
-	$('.interview-start-btn').on('click',function(){
-		document.location="/interview/start.do";	
-	});
+	// 테스트 음성출력 종료시
+	function playEnd(){
+		$('#speakerCheckCancel').toggle('slow');
+		$('#speakerCheck').show('slow');
+	}
 	
 	// 전체화면
-	
 	function setSize(){
 		$('#fullsize').toggle(function(){
 			closeFullScreenMode();
@@ -128,6 +77,17 @@ $(document).ready(function(){
 			openFullScreenMode();
 		});
 	}
+	
+$(document).ready(function(){
+	$('.body').show();
+	$('#micCheckCancel').hide();
+	$('#speakerCheckCancel').hide();
+	
+	
+	// 인터뷰 시작 버튼
+	$('.interview-start-btn').on('click',function(){
+		document.location="/interview/start.do";	
+	});
 	
 	// 마이크체크 클릭
 	$('#micCheck').on('click',function(){
@@ -137,7 +97,7 @@ $(document).ready(function(){
 		
 		/* 아래부터 볼륨 조절 코드 */
 		function colorPids(vol) {                                                                             
-			  let all_pids = $('.none');                                                                       
+			  let all_pids = $('.mic');                                                                       
 			  let amout_of_pids = Math.round(vol);                                                         
 			  let elem_range = all_pids.slice(0, amout_of_pids)                                               
 			  for (var i = 0; i < all_pids.length; i++) {                                                     
@@ -152,10 +112,10 @@ $(document).ready(function(){
 			                                                                                                  
 		navigator.mediaDevices.getUserMedia({ audio: true, video: true })                                     
 		.then(function(stream) {                                                                              
-		  audioContext = new AudioContext();                                                                  
-		  analyser = audioContext.createAnalyser();                                                           
-		  microphone = audioContext.createMediaStreamSource(stream);                                          
-		  javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
+		  var audioContext = new AudioContext();                                                                  
+		  var analyser = audioContext.createAnalyser();                                                           
+		  var microphone = audioContext.createMediaStreamSource(stream);                                          
+		  var javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);                                    
 		                                                                                                      
 		  analyser.smoothingTimeConstant = 0.9;                                                               
 		  analyser.fftSize = 1024;                                                                            
@@ -189,8 +149,65 @@ $(document).ready(function(){
 		 });                                                                                                  
 	});
 	
-});
+	// 스피커체크 버튼
+	$('#speakerCheck').on('click',function(){
+		$('#speakerCheck').toggle('slow');
+		$('#speakerCheckCancel').show('slow');
+		
+		$('#sampleAudio').trigger('play');
+		/* 아래부터 볼륨 조절 코드 */
+		function colorPids(vol) {                                                                             
+		  let all_pids = $('.speaker');                                                                       
+		  let amout_of_pids = Math.round(vol);                                                         
+		  let elem_range = all_pids.slice(0, amout_of_pids)                                               
+		  for (var i = 0; i < all_pids.length; i++) {                                                     
+		    all_pids[i].style.backgroundColor="#8C8C8C";                                                  
+		  }                                                                                               
+		  for (var i = 0; i < elem_range.length; i++) {                                                   
+	                                                                                                      
+		    elem_range[i].style.backgroundColor="#FFFFFF";                                                
+		  }                                                                                               
+		} 
+		navigator.mediaDevices.getUserMedia({ audio: true, video: true })     // 미디어 받기                                
+		.then(function(stream) {     
+			audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			var myAudio = document.querySelector('audio');
 
+			var source = audioCtx.createMediaElementSource(myAudio);
+
+			// Create a gain node
+			var gainNode = audioCtx.createGain();
+			source.connect(gainNode);
+			gainNode.connect(audioCtx.destination);
+			
+		  	var analyser = audioCtx.createAnalyser();     // 분석 객체 생성  
+		 	javascriptNode = audioCtx.createScriptProcessor(2048, 1, 1);                                    
+		  	source.connect(analyser);                                                                       
+		  	analyser.connect(javascriptNode);       
+		  	javascriptNode.connect(audioCtx.destination);                                                                    
+		  	javascriptNode.onaudioprocess = function() {   
+		      var array = new Uint8Array(analyser.frequencyBinCount);                                         
+		      analyser.getByteFrequencyData(array);                                                           
+		      var values = 0;                                                                                 
+		                                                                                                      
+		      var length = array.length;                                                                      
+		      for (var i = 0; i < length; i++) {                                                              
+		        values += (array[i]);                                                                         
+		      }                                                                                               
+		                                                                                                      
+		      var average = values / length; 
+		    colorPids(average);                                                                               
+		  }
+		});
+	});
+	// 스피커체크 중지 버튼
+	$('#speakerCheckCancel').on('click',function(){
+		$('#speakerCheckCancel').toggle('slow');
+		$('#speakerCheck').show('slow');
+		
+		$('#sampleAudio').trigger('pause');
+	});
+});
 	
 </script>
 </head>
@@ -262,45 +279,45 @@ $(document).ready(function(){
 					<div class="test">
 						<div class="InterviewTestMic">
 							<div class="VolumeMeter">
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
-								<div class="none"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
+								<div class="none mic"></div>
 							</div>
 							<img
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAABHNCSVQICAgIfAhkiAAAActJREFUSEvtlq1uVVEQhb+laIKgDgkkJJDWgAUUkFBFBYIEUVPDEwBFERBAeAIEkgcA1SatgyYIQhNMW9UKTF0dVYvMYXbpOffce/ctCalgu7N/vrNmZs/MFiOG7SfAbeAi8AP4LunhqDMatmj7G3ClZ30fuC9ppe9sL3AErDD2JU1XAW2/Bh6NMivX1iSFO1pjQKHtz8C1CuCepLM1wB3gXAUQSQOC+hRWA4G5bnD+A8H23/kwAdPloh4HaHsTOA/My7bziryNPD0m8A/jJAEPGhOllZYo2z+BU0AxeaLUs30HWE63LYUPS1Q3JF3NGviyIvU+Spq3/R54APxWbPsDcDcmJE0FqKJA7AELaW4RtCXpcgBDckDD7HVJ18dAd4EXkt51St2SpFdNLh9RGZ+NKTm/mOpPpwu+Snqca9EenqWQxl0xf1gcOlV6HXg+rMyn3+4lLMx/GopbwPxrt49sAF+A6CMxbgCzwJn8bsEGgAmNqJW/Dwt2RPQT8GZsPSyENGsGuJCKAhIR3Uo/NyaObQHdDbZXgVtAbw/5t8AjaioSpdmyKynK1uFo9ZSsa5dqaRn91iuiC4ysuTkBcLvcv3Jm6NtmAmhr6y80wfzbDYp1UQAAAABJRU5ErkJggg=="
@@ -310,53 +327,54 @@ $(document).ready(function(){
 							<button id="micCheckCancel" class="text-btn false">그만하기</button>
 						</div>
 						<div class="InterviewTestAudio">
-<!-- 							<audio src="/static/media/sample_audio.0c1b6446.mp3"></audio> -->
+							<audio id="sampleAudio" src="/media/sample_audio.0c1b6446.mp3" onended='playEnd()'></audio>
 							<div class="VolumeMeter">
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
-								<div class=""></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
+								<div class="none speaker"></div>
 							</div>
 							<img
 								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAeCAYAAAA/xX6fAAAABHNCSVQICAgIfAhkiAAAAkxJREFUSEvVlr9rVFEQhb9TaaeVNoIWgpaK/4EKdjYWioKNggFrjRaKWIg/ClsFBRvtIwgKWpo0gpamy5ZJZSpNNTKPucvs2/t237JrwIU0m7f3u2fmzJkndvmjXebx/wLN7BxwH9iQdKWrcgtTaGYrwPkAbQHPJT1ug3sDzewO4H/fJJ1tHxQKHXAi/e9dW20vYMAeAHuAgaQjXSUzs2vAPeBwPDMCnQpswfyMMaCZfQV+A88kffKHzOx7UvtU0rJ/PxFYgY0Bo5QfQ80O8EbSUkB/AseAbeCiX6YT2AHrUvgCuATsy2WMy7iZvBVfvPdV4ARYFRhqfCyKaVzpTUmvzewtcBnYkbRXZrYJHJghcYY9jMNOASulR+m8dUnH4zJ/QuVLB9oMsBGFZraR3NgYw8yeALfjzOuhshhodV6gj8CjqNC2pP2hqFStGYkUCoO5gKl3xaV3PV3SSDRGSarnBwb0Vzi0lPUzcKY4c6HAjp6V3haFPjY3mtCY0zTF8i70h6STY66UlsysKF6fF1iSZOAKPEmSQZq5a5novQNd7tHWaByKSKpNTJ5DH/bTaQZ9m5SQL+V0J78ajsmE1M/hmx+rbosIgQsx4FuSDrZCvPndtPCuQWvbIgeAL9+rUd4cAo2D+6ynNnQE2AroVeBhwHJ5hzE3FVjZbTWF3ic8xuL5DBsqnroPc+NSenRu/FB7K4befz4CmwkYN/fdtlZ7Oaq9GZRRyRfvVdI+2yTGy9PEt/uHrlfFhQFL72rq/4nCPlWYuYd9D5303F8BlG7c1Ln34AAAAABJRU5ErkJggg=="
 								alt="">
 							<div class="label">스피커 테스트</div>
-							<button class="text-btn false">확인하기</button>
+							<button id="speakerCheck" class="text-btn false">확인하기</button>
+							<button id="speakerCheckCancel" class="text-btn false">그만하기</button>
 						</div>
 					</div>
 					<div class="txt"></div>
