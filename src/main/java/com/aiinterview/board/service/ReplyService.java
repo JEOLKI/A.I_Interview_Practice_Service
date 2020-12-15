@@ -41,8 +41,8 @@ public class ReplyService {
 		return replyMapper.update(replyVO);
 	}
 	
-	public int delete(String replySq) throws Exception{
-		return replyMapper.delete(replySq);
+	public int delete(ReplyVO replyVO) throws Exception{
+		return replyMapper.delete(replyVO);
 	}
 	
 }

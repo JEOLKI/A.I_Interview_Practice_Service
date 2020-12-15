@@ -129,19 +129,21 @@ public class ScriptController {
 	
 	/* 단일 수정*/
 	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
-	public String updateProcess(ScriptVO scriptVO) throws Exception {
+	public String updateProcess(ScriptVO scriptVO, Model model) throws Exception {
 		
 		ScriptVO scriptVo = scriptService.retrieve(scriptVO.getScriptSq());
 		scriptVo.setScriptContent(scriptVO.getScriptContent());
 		scriptVo.setScriptSt(scriptVO.getScriptSt());
 		scriptVo.setScriptGbSq(scriptVO.getScriptGbSq());
 
+		
+		
 		int updateCnt = scriptService.update(scriptVo);
-
+		model.addAttribute("scriptVO", scriptVo);
 		if (updateCnt == 1) {
 			return "redirect:/script/retrievePagingList.do";
 		} else {
-			return "manage/scriptGbScriptManage";
+			return "manage/scriptManage";
 		}
 	}
 	
@@ -184,54 +186,5 @@ public class ScriptController {
 	
 		return "excelView";
 	}
-
-	
-	
-	
-	
-	
-//	@RequestMapping(path = "/manage.do")
-//	public String scriptManageView(Model model) throws Exception {
-//		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
-//
-//		// 활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
-//		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
-//		for (ScriptGubunVO scriptGb : scriptGbList) {
-//			if (scriptGb.getScriptGbSt().equals("Y")) {
-//				availableGbList.add(scriptGb);
-//			}
-//		}
-//		model.addAttribute("scriptGbList", availableGbList);
-//
-//		return "manage/scriptManage";
-//	}
-
-//	@RequestMapping(path = "/list.do")
-//	public String retrieveList(Model model) throws Exception {
-//		List<ScriptVO> scriptList = scriptService.retrieveList();
-//		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
-//
-//		//전체 스크립트 리스트
-//		model.addAttribute("scriptList", scriptList);
-//		//전체 스크립트 구분 리스트
-//		model.addAttribute("scriptGbList", scriptGbList);
-//		
-//		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
-//		for (ScriptGubunVO scriptGb : scriptGbList) {
-//			if (scriptGb.getScriptGbSt().equals("Y")) {
-//				availableGbList.add(scriptGb);
-//			}
-//		}
-//		
-//		//활성상태가 "Y"인 스크립트 구분의 리스트
-//		//model.addAttribute("availableScriptGbList", availableGbList);
-//		return "jsonView";
-//	}
-
-
-
-
-
-	
 
 }

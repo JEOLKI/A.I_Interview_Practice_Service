@@ -12,6 +12,12 @@
 
 
 <script type="text/javascript" language="javascript" defer="defer">
+
+$(window).resize(function(){
+    window.resizeTo(320,510);
+});
+
+
 $(document).ready(function() {
 	$('#scriptModalContent').html('<br><br>이곳에 스크립트가 출력됩니다.');
 	//$('#phraseDiv').hide();
@@ -67,9 +73,11 @@ var speechConfig;
       speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
     }
     
-    if(scriptGbContent == "한국어"){
-        speechConfig.speechRecognitionLanguage = "ko-KR";        	
-    }else if(scriptGbContent == "영어"){
+    if(scriptGbContent==null){
+    	$('#scriptModalContent').html('<br><br>테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요.');
+    }else if(scriptGbContent == "한국어"){
+    	 speechConfig.speechRecognitionLanguage = "ko-KR";
+    } else if(scriptGbContent == "영어"){
         speechConfig.speechRecognitionLanguage = "en-US";        	
     }else{
         speechConfig.speechRecognitionLanguage = "ko-KR";        	
@@ -77,50 +85,46 @@ var speechConfig;
     
     var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
-
+	$('#scriptModalContent').html += '<br><br>🎙인식중입니다.';
     recognizer.recognizeOnceAsync(
-    		
-    		
-            function (result) {
-            	startRecognizeOnceAsyncButton.disabled = false;
+    	function (result) {
+           	startRecognizeOnceAsyncButton.disabled = false;
 
-            	var resultScript = result.text;
-            	
-            	scriptGbSq = $('.scriptGbBtn').val();
-      			var result = $.post('/scriptTest/create.do', {
-      				scriptSq : scriptSq,
-      				performScript : resultScript}
-      			,function(data) {
-      				const jsonData = JSON.parse(data);
-      				console.log(jsonData.testResult);
-      				
-      				$("#testResult").text(jsonData.testResult);
-      			});
-      		//$('#phraseDiv').show();
-      		phraseDiv.innerHTML += resultScript;
-              recognizer.close();
-              recognizer = undefined;
-            },
-            function (err) {
-              startRecognizeOnceAsyncButton.disabled = false;
-              phraseDiv.innerHTML += err;
-              window.console.log(err);
+           	var resultScript = result.text;
+           	
+           	scriptGbSq = $('.scriptGbBtn').val();
+     			var result = $.post('/scriptTest/create.do', {
+     				scriptSq : scriptSq,
+     				performScript : resultScript}
+     			,function(data) {
+     				const jsonData = JSON.parse(data);
+     				console.log(jsonData.testResult);
+     				
+     				$("#testResult").text(jsonData.testResult);
+     			});
+     		//$('#phraseDiv').show();
+     		phraseDiv.innerHTML += resultScript;
+             recognizer.close();
+             recognizer = undefined;
+           },
+           function (err) {
+             startRecognizeOnceAsyncButton.disabled = false;
+             phraseDiv.innerHTML += '<span style="color:red;">마이크를 연결해주세요!</span>';
 
-              recognizer.close();
-              recognizer = undefined;
-            });
-    $('#startTestBtn').show();
+             recognizer.close();
+             recognizer = undefined;
+          	});
+   			$('#startTestBtn').show();
+		});
 
-});
-
-if (!!window.SpeechSDK) {
-SpeechSDK = window.SpeechSDK;
-startRecognizeOnceAsyncButton.disabled = false;
-
-if (typeof RequestAuthorizationToken === "function") {
-    RequestAuthorizationToken();
-}
-}
+	if (!!window.SpeechSDK) {
+	SpeechSDK = window.SpeechSDK;
+	startRecognizeOnceAsyncButton.disabled = false;
+	
+		if (typeof RequestAuthorizationToken === "function") {
+		    RequestAuthorizationToken();
+			}
+	}
 });
 
 
@@ -171,8 +175,8 @@ function select(){
 	background-color : #EBECF0;
 	top: 0px;
 	left: 0;
-	width : 250px;
-	height : 150px;
+	width : 200px;
+	height : 120px;
 	justify-content: center;
 	align-items: center;
 	border : 3px solid black;
@@ -215,11 +219,15 @@ function select(){
 .informLbl{
 	margin-top: 30px;
 }
+
+html {
+	overflow:hidden;
+}  
 </style>
 </head>
 
 <body>
-	<div class="pro">
+	<div class="pro" style="font-size:13px;">
 		<ul class="nav nav-tabs">
 			<c:forEach items="${scriptGbList }" var="scriptGb">
 					<li onclick="select()">
@@ -236,20 +244,19 @@ function select(){
 				
 			</div>
 			
-			<div style="text-align: center"><br>
+			<div style="text-align: center; font-size:14px;">
 			<label class="informLbl">내가 말한</label>
 			<br>
 			<div id="phraseDiv">
 			
 			</div>
-			<br>
 			과의 일치도는
 			<span id="testResult" class="informLbl"></span>
 			% 입니다.			
 			</div>
 
-			<div class="popup-close-box" id="popup-close-box">
-				<br><label class="informLbl">
+			<div class="popup-close-box" id="popup-close-box" style="font-size:14px;">
+				<label class="informLbl">
 				시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
 				</label><br><br>
 				<button class="processBtn" id="startTestBtn">

@@ -13,6 +13,16 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<style>
+	#zipcodeBtn{
+		width: 88px;
+		height: 32px;
+		text-align: center;
+		position:absolute;
+		margin-left: 10px;
+	}
+</style>
+
 <script>
 	$(document).ready(function(){
 	    $('#zipcodeBtn').on('click',function(){
@@ -339,15 +349,13 @@
 					</div>
 
 					<div class="content prospect-area">
-						<div>
-							<button type="button" id="zipcodeBtn" class="btn new select" style="width: 88px;height: 50px">우편번호 찾기</button>
-						</div>
 						<div class="company">
 							<div class="label bold">
 								<span class="red">*</span>주소
 							</div>
 							<div>
 								<input type="text" class="form-control" id="memAddr1" name="memAddr1" placeholder="사용자 주소" READONLY>
+								<button type="button" id="zipcodeBtn" class="btn new select">우편번호 찾기</button>
 							</div>
 						</div>
 						<br>

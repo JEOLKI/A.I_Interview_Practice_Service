@@ -188,7 +188,7 @@ public class TalentController {
 		TalentVO talentVO;
 		try {
 			talentVO = talentService.retrieve(talentSq);
-			model.addAttribute("talentVO",talentVO);
+			
 		
 		
 			// 정렬 개수
@@ -234,9 +234,10 @@ public class TalentController {
 			resultList = keywordService.retrieveTalentKeywordPagingList(retrieveMap);
 			model.addAttribute("resultList", resultList);
 	
-			int totCnt = talentService.retrievePagingListCnt(talentVO);
+			int totCnt = keywordService.retrieveTalentKeywordPagingListCnt(retrieveMap);
 			paginationInfo.setTotalRecordCount(totCnt);
 			model.addAttribute("paginationInfo", paginationInfo);
+			model.addAttribute("talentVO",talentVO);
 			return "talent/talentKeywordManage";
 
 		} catch (Exception e) { }

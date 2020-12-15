@@ -82,6 +82,15 @@
 	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
 	</select>
 	
+	<select id="retrieveTalentKeywordPagingListCnt" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) AS totCnt
+		  FROM keyword a, keyword_matching b
+		 WHERE b.keyword_sq = a.keyword_sq
+		   AND b.talent_sq = #{talentSq}
+		   <if test="searchKeyword != null and searchKeyword != ''">
+		   AND a.keyword_content LIKE '%' || #{searchKeyword} || '%'
+		   </if>
+	</select>
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 이하 모델링 수정 이후 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	

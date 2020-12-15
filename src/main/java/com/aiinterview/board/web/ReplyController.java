@@ -19,6 +19,8 @@ public class ReplyController {
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.GET })
 	public String create(ReplyVO replyVO) {
+		
+		replyVO.setReplyContent(replyVO.getReplyContent().replaceAll("\\n", "<br>"));
 		replyVO.setReplySt("Y");
 		try {
 			replyService.create(replyVO);
@@ -31,11 +33,10 @@ public class ReplyController {
 	@RequestMapping(path = "/delete.do", method = {RequestMethod.GET})
 	public String deleteProcess(ReplyVO replyVO, HttpServletRequest request) {
 		
-		replyVO.setReplyContent("삭제된 댓글");
 		replyVO.setReplySt("N");
 		
 		try {
-			int deleteCnt = replyService.update(replyVO);
+			int deleteCnt = replyService.delete(replyVO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,6 +48,7 @@ public class ReplyController {
 	public String update(ReplyVO replyVO) {
 
 		replyVO.setReplySt("Y");
+		replyVO.setReplyContent(replyVO.getReplyContent().replaceAll("\\n", "<br>"));
 		
 		try {
 			int updateCnt = replyService.update(replyVO);

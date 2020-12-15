@@ -126,10 +126,11 @@ public class ReplyMapperTest extends ModelTestConfig{
 	public void deleteTest() throws Exception {
 		
 		/***Given***/
-		String replySq = "1";
+		ReplyVO replyVO = new ReplyVO();
+		replyVO.setReplySq("1");
 		
 		/***When***/
-		int result = replyMapper.delete(replySq);
+		int result = replyMapper.delete(replyVO);
 		
 		/***Then***/
 		assertEquals(1, result);

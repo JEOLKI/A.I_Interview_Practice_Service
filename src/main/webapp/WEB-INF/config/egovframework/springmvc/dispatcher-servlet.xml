@@ -139,6 +139,18 @@
 			<mvc:exclude-mapping path="/boardGubun/**"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/login/manage.do"/>
+			<bean class="com.aiinterview.common.web.ManageCheckInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/interview/**"/>
+			<bean class="com.aiinterview.common.web.InterviewCheckInterceptor"/>
+		</mvc:interceptor>
+		
+		
 	</mvc:interceptors> 
 	
 

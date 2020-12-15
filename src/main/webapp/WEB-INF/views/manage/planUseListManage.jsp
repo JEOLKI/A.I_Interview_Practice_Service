@@ -12,13 +12,13 @@
 /* pagination 페이지 링크 function */
 function linkPage(pageNo){
 	document.listForm.pageIndex.value = pageNo;
-	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
+	document.listForm.action = "<c:url value='/plan/retrievePagingList.do'/>";
    	document.listForm.submit();
 }
  
 /* 검색 */
 function searchList(){
-	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
+	document.listForm.action = "<c:url value='/plan/retrievePagingList.do'/>";
    	document.listForm.submit();
 }
 
@@ -53,7 +53,7 @@ function searchList(){
 	}
 	
 	.contentBox{
-		width: 95%;
+		width: 70%;
 		padding: 20px 30px;
 		background-color: white;
 		border-radius: 10px;
@@ -71,7 +71,7 @@ function searchList(){
 	}
 	
 	.custom-input{
-		width: 40%;
+		width: 50%;
 		border: 1px solid #000d22;
 		border-radius: 5px;
 		height: 30px;
@@ -143,28 +143,27 @@ function searchList(){
 		background-color: #4374D9;
 	    color: #fff;
 	}
+	
+	
 
 </style>
 </head>
 <body>
-	<h1>회원 관리</h1>
+
+	<h1>요금제 관리</h1>
+	
 	<div class="contentBox">
-		<h3>회원 목록</h3>
-		<form:form commandName="memberVO" id="listForm" name="listForm" method="get">
+		<h3>결제 내역</h3>
+		<form:form commandName="planUseVO" id="listForm" name="listForm" method="get">
 			<div id="root boarding">
 				<div class=" blog-main">
 					<div class="input-group" >
 				     	<ul>
 				        	<li>
 		        				<form:select cssClass="custom-select"  path="searchCondition">
-		        					<form:option value="0" label="아이디" />
-		        					<form:option value="1" label="별명" />
-		        					<form:option value="2" label="성별" />
-		        					<form:option value="3" label="학력" />
-		        					<form:option value="4" label="전공" />
-		        					<form:option value="5" label="구직시작기간" />
-		        					<form:option value="6" label="경력" />
-		        					<form:option value="7" label="상태" />
+		        					<form:option value="0" label="이용권" />
+		        					<form:option value="1" label="아이디" />
+		        					<form:option value="2" label="날짜" />
 		        				</form:select>
 		                        <form:input path="searchKeyword" cssClass="custom-input" />
 		        	            <span class="btn btn-primary">
@@ -175,34 +174,28 @@ function searchList(){
 					</div>
 					
 					<div id="excelBox">
-						<a class="excelBtn" href="/member/memberExcel.do">↓ excel 다운로드</a>  
+						<a class="excelBtn" href="/plan/planUseExcel.do">↓ excel 다운로드</a>  
 					</div>
 							
 					<div class="table-responsive">
 						<table class="content-table" id="dataTable">
 							<thead>
 								<tr>
-									<th>아이디</th>
-									<th>별명</th>
-									<th>성별</th>
-									<th>학력</th>
-									<th>전공</th>
-									<th>구직시작기간</th>
-									<th>경력</th>
-									<th>상태</th>
+									<th>구매일</th>
+									<th>이용권</th>
+									<th>회원 아이디</th>
+									<th>결제 금액</th>
+									<th>기간</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${resultList }" var="member">
+								<c:forEach items="${resultList }" var="planuse">
 									<tr>
-									<td>${member.memId }</td>	
-									<td>${member.memAlias }</td>
-									<td>${member.memGender } </td>
-									<td>${member.memEduc } </td>
-									<td>${member.memMajor }</td>
-									<td>${member.searchJobDate }</td>
-									<td>${member.memCareer }</td>
-									<td>${member.memSt }</td>
+									<td>${planuse.startDay }</td>	
+									<td>${planuse.planNm }</td>
+									<td>${planuse.memId } </td>
+									<td>${planuse.fmtPlanPrice } </td>
+									<td>${planuse.startDay } ~ ${planuse.endDay }</td>
 									</tr>
 								</c:forEach>
 							</tbody>

@@ -8,17 +8,16 @@
 
 <title>AI_Interview</title>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 <script>
 
-// onclick=\"location.href='/plan/planUseCreate.do?planSq="+plan.planSq+"'\
+var planClass = ['sprint', 'half', 'marathon'];
 		
 $(document).ready(function() {
 	payPlanAjax("${pvContent.planSq}");
 
-	console.log("d")
 	$('#payment').on('click', function(){
 		var check =  "${planUseCheck.term }"
 		if(check>0){
@@ -79,8 +78,10 @@ function payPlanAjax(p){
 		var html = "";                                              
 		var plan = data.pvContent              
 		
+		$(".head-section").addClass(planClass[p-1]);
+		
 		html += '	<div class="PaymentTicket">                                 ';
-		html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> ';
+		html += '	<img src="/images/ticket_'+planClass[p-1]+'.png" alt="" class="bg-img"> ';
 		html += '	<div class="date">                                          ';
 		html += '		<span>'+plan.planPeriod+'</span>일 이용권                                     ';
 		html += '	</div>                                                      ';
@@ -125,7 +126,7 @@ function payPlanAjax(p){
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
-		<div class="PaymentDetail sprint">
+		<div class="PaymentDetail">
 		<%@ include file="/WEB-INF/views/layout/header.jsp" %>
 		
 			<div class="head-section sprint"></div>
@@ -135,12 +136,9 @@ function payPlanAjax(p){
 					<div class="white-message" >구매 이용권</div>
 					<div id = "ContentAjax" >
 					
-					
 					</div>
 					<button class='payment-btn' id='payment'>구매하기</button>
-					
-					
-					
+
 				</div>
 				
 				<div class="lower">

@@ -4,8 +4,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
+
 	a:hover{
 	}
+	
 	a, button{
 		border : none;
 		cursor : pointer;
@@ -52,17 +54,16 @@
 		회원 관리 <i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc" class="w3-hide w3-white w3-card">
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 목록</a>
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 관리</a>
+		<a href="/member/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 목록</a>
 		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 통계</a>
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;관리자 권한 설정</a>
+		<a href="/member/authorityManage.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;관리자 권한 설정</a>
 	</div>
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc1()">
 		게시판 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc1" class="w3-hide w3-white w3-card">
-		<a href="/boardGubun/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 관리</a>
+		<a href="/boardGubun/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 등록/목록</a>
 		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 통계</a>
 	</div>
 	
@@ -70,7 +71,7 @@
 		요금제 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc2" class="w3-hide w3-white w3-card">
-		<a href="/plan/manage.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;요금제 관리</a>
+		<a href="/plan/manage.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;요금제 목록</a>
 		<a href="/plan/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;결제 내역</a>
 		<a href="/plan/statistics.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;요금제 통계</a>
 	</div>

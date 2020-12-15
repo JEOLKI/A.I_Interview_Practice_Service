@@ -35,6 +35,10 @@
 	cursor: pointer;
 	padding : 13px 40px;
 }
+#searchBtn{
+	width: 90px;
+	height: 40px;
+}
 </style>
 <script>
 $(document).ready(function(){
@@ -44,6 +48,7 @@ $(document).ready(function(){
 	count = 1;
 	number = 0;
 	
+	// 질문 추가
 	$('.NullQuestionBox').on('click',function(){
 		if(count < 5 ){
 			count++;
@@ -53,15 +58,22 @@ $(document).ready(function(){
 		}
 	});
 	
-	$(document).on('click','.SetQuestionBox',function(){
-		if(!$(this).hasClass('delete-btn')){
+	// 질문칸 클릭
+	$(document).on('click','.SetQuestionBox',function(e){
+		if(!$(e.target).hasClass('complete-btn')){
 			$(this).find('button').show();
 			$(this).find('.delete-btn').hide();
 			$(this).addClass('checked');
 			$(this).children().addClass('checked');
+		}else{ // 완료 버튼 클릭
+			$('.SetQuestionBox button').hide();
+			$('.delete-btn').show();
+			$('.SetQuestionBox').children().removeClass('checked');
+			$('.SetQuestionBox').removeClass('checked');
 		}
 	});
 	
+	// 질문삭제
 	$(document).on('click','.delete-btn',function(){
 		if(count  == 1){
 			alert('최소 하나의 질문은 필요합니다')
@@ -89,6 +101,7 @@ $(document).ready(function(){
 		$('#questionSearch').hide(); // 모달창 닫기
 	});
 	
+	// 바깥쪽 클릭하여 체크 해제
 	$(document).mouseup(function(){
 		$('.SetQuestionBox button').hide();
 		$('.delete-btn').show();
@@ -139,33 +152,35 @@ $(document).ready(function(){
 	// 키워드 검색 에이잭스
 	$("#searchBtn").on('click',function(){
 		searchKeyword = $('#search').val();
-		
-		$.ajax(
-			{url:"/sampQuest/retrieve.do",
-			data : {searchKeyword : searchKeyword},
-			method : "get",
-			success : function(data){
-				$('.nothing').remove();
-				$('.searched-question.result').remove();
-				
-				if(data.sampQuestList.length == 0){
-					html="";
-					html += "<div class='nothing'>결과가 없습니다</div>";
-// 					$('.recommend-question').hide();
-					$('.search-result').append(html);
-				}else{
-					html = "";
-					for(i=0; i< data.sampQuestList.length; i++){
-						html += "<div class='searched-question result' id='result' data-sq="+data.sampQuestList[i].sampQuestSq+">" + data.sampQuestList[i].sampQuestContent + "</div>";
+		if(searchKeyword == ''){
+			$('.searched-question.result').remove();
+			alert('검색 키워드를 입력해주세요');
+		}else{
+			$.ajax(
+				{url:"/sampQuest/retrieve.do",
+				data : {searchKeyword : searchKeyword},
+				method : "get",
+				success : function(data){
+					$('.nothing').remove();
+					$('.searched-question.result').remove();
+					
+					if(data.sampQuestList.length == 0){
+						html="";
+						html += "<div class='nothing'>결과가 없습니다</div>";
+						$('.search-result').append(html);
+					}else{
+						html = "";
+						for(i=0; i< data.sampQuestList.length; i++){
+							html += "<div class='searched-question result' id='result' data-sq="+data.sampQuestList[i].sampQuestSq+">" + data.sampQuestList[i].sampQuestContent + "</div>";
+						}
+						$('.search-result').append(html);
 					}
-// 					$('.recommend-question').hide();
-					$('.search-result').append(html);
+				},
+				error : function(data){
+					console.log(data.status);
 				}
-			},
-			error : function(data){
-				console.log(data.status);
-			}
-		});
+			});
+		}
 	});
 	
 	// 랜덤 질문 생성
@@ -187,16 +202,7 @@ $(document).ready(function(){
 	});
 });
 
-function removeComma(str){
-	var test = '가나다라 마바사 가나';
-	var result = test.replace('가', '나');
-
-	console.log(result);
-
-}
-
-
-
+// submit하는 function
 function setting(){
 	questionCount = $('.text').length
 	for(i=0; i<questionCount; i++){ // 모든 질문들 ,-> .로변경
@@ -204,8 +210,6 @@ function setting(){
 		$('#questionFrm .SetQuestionBox').eq(i).find($('.text')).val(result);
 		console.log($('#questionFrm .SetQuestionBox').eq(i).find($('.text')).val())
 	}
-	
-	console.log(number);
 	
 	for(i=0; i<$('.text').length; i++){
 		if($('.text').eq(i).val()==''){

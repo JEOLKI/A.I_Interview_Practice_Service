@@ -26,10 +26,11 @@
 		WHERE  REPLY_SQ      = #{replySq}
 	</update>
 	
-	<delete id="delete">
-		DELETE FROM REPLY		
+	<update id="delete">
+		UPDATE REPLY
+		SET    REPLY_ST        = #{replySt}
 		WHERE  REPLY_SQ      = #{replySq}
-	</delete>
+	</update>
 	
 	<select id="retrieve" resultType="com.aiinterview.board.vo.ReplyVO">
 		SELECT *
@@ -43,7 +44,12 @@
 	      	SELECT ROWNUM RNUM,
 	           	   S.*
 		      FROM (
-		      	SELECT *
+		      	SELECT REPLY_SQ,
+		                BOARD_SQ,
+		                REPLY_CONTENT,
+		                TO_CHAR(REPLY_DATE, 'YYYY-MM-DD') REPLY_DATE,
+		                REPLY_ST,
+		                MEM_ID
 					FROM REPLY
 					WHERE BOARD_SQ = #{boardSq}
 					ORDER BY REPLY_SQ DESC
@@ -60,7 +66,12 @@
 	</select>
 	
 	<select id="retrieveList" resultType="com.aiinterview.board.vo.ReplyVO">
-		SELECT *
+		SELECT REPLY_SQ,
+                BOARD_SQ,
+                REPLY_CONTENT,
+                TO_CHAR(REPLY_DATE, 'YYYY-MM-DD') REPLY_DATE,
+                REPLY_ST,
+                MEM_ID
 		FROM REPLY
 		WHERE BOARD_SQ = #{boardSq}
 	</select>

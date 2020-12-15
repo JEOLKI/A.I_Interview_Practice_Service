@@ -4,8 +4,11 @@ package com.aiinterview.member.web;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -15,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,9 @@ import com.aiinterview.plan.service.PlanService;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 @RequestMapping("/member")
 @Controller
 public class MemberController {
@@ -37,6 +44,10 @@ public class MemberController {
 	
 	@Resource(name = "planService")
 	private PlanService planService;
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 	
 	@RequestMapping(path = "/test.do", method = { RequestMethod.GET })
 	public String testView() {
@@ -76,7 +87,6 @@ public class MemberController {
 		try {
 			updateCnt = memberService.updatePw(memberVo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("updateCnt", updateCnt);
@@ -89,7 +99,6 @@ public class MemberController {
 		try {
 			memberVo = memberService.retrieve(memId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("memberVo",memberVo);
@@ -115,7 +124,6 @@ public class MemberController {
 	public String create(MemberVO memberVo, Model model,RedirectAttributes ra){
 		memberVo.setMemAuth("Y");
 		memberVo.setMemSt("Y");
-		System.out.println(memberVo);
 		
 		int insertCnt = 0;
 		try {
@@ -124,7 +132,6 @@ public class MemberController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(insertCnt);
 		
 		model.addAttribute("memberVo",memberVo);
 		
@@ -164,12 +171,9 @@ public class MemberController {
 				
 				model.addAttribute("planUse", planUse);
 				model.addAttribute("planUseCheck", planUseCheck);
-				System.out.println(planUseCheck);
-				System.out.println("오류 확인");
 			}else {
 				puv.setTerm(-1);
 				
-				System.out.println(puv);
 				model.addAttribute("planUseCheck", puv);
 				
 			}
@@ -209,7 +213,6 @@ public class MemberController {
 		try {
 			memberVo = memberService.retrieve(memId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("memProfilePath", memberVo.getMemProfilePath());
@@ -248,7 +251,6 @@ public class MemberController {
 			try {
 				updateCnt = memberService.update(memberVo);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -268,7 +270,6 @@ public class MemberController {
 			try {
 				updateCnt = memberService.update(memberVo);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -291,5 +292,152 @@ public class MemberController {
 	public String marketingAgree() {
 		return "agreement/marketingAgree";
 	}
+	
+	@RequestMapping(path = "/retrievePagingList.do", method = { RequestMethod.GET, RequestMethod.POST })
+	public String retrievePagingList(MemberVO memberVO, HttpSession session, ModelMap model) {
+		/** EgovPropertyService.sample */
+		memberVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		memberVO.setPageSize(propertiesService.getInt("pageSize"));
 
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(memberVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(memberVO.getPageUnit());
+		paginationInfo.setPageSize(memberVO.getPageSize());
+
+		memberVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		memberVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		memberVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<MemberVO> resultList = new ArrayList<>();
+		try {
+			resultList = memberService.retrievePagingList(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("resultList", resultList);
+
+		int totCnt = 0;
+		try {
+			totCnt = memberService.retrievePagingListCnt(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		return "manage/memberManage";
+	}
+	
+	@RequestMapping(path ="/memberExcel.do")
+	public String memberExcelDown(Model model) throws Exception {
+
+		// 출력할 리스트 가져오기
+		List<MemberVO> memberList = memberService.manageMember();
+		System.out.println("헤더설정1");
+		// excel 파일 header 설정
+		List<String> header = new ArrayList<String>();
+		header.add("아이디");
+		header.add("비밀번호");
+		header.add("관리자권한");
+		header.add("회원상태");
+		header.add("별명");
+		header.add("이름");
+		header.add("전화번호");
+		header.add("기본주소");
+		header.add("상세주소");
+		header.add("우편번호");
+		header.add("경력");
+		header.add("학력");
+		header.add("성별");
+		header.add("목표회사");
+		header.add("목표직무");
+		header.add("구직시작기간");
+		header.add("전공");
+		// excel 파일 data 설정
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+		for (int i = 0; i < memberList.size(); i++) {
+			Map<String, String> map = new HashMap<>();
+			map.put("아이디", memberList.get(i).getMemId());
+			map.put("비밀번호", memberList.get(i).getMemPw());
+			map.put("관리자권한", memberList.get(i).getMemAuth());
+			map.put("회원상태", memberList.get(i).getMemSt());
+			map.put("별명", memberList.get(i).getMemAlias());
+			map.put("이름", memberList.get(i).getMemNm());
+			map.put("전화번호", memberList.get(i).getMemTel());
+			map.put("기본주소", memberList.get(i).getMemAddr1());
+			map.put("상세주소", memberList.get(i).getMemAddr2());
+			map.put("우편번호", Integer.toString(memberList.get(i).getMemZipcode()));
+			map.put("경력", memberList.get(i).getMemCareer());
+			map.put("학력", memberList.get(i).getMemEduc());
+			map.put("성별", memberList.get(i).getMemGender());
+			map.put("목표회사", memberList.get(i).getMemTargetCompany());
+			map.put("목표직무", memberList.get(i).getMemTargetJob());
+			map.put("구직시작기간", memberList.get(i).getSearchJobDate());
+			map.put("전공", memberList.get(i).getMemMajor());
+			data.add(map);
+		}
+
+		model.addAttribute("header", header);
+		model.addAttribute("data", data);
+		model.addAttribute("fileName", "MEMBER");
+		model.addAttribute("sheetName", "MEMBER");
+
+		return "excelView";
+	}
+	
+	@RequestMapping(path="authorityManage.do")
+	public String authorityManage(MemberVO memberVO, HttpSession session, ModelMap model) {
+		/** EgovPropertyService.sample */
+		memberVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		memberVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(memberVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(memberVO.getPageUnit());
+		paginationInfo.setPageSize(memberVO.getPageSize());
+
+		memberVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		memberVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		memberVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<MemberVO> resultList = new ArrayList<>();
+		try {
+			resultList = memberService.retrievePagingList(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("resultList", resultList);
+
+		int totCnt = 0;
+		try {
+			totCnt = memberService.retrievePagingListCnt(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		return "manage/authorityManage";
+	}
+	
+	@RequestMapping(path="authorityChange.do")
+	public String authorityChange(MemberVO memberVO) {
+		MemberVO changeMemberVO = null;
+		try {
+			changeMemberVO = memberService.retrieve(memberVO.getMemId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		changeMemberVO.setMemAuth(memberVO.getMemAuth());
+		try {
+			memberService.update(changeMemberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/member/authorityManage.do";
+	}
+	
 }

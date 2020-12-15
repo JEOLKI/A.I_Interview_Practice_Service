@@ -6,6 +6,7 @@
 <meta charset="utf-8">
 <title>AI_Interview</title>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <style>
@@ -30,13 +31,14 @@ function buyPlanAjax(){
 		success : function(data){
 			console.log(data)
 			var html = "";
+			var planClass = ['sprint', 'half', 'marathon'];
 			for(var i = 0; i< data.planList.length ; i++){
 				var plan = data.planList[i];                                                    
-			html +=	' <div class="box">                                                             '        ;
-			html +=	' <div class="PaymentBox">                                                     '        ;
+			html +=	' <div class="box">';
+			html +=	' <div class="PaymentBox">';
 			html +=	'	<img src="/images/요금제이미지.png" alt="" class="bg">                         '           ;
 			html +=	'	<div class="content-body">                                                  '        ;
-			html +=	'		<div class="title sprint">'+plan.planNm+'</div>                                  '          ;
+			html +=	'		<div class="title '+planClass[i]+'">'+plan.planNm+'</div>                                  '          ;
 			html +=	'		<div class="price-area">                                                '        ;
 			html +=	'			<div class="date-num">                                              '        ;
 			html +=	'				<span>'+plan.planPeriod+'</span>일 이용권                                    '    ;
@@ -54,7 +56,7 @@ function buyPlanAjax(){
 			html +=	'		</div>                                                                  '        ;
 			html +=	'	</div>                                                                      '        ;
 			html +=	' </div>                                                                        '        ;
-			html +=	"<button class='sprint' onclick=\"location.href='/plan/planContent.do?planSq="+plan.planSq+"'\">구매하기</button>";
+			html +=	"<button class="+planClass[i]+" onclick=\"location.href='/plan/planContent.do?planSq="+plan.planSq+"'\">구매하기</button>";
 			html += '</div>                                                                         ';
 					
 			};

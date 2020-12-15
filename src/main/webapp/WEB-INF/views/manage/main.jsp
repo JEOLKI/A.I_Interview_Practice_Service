@@ -75,7 +75,7 @@
 
 	<%@ include file="/WEB-INF/views/layout/header.jsp" %>
 	
-	<%@ include file="/WEB-INF/views/manage/managerleft.jsp" %>
+	<%@ include file="/WEB-INF/views/manage/manageLeft.jsp" %>
 	
 	<iframe class="w3-container managerbox" name="manage_content" src="/boardGubun/retrievePagingList.do"></iframe>
 	

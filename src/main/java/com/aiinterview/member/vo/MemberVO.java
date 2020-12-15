@@ -1,6 +1,8 @@
 package com.aiinterview.member.vo;
 
-public class MemberVO {
+import com.aiinterview.base.vo.BaseVO;
+
+public class MemberVO extends BaseVO {
 
 	private String memId;
 	private String memPw;

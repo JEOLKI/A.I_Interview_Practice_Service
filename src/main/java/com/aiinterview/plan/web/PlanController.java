@@ -36,7 +36,7 @@ public class PlanController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Resource(name = "planService")
-	PlanService planService;
+	private PlanService planService;
 
 	@RequestMapping(path = "/modal.do", method = RequestMethod.GET)
 	public String modal(Model model) {
@@ -46,7 +46,6 @@ public class PlanController {
 
 	@RequestMapping(path = "/planList.do", method = RequestMethod.GET)
 	public String planListView(Model model) {
-
 		return "plan/planList";
 	}
 
@@ -80,7 +79,6 @@ public class PlanController {
 			model.addAttribute("pvContent", pvContent);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -95,7 +93,6 @@ public class PlanController {
 			pvContent = planService.planContent(pv);
 			model.addAttribute("pvContent", pvContent);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "jsonView";
@@ -121,7 +118,6 @@ public class PlanController {
 			planService.planUseCreate(puv);
 			//model.addAttribute("puv", puv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "redirect:/member/myprofileview.do";
@@ -131,7 +127,7 @@ public class PlanController {
 	@RequestMapping(path = "/manage.do", method = RequestMethod.GET)
 	public String createView() {
 
-		return "plan/planManage";
+		return "manage/planManage";
 	}
 
 	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
@@ -139,7 +135,6 @@ public class PlanController {
 		try {
 			planService.create(pv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -152,7 +147,6 @@ public class PlanController {
 		try {
 			planService.update(pv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -167,7 +161,6 @@ public class PlanController {
 		try {
 			planService.CashList(puv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -388,19 +381,7 @@ public class PlanController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "plan/planUselist";
-	}
-
-	/* chart.js 테스트 */
-	@RequestMapping("/chartjs.do")
-	public String chartjs() {
-		return "plan/chartJsTest";
-	}
-
-	/* AMChart 테스트 */
-	@RequestMapping("/amchart.do")
-	public String amchart() {
-		return "plan/amChartTest";
+		return "manage/planUseListManage";
 	}
 
 	/* 요금제 통계 화면 */

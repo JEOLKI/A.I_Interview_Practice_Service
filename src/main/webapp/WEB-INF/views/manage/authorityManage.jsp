@@ -9,39 +9,16 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <script type="text/javascript" language="javascript" defer="defer">
-	
-	$(document).ready(function() {
-	
-		$('#boardGbRegBtn').on('click', function() {
-			$('#check').empty();
-			if($('#boardGbNm').val()==''){
-				var html = '내용을 입력해주세요';
-				$('#check').append(html);
-			}else{
-				$('#boardGubunRegistFrm').submit();
-			}
-		})
-		
-		$('#massiveCreate').on('click',function(){
-			$('input[type="file"]').click();
-		})
-		
-		$('input[type="file"]').on('change',function(){
-			$('#massiveForm').submit();
-		})
-		
-	})
-	
 	 /* pagination 페이지 링크 function */
     function linkPage(pageNo){
     	document.listForm.pageIndex.value = pageNo;
-    	document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
+    	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
        	document.listForm.submit();
     }
 	 
 	/* 검색 */
 	function searchList(){
-		document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
+		document.listForm.action = "<c:url value='/member/authorityManage.do'/>";
        	document.listForm.submit();
 	}
 	
@@ -49,15 +26,18 @@
 
 <style type="text/css">
 	
-	#boardGbNm, .boardGbNm, .custom-input{
+	.memId, .mem, .custom-input{
 		width: 50%;
 		border: 1px solid #000d22;
 		border-radius: 5px;
 		height: 30px;
 		padding: 0px 10px;
 	}
+	.memId{
+/* 		margin-left : 55px; */
+	}
 	
-	#boardGbSt, .custom-select, .boardGbSt{
+	#memAuth, .custom-select, .memAuth{
 		border: 1px solid gray;
 		border-radius: 5px;
 		height: 30px;
@@ -66,6 +46,7 @@
 	
 	.manageBtn, .updateBtn, .searchBtn{
 		display: inline-block;
+		background-color : white;
 		vertical-align : top;
 		border: 1px solid #000d22;
 		border-radius: 5px;
@@ -76,7 +57,6 @@
 	
 	.updateBtn{
 		width: 50px;
-		background: white;
 	}
 	
 	.manageBtn:hover, .updateBtn:hover, .searchBtn:hover{
@@ -89,7 +69,7 @@
 	}
 	
 	.contentBox{
-		width: 70%;
+		width: 55%;
 		padding: 20px 30px;
 		background-color: white;
 		border-radius: 10px;
@@ -148,6 +128,9 @@
 		background-color: #4374D9;
 	    color: #fff;
 	}
+	.updateBtn{
+		width : 100px;
+	}
 	
 	
 </style>
@@ -155,34 +138,18 @@
 
 </head>
 <body>
-	<h1>게시판 관리</h1>
+	<h1>회원 관리</h1>
 	
 	<div class="contentBox">
-		<h3>게시판 등록</h3>
-		<div class="registdiv">
-			<form id="boardGubunRegistFrm" action="${cp }/boardGubun/create.do" method="post">
-				<input type="text" id="boardGbNm" name="boardGbNm" placeholder="게시판 이름" value="">
-				<select id="boardGbSt" name="boardGbSt">
-					<option value="Y" selected="selected">사용</option>
-					<option value="N">미사용</option>
-				</select>
-				<a id="boardGbRegBtn" class="manageBtn">게시판 등록</a>
-				<span style="color:red" id="check"></span>
-			</form>
-		</div>
-	</div>
-	
-	<div class="contentBox">
-		<h3>게시판 목록</h3>
+		<h3>관리자 권한 설정</h3>
 
-		
-		<form:form commandName="boardGubunVO" id="listForm" name="listForm" method="get">
+		<form:form commandName="memberVO" id="listForm" name="listForm" method="get">
 			<div class="blog-main">
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
-	        			<li>
+	        			<li style="margin-left: 2%;">
 	        				<form:select class="col-sm-1" path="searchCondition" cssClass="custom-select">
-	        					<form:option value="0" label="내용" />
+	        					<form:option value="0" label="아이디" />
 	        				</form:select>
 	                        <form:input  path="searchKeyword" cssClass="custom-input"/>
 	        	            <span class="btn btn-primary">
@@ -191,37 +158,31 @@
 	        	        </li>
 	                </ul>
 		       	</div>
-			    
-			    <div id="excelBox">
-					<a class="excelBtn" href="${cp }/boardGubun/list/excelDown.do">↓ excel 다운로드</a> 
-					<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
-					<!-- excel file 읽어오기 -->
-				    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
-				        <input type="file" name="excelFile" hidden/>
-				    </form>
-				</div>
-			    
+		       	
+		       	<br>
 			    <br>
 			    
 				<div class="table-responsive">
-					<c:forEach items="${resultList }" var="boardGubun">
-						<form class="updateFrm" action="${cp }/boardGubun/update.do" method="post">
-							<input type="hidden" name="boardGbSq" value="${boardGubun.boardGbSq}">
-							<input type="text" class="boardGbNm" name="boardGbNm" value="${boardGubun.boardGbNm}">
-							<select class="boardGbSt" name="boardGbSt">
-									<c:choose>
-										<c:when test="${boardGubun.boardGbSt == 'Y' }">
-											<option value="Y" selected="selected">사용</option>
-											<option value="N">미사용</option>
-										</c:when>
-										<c:otherwise>
-											<option value="Y">사용</option>
-											<option value="N" selected="selected">미사용</option>
-										</c:otherwise>
-									</c:choose>
-							</select>
-							<button type="submit" class="updateBtn">수정</button>
-							<a class="categoryMngBtn manageBtn" href="${cp }/category/retrievePagingList.do?boardGbSq=${boardGubun.boardGbSq }">말머리 관리</a>
+					<c:forEach items="${resultList }" var="member">
+						<form class="updateFrm" action="/member/authorityChange.do" method="post">
+							<c:choose>
+								<c:when test="${member.memId != S_MEMBER.memId }">
+									<input type="text" class="memId" name="memId" value="${member.memId}" readonly="readonly">
+									<select class="memAuth" name="memAuth">
+											<c:choose>
+												<c:when test="${member.memAuth == 'Y' }">
+													<option value="N" selected="selected">일반회원</option>
+													<option value="Y">관리자</option>
+												</c:when>
+												<c:otherwise>
+													<option value="Y" selected="selected">관리자</option>
+													<option value="N">일반회원</option>
+												</c:otherwise>
+											</c:choose>
+									</select>
+									<button type="submit" class="updateBtn">권한 수정</button>
+								</c:when>
+							</c:choose>
 						</form>
 					</c:forEach>
 				</div>
