@@ -211,6 +211,13 @@
 		    ) c
 	</select>
 	
+	<select id="retrieveEndDate" resultType="int"> 
+		SELECT COUNT(*) totCnt
+		FROM PLAN_USE
+		WHERE MEM_ID = 'TEST_ID'
+		AND END_DATE > SYSDATE
+	</select>
+	
 
 
 

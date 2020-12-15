@@ -36,7 +36,7 @@ public class PlanController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Resource(name = "planService")
-	PlanService planService;
+	private PlanService planService;
 
 	@RequestMapping(path = "/modal.do", method = RequestMethod.GET)
 	public String modal(Model model) {

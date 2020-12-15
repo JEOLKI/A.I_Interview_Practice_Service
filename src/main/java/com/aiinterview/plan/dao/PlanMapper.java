@@ -118,6 +118,8 @@ public interface PlanMapper {
 	 */
 	List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap)throws Exception;
 
+	int retrieveEndDate(String memId) throws Exception;
+
 	
 	
 	

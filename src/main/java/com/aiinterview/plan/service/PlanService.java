@@ -94,8 +94,18 @@ public class PlanService {
 	 * @param statisticMap
 	 * @return
 	 */
-	public List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap)throws Exception  {
+	public List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap) throws Exception  {
 		return planMapper.retrieveTotalSale(statisticMap);
+	}
+	
+	/**
+	 * 해당 사용자의 요금제 마지막날을 조회하는 메서드
+	 * @param memId
+	 * @return
+	 * @throws Exception 
+	 */
+	public int retrieveEndDate(String memId) throws Exception {
+		return planMapper.retrieveEndDate(memId);
 	}
 
 	
