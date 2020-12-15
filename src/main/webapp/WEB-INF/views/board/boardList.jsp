@@ -247,7 +247,17 @@
 				</tbody>
 			</table>
 				
-				<a class="createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
+				<c:choose>
+					<c:when test="${boardGbSq =='1' }">
+						<c:if test="${S_MEMBER.memAuth =='Y' }">
+							<a class="createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
+						</c:if>
+					</c:when>
+					<c:otherwise>
+						<a class="createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
+					</c:otherwise>
+				</c:choose>
+				
 				
 				<div class ="paging">
 					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
