@@ -21,6 +21,6 @@ public interface ReplyMapper {
 	
 	public int update(ReplyVO replyVO) throws Exception;
 	
-	public int delete(String replySq) throws Exception;
+	public int delete(ReplyVO replyVO) throws Exception;
 	
 }
