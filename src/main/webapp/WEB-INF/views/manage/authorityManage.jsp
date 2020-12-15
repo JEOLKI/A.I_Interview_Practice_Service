@@ -33,6 +33,9 @@
 		height: 30px;
 		padding: 0px 10px;
 	}
+	.memId{
+/* 		margin-left : 55px; */
+	}
 	
 	#memAuth, .custom-select, .memAuth{
 		border: 1px solid gray;
@@ -43,6 +46,7 @@
 	
 	.manageBtn, .updateBtn, .searchBtn{
 		display: inline-block;
+		background-color : white;
 		vertical-align : top;
 		border: 1px solid #000d22;
 		border-radius: 5px;
@@ -65,7 +69,7 @@
 	}
 	
 	.contentBox{
-		width: 70%;
+		width: 55%;
 		padding: 20px 30px;
 		background-color: white;
 		border-radius: 10px;
@@ -124,6 +128,9 @@
 		background-color: #4374D9;
 	    color: #fff;
 	}
+	.updateBtn{
+		width : 100px;
+	}
 	
 	
 </style>
@@ -140,7 +147,7 @@
 			<div class="blog-main">
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
-	        			<li>
+	        			<li style="margin-left: 2%;">
 	        				<form:select class="col-sm-1" path="searchCondition" cssClass="custom-select">
 	        					<form:option value="0" label="아이디" />
 	        				</form:select>
@@ -158,20 +165,24 @@
 				<div class="table-responsive">
 					<c:forEach items="${resultList }" var="member">
 						<form class="updateFrm" action="/member/authorityChange.do" method="post">
-							<input type="text" class="memId" name="memId" value="${member.memId}" readonly="readonly">
-							<select class="memAuth" name="memAuth">
-									<c:choose>
-										<c:when test="${member.memAuth == 'Y' }">
-											<option value="N" selected="selected">일반회원</option>
-											<option value="Y">관리자</option>
-										</c:when>
-										<c:otherwise>
-											<option value="Y" selected="selected">관리자</option>
-											<option value="N">일반회원</option>
-										</c:otherwise>
-									</c:choose>
-							</select>
-							<button type="submit" class="updateBtn">전환</button>
+							<c:choose>
+								<c:when test="${member.memId != S_MEMBER.memId }">
+									<input type="text" class="memId" name="memId" value="${member.memId}" readonly="readonly">
+									<select class="memAuth" name="memAuth">
+											<c:choose>
+												<c:when test="${member.memAuth == 'Y' }">
+													<option value="N" selected="selected">일반회원</option>
+													<option value="Y">관리자</option>
+												</c:when>
+												<c:otherwise>
+													<option value="Y" selected="selected">관리자</option>
+													<option value="N">일반회원</option>
+												</c:otherwise>
+											</c:choose>
+									</select>
+									<button type="submit" class="updateBtn">권한 수정</button>
+								</c:when>
+							</c:choose>
 						</form>
 					</c:forEach>
 				</div>
