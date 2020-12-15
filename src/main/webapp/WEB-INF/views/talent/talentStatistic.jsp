@@ -101,6 +101,22 @@
 	.talentCountList{
 		margin-top: 50px;
 	}
+	#searchBtn{
+		display: inline-block;
+	    vertical-align: middle;
+	    border: 1px solid #000d22;
+	    border-radius: 5px;
+	    height: 23px;
+	    padding: 0px 10px;
+	    text-align: center;
+	    position: relative;
+	    top: -2px;
+	}
+	
+	##searchBtn:hover{
+	    background-color: #000d22;
+	    color: #fff;
+	}
 </style>
 <script>
 $(document).ready(function(){

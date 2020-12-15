@@ -145,13 +145,13 @@ $(document).ready(function(){
 	})
 	
 	$('.updateBtn').on('click',function(){
-		questGbContent = $(this).parent().find('.sampQuestContent').val();
+		sampQuestContent = $(this).parent().find('.sampQuestContent').val();
 		$('#updateCheck').empty();
-		if(questGbContent ==''){
+		if(sampQuestContent ==''){
 			var html = '<span style="color:red">**내용을 입력해주세요</span>';
 			$('#updateCheck').append(html);
 		}else{
-			$('#sampQuestUpdateFrm').submit();
+			$(this).parent().submit();
 		}
 	})
 

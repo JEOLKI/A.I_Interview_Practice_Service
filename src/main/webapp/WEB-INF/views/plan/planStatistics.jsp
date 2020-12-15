@@ -21,7 +21,12 @@ body{
 	#search{
 		display: inline-block; 
 	}
-	
+	a{
+		color: black;
+	}
+	a:hover{
+		text-decoration: none;
+	}
 	.listmenu, .conditionmenu{
 		display: inline-block; 
 	}
@@ -98,6 +103,33 @@ body{
 	}
 	.w3-container html{
 		background-color: #f5f7fb;
+	}
+	#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, #saleSearchBtn, #useSearchBtn {
+		display: inline-block;
+	    vertical-align: middle;
+	    border: 1px solid #000d22;
+	    border-radius: 5px;
+	    height: 23px;
+	    padding: 0px 10px;
+	    text-align: center;
+	    position: relative;
+	    top: -2px;
+	}
+	
+	#registBtn:hover, #saleSearchBtn:hover, #useSearchBtn:hover,.updateBtn:hover, #talentUpdateBtn:hover, .deleteBtn:hover{
+	    background-color: #000d22;
+	    color: #fff;
+	}
+	.excelBtn{
+		display: inline-block;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		padding:0px 5px;
+	}
+	.excelBtn:hover{
+	    background-color: #22741C;
+	    border: 1px solid #22741C;
+	    color: #fff;
 	}
 </style>
 <script>
@@ -493,7 +525,7 @@ function numberWithCommas(x) {
 									<input type="text" id="useSearchKeyword" >
 									<span id="useSearchBtn">검색</span>
 								</div>
-						    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
+						    	<a class="excelBtn"  href="${cp }/plan/list/excelDown.do">↓ excel다운로드</a> 
 						    </div>
 					 </div>
 					 <div class="tab-pane fade">

@@ -164,7 +164,14 @@
 		})
 	
 		$('.updateBtn').on('click',function(){
-			$(this).parent().submit();
+			talentNm = $(this).parent().find('.talentNm').val();
+			$('#updateCheck').empty();
+			if(talentNm ==''){
+				var html = '<span style="color:red">**내용을 입력해주세요</span>';
+				$('#updateCheck').append(html);
+			}else{
+				$(this).parent().submit();
+			}
 		})
 		
 	})
@@ -265,7 +272,8 @@
 							</c:choose>
 						</select>
 					<a class="updateBtn" >수정</a>
-					<a class="keywordMngBtn" value="${talent.talentSq }">키워드 관리</a>	
+					<a class="keywordMngBtn" value="${talent.talentSq }">키워드 관리</a>
+					<div id="updateCheck" style="display: inline-block;">&nbsp;</div>	
 					</form>
 			</c:forEach>
 		</div>

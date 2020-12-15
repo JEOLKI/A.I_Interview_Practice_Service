@@ -18,11 +18,15 @@
 		margin-bottom: 20px;
 		display : block;
 	}
-	.body{
-		margin : 30px;
+	.listmenu, .excelmenu{
+		display: inline-block; 
 	}
-	#massiveCreate{
-		margin-left: 20px;
+	.excelmenu{
+		float: left;
+	}
+	.listmenu{
+		float: right;
+		margin-right: 486px;
 	}
 	
 	#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, .searchBtn{
@@ -89,9 +93,8 @@
 	}
 	#sort{
 		float:left;
-	}
-	.listMenu{
-		float:right;
+		top: -1px;
+    	margin-right: 3px;
 	}
 	.paging{
 		text-align: center;
@@ -118,7 +121,17 @@
 	input[type="file"]{
 		display: none; 
 	}
-	
+	.excelBtn{
+		display: inline-block;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		padding:0px 5px;
+	}
+	.excelBtn:hover{
+	    background-color: #22741C;
+	    border: 1px solid #22741C;
+	    color: #fff;
+	}
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -223,32 +236,34 @@
 		<br>
 		<h3>키워드 목록</h3>
 		<div class="menu">
-			<select id="sort">
-				<c:forEach var="value" begin="5" end="20" step="5">
-					<c:choose>
-						<c:when test="${pageUnit == value  }">
-							<option value="${value }" selected="selected" >${value }개씩</option>
-						</c:when>
-						<c:otherwise>
-							<option value="${value }" >${value }개씩</option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</select> 
-			<div class="listMenu">
-			<div id="search">
-				<input type="text" id="searchKeyword" >
-				<span class="btn btn-primary">
-	        	 	<a class="searchBtn" href="javascript:search();">검색</a>
-	            </span>
+			<div class="excelmenu">
+				<a class="excelBtn" href="${cp }/keyword/list/excelDown.do?talentSq=${talentVO.talentSq}">↓ excel다운로드</a> 
+				<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
+				<!-- excel file 읽어오기 -->
+			    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/keyword/massiveCreateProcess.do?talentSq=${talentVO.talentSq}"/>" >
+			        <input type="file" name="excelFile" />
+			    </form>
 			</div>
-			<a href="${cp }/keyword/list/excelDown.do?talentSq=${talentVO.talentSq}">↓ 목록 내려받기</a> 
-			<span id="massiveCreate">↑ 일괄등록</span>
-			<!-- excel file 읽어오기 -->
-		    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/keyword/massiveCreateProcess.do?talentSq=${talentVO.talentSq}"/>" >
-		        <input type="file" name="excelFile" />
-		    </form>
-		    </div>
+			<div class="listmenu">
+				<select id="sort">
+					<c:forEach var="value" begin="5" end="20" step="5">
+						<c:choose>
+							<c:when test="${pageUnit == value  }">
+								<option value="${value }" selected="selected" >${value }개씩</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${value }" >${value }개씩</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</select> 
+				<div id="search">
+					<input type="text" id="searchKeyword" >
+					<span class="btn btn-primary">
+		        	 	<a class="searchBtn" href="javascript:search();">검색</a>
+		            </span>
+				</div>
+			</div>
 		</div>
 		<br>
 		<br>

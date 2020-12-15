@@ -153,7 +153,7 @@
 				var html = '<span style="color:red">**내용을 입력해주세요</span>';
 				$('#updateCheck').append(html);
 			}else{
-				$('#questGbUpdateFrm').submit();
+				$(this).parent().submit();
 			}
 		})
 		
