@@ -46,7 +46,6 @@ public class PlanController {
 
 	@RequestMapping(path = "/planList.do", method = RequestMethod.GET)
 	public String planListView(Model model) {
-
 		return "plan/planList";
 	}
 
