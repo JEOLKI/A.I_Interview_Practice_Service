@@ -3,7 +3,6 @@
 <!DOCTYPE html">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>AI_INTERVIEW</title>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
@@ -157,7 +156,6 @@
 	<div class="contentBox">
 		<h3>면접 목록</h3>
 		<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
-			<div class="blog-main">
 				<div class="input-group">
 		       		<ul>
 	        			<li>
@@ -204,7 +202,6 @@
 					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 					<form:hidden path="pageIndex" />
 				</div>
-			</div>
 		</form:form>
 	</div>
 </body>
