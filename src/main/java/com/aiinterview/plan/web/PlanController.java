@@ -388,19 +388,7 @@ public class PlanController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "plan/planUselist";
-	}
-
-	/* chart.js 테스트 */
-	@RequestMapping("/chartjs.do")
-	public String chartjs() {
-		return "plan/chartJsTest";
-	}
-
-	/* AMChart 테스트 */
-	@RequestMapping("/amchart.do")
-	public String amchart() {
-		return "plan/amChartTest";
+		return "plan/planUseList";
 	}
 
 	/* 요금제 통계 화면 */
