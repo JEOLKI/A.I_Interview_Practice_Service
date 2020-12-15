@@ -80,7 +80,6 @@ public class PlanController {
 			model.addAttribute("pvContent", pvContent);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -95,7 +94,6 @@ public class PlanController {
 			pvContent = planService.planContent(pv);
 			model.addAttribute("pvContent", pvContent);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "jsonView";
@@ -121,7 +119,6 @@ public class PlanController {
 			planService.planUseCreate(puv);
 			//model.addAttribute("puv", puv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "redirect:/member/myprofileview.do";
@@ -139,7 +136,6 @@ public class PlanController {
 		try {
 			planService.create(pv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -152,7 +148,6 @@ public class PlanController {
 		try {
 			planService.update(pv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -167,7 +162,6 @@ public class PlanController {
 		try {
 			planService.CashList(puv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -388,7 +382,7 @@ public class PlanController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "plan/planUseList";
+		return "manage/planUseListManage";
 	}
 
 	/* 요금제 통계 화면 */
