@@ -149,32 +149,33 @@
 	</select>
 
 	<select id="retrieveTotalUse" parameterType="hashmap" resultType="com.aiinterview.plan.vo.PlanStatisticsVO">
-		SELECT
-    ROWNUM rn,
-    c.*
-FROM
-    (
-        SELECT
-            a.plan_nm,
-            COUNT(*) AS useCount
-        FROM
-            plan a,
-            plan_use b
-        WHERE
-            a.plan_sq = b.plan_sq
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-				<choose>
-		            <when test="endDate == 'sysdate'">
-             AND b.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
-             		</when>
-             		<when test="endDate != 'sysdate'">
-             AND b.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD')
-             		</when>
-             		</choose>
-            </if>
-        GROUP BY
-            a.plan_nm
-    ) c
+		SELECT ROWNUM rn,
+  		   	   c.*
+		  FROM (
+		        SELECT
+		            a.plan_nm,
+		            COUNT(*) AS useCount
+		        FROM
+		            plan a,
+		            plan_use b
+		        WHERE
+		            a.plan_sq = b.plan_sq
+					<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+						<choose>
+				            <when test="endDate == 'sysdate'">
+		             AND b.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
+		             		</when>
+		             		<when test="endDate != 'sysdate'">
+		             AND b.start_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD')
+		             		</when>
+		             	</choose>
+		            </if>
+		            <if test="searchKeyword != null and searchKeyword != ''">
+					 AND a.plan_nm LIKE '%' || #{searchKeyword} || '%'
+					</if>
+		        GROUP BY
+		            a.plan_nm
+		    ) c
 	</select>
 	
 	<select id="retrieveTotalSale" parameterType="hashmap" resultType="com.aiinterview.plan.vo.PlanStatisticsVO">
@@ -204,6 +205,9 @@ FROM
 		              GROUP BY plan_sq)b
 		        WHERE
 		            a.plan_sq = b.plan_sq 
+	             <if test="searchKeyword != null and searchKeyword != ''">
+				  AND a.plan_nm LIKE '%' || #{searchKeyword} || '%'
+				 </if>
 		    ) c
 	</select>
 	
