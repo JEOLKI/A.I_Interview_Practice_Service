@@ -187,42 +187,41 @@ function linkPage(pageNo){
 		
 		
 			<div class="menu">
-				<select id="sort">
-					<c:forEach var="value" begin="5" end="20" step="5">
-					<c:choose>
-						<c:when test="${pageUnit == value  }">
-							<option value="${value }" selected="selected" >${value }개씩</option>
-						</c:when>
-						<c:otherwise>
-							<option value="${value }" >${value }개씩</option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				</select> 
-					
-					
-					
-					
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
 	        			<li>
+	        				<select id="sort">
+							<c:forEach var="value" begin="5" end="20" step="5">
+								<c:choose>
+									<c:when test="${pageUnit == value  }">
+										<option value="${value }" selected="selected" >${value }개씩</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${value }" >${value }개씩</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							</select> 
 		        			<select class="col-sm-1 custom-select">
 		        				<option value="0">내용</option>
 		        			</select>
-							<input type="text" id="searchKeyword" class="custom-input"/>
+							<input type="text" id="searchKeyword" class="custom-input" style="width: 40%;"/>
 							<span class="btn">
-		        	                <a onclick="search()" class="searchBtn">검색</a>
+		        	                <a onclick="search()" class="searchBtn" style="position: relative;">검색</a>
 		        	       	</span>
 					    </li>
 	                </ul>
-		       	</div>
-				<a class="excelBtn" href="/script/list/excelDown.do?scriptGbSq=${scriptGbVO.scriptGbSq}" style="position: relative;">↓ excel 다운로드</a> 
+		       	</div>	
+					
+				<div class="excelBox">
+				<a class="excelBtn" href="/script/list/excelDown.do?scriptGbSq=${scriptGbVO.scriptGbSq}">↓ excel 다운로드</a> 
 				<span id="massiveCreate" class="excelBtn">↑ 일괄등록</span>
 				<!-- excel file 읽어오기 -->
 			    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="/script/massiveCreateProcess.do?scriptGbSq=${scriptGbVO.scriptGbSq}"/>" >
 			        <input hidden type="file" name="excelFile" />
 			    </form>
-				<br>
+			    </div>
+			
 				<br>
 					
 				
