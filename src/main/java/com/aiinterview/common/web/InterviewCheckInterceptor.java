@@ -29,19 +29,19 @@ public class InterviewCheckInterceptor extends HandlerInterceptorAdapter{
 
 		HttpSession session =  request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
-
+		
 		InterviewVO interviewVO = new InterviewVO();
 		interviewVO.setMemId(memberVO.getMemId());
 		
 		int count = interviewService.retrievePagingListCnt(interviewVO);
-		int remainPlan = planService.retrieveEndDate(memberVO.getMemId());
 		
+		int remainCount = planService.retrieveEndDate(memberVO.getMemId());
 		
-		if(remainPlan < 0) {
+		if(count > 0) {
 			
-			if(count > 0) {
+			if(remainCount < 1) {
 				
-				response.sendRedirect("/login/home.do");
+				response.sendRedirect("/plan/planList.do");
 				return false;
 				
 			}else {

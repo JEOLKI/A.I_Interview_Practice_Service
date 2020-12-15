@@ -211,11 +211,11 @@
 		    ) c
 	</select>
 	
-	<select id="retrieveEndDate" resultType="int"> 
-		SELECT COUNT(*) totCnt
+	<select id="retrieveEndDate" resultType="int" parameterType="String"> 
+		SELECT COUNT(*) remainCount
 		FROM PLAN_USE
-		WHERE MEM_ID = 'TEST_ID'
-		AND END_DATE > SYSDATE
+		WHERE MEM_ID = #{memId }
+		AND END_DATE <![CDATA[ >= ]]> SYSDATE
 	</select>
 	
 
