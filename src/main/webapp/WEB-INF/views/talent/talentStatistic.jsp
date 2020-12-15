@@ -259,14 +259,7 @@ $(document).ready(function(){
 </head>
 <body>
 <form:form commandName="TalentAnalysisVO" id="listForm" name="listForm" method="post">
-		<!-- 헤더 -->
-		<div id="root">
-			<div class="Main false">
-				<div class="w3-container managerbox">
-					<div class="body">
-						<div class="content__title">
-							<h1>인재상 통계</h1>
-						</div>
+		<h1>인재상 통계</h1>
 						<div class="talentStatistics">
 							 <div id="talent">
 								<div class="contentBox">	
@@ -303,10 +296,6 @@ $(document).ready(function(){
 							  </div>
 							</div>
 							</div>
-					</div>
-				</div>
-			</div>
-		</div>
 </form:form>	
 </body>
 </html>
