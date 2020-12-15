@@ -25,40 +25,16 @@
 		background: repeating-linear-gradient(-60deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 10px, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 11px), linear-gradient(-40deg, #00b4db, #0083b0);
 	}
 	
-	.body{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-top: 50px;
-	}
-	
-	.blog-main{
-		width: 70%
-	}
-	
-	.table-responsive, #dataTable{
-		width: 100%;		
-	}
-	
-	 #dataTable{
-	 	text-align: center;
-	 }
-	 
-	 tr{
-	 	border : 1px solid black;
-	 }
-	
 	#catContent{
 		font-size: 0.8em;
 		font-weight: bold;
+		color : #4374D9;
 		display : inline-block;
-		border: 1px solid black;
+		border: 1px solid #4374D9;
 		border-radius: 3px;
 		padding: 1px 10px;
-		background-color: white;
-		margin-left: 30px;
+		margin-right: 30px;
 		background-color: #D9E5FF;
-		float: left;
 	}
 	
 	.paging{
@@ -84,7 +60,83 @@
 	    color: #fff;
 	}
 	
+	.contentBox{
+		width: 100%;
+		margin: 20px auto;
+	}
 	
+	.table-responsive{
+		width: 80%;
+		margin: 30px auto;
+	}
+	
+	.content-table{
+		width: 98%;
+		margin: 0px auto;
+		border-collapse: collapse; 
+	}
+	
+	.content-table th{
+		border-bottom: 2px solid #4374D9;
+		font-size: 1.1em;
+		height: 50px;
+		text-align: center;
+	}
+		
+	.content-table td{
+		height: 40px;
+		text-align: center;
+		border-bottom: 0.5px solid #4374D9;
+	}
+	
+	.content-table td:first-child{
+		width: 50px;
+	}
+	
+	.content-table tr:hover{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	.searchBtn, .createBtn{
+		display: inline-block;
+		vertical-align : top;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		height: 29px;
+		width: 100px;
+		text-align: center;
+	}
+	
+	.searchBtn:hover, .createBtn:hover{
+	    background-color: #000d22;
+	    color: #fff;
+	}
+	
+	.createBtn{
+		float: right;
+	}
+	
+	.custom-select{
+		border: 1px solid gray;
+		border-radius: 5px;
+		height: 30px;
+		vertical-align: top;
+	}
+	
+	.custom-input{
+		width: 50%;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		height: 30px;
+		padding: 0px 10px;
+	}
+	
+	.input-group{
+		display: inline-block;
+		float: right;
+		margin-bottom: 20px;
+	}
 </style>
 
 <script type="text/javascript">
@@ -122,83 +174,76 @@
 
 </head>
 <body>
-<form:form commandName="boardVO" id="listForm" name="listForm" method="get">
-	<div id="root">
-		<div class="Main false">
-			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
+	<%@ include file="/WEB-INF/views/layout/header.jsp"%>
+	<section class="hero contentbox" id="boardGu${boardGbSq }">
+		<div class="hero__content" >
+			<div class="content__title">${boardGbNm }</div>
+		</div>
+	</section>
+	
+	<div class="contentBox">
+		<form:form commandName="boardVO" id="listForm" name="listForm" method="get">
 			
-			<section class="hero contentbox" id="boardGu${boardGbSq }">
-				<div class="hero__content" >
-					<div class="content__title">${boardGbNm }</div>
-				</div>
-			</section>
+			<div class="table-responsive">
 			
-			<div class="body">
-			
-				<div class="blog-main">
-			
-					<div class="input-group">
-		        		<ul class ="button-search">
-		        			<li>
-		        				<form:select class="col-sm-1" path="searchCondition" cssClass="use custom-select custom-select-sm form-control form-control-sm col-sm-1">
-		        					<form:option value="0" label="제목" />
-		        					<form:option value="1" label="작성자" />
-		        				</form:select>
-		        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
-		                        <form:input  path="searchKeyword" cssClass="txt form-control bg-light border-0 small col-sm-2"/>
+				<div class="input-group">
+			    	<ul>
+			   			<li>
+	        				<form:select path="searchCondition" cssClass="custom-select">
+	        					<form:option value="0" label="제목" />
+	        					<form:option value="1" label="작성자" />
+	        				</form:select>
+	                        <form:input  path="searchKeyword" cssClass="custom-input"/>
 		        	            <span class="btn btn-primary">
-		        	                <a href="javascript:searchList();"><spring:message code="button.search" /></a>
+		        	                <a class="searchBtn" href="javascript:searchList();">검색</a>
 		        	            </span>
-		        	        </li>
-		                </ul>
-		        	</div>
-			
-			
-					<div class="table-responsive">
-						<table class="table blogmain table-hover" id="dataTable">
-						<thead>
-							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>작성자 아이디</th>
-								<th>작성일시</th>
-							</tr>
-						</thead>
-						<tbody id="boardList">
-							<c:forEach items="${resultList }" var="board">
-								<c:choose>
-								<c:when test="${board.boardSt =='N'}">
-										<tr>
-									</c:when>
-									<c:otherwise>
-										<tr class="y_board" data-board_sq="${board.boardSq }">
-									</c:otherwise>
-								</c:choose>
-						
-								<td>${board.rnum }</td>	
-						
-								<c:choose>
-									<c:when test="${board.boardSt =='N' }">
-									<td><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
-		                           		<c:if test="${board.level == 1 }">└─</c:if>
-											[삭제된 게시글 입니다.]
-										</td>
-									</c:when>
-									<c:otherwise>
-									<td><c:forEach var="i" begin="1" end="${boardVO.level}" >&nbsp;&nbsp;</c:forEach>
-		                           		<c:if test="${board.level != 1 }">└─</c:if>
-											<div id="catContent">${board.catContent }</div> ${board.boardTitle }
-										</td>
-									</c:otherwise>
-								</c:choose>
-							
-								<td>${board.memId } </td>
-								<td>${board.boardDate }</td>
-						
-							</c:forEach>
-						</tbody>
-					</table>
+			        	</li>
+					</ul>
 				</div>
+				
+				<table class="content-table" id="dataTable">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>작성자 아이디</th>
+							<th>작성일시</th>
+						</tr>
+					</thead>
+				<tbody id="boardList">
+					<c:forEach items="${resultList }" var="board">
+						<c:choose>
+						<c:when test="${board.boardSt =='N'}">
+								<tr>
+							</c:when>
+							<c:otherwise>
+								<tr class="y_board" data-board_sq="${board.boardSq }">
+							</c:otherwise>
+						</c:choose>
+				
+						<td>${board.rnum }</td>	
+				
+						<c:choose>
+							<c:when test="${board.boardSt =='N' }">
+							<td><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
+                           		<c:if test="${board.level == 1 }">└─</c:if>
+									[삭제된 게시글 입니다.]
+								</td>
+							</c:when>
+							<c:otherwise>
+							<td><c:forEach var="i" begin="1" end="${boardVO.level}" >&nbsp;&nbsp;</c:forEach>
+                           		<c:if test="${board.level != 1 }">└─</c:if>
+									<div id="catContent">${board.catContent }</div> ${board.boardTitle }
+								</td>
+							</c:otherwise>
+						</c:choose>
+					
+						<td>${board.memId } </td>
+						<td>${board.boardDate }</td>
+				
+					</c:forEach>
+				</tbody>
+			</table>
 				
 				<div class ="paging">
 					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
@@ -207,15 +252,10 @@
 					<input type="hidden" name="boardGbNm" value="${boardGbNm}"/>
 				</div>
 				
-				<a class="btn createBtn write" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
+				<a class="createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
 			
-			</div>
-			</div>
-			
-			
-		</div>
-	</div>
-</form:form>
-			
+				</div>
+		</form:form>
+	</div>	
 </body>
 </html>
