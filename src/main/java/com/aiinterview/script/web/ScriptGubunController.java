@@ -150,11 +150,11 @@ public class ScriptGubunController {
 			int totCnt = scriptService.retrievePagingListCnt(scriptVO);
 			paginationInfo.setTotalRecordCount(totCnt);
 			model.addAttribute("paginationInfo", paginationInfo);
-			return "manage/scriptGbScriptManage";
+			return "manage/scriptManage";
 		} catch (Exception e) {
 		}
 		
-		return "manage/scriptGbScriptManage";
+		return "manage/scriptManage";
 	}
 
 	

@@ -141,7 +141,7 @@ public class ScriptController {
 		if (updateCnt == 1) {
 			return "redirect:/script/retrievePagingList.do";
 		} else {
-			return "manage/scriptGbScriptManage";
+			return "manage/scripttManage";
 		}
 	}
 	
