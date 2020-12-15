@@ -125,10 +125,10 @@ $(document).ready(function(){
 		});
 		
 		$('.scriptMngBtn').on('click', function(){
-		scriptGbSq= $(this).val();
+		scriptGbSq= $(this).attr("value");
 		console.log(scriptGbSq);
 		document.location="/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
-	});
+		});
 
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
@@ -137,6 +137,11 @@ $(document).ready(function(){
 		$('input[type="file"]').on('change',function(){
 			$('#massiveForm').submit();
 		});
+		
+		$('.scriptGbupdBtn').on('click', function(){
+			$(this).parent('form').submit();
+		});
+		
 
 // 		$('#sort').on('change',function(){
 // 			pageUnit = $(this).val();
@@ -241,7 +246,7 @@ function searchList() {
 												</c:otherwise>
 											</c:choose>
 										</select>
-										<a type="submit" class="scriptGbupdBtn">수정</a>
+		        	    				<a class="scriptGbupdBtn" id="updateBtn">수정</a>
 										<a type="button" class="manageBtn scriptMngBtn" value="${scriptGb.scriptGbSq }">스크립트 관리</a>
 									</form>
 							</c:forEach>

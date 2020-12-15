@@ -151,6 +151,7 @@ public class ScriptGubunController {
 			paginationInfo.setTotalRecordCount(totCnt);
 			model.addAttribute("paginationInfo", paginationInfo);
 			return "manage/scriptManage";
+			
 		} catch (Exception e) {
 		}
 		
