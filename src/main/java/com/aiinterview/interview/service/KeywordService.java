@@ -30,7 +30,7 @@ public class KeywordService {
 	 * @param keywordVO
 	 * @return
 	 */
-	public List<KeywordVO> retrievePagingList(KeywordVO keywordVO) {
+	public List<KeywordVO> retrievePagingList(KeywordVO keywordVO)throws Exception {
 		return keywordMapper.retrievePagingList(keywordVO);
 	}
 
@@ -40,7 +40,7 @@ public class KeywordService {
 	 * @param keywordVO
 	 * @return 샘플질문 총 개수
 	 */
-	public int retrievePagingListCnt(KeywordVO keywordVO) {
+	public int retrievePagingListCnt(KeywordVO keywordVO)throws Exception {
 		return keywordMapper.retrievePagingListCnt(keywordVO);
 	}
 
@@ -49,7 +49,7 @@ public class KeywordService {
 	 * 키워드를 등록하는 메서드
 	 * @param keywordVO
 	 */
-	public String create(KeywordVO keywordVO, String talentSq) {
+	public String create(KeywordVO keywordVO, String talentSq)throws Exception {
 		
 		String KeywordSq = keywordMapper.create(keywordVO);
 		
@@ -104,6 +104,16 @@ public class KeywordService {
 	public List<KeywordVO> retrieveTalentKeywordPagingList(Map<String, Object> retrieveMap) throws Exception{
 		return keywordMapper.retrieveTalentKeywordPagingList(retrieveMap);
 	}
+	
+	/**
+	 * 인재상별 모든 키워드 수를 조회하는 메서드 
+	 * 다운로드용
+	 * @param talentSq
+	 * @return
+	 */
+	public int retrieveTalentKeywordPagingListCnt(Map<String, Object> retrieveMap) throws Exception{
+		return keywordMapper.retrieveTalentKeywordPagingListCnt(retrieveMap);
+	}
 
 ////////////////////////////////////////// 이하 모델링 수정 이후/////////////////////////////////////////////
 	
@@ -146,7 +156,7 @@ public class KeywordService {
 	 * @param talentSq
 	 * @return
 	 */
-	public List<KeywordVO> retrieveTalentKeywordAllList(String talentSq) {
+	public List<KeywordVO> retrieveTalentKeywordAllList(String talentSq) throws Exception{
 		return keywordMapper.retrieveTalentKeywordAllList(talentSq);
 	}
 
@@ -157,9 +167,11 @@ public class KeywordService {
 	 * @param talentSq
 	 * @return
 	 */
-	public String retrieveMathcingKeyword(String keywordSq) {
+	public String retrieveMathcingKeyword(String keywordSq)throws Exception {
 		return keywordMapper.retrieveMathcingKeyword(keywordSq);
 	}
+
+	
 	
 	
 }
