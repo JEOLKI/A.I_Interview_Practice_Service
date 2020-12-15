@@ -113,6 +113,7 @@ $(document).ready(function(){
 			 	 "endDate" 	 : useEndDate},
 		 dataType : "json",
 		 success : function(data){
+			 $('#sale').css('display', 'none');
 			 html="";
 		
 			 // Themes begin
@@ -192,17 +193,15 @@ $(document).ready(function(){
 				series.columns.template.tooltipY = 0;
 				series.columns.template.strokeOpacity = 0;
 
-				// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-				series.columns.template.adapter.add("fill", function(fill, target) {
-				  return chart.colors.getIndex(target.dataItem.index);
-				});// end am4core.ready()
-
-
-			 
-		 }
+						// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+						series.columns.template.adapter.add("fill", function(fill, target) {
+						  return chart.colors.getIndex(target.dataItem.index);
+						// end am4core.ready()
+						})
+		}	 	 
 	})
-	
-	// 매출
+
+		// 매출
 	$('#saleTab, #saleSelectBtn, #saleSearchBtn').on('click', function() {
 		
 		var startDate = $('#saleStartDate').val() == ''? '2000-01-01' : $('#saleStartDate').val();
@@ -300,15 +299,15 @@ $(document).ready(function(){
 						series.columns.template.tooltipY = 0;
 						series.columns.template.strokeOpacity = 0;
 
-						// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-						series.columns.template.adapter.add("fill", function(fill, target) {
-						  return chart.colors.getIndex(target.dataItem.index);
-						});// end am4core.ready()
-					 
-				 }
+									// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+									series.columns.template.adapter.add("fill", function(fill, target) {
+									  return chart.colors.getIndex(target.dataItem.index);
+									// end am4core.ready()
+									}) 
+				}
+
+			})
 		})
-	})
-	
 	
 	$('#useStart').on('change',function(){
 		$('#useStartDate').val($(this).val());
@@ -366,7 +365,8 @@ $(document).ready(function(){
 						 html += '</tr>';
 						 
 						 sum += planUse.useCount;
-					 }
+					}
+						
 					 html += '<tr id="sum">';
 					 html += '<td>합  계</td>';
 					 html += '<td></td>';
@@ -406,22 +406,22 @@ $(document).ready(function(){
 						hoverState.transitionDuration = 1500;
 
 						axisBreak.defaultState.transitionDuration = 1000;
-						/*
-						// this is exactly the same, but with events
-						axisBreak.events.on("over", function() {
-						  axisBreak.animate(
-						    [{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
-						    1500,
-						    am4core.ease.sinOut
-						  );
-						});
-						axisBreak.events.on("out", function() {
-						  axisBreak.animate(
-						    [{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
-						    1000,
-						    am4core.ease.quadOut
-						  );
-						});*/
+									/*
+									// this is exactly the same, but with events
+									axisBreak.events.on("over", function() {
+									  axisBreak.animate(
+										[{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
+										1500,
+										am4core.ease.sinOut
+									  );
+									});
+									axisBreak.events.on("out", function() {
+									  axisBreak.animate(
+										[{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
+										1000,
+										am4core.ease.quadOut
+									  );
+									});*/
 
 						var series = chart.series.push(new am4charts.ColumnSeries());
 						series.dataFields.categoryX = "plan";
@@ -430,18 +430,17 @@ $(document).ready(function(){
 						series.columns.template.tooltipY = 0;
 						series.columns.template.strokeOpacity = 0;
 
-						// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-						series.columns.template.adapter.add("fill", function(fill, target) {
-						  return chart.colors.getIndex(target.dataItem.index);
-						});// end am4core.ready()
+											// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+											series.columns.template.adapter.add("fill", function(fill, target) {
+											  return chart.colors.getIndex(target.dataItem.index);
+											// end am4core.ready()
+											})	
+						
+						
+					}
+				})		
+			})
 
-
-					 
-				 }
-			
-		})
-	})
-	
 
 	$('.nav-tabs>li>a').on('click', function(){
 		target = $(this).data("target");
