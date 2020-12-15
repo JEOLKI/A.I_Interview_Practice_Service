@@ -107,6 +107,13 @@
 		width : 450px;
 		height: 30px;
 	}
+ 	.voiceGraph-background{ 
+ 		margin-bottom : 192px; 
+ 		margin-left: 5px; 
+ 		width : 445px; 
+ 		height: 30px; 
+ 	} */
+
 	
 </style>
 
@@ -649,8 +656,11 @@
 								
 								<div id="voiceChart" class="Voice graph-area graph-content">
 									<div class="area" style="margin-top:60px;">
-										<div class="message">평균 성량을 나타냅니다.</div>
+										<div class="message left">(dB)</div>
+										<div class="message">※평균 성량을 나타냅니다.</div>
 										<canvas id="voiceGrowh" class="graph-canvas" width="451" height="330"></canvas>
+										<img src="/images/averageDecibel.png" class="graph-background sps" alt="" style=" margin-top : 192px; margin-left: 5px; 
+		 									width : 445px; height: 30px; ">
 									</div>
 								</div>
 								
