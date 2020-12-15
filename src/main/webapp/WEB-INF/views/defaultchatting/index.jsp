@@ -244,8 +244,6 @@
 
 <body>
  
- 
- 
 <div id="chatApp">
 
 <div class="chatBox" id="chatBox">
@@ -267,8 +265,8 @@
   
     <div class="content" id="messageArea">
     
-    <c:forEach items="${chatList }" var="chat" varStatus="status">
-		
+    <c:forEach items="${chatList }" var="chat">
+    	
     	<c:choose>
 			<c:when test="${chat.msgReceiver == S_MEMBER.memId }">
 			

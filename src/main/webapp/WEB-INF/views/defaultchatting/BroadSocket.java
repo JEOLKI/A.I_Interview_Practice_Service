@@ -1,22 +1,34 @@
 package com.aiinterview.chat.web;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.aiinterview.member.vo.MemberVO;
 // 일반 유저에서 서버간의 웹 소켓 url
-@ServerEndpoint("/broadsocket.do")
-public class BroadSocket extends TextWebSocketHandler {
+//@RequestMapping("/broadsocket.do")
+@RequestMapping("/broadsocket.do")
+public class BroadSocket extends TextWebSocketHandler{
+
 // searchUser 함수의 filter 표현식을 위한 인터페이스
 private interface SearchExpression {
 // 람다식을 위한 함수
@@ -24,46 +36,85 @@ boolean expression(User user);
 }
 // 서버와 유저간의 접속을 key로 구분하기 위한 인라인 클래스
 private class User {
+
 Session session;
 String key;
+String userId;
 }
+public static String users;
+
+
+public static String users(String user) {
+	users=user;
+	return user;
+}
+
 // 유저와 서버간의 접속 리스트
 private static List<User> sessionUsers = Collections.synchronizedList(new ArrayList<>());
+private static List<User> UserIdList = Collections.synchronizedList(new ArrayList<>());
+
 // Session으로 접속 리스트에서 User 클래스를 탐색
 private static User getUser(Session session) {
+	
 return searchUser(x -> x.session == session);
 }
 // Key로 접속 리스트에서 User 클래스를 탐색
 private static User getUser(String key) {
 return searchUser(x -> x.key.equals(key));
 }
+
+
+
 // 접속 리스트 탐색 함수
 private static User searchUser(SearchExpression func) {
 Optional<User> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
+
+
+
 // 결과가 있으면
 if (op.isPresent()) {
 // 결과를 리턴
+System.out.println("채팅 op.get()결과"+op.get());	
 return op.get();
-}
+} 
 // 없으면 null 처리
 return null;
 }
 // browser에서 웹 소켓으로 접속하면 호출되는 함수
+
+@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		Map<String, Object> httpSession = session.getAttributes();
+		MemberVO mv = (MemberVO)httpSession.get("S_MEMBER");
+		users = mv.getMemId();
+	}
+
 @OnOpen
 public void handleOpen(Session userSession) {
 // 인라인 클래스 User를 생성
+
+
+
 User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
-MemberVO mv =  (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
-user.key = mv.getMemId();
+user.key = UUID.randomUUID().toString().replace("-", "");
+System.out.println("key확인"+user.key);
 // WebSocket의 세션
 user.session = userSession;
 // 유저 리스트에 등록한다.
 sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
-Admin.visit(user.key);
+
+
+	
+user.userId = users;
+UserIdList.add(user);
+
+Admin.user(users);
+Admin.visit(user.key);	
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
+
 @OnMessage
 public void handleMessage(String message, Session userSession) throws IOException {
 // Session으로 접속 리스트에서 User 클래스를 탐색
@@ -110,8 +161,24 @@ for (int i = 0; i < ret.length; i++) {
 // 유저의 키만 반환 변수에 넣는다.
 ret[i] = sessionUsers.get(i).key;
 }
+
 // 값 반환
 return ret;
 }
+
+public static String[] getUser() {
+	// 반환할 String 배열을 선언한다.
+	String[] ret = new String[sessionUsers.size()];
+	
+	// 유저 리스트를 반복문에 돌린다.
+	for (int i = 0; i < ret.length; i++) {
+	// 유저의 키만 반환 변수에 넣는다.
+	ret[i] = UserIdList.get(i).userId;
+
+	}
+
+	// 값 반환
+	return ret;
 }
 
+}

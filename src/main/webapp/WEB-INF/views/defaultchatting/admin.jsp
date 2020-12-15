@@ -1,4 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -242,15 +242,12 @@ margin: 5px;
 }
 
 </style>
-</head><body>
+</head>
+<body>
 <!-- 유저가 접속할 때마다 이 템플릿으로 채팅창을 생성한다. -->
 <!-- class="template" -->
+<div id="chatApp"  style="display:none" class="template">
 
-<c:forEach var="i" begin="0" end="${arrayList.size() }"  >
-	
-	
-	<div id="chatApp"  style="display:none" class="template">
-	
 <div class="chatBox" id="chatBox">
   <div class="card">
  
@@ -266,51 +263,53 @@ margin: 5px;
   </header>
  
  <div id="chatbox-area">
-  <div class="card-content chat-content" id="chat-content">
+  <div class="card-content chat-content">
   
-    <div class="content" id="messageArea">
+    <div class="content messageArea">
     
-    <c:forEach items="${Listlist }" var="chatList">
-	    <c:forEach items="${chatList }" var="chat">
-    	<c:choose>
-			<c:when test="${chat.msgReceiver == 'TEST_ID3' }">
-				<div class="chat-message-group">
-					<div class="chat-thumb">
-						<figure class="image is-32x32">
-							<img src="/images/sally.png">
-						</figure>
-					</div>
-					<div class="chat-messages">
-						<div class="message">${chat.msgContent }</div><div>&nbsp</div><a>${chat.msgDate }</a>
-						<div class="from">${chat.msgReceiver }&nbsp</div>
-					</div>
-				</div>
-
-			</c:when>
-			
-    		<c:when test="${chat.msgSender == S_MEMBER.memId }">
-				<div class="chat-message-group writer-user">
-			        <div class="chat-messages">
-			          <div class="message">${chat.msgContent }</div>
-			          <div class="from">${chat.msgSender }&nbsp ${chat.msgDate}</div>
-			        </div>
-      			</div>
-    		</c:when>
-    	</c:choose>
-		</c:forEach>    	
-    </c:forEach>
-    
+      <div class="chat-message-group">
+        <div class="chat-thumb">
+          <figure class="image is-32x32">
+            <img src="https://k0.okccdn.com/php/load_okc_image.php/images/32x0/971x939/0/10846088441021659030.webp?v=2">
+          </figure>
+        </div>
+        <div class="chat-messages">
+          <div class="message">Olá meu nome é Camila</div>
+          <div class="from">Hoje 04:55</div>
+        </div>
+      </div>
+      
+      <div class="chat-message-group writer-user">
+        <div class="chat-messages">
+          <div class="message">Olá meu nome é Marinho</div>
+          <div class="from">Hoje 04:55</div>
+        </div>
+      </div>
+      
+      <div class="chat-message-group">
+        <div class="chat-thumb">
+          <figure class="image is-32x32">
+            <img src="https://k0.okccdn.com/php/load_okc_image.php/images/32x0/971x939/0/10846088441021659030.webp?v=2">
+          </figure>
+        </div>
+        <div class="chat-messages">
+          <div class="message">Olá meu nome é Marinho</div>
+          <div class="message">Caro marinho</div>
+          <div class="from">Hoje 04:55</div>
+        </div>
+      </div>
+      
     </div>
   </div>
   <footer class="card-footer" id="chatBox-textbox">
     <div style="width: 63%">
-      <textarea id="textMessage" class="chat-textarea"  onkeydown="return enter()" placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
+      <textarea id="textMessage" class="adminMsg chat-textarea"  onkeydown="if(event.keyCode === 13) return false;" placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
     </div>
     <div class="has-text-centered" style="width: 37%">
       <a class="button is-white">
         <i class="fa fa-smile-o fa-5" aria-hidden="true"></i>
       </a>
-    <a class="button is-white" onclick="sendMessage()">send</a></div>
+    <a class="button is-white sendBtn">send</a></div>
   </footer>
   </div>
   
@@ -323,11 +322,7 @@ margin: 5px;
 </div>
 
 </div>
-	
-	
-	
 
-</c:forEach>
 
 
 
@@ -355,7 +350,6 @@ margin: 5px;
 $(function(){
 	
 
-// var webSocket =  new WebSocket("ws://localhost/admin.do");
 var webSocket =  new WebSocket("ws://localhost/admin.do");
 // let message = document.getElementById("textMessage");
 // 운영자에서의 open, close, error는 의미가 없어서 형태만 선언
@@ -368,25 +362,22 @@ webSocket.onmessage = function(message) {
 let node = JSON.parse(message.data);
 // 메시지의 status는 유저의 접속 형태이다.
 // visit은 유저가 접속했을 때 알리는 메시지다.
+console.log("node"+node)
+
+console.log("user : "+node.user)
+
+if(node.user != null){
+}
 
 if(node.status === "visit") {
-
-adminAjax(node.key)
-	
-	
-console.log("node.status : "+node.status)
-console.log("node.key : " + node.key)
+console.log("node.status : "+node.status)	
 // 위 템플릿 div를 취득한다.
-
-var receivering = node.key
-
 let form = $(".template").html();
 // div를 감싸고 속성 data-key에 unique키를 넣는다.
 form = $("<div class='float-left'></div>").attr("data-key",node.key).append(form);
-
+console.log("form"+form)
 // body에 추가한다.
 $("body").append(form);
-
 // message는 유저가 메시지를 보낼 때 알려주는 메시지이다.
 } else if(node.status === "message") {
 // key로 해당 div영역을 찾는다.
@@ -412,6 +403,7 @@ $(document).on("click", ".sendBtn", function(){
 let $div = $(this).closest(".float-left");
 // 메시지 텍스트 박스를 찾아서 값을 취득한다.
 let message = $div.find(".adminMsg").val();
+console.log(message)
 // 유저 key를 취득한다.
 let key = $div.data("key");
 // console영역을 찾는다.
@@ -437,23 +429,6 @@ return false;
 }
 return true;
 });
-
-
-
-function adminAjax(receiver){
-	$.ajax({url : "/chat/adminAjax.do",
-		method : "get",
-		data : { msgReceiver : receiver},
-		success : function(data){
-// 			console.log(data)
-			$("#ajaxHtml").html(data);
-		
-		}
-	})
-}
-
-
-
 })
 </script>
 </body>

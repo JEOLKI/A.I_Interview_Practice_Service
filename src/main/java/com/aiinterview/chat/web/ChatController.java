@@ -1,5 +1,7 @@
 package com.aiinterview.chat.web;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,13 +24,24 @@ public class ChatController {
 	@Resource(name = "chatService")
 	ChatService chatService;
 	
+	
 	ChatVO cv = new ChatVO();
+	public static HttpSession usersSession;
+	public static  List<String> IdList = new ArrayList<>();
+	
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
 		
+		usersSession =session;
+		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		System.out.println("mv.getId="+mv.getMemId());
 		String memId = mv.getMemId();
 		
+		IdList.add(memId);
+//		for(String data : IdList){
+//		    if(!IdList.contains(data))
+//		}
 		String receiver = "TEST_ID2";
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
@@ -40,19 +53,63 @@ public class ChatController {
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("Receiver", receiver);
 		
-		Admin.user(memId);
-		BroadSocket.users(memId);
 		return "chat/index";
 	}
 	
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
 	public String admin(HttpSession session, Model model) {
+		ChatVO cv = new ChatVO();
+		List<String> arrayList = new ArrayList<>();
 		
+		List<List<ChatVO>> Listlist = new ArrayList<>();
+		String Sender = "TEST_ID2";
 		
+		for(String data : IdList){
+		    if(!arrayList.contains(data))
+		        arrayList.add(data);
+		}
 		
+	
+		
+		for (int i = 0; i < arrayList.size(); i++) {
+			cv.setMsgSender(Sender);
+			cv.setMsgReceiver(arrayList.get(i));
+			List<ChatVO> chatList =  chatService.List(cv);
+			Listlist.add(chatList);
+			
+			model.addAttribute("Receiver", arrayList.get(i));
+		}
+			model.addAttribute("Listlist", Listlist);
+		
+	
+		model.addAttribute("arrayList", arrayList);
 		
 		return "chat/admin";
 	}
+	
+	@RequestMapping(path = "/adminAjax.do", method = RequestMethod.GET)
+	public String adminAjax(HttpSession session, Model model, ChatVO cv) {
+		
+//		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+//		String memId = mv.getMemId();
+		
+		String Sender = "TEST_ID2";
+//		cv.setMsgSender(memId);
+		
+		//내가 보내는 사람이기 때문에 세션에서 가져온다.
+		cv.setMsgSender(Sender);//관리자 아이디
+		List<ChatVO> chatList =  chatService.List(cv);
+		System.out.println("cv 결과값 : "+cv);
+		model.addAttribute("chatList", chatList);
+		model.addAttribute("Receiver", cv.getMsgReceiver());
+		
+		return "chat/adminChatList";
+	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
 	public String test() {
@@ -85,6 +142,7 @@ public class ChatController {
 	@RequestMapping(path = "/chatListAjax.do", method = RequestMethod.POST)
 	public String chatListAjax(Model model, ChatVO cv, HttpSession session) {
 		
+		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		
@@ -106,6 +164,6 @@ public class ChatController {
 	public void createProcess(Model model, ChatVO cv, HttpSession session) {
 		chatService.create(cv);
 	}
-	
+
 	
 }
