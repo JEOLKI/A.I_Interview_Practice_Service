@@ -20,10 +20,16 @@
 	.menu{
 		margin-bottom: 80px;
 	}
-	#massiveCreate{
-		margin-left: 20px;
+	.listmenu, .excelmenu{
+		display: inline-block; 
 	}
-	
+	.excelmenu{
+		float: left;
+	}
+	.listmenu{
+		float: right;
+		margin-right: 280px;
+	}
 	#talentRegistBtn, .updateBtn, .keywordMngBtn, .searchBtn{
 		display: inline-block;
 	    vertical-align: middle;
@@ -47,7 +53,7 @@
 	
 	
 	.talentNm{
-		width: 400px;
+		width: 500px;
 		padding-left: 10px;
 	}
 	
@@ -102,6 +108,7 @@
 		height: 25px;
 	    border-radius: 5px;
 	    border: 1px solid black;
+	    margin-right: 3px;
 	}
 	#talentSt, .talentSt{
 		height: 26px;
@@ -110,8 +117,16 @@
 	    position: relative;
 	    top: -2px;
 	}
-	.listmenu{
-		float : right;
+	.excelBtn{
+		display: inline-block;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		padding:0px 5px;
+	}
+	.excelBtn:hover{
+	    background-color: #22741C;
+	    border: 1px solid #22741C;
+	    color: #fff;
 	}
 </style>
 
@@ -199,6 +214,15 @@
 		<div class="contentBox">
 		<h3>인재상 목록</h3>
 		<div class="menu">
+			<div class="excelmenu">
+				<a class="excelBtn" href="${cp }/talent/list/excelDown.do">↓ excel다운로드</a> 
+				<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
+				<!-- excel file 읽어오기 -->
+			    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/talent/massiveCreateProcess.do"/>" >
+			        <input hidden type="file" name="excelFile" />
+			    </form>
+			</div>
+			<div class="listmenu"> 
 			<select id="sort">
 				<c:forEach var="value" begin="5" end="20" step="5">
 				<c:choose>
@@ -211,7 +235,6 @@
 				</c:choose>
 			</c:forEach>
 			</select>
-			<div class="listmenu"> 
 			<div id="search">
 				<ul>
         			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
@@ -221,13 +244,7 @@
         	         </span>
                 </ul>
 			</div>
-			<span >&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<a href="${cp }/talent/list/excelDown.do">↓ 목록 내려받기</a> 
-			<span id="massiveCreate">↑ 일괄등록</span>
-			<!-- excel file 읽어오기 -->
-		    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/talent/massiveCreateProcess.do"/>" >
-		        <input hidden type="file" name="excelFile" />
-		    </form>
+			
 		    </div>
 		</div>
 		<div class="existTalent" id="talentList">
