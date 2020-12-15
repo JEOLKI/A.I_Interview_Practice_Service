@@ -100,9 +100,6 @@
 		border-radius: 10px;
 		margin: 10px 0px;
 		box-shadow: 5px 5px #EAEAEA;
-	}
-	
-	.contentBox{
 		display: inline-block;
 		float: left;
 	}
