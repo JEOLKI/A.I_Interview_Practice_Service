@@ -198,26 +198,25 @@ public class KeywordController {
 	public String excelDown(Model model, String talentSq)  {
 		
 		// 출력할 리스트 가져오기
-		List<KeywordVO> keywordList = keywordService.retrieveTalentKeywordAllList(talentSq);
-		
-		//Model 객체에 header, data
-		List<String> header = new ArrayList<String>();
-		header.add("KEYWORD_SQ");
-		header.add("KEYWORD_CONTENT");
-		
-		// excel 파일 data 설정
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-
-		for(int i = 0; i<keywordList.size(); i++) {
-			Map<String, String> map = new HashMap<>();
-			map.put("KEYWORD_SQ", keywordList.get(i).getKeywordSq());
-			map.put("KEYWORD_CONTENT", keywordList.get(i).getKeywordContent());
-			data.add(map);
-		}
-		
-		TalentVO talentVO;
+		List<KeywordVO> keywordList;
 		try {
-			talentVO = talentService.retrieve(talentSq);
+			keywordList = keywordService.retrieveTalentKeywordAllList(talentSq);
+			//Model 객체에 header, data
+			List<String> header = new ArrayList<String>();
+			header.add("KEYWORD_SQ");
+			header.add("KEYWORD_CONTENT");
+			
+			// excel 파일 data 설정
+			List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+			
+			for(int i = 0; i<keywordList.size(); i++) {
+				Map<String, String> map = new HashMap<>();
+				map.put("KEYWORD_SQ", keywordList.get(i).getKeywordSq());
+				map.put("KEYWORD_CONTENT", keywordList.get(i).getKeywordContent());
+				data.add(map);
+			}
+			
+			TalentVO talentVO = talentService.retrieve(talentSq);
 			model.addAttribute("header",header);
 			model.addAttribute("data",data);
 			model.addAttribute("fileName","KEYWORD");
