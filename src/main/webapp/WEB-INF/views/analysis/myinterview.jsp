@@ -505,6 +505,11 @@
 		    }
 		});
 	}
+$(document).ready(function(){
+	$('.start-btn').on('click',function(){
+		document.location = "/interview/ready.do";
+	})
+});
 
 </script>
 
@@ -512,12 +517,12 @@
 <body>
 
 	<div id="root">
-		<div class="Main false">
+		<div class="Main false" style="overflow-y: hidden; ">
 			<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 			<div class="my-bar interview">
 				<div class="title">내 면접</div>
 				<div class="start-btn">
-					<a href="/interview/ready.do"> 새 면접 만들기<img src="/images/right.2a3d42b5.svg" alt=""></a>
+					<a > 새 면접 만들기<img src="/images/right.2a3d42b5.svg" alt=""></a>
 				</div>
 			</div>
 			<div class="MainComponent">
