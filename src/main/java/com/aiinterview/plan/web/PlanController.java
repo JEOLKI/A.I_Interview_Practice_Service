@@ -128,7 +128,7 @@ public class PlanController {
 	@RequestMapping(path = "/manage.do", method = RequestMethod.GET)
 	public String createView() {
 
-		return "plan/planManage";
+		return "manage/planManage";
 	}
 
 	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
