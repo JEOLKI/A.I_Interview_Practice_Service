@@ -470,91 +470,89 @@ function numberWithCommas(x) {
 </script>
 </head>
 <body>
-<form:form commandName="planVO" id="listForm" name="listForm" method="post">
-	<h1>요금제 통계</h1>
-						
-						<div class="planStatistics">
-							<div class="contentBox">
-							<ul class="nav nav-tabs">
-							    <li class="active"><a data-target="use" data-toggle="tab" href="#use">이용자</a></li>
-							    <li><a id="saleTab" data-target="sale" data-toggle="tab" href="#sale">매출</a></li>
-							</ul>
-							<br><br>
-							 <div class="tab-pane fade in active">
-								    <div class="conditionmenu">
-								    	기간 : 
-								    	<input id="useStart" type="date">
-								    	~
-								    	<input id="useEnd" type="date">
-								    		<input type="hidden" id="useStartDate" name="startDate" >
-								    		<input type="hidden" id="useEndDate" name="endDate" >
-								    		<img id="useSelectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
-								    </div>
-								    <div class="listmenu">
-										<div id="search">
-											<input type="text" id="useSearchKeyword" >
-											<span id="useSearchBtn">검색</span>
-										</div>
-								    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
-								    </div>
-							 </div>
-							 <div class="tab-pane fade">
-							 		<div class="conditionmenu">
-								    	기간 : 
-								    	<input id="saleStart" type="date">
-								    	~
-								    	<input id="saleEnd" type="date">
-								    		<input type="hidden" id="saleStartDate" name="startDate" >
-								    		<input type="hidden" id="saleEndDate" name="endDate" >
-								    		<img id="saleSelectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
-								    </div>
-								    <div class="listmenu">
-										<div id="search">
-											<input type="text" id="saleSearchKeyword" >
-											<span id="saleSearchBtn">검색</span>
-										</div>
-								    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
-								    </div>
-							</div>
-						</div>
-						<div class="tab-content">
-							<div class="contentBox">
-							 <!-- 사용자 탭 -->
-							  <div id="use" class="tab-pane fade content in active">
-								    <div class="use">
-								  	<table class="useList">
-								  		<tr class="title">
-								  			<th></th>
-								  			<th>요 금 제</th>
-								  			<th>이용자 수</th>
-								  		</tr>
-								  		<tbody id="useList">
-								  		</tbody>
-								  	</table>
-								  </div>	
-								<div id="useChart" class="use chart"></div>
-							</div>
-							
-							
-							<!-- 매출 탭 -->
-							 <div id="sale" class="tab-pane fade content">
-							  <div class="sale">
-							  	<table class="saleList">
-								  	<tr class="title">
-								  			<th></th>
-								  			<th>요 금 제</th>
-								  			<th>가  격</th>
-								  			<th>이용자 수</th>
-								  			<th>매  출</th>
-								  	</tr>
-								  	<tbody id="saleList">
-								  	</tbody>
-								</table>
-							  </div>
-							  <div id="saleChart" class="sale chart"></div>
-							</div>
-						</div>
+	<form:form commandName="planVO" id="listForm" name="listForm" method="post">
+		<h1>요금제 통계</h1>
+			<div class="planStatistics">
+				<div class="contentBox">
+					<ul class="nav nav-tabs">
+					    <li class="active"><a data-target="use" data-toggle="tab" href="#use">이용자</a></li>
+					    <li><a id="saleTab" data-target="sale" data-toggle="tab" href="#sale">매출</a></li>
+					</ul>
+					<br><br>
+					 <div class="tab-pane fade in active">
+						    <div class="conditionmenu">
+						    	기간 : 
+						    	<input id="useStart" type="date">
+						    	~
+						    	<input id="useEnd" type="date">
+						    		<input type="hidden" id="useStartDate" name="startDate" >
+						    		<input type="hidden" id="useEndDate" name="endDate" >
+						    		<img id="useSelectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
+						    </div>
+						    <div class="listmenu">
+								<div id="search">
+									<input type="text" id="useSearchKeyword" >
+									<span id="useSearchBtn">검색</span>
+								</div>
+						    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
+						    </div>
+					 </div>
+					 <div class="tab-pane fade">
+					 		<div class="conditionmenu">
+						    	기간 : 
+						    	<input id="saleStart" type="date">
+						    	~
+						    	<input id="saleEnd" type="date">
+						    		<input type="hidden" id="saleStartDate" name="startDate" >
+						    		<input type="hidden" id="saleEndDate" name="endDate" >
+						    		<img id="saleSelectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
+						    </div>
+						    <div class="listmenu">
+								<div id="search">
+									<input type="text" id="saleSearchKeyword" >
+									<span id="saleSearchBtn">검색</span>
+								</div>
+						    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
+						    </div>
 					</div>
-</form:form>		
+				</div>
+				<div class="tab-content">
+					<div class="contentBox">
+					 <!-- 사용자 탭 -->
+					  <div id="use" class="tab-pane fade content in active">
+						    <div class="use">
+						  	<table class="useList">
+						  		<tr class="title">
+						  			<th></th>
+						  			<th>요 금 제</th>
+						  			<th>이용자 수</th>
+						  		</tr>
+						  		<tbody id="useList">
+						  		</tbody>
+						  	</table>
+						  </div>	
+						<div id="useChart" class="use chart"></div>
+					</div>
+					<!-- 매출 탭 -->
+					 <div id="sale" class="tab-pane fade content">
+					  <div class="sale">
+					  	<table class="saleList">
+						  	<tr class="title">
+						  			<th></th>
+						  			<th>요 금 제</th>
+						  			<th>가  격</th>
+						  			<th>이용자 수</th>
+						  			<th>매  출</th>
+						  	</tr>
+						  	<tbody id="saleList">
+						  	</tbody>
+						</table>
+					  </div>
+					  <div id="saleChart" class="sale chart"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form:form>		
 </body>
 </html>
