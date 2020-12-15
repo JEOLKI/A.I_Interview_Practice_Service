@@ -4,10 +4,6 @@
     
 <style>
 
-    .leftbox{
-        margin-top: 52px;
-    }
-    
     .contentbox{
         margin-top: 52px;
     }
@@ -152,7 +148,7 @@
 	}
 
 	.dropdown-content {
-		height: 150px;
+		height: auto;
 		display: none;
 		position: absolute;
 		min-width: 160px;
@@ -163,9 +159,10 @@
 
 	.dropdown-content a {
 	  color: black;
-	  margin: 10px;
-	  padding: 0px;
+	  padding: 10px;
+	  height: 30px;
 	  text-decoration: none;
+	  text-align: center;
 	  display: block;
 	}
 
@@ -361,11 +358,14 @@ function boardGubunList(){
 					<a class="main false" href="/analysis/interview/retrievePagingList.do">내 면접</a>
 				</c:otherwise>
 			</c:choose>
+			
 			<div class="dropdown">
 				<a class="main false dropbtn">게시판</a>
 				<div class="dropdown-content" id="boardGubunList">
 				</div>
 			</div>
+			
+			
 			<a class="service-intro false" href="/login/serviceIntro.do">서비스 소개</a>
 			<a class="help-info false" href="/login/help.do">도움말</a>
 			<c:choose>
