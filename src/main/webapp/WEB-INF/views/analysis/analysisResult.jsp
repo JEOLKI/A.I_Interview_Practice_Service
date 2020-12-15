@@ -680,7 +680,7 @@
 	<div class="title">답변영상 분석</div>
 	<div class="ReviewVideo content-box">
 		<div class="review-video-area">
-			<video autoplay="autoplay" controls="controls" class="review-video">
+			<video autoplay="autoplay" controls="controls" controlsList="nodownload" class="review-video">
 				<source src="${cp }/answer/video.do?questSq=${questSq}"
             		type="video/webm">
 			

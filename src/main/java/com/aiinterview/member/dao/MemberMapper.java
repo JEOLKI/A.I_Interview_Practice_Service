@@ -3,6 +3,7 @@ package com.aiinterview.member.dao;
 import java.util.List;
 
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.plan.vo.PlanUseVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -72,5 +73,29 @@ public interface MemberMapper{
 	 * @return int
 	 */
 	int update(MemberVO memberVo) throws Exception;
+	
+	/**
+	 * 회원 페이징 리스트하는 메서드
+	 * 
+	 * @param planUseVO
+	 * @return
+	 */
+	public List<MemberVO> retrievePagingList(MemberVO memberVO) throws Exception;
+	
+	
+	/**
+	 * 회원 페이징 리스트하기위한 카운트 메서드
+	 * 
+	 * @param memberVO
+	 * @return
+	 */
+	public int retrievePagingListCnt(MemberVO memberVO) throws Exception;
+	
+	/**
+	 * 회원 목록을 엑셀로 출력하기 위한 메서드
+	 * 
+	 * @return
+	 */
+	public List<MemberVO> manageMember() throws Exception;
 
 }

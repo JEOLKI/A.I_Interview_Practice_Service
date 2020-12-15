@@ -118,7 +118,7 @@ to {
 				<div class="grid">
 					<div class="label_custom">면접 정보</div>
 					<div class="content">면접 제목, 면접완료 시간, 면접 결과 내역 삭제</div>
-					<div class="label_custom">보관함 정보</div>
+					<div class="label_custom" style="border-bottom: 0px; border-top: 0px;">보관함 정보</div>
 					<div class="content middle">보관함 제목, 보관함 질문 리스트 내역 삭제</div>
 					<div class="label_custom">프로필 정보</div>
 					<div class="content">프로필 사진, 사용자 이름, 사용자 정보 삭제</div>
