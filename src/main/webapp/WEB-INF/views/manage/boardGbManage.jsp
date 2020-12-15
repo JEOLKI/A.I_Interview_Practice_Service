@@ -22,12 +22,6 @@
 			}
 		})
 		
-		$('.categoryMngBtn').on('click', function(){
-			boardGbSq= $(this).val();
-			console.log(boardGbSq);
-			document.location="/category/retrievePagingList.do?boardGbSq="+boardGbSq;
-		})
-		
 		$('#massiveCreate').on('click',function(){
 			$('input[type="file"]').click();
 		})
@@ -82,6 +76,7 @@
 	
 	.updateBtn{
 		width: 50px;
+		background: white;
 	}
 	
 	.manageBtn:hover, .updateBtn:hover, .searchBtn:hover{
@@ -225,8 +220,8 @@
 										</c:otherwise>
 									</c:choose>
 							</select>
-							<a type="submit" class="updateBtn">수정</a>
-							<a type="button" class="categoryMngBtn manageBtn" value="${boardGubun.boardGbSq }">말머리 관리</a>
+							<button type="submit" class="updateBtn">수정</button>
+							<a class="categoryMngBtn manageBtn" href="${cp }/category/retrievePagingList.do?boardGbSq=${boardGubun.boardGbSq }">말머리 관리</a>
 						</form>
 					</c:forEach>
 				</div>
