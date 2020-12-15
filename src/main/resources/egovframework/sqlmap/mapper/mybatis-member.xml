@@ -66,7 +66,96 @@
 			MEM_MAJOR			= #{memMajor},
 			MEM_PROFILE_NM 		= #{memProfileNm},
 			MEM_PROFILE_PATH 	= #{memProfilePath}
+			<choose>
+	            <when test="memAuth != null and memAuth != ''">
+				,MEM_AUTH			= #{memAuth}
+				</when>
+	            <when test="memAuth == null and memAuth == ''">
+				</when>
+			</choose>
 	  WHERE	MEM_ID				= #{memId} 
 	</update>
+	
+	<select id="retrievePagingList" resultType="com.aiinterview.member.vo.MemberVO">
+	    SELECT A.*
+	      FROM (
+	      	SELECT ROWNUM RNUM,
+	           	   S.*
+		      FROM (
+		      	SELECT	* 
+					FROM MEMBER
+					WHERE 1=1
+					<if test="searchKeyword != null and searchKeyword != ''">
+				        <choose>
+				            <when test="searchCondition == 0">
+								AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 1">
+								AND	MEM_ALIAS LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 2">
+								AND	MEM_GENDER LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 3">
+								AND	MEM_EDUC LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 4">
+								AND	MEM_MAJOR LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 5">
+								AND	SEARCH_JOB_DATE LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 6">
+								AND	MEM_CAREER LIKE '%' || #{searchKeyword} || '%'
+							</when>
+				            <when test="searchCondition == 7">
+								AND	MEM_ST LIKE '%' || #{searchKeyword} || '%'
+							</when>
+						</choose>
+					</if>
+		      ) S
+		      WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} 
+	      ) A
+	     <![CDATA[WHERE A.RNUM > #{firstIndex}]]>
+	</select>
+	
+	<select id="retrievePagingListCnt" resultType="int">	    
+      	SELECT count(*) totCnt
+			FROM MEMBER
+			WHERE 1=1
+		<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	MEM_ALIAS LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 2">
+						AND	MEM_GENDER LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 3">
+						AND	MEM_EDUC LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 4">
+						AND	MEM_MAJOR LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 5">
+						AND	SEARCH_JOB_DATE LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 6">
+						AND	MEM_CAREER LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 7">
+						AND	MEM_ST LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>		
+	</select>
+	
+	<select id="manageMember" resultType="com.aiinterview.member.vo.MemberVO">
+		SELECT *
+		FROM MEMBER
+	</select>
 
 </mapper>

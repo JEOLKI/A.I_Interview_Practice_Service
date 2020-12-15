@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aiinterview.member.dao.MemberMapper;
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.plan.vo.PlanUseVO;
 
 @Transactional
 @Service("memberService")
@@ -60,6 +61,21 @@ public class MemberService implements MemberMapper {
 	@Override
 	public int update(MemberVO memberVo) throws Exception {
 		return memberMapper.update(memberVo);
+	}
+	
+	@Override
+	public List<MemberVO> retrievePagingList(MemberVO memberVO) throws Exception {
+		return memberMapper.retrievePagingList(memberVO);
+	}
+	
+	@Override
+	public int retrievePagingListCnt(MemberVO memberVO) throws Exception {
+		return memberMapper.retrievePagingListCnt(memberVO);
+	}
+
+	@Override
+	public List<MemberVO> manageMember() throws Exception {
+		return memberMapper.manageMember();
 	}
 
 }

@@ -54,10 +54,9 @@
 		회원 관리 <i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc" class="w3-hide w3-white w3-card">
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 목록</a>
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 관리</a>
+		<a href="/member/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 목록</a>
 		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;회원 통계</a>
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;관리자 권한 설정</a>
+		<a href="/member/authorityManage.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;관리자 권한 설정</a>
 	</div>
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc1()">
