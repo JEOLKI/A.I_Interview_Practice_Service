@@ -4,7 +4,7 @@
     
 <style>
 
-    .contentbox{
+    .contentbox, .leftbox{
         margin-top: 52px;
     }
     
