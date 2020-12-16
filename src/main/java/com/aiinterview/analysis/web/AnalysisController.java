@@ -1,5 +1,7 @@
 package com.aiinterview.analysis.web;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,6 +122,17 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "/question/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(QuestionVO questionVO, ModelMap model) {
+		
+		InetAddress server;
+		
+		try {
+			server = InetAddress.getLocalHost();
+			String serverIp = server.getHostAddress();
+			model.addAttribute("serverIp", serverIp);
+		} catch (UnknownHostException e2) {
+			e2.printStackTrace();
+		} 
+
 		
 		try {
 			InterviewVO interviewVO = interviewService.retrieve(questionVO.getInterviewSq());
@@ -311,4 +324,62 @@ public class AnalysisController {
 		}
 		return "jsonView";
 	}
+	
+	@RequestMapping(value = "/share.do")
+	public String share(String shareMemId, String sharePw, String interviewSq, Model model) {
+		model.addAttribute("sharePw", sharePw);
+		model.addAttribute("shareMemId", shareMemId);
+		String shareUrl = "/analysis/resultShare.do?interviewSq="+interviewSq+"&shareMemId="+shareMemId;
+		model.addAttribute("shareUrl", shareUrl);
+		
+		return "analysis/analysisShare";
+	}
+	
+	@RequestMapping(value = "/resultShare.do")
+	public String resultShare(String shareMemId, QuestionVO questionVO, Model model) {
+		
+		model.addAttribute("shareMemId", shareMemId);
+		
+		try {
+			InterviewVO interviewVO = interviewService.retrieve(questionVO.getInterviewSq());
+			model.addAttribute("interviewVO", interviewVO);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		/** EgovPropertyService.sample */
+		questionVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		questionVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(questionVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(questionVO.getPageUnit());
+		paginationInfo.setPageSize(questionVO.getPageSize());
+		
+		questionVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		questionVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		questionVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		List<QuestionVO> resultList = new ArrayList<>();
+		try {
+			resultList = questionService.retrievePagingList(questionVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("resultList", resultList);
+		
+		int totCnt = 0;
+		try {
+			totCnt = questionService.retrievePagingListCnt(questionVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		return "analysis/shareInterviewResult";
+	}
+	
+	
 }

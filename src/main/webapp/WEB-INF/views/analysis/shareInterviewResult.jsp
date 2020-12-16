@@ -50,49 +50,19 @@
 	
 		})
 		
-		$(".pw-input").on('change', function(){
-			var sharePw = $(".pw-input").val();
-			
-			if(sharePw.length == 4){
-				$(".share-btn").removeAttr("disabled");
-				$(".share-btn").addClass("active");
-			}else{
-				$(".share-btn").attr("disabled", "disabled");
-				$(".share-btn").removeClass("active");
-			}
-			
-		})
-		
-		$(".content-box").on("click", ".active", function() {
-			 var sharePw = $(".pw-input").val();
+		$(".share-btn").on("click",function(){
 			 var dummy = document.createElement("textarea");
 			 document.body.appendChild(dummy);
-			 dummy.value = "${serverIp}/analysis/share.do?sharePw="+sharePw+"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }";
+			 dummy.value = "${serverIp}/analysis/share.do";
 			 dummy.select();
 			 document.execCommand("copy");
 			 document.body.removeChild(dummy);
+			 console.log(dummy.value)
 		})
 		
-		$(".x-btn").on('click', function() {
-			$(".PopUp").hide();
+		$("#shareLogin").on('click', function() {
+			document.location="${cp }/login/home.do"; 
 		})
-		
-		$(".share-btn").on("click", function() {
-			$(".PopUp").show();
-		})
-		
-		$(".check-pw-mask").on('click', '.active',  function() {
-			$(".pw-input").attr("type","text");
-			$(this).addClass("checked");
-			$(this).removeClass("active");
-		})
-		
-		$(".check-pw-mask").on('click', '.checked',  function() {
-			$(".pw-input").attr("type","password")
-			$(this).addClass("active");
-			$(this).removeClass("checked");
-		})
-		
 		
 		
 	});
@@ -123,61 +93,34 @@
 	z-index: 11;
 }
 
-
 </style>
 </head>
 
 <body>
-
-	<div class="ShareBox PopUp" style="display: none;">
-	   <div class="content-box">
-	      <img src="/images/xbtn.png" alt="" class="x-btn">
-	      <div class="message">면접 결과 공유하기</div>
-	      <div class="sub-message">분석 결과를 공유하기 위해서 4자리 숫자로 비밀번호를 설정해 주세요.
-	         비밀번호를 입력한 사람만 공유한 결과를 볼 수 있습니다.</div>
-	      <div class="warn-message">※모바일에서는 확인 불가</div>
-	      <input type="password" class="pw-input" minlength="4" maxlength="4" autocomplete="off" value="">
-	      <div class="check-pw-mask">
-	         <div class="CustomCheck active undefined">
-	         	<img alt="" src="/images/icon.8473a800.svg">
-	         </div>
-	         	비밀번호 보기
-	      </div>
-	      <div class="share-btn" >링크 복사</div>
-	   </div>
-	</div>
-
 	<div id="root">
-		<div class="Review">
+		<div class="SharedReview">
 		
 			<%@ include file="/WEB-INF/views/layout/header.jsp" %>
 			
 			<div class="body">
-				<div class="date">${interviewVO.interviewDate }</div>
-				<form action="${cp }/interview/update.do" method="POST">
-					<div class="title-flex">
-						<div class="title-form">
-							<input type="hidden" name="pageNm" value="resultPage">
-							<input type="hidden" name="interviewSq" value="${interviewVO.interviewSq }">
-							<input type="text" name="interviewNm" class="title-text" id="interviewNm" placeholder="${interviewVO.interviewNm }" value="${interviewVO.interviewNm }"> 
-							<span></span>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<button id="interviewNmUpdateBtn" type="submit">
-							<img
-							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAUVJREFUOE+t1L1KxEAUBeBzM0RhC7WwECzUN4jdJou4im6tvY2NjY1PY2Ohjb11IhiQzLKFkAcQ1DcQbCTD5spEYtb8LMkmaVJk5ptzZ+aG0PFDi3iWNVzr9ZZuiXDCzCGAcyk9/UZj8Bczn4jIysKwHwTewUKg4xz7RLSfr4yZd3XK2glt+3BTCFqOY2MFgEZXU5SZP6T0tmsn1BiRCAAS02lkC2Guz6JxjNPx2H2oBaYYEW3pCcx4VyqyTdPc0CiAKym9uzTt3JLzWFYiXpWK9pTCdxj6n7P7WQlqzDDEM0A7FVfrLAjc+/y3UrAqWZYwvpDy8aZsoQLYBiscSlvsH9gF9gd2hSVgl1gCOs7ojQhJ2xT7E5dSutdN/kg0GIy4HKu+GvMWKAWZF8OSkvMJ22AJ2O8fDbMOML4mE/elyZ7lx/4AFWGhFXYrDvUAAAAASUVORK5CYII="
-							alt="edit-icon">
-							</button>
+			
+				<div class="title-flex">
+					<div class="message-area">
+						<div class="title">
+							<span>${shareMemId }</span> 님이 공유한 면접 결과입니다
 						</div>
-						<div class="share-btn">
-							<span aria-hidden="true" class="fa fa-share-square-o fa undefined"></span>
-							면접결과 공유하기
-						</div>
+						
+						<div class="sub-title">아래의 질문들을 클릭하면 그 질문에 대한 자세한 분석 결과를 확인할 수 있습니다.</div>
 					</div>
-				</form>
+						
+					<div class="kakao-suggest">
+						친구가 본 모의면접, 궁금하지 않으세요?<br>지금 바로 시작해 보세요!
+						<button id="shareLogin" class="login">시작하기</button>
+					</div>
+				</div>
+				
+				<div class="date">${interviewVO.interviewDate }</div>
+				<div class="title">${interviewVO.interviewNm }</div>
 
 					<c:forEach items="${resultList }" var="question">
 						<div class="QuestionReview close">
@@ -192,6 +135,9 @@
 							<div class="report" id="report${question.questSq }"> </div>						
 						</div>	
 					</c:forEach>
+
+
+
 
 
 			</div>
@@ -219,7 +165,6 @@
 			</footer>
 		</div>
 	</div>
-	
 </body>
 
 </html>
