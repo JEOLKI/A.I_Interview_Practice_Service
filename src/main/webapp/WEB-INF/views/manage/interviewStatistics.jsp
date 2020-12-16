@@ -31,11 +31,12 @@
 	});
 	
 	function StatisticsChart(interviewList){
-		
+		var count = 0;
 		datas = [];
 		for(var i = 0; i<interviewList.length; i++ ){
 			data = { "date" : interviewList[i].interviewDate , "value" : interviewList[i].count }
 			datas.push(data);
+			count += 1;
 		}
 		
 		trendLine = [];
@@ -73,10 +74,14 @@
 			dateAxis.dateFormats.setKey("day", "dd");
 			
 			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+			valueAxis.min = 0;
+			valueAxis.max = count + 1;
+			valueAxis.renderer.minGridDistance = 50;
 			
 			// Create series
 			var series = chart.series.push(new am4charts.LineSeries());
 			series.tooltipText = "{date}\n[bold font-size: 17px]면접 횟수 : {valueY}[/]";
+			series.dataFields.valueY = "value";
 			series.dataFields.valueY = "value";
 			series.dataFields.dateX = "date";
 			series.strokeDasharray = 3;
@@ -103,7 +108,7 @@
 			  trend.data = data;
 			
 			  var bullet = trend.bullets.push(new am4charts.CircleBullet());
-			  bullet.tooltipText = "{date}\n[bold font-size: 17px]value: {valueY}[/]";
+			  bullet.tooltipText = "{date}\n[bold font-size: 17px]면접 횟수 : {valueY}[/]";
 			  bullet.strokeWidth = 2;
 			  bullet.stroke = am4core.color("#fff")
 			  bullet.circle.fill = trend.stroke;
@@ -124,13 +129,13 @@
 <style>
 
 	#chartdiv {
-	  width: 100%;
+	  width: 90%;
 	  height: 500px;
 	}
 	
 	.contentBox{
 		width: 70%;
-		padding: 20px 30px;
+		padding: 40px 30px;
 		background-color: white;
 		border-radius: 10px;
 		margin: 10px 0px;
