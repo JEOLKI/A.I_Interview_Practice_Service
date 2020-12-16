@@ -100,7 +100,7 @@
 	    top: 0px;
     	height: 25px;
     }
-	#talentRegistBtn:hover, .updateBtn:hover, .keywordMngBtn:hover, .searchBtn:hover{
+	#questGbRegistBtn:hover, .updateBtn:hover, .keywordMngBtn:hover, .searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
 	}

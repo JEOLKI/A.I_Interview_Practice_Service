@@ -26,7 +26,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 486px;
+		margin-right: 400px;
 	}
 	
 	#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, .searchBtn{
@@ -84,6 +84,7 @@
 	input{
 		border-radius: 5px;
 		border : 1px solid black;
+		padding-left: 10px;
 	}
 	#talentSt, #sort{
 		height: 26px;

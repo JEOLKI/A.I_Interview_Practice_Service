@@ -24,7 +24,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 486px;
+		margin-right: 383px;
 	}
 	#habitRegistBtn, .updateBtn, .searchBtn{
 		display: inline-block;
