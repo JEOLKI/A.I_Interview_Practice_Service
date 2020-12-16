@@ -7,6 +7,15 @@ public class BoardGubunVO extends BaseVO{
 	private String boardGbSq; // 보드구분 번호
 	private String boardGbNm; // 보드구분 이름
 	private String boardGbSt; // 보드구분 상태
+	private String count;
+	
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
 
 	public String getBoardGbSq() {
 		return boardGbSq;

@@ -45,6 +45,10 @@ public class BoardGubunService {
 	public int delete(String boardGbSq) throws Exception{
 		return boardGubunMapper.delete(boardGbSq);
 	}
+
+	public List<BoardGubunVO> retrieveStatistics() throws Exception{
+		return boardGubunMapper.retrieveStatistics();
+	}
 	
 	
 }

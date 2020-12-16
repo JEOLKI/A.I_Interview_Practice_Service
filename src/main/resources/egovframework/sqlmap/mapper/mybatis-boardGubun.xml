@@ -84,6 +84,14 @@
 			   BOARD_GB_ST
 		FROM   BOARD_GB
 	</select>
+	
+	<select id="retrieveStatistics" resultType="com.aiinterview.board.vo.BoardGubunVO">
+		SELECT COUNT(*) COUNT, A.BOARD_GB_NM
+		FROM BOARD_GB A, BOARD B
+		WHERE A.BOARD_GB_SQ = B.BOARD_GB_SQ
+		GROUP BY A.BOARD_GB_NM
+		ORDER BY COUNT DESC
+	</select>
 
 
 </mapper>

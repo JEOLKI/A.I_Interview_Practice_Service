@@ -23,4 +23,6 @@ public interface BoardGubunMapper {
 	
 	public int delete(String boardGbSq) throws Exception;
 
+	public List<BoardGubunVO> retrieveStatistics() throws Exception;
+
 }

@@ -22,6 +22,7 @@ import com.aiinterview.board.service.BoardGubunService;
 import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
+import com.aiinterview.interview.vo.InterviewVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -183,6 +184,24 @@ public class BoardGubunController {
 
 		return "redirect:/boardGubun/retrievePagingList.do";
 
+	}
+	
+	@RequestMapping(value="/statistic.do")
+	public String statistic(Model model) {
+		return "manage/boardGbStatistics";
+	}
+	
+	@RequestMapping(value="/retrieveStatistics.do")
+	public String retrieveStatistics(Model model) {
+		
+		try {
+			List<BoardGubunVO> boardGbList = boardGubunService.retrieveStatistics();
+			model.addAttribute("boardGbList", boardGbList);
+		} catch (Exception e) {
+			
+		}
+		
+		return "jsonView";
 	}
 	
 }
