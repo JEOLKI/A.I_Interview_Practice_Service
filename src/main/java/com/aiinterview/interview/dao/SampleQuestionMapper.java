@@ -1,6 +1,7 @@
 package com.aiinterview.interview.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.interview.vo.SampleQuestionVO;
 
@@ -14,7 +15,7 @@ public interface SampleQuestionMapper {
 	 * @param sampQuestVO
 	 * @return 해당페이지 목록
 	 */
-	public List<SampleQuestionVO> retrievePagingList(SampleQuestionVO sampQuestVO);
+	public List<SampleQuestionVO> retrievePagingList(SampleQuestionVO sampQuestVO)throws Exception;
 
 	
 	/**
@@ -22,21 +23,21 @@ public interface SampleQuestionMapper {
 	 * @param sampQuestVO
 	 * @return 전체 sampQuestVO 개수
 	 */
-	public int retrievePagingListCnt(SampleQuestionVO sampQuestVO);
+	public int retrievePagingListCnt(SampleQuestionVO sampQuestVO)throws Exception;
 
 	
 	/**
 	 * 샘플질문을 등록하는 메서드
 	 * @param sampQuestVO
 	 */
-	public void create(SampleQuestionVO sampQuestVO);
+	public void create(SampleQuestionVO sampQuestVO)throws Exception;
 
 	
 	/**
 	 * 샘플질문 목록을 조회하는 메서드
 	 * @return sampQuestList
 	 */
-	public List<SampleQuestionVO> retrieveList();
+	public List<SampleQuestionVO> retrieveList()throws Exception;
 
 
 	/**
@@ -44,13 +45,29 @@ public interface SampleQuestionMapper {
 	 * @param sampQuestVO
 	 * @return
 	 */
-	public int update(SampleQuestionVO sampQuestVO);
+	public int update(SampleQuestionVO sampQuestVO)throws Exception;
 	
 	/**
 	 * 샘플질문을 검색하는 메서드
 	 * @param sampQuestContent
 	 * @return
 	 */
-	public List<SampleQuestionVO> retrieve(String searchKeyword);
+	public List<SampleQuestionVO> retrieve(String searchKeyword)throws Exception;
+
+	/**
+	 * 직무별 샘플질문 사용 수 목록을 조회하는 메서드
+	 * 통계용 (직무별)
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<SampleQuestionVO> retrieveQuestGbUseCount(Map<String, String> statisticMap)throws Exception;
+
+	/**
+	 * 샘플질문별 사용 수 목록을 조회하는 메서드
+	 * 통계용 (샘플질문별)
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<SampleQuestionVO> retrieveQuestGbAndSampUseCount(Map<String, String> statisticMap)throws Exception;
 
 }

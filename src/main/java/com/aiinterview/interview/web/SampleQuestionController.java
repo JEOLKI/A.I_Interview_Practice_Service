@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ import com.aiinterview.interview.service.QuestionGubunService;
 import com.aiinterview.interview.service.SampleQuestionService;
 import com.aiinterview.interview.vo.QuestionGubunVO;
 import com.aiinterview.interview.vo.SampleQuestionVO;
+import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.script.vo.ScriptVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -69,12 +71,18 @@ public class SampleQuestionController {
 		sampQuestVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		sampQuestVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<SampleQuestionVO> resultList = sampleQuestionService.retrievePagingList(sampQuestVO);
-		model.addAttribute("resultList", resultList);
-
-		int totCnt = sampleQuestionService.retrievePagingListCnt(sampQuestVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
+		List<SampleQuestionVO> resultList;
+		try {
+			resultList = sampleQuestionService.retrievePagingList(sampQuestVO);
+			model.addAttribute("resultList", resultList);
+			
+			int totCnt = sampleQuestionService.retrievePagingListCnt(sampQuestVO);
+			paginationInfo.setTotalRecordCount(totCnt);
+			model.addAttribute("paginationInfo", paginationInfo);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		
 		/* 질문 구분 목록 추출 */
@@ -90,7 +98,11 @@ public class SampleQuestionController {
 	@RequestMapping("/createProcess.do")
 	public String createSampQuestProcess(SampleQuestionVO sampQuestVO) {
 
-		sampleQuestionService.create(sampQuestVO);
+		try {
+			sampleQuestionService.create(sampQuestVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "redirect:/sampQuest/retrievePagingList.do";
 	}
@@ -122,32 +134,37 @@ public class SampleQuestionController {
 	public String excelDown(Model model) {
 
 		// 출력할 리스트 가져오기
-		List<SampleQuestionVO> sampQuestList = sampleQuestionService.retrieveList();
-
-		
-		//Model 객체에 header, data
-		List<String> header = new ArrayList<String>();
-		header.add("SAMP_QUEST_SQ");
-		header.add("SAMP_QUEST_CONTENT");
-		header.add("SAMP_QUEST_ST");
-		header.add("QUEST_GB_SQ");
-		
-		// excel 파일 data 설정
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-
-		for(int i = 0; i<sampQuestList.size(); i++) {
-			Map<String, String> map = new HashMap<>();
-			map.put("SAMP_QUEST_SQ", sampQuestList.get(i).getSampQuestSq());
-			map.put("SAMP_QUEST_CONTENT", sampQuestList.get(i).getSampQuestContent());
-			map.put("SAMP_QUEST_ST", sampQuestList.get(i).getSampQuestSt());
-			map.put("QUEST_GB_SQ", sampQuestList.get(i).getQuestGbSq());
-			data.add(map);
+		List<SampleQuestionVO> sampQuestList;
+		try {
+			sampQuestList = sampleQuestionService.retrieveList();
+			
+			//Model 객체에 header, data
+			List<String> header = new ArrayList<String>();
+			header.add("SAMP_QUEST_SQ");
+			header.add("SAMP_QUEST_CONTENT");
+			header.add("SAMP_QUEST_ST");
+			header.add("QUEST_GB_SQ");
+			
+			// excel 파일 data 설정
+			List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+			
+			for(int i = 0; i<sampQuestList.size(); i++) {
+				Map<String, String> map = new HashMap<>();
+				map.put("SAMP_QUEST_SQ", sampQuestList.get(i).getSampQuestSq());
+				map.put("SAMP_QUEST_CONTENT", sampQuestList.get(i).getSampQuestContent());
+				map.put("SAMP_QUEST_ST", sampQuestList.get(i).getSampQuestSt());
+				map.put("QUEST_GB_SQ", sampQuestList.get(i).getQuestGbSq());
+				data.add(map);
+			}
+			
+			model.addAttribute("header",header);
+			model.addAttribute("data",data);
+			model.addAttribute("fileName","SAMPLE_QUESTION");
+			model.addAttribute("sheetName","SAMPLE_QUESTION");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		model.addAttribute("header",header);
-		model.addAttribute("data",data);
-		model.addAttribute("fileName","SAMPLE_QUESTION");
-		model.addAttribute("sheetName","SAMPLE_QUESTION");
 		
 		return "excelView";
 	}
@@ -157,36 +174,98 @@ public class SampleQuestionController {
 	public String updateProcess(SampleQuestionVO sampQuestVO, Model model) {
 		System.out.println("샘플 질문 수정 - sampQuestVO : " + sampQuestVO);
 
-		int updateCnt = sampleQuestionService.update(sampQuestVO);
-		System.out.println("샘플 질문  수정 - updateCnt : " + updateCnt);
-		if (updateCnt == 1) {
-			return "redirect:/sampQuest/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
-		} else {
-			return "question/sampleQuestionManage";
+		int updateCnt;
+		try {
+			updateCnt = sampleQuestionService.update(sampQuestVO);
+			System.out.println("샘플 질문  수정 - updateCnt : " + updateCnt);
+			if (updateCnt == 1) {
+				return "redirect:/sampQuest/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "question/sampleQuestionManage";
 	}
 	/* 샘플질문 검색*/
 	@RequestMapping(path = "/retrieve.do")
 	public String retrieve(String searchKeyword, Model model) {
-		List<SampleQuestionVO> sampQuestList = sampleQuestionService.retrieve(searchKeyword);
-		model.addAttribute("sampQuestList",sampQuestList);
+		List<SampleQuestionVO> sampQuestList;
+		try {
+			sampQuestList = sampleQuestionService.retrieve(searchKeyword);
+			model.addAttribute("sampQuestList",sampQuestList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/retrieveRandom.do")
 	public String retrieveRandom(Model model){
-		List<SampleQuestionVO>sampleQuestionList =  sampleQuestionService.retrieveList();
-		List<SampleQuestionVO> randomQuestionList = new ArrayList<>();
-		
-		for (SampleQuestionVO sampleQuestionVO : sampleQuestionList) {
-			if(sampleQuestionVO.getSampQuestSt().equals("Y")) {
-				randomQuestionList.add(sampleQuestionVO);
+		List<SampleQuestionVO> sampleQuestionList;
+		try {
+			sampleQuestionList = sampleQuestionService.retrieveList();
+			List<SampleQuestionVO> randomQuestionList = new ArrayList<>();
+			
+			for (SampleQuestionVO sampleQuestionVO : sampleQuestionList) {
+				if(sampleQuestionVO.getSampQuestSt().equals("Y")) {
+					randomQuestionList.add(sampleQuestionVO);
+				}
 			}
+			int randomInt = (int)(Math.random()*randomQuestionList.size());
+			SampleQuestionVO sampleQuestionVO = randomQuestionList.get(randomInt);
+			
+			model.addAttribute("sampleQuestionVO",sampleQuestionVO);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		int randomInt = (int)(Math.random()*randomQuestionList.size());
-		SampleQuestionVO sampleQuestionVO = randomQuestionList.get(randomInt);
-		
-		model.addAttribute("sampleQuestionVO",sampleQuestionVO);
 		return "jsonView";
+	}
+	
+	/* 질문 통계 화면 */
+	@RequestMapping("/statistics.do")
+	public String statistics() {
+		return "question/questionStatistic";
+	}
+	
+	/* 질문 통계 데이터 - 직무별 */
+	@RequestMapping("/retrieveQuestGbStatisticsList.do")
+	public String retrieveQuestGbStatisticsList(String startDate, String endDate, String searchKeyword, Model model) {
+		
+		Map<String, String> statisticMap = new HashMap<>();
+  		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("searchKeyword", searchKeyword);
+		statisticMap.put("searchCondition", "0");
+
+		List<SampleQuestionVO> resultList = null;
+		try {
+			resultList = sampleQuestionService.retrieveQuestGbUseCount(statisticMap);
+			model.addAttribute("resultList", resultList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView"; 
+	}
+	
+	/* 질문 통계 데이터 - 샘플질문별 */
+	@RequestMapping("/retrieveQuestGbAndSampStatisticsList.do")
+	public String retrieveQuestGbAndSampStatisticsList(String startDate, String endDate, String searchKeyword, Model model) {
+		
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("searchKeyword", searchKeyword);
+		statisticMap.put("searchCondition", "1");
+		
+		List<SampleQuestionVO> resultList = null;
+		try {
+			resultList = sampleQuestionService.retrieveQuestGbAndSampUseCount(statisticMap);
+			model.addAttribute("resultList", resultList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView"; 
 	}
 }
