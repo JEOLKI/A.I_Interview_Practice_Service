@@ -277,12 +277,9 @@
 					</form>
 			</c:forEach>
 		</div>
-		<div id="paging">
-			<ul class="pagination boarding">
+			<div id="paging">
 				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 				<form:hidden path="pageIndex" />
-				</ul>
-			
 			</div>
 		</div>	
 	</form:form>
