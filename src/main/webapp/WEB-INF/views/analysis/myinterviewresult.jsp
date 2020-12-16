@@ -71,6 +71,7 @@
 			 dummy.select();
 			 document.execCommand("copy");
 			 document.body.removeChild(dummy);
+			 alert("링크가 복사 되었습니다.")
 		})
 		
 		$(".x-btn").on('click', function() {
