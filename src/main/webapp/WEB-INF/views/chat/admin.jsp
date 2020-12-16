@@ -1,4 +1,7 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+	<%@page import="com.aiinterview.chat.vo.ChatVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -246,94 +249,86 @@ margin: 5px;
 <!-- 유저가 접속할 때마다 이 템플릿으로 채팅창을 생성한다. -->
 <!-- class="template" -->
 
-<c:forEach var="i" begin="0" end="${arrayList.size() }"  >
+
+<c:forEach items="${listList }" var="chatList" varStatus="i">
+<c:forEach begin="${i.index }" items="${arrayList }" end="${i.index }" var="key">
+
+<div data-key="${key }" class="${key }">
+<div id="chatApp"   style="dispaly:none" class="float-left" >
 	
-	
-	<div id="chatApp"  style="display:none" class="template">
-	
-<div class="chatBox" id="chatBox">
-  <div class="card">
- 
- <header class="card-header header-title" @click="toggleChat()">
-    <p class="card-header-title">
-      <i class="fa fa-circle is-online"></i><img src="/images/sally.png" style="width: 30px;">&nbsp;관리자와의 채팅
-    </p>
-    <a class="card-header-icon">
-      <span class="icon">
-        <i class="fa fa-close"></i>
-      </span>
-    </a>
-  </header>
- 
- <div id="chatbox-area">
-  <div class="card-content chat-content" id="chat-content">
-  
-    <div class="content" id="messageArea">
-    
-    <c:forEach items="${Listlist }" var="chatList">
-	    <c:forEach items="${chatList }" var="chat">
-    	<c:choose>
-			<c:when test="${chat.msgReceiver == 'TEST_ID3' }">
-				<div class="chat-message-group">
-					<div class="chat-thumb">
-						<figure class="image is-32x32">
-							<img src="/images/sally.png">
-						</figure>
+	<div class="chatBox" id="chatBox">
+	  <div class="card">
+	 
+	 <header class="card-header header-title" @click="toggleChat()">
+	    <p class="card-header-title">
+	      <i class="fa fa-circle is-online"></i><img src="/images/sally.png" style="width: 30px;">&nbsp;관리자와의 채팅
+	    </p>
+	    <a class="card-header-icon">
+	      <span class="icon">
+	        <i class="fa fa-close"></i>
+	      </span>
+	    </a>
+	  </header>
+	 
+	 <div id="chatbox-area">
+	  <div class="card-content chat-content" id="chat-content">
+	  
+	    <div class="content messageArea" >
+	    
+		
+		  
+			<c:forEach items="${chatList }" var = "chat">
+				
+				<c:if test="${chat.msgSender != 'TEST_ID2'}">
+					<div class="chat-message-group">
+						<div class="chat-thumb">
+							<figure class="image is-32x32">
+								<img src="/images/sally.png">
+							</figure>
+						</div>
+						<div class="chat-messages">
+							<div class="message">${chat.msgContent }</div><div>&nbsp</div><a>${chat.msgDate }</a>
+							<div class="from">${chat.msgReceiver }&nbsp</div>
+						</div>
 					</div>
-					<div class="chat-messages">
-						<div class="message">${chat.msgContent }</div><div>&nbsp</div><a>${chat.msgDate }</a>
-						<div class="from">${chat.msgReceiver }&nbsp</div>
-					</div>
-				</div>
-
-			</c:when>
-			
-    		<c:when test="${chat.msgSender == S_MEMBER.memId }">
-				<div class="chat-message-group writer-user">
-			        <div class="chat-messages">
-			          <div class="message">${chat.msgContent }</div>
-			          <div class="from">${chat.msgSender }&nbsp ${chat.msgDate}</div>
-			        </div>
-      			</div>
-    		</c:when>
-    	</c:choose>
-		</c:forEach>    	
-    </c:forEach>
-    
-    </div>
-  </div>
-  <footer class="card-footer" id="chatBox-textbox">
-    <div style="width: 63%">
-      <textarea id="textMessage" class="chat-textarea"  onkeydown="return enter()" placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
-    </div>
-    <div class="has-text-centered" style="width: 37%">
-      <a class="button is-white">
-        <i class="fa fa-smile-o fa-5" aria-hidden="true"></i>
-      </a>
-    <a class="button is-white" onclick="sendMessage()">send</a></div>
-  </footer>
-  </div>
-  
-</div>
-</div>
-<div class="emojiBox" style="display: none">
-  <div class="box">
-  
-  </div>
-</div>
-
-</div>
+				</c:if>
+	    		<c:if test="${chat.msgSender == 'TEST_ID2'}">
+					<div class="chat-message-group writer-user">
+				        <div class="chat-messages">
+				          <div class="message">${chat.msgContent }</div>
+				          <div class="from">${chat.msgSender }&nbsp ${chat.msgDate}</div>
+				        </div>
+	      			</div>
+	    		</c:if>
+				</c:forEach>
+				
+	    	
+	    </div>
+	  </div>
+	  <footer class="card-footer" id="chatBox-textbox">
+	    <div style="width: 63%">
+	      <textarea id="textMessage" class="adminMsg chat-textarea"  onkeydown="if(event.keyCode === 13) return false;"  placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
+	    </div>
+	    <div class="has-text-centered" style="width: 37%">
+	      <a class="button is-white">
+	        <i class="fa fa-smile-o fa-5" aria-hidden="true"></i>
+	      </a>
+	    <a class="button is-white sendBtn">send</a></div>
+	  </footer>
+	  </div>
+	  
+	</div>
+	</div>
+	<div class="emojiBox" style="display: none">
+	  <div class="box">
+	  
+	  </div>
+	</div>
 	
-	
-	
-
+	</div>
+	</div>
+	</c:forEach>
 </c:forEach>
-
-
-
-
-
-
 
 
 
@@ -352,11 +347,11 @@ margin: 5px;
 <!-- 소스를 간단하게 하기 위하 Jquery를 사용했습니다. -->
 <script type="text/javascript">
 // 서버의 admin의 서블릿으로 웹 소켓을 한다.
+var d = new Date();
+var nodeKey = "";
+var webSocket =  new WebSocket("ws://localhost/admin.do");
 $(function(){
 	
-
-// var webSocket =  new WebSocket("ws://localhost/admin.do");
-var webSocket =  new WebSocket("ws://localhost/admin.do");
 // let message = document.getElementById("textMessage");
 // 운영자에서의 open, close, error는 의미가 없어서 형태만 선언
 webSocket.onopen = function(message) { };
@@ -366,38 +361,33 @@ webSocket.onerror = function(message) { };
 webSocket.onmessage = function(message) {
 // 메시지의 구조는 JSON 형태로 만들었다.
 let node = JSON.parse(message.data);
+let $div = $("[data-key='"+node.key+"']");
+nodeKey= node.key
 // 메시지의 status는 유저의 접속 형태이다.
 // visit은 유저가 접속했을 때 알리는 메시지다.
-
 if(node.status === "visit") {
+$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 
-adminAjax(node.key)
-	
 	
 console.log("node.status : "+node.status)
 console.log("node.key : " + node.key)
 // 위 템플릿 div를 취득한다.
 
-var receivering = node.key
-
-let form = $(".template").html();
-// div를 감싸고 속성 data-key에 unique키를 넣는다.
-form = $("<div class='float-left'></div>").attr("data-key",node.key).append(form);
-
 // body에 추가한다.
-$("body").append(form);
-
 // message는 유저가 메시지를 보낼 때 알려주는 메시지이다.
 } else if(node.status === "message") {
 // key로 해당 div영역을 찾는다.
 // 메시지 추가할려고 쓰는것임
-let $div = $("[data-key='"+node.key+"']");
+
+// let $div = $("[data-key='"+node.key+"']");
+
+console.log(node.message)
+console.log(node.status)
 // console영역을 찾는다.
 // .messageArea
 // let log = $div.find(".console").val();
 // 아래에 메시지를 추가한다.
-
-$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/sally.png'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>Hoje 04:55</div></div>");
+$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/sally.png'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight); 
 
 // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
@@ -412,17 +402,20 @@ $(document).on("click", ".sendBtn", function(){
 let $div = $(this).closest(".float-left");
 // 메시지 텍스트 박스를 찾아서 값을 취득한다.
 let message = $div.find(".adminMsg").val();
+console.log("메시지 확인 :"+message)
 // 유저 key를 취득한다.
-let key = $div.data("key");
+let key = nodeKey;
+console.log("key 확인"+key)
 // console영역을 찾는다.
 // let log = $div.find(".console").val();
 
 
 // 아래에 메시지를 추가한다.
-$div.find(".messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message+"</div><div class='from'>Hoje 04:55</div></div></div>");
-$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
-// 텍스트 박스의 값을 초기화 한다.
+$div.find(".messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
+$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);// 텍스트 박스의 값을 초기화 한다.
+
 $div.find(".adminMsg").val("");
+console.log($div.find(".adminMsg").val(""))
 // 웹소켓으로 메시지를 보낸다.
 webSocket.send(key+"#####"+message);
 });
@@ -438,19 +431,6 @@ return false;
 return true;
 });
 
-
-
-function adminAjax(receiver){
-	$.ajax({url : "/chat/adminAjax.do",
-		method : "get",
-		data : { msgReceiver : receiver},
-		success : function(data){
-// 			console.log(data)
-			$("#ajaxHtml").html(data);
-		
-		}
-	})
-}
 
 
 

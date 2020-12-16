@@ -2,7 +2,9 @@ package com.aiinterview.chat.dao;
 
 import java.util.List;
 
+import com.aiinterview.chat.vo.ChatRoomVO;
 import com.aiinterview.chat.vo.ChatVO;
+import com.aiinterview.member.vo.MemberVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -22,4 +24,12 @@ public interface ChatMapper {
 	 * @return
 	 */
 	int create(ChatVO cv);
+	
+	/**
+	 * 채팅방 리스트를 불러오기 위한 메서드 
+	 * @param mv 전체 회원의 이름
+	 * @return 
+	 */
+	List<ChatRoomVO>roomList(String memId);
+	
 }

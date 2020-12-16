@@ -51,6 +51,7 @@ admin = null;
 // 운영자 유저로 메시지를 보내는 함수
 private static void send(String message) {
 if (admin != null) {
+	System.out.println("운영자 확인" + admin);
 try {
 admin.getBasicRemote().sendText(message);
 } catch (IOException e) {

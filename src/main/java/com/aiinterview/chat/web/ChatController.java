@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aiinterview.chat.service.ChatService;
+import com.aiinterview.chat.vo.ChatRoomVO;
 import com.aiinterview.chat.vo.ChatVO;
+import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
 
 
@@ -24,10 +26,33 @@ public class ChatController {
 	@Resource(name = "chatService")
 	ChatService chatService;
 	
+	@Resource(name = "memberService")
+	private MemberService memberService;
 	
 	ChatVO cv = new ChatVO();
 	public static HttpSession usersSession;
 	public static  List<String> IdList = new ArrayList<>();
+	
+	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
+	public String test(Model model) {
+		List<List<ChatRoomVO>> listList = new ArrayList<>();
+		try {
+			List<MemberVO> memList =  memberService.manageMember();
+			for (int i = 0; i < memList.size(); i++) {
+				List<ChatRoomVO>roomList =  chatService.roomList(memList.get(i).getMemId());
+				System.out.println(roomList);
+				listList.add(roomList);
+			}
+			
+			model.addAttribute("listList", listList);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "chat/chatRoom";
+		
+	}
 	
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
@@ -61,27 +86,28 @@ public class ChatController {
 		ChatVO cv = new ChatVO();
 		List<String> arrayList = new ArrayList<>();
 		
-		List<List<ChatVO>> Listlist = new ArrayList<>();
+		List<List<ChatVO>> listList = new ArrayList<>();
 		String Sender = "TEST_ID2";
+		
 		
 		for(String data : IdList){
 		    if(!arrayList.contains(data))
 		        arrayList.add(data);
 		}
 		
-	
-		
+		//arrayList TEST_ID, TEST_ID3
+		System.out.println("IdList :" + IdList);
 		for (int i = 0; i < arrayList.size(); i++) {
 			cv.setMsgSender(Sender);
-			cv.setMsgReceiver(arrayList.get(i));
+			cv.setMsgReceiver("TEST_ID5");
 			List<ChatVO> chatList =  chatService.List(cv);
-			Listlist.add(chatList);
+			System.out.println("chatList확인 : "+chatList);
+			listList.add(chatList);
 			
 			model.addAttribute("Receiver", arrayList.get(i));
 		}
-			model.addAttribute("Listlist", Listlist);
 		
-	
+		model.addAttribute("listList", listList);
 		model.addAttribute("arrayList", arrayList);
 		
 		return "chat/admin";
@@ -105,16 +131,7 @@ public class ChatController {
 		
 		return "chat/adminChatList";
 	}
-	
-	
-	
-	
-	
-	
-	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
-	public String test() {
-		return "chat/chatList";
-	}
+
 	
 	@RequestMapping(path = "/list.do", method = RequestMethod.GET)
 	public String ListView(Model model, ChatVO cv, HttpSession session) {

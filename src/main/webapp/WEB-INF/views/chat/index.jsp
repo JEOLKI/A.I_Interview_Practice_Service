@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
@@ -244,10 +246,9 @@
 
 <body>
  
- 
+
  
 <div id="chatApp">
-
 <div class="chatBox" id="chatBox">
   <div class="card">
  
@@ -266,6 +267,7 @@
   <div class="card-content chat-content" id="chat-content">
   
     <div class="content" id="messageArea">
+    
     
     <c:forEach items="${chatList }" var="chat" varStatus="status">
 		
@@ -356,6 +358,7 @@
 var messageTextArea = document.getElementById("messageArea");
 var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
 let message = document.getElementById("textMessage");
+var d = new Date();
 $(function(){
 $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight); 	
 
@@ -374,9 +377,11 @@ webSocket.onerror = function(message) {
 };
 // 서버로부터 메시지가 도착하면 콘솔 화면에 메시지를 남긴다.
 webSocket.onmessage = function(message) {
-$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/sally.png'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>Hoje 04:55</div></div>");
+console.log(message)
+console.log(message.data)
+$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/sally.png'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
+$("#messageArea").append("</div>")
 
-$('#chat-content').append("</div>");
 $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight); 
 
 
@@ -387,7 +392,7 @@ $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
 // Send 버튼을 누르거나 텍스트 박스에서 엔터를 치면 실행
 function sendMessage() {
 
-$("#messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message.value+"</div><div class='from'>Hoje 04:55</div></div></div>");
+$("#messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message.value+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
 
 
 // 소켓으로 보낸다.

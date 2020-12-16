@@ -5,9 +5,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ls.LSInput;
 
 import com.aiinterview.chat.dao.ChatMapper;
+import com.aiinterview.chat.vo.ChatRoomVO;
 import com.aiinterview.chat.vo.ChatVO;
+import com.aiinterview.member.vo.MemberVO;
 
 @Service("chatService")
 public class ChatService {
@@ -23,6 +26,8 @@ public class ChatService {
 		return chatMapper.create(cv);
 	}
 	
-	
+	public List<ChatRoomVO> roomList(String memId){
+		return chatMapper.roomList(memId);
+	}
 	
 }

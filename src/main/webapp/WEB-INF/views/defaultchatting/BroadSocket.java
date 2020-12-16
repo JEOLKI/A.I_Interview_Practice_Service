@@ -122,7 +122,7 @@ User user = getUser(userSession);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 // 운영자 Client에 유저 key와 메시지를 보낸다.
-Admin.sendMessage(user.key, message);
+Admin.sendMessage(user.key, message); 
 }
 }
 // 운영자 client가 유저에게 메시지를 보내는 함수

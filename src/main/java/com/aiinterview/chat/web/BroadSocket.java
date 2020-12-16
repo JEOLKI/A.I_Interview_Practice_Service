@@ -55,7 +55,11 @@ public void handleOpen(Session userSession) {
 User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
 MemberVO mv =  (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
+System.out.println("유저 아이디 확인"+mv);
 user.key = mv.getMemId();
+System.out.println("user.key :" + user.key);
+ChatController chat = new ChatController();
+System.out.println("chat.IdList"+chat.IdList);
 // WebSocket의 세션
 user.session = userSession;
 // 유저 리스트에 등록한다.
@@ -78,6 +82,9 @@ Admin.sendMessage(user.key, message);
 public static void sendMessage(String key, String message) {
 // key로 접속 리스트에서 User 클래스를 탐색
 User user = getUser(key);
+System.out.println("유저 확인" +user);
+System.out.println("메세지확인 " +message);
+
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 try {
