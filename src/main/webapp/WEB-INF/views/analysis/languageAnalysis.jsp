@@ -13,7 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	const sdk = require(["microsoft-cognitiveservices-speech-sdk"]);
-	const speechConfig = sdk.SpeechConfig.fromSubscription("8e1d8a815cd34bd4b7fee2b71344ef49",  "koreacentral");
+	const speechConfig = sdk.SpeechConfig.fromSubscription("c8fade57c0084e95b64bf948ed3184a5",  "koreacentral");
 	const recognizer = new sdk.SpeechRecognizer(speechConfig);
 $(document).ready(function(){
 		console.log('연결');
