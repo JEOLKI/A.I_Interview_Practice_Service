@@ -30,7 +30,7 @@ public class SampleQuestionService {
 	 * @param sampQuestVO
 	 * @return
 	 */
-	public List<SampleQuestionVO> retrievePagingList(SampleQuestionVO sampQuestVO) {
+	public List<SampleQuestionVO> retrievePagingList(SampleQuestionVO sampQuestVO) throws Exception{
 		logger.debug("샘플 질문 리스트 조회 service");
 		return sampleQuestionMapper.retrievePagingList(sampQuestVO);
 	}
@@ -41,7 +41,7 @@ public class SampleQuestionService {
 	 * @param sampQuestVO
 	 * @return 샘플질문 총 개수
 	 */
-	public int retrievePagingListCnt(SampleQuestionVO sampQuestVO) {
+	public int retrievePagingListCnt(SampleQuestionVO sampQuestVO) throws Exception{
 		return sampleQuestionMapper.retrievePagingListCnt(sampQuestVO);
 	}
 
@@ -50,7 +50,7 @@ public class SampleQuestionService {
 	 * 샘플질문을 등록하는 메서드
 	 * @param questGbVO
 	 */
-	public void create(SampleQuestionVO sampQuestVO) {
+	public void create(SampleQuestionVO sampQuestVO) throws Exception{
 		logger.debug("샘플질문 등록  service"); 
 		sampleQuestionMapper.create(sampQuestVO);
 		logger.debug("샘플질문 등록 service 후");
@@ -87,7 +87,7 @@ public class SampleQuestionService {
 	 * @return questGbList
 	 * @throws Exception 
 	 */
-	public List<SampleQuestionVO> retrieveList() {
+	public List<SampleQuestionVO> retrieveList() throws Exception{
 		return sampleQuestionMapper.retrieveList();
 	}
 
@@ -96,7 +96,7 @@ public class SampleQuestionService {
 	 * @param sampQuestVO
 	 * @return
 	 */
-	public int update(SampleQuestionVO sampQuestVO) {
+	public int update(SampleQuestionVO sampQuestVO) throws Exception{
 		return sampleQuestionMapper.update(sampQuestVO);
 	}
 	
@@ -105,7 +105,27 @@ public class SampleQuestionService {
 	 * @param sampQuestContent
 	 * @return
 	 */
-	public List<SampleQuestionVO> retrieve(String searchKeyword){
+	public List<SampleQuestionVO> retrieve(String searchKeyword)throws Exception{
 		return sampleQuestionMapper.retrieve(searchKeyword);
+	}
+
+	/**
+	 * 직무별 샘플질문 사용 수 목록을 조회하는 메서드
+	 * 통계용 (직무별)
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<SampleQuestionVO> retrieveQuestGbUseCount(Map<String, String> statisticMap) throws Exception{
+		return sampleQuestionMapper.retrieveQuestGbUseCount(statisticMap);
+	}
+
+	/**
+	 * 샘플질문별샘플질문 사용 수 목록을 조회하는 메서드
+	 * 통계용 (샘플질문별)
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<SampleQuestionVO> retrieveQuestGbAndSampUseCount(Map<String, String> statisticMap) throws Exception{
+		return sampleQuestionMapper.retrieveQuestGbAndSampUseCount(statisticMap);
 	}
 }
