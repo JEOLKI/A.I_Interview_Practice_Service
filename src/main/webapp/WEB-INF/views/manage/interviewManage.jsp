@@ -145,6 +145,10 @@
 	    color: #fff;
 	}
 	
+	#dateMenu, #memIdMenu{
+		width: 200px;
+	}
+	
 </style>
 
 </head>
@@ -181,8 +185,8 @@
 							<tr>
 								<th>번호</th>
 								<th>면접 제목</th>
-								<th>면접 등록 일자</th>
-								<th>회원 아이디</th>
+								<th id="dateMenu">면접 등록 일자</th>
+								<th id="memIdMenu">회원 아이디</th>
 							</tr>
 						</thead>
 						<tbody>
