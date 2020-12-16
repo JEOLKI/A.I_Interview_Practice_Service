@@ -92,6 +92,12 @@ public class LoginController {
 		return "manage/main";
 	}
 	
+	@RequestMapping(value = "/manageStatistic.do", method = { RequestMethod.GET })
+	public String manageStatistic() {
+		return "manage/manageStatistic";
+	}
+	
+	
 	@RequestMapping(path = "/join.do", method = { RequestMethod.GET })
 	public String main(MemberVO memberVo, Model model) {
 		return "login/join";
