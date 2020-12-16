@@ -157,5 +157,70 @@
 		SELECT *
 		FROM MEMBER
 	</select>
+	
+	<select id="retrieveMajor" parameterType="com.aiinterview.member.vo.MemberVO" resultType="com.aiinterview.member.vo.MemberVO">
+		SELECT COUNT(*) count,
+        		MEM_MAJOR
+		FROM MEMBER
+		WHERE 1=1
+			<choose>
+				<when test="searchKeyword != null and searchKeyword != ''">
+					AND MEM_MAJOR LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		GROUP BY MEM_MAJOR
+	</select>
+	
+	<select id="retrieveEducation" parameterType="com.aiinterview.member.vo.MemberVO" resultType="com.aiinterview.member.vo.MemberVO">
+		SELECT COUNT(*) count,
+        		MEM_EDUC
+		FROM MEMBER
+		WHERE 1=1
+			<choose>
+				<when test="searchKeyword != null and searchKeyword != ''">
+				AND MEM_EDUC LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		GROUP BY MEM_EDUC
+	</select>
+	
+	<select id="retrieveSearchJobDate" parameterType="com.aiinterview.member.vo.MemberVO" resultType="com.aiinterview.member.vo.MemberVO">
+		SELECT COUNT(*) count,
+        		SEARCH_JOB_DATE
+		FROM MEMBER
+		WHERE 1=1
+			<choose>
+				<when test="searchKeyword != null and searchKeyword != ''">
+				AND SEARCH_JOB_DATE LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		GROUP BY SEARCH_JOB_DATE
+	</select>
+	
+	<select id="retrieveCareer" parameterType="com.aiinterview.member.vo.MemberVO" resultType="com.aiinterview.member.vo.MemberVO">
+		SELECT COUNT(*) count,
+        		MEM_CAREER
+		FROM MEMBER
+		WHERE 1=1
+			<choose>
+				<when test="searchKeyword != null and searchKeyword != ''">
+				AND MEM_CAREER LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		GROUP BY MEM_CAREER
+	</select>
+	
+	<select id="retrieveGender" parameterType="com.aiinterview.member.vo.MemberVO" resultType="com.aiinterview.member.vo.MemberVO">
+		SELECT COUNT(*) count,
+        		MEM_GENDER
+		FROM MEMBER
+		WHERE 1=1
+			<choose>
+				<when test="searchKeyword != null and searchKeyword != ''">
+				AND MEM_GENDER LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		GROUP BY MEM_GENDER
+	</select>
 
 </mapper>

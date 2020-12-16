@@ -446,4 +446,75 @@ public class MemberController {
 		return "redirect:/member/authorityManage.do";
 	}
 	
+	@RequestMapping(path="statistic.do")
+	public String statistics() {
+		return"manage/memberStatistic";
+	}
+	
+	@RequestMapping(path="/majorStatistic.do")
+	public String majorStatistic(Model model, MemberVO memberVO) {
+		List<MemberVO> memberMajorList = null;
+				
+		try {
+			memberMajorList = memberService.retrieveMajor(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("memberMajorList",memberMajorList);
+		return "jsonView";
+	}
+	
+	@RequestMapping(path="/educationStatistic.do")
+	public String educationStatistic(Model model, MemberVO memberVO) {
+		List<MemberVO> memberEducationList = null;
+		logger.debug("에듀케이션{}",memberVO.getSearchKeyword());
+		
+		try {
+			memberEducationList = memberService.retrieveEducation(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("memberEducationList",memberEducationList);
+		return "jsonView";
+	}
+	
+	@RequestMapping(path="/searchJobDateStatistic.do")
+	public String searchJobDateStatistic(Model model, MemberVO memberVO) {
+		List<MemberVO> membersearchJobDateList = null;
+		
+		try {
+			membersearchJobDateList = memberService.retrieveSearchJobDate(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("membersearchJobDateList",membersearchJobDateList);
+		return "jsonView";
+	}
+	
+	@RequestMapping(path="/careerStatistic.do")
+	public String careerStatistic(Model model, MemberVO memberVO) {
+		List<MemberVO> memberCareerList = null;
+		
+		try {
+			memberCareerList = memberService.retrieveCareer(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("memberCareerList",memberCareerList);
+		return "jsonView";
+	}
+	
+	@RequestMapping(path="/genderStatistic.do")
+	public String genderStatistic(Model model, MemberVO memberVO) {
+		List<MemberVO> memberGenderList = null;
+		
+		try {
+			memberGenderList = memberService.retrieveGender(memberVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("memberGenderList",memberGenderList);
+		return "jsonView";
+	}
+	
 }

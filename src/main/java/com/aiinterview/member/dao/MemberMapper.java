@@ -97,5 +97,40 @@ public interface MemberMapper{
 	 * @return
 	 */
 	public List<MemberVO> manageMember() throws Exception;
+	
+	/**
+	 * 전공별 회원 목록을 출력하기 위한 메서드
+	 * 
+	 * @return
+	 */
+	public List<MemberVO> retrieveMajor(MemberVO memberVO) throws Exception;
+	
+	/**
+	 * 학력별 회원 목록을 출력하기 위한 메서드
+	 * 
+	 * @return
+	 */
+	public List<MemberVO> retrieveEducation(MemberVO memberVO) throws Exception;
+	
+	/**
+	 * 구직시작기간별 회원 목록을 출력하기 위한 메서드
+	 * 
+	 * @return
+	 */
+	public List<MemberVO> retrieveSearchJobDate(MemberVO memberVO) throws Exception;
+	
+	/**
+	 * 경력별 회원 목록을 출력하기 위한 메서드
+	 * 
+	 * @return
+	 */
+	public List<MemberVO> retrieveCareer(MemberVO memberVO) throws Exception;
+	
+	/**
+	 * 성별 회원 목록을 출력하기 위한 메서드
+	 * 
+	 * @return
+	 */
+	public List<MemberVO> retrieveGender(MemberVO memberVO) throws Exception;
 
 }

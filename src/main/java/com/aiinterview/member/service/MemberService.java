@@ -78,4 +78,29 @@ public class MemberService implements MemberMapper {
 		return memberMapper.manageMember();
 	}
 
+	@Override
+	public List<MemberVO> retrieveMajor(MemberVO memberVO) throws Exception {
+		return memberMapper.retrieveMajor(memberVO);
+	}
+
+	@Override
+	public List<MemberVO> retrieveEducation(MemberVO memberVO) throws Exception {
+		return memberMapper.retrieveEducation(memberVO);
+	}
+
+	@Override
+	public List<MemberVO> retrieveSearchJobDate(MemberVO memberVO) throws Exception {
+		return memberMapper.retrieveSearchJobDate(memberVO);
+	}
+
+	@Override
+	public List<MemberVO> retrieveCareer(MemberVO memberVO) throws Exception {
+		return memberMapper.retrieveCareer(memberVO);
+	}
+
+	@Override
+	public List<MemberVO> retrieveGender(MemberVO memberVO) throws Exception {
+		return memberMapper.retrieveGender(memberVO);
+	}
+
 }

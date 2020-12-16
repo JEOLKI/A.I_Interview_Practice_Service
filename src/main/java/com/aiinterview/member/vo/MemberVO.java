@@ -24,6 +24,16 @@ public class MemberVO extends BaseVO {
 	private String memProfileNm;
 	private String memProfilePath;
 	
+	private String count; // 그룹별 이용자 수를 세는 필드
+	
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
 	public MemberVO() {
 		
 	}
@@ -205,6 +215,7 @@ public class MemberVO extends BaseVO {
 		this.memMajor = memMajor;
 	}
 
+
 	@Override
 	public String toString() {
 		return "MemberVO [memId=" + memId + ", memPw=" + memPw + ", memAuth=" + memAuth + ", memSt=" + memSt
@@ -212,7 +223,7 @@ public class MemberVO extends BaseVO {
 				+ ", memAddr2=" + memAddr2 + ", memZipcode=" + memZipcode + ", memCareer=" + memCareer + ", memEduc="
 				+ memEduc + ", memGender=" + memGender + ", memTargetCompany=" + memTargetCompany + ", memTargetJob="
 				+ memTargetJob + ", searchJobDate=" + searchJobDate + ", memMajor=" + memMajor + ", memProfileNm="
-				+ memProfileNm + ", memProfilePath=" + memProfilePath + "]";
+				+ memProfileNm + ", memProfilePath=" + memProfilePath + ", count=" + count + "]";
 	}
 
 	@Override
