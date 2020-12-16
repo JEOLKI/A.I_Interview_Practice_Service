@@ -31,9 +31,9 @@ TRUNCATE TABLE CATEGORY;
 TRUNCATE TABLE MEMBER;
 
 -- MEMBER
-INSERT INTO MEMBER VALUES('TEST_ID','TEST_PW','Y','Y','TEST_ALIAS','TEST_NAME','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'신입','대학교 졸업','F','KAKAO','DEVELOPER','2020 상반기','공학','brown.png','D:\profile\brown.png');
-INSERT INTO MEMBER VALUES('TEST_ID2','TEST_PW','Y','Y','TEST_ALIAS2','TEST_NAME2','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'경력','석/박사 이상','F','KAKAO','DEVELOPER','2019 하반기','인문','brown.png','D:\profile\brown.png');
-INSERT INTO MEMBER VALUES('TEST_ID3','TEST_PW','Y','Y','TEST_ALIAS3','TEST_NAME3','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'신입','기타','F','KAKAO','DEVELOPER','2020 하반기','예체능','brown.png','D:\profile\brown.png');
+INSERT INTO MEMBER VALUES('TEST_ID','TEST_PW','Y','Y','TEST_ALIAS','TEST_NAME','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'신입','대학교 졸업','F','KAKAO','개발','2020 상반기','공학','brown.png','D:\profile\brown.png');
+INSERT INTO MEMBER VALUES('TEST_ID2','TEST_PW','Y','Y','TEST_ALIAS2','TEST_NAME2','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'경력','석/박사 이상','F','LG','인사','2019 하반기','인문','brown.png','D:\profile\brown.png');
+INSERT INTO MEMBER VALUES('TEST_ID3','TEST_PW','Y','Y','TEST_ALIAS3','TEST_NAME3','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'신입','기타','F','CJ','영업','2020 하반기','예체능','brown.png','D:\profile\brown.png');
 
 --BOARD_GB
 INSERT INTO BOARD_GB VALUES(1,'공지사항','Y');
