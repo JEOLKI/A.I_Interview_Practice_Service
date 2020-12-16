@@ -126,7 +126,7 @@ public class InterviewController {
 	
 	
 	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String retrievePagingList(InterviewVO interviewVO, HttpSession session, ModelMap model) {
+	public String retrievePagingList(InterviewVO interviewVO, HttpSession session, Model model) {
 		
 
 		/** EgovPropertyService.sample */
@@ -159,8 +159,34 @@ public class InterviewController {
 		}
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-
+		
+		try {
+			List<InterviewVO> interviewList = interviewService.retrieveList();
+			model.addAttribute("interviewList", interviewList);
+		} catch (Exception e) {
+		}
+		
 		return "manage/interviewManage";
+	}
+	
+	
+	@RequestMapping(value="/statistic.do")
+	public String statistic(Model model) {
+		
+		return "manage/interviewStatistics";
+	}
+	
+	@RequestMapping(value="/retrieveStatistics.do")
+	public String retrieveStatistics(Model model) {
+		
+		try {
+			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
+			model.addAttribute("interviewList", interviewList);
+		} catch (Exception e) {
+			
+		}
+		
+		return "jsonView";
 	}
 	
 	/* 일괄 다운로드 */
@@ -207,6 +233,7 @@ public class InterviewController {
 		ra.addAttribute("interviewSq",interviewSq);
 		return"redirect:/analysis/question/retrievePagingList.do";
 	}
+	
 	
 
 }

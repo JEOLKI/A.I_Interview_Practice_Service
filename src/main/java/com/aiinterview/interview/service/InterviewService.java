@@ -65,4 +65,8 @@ public class InterviewService {
 		return interviewMapper.delete(interviewSq);
 	}
 
+	public List<InterviewVO> retrieveStatistics() throws Exception {
+		return interviewMapper.retrieveStatistics();
+	}
+
 }

@@ -149,6 +149,16 @@
 		width: 200px;
 	}
 	
+	#interviewCountDiv{
+		font-size: 1.5em;
+	}
+	
+	#interviewCountSpan{
+		color: #F15F5F;
+		font-weight: bold;
+		font-size: 1.5em;
+	}
+	
 </style>
 
 </head>
@@ -208,5 +218,11 @@
 				</div>
 		</form:form>
 	</div>
+	
+	<div class="contentBox">
+		<div id="interviewCountDiv">현재 진행중인 면접 수 <span id="interviewCountSpan">${interviewList.size() }</span>회 </div>
+	</div>
+	
+	
 </body>
 </html>

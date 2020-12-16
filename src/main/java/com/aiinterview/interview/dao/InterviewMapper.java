@@ -63,6 +63,13 @@ public interface InterviewMapper {
 	 * @throws Exception
 	 */
 	public int delete(String interviewSq) throws Exception;
+
+	/**
+	 * 면접의 통계를 구하기 위한 메서드
+	 * @return
+	 * @throws Exception
+	 */
+	public List<InterviewVO> retrieveStatistics() throws Exception;
 	
 
 	

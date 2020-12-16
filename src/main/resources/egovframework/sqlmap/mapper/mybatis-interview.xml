@@ -100,6 +100,14 @@
 				MEM_ID
 		FROM INTERVIEW
 	</select>
+	
+	<select id="retrieveStatistics" resultType="com.aiinterview.interview.vo.InterviewVO">
+		SELECT COUNT(*) COUNT, INTERVIEW_DATE
+		FROM (SELECT TO_CHAR(INTERVIEW_DATE, 'YYYY-MM-DD') INTERVIEW_DATE
+		       FROM INTERVIEW)
+		GROUP BY INTERVIEW_DATE
+		ORDER BY INTERVIEW_DATE
+	</select>
 
 
 </mapper>

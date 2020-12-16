@@ -8,6 +8,15 @@ public class InterviewVO extends BaseVO {
 	private String interviewNm = "이름없는 면접"; // 면접 이름
 	private String interviewDate; // 면접 일자
 	private String memId; // 회원 아이디
+	private String count;
+	
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
 
 	public InterviewVO() {
 

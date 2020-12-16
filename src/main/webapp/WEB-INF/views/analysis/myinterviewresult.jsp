@@ -63,7 +63,7 @@
 			
 		})
 		
-		$(".content-box").on("click", ".active", function() {
+		$(".content-box").on("click", ".content-box>.active", function() {
 			 var sharePw = $(".pw-input").val();
 			 var dummy = document.createElement("textarea");
 			 document.body.appendChild(dummy);
