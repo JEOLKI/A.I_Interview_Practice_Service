@@ -163,4 +163,10 @@ public class HabitController {
 	}
 
 
+	
+	/* 습관어 통계 */
+	@RequestMapping("/statistics.do")
+	public String statistics() {
+		return "habit/habitStatistics";
+	}
 }
