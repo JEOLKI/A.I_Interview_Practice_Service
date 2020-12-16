@@ -237,7 +237,7 @@
 	// 이미지 분석
 	function processImage() {
 		$('.spacebar-area').attr('disabled', true); // 버튼 비활성화 설정
-		var subscriptionKey = "cae766a534074d6b89f02281da4e14cf";
+		var subscriptionKey = "3ff823093e8244e998c0ccb3841a6062";
 		var uriBase = "https://faceanalysis-jh.cognitiveservices.azure.com/face/v1.0/detect";
 		// Request parameters.
 		var params = {
@@ -637,7 +637,7 @@
 					href="https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started"
 					target="_blank">Subscription</a>:</td>
 				<td><input id="subscriptionKey" type="text" size="40"
-					value="8e1d8a815cd34bd4b7fee2b71344ef49"></td>
+					value="c8fade57c0084e95b64bf948ed3184a5"></td>
 			</tr>
 			<tr>
 				<td align="right">Region</td>

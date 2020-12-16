@@ -25,10 +25,9 @@ to {
 </style>
 <script type="text/javascript" >
 	window.onload = function(){
-		openFullScreenMode();
+		document.documentElement.webkitRequestFullscreen();
 		
 		if(getCookie('check')=='${S_MEMBER.memId}'){
-			console.log('쿠키가 일치 합니다.');
 			$('.InterviewTutorial.PopUp').css('display','none');
 		}
 		
@@ -81,15 +80,6 @@ to {
 		$('#speakerCheck').show('slow');
 	}
 	
-	// 전체화면
-	function setSize(){
-		$('#fullsize').toggle(function(){
-			closeFullScreenMode();
-		},function(){
-			openFullScreenMode();
-		});
-	}
-	
 	// 쿠키설정
 	function setCookie(name, value, exp) {
 		var date = new Date();
@@ -106,6 +96,15 @@ to {
 	function getCookie(name) {
 		var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
 		return value? value[2] : null;
+	}
+	
+	// 전체화면 
+	function setSize(){
+		if(document.documentElement.requestFullscreen){
+			document.documentElement.webkitExitFullscreen();
+		}else{
+			document.documentElement.webkitRequestFullscreen();
+		}
 	}
 
 	
@@ -249,6 +248,16 @@ $(document).ready(function(){
 			$('#checkImage').css('display','');
 		}
 	})
+	
+	// 풀스크린 확인
+	$(window).resize(function () {
+        if ((screen.availHeight || screen.height - 30) <= window.innerHeight) {
+            console.log('Fullscreen');
+        }
+        else {
+            console.log('Not Fullscreen');
+        }
+    });
 });
 	
 </script>
@@ -309,7 +318,7 @@ $(document).ready(function(){
 			</div>
 			<div class="body">
 				<div class="center">
-					<a onclick="closeFullScreenMode();"  > 
+					<a onclick="setSize();"  > 
 						<img alt="" src="/images/fullSize_cancel.png" style="height: 70px;width: 70px"">
 					</a>
 					<div class="top-message">카메라와 마이크 상태를 점검해 주세요.</div>

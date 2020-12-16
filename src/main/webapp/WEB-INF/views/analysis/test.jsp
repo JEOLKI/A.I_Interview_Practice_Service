@@ -12,7 +12,7 @@
 <script>
 $(document).ready(function(){
    // Replace below with your own subscription key
-   const speechSubscriptionKey = "8e1d8a815cd34bd4b7fee2b71344ef49";
+   const speechSubscriptionKey = "c8fade57c0084e95b64bf948ed3184a5";
    // Replace below with your own service region (e.g., "westus").
    const serviceRegion = "koreacentral";
    
