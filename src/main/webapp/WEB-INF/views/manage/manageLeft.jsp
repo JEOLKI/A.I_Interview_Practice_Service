@@ -115,7 +115,8 @@
 		스크립트 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc4" class="w3-hide w3-white w3-card">
-		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;스크립트 관리</a>
+		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content">&ensp;&ensp;스크립트 목록</a>
+		<a href="/script/statistics.do" class="w3-bar-item w3-button" target="manage_content">&ensp;&ensp;스크립트 통계</a>
 	</div>
 </div>
 
@@ -249,19 +250,6 @@
 			x.className = x.className.replace(" w3-show", "");
 			x.previousElementSibling.className = x.previousElementSibling.className
 					.replace(" w3-blue", "");
-		}
-	}
-
-	/* 스크립트 관리  - 스크립트 구분 관리 */
-	function myAccFunc4_a() {
-		var x = document.getElementById("demoAcc4_a");
-		if (x.className.indexOf("w3-show") == -1) {
-			x.className += " w3-show";
-			x.previousElementSibling.className += " w3-pale-blue";
-		} else {
-			x.className = x.className.replace(" w3-show", "");
-			x.previousElementSibling.className = x.previousElementSibling.className
-					.replace(" w3-pale-blue", "");
 		}
 	}
 	
