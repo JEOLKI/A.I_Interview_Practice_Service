@@ -11,6 +11,7 @@
 
 /* pagination 페이지 링크 function */
 function linkPage(pageNo){
+	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
 	document.listForm.pageIndex.value = pageNo;
 	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
    	document.listForm.submit();
@@ -21,6 +22,14 @@ function searchList(){
 	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
    	document.listForm.submit();
 }
+
+$(document).ready(function(){
+	// 정렬 값에 따라 회원 출력개수 변경
+	$('#sort').on('change',function(){
+		pageUnit = $(this).val();
+		document.location="/member/retrievePagingList.do?pageUnit="+pageUnit;
+	})
+})
 
 </script>
 <style>
@@ -143,7 +152,6 @@ function searchList(){
 		background-color: #4374D9;
 	    color: #fff;
 	}
-
 </style>
 </head>
 <body>
@@ -156,6 +164,18 @@ function searchList(){
 					<div class="input-group" >
 				     	<ul>
 				        	<li>
+				        		<select id="sort" class="custom-select">
+									<c:forEach var="value" begin="5" end="20" step="5">
+										<c:choose>
+											<c:when test="${pageUnit == value  }">
+												<option value="${value }" selected="selected" >${value }개씩</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${value }" >${value }개씩</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select> 
 		        				<form:select cssClass="custom-select"  path="searchCondition">
 		        					<form:option value="0" label="아이디" />
 		        					<form:option value="1" label="별명" />

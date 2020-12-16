@@ -713,7 +713,7 @@
 				</div>
 				<div style="text-align: center;">
 				</div>
-<!-- 				<audio src="/images/interview_guide_audio.5680f6cc.mp3"	autoplay=""></audio> -->
+				<audio src="/media/interview_guide_audio.5680f6cc.mp3"	autoplay=""></audio>
 			</div>
 			<div class="InterviewInterface">
 				<div class="question-message shown">

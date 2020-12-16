@@ -11,8 +11,9 @@
 <script type="text/javascript" language="javascript" defer="defer">
 	 /* pagination 페이지 링크 function */
     function linkPage(pageNo){
+    	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
     	document.listForm.pageIndex.value = pageNo;
-    	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
+    	document.listForm.action = "<c:url value='/member/authorityManage.do'/>";
        	document.listForm.submit();
     }
 	 
@@ -21,6 +22,14 @@
 		document.listForm.action = "<c:url value='/member/authorityManage.do'/>";
        	document.listForm.submit();
 	}
+	
+	$(document).ready(function(){
+		// 정렬 값에 따라 회원 출력개수 변경
+		$('#sort').on('change',function(){
+			pageUnit = $(this).val();
+			document.location="/member/authorityManage.do?pageUnit="+pageUnit;
+		})
+	})
 	
 </script>
 
@@ -82,7 +91,8 @@
 	.input-group{
 		display: inline-block;
 		float: right;
-		margin-right: 25%;
+		margin-right: 21%;
+		width: 600px;
 	}
 	
 	.searchBtn{
@@ -148,6 +158,18 @@
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
 	        			<li style="margin-left: 2%;">
+	        				<select id="sort" class="custom-select">
+								<c:forEach var="value" begin="5" end="20" step="5">
+									<c:choose>
+										<c:when test="${pageUnit == value  }">
+											<option value="${value }" selected="selected" >${value }개씩</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${value }" >${value }개씩</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select> 
 	        				<form:select class="col-sm-1" path="searchCondition" cssClass="custom-select">
 	        					<form:option value="0" label="아이디" />
 	        				</form:select>

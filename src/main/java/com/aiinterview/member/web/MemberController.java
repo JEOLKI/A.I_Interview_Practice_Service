@@ -294,7 +294,10 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path = "/retrievePagingList.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String retrievePagingList(MemberVO memberVO, HttpSession session, ModelMap model) {
+	public String retrievePagingList(MemberVO memberVO, String pageUnit, HttpSession session, ModelMap model) {
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
+		
 		/** EgovPropertyService.sample */
 		memberVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		memberVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -388,7 +391,10 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path="authorityManage.do")
-	public String authorityManage(MemberVO memberVO, HttpSession session, ModelMap model) {
+	public String authorityManage(MemberVO memberVO, String pageUnit, HttpSession session, ModelMap model) {
+		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+		model.addAttribute("pageUnit" , pageUnitInt);
+		
 		/** EgovPropertyService.sample */
 		memberVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		memberVO.setPageSize(propertiesService.getInt("pageSize"));
