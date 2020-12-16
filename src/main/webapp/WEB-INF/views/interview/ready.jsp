@@ -52,7 +52,7 @@ $(document).ready(function(){
 	$('.NullQuestionBox').on('click',function(){
 		if(count < 5 ){
 			count++;
-			$('.NullQuestionBox').before($("<div class='SetQuestionBox'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked'></div><input type='text' id='question' class='text' placeholder='면접 질문을 입력해주세요'value='' name='questionList'><input type='hidden' class='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button><button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
+			$('.NullQuestionBox').before($("<div class='SetQuestionBox'><div draggable='true' class='SetQuestionBoxView false'><div class='label unchecked' style='cursor: pointer'></div><input type='text' id='question' class='text' placeholder='면접 질문을 입력해주세요'value='' name='questionList'><input type='hidden' class='sampQuestSq' value='0' name='sampQuestSqList'> <button type='button' id='complete' class='complete-btn' style='display:none;' >완료</button><button type='button' class='search-btn' style='display:none;'><img src='/images/search.ed51fb59.svg' alt='' class='search-icon'></button><div class='delete-btn' style='' ><img src='/images/close-btn.9663b787.svg' alt='' ></div></div></div>"));
 		}else{
 			alert('질문 개수 제한은 5개입니다')			
 		}
@@ -273,8 +273,7 @@ function setting(){
 
 						<div class="SetQuestionBox">
 							<div draggable="true" class="SetQuestionBoxView">
-								<div class="label unchecked"></div>
-
+								<div class="label unchecked" style="cursor: pointer"></div>
 								<input type="text" id="question" class="text"
 									placeholder="면접 질문을 입력해주세요" value="" name="questionList">
 								<input type="hidden" class="sampQuestSq" value="0" name="sampQuestSqList">
