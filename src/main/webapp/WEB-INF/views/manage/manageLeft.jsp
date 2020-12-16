@@ -64,7 +64,7 @@
 	</button>
 	<div id="demoAcc1" class="w3-hide w3-white w3-card">
 		<a href="/boardGubun/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 등록/목록</a>
-		<a href="#" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 통계</a>
+		<a href="/boardGubun/statistic.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 통계</a>
 	</div>
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc2()">
