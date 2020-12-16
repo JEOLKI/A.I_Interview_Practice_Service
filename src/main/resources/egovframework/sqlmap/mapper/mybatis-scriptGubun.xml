@@ -78,4 +78,6 @@
 		FROM script_gb
 		WHERE script_gb_sq = #{scriptGbSq}
 	</select>
+	
+	
 </mapper>

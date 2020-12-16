@@ -79,4 +79,11 @@ public interface ScriptMapper {
 	 * @throws Exception
 	 */
 	public List<ScriptVO> retrieveScriptGbScriptPagingList(Map<String, Object> retrieveMap) throws Exception;
+
+	/**
+	 * 스크립트 구분 별 스크립트의 총 개수
+	 * @param scriptVO
+	 * @return 스크립트 구분별 스크립트의 총 개수
+	 */
+	public int retrieveScriptGbScriptPagingListCnt(ScriptVO scriptVO) throws Exception;
 }

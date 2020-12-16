@@ -31,7 +31,7 @@ public class ScriptService {
 	/**
 	 * 페이징처리를 위한 스크립트의 총 개수를 구하는 메서드
 	 * @param scriptVO
-	 * @return 샘플질문 총 개수
+	 * @return 스크립트의 총 개수
 	 */
 	public int retrievePagingListCnt(ScriptVO scriptVO) throws Exception{
 		return scriptMapper.retrievePagingListCnt(scriptVO);
@@ -49,6 +49,7 @@ public class ScriptService {
 	/**
 	 * 스크립트 일괄 등록 메서드
 	 * @param destFile
+	 * @throws Exception
 	 */
 	public void createMassiveScript(File destFile, String scriptGbSq) throws Exception{
 		ReadOption readOption = new ReadOption();
@@ -118,11 +119,20 @@ public class ScriptService {
 	}
 
 	/**
-	 * 해당 스크립트 구분에 해당하는 스크립트 리스트를 반환하는 메서드
+	 * 페이징 후 해당 스크립트 구분에 해당하는 스크립트 리스트를 반환하는 메서드
 	 * @param retrieveMap
 	 * @return
 	 */
 	public List<ScriptVO> retrieveScriptGbScriptPagingList(Map<String, Object> retrieveMap)  throws Exception{
 		return scriptMapper.retrieveScriptGbScriptPagingList(retrieveMap);
+	}
+
+	/**
+	 * 스크립트 구분 별 스크립트의 총 개수
+	 * @param scriptVO
+	 * @return 스크립트 구분별 스크립트의 총 개수
+	 */
+	public int retrieveScriptGbScriptPagingListCnt(ScriptVO scriptVO) throws Exception{
+		return scriptMapper.retrieveScriptGbScriptPagingListCnt(scriptVO);
 	}
 }

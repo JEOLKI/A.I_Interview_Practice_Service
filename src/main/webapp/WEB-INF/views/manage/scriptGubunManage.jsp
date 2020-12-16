@@ -139,7 +139,7 @@ $(document).ready(function(){
 		$(this).parent('form').submit();
 	});
 	
-	$('.scriptGbupdBtn').on('click', function(){
+	$('.scriptGbupdBtn').on('click', function(){ 
 		if($('.scriptGbContent').val()==""){
 			$('.scriptGbContent').attr("placeholder", "스크립트 구분명을 입력해주세요.");
 		}else{

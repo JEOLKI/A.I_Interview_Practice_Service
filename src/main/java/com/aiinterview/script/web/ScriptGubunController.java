@@ -241,5 +241,55 @@ public class ScriptGubunController {
 		return "excelView";
 	}
 
+
+	/* 통계 화면*/
+	@RequestMapping(path = "/statistics.do", method = { RequestMethod.GET })
+	public String statisticsView() throws Exception {
+		return "script/scriptGbStatistics";
+	}
 	
+//	/* 통계 한 거 페이징*/
+//	@RequestMapping("/retrieveStatisticsPagingList.do")
+//	public String scriptGbStatistics(ScriptGbAnalysisVO scriptGbAnalysisVO,String pageUnit, String startDate, String endDate, String searchKeyword, Model model) {
+//		
+//		Map<String, Object> statisticMap = new HashMap<>();
+//		statisticMap.put("startDate", startDate);
+//		statisticMap.put("endDate", endDate);
+//		statisticMap.put("searchKeyword", searchKeyword);
+//		
+//		
+//		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+//		model.addAttribute("pageUnit" , pageUnitInt);
+//		
+//		/** EgovPropertyService.sample */
+//		scriptGbAnalysisVO.setPageUnit(propertiesService.getInt("pageUnit"));
+//		scriptGbAnalysisVO.setPageSize(propertiesService.getInt("pageSize"));
+//		
+//		scriptGbAnalysisVO.setPageUnit(pageUnitInt);
+//		
+//		/** pageing setting */
+//		PaginationInfo paginationInfo = new PaginationInfo();
+//		paginationInfo.setCurrentPageNo(scriptGbAnalysisVO.getPageIndex());
+//		paginationInfo.setRecordCountPerPage(scriptGbAnalysisVO.getPageUnit());
+//		paginationInfo.setPageSize(scriptGbAnalysisVO.getPageSize());
+//		
+//		scriptGbAnalysisVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+//		scriptGbAnalysisVO.setLastIndex(paginationInfo.getLastRecordIndex());
+//		scriptGbAnalysisVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+//		
+//		statisticMap.put("scriptGbAnalysisVO", scriptGbAnalysisVO);
+//		
+//		List<ScriptGbAnalysisVO> scriptGbCountList;
+//		try {
+//			scriptGbCountList = scriptGubunService.retrieveStatisticsPagingList(statisticMap);
+//			model.addAttribute("scriptGbCountList", scriptGbCountList);
+//			
+//			int totCnt = scriptGubunService.retrieveStatisticsPagingListCnt(statisticMap);
+//			paginationInfo.setTotalRecordCount(totCnt);
+//			model.addAttribute("paginationInfo", paginationInfo);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return "jsonView";
+//	}
 }

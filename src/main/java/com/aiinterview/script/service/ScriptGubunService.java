@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.analysis.vo.ScriptGbAnalysisVO;
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
 import com.aiinterview.script.dao.ScriptGubunMapper;
@@ -113,4 +114,25 @@ public class ScriptGubunService {
 	public ScriptGubunVO retrieve(String scriptGbSq) throws Exception{
 		return scriptGubunMapper.retrieve(scriptGbSq);
 	}
+
+//	/**
+//	 * 스크립트 구분 도출 횟수 리스트를 조회하는 메서드
+//	 * 스크립트 구분 통계용
+//	 * @param statisticMap
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public List<ScriptGbAnalysisVO> retrieveStatisticsPagingList(Map<String, Object> statisticMap) throws Exception{
+//		return scriptGubunMapper.retrieveStatisticsPagingList(statisticMap);
+//	}
+//
+//	/**
+//	 * 페이징 후 스크립트 구분 도출 횟수
+//	 * @param statisticMap
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public int retrieveStatisticsPagingListCnt(Map<String, Object> statisticMap) throws Exception {
+//		return scriptGubunMapper.retrieveStatisticsPagingListCnt(statisticMap);
+//	}
 }

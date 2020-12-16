@@ -79,6 +79,17 @@
 	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
 	</select>
 	
+	<!-- 스크립트 구분 별 스크립트 갯수 -->
+	<select id="retrieveScriptGbScriptPagingListCnt" resultType="int">
+		SELECT count(*) totCnt
+		  FROM script
+		 WHERE 1=1
+		 AND script_gb_sq = #{scriptGbSq}
+		  <if test="searchKeyword != null and searchKeyword !=''">
+		   AND script_content LIKE '%'||#{searchKeyword}||'%'	
+		  </if>
+	</select>
+	
 	<!-- 등록 -->
 	<insert id="create" >
 		INSERT INTO script

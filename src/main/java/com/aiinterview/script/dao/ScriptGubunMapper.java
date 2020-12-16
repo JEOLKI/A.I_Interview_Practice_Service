@@ -1,7 +1,9 @@
 package com.aiinterview.script.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.aiinterview.analysis.vo.ScriptGbAnalysisVO;
 import com.aiinterview.script.vo.ScriptGubunVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -59,5 +61,22 @@ public interface ScriptGubunMapper {
 	 * @param searchKeyword
 	 * @return
 	 */
-	public List<ScriptGubunVO> retrieveScriptGubunSearchList(String keyword);
+	public List<ScriptGubunVO> retrieveScriptGubunSearchList(String keyword) throws Exception;
+
+//	/**
+//	 * 스크립트 구분 도출 횟수 리스트를 조회하는 메서드
+//	 * 스크립트 구분 통계용
+//	 * @param statisticMap
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public List<ScriptGbAnalysisVO> retrieveStatisticsPagingList(Map<String, Object> statisticMap) throws Exception;
+//
+//	/**
+//	 * 페이징 후 스크립트 구분 도출 횟수
+//	 * @param statisticMap
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public int retrieveStatisticsPagingListCnt(Map<String, Object> statisticMap) throws Exception;
 }
