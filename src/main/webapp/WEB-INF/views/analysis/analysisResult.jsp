@@ -402,8 +402,11 @@
 		    var ctx = canvas.getContext('2d');
 		    var faceTop = imageAnalysis.faceTop*1 + 300;
 		    var faceLeft = imageAnalysis.faceLeft*1 + 50;
-		    ctx.strokeStyle = 'red';
+		    ctx.strokeStyle = 'rgba(255, 102, 102, 1)';
+		    ctx.fillStyle = 'rgba(255, 102, 102, 0.2)';
+
 		    ctx.strokeRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
+		    ctx.fillRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
 		  }
 	}
 	
