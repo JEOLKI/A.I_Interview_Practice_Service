@@ -10,7 +10,7 @@
 	$(document).ready(function() {
 			$.ajax({
 					url : "/analysis/answer/retrieveAnalysis.do",
-					data : { "questSq" : "${questSq}" },
+					data : { "questSq" : "${questSq}" ,"shareMemId" : "${shareMemId}"},
 					dataType : "json",
 					success : function(data){
 						
@@ -402,11 +402,11 @@
 		    var ctx = canvas.getContext('2d');
 		    var faceTop = imageAnalysis.faceTop*1 + 300;
 		    var faceLeft = imageAnalysis.faceLeft*1 + 50;
-		    ctx.strokeStyle = 'rgba(255, 102, 102, 1)';
-		    ctx.fillStyle = 'rgba(255, 102, 102, 0.2)';
-
+            ctx.strokeStyle = 'rgba(255, 102, 102, 1)';
+            ctx.fillStyle = 'rgba(255, 102, 102, 0.2)';
+            
 		    ctx.strokeRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
-		    ctx.fillRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
+            ctx.fillRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
 		  }
 	}
 	
@@ -637,7 +637,11 @@
 						this.data.datasets.forEach(function (dataset, i) {
 							var meta = chartInstance.controller.getDatasetMeta(i);
 							meta.data.forEach(function (bar, index) {
-								var data = '"${S_MEMBER.memAlias}"'+'님의 평균음역대'
+								if(${S_MEMBER == null}){
+									var data = '"${shareMemId }"'+'님의 평균음역대';
+								}else{
+									var data = '"${S_MEMBER.memAlias }"'+'님의 평균음역대';
+								}
 								ctx.fillText(data, bar._model.x+10, bar._model.y - 70);
 								
 								ctx.font = "bold 20px Verdana";
@@ -759,10 +763,23 @@
 		<div class="content-box intensity">
 			<div class="graph-comment">
 				<div class="user-intensity">
-					${S_MEMBER.memAlias }님의 평균 성량<br>
-					<img
-						src="/member/profile.do?memId=${S_MEMBER.memId }"
-						alt="profile-icon" class="profile-icon"><span id="averageDecibel"></span>
+					<c:choose>
+						<c:when test="${S_MEMBER == null }">
+							${shareMemId}님의 평균 성량<br>
+						</c:when>
+						<c:when test="${S_MEMBER != null }">
+							${S_MEMBER.memAlias }님의 평균 성량<br>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${S_MEMBER == null }">
+							<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon">
+						</c:when>
+						<c:when test="${S_MEMBER != null }">
+							<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon">
+						</c:when>
+					</c:choose>
+					<span id="averageDecibel"></span>
 				</div>
 				<div class="comment">
 					일반적으로 좋은 평가를 받는 성량은 <b>55dB</b>입니다.<br>
@@ -788,11 +805,22 @@
 		<div class="pitch-graph">
 			<div class="pitch-line"></div>
 			<div id="user"  class="user-pitch" style="left: 238px; display: none;">
-				<img
-					src="/member/profile.do?memId=${S_MEMBER.memId }"
-					alt="profile-icon" class="profile-icon"><br>
-				<b>${S_MEMBER.memAlias }</b> 
-				님의 평균 음역대<br>
+				<c:choose>
+					<c:when test="${S_MEMBER == null }">
+						<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon"><br>
+					</c:when>
+					<c:when test="${S_MEMBER != null }">
+						<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon"><br>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${S_MEMBER == null }">
+						<b>${shareMemId}</b>님의 평균 음역대<br>
+					</c:when>
+					<c:when test="${S_MEMBER != null }">
+						<b>${S_MEMBER.memAlias }</b>님의 평균 음역대<br>
+					</c:when>
+				</c:choose>
 				<span id="averageRange"></span>
 				<div class="line" ></div>
 				<div class="point"></div>

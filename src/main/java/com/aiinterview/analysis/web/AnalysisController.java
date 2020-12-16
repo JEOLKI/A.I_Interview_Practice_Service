@@ -176,13 +176,15 @@ public class AnalysisController {
 	}
 	
 	@RequestMapping(value = "/answer/retrieve.do")
-	public String retrieveView(String questSq, Model model) {    
+	public String retrieveView(String questSq, Model model, String shareMemId) {    
 		model.addAttribute("questSq", questSq);
+		model.addAttribute("shareMemId", shareMemId);
 		return "analysis/analysisResult";
 	}
 	
 	@RequestMapping(value = "/answer/retrieveAnalysis.do")
-	public String retrieveAnalysis(String questSq, Model model) {           
+	public String retrieveAnalysis(String questSq, Model model, HttpSession session, String shareMemId) {           
+		model.addAttribute("shareMemId", shareMemId);
 		
 		String ansSq = "";
 		
@@ -231,6 +233,7 @@ public class AnalysisController {
 			
             /* 음성 - voiceAnalysisList (데시벨,헤르츠)*/
             List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisService.retrieveList(ansSq);
+            MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
             model.addAttribute("voiceAnalysisList", voiceAnalysisList);
 			
 		} catch (Exception e) {

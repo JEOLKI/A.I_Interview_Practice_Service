@@ -36,7 +36,7 @@
 					
 				$.ajax({
 						url : "/analysis/answer/retrieve.do",
-						data : { "questSq" : questSq },
+						data : { "questSq" : questSq , "shareMemId" : "${shareMemId}" },
 						success : function(data){
 							var html = data;	
 							$("#report"+questSq+"").html(html);

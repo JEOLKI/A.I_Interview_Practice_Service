@@ -16,7 +16,7 @@
 		$(".input-area input[type='text']").on('change', function(){
 			var sharePw = $(".input-area input[type='text']").val();
 			
-			if(sharePw == "${sharePw}"){
+			if("${sharePw}".length == 4){
 				$(".submit-btn").removeAttr("disabled");
 				$(".submit-btn").addClass("active");
 			}else{
@@ -27,9 +27,19 @@
 		})
 		
 		$(".submit-btn").on("click", function() {
-			document.location="${shareUrl}"; 
+			$('.wrong-message').remove();
+			var sharePw = $(".input-area input[type='text']").val();
+			if(sharePw == "${sharePw}"){
+				$(".submit-btn").removeAttr("disabled");
+				$(".submit-btn").addClass("active");
+				document.location="${shareUrl}"; 
+			}else{
+				$(".submit-btn").attr("disabled", "disabled");
+				$(".submit-btn").removeClass("active");
+				$('.input-area').prepend("<div class='wrong-message'>잘못된 코드입니다.</div>");
+				
+			}
 		})
-		
 	});	
 
 </script>
@@ -57,7 +67,7 @@
             </div>
             <div class="warn-message">※모바일에서는 확인 불가</div>
             <div class="input-area">
-               <input type="text" minlength="4" maxlength="4" value="">
+               <input id="pw" type="text" minlength="4" maxlength="4" value="">
             </div>
             <input type="button" class="submit-btn" disabled="disabled" value="확인"/>
          </div>
