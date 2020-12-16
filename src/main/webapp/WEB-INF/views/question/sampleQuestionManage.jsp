@@ -116,6 +116,28 @@
 	    border: 1px solid #22741C;
 	    color: #fff;
 	}
+	.paging{
+		text-align: center;
+		margin-top: 30px;
+	}
+	
+	.paging a, .paging strong{
+		display: inline-block;
+		border: 1px solid #4374D9;
+		border-radius: 5px;
+		width: 25px;
+		padding: 1px;
+	}
+	
+	.paging strong{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	.paging a:hover{
+		background-color: #4374D9;
+	    color: #fff;
+	}
 </style>
 <script type="text/javaScript" language="javascript" defer="defer">
 $(document).ready(function(){
