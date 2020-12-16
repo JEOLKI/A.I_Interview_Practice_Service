@@ -3,9 +3,7 @@ package com.aiinterview.member.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +49,6 @@ public class MemberController {
 	
 	@RequestMapping(path = "/test.do", method = { RequestMethod.GET })
 	public String testView() {
-		logger.debug("MemberController.testView()진입");
 		return "member/test";
 	}
 
@@ -467,7 +464,6 @@ public class MemberController {
 	@RequestMapping(path="/educationStatistic.do")
 	public String educationStatistic(Model model, MemberVO memberVO) {
 		List<MemberVO> memberEducationList = null;
-		logger.debug("에듀케이션{}",memberVO.getSearchKeyword());
 		
 		try {
 			memberEducationList = memberService.retrieveEducation(memberVO);
