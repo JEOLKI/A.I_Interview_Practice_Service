@@ -63,7 +63,7 @@
 			
 		})
 		
-		$(".content-box").on("click", ".content-box>.active", function() {
+		$(".ShareBox").on("click", ".content-box > .active", function() {
 			 var sharePw = $(".pw-input").val();
 			 var dummy = document.createElement("textarea");
 			 document.body.appendChild(dummy);
@@ -78,7 +78,7 @@
 			$(".PopUp").hide();
 		})
 		
-		$(".share-btn").on("click", function() {
+		$(".title-flex .share-btn").on("click", function() {
 			$(".PopUp").show();
 		})
 		
