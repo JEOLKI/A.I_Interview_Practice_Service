@@ -9,12 +9,13 @@
 		resultType="com.aiinterview.script.vo.ScriptGubunVO">
 		SELECT *
 		FROM script_gb
+		ORDER BY script_gb_content
 	</select>
 
 	<!-- 단일 등록 -->
 	<insert id="create">
 		<selectKey keyProperty="scriptGbSq" resultType="String" order="BEFORE">
-			SELECT script_gb_sq.nextval FROM DUAL
+			SELECT script_gb_sq.nextval FROM dual 
 		</selectKey>
 		INSERT INTO script_gb
 		VALUES (TO_NUMBER(#{scriptGbSq}), #{scriptGbContent}, #{scriptGbSt})
@@ -44,7 +45,7 @@
 		<if test="searchKeyword != null and searchKeyword != ''">
 			AND script_gb_content LIKE '%' || #{searchKeyword} || '%'
 		</if>
-		ORDER BY script_gb_sq
+		ORDER BY script_gb_content
 		) S
 		WHERE ROWNUM <![CDATA[ <= ]]>
 		${lastIndex}
@@ -67,6 +68,7 @@
 		SELECT *
 		 FROM script_gb
 		WHERE script_gb_content LIKE '%'||#{keyword}||'%'
+		ORDER BY script_gb_content
 	</select>
 
 	<!-- 스크립트 한개 -->

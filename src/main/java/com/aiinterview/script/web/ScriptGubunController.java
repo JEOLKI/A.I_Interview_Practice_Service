@@ -81,89 +81,84 @@ public class ScriptGubunController {
 	
 
 	@RequestMapping("/scriptManage.do")
-	public String scriptManage(String scriptGbSq, String pageUnit, String pageIndex, String searchKeyword, Model model) {
+	public String scriptManage(@ModelAttribute("scriptVO") ScriptVO scriptVO, String scriptGbSq, String pageUnit, String pageIndex, String searchKeyword, Model model) {
 		
 		ScriptGubunVO scriptGbVO = null;
 		try {
 			scriptGbVO = scriptGubunService.retrieve(scriptGbSq);
-		} catch (Exception e) {
-		}
-		model.addAttribute("scriptGbVO", scriptGbVO);
 		
-		// 정렬 개수
-		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
-		model.addAttribute("pageUnit" , pageUnitInt);
+			model.addAttribute("scriptGbVO", scriptGbVO);
+			
+			// 정렬 개수
+			int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
+			model.addAttribute("pageUnit" , pageUnitInt);
+			
+			// 현재 페이지 번호
+			int pageIndexInt = pageIndex == null? 1 : Integer.parseInt(pageIndex);
+			
+			/** EgovPropertyService.sample */
+			scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
+			scriptVO.setPageSize(propertiesService.getInt("pageSize"));
+			
+			scriptVO.setPageUnit(pageUnitInt);
+			scriptVO.setPageIndex(pageIndexInt);
+			
+			/** pageing setting */
+			PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
+			paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
+			paginationInfo.setPageSize(scriptVO.getPageSize());
+			
+			scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+			scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
+			scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+			
+			
+			Map<String, Object> retrieveMap = new HashMap<>();
+			retrieveMap.put("firstIndex", scriptVO.getFirstIndex());
+			retrieveMap.put("lastIndex", scriptVO.getLastIndex());
+			retrieveMap.put("scriptGbSq", scriptGbSq);
+			retrieveMap.put("searchKeyword", searchKeyword);
+			
+			
+			List<ScriptVO> resultList = null;
+			
+			//활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
+			List<ScriptGubunVO> scriptGbList = null;
 		
-		// 현재 페이지 번호
-		int pageIndexInt = pageIndex == null? 1 : Integer.parseInt(pageIndex);
-		
-		ScriptVO scriptVO = new ScriptVO(); 
-		
-		/** EgovPropertyService.sample */
-		scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		scriptVO.setPageSize(propertiesService.getInt("pageSize"));
-		
-		scriptVO.setPageUnit(pageUnitInt);
-		scriptVO.setPageIndex(pageIndexInt);
-		
-		/** pageing setting */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
-		paginationInfo.setPageSize(scriptVO.getPageSize());
-		
-		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		
-		Map<String, Object> retrieveMap = new HashMap<>();
-		retrieveMap.put("firstIndex", scriptVO.getFirstIndex());
-		retrieveMap.put("lastIndex", scriptVO.getLastIndex());
-		retrieveMap.put("scriptGbSq", scriptGbSq);
-		retrieveMap.put("searchKeyword", searchKeyword);
-		
-		
-		List<ScriptVO> resultList = null;
-		
-		//활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
-		List<ScriptGubunVO> scriptGbList = null;
-		try {
+
 			scriptGbList = scriptGubunService.retrieveList();
-		} catch (Exception e) {
-		}
-		
-		List<ScriptGubunVO> availableGbList = new ArrayList<>();
-		for (ScriptGubunVO scriptGb : scriptGbList) {
-			if (scriptGb.getScriptGbSt().equals("Y")) {
-				availableGbList.add(scriptGb);
+			List<ScriptGubunVO> availableGbList = new ArrayList<>();
+			for (ScriptGubunVO scriptGb : scriptGbList) {
+				if (scriptGb.getScriptGbSt().equals("Y")) {
+					availableGbList.add(scriptGb);
+				}
 			}
-		}
-		model.addAttribute("scriptGbList", availableGbList);
-		
-		try {
+			model.addAttribute("scriptGbList", availableGbList);
+
+			
 			resultList = scriptService.retrieveScriptGbScriptPagingList(retrieveMap);
 			model.addAttribute("scriptList", resultList);
 
 			logger.debug("scriptList : {}", resultList);
 			
-			int totCnt = scriptService.retrievePagingListCnt(scriptVO);
+			int totCnt = scriptService.retrieveScriptGbScriptPagingListCnt(scriptVO);
+			
+			logger.debug("totCnt : {}", totCnt);
 			paginationInfo.setTotalRecordCount(totCnt);
 			model.addAttribute("paginationInfo", paginationInfo);
 			return "manage/scriptManage";
-			
-		} catch (Exception e) {
-		}
-		
+		} catch (Exception e) { }
 		return "manage/scriptManage";
 	}
-
 	
 	/* 단일 등록 */
 	@RequestMapping(path="/createProcess.do", method = {RequestMethod.POST})
 	public String createProcess(String scriptGbContent, String scriptGbSt) throws Exception {
 		ScriptGubunVO scriptGbVO = new ScriptGubunVO(scriptGbContent, scriptGbSt);
 		scriptGubunService.create(scriptGbVO);
+		logger.debug("scriptGbVO : {}", scriptGbVO);
+		
 		return "redirect:/scriptGubun/retrievePagingList.do";
 	}
 	
@@ -171,6 +166,7 @@ public class ScriptGubunController {
 	@RequestMapping("/massiveCreateProcess.do")
 	public ModelAndView createMassiveScriptGb(MultipartHttpServletRequest request) throws Exception {
 		 MultipartFile excelFile = request.getFile("excelFile");
+		 logger.debug("excelFile : {}", excelFile);
 	        if(excelFile==null || excelFile.isEmpty()){
 	            throw new RuntimeException("엑셀파일을 선택해 주세요");
 	        }
@@ -178,18 +174,16 @@ public class ScriptGubunController {
 	     File destFile = new File("D:\\"+excelFile.getOriginalFilename());
 	     try {
 	            excelFile.transferTo(destFile);
+	            scriptGubunService.createMassiveScriptGubun(destFile);
 	        } catch (IllegalStateException | IOException e) {
 	            throw new RuntimeException(e.getMessage(),e);
-	 
 	        }
 
-	     scriptGubunService.createMassiveScriptGubun(destFile);
-	     
 	     destFile.delete();
 
 	     ModelAndView view = new ModelAndView();
-	        view.setViewName("redirect:/scriptGubun/retrievePagingList.do");
-	        return view;
+	     view.setViewName("redirect:/scriptGubun/retrievePagingList.do");
+	     return view;
 	}
 	
 	/* 단일 수정 */

@@ -45,7 +45,6 @@ public class ScriptController {
 	/* 페이징 처리 한 조회 */
 	@RequestMapping("/retrievePagingList.do")
 	public String retrievePagingList(ScriptVO scriptVO, String pageUnit, Model model) throws Exception{
-	
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
 		
