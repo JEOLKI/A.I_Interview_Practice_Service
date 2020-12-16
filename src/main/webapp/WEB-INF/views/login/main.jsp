@@ -310,9 +310,9 @@ $(document).ready(function() {
 				<div class="message wow fadeInUp">AI_INTERVIEW,
 					사용해보니 어떤가요?</div>
 				<div class="comment-section">
-					<div class="name green">- S기업 해외영업 현직자</div>
-					<div class="text">함께 취업을 준비하는 그룹 스터디원들과 같이 쓴다면 더 빠르게 취업에
-						성공하거나, 면접 때 더 유창하게 말할 수 있을 것 같습니다.</div>
+					<div class="name green">- 대덕인재개발원 수강생</div>
+					<div class="text">최근에 코로나로 인해 면접 스터디를 참여하지 못해 힘들었는데
+					온라인으로 면접을 위한 준비를 할 수 있어서 유용했습니다.</div>
 				</div>
 				<div class="comment-section">
 					<div class="name green">- 모 공기업 현직자</div>
