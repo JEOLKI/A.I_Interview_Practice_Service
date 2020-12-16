@@ -127,7 +127,7 @@
 	<bean id="EgovImgPaginationRenderer" class="com.aiinterview.common.web.EgovImgPaginationRenderer"/>
 
 	<!-- interceptor 설정 -->
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/login/**"/>
@@ -138,6 +138,9 @@
 			<mvc:exclude-mapping path="/WEB-INF/config/**"/>
 			<mvc:exclude-mapping path="/common/**"/>
 			<mvc:exclude-mapping path="/boardGubun/**"/>
+			<mvc:exclude-mapping path="/boardGubun/**"/>
+			<mvc:exclude-mapping path="/analysis/share.do"/>
+			<mvc:exclude-mapping path="/analysis/resultShare.do"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
 		
@@ -152,7 +155,7 @@
 		</mvc:interceptor>
 		
 		
-	</mvc:interceptors> 
+	</mvc:interceptors>  -->
 	
 
 
