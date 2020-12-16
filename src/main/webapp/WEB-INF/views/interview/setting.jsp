@@ -26,6 +26,12 @@ to {
 <script type="text/javascript" >
 	window.onload = function(){
 		openFullScreenMode();
+		
+		if(getCookie('check')=='${S_MEMBER.memId}'){
+			console.log('쿠키가 일치 합니다.');
+			$('.InterviewTutorial.PopUp').css('display','none');
+		}
+		
 	// 전체화면 설정
 		function openFullScreenMode() {
 			var docV = document.documentElement;
@@ -60,7 +66,13 @@ to {
 
 	// 최초 확인 모달창
 	function check(){
+		if($('.CustomCheck').hasClass('checked')){ // 체크 했을 시
+			setCookie('check', '${S_MEMBER.memId}', 7); // 쿠키설정
+		}else{ // 체크 해제 했을 시
+			deleteCookie('check'); // 쿠키삭제 
+		}
 		$('.InterviewTutorial.PopUp').hide();
+		
 	}
 	
 	// 테스트 음성출력 종료시
@@ -77,6 +89,25 @@ to {
 			openFullScreenMode();
 		});
 	}
+	
+	// 쿠키설정
+	function setCookie(name, value, exp) {
+		var date = new Date();
+		date.setTime(date.getTime() + exp*24*60*60*1000);
+		document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+	}
+	
+	// 쿠키삭제
+	function deleteCookie(name) {
+	  	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
+	
+	// 쿠키호출
+	function getCookie(name) {
+		var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+		return value? value[2] : null;
+	}
+
 	
 $(document).ready(function(){
 	$('.body').show();
@@ -207,6 +238,17 @@ $(document).ready(function(){
 		
 		$('#sampleAudio').trigger('pause');
 	});
+	
+	// 세션 체크
+	$('.CustomCheck').on('click',function(){
+		if($('.CustomCheck').hasClass('checked')){ // 해제할 때
+			$('.CustomCheck').removeClass('checked');
+			$('#checkImage').css('display','none');
+		}else{ // 체크할 때
+			$('.CustomCheck').addClass('checked');
+			$('#checkImage').css('display','');
+		}
+	})
 });
 	
 </script>
@@ -252,7 +294,9 @@ $(document).ready(function(){
 					</div>
 					<button onclick="check();">확인했어요</button>
 					<div class="again-area">
-						<div class="CustomCheck false undefined"></div>
+						<div id="cookieCheck" class="CustomCheck true undefined" >
+							<img id="checkImage" alt="" src="/images/icon.8473a800.svg" style="display: none;">						
+						</div>
 						다시 보고 싶지 않아요.
 					</div>
 				</div>
