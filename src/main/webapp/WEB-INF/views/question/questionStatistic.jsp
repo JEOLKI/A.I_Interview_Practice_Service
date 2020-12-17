@@ -147,68 +147,14 @@ $(document).ready(function(){
 			 	 "endDate" 	 : endDate},
 		 dataType : "json",
 		 success : function(data){
-			 $('.questGbAndSampList').css('display', 'none');
-			 $('#questGbAndSampChart').css('display', 'none');
 			 
-			 html="";
-		
-			 // Themes begin
-			am4core.useTheme(am4themes_animated);
-			// Themes end
+			 var resultList = data.resultList;
 			
-			
-		var chart = am4core.create("questGbChart", am4charts.PieChart);		 
-			
-				
-		 var sum = 0;
-		 var chartData2 = [];
-		 var questGbNm="";
-		 var questGbCount=0;
-		 for(var i=0; i< data.resultList.length; i++){
-				var questGb = data.resultList[i];
-				
-				questGbNm=questGb.questGbContent;
-				questGbCount=questGb.useCount;
-				
-			    chartData2.push({questGbNm:questGbNm, questGbCount: questGbCount}); 
-					
-				 html += '<tr class="questGbList">';
-				 html += '<td>'+questGb.rn+'</td>';
-				 html += '<td class="questGbContent">'+questGbNm+'</td>';
-				 html += '<td class="useCount" value="'+questGbCount+'">'+questGbCount+'</td>';
-				 html += '</tr>';
-				 
-				 sum += questGbCount;
-			 }
-			 html += '<tr id="questGbSum">';
-			 html += '<td>합  계</td>';
-			 html += '<td></td>';
-			 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-			 html += '</tr>';
-			 $('#questGbList').empty();
-			 $('#questGbList').append(html);
-			chart.data =  chartData2;
-			
-				   
-			chart.radius = am4core.percent(64);
-			// Set inner radius
-			chart.innerRadius = am4core.percent(50);
-			chart.logo.disabled = true;
-			// Add and configure Series
-			var pieSeries = chart.series.push(new am4charts.PieSeries());
-			pieSeries.dataFields.value = "questGbCount";
-			pieSeries.dataFields.category = "questGbNm";
-
-			pieSeries.labels.template.maxWidth = 65;
-			pieSeries.labels.template.wrap = true;
-
-			// end am4core.ready()
-
-
+			 createQuestGbChart(resultList);	// 직무별 차트 그리기
+			 createQuestGbHtml(resultList);		// 직무별 표 그리기
 			 
-		 }
-	
-	})
+		 }// success function()
+	})// ajax
 	
 	
 	
@@ -223,9 +169,11 @@ $(document).ready(function(){
 	
 	// 전체 직무별
 	$('#selectBtn, #searchBtn, .sort').on('click',function(){
-		var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
-		var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
+		
+		startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
+		endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
 		var searchKeyword = $('#searchKeyword').val();
+		
 		if(sort == '직무별'){
 			$.ajax({ url : "/sampQuest/retrieveQuestGbStatisticsList.do", 
 				 data : {"startDate" : startDate,
@@ -233,68 +181,16 @@ $(document).ready(function(){
 					 	 "searchKeyword" : searchKeyword},
 				 dataType : "json",
 				 success : function(data){
-					 $('.questGbAndSampList').css('display', 'none');
-					 $('#questGbAndSampChart').css('display', 'none');
-					 $('.questGb').css('display', '');
-					 $('#questGbChart').css('display', '');
+					$('.questGb').css('display', '');
+					$('#questGbChart').css('display', '');
 					 
-					 html="";
-				
-					 // Themes begin
-					am4core.useTheme(am4themes_animated);
-					// Themes end
+					var resultList = data.resultList;
 					
-					
-				var chart = am4core.create("questGbChart", am4charts.PieChart);		 
-					
-						
-				 var sum = 0;
-				 var chartData2 = [];
-				 var questGbNm="";
-				 var questGbCount=0;
-				 for(var i=0; i< data.resultList.length; i++){
-						var questGb = data.resultList[i];
-						
-						questGbNm=questGb.questGbContent;
-						questGbCount=questGb.useCount;
-						
-					    chartData2.push({questGbNm:questGbNm, questGbCount: questGbCount}); 
-							
-						 html += '<tr class="questGbList">';
-						 html += '<td>'+questGb.rn+'</td>';
-						 html += '<td class="questGbContent">'+questGbNm+'</td>';
-						 html += '<td class="useCount" value="'+questGbCount+'">'+questGbCount+'</td>';
-						 html += '</tr>';
-						 
-						 sum += questGbCount;
-					 }
-					 html += '<tr id="questGbSum">';
-					 html += '<td>합  계</td>';
-					 html += '<td></td>';
-					 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-					 html += '</tr>';
-					 $('#questGbList').empty();
-					 $('#questGbList').append(html);
-					chart.data =  chartData2;
-					
-						   
-					chart.radius = am4core.percent(64);
-					// Set inner radius
-					chart.innerRadius = am4core.percent(50);
-					chart.logo.disabled = true;
-					// Add and configure Series
-					var pieSeries = chart.series.push(new am4charts.PieSeries());
-					pieSeries.dataFields.value = "questGbCount";
-					pieSeries.dataFields.category = "questGbNm";
+					createQuestGbChart(resultList);	// 직무별 차트 그리기
+					createQuestGbHtml(resultList);		// 직무별 표 그리기
 
-					pieSeries.labels.template.maxWidth = 65;
-					pieSeries.labels.template.wrap = true;
-
-					// end am4core.ready()
-
-				 }
-			
-			})
+				}// success function();
+			})// ajax
 			
 		} else if(sort == '샘플질문별'){
 			$.ajax({ url : "/sampQuest/retrieveQuestGbAndSampStatisticsList.do", 
@@ -303,117 +199,194 @@ $(document).ready(function(){
 					 	 "searchKeyword" : searchKeyword},
 				 dataType : "json",
 				 success : function(data){
-					 $('.questGb').css('display', 'none');
-					 $('#questGbChart').css('display', 'none');
-					 $('.questGbAndSampList').css('display', '');
-					 $('#questGbAndSampChart').css('display', '');
 					 
-					 html="";
-				
-					 // Themes begin
-						am4core.useTheme(am4themes_kelly);
-						am4core.useTheme(am4themes_animated);
-						// Themes end
-						
-							 
-						var chart = am4core.create("questGbAndSampChart", am4charts.XYChart);
-							chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-						
-							
-						var max = 0;
-						var sum = 0;
-						var chartData2 = [];
-						var rn="";
-						var useCount=0;
-						for(var i=0; i< data.resultList.length; i++){
-							var question = data.resultList[i];
-							
-							rn = question.rn;
-							useCount = question.useCount;
-							
-						    chartData2.push({rn:rn, useCount: useCount}); 
-
-							 html += '<tr class="questGbAndSampList">';
-							 html += '<td class="rn">'+rn+'</td>';
-							 html += '<td class="questGbContent">'+question.questGbContent+'</td>';
-							 html += '<td class="content">'+question.sampQuestContent+'</td>';
-							 html += '<td class="useCount" value="'+useCount+'">'+useCount+'</td>';
-							 html += '</tr>';
-							 
-							 sum += useCount;
-							 
-						    if(max < useCount){
-						    	max = useCount;
-						    }
-						    	
-						 }
-						 html += '<tr id="sampQuestSum">';
-						 html += '<td>합  계</td>';
-						 html += '<td></td>';
-						 html += '<td></td>';
-						 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-						 html += '</tr>';
-						 $('#questGbAndSampList').empty();
-						 $('#questGbAndSampList').append(html);
-						chart.data =  chartData2;
-						
-						chart.logo.disabled = true;   
-							
-							var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-							categoryAxis.renderer.grid.template.location = 0;
-							categoryAxis.dataFields.category = "rn";
-							categoryAxis.renderer.minGridDistance = 40;
-							categoryAxis.fontSize = 11;
-
-							var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-							valueAxis.min = 0;
-							valueAxis.max = max+1;
-							valueAxis.strictMinMax = true;
-							valueAxis.renderer.minGridDistance = 30;
-							// axis break
-							var axisBreak = valueAxis.axisBreaks.create();
-//			 				axisBreak.startValue = sum/5*2;
-//			 				axisBreak.endValue = sum/5*4;
-//			 				axisBreak.breakSize = 0.005;
-
-							// fixed axis break
-							var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-							axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
-
-							// make break expand on hover
-							var hoverState = axisBreak.states.create("hover");
-							hoverState.properties.breakSize = 1;
-							hoverState.properties.opacity = 0.1;
-							hoverState.transitionDuration = 1500;
-
-							axisBreak.defaultState.transitionDuration = 1000;
-
-							var series = chart.series.push(new am4charts.ColumnSeries());
-							series.dataFields.categoryX = "rn";
-							series.dataFields.valueY = "useCount";
-							series.columns.template.tooltipText = "{valueY.value}";
-							series.columns.template.tooltipY = 0;
-							series.columns.template.strokeOpacity = 0;
-
-									// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-									series.columns.template.adapter.add("fill", function(fill, target) {
-									  return chart.colors.getIndex(target.dataItem.index);
-									// end am4core.ready()
-									})
-	
-	
-						 
-					 }// success
-				
-				})
+					 var resultList = data.resultList;
+					 createQudstGbAndSampChart(resultList);		// 샘플질문별 차트 그리기
+					 createQudstGbAndSampHtml(resultList);		// 샘플질문별 표 그리기	 
+				 }// success function()
+			})//ajax
 		}// else
 	})
 	
 	
 	
-})	
+})	// jquery
 
+/* 직무별 차트 그리기 */
+function createQuestGbChart(resultList){
 	
+	$('.questGbAndSampList').css('display', 'none');
+	$('#questGbAndSampChart').css('display', 'none');
+	 
+	// Themes begin
+	am4core.useTheme(am4themes_animated);
+	// Themes end
+	
+	var chart = am4core.create("questGbChart", am4charts.PieChart);		 
+	
+	chart.logo.disabled = true;
+	
+	var chartData = [];
+	var questGbNm="";
+	var questGbCount=0;
+	for(var i=0; i< resultList.length; i++){
+		var questGb = resultList[i];
+	
+		questGbNm=questGb.questGbContent;
+		questGbCount=questGb.useCount;
+	
+		chartData.push({questGbNm:questGbNm, questGbCount: questGbCount}); 
+	}	
+		 
+	chart.data =  chartData;
+	
+	// Set radius
+	chart.radius = am4core.percent(64);
+	// Set inner radius
+	chart.innerRadius = am4core.percent(50);
+	
+	// Add and configure Series
+	var pieSeries = chart.series.push(new am4charts.PieSeries());
+	pieSeries.dataFields.value = "questGbCount";
+	pieSeries.dataFields.category = "questGbNm";
+
+	pieSeries.labels.template.maxWidth = 65;
+	pieSeries.labels.template.wrap = true;
+
+	// end am4core.ready()
+
+}
+
+/* 직무별 표 그리기 */
+function createQuestGbHtml(resultList){
+	html="";
+	var sum = 0;
+	
+	for(var i=0; i< resultList.length; i++){
+		var questGb = resultList[i];
+		html += '<tr class="questGbList">';
+		 html += '<td>'+questGb.rn+'</td>';
+		 html += '<td class="questGbContent">'+questGb.questGbContent+'</td>';
+		 html += '<td class="useCount" value="'+questGb.useCount+'">'+questGb.useCount+'</td>';
+		 html += '</tr>';
+		 
+		 sum += questGb.useCount;
+	}
+	html += '<tr id="questGbSum">';
+	html += '<td>합  계</td>';
+	html += '<td></td>';
+	html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
+	html += '</tr>';
+	$('#questGbList').empty();
+	$('#questGbList').append(html);
+	
+}
+
+/* 샘플질문별 차트 그리기 */
+function createQudstGbAndSampChart(resultList){
+	
+	$('#questGbChart').css('display', 'none');
+	$('#questGbAndSampChart').css('display', '');
+	
+	// Themes begin
+	am4core.useTheme(am4themes_kelly);
+	am4core.useTheme(am4themes_animated);
+	// Themes end
+
+		 
+	var chart = am4core.create("questGbAndSampChart", am4charts.XYChart);
+	chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+	chart.logo.disabled = true;   
+		
+	var max = 0;
+	var chartData = [];
+	for(var i=0; i< resultList.length; i++){
+		var question = resultList[i];
+		
+	    chartData.push({rn:question.rn, useCount: question.useCount}); 
+
+	    if(max < question.useCount){
+	    	max = question.useCount;
+	    }
+	} 	
+	 
+	chart.data =  chartData;
+
+	var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+	categoryAxis.renderer.grid.template.location = 0;
+	categoryAxis.dataFields.category = "rn";
+	categoryAxis.renderer.minGridDistance = 40;
+	categoryAxis.fontSize = 11;
+
+	var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+	valueAxis.min = 0;
+	valueAxis.max = max+1;
+	valueAxis.strictMinMax = true;
+	valueAxis.renderer.minGridDistance = 30;
+	// axis break
+	var axisBreak = valueAxis.axisBreaks.create();
+	//axisBreak.startValue = sum/5*2;
+	//axisBreak.endValue = sum/5*4;
+	//axisBreak.breakSize = 0.005;
+
+	// fixed axis break
+	var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+	axisBreak.breakSize = 0.05 * (1 - d) / d; /* 0.05 means that the break will take 5% of the total value axis height */
+
+	// make break expand on hover
+	var hoverState = axisBreak.states.create("hover");
+	hoverState.properties.breakSize = 1;
+	hoverState.properties.opacity = 0.1;
+	hoverState.transitionDuration = 1500;
+
+	axisBreak.defaultState.transitionDuration = 1000;
+
+	var series = chart.series.push(new am4charts.ColumnSeries());
+	series.dataFields.categoryX = "rn";
+	series.dataFields.valueY = "useCount";
+	series.columns.template.tooltipText = "{valueY.value}";
+	series.columns.template.tooltipY = 0;
+	series.columns.template.strokeOpacity = 0;
+
+	// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+	series.columns.template.adapter.add("fill", function(fill, target) {
+	  return chart.colors.getIndex(target.dataItem.index);
+	// end am4core.ready()
+	})
+
+
+}
+
+/* 샘플질문별 표 그리기 */
+function createQudstGbAndSampHtml(resultList){
+	
+	$('.questGb').css('display', 'none');
+	$('.questGbAndSampList').css('display', '');
+	
+	html="";
+	var sum = 0;
+	
+	for(var i=0; i< resultList.length; i++){
+		var question = resultList[i];
+		
+		html += '<tr class="questGbAndSampList">';
+		 html += '<td class="rn">'+question.rn+'</td>';
+		 html += '<td class="questGbContent">'+question.questGbContent+'</td>';
+		 html += '<td class="content">'+question.sampQuestContent+'</td>';
+		 html += '<td class="useCount" value="'+question.useCount+'">'+question.useCount+'</td>';
+		 html += '</tr>';
+		 
+		 sum += question.useCount;
+	}
+	 html += '<tr id="sampQuestSum">';
+	 html += '<td>합  계</td>';
+	 html += '<td></td>';
+	 html += '<td></td>';
+	 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
+	 html += '</tr>';
+	 $('#questGbAndSampList').empty();
+	 $('#questGbAndSampList').append(html);
+}	
 </script>
 </head>
 <body>

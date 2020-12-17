@@ -113,7 +113,7 @@
 	    top: -2px;
 	}
 	
-	##searchBtn:hover{
+	#searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
 	}
@@ -121,70 +121,23 @@
 <script>
 $(document).ready(function(){
 	
+	var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
+	var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
 	
 	$.ajax({ url : "/talent/retrieveStatisticsPagingList.do", 
 		 data : {"startDate" : startDate,
 			 	 "endDate" 	 : endDate},
 		 dataType : "json",
 		 success : function(data){
-			 html="";
 		
-			 // Themes begin
-			am4core.useTheme(am4themes_animated);
-			// Themes end
-			
-			
-		var chart = am4core.create("talentCountChart", am4charts.PieChart);		 
-			
-				
-		 var sum = 0;
-		 var chartData2 = [];
-		 var talent="";
-		 var talentCount=0;
-		 for(var i=0; i< data.talentCountList.length; i++){
-				var talent = data.talentCountList[i];
-				
-				talentName=talent.talentNm;
-				talentCount=talent.talentCount;
-				
-			    chartData2.push({talentName:talentName, talentCount: talentCount}); 
-					
-				 html += '<tr class="talent">';
-				 html += '<td>'+talent.rn+'</td>';
-				 html += '<td class="talentNm">'+talent.talentNm+'</td>';
-				 html += '<td class="talentCount" value="'+talent.talentCount+'">'+talent.talentCount+'</td>';
-				 html += '</tr>';
-				 
-				 sum += talent.talentCount;
-			 }
-			 html += '<tr id="sum">';
-			 html += '<td>합  계</td>';
-			 html += '<td></td>';
-			 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-			 $('#talentCountList').empty();
-			 $('#talentCountList').append(html);
-			chart.data =  chartData2;
-			
-				   
-			chart.radius = am4core.percent(70);
-			// Set inner radius
-			chart.innerRadius = am4core.percent(50);
-			chart.logo.disabled = true;
-			// Add and configure Series
-			var pieSeries = chart.series.push(new am4charts.PieSeries());
-			pieSeries.dataFields.value = "talentCount";
-			pieSeries.dataFields.category = "talentName";
+			var talentCountList = data.talentCountList;
+		
+			createChart(talentCountList);	//차트 그리기
+			createHtml(talentCountList);	//표 그리기
 
-			pieSeries.labels.template.maxWidth = 65;
-			pieSeries.labels.template.wrap = true;
-
-			// end am4core.ready()
-
-
-			 
-		 }
+		 }// success function()
 	
-})
+	})// ajax
 	
 	
 	
@@ -196,80 +149,94 @@ $(document).ready(function(){
 		$('#endDate').val($(this).val());
 	})
 	
-	var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
-	var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
+	
 	
 	// 전체 인재상 수
 	$('#selectBtn, #searchBtn, #sort').on('click',function(){
 		var searchKeyword = $('#searchKeyword').val();
-		var pageUnit = $(this).val();
+		startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
+		endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
 		$.ajax({ url : "/talent/retrieveStatisticsPagingList.do", 
 				 data : {"startDate" : startDate,
 				 	 	 "endDate" 	 : endDate,
 				 		 "searchKeyword" : searchKeyword},
 				 dataType : "json",
 				 success : function(data){
-					 html="";
-				
-					 // Themes begin
-					am4core.useTheme(am4themes_animated);
-					// Themes end
 					
-					
-				var chart = am4core.create("talentCountChart", am4charts.PieChart);		 
-					
+					 var talentCountList = data.talentCountList;
 						
- 				 var sum = 0;
-				 var chartData2 = [];
-				 var talent="";
-				 var talentCount=0;
-				 for(var i=0; i< data.talentCountList.length; i++){
-						var talent = data.talentCountList[i];
-						
-						talentName=talent.talentNm;
-						talentCount=talent.talentCount;
-						
-					    chartData2.push({talentName:talentName, talentCount: talentCount}); 
-							
-						 html += '<tr class="talent">';
-						 html += '<td>'+talent.rn+'</td>';
-						 html += '<td class="talentNm">'+talent.talentNm+'</td>';
-						 html += '<td class="talentCount" value="'+talent.talentCount+'">'+talent.talentCount+'</td>';
-						 html += '</tr>';
-						 
-						 sum += talent.talentCount;
-					 }
-					 html += '<tr id="sum">';
-					 html += '<td>합  계</td>';
-					 html += '<td></td>';
-					 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-					 $('#talentCountList').empty();
-					 $('#talentCountList').append(html);
-					chart.data =  chartData2;
+					createChart(talentCountList);	//차트 그리기
+					createHtml(talentCountList);	//표 그리기
 					
-					// Set inner radius
-					chart.innerRadius = am4core.percent(50);
-					chart.logo.disabled = true;
-					// Add and configure Series
-					var pieSeries = chart.series.push(new am4charts.PieSeries());
-					pieSeries.dataFields.value = "talentCount";
-					pieSeries.dataFields.category = "talentName";
-
-					pieSeries.labels.template.maxWidth = 50;
-					pieSeries.labels.template.wrap = true;
-					// end am4core.ready()
-
-					
-					 
-				 }
-			
-		})
+				 }	// success function()
+		}) // ajax
 	})
 	
 	
 	
 })	
 
+
+function createChart(talentCountList){
+	// Themes begin
+	am4core.useTheme(am4themes_animated);
+	// Themes end
+	
+	var chart = am4core.create("talentCountChart", am4charts.PieChart);		 
+	
+	chart.logo.disabled = true;
+		
+	var chartData = [];
+	var talentCount=0;
+	for(var i=0; i< talentCountList.length; i++){
+			var talent = talentCountList[i];
+			
+			talentName=talent.talentNm;
+			talentCount=talent.talentCount;
+			
+		    chartData.push({talentName:talentName, talentCount: talentCount}); 
+				
+	}
+	
+	chart.data =  chartData;
+
+	// Set radius
+	chart.radius = am4core.percent(70);
+	// Set inner radius
+	chart.innerRadius = am4core.percent(50);
+	
+	// Add and configure Series
+	var pieSeries = chart.series.push(new am4charts.PieSeries());
+	pieSeries.dataFields.value = "talentCount";
+	pieSeries.dataFields.category = "talentName";
+
+	pieSeries.labels.template.maxWidth = 65;
+	pieSeries.labels.template.wrap = true;
+
+	// end am4core.ready()
+}
+
+function createHtml(talentCountList){
+	var sum = 0;
+	html = '';
+	for(var i=0; i< talentCountList.length; i++){
+		var talent = talentCountList[i];
+		
+		html += '<tr class="talent">';
+		html += '<td>'+talent.rn+'</td>';
+		html += '<td class="talentNm">'+talent.talentNm+'</td>';
+		html += '<td class="talentCount" value="'+talent.talentCount+'">'+talent.talentCount+'</td>';
+		html += '</tr>';
+		 
+		sum += talent.talentCount;
+	}
+	html += '<tr id="sum">';
+	html += '<td>합  계</td>';
+	html += '<td></td>';
+	html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
+	$('#talentCountList').empty();
+	$('#talentCountList').append(html);
+}
 
 </script>
 </head>
