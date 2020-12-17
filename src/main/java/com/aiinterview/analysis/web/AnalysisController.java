@@ -69,7 +69,7 @@ public class AnalysisController {
 	
     @Resource(name = "voiceAnalysisService")
     private VoiceAnalysisService voiceAnalysisService;
-	
+    
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
@@ -394,8 +394,6 @@ public class AnalysisController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 		
 		return "jsonView";
 	}
