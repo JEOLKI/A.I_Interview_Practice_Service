@@ -16,11 +16,6 @@
 	
 <style>
 /* 여러 채팅창 간의 간격과 배열 위치*/
-.float-left{
-float:left;
-margin: 5px;
-}
-
 .allUsersList{
   width: 300px;
   margin: 20px;
@@ -36,6 +31,7 @@ margin: 5px;
 .usersChatList{
   position: absolute;
   width: 250px;
+  bottom: 0;
   margin-bottom: 0;
   right: 360px;
 }
@@ -53,10 +49,8 @@ margin: 5px;
   font-size: 13px;
 }
 .chatBox{
-  bottom: 0;
+  position: absolute;
   width: 300px;
-  margin: 40px;
-  margin-bottom: 0;
   font-size: 13px;
 }
 .chat-content{
@@ -243,27 +237,21 @@ margin: 5px;
 .card-header-title img{
   border-radius: 40px;
 }
-
+	
 </style>
 </head><body>
 <!-- 유저가 접속할 때마다 이 템플릿으로 채팅창을 생성한다. -->
 <!-- class="template" -->
-
-
-<c:forEach items="${listList }" var="chatList" varStatus="i">
-<c:forEach begin="${i.index }" items="${arrayList }" end="${i.index }" var="key">
-
-<div data-key="${key }" class="${key }">
-<div id="chatApp"   style="dispaly:none" class="float-left" >
+<div id="chatApp" style="" class="float-left" >
 	
 	<div class="chatBox" id="chatBox">
 	  <div class="card">
 	 
 	 <header class="card-header header-title" @click="toggleChat()">
 	    <p class="card-header-title">
-	      <i class="fa fa-circle is-online"></i><img src="/images/sally.png" style="width: 30px;">&nbsp;관리자와의 채팅
+	      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=${memId }" style="width: 30px;">&nbsp;${memId }님의 채팅방
 	    </p>
-	    <a class="card-header-icon">
+	    <a id="closeChat" class="card-header-icon">
 	      <span class="icon">
 	        <i class="fa fa-close"></i>
 	      </span>
@@ -283,7 +271,7 @@ margin: 5px;
 					<div class="chat-message-group">
 						<div class="chat-thumb">
 							<figure class="image is-32x32">
-								<img src="/images/sally.png">
+								<img src="/member/profile.do?memId=${memId }">
 							</figure>
 						</div>
 						<div class="chat-messages">
@@ -307,6 +295,7 @@ margin: 5px;
 	  </div>
 	  <footer class="card-footer" id="chatBox-textbox">
 	    <div style="width: 63%">
+	    
 	      <textarea id="textMessage" class="adminMsg chat-textarea"  onkeydown="if(event.keyCode === 13) return false;"  placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
 	    </div>
 	    <div class="has-text-centered" style="width: 37%">
@@ -314,6 +303,7 @@ margin: 5px;
 	        <i class="fa fa-smile-o fa-5" aria-hidden="true"></i>
 	      </a>
 	    <a class="button is-white sendBtn">send</a></div>
+	    
 	  </footer>
 	  </div>
 	  
@@ -326,9 +316,6 @@ margin: 5px;
 	</div>
 	
 	</div>
-	</div>
-	</c:forEach>
-</c:forEach>
 
 
 
@@ -350,8 +337,16 @@ margin: 5px;
 var d = new Date();
 var nodeKey = "";
 var webSocket =  new WebSocket("ws://localhost/admin.do");
+let $div = $("#chatApp");
 $(function(){
-	
+$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
+
+$("#closeChat").on("click", function(){
+	var a = parent.document.querySelector("#chatting").style
+	a.display = "none"
+	$("#chatting").attr("style", "display:none");
+})
+
 // let message = document.getElementById("textMessage");
 // 운영자에서의 open, close, error는 의미가 없어서 형태만 선언
 webSocket.onopen = function(message) { };
@@ -361,16 +356,20 @@ webSocket.onerror = function(message) { };
 webSocket.onmessage = function(message) {
 // 메시지의 구조는 JSON 형태로 만들었다.
 let node = JSON.parse(message.data);
-let $div = $("[data-key='"+node.key+"']");
+
+// let $div = $("[data-key='"+node.key+"']");
+let $div = $("#chatApp");
+
 nodeKey= node.key
 // 메시지의 status는 유저의 접속 형태이다.
 // visit은 유저가 접속했을 때 알리는 메시지다.
 if(node.status === "visit") {
-$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
+	
+if(node.key=="${memId}"){
+	$div.find(".fa-circle-o").attr('class', 'fa fa-circle')
+}
 
 	
-console.log("node.status : "+node.status)
-console.log("node.key : " + node.key)
 // 위 템플릿 div를 취득한다.
 
 // body에 추가한다.
@@ -392,6 +391,8 @@ $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight)
 
 // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
 } else if(node.status === "bye") {
+$div.find(".fa-circle").attr('class', 'fa fa-circle-o')	
+	
 // 해당 키로 div를 찾아서 dom을 제거한다.
 $("[data-key='"+node.key+"']").remove();
 }
@@ -411,6 +412,7 @@ console.log("key 확인"+key)
 
 
 // 아래에 메시지를 추가한다.
+sendProcess()
 $div.find(".messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);// 텍스트 박스의 값을 초기화 한다.
 
@@ -435,6 +437,21 @@ return true;
 
 
 })
+
+function sendProcess(){
+	var msg = $("#textMessage").val();
+	var memid = "${memId }"
+	$.ajax({
+		url: "/chat/createAdmin.do",
+		type: 'POST',
+		dataType: 'json',
+		data: { msgContent : msg, msgReceiver0 : memid},
+    	success : function(data){
+		
+    	}
+	 });
+}
+
 </script>
 </body>
 </html>

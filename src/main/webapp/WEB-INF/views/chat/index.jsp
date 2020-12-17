@@ -17,6 +17,8 @@
 
 
 <style>
+.body{
+}
 .allUsersList{
   width: 300px;
   margin: 20px;
@@ -51,10 +53,7 @@
 }
 .chatBox{
   position: absolute;
-  bottom: 0;
   width: 300px;
-  margin: 40px;
-  margin-bottom: 0;
   font-size: 13px;
 }
 .chat-content{
@@ -241,6 +240,8 @@
 .card-header-title img{
   border-radius: 40px;
 }
+body{
+}
  
 </style>
 
@@ -254,11 +255,11 @@
  
  <header class="card-header header-title" @click="toggleChat()">
     <p class="card-header-title">
-      <i class="fa fa-circle is-online"></i><img src="/images/sally.png" style="width: 30px;">&nbsp;관리자와의 채팅
+      <i class="fa fa-circle is-online"></i><img src="/member/profile.do?memId=TEST_ID2" style="width: 30px;">&nbsp;관리자와의 채팅
     </p>
-    <a class="card-header-icon">
-      <span class="icon">
-        <i class="fa fa-close"></i>
+    <a id="closeChat" class="card-header-icon">
+      <span  class="icon">
+        <i  class="fa fa-close"></i>
       </span>
     </a>
   </header>
@@ -277,7 +278,7 @@
 				<div class="chat-message-group">
 					<div class="chat-thumb">
 						<figure class="image is-32x32">
-							<img src="/images/sally.png">
+							<img src="/member/profile.do?memId=TEST_ID2">
 						</figure>
 					</div>
 					<div class="chat-messages">
@@ -285,9 +286,6 @@
 						<div class="message">${chat.msgContent }</div><div>&nbsp</div><a>${chat.msgDate }</a>
 						<div class="from">${chat.msgSender }&nbsp</div>
 						
-<%-- 						<fmt:parseDate value="${chatList}" var="parseDateValue" pattern="yyyy.MM.dd HH:ss"/> --%>
-<%-- 						<fmt:formatDate value="${parseDateValue}" pattern="yyyy-MM-dd HH:ss"/>  --%>
-			
 					</div>
 				</div>
 
@@ -305,30 +303,18 @@
     
     </c:forEach>
     
-    
-    
-<!--       <div class="chat-message-group"> -->
-<!--         <div class="typing">Typing</div> -->
-<!--         <div class="spinner"> -->
-<!--               <div class="bounce1"></div> -->
-<!--               <div class="bounce2"></div> -->
-<!--               <div class="bounce3"></div> -->
-<!--          </div> -->
-<!--       </div> -->
-      
-      
     </div>
   </div>
-  <footer class="card-footer" id="chatBox-textbox">
+  	<footer class="card-footer" id="chatBox-textbox">
     <div style="width: 63%">
-      <textarea id="textMessage" class="chat-textarea"  onkeydown="return enter()" placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
+      <textarea name="msgContent" id="textMessage" class="chat-textarea"  onkeydown="return enter()" placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
     </div>
     <div class="has-text-centered" style="width: 37%">
       <a class="button is-white">
         <i class="fa fa-smile-o fa-5" aria-hidden="true"></i>
       </a>
-    <a class="button is-white" onclick="sendMessage()">send</a></div>
-  </footer>
+    <a id="send" class="button is-white" onclick="sendMessage()">send</a></div>
+	  </footer>
   </div>
   
 </div>
@@ -343,9 +329,9 @@
 
 <!-- 채팅 영역 -->
 <!-- <form> -->
-<!-- <!-- 텍스트 박스에 채팅의 내용을 작성한다. --> -->
+<!-- <!-- 텍스트 박스에 채팅의 내용을 작성한다. --> 
 <!-- <input id="textMessage" type="text" onkeydown="return enter()"> -->
-<!-- <!-- 서버로 메시지를 전송하는 버튼 --> -->
+<!-- <!-- 서버로 메시지를 전송하는 버튼 -->
 <!-- <input onclick="sendMessage()" value="Send" type="button"> -->
 <!-- </form> -->
 <!-- <br /> -->
@@ -360,6 +346,16 @@ var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
 let message = document.getElementById("textMessage");
 var d = new Date();
 $(function(){
+	var c = parent.document.querySelector("#chatting").style
+	c.overflow= "hidden";
+	
+	$("#closeChat").on("click", function(){
+		var a = parent.document.querySelector("#chatting").style;
+		a.display = "none";
+		$("#chatting").attr("style", "display:none");
+	})
+	
+	
 $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight); 	
 
 // 서버의 broadsocket의 서블릿으로 웹 소켓을 한다.
@@ -386,19 +382,19 @@ $("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);
 
 
 };
-
 })
 // 서버로 메시지를 발송하는 함수
 // Send 버튼을 누르거나 텍스트 박스에서 엔터를 치면 실행
 function sendMessage() {
-
+	
+sendProcess();
 $("#messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message.value+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
-
 
 // 소켓으로 보낸다.
 console.log(message.value)
 webSocket.send(message.value);
 // 텍스트 박스 추기화
+
 message.value = "";
 
 $('#chat-content').append("</div>");
@@ -414,6 +410,18 @@ sendMessage();
 return false;
 }
 return true;
+}
+function sendProcess(){
+	var msg = $("#textMessage").val();
+	$.ajax({
+		url: "/chat/create.do",
+		type: 'POST',
+		dataType: 'json',
+		data: { msgContent : msg},
+    	success : function(data){
+		
+    	}
+	 });
 }
 </script>
 

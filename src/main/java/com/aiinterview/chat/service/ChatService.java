@@ -26,8 +26,8 @@ public class ChatService {
 		return chatMapper.create(cv);
 	}
 	
-	public List<ChatRoomVO> roomList(String memId){
-		return chatMapper.roomList(memId);
+	public List<ChatRoomVO> roomList(){
+		return chatMapper.roomList();
 	}
 	
 }

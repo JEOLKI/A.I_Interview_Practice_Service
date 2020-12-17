@@ -30,6 +30,6 @@ public interface ChatMapper {
 	 * @param mv 전체 회원의 이름
 	 * @return 
 	 */
-	List<ChatRoomVO>roomList(String memId);
+	List<ChatRoomVO>roomList();
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aiinterview.chat.service.ChatService;
 import com.aiinterview.chat.vo.ChatRoomVO;
@@ -33,40 +34,24 @@ public class ChatController {
 	public static HttpSession usersSession;
 	public static  List<String> IdList = new ArrayList<>();
 	
-	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
+	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
 	public String test(Model model) {
-		List<List<ChatRoomVO>> listList = new ArrayList<>();
-		try {
-			List<MemberVO> memList =  memberService.manageMember();
-			for (int i = 0; i < memList.size(); i++) {
-				List<ChatRoomVO>roomList =  chatService.roomList(memList.get(i).getMemId());
-				System.out.println(roomList);
-				listList.add(roomList);
-			}
-			
-			model.addAttribute("listList", listList);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<ChatRoomVO> roomList = chatService.roomList();
+		model.addAttribute("roomList", roomList);
 		return "chat/chatRoom";
-		
 	}
+	
+	
 	
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
 		
+		
 		usersSession =session;
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-		System.out.println("mv.getId="+mv.getMemId());
 		String memId = mv.getMemId();
 		
-		IdList.add(memId);
-//		for(String data : IdList){
-//		    if(!IdList.contains(data))
-//		}
 		String receiver = "TEST_ID2";
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
@@ -75,40 +60,45 @@ public class ChatController {
 		
 		List<ChatVO> chatList =  chatService.List(cv);
 		
+		System.out.println("chatList확인 : "+chatList);
+		
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("Receiver", receiver);
 		
 		return "chat/index";
+		
 	}
 	
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
-	public String admin(HttpSession session, Model model) {
+	public String admin(HttpSession session, Model model,String memId) {
+		
 		ChatVO cv = new ChatVO();
 		List<String> arrayList = new ArrayList<>();
 		
-		List<List<ChatVO>> listList = new ArrayList<>();
 		String Sender = "TEST_ID2";
-		
 		
 		for(String data : IdList){
 		    if(!arrayList.contains(data))
 		        arrayList.add(data);
 		}
 		
-		//arrayList TEST_ID, TEST_ID3
-		System.out.println("IdList :" + IdList);
-		for (int i = 0; i < arrayList.size(); i++) {
-			cv.setMsgSender(Sender);
-			cv.setMsgReceiver("TEST_ID5");
-			List<ChatVO> chatList =  chatService.List(cv);
-			System.out.println("chatList확인 : "+chatList);
-			listList.add(chatList);
-			
-			model.addAttribute("Receiver", arrayList.get(i));
-		}
+		cv.setMsgSender(Sender);
+		cv.setMsgReceiver(memId);
+		List<ChatVO> chatList =  chatService.List(cv);
 		
-		model.addAttribute("listList", listList);
-		model.addAttribute("arrayList", arrayList);
+//		for (int i = 0; i < arrayList.size(); i++) {
+//			cv.setMsgSender(Sender);
+//			cv.setMsgReceiver(memId);
+//			List<ChatVO> chatList =  chatService.List(cv);
+//			
+//			System.out.println("chatList확인 : "+chatList);
+//			listList.add(chatList);
+//			
+//			model.addAttribute("Receiver", arrayList.get(i));
+//		}
+		
+		model.addAttribute("chatList", chatList);
+		model.addAttribute("memId", memId);
 		
 		return "chat/admin";
 	}
@@ -177,8 +167,24 @@ public class ChatController {
 		
 	}
 	
+	@ResponseBody
 	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
 	public void createProcess(Model model, ChatVO cv, HttpSession session) {
+		
+		System.out.println(cv);
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		String memId = mv.getMemId();
+		cv.setMsgSender(memId);
+		cv.setMsgReceiver("TEST_ID2");
+		chatService.create(cv);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(path = "/createAdmin.do", method = RequestMethod.POST)
+	public void createAdmin(Model model, ChatVO cv, HttpSession session) {
+		System.out.println(cv);
+		cv.setMsgSender("TEST_ID2");
 		chatService.create(cv);
 	}
 

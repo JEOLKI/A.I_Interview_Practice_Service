@@ -13,6 +13,7 @@ public class Admin extends TextWebSocketHandler {
 // 운영자 유저는 하나라고 가정하고 만약 둘 이상의 세션에서 접속을 하면 마지막 세션만 작동한다.
 private static Session admin = null;
 // 운영자 유저가 접속을 하면 발생하는 이벤트 함수
+
 @OnOpen
 public void handleOpen(Session userSession) {
 // 기존에 운영자 유저의 소켓이 접속중이라면
@@ -49,16 +50,19 @@ public void handleClose(Session userSession) {
 admin = null;
 }
 // 운영자 유저로 메시지를 보내는 함수
+
 private static void send(String message) {
-if (admin != null) {
-	System.out.println("운영자 확인" + admin);
-try {
-admin.getBasicRemote().sendText(message);
-} catch (IOException e) {
-e.printStackTrace();
+	if (admin != null) {
+		System.out.println("운영자 확인" + admin);
+		try {
+		admin.getBasicRemote().sendText(message);
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
-}
-}
+
 // 일반 유저가 접속했을 때, 운영자 유저에게 알리는 함수
 public static void visit(String key) {
 // json 구조로 status는 visit이고 key는 유저 키 정보이다.(javascript와 맞추는 프로토콜)

@@ -56,10 +56,9 @@ User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
 MemberVO mv =  (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
 System.out.println("유저 아이디 확인"+mv);
+
 user.key = mv.getMemId();
-System.out.println("user.key :" + user.key);
-ChatController chat = new ChatController();
-System.out.println("chat.IdList"+chat.IdList);
+
 // WebSocket의 세션
 user.session = userSession;
 // 유저 리스트에 등록한다.

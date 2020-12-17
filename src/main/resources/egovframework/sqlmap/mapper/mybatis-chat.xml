@@ -27,39 +27,33 @@
 	</select>
 	
 	<insert id="create" parameterType="com.aiinterview.chat.vo.ChatVO" >
-		INSERT INTO MESSAGE VALUES(message_sq_nextval,#{msgContent},SYSDATE, 
+		INSERT INTO MESSAGE VALUES(message_sq.nextval,#{msgContent},SYSDATE, 
 		#{msgSender}, #{msgReceiver})
-		
 	</insert>
 	
 	
 	
-	<select id="roomList" parameterType="String" resultType="com.aiinterview.chat.vo.ChatRoomVO" >
-	select A.MSG_CONTENT,
-	       A.MSG_DATE,
-	       CASE WHEN A.MSG_SENDER != 'TEST_ID2' THEN A.MSG_SENDER
-	       WHEN A.MSG_RECEIVER != 'TEST_ID2' THEN A.MSG_RECEIVER
-	       END AS MEM_ID,
-	       B.MEM_PROFILE_NM,
-		   B.MEM_PROFILE_PATH
-	from(
-		SELECT * from(
-			select MSG_SQ, MSG_CONTENT,
-				  TO_CHAR(MSG_DATE,'HH24:MI') MSG_DATE,
-				  MSG_SENDER, MSG_RECEIVER 
-				  from message
-				  where msg_sender = 'TEST_ID2' and
-				  msg_receiver = #{memId }
-				  union
-				  select MSG_SQ, MSG_CONTENT,
-				  TO_CHAR(MSG_DATE,'HH24:MI') MSG_DATE,
-				  MSG_SENDER, MSG_RECEIVER 
-				  from message
-				  where msg_sender = #{memId } and
-				  msg_receiver = 'TEST_ID2')
-		ORDER BY ROWNUM DESC)A, MEMBER B
-	WHERE ROWNUM = 1
-	AND MEM_ID = B.MEM_ID
+	<select id="roomList" resultType="com.aiinterview.chat.vo.ChatRoomVO" >
+	
+	SELECT A.MSG_SENDER AS MEM_ID, A.MSG_CONTENT, A.Msg_Date, B.MEM_PROFILE_NM, B.MEM_PROFILE_PATH
+	FROM
+	    (SELECT A.MSG_SQ, A.MSG_SENDER, B.MSG_CONTENT, B.Msg_Date
+	    FROM
+	         (SELECT MAX(A.MSG_SQ)MSG_SQ, A.MSG_SENDER
+	         FROM(
+	             SELECT MAX(A.MSG_SQ)MSG_SQ, A.MSG_SENDER
+	             FROM MESSAGE A
+	             WHERE A.MSG_SENDER NOT IN('TEST_ID2') 
+	             GROUP BY A.MSG_SENDER
+	             union 
+	             SELECT MAX(A.MSG_SQ)MSG_SQ, A.MSG_RECEIVER AS MSG_SENDER
+	             FROM MESSAGE A
+	             WHERE A.MSG_RECEIVER NOT IN('TEST_ID2') 
+	             GROUP BY A.MSG_RECEIVER)A
+	         GROUP BY A.MSG_SENDER)A, MESSAGE B
+	    WHERE A.MSG_SQ = B.MSG_SQ)A, MEMBER B
+	WHERE A.MSG_SENDER = B.MEM_ID
+	ORDER BY MSG_DATE DESC
 	
 	</select>
 
