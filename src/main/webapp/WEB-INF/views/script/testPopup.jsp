@@ -160,104 +160,131 @@ function random(scriptGbSq){
 </script>
 
 <style>
-#phraseDiv{
-	text-align: center;
-	text-decoration: underline;
-}
 
-#scriptModalContent {
-	position: relative;
-	background-color : #EBECF0;
-	top: 0px;
-	left: 0;
-	width : 200px;
-	height : 120px;
-	justify-content: center;
-	align-items: center;
-	border : 3px solid black;
-	font-size : 10pt;
-	display: block;
-	margin : auto;
-	padding: auto;
-}
+	body{
+		background-color : #f5f7fb;
+	}
 
-.popup-title, .popup-content {
-	text-align: center;
-}
+	#phraseDiv{
+		text-align: center;
+		text-decoration: underline;
+		border: 1px solid black;
+		border-radius: 5px;
+		height: 70px;
+		width: 94%;
+		margin: 2px 3%;
+	}
+	
+	#scriptModalContent {
+		border: 1px solid #3b3b46;
+		margin: 10px 10px;
+		height: 150px;
+		border-radius: 5px;
+	}
+	
+	.popup-title, .popup-content {
+		text-align: center;
+	}
+	
+	.popup-close-box {
+		text-align: center;
+		margin-right: 10px;
+	}
+	
+	.pro {
+		margin: 10px;
+		height: 50%;
+	}
+	
+	.menuSelect {
+		margin-right: 10px;
+		padding : 10px;
+	}
+	
+	.processBtn {
+		text-align: center;
+		margin-right: 10px;
+		padding : 10px;
+	}
+	
+	#startTestBtn{
+		border-radius: 5px;
+		font-size : 12pt;
+		background: #3b3b46;
+		border: 1px solid #3b3b46;
+		color: #fff;
+		width: 100%;
+		margin: 0px 3%;
+	}
+	
+	#startTestBtn:hover{
+	    background-color: white;
+	    color: #000d22;;
+	}
+	
+	.informLbl{
+		margin-top: 30px;
+		font-weight: normal;
+	}
 
-.popup-close-box {
-	text-align: center;
-	margin-right: 10px;
-}
+	html {
+		overflow:hidden;
+	}
 
-.pro {
-	margin: 10px;
-	height: 50%;
-}
-
-.menuSelect {
-	margin-right: 10px;
-	padding : 10px;
-}
-
-.processBtn {
-	text-align: center;
-	margin-right: 10px;
-	padding : 10px;
-}
-
-#startTestBtn{
-	border-radius: 30px;
-	font-size : 12pt;
-}
-
-.informLbl{
-	margin-top: 30px;
-	font-weight: normal;
-}
-
-html {
-	overflow:hidden;
-}  
+	.contentBox{
+		width: 93%;
+		padding: 20px 30px;
+		background-color: white;
+		border-radius: 10px;
+		margin: 10px 3%;
+		box-shadow: 5px 5px #EAEAEA;
+		display: inline-block;
+	}
+	
 </style>
 </head>
 
 <body>
-	<div class="pro" style="font-size:13px;">
-		<ul class="nav nav-tabs">
-			<c:forEach items="${scriptGbList }" var="scriptGb">
-					<li class="selectLang">
-			    		<a class="scriptGbBtn" data-content="${scriptGb.scriptGbContent }" data-toggle="tab" onclick="random(${scriptGb.scriptGbSq });" aria-expanded="false">${scriptGb.scriptGbContent }</a>
-						<input type="hidden" id="scriptGbSq" name="scritGbSq" value="${scriptGb.scriptGbSq }">
-				   </li>
-			</c:forEach>
-		</ul>
-	</div>
-			
-			<div class="popup-content" id="scriptModalContent">
-			</div>
-			
-			<div style="text-align: center; font-size:14px;">
-			<label class="informLbl">내가 말한</label>
-			<br>
-			<div id="phraseDiv">
-			
-			</div>
-			과의 일치도는
-			<span id="testResult" class="informLbl"></span>
-			% 입니다.			
-			</div>
 
-			<div class="popup-close-box" id="popup-close-box" style="font-size:14px;">
-				<label class="informLbl">
-				시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
-				</label><br><br>
-				<button class="processBtn" id="startTestBtn">
-					시작 하기
-				</button>
-			</div>
-			
- 			<input id="subscriptionKey" type="hidden" value="c8fade57c0084e95b64bf948ed3184a5">
- 			<input id="serviceRegion" type="hidden" value="koreacentral">
+	<div class="contentBox">
+	
+		<div class="pro" style="font-size:13px;">
+			<ul class="nav nav-tabs">
+				<c:forEach items="${scriptGbList }" var="scriptGb">
+						<li class="selectLang">
+				    		<a class="scriptGbBtn" data-content="${scriptGb.scriptGbContent }" data-toggle="tab" onclick="random(${scriptGb.scriptGbSq });" aria-expanded="false">${scriptGb.scriptGbContent }</a>
+							<input type="hidden" id="scriptGbSq" name="scritGbSq" value="${scriptGb.scriptGbSq }">
+					   </li>
+				</c:forEach>
+			</ul>
+		</div>
+				
+				<div class="popup-content" id="scriptModalContent">
+				</div>
+				<div style="margin-top: 0px; padding-top:0px; text-align: center; font-size:14px;">
+				내가 말한
+				<br>
+				<div id="phraseDiv">
+				
+				</div>
+				과의 일치도는
+				<span id="testResult" class="informLbl"></span>
+				% 입니다.			
+				</div>
+	
+				<div class="popup-close-box" id="popup-close-box" style="font-size:14px;">
+					<label class="informLbl">
+					시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
+					</label><br><br>
+					<button class="processBtn" id="startTestBtn">
+						시작 하기
+					</button>
+				</div>
+				
+	 			<input id="subscriptionKey" type="hidden" value="c8fade57c0084e95b64bf948ed3184a5">
+	 			<input id="serviceRegion" type="hidden" value="koreacentral">
+ 			
+ 	</div>
+ 			
 </body>
 </html>
