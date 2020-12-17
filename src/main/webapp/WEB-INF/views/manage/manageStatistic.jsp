@@ -609,7 +609,7 @@
 	
 	<div class="contentBoxMedium">
 		<span class="chartTitle">요금제</span>
-		<canvas id="planUseChart"></canvas>
+		<div id="planUseChart"></div>
 	</div>
 	
 	<div class="contentBoxLargeRight">
