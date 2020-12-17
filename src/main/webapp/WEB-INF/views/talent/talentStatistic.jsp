@@ -169,7 +169,7 @@ $(document).ready(function(){
 			chart.radius = am4core.percent(70);
 			// Set inner radius
 			chart.innerRadius = am4core.percent(50);
-			
+			chart.logo.disabled = true;
 			// Add and configure Series
 			var pieSeries = chart.series.push(new am4charts.PieSeries());
 			pieSeries.dataFields.value = "talentCount";
@@ -249,7 +249,7 @@ $(document).ready(function(){
 					
 					// Set inner radius
 					chart.innerRadius = am4core.percent(50);
-					
+					chart.logo.disabled = true;
 					// Add and configure Series
 					var pieSeries = chart.series.push(new am4charts.PieSeries());
 					pieSeries.dataFields.value = "talentCount";

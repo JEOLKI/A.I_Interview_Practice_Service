@@ -187,7 +187,7 @@ $(document).ready(function(){
 			chartData2.push({plan:"Total", useCount:sum})
 			chart.data =  chartData2;
 			
-				   
+			chart.logo.disabled = true;	   
 
 				var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 				categoryAxis.renderer.grid.template.location = 0;
@@ -293,7 +293,7 @@ $(document).ready(function(){
 					chartData2.push({plan:"Total", sale:saleSum})
 					chart.data =  chartData2;
 					
-						   
+					chart.logo.disabled = true;	   
 
 						var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 						categoryAxis.renderer.grid.template.location = 0;
@@ -408,7 +408,7 @@ $(document).ready(function(){
 					chartData2.push({plan:"Total", useCount:sum})
 					chart.data =  chartData2;
 					
-						   
+					chart.logo.disabled = true;	   
 
 						var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 						categoryAxis.renderer.grid.template.location = 0;

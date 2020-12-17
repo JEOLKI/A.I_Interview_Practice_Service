@@ -193,7 +193,7 @@ $(document).ready(function(){
 			chart.radius = am4core.percent(64);
 			// Set inner radius
 			chart.innerRadius = am4core.percent(50);
-			
+			chart.logo.disabled = true;
 			// Add and configure Series
 			var pieSeries = chart.series.push(new am4charts.PieSeries());
 			pieSeries.dataFields.value = "questGbCount";
@@ -281,7 +281,7 @@ $(document).ready(function(){
 					chart.radius = am4core.percent(64);
 					// Set inner radius
 					chart.innerRadius = am4core.percent(50);
-					
+					chart.logo.disabled = true;
 					// Add and configure Series
 					var pieSeries = chart.series.push(new am4charts.PieSeries());
 					pieSeries.dataFields.value = "questGbCount";
@@ -357,8 +357,8 @@ $(document).ready(function(){
 						 $('#questGbAndSampList').append(html);
 						chart.data =  chartData2;
 						
-							   
-
+						chart.logo.disabled = true;   
+							
 							var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 							categoryAxis.renderer.grid.template.location = 0;
 							categoryAxis.dataFields.category = "rn";
