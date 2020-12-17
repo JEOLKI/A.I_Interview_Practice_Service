@@ -391,6 +391,12 @@ public class AnalysisController {
 			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
 			model.addAttribute("interviewList", interviewList);
 			
+			int interviewCount = 0;
+			for (InterviewVO interviewVO : interviewList) {
+				interviewCount += Integer.parseInt(interviewVO.getCount());
+			}
+			model.addAttribute("interviewCount", interviewCount);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

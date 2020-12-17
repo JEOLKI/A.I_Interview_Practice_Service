@@ -23,6 +23,7 @@
 			success : function(data){
 				interviewList = data.interviewList;
 				interviewChart(interviewList);
+				$("#interviewCount").text(data.interviewCount);
 				
 				cashChart();
 				talentChart();
@@ -59,8 +60,6 @@
 			data = { "date" : interviewList[i].interviewDate , "value" : interviewList[i].count }
 			datas.push(data);
 		}
-		
-		$("#interviewCount").text(interviewList.length);
 		
 		am4core.ready(function() {
 
