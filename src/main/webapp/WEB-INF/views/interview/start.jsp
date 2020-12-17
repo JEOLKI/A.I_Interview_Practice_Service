@@ -228,7 +228,7 @@
 	
 	// 분석을 매 10초마다 시작하는 메서드
 	function analyzeStart(){
-		aid=setInterval('processImage()',10000);
+		aid=setInterval('processImage()',7000);
 	}
 	
 	// 이미지 분석자료 보내기위한 변수

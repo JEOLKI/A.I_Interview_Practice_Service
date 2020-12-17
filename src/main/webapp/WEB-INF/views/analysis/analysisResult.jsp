@@ -772,6 +772,9 @@
 						</c:when>
 					</c:choose>
 					<c:choose>
+						<c:when test="${S_MEMBER.memProfileNm == null }">
+							<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br>
+						</c:when>
 						<c:when test="${S_MEMBER == null }">
 							<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon">
 						</c:when>
@@ -806,6 +809,9 @@
 			<div class="pitch-line"></div>
 			<div id="user"  class="user-pitch" style="left: 238px; display: none;">
 				<c:choose>
+					<c:when test="${S_MEMBER.memProfileNm == null }">
+						<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br>
+					</c:when>
 					<c:when test="${S_MEMBER == null }">
 						<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon"><br>
 					</c:when>
