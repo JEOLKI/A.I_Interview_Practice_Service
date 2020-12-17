@@ -90,7 +90,7 @@ public class SampleQuestionController {
 		model.addAttribute("questGbList", questGbList);
 		
 		
-		return "question/sampleQuestionManage";
+		return "manage/sampleQuestionManage";
 	}
 	
 	
@@ -184,7 +184,7 @@ public class SampleQuestionController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "question/sampleQuestionManage";
+		return "manage/sampleQuestionManage";
 	}
 	/* 샘플질문 검색*/
 	@RequestMapping(path = "/retrieve.do")
@@ -224,7 +224,7 @@ public class SampleQuestionController {
 	/* 질문 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics() {
-		return "question/questionStatistic";
+		return "manage/questionStatistic";
 	}
 	
 	/* 질문 통계 데이터 - 직무별 */

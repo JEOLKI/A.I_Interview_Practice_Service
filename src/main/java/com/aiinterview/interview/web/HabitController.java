@@ -74,7 +74,7 @@ public class HabitController {
 			e.printStackTrace();
 		}
 		
-		return "habit/habitManage";
+		return "manage/habitManage";
 	}
 	
 	
@@ -105,7 +105,7 @@ public class HabitController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "habit/habitManage";
+		return "manage/habitManage";
 	}
 	
 	@RequestMapping("/massiveCreateProcess.do")
@@ -172,7 +172,7 @@ public class HabitController {
 	/* 습관어 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics() {
-		return "habit/habitStatistics";
+		return "manage/habitStatistics";
 	}
 	
 	/* 습관어 사용 리스트 */

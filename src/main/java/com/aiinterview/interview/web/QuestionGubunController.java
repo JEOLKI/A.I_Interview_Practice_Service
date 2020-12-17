@@ -66,7 +66,7 @@ public class QuestionGubunController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "question/questionGubunManage";
+		return "manage/questionGubunManage";
 	}
 
 	
@@ -130,7 +130,7 @@ public class QuestionGubunController {
 		if (updateCnt == 1) {
 			return "redirect:/questGb/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
 		} else {
-			return "question/questionGubunManage";
+			return "manage/questionGubunManage";
 		}
 	}
 

@@ -75,7 +75,7 @@ public class TalentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "talent/talentManage";
+		return "manage/talentManage";
 	}
 	
 	@RequestMapping(path ="/createProcess.do", method = {RequestMethod.POST} )
@@ -124,7 +124,7 @@ public class TalentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "talent/talentManage" ;
+		return "manage/talentManage" ;
 	}
 	
 	@RequestMapping(path ="/update.do")
@@ -140,7 +140,7 @@ public class TalentController {
 			e.printStackTrace();
 		}
 		
-		return "talent/keywordManage";
+		return "manage/talentKeywordManage";
 	}
 	
 	@RequestMapping("/list/excelDown.do")
@@ -238,16 +238,16 @@ public class TalentController {
 			paginationInfo.setTotalRecordCount(totCnt);
 			model.addAttribute("paginationInfo", paginationInfo);
 			model.addAttribute("talentVO",talentVO);
-			return "talent/talentKeywordManage";
+			return "manage/talentKeywordManage";
 
 		} catch (Exception e) { }
-		return "talent/talentKeywordManage";
+		return "manage/talentKeywordManage";
 	}
 	
 	/* 인재상 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics() {
-		return "talent/talentStatistic";
+		return "manage/talentStatistic";
 	}
 	
 	@RequestMapping("/retrieveStatisticsPagingList.do")

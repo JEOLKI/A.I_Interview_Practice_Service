@@ -48,60 +48,6 @@ public class KeywordController {
 	protected EgovPropertyService propertiesService;
 	
 	
-	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList(KeywordVO keywordVO, TalentVO talentVO, String pageUnit, Model model) throws Exception {
-		
-		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
-		model.addAttribute("pageUnit" , pageUnitInt);
-		
-		/** EgovPropertyService.sample */
-		keywordVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		keywordVO.setPageSize(propertiesService.getInt("pageSize"));
-		
-		keywordVO.setPageUnit(pageUnitInt);
-		
-		/** pageing setting */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(keywordVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(keywordVO.getPageUnit());
-		paginationInfo.setPageSize(keywordVO.getPageSize());
-		
-
-		
-		keywordVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		keywordVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		keywordVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		List<KeywordVO> resultList = keywordService.retrievePagingList(keywordVO);
-		model.addAttribute("resultList", resultList);
-
-		int totCnt = keywordService.retrievePagingListCnt(keywordVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
-		
-		
-		/* 인재상 목록 추출 */
-		List<TalentVO> talentList = talentService.retrieveUsingList();
-		model.addAttribute("talentList", talentList);
-		
-		
-		return "keyword/keywordManage";
-	}
-	
-	
-	/* 등록 */
-	@RequestMapping("/createProcess.do")
-	public String createKeywordProcess(KeywordVO keywordVO, String talentSq) throws Exception {
-
-
-		keywordService.create(keywordVO,talentSq);
-
-		return "redirect:/keyword/retrievePagingList.do";
-	}
-	
-	
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@RequestMapping("/create.do")
 	public String create(String talentSq, String keywordContent, Model model,HttpSession session) {
@@ -164,7 +110,7 @@ public class KeywordController {
 		}else {
 			System.out.println("인서트 결과 다름");
 			model.addAttribute("msg", "**키워드 등록 실패");
-			return "talent/talentKeywordManage"; // 키워드 일치, 매칭 일치 시 되돌려보냄
+			return "manage/talentKeywordManage"; // 키워드 일치, 매칭 일치 시 되돌려보냄
 		}
 		
 		
@@ -189,7 +135,7 @@ public class KeywordController {
 		} catch (Exception e) {
 			model.addAttribute("msg", "키워드 삭제 실패");
 		}
-		return "talent/talentKeywordManage";
+		return "manage/talentKeywordManage";
 	}
 	
 	

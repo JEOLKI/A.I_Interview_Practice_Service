@@ -387,7 +387,7 @@ public class PlanController {
 	/* 요금제 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics(Model model) {
-		return "plan/planStatistics";
+		return "manage/planStatistics";
 	}
 
 	/* 요금제 통계 (전체, 기간별, 검색) */
