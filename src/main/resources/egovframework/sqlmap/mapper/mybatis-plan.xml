@@ -218,7 +218,7 @@
 				(SELECT a.start_date, (b.plan_price * COUNT(*)) AS sale
 				   FROM plan_use a, plan b
 				  WHERE a.plan_sq = b.plan_sq
-		
+					AND a.start_date LIKE EXTRACT(YEAR FROM SYSDATE)||'%'
 				  GROUP BY b.plan_price, a.start_date) c
 		 GROUP BY c.start_date
 		 ORDER BY c.start_date
