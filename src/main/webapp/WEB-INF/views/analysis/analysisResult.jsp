@@ -287,7 +287,16 @@
 	
 	/* 습관어 리포트 */
 	function createHabitHtml(habitMap,habitLength){
+		var fullGage = 140;
+		var max = 0;
 		habitHtml = '';
+		for(var i = 0; i<habitLength; i++){
+			key = Object.keys(habitMap)[i]; 
+			value = habitMap[key];
+			if(value > max ){
+				max = value;
+			}
+		}
 		if(habitMap == null || habitMap =="" || habitLength == 0){
 			habitHtml += '<div class="comment no-exist">답변 중 습관어 사용 횟수';
 			habitHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
@@ -299,14 +308,16 @@
 			habitHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
 			habitHtml += '<div class="comment-box habitual"> 무의식 중에 내뱉는 습관어는 인터뷰의 흐름을 끊고 자신의 메시지를 효과적으로 전달하는데 방해가 됩니다.</div>';
 			habitHtml += '</div>';
-		
 			
 			for(var i=0; i<habitLength; i++){ 
 				key = Object.keys(habitMap)[i]; 
 				value = habitMap[key];
+				
+				var gage =  Number(fullGage*value/max);
+				
 				habitHtml += '<div class="habitual word-graph select habitual">';
 				habitHtml += '<div class="label">'+value+'회</div>';
-				habitHtml += '<div class="rectangle" style="height: '+value*20+'px;"></div>';
+				habitHtml += '<div class="rectangle" style="height: '+gage+'px;"></div>';
 				habitHtml += '<div class="name">'+key+'</div>';
 				habitHtml += '</div>';
 			}
