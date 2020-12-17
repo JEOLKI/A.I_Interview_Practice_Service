@@ -109,7 +109,20 @@
 		width: 70px;
 		height: 70px;
 		margin-left: 3%;
+		border: 1px solid #3b3b46;
+		border-radius: 5px;
+		background: white;
+	}
 	
+	#searchIdBtn, #searchPwBtn {
+		border: 1px solid #3b3b46;
+		border-radius: 5px;
+		background: white;
+	}
+	
+	#searchIdBtn:hover, #loginbtn:hover, #searchPwBtn:hover{
+	    background-color: #3b3b46;
+	    color: #fff;
 	}
 	
 	#searchIdBtn{
@@ -451,7 +464,7 @@ function boardGubunList(){
 				<br />
 			</p>
 			<div
-				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
+				style="font-weight: bold; color: white; cursor: pointer; background-color: #3b3b46; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="close_pop();">
 				<span class="pop_bt" style="font-size: 13pt;"> 닫기 </span>
 			</div>
@@ -502,7 +515,7 @@ function boardGubunList(){
 			</div>
 			<br>
 			<div
-				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
+				style="font-weight: bold; color: white; cursor: pointer; background-color: #3b3b46; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="search_close_pop();">
 				<span class="pop_bt" style="font-size: 13pt;"> 닫기 </span>
 			</div>
