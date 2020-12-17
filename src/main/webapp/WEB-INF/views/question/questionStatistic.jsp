@@ -331,6 +331,7 @@ $(document).ready(function(){
 							chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 						
 							
+						var max = 0;
 						var sum = 0;
 						var chartData2 = [];
 						var rn="";
@@ -342,7 +343,7 @@ $(document).ready(function(){
 							useCount = question.useCount;
 							
 						    chartData2.push({rn:rn, useCount: useCount}); 
-								
+
 							 html += '<tr class="questGbAndSampList">';
 							 html += '<td class="rn">'+rn+'</td>';
 							 html += '<td class="questGbContent">'+question.questGbContent+'</td>';
@@ -351,6 +352,11 @@ $(document).ready(function(){
 							 html += '</tr>';
 							 
 							 sum += useCount;
+							 
+						    if(max < useCount){
+						    	max = useCount;
+						    }
+						    	
 						 }
 						 html += '<tr id="sampQuestSum">';
 						 html += '<td>합  계</td>';
@@ -360,7 +366,6 @@ $(document).ready(function(){
 						 html += '</tr>';
 						 $('#questGbAndSampList').empty();
 						 $('#questGbAndSampList').append(html);
-						chartData2.push({rn:"Total", useCount:sum})
 						chart.data =  chartData2;
 						
 							   
@@ -373,7 +378,7 @@ $(document).ready(function(){
 
 							var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 							valueAxis.min = 0;
-							valueAxis.max = sum+1;
+							valueAxis.max = max+1;
 							valueAxis.strictMinMax = true;
 							valueAxis.renderer.minGridDistance = 30;
 							// axis break
@@ -419,15 +424,6 @@ $(document).ready(function(){
 	
 })	
 
-/* 검색 */
-function searchList(){
-	if(sort == '직무별'){
-		document.listForm.action = "<c:url value='/sampQuest/retrieveQuestGbStatisticsList.do'/>";
-	}else {
-		document.listForm.action = "<c:url value='/sampQuest/retrieveQuestGbStatisticsList.do'/>";
-	}
-   	document.listForm.submit();
-}
 	
 </script>
 </head>
