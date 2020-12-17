@@ -138,7 +138,7 @@ public class ScriptGubunController {
 
 			
 			resultList = scriptService.retrieveScriptGbScriptPagingList(retrieveMap);
-			model.addAttribute("scriptList", resultList);
+			model.addAttribute("resultList", resultList);
 
 			logger.debug("scriptList : {}", resultList);
 			
