@@ -49,6 +49,7 @@ function PlanUse(){
 				html += 	'</div>';
 				
 			}else{
+				var html = "";
 				html += '<div class="ticket-area">                                                 ';
 				html += '	<div class="PaymentTicket">                                            ';
 				html += '		<img                                                               ';
@@ -264,9 +265,6 @@ to {
 				<div class="MyOrder">
 					<div class="title">이용권 정보</div>
 					<div id = "useInfo"></div>
-					
-					
-					
 					<div class="sub-message">무제한 모의면접, 지금 바로 경험해 보세요!</div>
 					<a class="edit-btn" href="/plan/totalPayList.do">결제내역 확인</a>
 				</div>
