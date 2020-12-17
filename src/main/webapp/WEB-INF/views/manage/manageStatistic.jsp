@@ -166,7 +166,7 @@
 			dateAxis.renderer.grid.template.disabled = true;  //disables grid
 
 			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-			//valueAxis.renderer.baseGrid.disabled = true;
+			valueAxis.renderer.baseGrid.disabled = true;
 			valueAxis.renderer.line.disabled = true; //disables axis line
 			valueAxis.renderer.labels.template.disabled = true; //disables labels
 			valueAxis.renderer.grid.template.disabled = true;  //disables grid
@@ -294,6 +294,7 @@
 			categoryAxis.renderer.inversed = true;
 			categoryAxis.renderer.line.disabled = true; //disables axis line
 			categoryAxis.renderer.grid.template.disabled = true;  //disables grid
+			categoryAxis.renderer.minGridDistance = 20;
 			
 			var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
 			valueAxis.min = 0;
@@ -348,12 +349,21 @@
 		chart.logo.disabled = true;
 			
 		var sum = 0;
+		var min = 0;
+		var max = 0;
 		var chartData = [];
 		for(var i=0; i< planUseList.length; i++){
 			var planUse = planUseList[i];
 			
 			chartData.push({plan:planUse.planNm, useCount: planUse.useCount});
 		    
+			if(min > planUse.useCount){
+				min = planUse.useCount;
+			}
+			if(max < planUse.useCount){
+				max = planUse.useCount;
+			}
+			
 		    sum += planUse.useCount;
 				
 		}
@@ -365,21 +375,26 @@
 		categoryAxis.dataFields.category = "plan";
 		categoryAxis.renderer.minGridDistance = 40;
 		categoryAxis.fontSize = 11;
+		categoryAxis.renderer.line.disabled = true; //disables axis line
+		categoryAxis.renderer.grid.template.disabled = true;  //disables grid
 
 		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 		valueAxis.min = 0;
 		valueAxis.max = sum+1;
 		valueAxis.strictMinMax = true;
 		valueAxis.renderer.minGridDistance = 30;
-		// axis break
-		var axisBreak = valueAxis.axisBreaks.create();
-		//axisBreak.startValue = 4;
-		//axisBreak.endValue = 8;
-		//axisBreak.breakSize = 0.005;
-
-		// fixed axis break
-		var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-		axisBreak.breakSize = 0.05 * (1 - d) / d; 
+		valueAxis.renderer.line.disabled = true; //disables axis line
+		valueAxis.renderer.labels.template.disabled = true; //disables labels
+		valueAxis.renderer.grid.template.disabled = true;  //disables grid
+			// axis break
+			var axisBreak = valueAxis.axisBreaks.create();
+			axisBreak.startValue = max+1;
+			axisBreak.endValue = sum-1;
+			axisBreak.breakSize = 0.005;
+			
+			// fixed axis break
+			var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+			axisBreak.breakSize = 0.05 * (1 - d) / d; 
 
 		// make break expand on hover
 		var hoverState = axisBreak.states.create("hover");
@@ -503,7 +518,7 @@
 	
 	#repeatChart{
 		width: 100%;
-		height: 180px;
+		height: 150px;
 		margin: 0px;
 		padding: 0px;
 	}
