@@ -41,7 +41,22 @@ public class LoginController {
 	protected EgovPropertyService propertiesService;
 
 	@RequestMapping(value = "/main.do", method = { RequestMethod.GET })
-	public String view() {
+	public String view(Model model) {
+		
+		try {
+			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
+			
+			int interviewCount = 0;
+			for (InterviewVO interviewVO : interviewList) {
+				interviewCount += Integer.parseInt(interviewVO.getCount());
+			}
+			
+			model.addAttribute("interviewCount", interviewCount);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "login/main";
 	}
 	

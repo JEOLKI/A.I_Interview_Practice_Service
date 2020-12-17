@@ -93,7 +93,7 @@ $(document).ready(function() {
 				</div>
 				<div class="calc-num wow fadeInUp"
 					style="visibility: visible; animation-name: fadeInUp;">
-					현재 진행중인 면접 수 <span>15,734회</span><img
+					현재 진행중인 면접 수 <span>${interviewCount }회</span><img
 						src="/images/graph_rise.43a766c5.png" alt="" class="up">
 				</div>
 				<div class="calc-num wow fadeInUp"
