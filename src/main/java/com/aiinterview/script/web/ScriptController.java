@@ -45,6 +45,7 @@ public class ScriptController {
 	/* 페이징 처리 한 조회 */
 	@RequestMapping("/retrievePagingList.do")
 	public String retrievePagingList(ScriptVO scriptVO, String pageUnit, Model model) throws Exception{
+		
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
 		
@@ -66,9 +67,9 @@ public class ScriptController {
 		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		List<ScriptVO> resultList = scriptService.retrievePagingList(scriptVO);
-		model.addAttribute("scriptList", resultList);
+		model.addAttribute("resultList", resultList);
 
-		int totCnt = scriptService.retrievePagingListCnt(scriptVO);
+		int totCnt = scriptService.retrieveScriptGbScriptPagingListCnt(scriptVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 		
@@ -135,14 +136,13 @@ public class ScriptController {
 		scriptVo.setScriptSt(scriptVO.getScriptSt());
 		scriptVo.setScriptGbSq(scriptVO.getScriptGbSq());
 
-		
-		
+		logger.debug("scriptVO : {}", scriptVO);
 		int updateCnt = scriptService.update(scriptVo);
 		model.addAttribute("scriptVO", scriptVo);
 		if (updateCnt == 1) {
 			return "redirect:/script/retrievePagingList.do";
 		} else {
-			return "manage/scriptManage";
+			return "redirect:/script/retrievePagingList.do";
 		}
 	}
 	

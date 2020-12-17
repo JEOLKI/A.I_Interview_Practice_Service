@@ -66,7 +66,6 @@ public interface TalentMapper {
 	 * @param statisticMap 
 	 * @return
 	 */
-	public List<TalentAnalysisVO> retrieveStatisticsPagingList(Map<String, Object> statisticMap) throws Exception;
+	public List<TalentAnalysisVO> retrieveStatisticsList(Map<String, String> statisticMap) throws Exception;
 
-	public int retrieveStatisticsPagingListCnt(Map<String, Object> statisticMap);
 }

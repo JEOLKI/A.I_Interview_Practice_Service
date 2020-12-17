@@ -113,12 +113,8 @@ public class TalentService{
 	 * @param statisticMap 
 	 * @return
 	 */
-	public List<TalentAnalysisVO> retrieveStatisticsPagingList(Map<String, Object> statisticMap) throws Exception{
-		return talentMapper.retrieveStatisticsPagingList(statisticMap);
-	}
-
-	public int retrieveStatisticsPagingListCnt(Map<String, Object> statisticMap) {
-		return talentMapper.retrieveStatisticsPagingListCnt(statisticMap);
+	public List<TalentAnalysisVO> retrieveStatisticsList(Map<String, String> statisticMap) throws Exception{
+		return talentMapper.retrieveStatisticsList(statisticMap);
 	}
 	
 

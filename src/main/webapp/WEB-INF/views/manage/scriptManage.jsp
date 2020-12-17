@@ -122,8 +122,6 @@ $(document).ready(function() {
 		}
 	});
 	
-});
-
 	$('#massiveCreate').on('click',function(){
 		$('input[type="file"]').click();
 	});
@@ -133,8 +131,8 @@ $(document).ready(function() {
 	});
 	
 	$('.updateBtn').on('click', function(){
-		if($('.scriptContent').val()==""){
-			$('.scriptContent').attr("placeholder", "스크립트를 입력해주세요.");
+		if($('#updateScriptContent').val()==""){
+			$('#updateScriptContent').attr("placeholder", "스크립트를 입력해주세요.");
 		}else{
 			$(this).parent('form').submit();
 		}
@@ -145,6 +143,9 @@ $(document).ready(function() {
 		document.location="/script/retrievePagingList.do?pageUnit="+pageUnit;
 	});
 	
+});
+
+
  /* pagination 페이지 링크 function */
 function linkPage(pageNo){
 	document.listForm.pageIndex.value = pageNo;
@@ -182,8 +183,6 @@ function searchList(){
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
 	        			<li>
-	        			
-	        			
 	        			<select id="sort">
 							<c:forEach var="value" begin="5" end="20" step="5">
 								<c:choose>
@@ -196,14 +195,12 @@ function searchList(){
 								</c:choose>
 							</c:forEach>
 							</select>
-							
-							
 	        				<form:select class="col-sm-1" path="searchCondition" cssClass="custom-select">
 	        					<form:option value="0" label="내용" />
 	        				</form:select>
-	                        <form:input  path="searchKeyword" cssClass="custom-input"/>
-	        	            <span class="btn btn-primary">
-	        	                <a class="searchBtn" href="javascript:searchList();">검색</a>
+	                        <form:input  path="searchKeyword" cssClass="custom-input" cssStyle="width:40%"/>
+	        	            <span class="btn">
+	        	                <a class="searchBtn" onclick="searchList()">검색</a>
 	        	            </span>
 	        	        </li>
 	                </ul>
@@ -224,7 +221,7 @@ function searchList(){
 					<c:forEach items="${resultList }" var="script">
 						<form class="updateFrm" action="/script/updateProcess.do" method="post">
 							<input type="hidden" name="scriptSq" value="${script.scriptSq }">
-							<input type="text" class="scriptContent" name="scriptContent" value="${script.scriptContent }">
+							<input type="text" id="updateScriptContent" class="scriptContent" name="scriptContent" value="${script.scriptContent }">
 							<select class="scriptGbSq" name="scriptGbSq">
 							<c:forEach items="${scriptGbList }" var="scriptGb">
 								<c:choose>
@@ -250,7 +247,7 @@ function searchList(){
 								</c:otherwise>
 							</c:choose>
 						</select>
-							<button type="submit" class="updateBtn">수정</button>
+							<a class="updateBtn" id="updateBtn">수정</a>
 						</form>
 					</c:forEach>
 				</div>

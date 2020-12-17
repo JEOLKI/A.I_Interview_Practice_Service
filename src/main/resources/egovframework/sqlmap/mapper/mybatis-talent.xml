@@ -96,10 +96,9 @@
 					 ORDER BY d.talent_sq) f
 	</select>
 	
-	<!-- 페이징 : 통계 페이지리스트 select -->
-	<select id="retrieveStatisticsPagingList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
-		SELECT g.*
-		  FROM (SELECT ROWNUM rn,
+	<!-- 페이징 : 통계리스트 select -->
+	<select id="retrieveStatisticsList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
+		SELECT ROWNUM rn,
 				       f.*
 	              FROM (SELECT e.talent_nm, count(*) as talentCount
 						  FROM talent e, keyword_analysis d ,answer c,question b, 
@@ -126,40 +125,6 @@
 					  		</if>
 						 GROUP BY d.talent_sq, e.talent_nm
 						 ORDER BY d.talent_sq) f
-			WHERE ROWNUM <![CDATA[ <= ]]> ${talentAnalysisVO.lastIndex})g
-			<![CDATA[WHERE g.rn > #{talentAnalysisVO.firstIndex}]]>
 	</select>
 	
-	<select id="retrieveStatisticsPagingListCnt" parameterType="hashmap" resultType="int">
-		SELECT count(*) totCnt
-		  FROM (SELECT e.talent_nm, count(*) as talentCount
-						  FROM talent e, keyword_analysis d ,answer c,question b, 
-							  (SELECT interview_sq , interview_date
-								 FROM interview
-								 WHERE 1=1
-								 <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-									<choose>
-			          					<when test="endDate == 'sysdate'">
-	           					  AND interview_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
-	             						</when>
-	             						<when test="endDate != 'sysdate'">
-	             				  AND interview_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD')
-	             						</when>
-	             					</choose>
-	          					</if>
-								) a
-						 WHERE a.interview_sq = b.interview_sq
-				     	   AND b.quest_sq = c.quest_sq
-						   AND c.ans_sq = d.ans_sq
-						   AND d.talent_sq = e.talent_sq
-						    <if test="searchKeyword != null and searchKeyword != ''">
-					   	   AND e.talent_nm LIKE '%' || #{searchKeyword} || '%'
-					  		</if>
-						 GROUP BY d.talent_sq, e.talent_nm
-						 ORDER BY d.talent_sq)
-		 WHERE 1=1
-		  <if test="searchKeyword != null and searchKeyword !=''">
-		   AND talent_nm LIKE '%'||#{searchKeyword}||'%'	
-		  </if>
-	</select>
 </mapper>

@@ -250,48 +250,21 @@ public class TalentController {
 		return "manage/talentStatistic";
 	}
 	
-	@RequestMapping("/retrieveStatisticsPagingList.do")
+	@RequestMapping("/retrieveStatisticsList.do")
 	public String talentStatistics(TalentAnalysisVO talentAnalysisVO,String pageUnit, String startDate, String endDate, String searchKeyword, Model model) {
 		
-		Map<String, Object> statisticMap = new HashMap<>();
+		Map<String, String> statisticMap = new HashMap<>();
 		statisticMap.put("startDate", startDate);
 		statisticMap.put("endDate", endDate);
 		statisticMap.put("searchKeyword", searchKeyword);
 		
-		
-		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
-		model.addAttribute("pageUnit" , pageUnitInt);
-		
-		/** EgovPropertyService.sample */
-		talentAnalysisVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		talentAnalysisVO.setPageSize(propertiesService.getInt("pageSize"));
-		
-		talentAnalysisVO.setPageUnit(pageUnitInt);
-		
-		/** pageing setting */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(talentAnalysisVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(talentAnalysisVO.getPageUnit());
-		paginationInfo.setPageSize(talentAnalysisVO.getPageSize());
-		
-		talentAnalysisVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		talentAnalysisVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		talentAnalysisVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		statisticMap.put("talentAnalysisVO", talentAnalysisVO);
-		
 		List<TalentAnalysisVO> talentCountList;
 		try {
-			talentCountList = talentService.retrieveStatisticsPagingList(statisticMap);
+			talentCountList = talentService.retrieveStatisticsList(statisticMap);
 			model.addAttribute("talentCountList", talentCountList);
-			
-			int totCnt = talentService.retrieveStatisticsPagingListCnt(statisticMap);
-			paginationInfo.setTotalRecordCount(totCnt);
-			model.addAttribute("paginationInfo", paginationInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		return "jsonView";
 	}
