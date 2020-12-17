@@ -269,6 +269,8 @@
 			pieSeries.slices.template.stroke = am4core.color("#fff");
 			pieSeries.slices.template.strokeWidth = 2;
 			pieSeries.slices.template.strokeOpacity = 1;
+			pieSeries.labels.template.disabled = true;
+			pieSeries.ticks.template.disabled = true;
 
 			// This creates initial animation
 			pieSeries.hiddenState.properties.opacity = 1;
@@ -286,10 +288,9 @@
 			// Themes end
 
 			var chart = am4core.create("repeatChart", am4charts.XYChart);
-			chart.padding(40, 40, 40, 40);
 
 			var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-			categoryAxis.dataFields.category = "network";
+			categoryAxis.dataFields.category = "repeat";
 			categoryAxis.renderer.inversed = true;
 			categoryAxis.renderer.line.disabled = true; //disables axis line
 			categoryAxis.renderer.grid.template.disabled = true;  //disables grid
@@ -307,13 +308,14 @@
 			series.columns.template.strokeOpacity = 0;
 			series.columns.template.column.cornerRadiusBottomRight = 5;
 			series.columns.template.column.cornerRadiusTopRight = 5;
+			
 
 			var labelBullet = series.bullets.push(new am4charts.LabelBullet())
 			labelBullet.label.horizontalCenter = "left";
 			labelBullet.label.dx = 10;
 			labelBullet.label.text = "{values.valueX.workingValue.formatNumber('#.0as')}";
 			labelBullet.locationX = 1;
-
+			
 			// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
 			series.columns.template.adapter.add("fill", function(fill, target){
 			  return chart.colors.getIndex(target.dataItem.index);
@@ -501,7 +503,7 @@
 	
 	#repeatChart{
 		width: 100%;
-		height: 200px;
+		height: 180px;
 		margin: 0px;
 		padding: 0px;
 	}
