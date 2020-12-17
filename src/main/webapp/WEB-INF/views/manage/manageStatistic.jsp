@@ -544,9 +544,10 @@
 	    color: #fff;
 	}
 	
-	#boardSum{
+	#boardSum, #memberSum{
 		font-size: 2.0em;
 	}
+	
 	
 </style>
 
@@ -570,7 +571,7 @@
 	
 	
 	<div class="contentBoxMediumFlat">
-		<div>가입한 회원수  1명</div>
+		<div id="memberSum">가입한 회원수  <span class="span">${memberListSize }</span>명</div>
 	</div>
 
 	<div class="contentBoxMediumFlat">

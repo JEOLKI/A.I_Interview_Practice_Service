@@ -110,6 +110,14 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		
+		List<MemberVO>memberList = null;
+		try {
+			memberList = memberService.manageMember();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("memberListSize",memberList.size());
+		
 		return "manage/manageStatistic";
 	}
 	
