@@ -119,7 +119,7 @@ public class MemberController {
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.POST })
 	public String create(MemberVO memberVo, Model model,RedirectAttributes ra){
-		memberVo.setMemAuth("Y");
+		memberVo.setMemAuth("N");
 		memberVo.setMemSt("Y");
 		
 		int insertCnt = 0;

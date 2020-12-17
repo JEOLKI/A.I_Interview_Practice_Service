@@ -224,9 +224,14 @@ $.ajax({
 						<div class="info-flex">
 							<div class="label">프로필 사진</div>
 							<div class="content profile-area">
-								<img
-									src="/member/profile.do?memId=${S_MEMBER.memId }"
-									alt="" class="profile-img">
+								<c:choose>
+									<c:when test="${S_MEMBER.memProfileNm == null }">
+										<img alt="" src="/images/defaultImage.jpg" class="profile-img">
+									</c:when>
+									<c:otherwise>
+										<img src="/member/profile.do?memId=${S_MEMBER.memId }"alt="" class="profile-img">
+									</c:otherwise>
+								</c:choose>
 									<input type="file" id="file" name="profile">
 <%-- 									<input type="hidden" id="memId" name="memId" value="${S_MEMBER.memId }"> --%>
 									<input type="hidden" id="memProfileNm" name="memProfileNm" value="${S_MEMBER.memProfileNm }">

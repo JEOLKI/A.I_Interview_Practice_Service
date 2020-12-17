@@ -96,7 +96,14 @@ to {
 			<div class="DeletePopUp PopUp" style="display: none;">
 				<div class="content-box" style="display: none;">
 					<div class="title">계정 해지 확인</div>
-					<img src="/member/profile.do?memId=${S_MEMBER.memId }"alt="" class="profile">
+					<c:choose>
+						<c:when test="${S_MEMBER.memProfileNm == null }">
+							<img alt="" src="/images/defaultImage.jpg" class="profile">
+						</c:when>
+						<c:otherwise>
+							<img src="/member/profile.do?memId=${S_MEMBER.memId }"alt="" class="profile">
+						</c:otherwise>
+					</c:choose>
 					<div class="name">${S_MEMBER_memId }</div>
 					<div class="message">
 						정말 계정을 <span>삭제</span>하시겠습니까?<br> <span>삭제한 데이터는 복구할 수

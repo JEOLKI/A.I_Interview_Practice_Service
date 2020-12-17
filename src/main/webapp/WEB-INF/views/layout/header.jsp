@@ -388,13 +388,27 @@ function boardGubunList(){
 				<div class="user-tool">
 					<a class="payment-btn" href="/plan/planList.do">이용권 구매</a>
 					<div class="profile-btn false">
-						<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+						<c:choose>
+							<c:when test="${S_MEMBER.memProfileNm == null }">
+								<img alt="" src="/images/defaultImage.jpg" class="profile-icon">${S_MEMBER.memAlias }
+							</c:when>
+							<c:otherwise>
+								<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+							</c:otherwise>
+						</c:choose>
 			<!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
 					</div>
 					
 					<div class="user-popup">
 						<div class="profile-area">
-							<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+							<c:choose>
+								<c:when test="${S_MEMBER.memProfileNm == null }">
+									<img alt="" src="/images/defaultImage.jpg" class="profile-icon">${S_MEMBER.memAlias }
+								</c:when>
+								<c:otherwise>
+									<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div class="profile-link-area">
 							<a id="myProfile" class="personal-info btn">내 프로필</a>
@@ -406,8 +420,6 @@ function boardGubunList(){
 						</div>
 						<div class="logout">로그아웃</div>
 					</div>
-					
-					
 				</div>
 			</c:when>
 		</c:choose>

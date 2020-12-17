@@ -132,8 +132,14 @@ to {
 				<div class="MyProfile" style="height: 530px;">
 					<div class="title">내 프로필</div>
 					<div class="flex">
-						<img
-							src="/member/profile.do?memId=${S_MEMBER.memId }"alt="" class="profile">
+						<c:choose>
+							<c:when test="${S_MEMBER.memProfileNm == null }">
+								<img alt="" src="/images/defaultImage.jpg" class="profile">
+							</c:when>
+							<c:otherwise>
+								<img src="/member/profile.do?memId=${S_MEMBER.memId }"alt="" class="profile">
+							</c:otherwise>
+						</c:choose>
 						<div class="info-area">
 							<div class="name">
 								<div class='label' style="display: inline;
