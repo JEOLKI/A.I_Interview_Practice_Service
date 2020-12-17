@@ -551,14 +551,28 @@ $(document).ready(function(){
 							<div class="flex">
 								<span>기업</span>
 								<div class="prospect">
-									${S_MEMBER.memTargetCompany }
+									<c:choose>
+										<c:when test="${fn:length(S_MEMBER.memTargetCompany) > 5 }">
+											${fn:substring(S_MEMBER.memTargetCompany,0,5)}...
+										</c:when>
+										<c:otherwise>
+											${S_MEMBER.memTargetCompany }
+										</c:otherwise>
+									</c:choose>
 									<div class="under-line"></div>
 								</div>
 							</div>
 							<div class="flex">
 								<span>직무</span>
 								<div class="prospect">
-									${S_MEMBER.memTargetJob }
+									<c:choose>
+										<c:when test="${fn:length(S_MEMBER.memTargetJob) > 5 }">
+											${fn:substring(S_MEMBER.memTargetJob,0,5)}...
+										</c:when>
+										<c:otherwise>
+											${S_MEMBER.memTargetJob }
+										</c:otherwise>
+									</c:choose>
 									<div class="under-line"></div>
 								</div>
 							</div>
