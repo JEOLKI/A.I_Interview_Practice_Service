@@ -211,12 +211,27 @@
 		    ) c
 	</select>
 	
+	<select id="retrieveDailySale" resultType="com.aiinterview.plan.vo.PlanStatisticsVO" >
+		SELECT c.start_date AS startDate
+        	 , SUM(c.sale) AS sale
+		  FROM
+				(SELECT a.start_date, (b.plan_price * COUNT(*)) AS sale
+				   FROM plan_use a, plan b
+				  WHERE a.plan_sq = b.plan_sq
+		
+				  GROUP BY b.plan_price, a.start_date) c
+		 GROUP BY c.start_date
+		 ORDER BY c.start_date
+	</select>
+	
+	
 	<select id="retrieveEndDate" resultType="int" parameterType="String"> 
 		SELECT COUNT(*) remainCount
 		FROM PLAN_USE
 		WHERE MEM_ID = #{memId }
 		AND END_DATE <![CDATA[ >= ]]> SYSDATE
 	</select>
+	
 	
 
 

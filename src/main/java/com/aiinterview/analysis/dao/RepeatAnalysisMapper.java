@@ -13,4 +13,11 @@ public interface RepeatAnalysisMapper {
 	
 	public void create(RepeatAnalysisVO repeatAnalysisVO) throws Exception;
 
+	/**
+	 * 반복어 사용 통계
+	 * 관리자 메인 페이지용
+	 * @return
+	 */
+	public List<RepeatAnalysisVO> retrieveStatistics()throws Exception;
+
 }

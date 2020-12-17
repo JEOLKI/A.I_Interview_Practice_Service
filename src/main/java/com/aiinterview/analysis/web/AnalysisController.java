@@ -30,11 +30,14 @@ import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.InterviewService;
 import com.aiinterview.interview.service.QuestionService;
+import com.aiinterview.interview.service.TalentService;
 import com.aiinterview.interview.vo.AnswerVO;
 import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.interview.vo.InterviewVO;
 import com.aiinterview.interview.vo.QuestionVO;
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.plan.service.PlanService;
+import com.aiinterview.plan.vo.PlanStatisticsVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -69,6 +72,12 @@ public class AnalysisController {
 	
     @Resource(name = "voiceAnalysisService")
     private VoiceAnalysisService voiceAnalysisService;
+    
+	@Resource(name = "planService")
+	private PlanService planService;
+	
+	@Resource(name="talentService")
+	private TalentService talentService;
     
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -396,6 +405,34 @@ public class AnalysisController {
 				interviewCount += Integer.parseInt(interviewVO.getCount());
 			}
 			model.addAttribute("interviewCount", interviewCount);
+
+			Map<String, String> statisticMap = new HashMap<>();
+
+			/* 매출 통계 */
+			List<PlanStatisticsVO> dailySaleList = planService.retrieveDailySale();
+			model.addAttribute("dailySaleList", dailySaleList);
+			
+			int saleSum = 0;
+			for(PlanStatisticsVO planStatisticsVO : dailySaleList) {
+				saleSum += planStatisticsVO.getSale();
+			}
+			model.addAttribute("saleSum", saleSum);
+			
+			/* 요금제 통계 */
+			List<PlanStatisticsVO> totalUseList = planService.retrieveTotalUse(statisticMap);
+			model.addAttribute("totalUseList", totalUseList);
+			
+			/* 인재상 통계 */
+			List<TalentAnalysisVO> talentCountList= talentService.retrieveStatisticsList(statisticMap);
+			model.addAttribute("talentCountList", talentCountList);
+			
+			/* 습관어 */
+			List<HabitAnalysisVO> habitUseList =  habitAnalysisService.retrieveHabitUseCountList(statisticMap);
+			model.addAttribute("habitUseList", habitUseList);
+			
+			/* 반복어 */
+			List<RepeatAnalysisVO> repeatUseList = repeatAnalysisService.retrieveStatistics();
+			model.addAttribute("repeatUseList", repeatUseList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

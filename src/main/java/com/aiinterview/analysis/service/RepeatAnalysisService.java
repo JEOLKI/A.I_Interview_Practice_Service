@@ -25,4 +25,13 @@ public class RepeatAnalysisService {
 		}
 		
 	}
+	
+	/**
+	 * 반복어 사용 횟수 통계 
+	 * 
+	 * @return
+	 */
+	public List<RepeatAnalysisVO> retrieveStatistics() throws Exception{
+		return repeatAnalysisMapper.retrieveStatistics();
+	}
 }

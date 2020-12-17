@@ -1,8 +1,7 @@
 package com.aiinterview.plan.vo;
 
-import com.aiinterview.base.vo.BaseVO;
 
-public class PlanStatisticsVO  extends BaseVO{
+public class PlanStatisticsVO  extends PlanUseVO{
 	private int rn;			// 통계 출력 순서번호
 	private String planNm;	// 이용권 이름
 	private int useCount;	// 이용권 이용 횟수

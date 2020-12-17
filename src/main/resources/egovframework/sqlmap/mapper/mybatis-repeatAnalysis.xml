@@ -21,4 +21,11 @@
 		WHERE ANS_SQ = #{ansSq}
 	</select>
 	
+	<select id="retrieveStatistics" resultType="com.aiinterview.analysis.vo.RepeatAnalysisVO">
+		SELECT repeat_content, SUM(repeat_count) AS repeat_count
+		  FROM repeat_analysis
+		 WHERE ROWNUM <![CDATA[ < ]]> 6
+		 GROUP BY repeat_content
+	</select>
+	
 </mapper>

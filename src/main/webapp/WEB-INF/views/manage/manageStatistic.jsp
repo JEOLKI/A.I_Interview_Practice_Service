@@ -25,10 +25,24 @@
 				interviewChart(interviewList);
 				$("#interviewCount").text(data.interviewCount);
 				
-				cashChart();
-				talentChart();
-				habitChart();
-				repeatChart();
+				saleList = data.dailySaleList;
+				cashChart(saleList);
+
+				saleSum = numberWithCommas(data.saleSum);
+				$('#saleSum').append(saleSum+"원");
+				
+				planUseList  = data.totalUseList;
+				createUseChart(planUseList);
+				
+				talentList = data.talentCountList;
+				talentChart(talentList);
+				
+				habitList = data.habitUseList;
+				habitChart(habitList);
+				
+				repeatList = data.repeatUseList;
+				repeatChart(repeatList);
+				
 			}
 		
 		})
@@ -51,6 +65,10 @@
 		});
 	});
 
+	/* 숫자 세자리마다 "," */
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 
 	
 	function interviewChart(interviewList){
@@ -117,7 +135,7 @@
 		
 	}
 
-	function cashChart(){
+	function cashChart(saleList){
 		
 		am4core.ready(function() {
 
@@ -128,59 +146,15 @@
 			// Create chart instance
 			var chart = am4core.create("cashChart", am4charts.XYChart);
 
+			var dataSet = [];
+			for(var i =0; i<saleList.length; i++){
+				var sale = saleList[i];
+				
+				dataSet.push({date : sale.startDate, value: sale.sale})
+			}
+			
 			// Add data
-			chart.data = [{
-			  "date": "2012-07-27",
-			  "value": 13
-			}, {
-			  "date": "2012-07-28",
-			  "value": 11
-			}, {
-			  "date": "2012-07-29",
-			  "value": 15
-			}, {
-			  "date": "2012-07-30",
-			  "value": 16
-			}, {
-			  "date": "2012-07-31",
-			  "value": 18
-			}, {
-			  "date": "2012-08-01",
-			  "value": 13
-			}, {
-			  "date": "2012-08-02",
-			  "value": 22
-			}, {
-			  "date": "2012-08-03",
-			  "value": 23
-			}, {
-			  "date": "2012-08-04",
-			  "value": 20
-			}, {
-			  "date": "2012-08-05",
-			  "value": 17
-			}, {
-			  "date": "2012-08-06",
-			  "value": 16
-			}, {
-			  "date": "2012-08-07",
-			  "value": 18
-			}, {
-			  "date": "2012-08-08",
-			  "value": 21
-			}, {
-			  "date": "2012-08-09",
-			  "value": 26
-			}, {
-			  "date": "2012-08-10",
-			  "value": 24
-			}, {
-			  "date": "2012-08-11",
-			  "value": 29
-			}, {
-			  "date": "2012-08-12",
-			  "value": 32
-			}];
+			chart.data = dataSet;
 
 			// Set input format for the dates
 			chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
@@ -227,7 +201,7 @@
 	}
 	
 	
-	function talentChart(){
+	function talentChart(talentList){
 		
 		am4core.ready(function() {
 
@@ -240,28 +214,13 @@
 		var chart = am4core.create("talentChart", am4charts.SlicedChart);
 		chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
-		chart.data = [{
-		    "name": "The first",
-		    "value": 354
-		}, {
-		    "name": "The second",
-		    "value": 245
-		}, {
-		    "name": "The third",
-		    "value": 187
-		}, {
-		    "name": "The fourth",
-		    "value": 123
-		}, {
-		    "name": "The fifth",
-		    "value": 87
-		}, {
-		    "name": "The sixth",
-		    "value": 45
-		}, {
-		    "name": "The seventh",
-		    "value": 23
-		}];
+		var dataSet = [];
+		for(var i =0; i<talentList.length; i++){
+			var talent = talentList[i];
+			dataSet.push({name : talent.talentNm, value: talent.talentCount})
+		}
+		
+		chart.data = dataSet;
 
 		var series = chart.series.push(new am4charts.PictorialStackedSeries());
 		series.dataFields.value = "value";
@@ -279,7 +238,7 @@
 		
 	}
 	
-	function habitChart() {
+	function habitChart(habitList) {
 		am4core.ready(function() {
 
 			// Themes begin
@@ -289,26 +248,15 @@
 			// Create chart instance
 			var chart = am4core.create("habitChart", am4charts.PieChart);
 
+			var dataSet = [];
+			for(var i =0; i<habitList.length; i++){
+				var habit = habitList[i];
+				dataSet.push({habit : habit.habitGb, useCount: habit.useCount})
+			}
+			
+			
 			// Add data
-			chart.data = [ {
-			  "country": "Lithuania",
-			  "litres": 501.9
-			}, {
-			  "country": "Czech Republic",
-			  "litres": 301.9
-			}, {
-			  "country": "Ireland",
-			  "litres": 201.1
-			}, {
-			  "country": "Germany",
-			  "litres": 165.8
-			}, {
-			  "country": "Australia",
-			  "litres": 139.9
-			}, {
-			  "country": "Austria",
-			  "litres": 128.3
-			}];
+			chart.data = dataSet;
 
 			// Set inner radius
 			chart.innerRadius = am4core.percent(50);
@@ -316,8 +264,8 @@
 			
 			// Add and configure Series
 			var pieSeries = chart.series.push(new am4charts.PieSeries());
-			pieSeries.dataFields.value = "litres";
-			pieSeries.dataFields.category = "country";
+			pieSeries.dataFields.value = "useCount";
+			pieSeries.dataFields.category = "habit";
 			pieSeries.slices.template.stroke = am4core.color("#fff");
 			pieSeries.slices.template.strokeWidth = 2;
 			pieSeries.slices.template.strokeOpacity = 1;
@@ -330,7 +278,7 @@
 			}); // end am4core.ready()
 	}
 	
-	function repeatChart() {
+	function repeatChart(repeatList) {
 		am4core.ready(function() {
 
 			// Themes begin
@@ -353,8 +301,8 @@
 			valueAxis.renderer.grid.template.disabled = true;  //disables grid
 
 			var series = chart.series.push(new am4charts.ColumnSeries());
-			series.dataFields.categoryY = "network";
-			series.dataFields.valueX = "MAU";
+			series.dataFields.categoryY = "repeat";
+			series.dataFields.valueX = "useCount";
 			series.tooltipText = "{valueX.value}"
 			series.columns.template.strokeOpacity = 0;
 			series.columns.template.column.cornerRadiusBottomRight = 5;
@@ -373,35 +321,102 @@
 			
 			chart.logo.disabled = true;
 			
+			var dataSet = [];
+			for(var i =0; i<repeatList.length; i++){
+				var repeat = repeatList[i];
+				dataSet.push({repeat : repeat.repeatContent, useCount: repeat.repeatCount})
+			}
+			
 			categoryAxis.sortBySeries = series;
-			chart.data = [
-			    {
-			      "network": "저",
-			      "MAU": 2255
-			    },
-			    {
-			      "network": "그",
-			      "MAU": 4300
-			    },
-			    {
-			      "network": "아",
-			      "MAU": 1000
-			    },
-			    {
-			      "network": "에",
-			      "MAU": 2465
-			    },
-			    {
-			      "network": "이",
-			      "MAU": 3550
-			    }];
+			chart.data = dataSet;
 
 
 
 			}); // end am4core.ready()
 	}
 	
-	
+	function createUseChart(planUseList){
+		
+		// Themes begin
+		am4core.useTheme(am4themes_animated);
+		// Themes end
+		
+		var chart = am4core.create("planUseChart", am4charts.XYChart);
+		chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+		chart.logo.disabled = true;
+			
+		var sum = 0;
+		var chartData = [];
+		for(var i=0; i< planUseList.length; i++){
+			var planUse = planUseList[i];
+			
+			chartData.push({plan:planUse.planNm, useCount: planUse.useCount});
+		    
+		    sum += planUse.useCount;
+				
+		}
+		chartData.push({plan:"Total", useCount:sum})
+		chart.data =  chartData;
+
+		var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+		categoryAxis.renderer.grid.template.location = 0;
+		categoryAxis.dataFields.category = "plan";
+		categoryAxis.renderer.minGridDistance = 40;
+		categoryAxis.fontSize = 11;
+
+		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+		valueAxis.min = 0;
+		valueAxis.max = sum+1;
+		valueAxis.strictMinMax = true;
+		valueAxis.renderer.minGridDistance = 30;
+		// axis break
+		var axisBreak = valueAxis.axisBreaks.create();
+		//axisBreak.startValue = 4;
+		//axisBreak.endValue = 8;
+		//axisBreak.breakSize = 0.005;
+
+		// fixed axis break
+		var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+		axisBreak.breakSize = 0.05 * (1 - d) / d; 
+
+		// make break expand on hover
+		var hoverState = axisBreak.states.create("hover");
+		hoverState.properties.breakSize = 1;
+		hoverState.properties.opacity = 0.1;
+		hoverState.transitionDuration = 1500;
+
+		axisBreak.defaultState.transitionDuration = 1000;
+		/*
+		// this is exactly the same, but with events
+		axisBreak.events.on("over", function() {
+		  axisBreak.animate(
+			[{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
+			1500,
+			am4core.ease.sinOut
+		  );
+		});
+		axisBreak.events.on("out", function() {
+		  axisBreak.animate(
+			[{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
+			1000,
+			am4core.ease.quadOut
+		  );
+		});*/
+
+		var series = chart.series.push(new am4charts.ColumnSeries());
+		series.dataFields.categoryX = "plan";
+		series.dataFields.valueY = "useCount";
+		series.columns.template.tooltipText = "{valueY.value}";
+		series.columns.template.tooltipY = 0;
+		series.columns.template.strokeOpacity = 0;
+
+		// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+		series.columns.template.adapter.add("fill", function(fill, target) {
+		  return chart.colors.getIndex(target.dataItem.index);
+		// end am4core.ready()
+		})	
+			
+	}
 </script>
 
 
@@ -470,7 +485,7 @@
 		float: left;
 	}
 	
-	#interviewChart, #cashChart, #habitChart{
+	#interviewChart, #cashChart, #habitChart, #planUseChart{
 		width: 100%;
 		height: 150px;
 	}
@@ -564,7 +579,7 @@
 	<div class="contentBoxMedium">
 		<span class="chartTitle">2020년 매출</span>
 		<br>
-		1000원
+		<span id="saleSum"></span>
 		
 		<div id="cashChart"></div>
 	</div>
@@ -594,6 +609,7 @@
 	
 	<div class="contentBoxMedium">
 		<span class="chartTitle">요금제</span>
+		<canvas id="planUseChart"></canvas>
 	</div>
 	
 	<div class="contentBoxLargeRight">

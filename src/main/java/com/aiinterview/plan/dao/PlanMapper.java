@@ -119,6 +119,13 @@ public interface PlanMapper {
 
 	int retrieveEndDate(String memId) throws Exception;
 
+	/**
+	 * 일일 매출 리스트를 조회하는 메서드
+	 * 관리자 메인페이지 매출 통계용
+	 * @return
+	 */
+	public List<PlanStatisticsVO> retrieveDailySale() throws Exception;
+
 	
 	
 	
