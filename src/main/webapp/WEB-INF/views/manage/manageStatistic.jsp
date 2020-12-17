@@ -118,8 +118,8 @@
 
 			// Make bullets grow on hover
 			var bullet = series.bullets.push(new am4charts.CircleBullet());
-			bullet.circle.strokeWidth = 2;
-			bullet.circle.radius = 4;
+			bullet.circle.strokeWidth = 1;
+			bullet.circle.radius = 1;
 			bullet.circle.fill = am4core.color("#fff");
 
 			var bullethover = bullet.states.create("hover");
@@ -227,8 +227,8 @@
 
 			// Make bullets grow on hover
 			var bullet = series.bullets.push(new am4charts.CircleBullet());
-			bullet.circle.strokeWidth = 2;
-			bullet.circle.radius = 4;
+			bullet.circle.strokeWidth = 1;
+			bullet.circle.radius = 1;
 			bullet.circle.fill = am4core.color("#fff");
 
 			var bullethover = bullet.states.create("hover");
