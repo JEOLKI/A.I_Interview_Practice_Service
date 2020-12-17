@@ -33,7 +33,7 @@
 		 ORDER BY a.interview_sq DESC
 	</select>
 	
-	<select id="retrieveCount" parameterType="String" resultType="com.aiinterview.interview.vo.HabitVO">
+	<select id="retrieveCount" parameterType="String" resultType="com.aiinterview.analysis.vo.HabitAnalysisVO">
 		SELECT e.habit_gb ,SUM(d.habit_count) AS habit_count
 		  FROM habit e,habit_analysis d, answer c, question b, (SELECT interview_sq 
 		                             				      FROM interview
@@ -48,7 +48,7 @@
 	</select>
 	
 	
-	<select id="retrieveHabitUseCountList" parameterType="hashmap" resultType="com.aiinterview.interview.vo.HabitVO">
+	<select id="retrieveHabitUseCountList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.HabitAnalysisVO">
 		SELECT ROWNUM rn, f.habit_gb, NVL(e.useCount ,0) AS useCount
 		  FROM habit f,
 				(SELECT d.habit_sq, NVL(SUM(d.habit_count),0) AS useCount, a.interview_date

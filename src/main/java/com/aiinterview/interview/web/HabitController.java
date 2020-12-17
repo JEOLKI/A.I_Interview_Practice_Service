@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aiinterview.analysis.service.HabitAnalysisService;
+import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.vo.HabitVO;
 
@@ -30,6 +32,9 @@ public class HabitController {
 
 	@Resource(name="habitService")
 	private HabitService habitService;
+	
+	@Resource(name="habitAnalysisService")
+	private HabitAnalysisService habitAnalysisService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -164,9 +169,28 @@ public class HabitController {
 
 
 	
-	/* 습관어 통계 */
+	/* 습관어 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics() {
 		return "habit/habitStatistics";
+	}
+	
+	/* 습관어 사용 리스트 */
+	@RequestMapping("/retrieveHabitStatisticsList.do")
+	public String retrieveHabitStatisticsList(String startDate, String endDate, Model model) {
+		
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		
+		List<HabitAnalysisVO> resultList = null;
+		try {
+			resultList =  habitAnalysisService.retrieveHabitUseCountList(statisticMap);
+			model.addAttribute("resultList", resultList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "jsonView";
 	}
 }

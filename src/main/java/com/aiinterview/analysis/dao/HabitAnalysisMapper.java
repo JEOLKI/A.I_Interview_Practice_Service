@@ -1,6 +1,7 @@
 package com.aiinterview.analysis.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.interview.vo.HabitVO;
@@ -37,5 +38,14 @@ public interface HabitAnalysisMapper {
 	 * @return
 	 */
 	public List<HabitVO> retrieveCount(String memId) throws Exception;
+
+
+	/**
+	 * 습관어별 사용 횟수 리스트를 조회하는 메서드
+	 * 통계용
+	 * @param statisticMap
+	 * @return
+	 */
+	public List<HabitAnalysisVO> retrieveHabitUseCountList(Map<String, String> statisticMap)throws Exception;
 	
 }
