@@ -16,16 +16,38 @@
 <script>
 	
 	$(document).ready(function(){
-		interviewChart();
-		cashChart();
-		talentChart();
-		habitChart();
-		repeatChart();
+		
+		$.ajax({
+			url : "/analysis/manageStatistic.do",
+			dataType : "json",
+			success : function(data){
+				interviewList = data.interviewList;
+				interviewChart(interviewList);
+				
+				
+				cashChart();
+				talentChart();
+				habitChart();
+				repeatChart();
+			}
+		
+		})
+		
+		
+		
 	});
 
 
 	
-	function interviewChart(){
+	function interviewChart(interviewList){
+		
+		datas = [];
+		for(var i = 0; i<interviewList.length; i++ ){
+			data = { "date" : interviewList[i].interviewDate , "value" : interviewList[i].count }
+			datas.push(data);
+		}
+		
+		$("#interviewCount").text(interviewList.length);
 		
 		am4core.ready(function() {
 
@@ -37,58 +59,7 @@
 			var chart = am4core.create("interviewChart", am4charts.XYChart);
 
 			// Add data
-			chart.data = [{
-			  "date": "2012-07-27",
-			  "value": 13
-			}, {
-			  "date": "2012-07-28",
-			  "value": 11
-			}, {
-			  "date": "2012-07-29",
-			  "value": 15
-			}, {
-			  "date": "2012-07-30",
-			  "value": 16
-			}, {
-			  "date": "2012-07-31",
-			  "value": 18
-			}, {
-			  "date": "2012-08-01",
-			  "value": 13
-			}, {
-			  "date": "2012-08-02",
-			  "value": 22
-			}, {
-			  "date": "2012-08-03",
-			  "value": 23
-			}, {
-			  "date": "2012-08-04",
-			  "value": 20
-			}, {
-			  "date": "2012-08-05",
-			  "value": 17
-			}, {
-			  "date": "2012-08-06",
-			  "value": 16
-			}, {
-			  "date": "2012-08-07",
-			  "value": 18
-			}, {
-			  "date": "2012-08-08",
-			  "value": 21
-			}, {
-			  "date": "2012-08-09",
-			  "value": 26
-			}, {
-			  "date": "2012-08-10",
-			  "value": 24
-			}, {
-			  "date": "2012-08-11",
-			  "value": 29
-			}, {
-			  "date": "2012-08-12",
-			  "value": 32
-			}];
+			chart.data = datas;
 
 			// Set input format for the dates
 			chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
@@ -100,7 +71,7 @@
 			dateAxis.renderer.grid.template.disabled = true;  //disables grid
 
 			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-			//valueAxis.renderer.baseGrid.disabled = true;
+			valueAxis.renderer.baseGrid.disabled = true;
 			valueAxis.renderer.line.disabled = true; //disables axis line
 			valueAxis.renderer.labels.template.disabled = true; //disables labels
 			valueAxis.renderer.grid.template.disabled = true;  //disables grid
@@ -507,6 +478,15 @@
 		padding: 0px;
 	}
 	
+	.chartContent{
+		margin: 5px;
+	}
+	
+	.span{
+		color: #F15F5F;
+		font-weight: bold;
+	}
+	
 </style>
 
 </head>
@@ -515,7 +495,7 @@
 	<div class="contentBoxMedium">
 		<span class="chartTitle">진행중인 면접 횟수</span>
 		<br>
-		총 1000회
+		<div class="chartContent">총 <span class="span" id="interviewCount"></span>회</div>
 		<div id="interviewChart"></div>
 	</div>
 	
@@ -537,6 +517,7 @@
 	</div>
 	
 	<div class="contentBoxLargeLeft">
+		<span class="chartTitle">인재상 분포</span>
 		<div id="talentChart"></div>
 	</div>
 	
@@ -545,7 +526,7 @@
 	</div>
 	
 	<div class="contentBoxLargeRight">
-	
+		
 	</div>
 	
 	<div class="contentBoxSmall">

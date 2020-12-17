@@ -384,5 +384,20 @@ public class AnalysisController {
 		return "analysis/shareInterviewResult";
 	}
 	
+	@RequestMapping(value="/manageStatistic.do")
+	public String manageStatistic(Model model) {
+		
+		try {
+			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
+			model.addAttribute("interviewList", interviewList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return "jsonView";
+	}
 	
 }
