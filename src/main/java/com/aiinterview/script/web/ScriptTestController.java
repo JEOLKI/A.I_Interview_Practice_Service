@@ -58,12 +58,11 @@ public class ScriptTestController {
 		MemberVO memberVo = (MemberVO)session.getAttribute("S_MEMBER");
 		String memId = memberVo.getMemId();
 		
-		ScriptTestVO scriptTestVO = new ScriptTestVO();  
-		
+		ScriptTestVO scriptTestVO = new ScriptTestVO(result+"", performScript, memId, scriptSq);
+
 		try {
 			scriptTestService.create(scriptTestVO);
 		}catch(Exception ex) {
-			ex.printStackTrace();
 		}
 		
 		model.addAttribute("result", result);
@@ -73,12 +72,12 @@ public class ScriptTestController {
 	//문제 x
 	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
 	public String testPopup(Model model) {
-		List<ScriptVO> scriptList = null;
+		/*List<ScriptVO> scriptList = null;
 		try {
 			scriptList = scriptService.retrieveList();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		// 전체 스크립트 구분 리스트
 		List<ScriptGubunVO> scriptGbList = null;
 		try {
@@ -94,7 +93,7 @@ public class ScriptTestController {
 				availableGbList.add(scriptGb);
 			}
 		}
-		model.addAttribute("scriptList", scriptList);
+		//model.addAttribute("scriptList", scriptList);
 		model.addAttribute("scriptGbList", availableGbList);
 		return "script/testPopup";
 	}
@@ -102,8 +101,6 @@ public class ScriptTestController {
 	
 	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
 	public String retrieveSelectList(String scriptGbSq ,Model model) {
-		
-		//logger.debug("scriptGbSq : {}", scriptGbSq);
 		
 		List<ScriptVO> scriptList = null;
 		try {

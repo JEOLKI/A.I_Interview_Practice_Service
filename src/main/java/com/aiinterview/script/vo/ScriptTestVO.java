@@ -3,13 +3,25 @@ package com.aiinterview.script.vo;
 import com.aiinterview.base.vo.BaseVO;
 
 public class ScriptTestVO extends BaseVO{
-	private String scriptTestSq;	//스크립트 테스트의 고유번호
+	private String scriptTestSq;	//스크립트 테스트 고유번호
 	private String scriptTestScore;	//테스트 결과 점수
-	private String performScript;	//사용자의 테스트시 만들어진 음원파일에서 추출한 스크립트
+	private String performScript;	//사용자의 테스트 스크립트
 	private String scriptTestDate;	//테스트 실시 날짜
 	private String memId;			//테스트에 응시한 회원ID
 	private String scriptSq;		//스크립트의 고유번호
-	private String scriptGbSq;      // 리스트뽑을떄 필요한 스크립트 구분번호
+	private String scriptGbSq;      //리스트뽑을떄 필요한 스크립트 구분번호
+	
+	public ScriptTestVO() {
+		
+	}
+	
+	public ScriptTestVO(String scriptTestScore, String performScript, String memId, String scriptSq) {
+		this.scriptTestScore = scriptTestScore;
+		this.performScript = performScript;
+		this.memId = memId;
+		this.scriptSq = scriptSq;
+	}
+
 	public String getScriptTestSq() {
 		return scriptTestSq;
 	}
@@ -52,6 +64,7 @@ public class ScriptTestVO extends BaseVO{
 	public void setScriptGbSq(String scriptGbSq) {
 		this.scriptGbSq = scriptGbSq;
 	}
+
 	@Override
 	public String toString() {
 		return "ScriptTestVO [scriptTestSq=" + scriptTestSq + ", scriptTestScore=" + scriptTestScore
@@ -59,7 +72,5 @@ public class ScriptTestVO extends BaseVO{
 				+ ", scriptSq=" + scriptSq + ", scriptGbSq=" + scriptGbSq + "]";
 	}
 	
-	
-
 	
 }
