@@ -504,6 +504,7 @@
 		width: 100%;
 		margin: 20px auto;
 		border-collapse: collapse; 
+		font-size: 0.8em;
 	}
 	
 	.content-table th{
