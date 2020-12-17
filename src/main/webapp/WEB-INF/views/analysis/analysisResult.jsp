@@ -435,35 +435,35 @@
 			        labels: labels,
 			        datasets: [
 			        			{
-						            label: 'happiness', 
+						            label: '긍정적', 
 									data: positive,
-									borderColor: "#282c37",
+									borderColor: "#7B68EE",
 									backgroundColor: 'transparent', 
-									lineTension: 0.2,
+									lineTension: 0.4,
 								    fill: true,
 						        },
 			        			{
-						            label: 'neutral',
+						            label: '무표정',
 									data: neutral,
-									borderColor: "#9baec8",
+									borderColor: "#191970",
 									backgroundColor: 'transparent', 
-									lineTension: 0.2,
+									lineTension: 0.4,
 								    fill: true,
 						        },
 			        			{
-						            label: 'negative', 
+						            label: '부정적', 
 									data: negative,
-									borderColor: "#d9e1e8",
+									borderColor: "#00BFFF",
 									backgroundColor: 'transparent', 
-									lineTension: 0.2,
+									lineTension: 0.4,
 								    fill: true,
 						        },
 			        			{
-						            label: 'panic', 
+						            label: '당황함', 
 									data: panic,
-									borderColor: "#2b90d9",
+									borderColor: "#87CEFA",
 									backgroundColor: 'transparent', 
-									lineTension: 0.2,
+									lineTension: 0.4,
 								    fill: true,
 						        },
 						        ]
@@ -489,7 +489,12 @@
 				                    stepSize: 50
 				                }
 				            }]
-			        }
+			        },
+			        elements: {
+	                    point:{
+	                        radius: 0
+	                    }
+	                }
 			    }
 			});
 		
