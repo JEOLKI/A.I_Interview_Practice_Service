@@ -66,7 +66,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
        return;
 	};
 		      
-		  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("c8fade57c0084e95b64bf948ed3184a5", "koreacentral");
+		  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("197c1a7bc63c41a1931328e15925d597", "koreacentral");
     	  recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
     	  audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     	      
