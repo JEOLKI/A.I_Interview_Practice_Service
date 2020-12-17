@@ -6,7 +6,6 @@
 <head>
 <script src="/js/capture.js"></script>
 <script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
-<link rel="stylesheet" href="/css/main.css" type="text/css" media="all">
 <script type="text/javascript">
 	var docV = document.documentElement;
 	SetTime = 0; // 타이머 초기값(경과시간)
@@ -21,11 +20,11 @@
     script = ""; // 면접 질문 받는 변수
     questSq = 0;
     
-  // 아래쪽 음성스크립트 추출 부분
+  // 아래쪽 음성STT 추출 부분
     var phraseDiv;
     var startRecognizeOnceAsyncButton;
     var stopRecognizeOnceAsyncButton;
-    var subscriptionKey, serviceRegion;
+    var subscriptionKeySTT, serviceRegion;
     var authorizationToken;
     var SpeechSDK;
     var recognizer;
@@ -34,7 +33,7 @@
     document.addEventListener("DOMContentLoaded", function () {
  	startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
  	stopRecognizeOnceAsyncButton = document.getElementById("stopRecognizeOnceAsyncButton");
- 	subscriptionKey = document.getElementById("subscriptionKey");
+ 	subscriptionKeySTT = document.getElementById("subscriptionKeySTT");
  	serviceRegion = document.getElementById("serviceRegion");
  	phraseDiv = document.getElementById("phraseDiv");
  	
@@ -47,11 +46,11 @@
     if (authorizationToken) {
       speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, serviceRegion.value);
     } else {
-      if (subscriptionKey.value === "" || subscriptionKey.value === "subscription") {
+      if (subscriptionKeySTT.value === "" || subscriptionKeySTT.value === "subscription") {
         alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
         return;
       }
-      speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey.value, serviceRegion.value);
+      speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKeySTT.value, serviceRegion.value);
     }
 
     speechConfig.speechRecognitionLanguage = "ko-KR";
@@ -72,9 +71,6 @@
 	    phraseDiv.innerHTML += editText;
 	    answer+=editText;
 	    
-// 		console.log(`RECOGNIZED: Text=${e.result.text}`);
-// 	    phraseDiv.innerHTML += e.result.text;
-// 	    answer+=e.result.text;
  	   if (e.result.reason == ResultReason.RecognizedSpeech) {
     	}
     	else if (e.result.reason == ResultReason.NoMatch) {
@@ -104,9 +100,7 @@
 	// 음성 스탑버튼 클릭 시 
   	stopRecognizeOnceAsyncButton.addEventListener("click", function () {
 		startRecognizeOnceAsyncButton.disabled = false;
-		 
 	   	recognizer.stopContinuousRecognitionAsync();
-   	
   	});
 	
 	// 음성 추출 관한 내용
@@ -120,7 +114,7 @@
   	});
     
     // 음성추출 권한 받아오기
-    var authorizationEndpoint = "token.php";
+    var authorizationEndpoint = "tokenSTT.php";
 
     function RequestAuthorizationToken() {
       if (authorizationEndpoint) {
@@ -132,8 +126,8 @@
             var token = JSON.parse(atob(this.responseText.split(".")[1]));
             serviceRegion.value = token.region;
             authorizationToken = this.responseText;
-            subscriptionKey.disabled = true;
-            subscriptionKey.value = "using authorization token (hit F5 to refresh)";
+            subscriptionKeySTT.disabled = true;
+            subscriptionKeySTT.value = "using authorization token (hit F5 to refresh)";
             console.log("Got an authorization token: " + token);
         }
       }
@@ -188,6 +182,7 @@
 			startCount++;
 			script = "다음 질문을 준비해주세요.";
 			
+			$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
 			clearInterval(tid);		// 타이머 해제
 			console.log('타이머 멈추기')	;	
 			console.log('시작카운트 : '+startCount);
@@ -216,9 +211,7 @@
 				SetTime=0; // 타이머 시간 되돌리기
 				$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
 			}
-			
 		}
-		
 	}
 	
 	// 타이머 시작 
@@ -237,7 +230,7 @@
 	// 이미지 분석
 	function processImage() {
 		$('.spacebar-area').attr('disabled', true); // 버튼 비활성화 설정
-		var subscriptionKey = "3ff823093e8244e998c0ccb3841a6062";
+		var subscriptionKeyImg = "587acd05171c498d9df0788f0683e7b1";
 		var uriBase = "https://faceanalysis-jh.cognitiveservices.azure.com/face/v1.0/detect";
 		// Request parameters.
 		var params = {
@@ -248,29 +241,24 @@
 		
 		$('#startbutton').trigger('click'); // 영상 캡쳐
 		
-		// Display the image.
 		var sourceImageUrl = document.getElementById("inputImage").value;
 		document.querySelector("#sourceImage").src = sourceImageUrl;
-		// Perform the REST API call.
 		$.ajax({
 				url : uriBase + "?" + $.param(params),
-				// Request headers.
 				processData: false,
 				beforeSend : function(xhrObj) {
 					xhrObj.setRequestHeader("Content-Type",
 							"application/octet-stream");
 					xhrObj.setRequestHeader(
 							"Ocp-Apim-Subscription-Key",
-							subscriptionKey);
+							subscriptionKeyImg);
 				},
 				type : "POST",
 				
-				// Request body.
 				data : makeblob($('#inputImage').val()),
 			})
 	.done(
 			function(data) {
-				// Show formatted JSON on webpage.
 				if(data[0]=== undefined){ // 분석할 사진에 문제가 있을경우
 					console.log('영상을 분석할 수 없습니다.')
 				}else{
@@ -299,7 +287,6 @@
 			})
 	.fail(
 			function(jqXHR, textStatus, errorThrown) {
-				// Display error message.
 				var errorString = (errorThrown === "") ? "Error. "
 						: errorThrown + " (" + jqXHR.status
 								+ "): ";
@@ -313,7 +300,6 @@
 	};
 
 	// 질문 끝날 때 answerVO 넘기는 ajax
-	
 	function createAnswer(){
 		var form = $('#analysisData')[0]; // form안에 있는 input들의 모음
 		var fd = new FormData(form); 
@@ -354,7 +340,6 @@
 			}
 		});
 	}
-	
 	
 	// blob 데이터 넘기기
 	makeblob = function (dataURL) {
@@ -443,7 +428,9 @@
 				
 				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
 				$('.message-balloon').empty();
-				$('.message-balloon').text(script);
+				$('.message-balloon').text(script); // 면접 질문 출력
+				$('#synthesisText').val(script); // 면접 질문 옮기기
+				$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
 				
 				console.log('타이머 시작')				
 				$('.attention-message.shown').text('');
@@ -468,6 +455,7 @@
 					download(); // 녹화 중지
 					clearInterval(tid);		// 타이머 해제
 					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
+					$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					script = "분석중입니다. 잠시만 기다려주세요"
@@ -506,7 +494,9 @@
 						
 					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 					$('.message-balloon').empty();
-					$('.message-balloon').text(script);
+					$('.message-balloon').text(script); // 면접 질문 출력
+					$('#synthesisText').val(script); // 면접 질문 옮기기
+					$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
 					
 					console.log('타이머 시작')				
 					$('.attention-message.shown').text('');
@@ -521,6 +511,7 @@
 					
 					clearInterval(tid);		// 타이머 해제
 					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
+					$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
 					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					
@@ -598,7 +589,6 @@
 			      average = values / length;    
 					
 			      decibelSum+=Math.round(20*Math.log10(Math.round(average+1)));
-				  console.log('데시벨:'+Math.round(20*Math.log10(Math.round(average+1))));
 				  
 				  var decibelHtml = '<input type="text" name="voiceAnalysisVOLIst['+decibelIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
 				  decibelIndex+=1;
@@ -609,7 +599,6 @@
 				    analyser.getByteFrequencyData(tempArray);
 				    var latestFrequency = (getAverageVolume(tempArray));
 				    frequencySum+=latestFrequency;
-				    console.log('주파수:' + Math.round(latestFrequency));
 				    
 				  var frequencyHtml = '<input type="text" name="voiceAnalysisVOLIst['+frequencyIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >'
 					frequencyIndex+=1;
@@ -624,10 +613,283 @@
 		});                                                                                                  
 	});
 });
+
+/* 아래부터 TTS */
+  var authorizationEndpoint = "tokenTTS.php";
+
+  function RequestAuthorizationToken() {
+    if (authorizationEndpoint) {
+      var a = new XMLHttpRequest();
+      a.open("GET", authorizationEndpoint);
+      a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      a.send("");
+      a.onload = function() {
+          var token = JSON.parse(atob(this.responseText.split(".")[1]));
+          regionOptions.value = token.region;
+          authorizationToken = this.responseText;
+          subscriptionKeyTTS.disabled = true;
+          subscriptionKeyTTS.value = "using authorization token (hit F5 to refresh)";
+          console.log("Got an authorization token: " + token);
+      }
+    }
+  }
+  // TTS 최초 진입 시 설정
+  function Initialize(onComplete) {
+    if (!!window.SpeechSDK) {
+      document.getElementById('content').style.display = 'block';
+      document.getElementById('warning').style.display = 'none';
+      onComplete(window.SpeechSDK);
+    }
+  }
+  // TTS 버튼 설정
+  var resultsDiv, eventsDiv;
+  var highlightDiv;
+  var startSynthesisAsyncButton, pauseButton, resumeButton;
+  var updateVoiceListButton;
+  var subscriptionKeyTTS, regionOptions;
+  var authorizationToken;
+  var voiceOptions, isSsml;
+  var SpeechSDK;
+  var synthesisText;
+  var synthesizer;
+  var player;
+  var wordBoundaryList = [];
+
+  // 음성 TTS
+  document.addEventListener("DOMContentLoaded", function () {
+    startSynthesisAsyncButton = document.getElementById("startSynthesisAsyncButton");
+    updateVoiceListButton = document.getElementById("updateVoiceListButton");
+    pauseButton = document.getElementById("pauseButton");
+    resumeButton = document.getElementById("resumeButton");
+    subscriptionKeyTTS = document.getElementById("subscriptionKeyTTS");
+    regionOptions = document.getElementById("regionOptions");
+    resultsDiv = document.getElementById("resultsDiv");
+    eventsDiv = document.getElementById("eventsDiv");
+    voiceOptions = document.getElementById("voiceOptions");
+    isSsml = document.getElementById("isSSML");
+    highlightDiv = document.getElementById("highlightDiv");
+
+    setInterval(function () {
+      if (player !== undefined) {
+        const currentTime = player.currentTime;
+        var wordBoundary;
+        for (const e of wordBoundaryList) {
+          if (currentTime * 1000 > e.audioOffset / 10000) {
+            wordBoundary = e;
+          } else {
+            break;
+          }
+        }
+        if (wordBoundary !== undefined) {
+          highlightDiv.innerHTML = synthesisText.value.substr(0, wordBoundary.textOffset) +
+                  "<span class='highlight'>" + wordBoundary.text + "</span>" +
+                  synthesisText.value.substr(wordBoundary.textOffset + wordBoundary.wordLength);
+        } else {
+          highlightDiv.innerHTML = synthesisText.value;
+        }
+      }
+    }, 50);
+
+    // 일시정지
+    pauseButton.addEventListener("click", function () {
+      player.pause();
+      pauseButton.disabled = true;
+      resumeButton.disabled = false;
+    });
+
+    // 다시 복귀
+    resumeButton.addEventListener("click", function () {
+      player.resume();
+      pauseButton.disabled = false;
+      resumeButton.disabled = true;
+    });
+
+    // 시작버튼
+    startSynthesisAsyncButton.addEventListener("click", function () {
+      resultsDiv.innerHTML = "";
+      eventsDiv.innerHTML = "";
+      wordBoundaryList = [];
+      synthesisText = document.getElementById("synthesisText");
+
+      var speechConfig;
+      if (authorizationToken) {
+        speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, regionOptions.value);
+      } else {
+        if (subscriptionKeyTTS.value === "" || subscriptionKeyTTS.value === "subscription") {
+          alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+          return;
+        }
+        speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKeyTTS.value, regionOptions.value);
+      }
+
+      speechConfig.speechSynthesisVoiceName = voiceOptions.value;
+
+      player = new SpeechSDK.SpeakerAudioDestination();
+      player.onAudioEnd = function (_) {
+        window.console.log("playback finished");
+        eventsDiv.innerHTML += "playback finished" + "\r\n";
+        startSynthesisAsyncButton.disabled = false;
+        pauseButton.disabled = true;
+        resumeButton.disabled = true;
+        wordBoundaryList = [];
+      };
+
+      var audioConfig  = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
+
+      synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+
+      synthesizer.synthesizing = function (s, e) {
+        window.console.log(e);
+        eventsDiv.innerHTML += "(synthesizing) Reason: " + SpeechSDK.ResultReason[e.result.reason] +
+                "Audio chunk length: " + e.result.audioData.byteLength + "\r\n";
+      };
+
+      synthesizer.synthesisStarted = function (s, e) {
+        window.console.log(e);
+        eventsDiv.innerHTML += "(synthesis started)" + "\r\n";
+        pauseButton.disabled = false;
+      };
+
+      synthesizer.synthesisCompleted = function (s, e) {
+        console.log(e);
+        eventsDiv.innerHTML += "(synthesized)  Reason: " + SpeechSDK.ResultReason[e.result.reason] +
+                " Audio length: " + e.result.audioData.byteLength + "\r\n";
+      };
+
+      synthesizer.SynthesisCanceled = function (s, e) {
+        const cancellationDetails = SpeechSDK.CancellationDetails.fromResult(e.result);
+        let str = "(cancel) Reason: " + SpeechSDK.CancellationReason[cancellationDetails.reason];
+        if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
+          str += ": " + e.result.errorDetails;
+        }
+        window.console.log(e);
+        eventsDiv.innerHTML += str + "\r\n";
+        startSynthesisAsyncButton.disabled = false;
+        pauseButton.disabled = true;
+        resumeButton.disabled = true;
+      };
+
+      synthesizer.wordBoundary = function (s, e) {
+        window.console.log(e);
+        eventsDiv.innerHTML += "(WordBoundary), Text: " + e.text + ", Audio offset: " + e.audioOffset / 10000 + "ms." + "\r\n";
+        wordBoundaryList.push(e);
+      };
+
+      const complete_cb = function (result) {
+        if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+          resultsDiv.innerHTML += "synthesis finished";
+        } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
+          resultsDiv.innerHTML += "synthesis failed. Error detail: " + result.errorDetails;
+        }
+        window.console.log(result);
+        synthesizer.close();
+        synthesizer = undefined;
+      };
+      const err_cb = function (err) {
+        startSynthesisAsyncButton.disabled = false;
+        phraseDiv.innerHTML += err;
+        window.console.log(err);
+        synthesizer.close();
+        synthesizer = undefined;
+      };
+      if (isSsml.checked) {
+        synthesizer.speakSsmlAsync(synthesisText.value,
+                complete_cb,
+                err_cb);
+      } else {
+        synthesizer.speakTextAsync(synthesisText.value,
+                complete_cb,
+                err_cb);
+      }
+    });
+
+    // 최초 진입 시
+    Initialize(function (speechSdk) {
+      SpeechSDK = speechSdk;
+      startSynthesisAsyncButton.disabled = false;
+      pauseButton.disabled = true;
+      resumeButton.disabled = true;
+
+      if (typeof RequestAuthorizationToken === "function") {
+        RequestAuthorizationToken();
+      }
+    });
+  });
+	
+	
+	
 </script>
 </head>
 <body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
-	<!-- 음성 script위한 부분 -->
+	<!-- TTS부분 -->
+	<div id="content" style="display:none">
+	  <table>
+	    <tr>
+	      <td align="right">
+	        <label for="subscriptionKey">
+	          <a href="https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started"
+	             rel="noreferrer noopener"
+	             target="_blank">Subscription Key</a>
+	        </label>
+	      </td>
+	      <td><input id="subscriptionKeyTTS" type="text" size="40" value="197c1a7bc63c41a1931328e15925d597"></td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label for="regionOptions">Region</label></td>
+	      <td>
+	        <select id="regionOptions">
+	          <option value="southeastasia">South East Asia</option>
+	        </select>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label >Voice</label></td>
+	      <td>
+	        <button id="updateVoiceListButton">Update Voice List</button>
+	        <select id="voiceOptions">
+	          <option value="Microsoft Server Speech Text to Speech Voice (ko-KR, SunHiNeural)">Microsoft Server Speech Text to Speech Voice (ko-KR, SunHiNeural)</option>
+	          <option value="Microsoft Server Speech Text to Speech Voice (ko-KR, InJoonNeural)">Microsoft Server Speech Text to Speech Voice (ko-KR, InJoonNeural)</option>
+	        </select>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label for="isSSML">Is SSML</label><br></td>
+	      <td>
+	        <input type="checkbox" id="isSSML" name="isSSML" value="ssml">
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label for="synthesisText">Text</label></td>
+	      <td>
+	        <textarea id="synthesisText" style="display: inline-block;width:500px;height:100px"
+	               placeholder="Input text or ssml for synthesis."></textarea>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td></td>
+	      <td>
+	        <button id="startSynthesisAsyncButton">Start synthesis</button>
+	        <button id="pauseButton">Pause</button>
+	        <button id="resumeButton">Resume</button>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right" valign="top"><label for="resultsDiv">Results</label></td>
+	      <td><textarea id="resultsDiv" readonly style="display: inline-block;width:500px;height:50px"></textarea></td>
+	    </tr>
+	    <tr>
+	      <td align="right" valign="top"><label for="eventsDiv">Events</label></td>
+	      <td><textarea id="eventsDiv" readonly style="display: inline-block;width:500px;height:200px"></textarea></td>
+	    </tr>
+	    <tr>
+	      <td align="right" valign="top"><label for="highlightDiv">Highlight</label></td>
+	      <td><div id="highlightDiv" style="display: inline-block;width:800px;"></div></td>
+	    </tr>
+	  </table>
+	</div>
+	<!-- TTS부분 -->
+	
+	<!-- 음성 STT위한 부분 -->
 	<div id="content" style="display:">
 		<input type="button" id="voice" value="음성분석">
 		<input type="button" id="voiceStop" value="음성분석종료">
@@ -636,7 +898,7 @@
 				<td align="right"><a
 					href="https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started"
 					target="_blank">Subscription</a>:</td>
-				<td><input id="subscriptionKey" type="text" size="40"
+				<td><input id="subscriptionKeySTT" type="text" size="40"
 					value="7ec161e7215b4f0e9a153abcdfa1f815"></td>
 			</tr>
 			<tr>
@@ -717,7 +979,7 @@
 			</div>
 			<div class="InterviewInterface">
 				<div class="question-message shown">
-					<div class="message-balloon"style="width: 650px;">
+					<div class="message-balloon" style="width: 650px;">
 						<div>
 							<div class="text-line false" >지금부터 면접을 시작하겠습니다. 최대 답변 시간은
 								2분이며,</div>
