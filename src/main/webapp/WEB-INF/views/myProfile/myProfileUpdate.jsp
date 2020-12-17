@@ -51,6 +51,18 @@ to {
 	left: 0;
 	top: 0;
 }
+#zipcodeBtn {
+    height: 32px;
+    text-align: center;
+    position: absolute;
+    margin-left: 10px;
+}
+.addr{
+	width: 400px;
+}
+.adddrNm{
+	display: inline-block;
+}
 
 </style>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -406,40 +418,30 @@ $.ajax({
 							<div class="label">주소<span>(필수)</span></div>
 							<div class="content radio-area">
 								<div class="CustomRadio grid two">
-									<div class="company">
-										<div>
-											<button type="button" id="zipcodeBtn" class="btn new select"
-												style="width: 120px; height: 80px;">우편번호 찾기</button>
-										</div>
-									</div>
 									<br>
-									<div class="company">
-										<div class="bold">
-											<span class="red"></span>주소
-										</div>
-										<div>
+									<div class="company addr" >
+										<span class="adddrNm">주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</span>
+										<div style="display: inline;">
 											<input type="text" class="form-control" id="memAddr1"
-												name="memAddr1" value="${S_MEMBER.memAddr1 }" placeholder="사용자 주소" READONLY>
+												name="memAddr1" value="${S_MEMBER.memAddr1 }" placeholder="사용자 주소" style="margin-left: 24px;" READONLY>
+											<button type="button" id="zipcodeBtn" class="btn new select"
+												>우편번호 찾기</button>
 										</div>
 									</div>
 									<br>
-									<div class="company">
-										<div class="bold">
-											<span class="red"></span>상세주소
-										</div>
-										<div>
+									<div class="company addr">
+										<span class="adddrNm"></span>상세주소
+										<div style="display: inline;"> 
 											<input type="text" class="form-control" id="memAddr2"
-												name="memAddr2" value="${S_MEMBER.memAddr2 }" placeholder="사용자 상세주소">
+												name="memAddr2" value="${S_MEMBER.memAddr2 }" placeholder="사용자 상세주소" style="margin-left: 20px;">
 										</div>
 									</div>
 									<br>
-									<div class="company">
-										<div class="bold">
-											<span class="red"></span>우편번호
-										</div>
-										<div>
+									<div class="company addr">
+										<span class="adddrNm"></span>우편번호
+										<div style="display: inline;">
 											<input type="text" class="form-control" id="memZipcode"
-												name="memZipcode" value="${S_MEMBER.memZipcode }"  placeholder="사용자 우편번호" READONLY>
+												name="memZipcode" value="${S_MEMBER.memZipcode }"  placeholder="사용자 우편번호" style="margin-left: 20px;" READONLY>
 										</div>
 									</div>
 								</div>
