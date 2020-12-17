@@ -156,7 +156,7 @@ $(document).ready(function(){
 		var searchKeyword = $('#searchKeyword').val();
 		startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
 		endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
-		$.ajax({ url : "/talent/retrieveStatisticsPagingList.do", 
+		$.ajax({ url : "/talent/retrieveStatisticsList.do", 
 				 data : {"startDate" : startDate,
 				 	 	 "endDate" 	 : endDate,
 				 		 "searchKeyword" : searchKeyword},
