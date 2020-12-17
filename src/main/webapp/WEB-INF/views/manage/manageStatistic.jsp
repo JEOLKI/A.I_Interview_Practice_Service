@@ -576,9 +576,11 @@
 				<div id="memberSum">가입한 회원수  <span class="span">0</span>명</div>
 			</c:when>
 		</c:choose>
-		<c:otherwise>
-			<div id="memberSum">가입한 회원수  <span class="span">${memberListSize }</span>명</div>
-		</c:otherwise>
+		<c:choose>
+			<c:when test="${memberListSize !=0 }">
+				<div id="memberSum">가입한 회원수  <span class="span">${memberListSize}</span>명</div>
+			</c:when>
+		</c:choose>
 	</div>
 
 	<div class="contentBoxMediumFlat">
