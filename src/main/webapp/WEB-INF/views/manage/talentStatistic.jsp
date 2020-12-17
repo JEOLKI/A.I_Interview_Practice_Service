@@ -124,7 +124,7 @@ $(document).ready(function(){
 	var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
 	var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
 	
-	$.ajax({ url : "/talent/retrieveStatisticsPagingList.do", 
+	$.ajax({ url : "/talent/retrieveStatisticsList.do", 
 		 data : {"startDate" : startDate,
 			 	 "endDate" 	 : endDate},
 		 dataType : "json",
