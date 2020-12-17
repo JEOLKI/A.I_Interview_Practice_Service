@@ -164,7 +164,7 @@ $(document).ready(function() {
 							실전 기출 질문을 자유롭게 구성하고,<br>인공지능과 면접을 시작해 보세요.<br>질문을 검색하거나
 							직접 작성할 수도 있습니다.
 						</div>
-						<a href="${pageContext.request.contextPath }/login/main" class="service-link green wow fadeInUp">
+						<a href="${pageContext.request.contextPath }/login/home.do" class="service-link green wow fadeInUp">
 							무료 체험하기
 							<img
 							src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAABHNCSVQICAgIfAhkiAAAAGhJREFUGFd10LERgCAMheEXWnUHmQQ3ESYTNnESHYIePUwBRKCD7z/gQphWC6UM4uUgFmHRHqAdgJcBffEgYBwEBTtBizmY9Qkig5Rci/zzA3gC4m0LCsiXMHaAcQAV0pbf+E9InlT7FwGRLZg1T12ZAAAAAElFTkSuQmCC"
