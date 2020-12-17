@@ -213,15 +213,11 @@ $(document).ready(function(){
 	
 	
 	$('#start').on('change',function(){
-		console.log($(this).val());
 		$('#startDate').val($(this).val());
-		console.log($('#startDate').val());
 	})
 	
 	$('#end').on('change',function(){
-		console.log($(this).val());
 		$('#endDate').val($(this).val());
-		console.log($('#endDate').val());
 	})
 	
 	
@@ -230,11 +226,7 @@ $(document).ready(function(){
 		var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
 		var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
 		var searchKeyword = $('#searchKeyword').val();
-		console.log(sort);
-		console.log(startDate);
-		console.log(endDate);
 		if(sort == '직무별'){
-			console.log('직무별차트');
 			$.ajax({ url : "/sampQuest/retrieveQuestGbStatisticsList.do", 
 				 data : {"startDate" : startDate,
 					 	 "endDate" 	 : endDate,
@@ -305,9 +297,6 @@ $(document).ready(function(){
 			})
 			
 		} else if(sort == '샘플질문별'){
-			console.log('샘플질문별차트');
-			console.log(startDate);
-			console.log(endDate);
 			$.ajax({ url : "/sampQuest/retrieveQuestGbAndSampStatisticsList.do", 
 				 data : {"startDate" : startDate,
 					 	 "endDate" 	 : endDate,
