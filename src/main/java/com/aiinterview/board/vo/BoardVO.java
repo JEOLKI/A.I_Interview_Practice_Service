@@ -14,6 +14,15 @@ public class BoardVO extends AttachmentVO {
 	private String memId; // 회원 아이디
 	private String catContent; // 카테고리 번호
 	private int level;
+	private String boardGbNm; // 보드구분 이름
+
+	public String getBoardGbNm() {
+		return boardGbNm;
+	}
+
+	public void setBoardGbNm(String boardGbNm) {
+		this.boardGbNm = boardGbNm;
+	}
 
 	public int getRnum() {
 		return rnum;

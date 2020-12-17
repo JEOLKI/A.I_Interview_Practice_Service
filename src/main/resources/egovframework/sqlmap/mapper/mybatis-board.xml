@@ -135,6 +135,24 @@
 		FROM BOARD
 		WHERE BOARD_GB_SQ = #{boardGbSq}
 	</select>
+	
+	<select id="retrieveAllList" resultType="com.aiinterview.board.vo.BoardVO">
+		SELECT *
+		FROM (SELECT  NVL(BOARD_SQ, 0) BOARD_SQ,
+		        NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
+		        SUBSTR(BOARD_TITLE, 1, 13) || '..' BOARD_TITLE,
+		        BOARD_CONTENT,
+		        TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
+		        BOARD_ST,
+		        NVL(GROUP_NO, 0) GROUP_NO,
+		        NVL(PARENT_SQ, 0) PARENT_SQ,
+		        SUBSTR(MEM_ID, 1, 6) || '..' MEM_ID,
+		        CAT_CONTENT
+		FROM BOARD
+		ORDER BY BOARD_SQ DESC) A, BOARD_GB B
+		WHERE ROWNUM <![CDATA[ <= ]]> 10
+		AND A.BOARD_GB_SQ = B.BOARD_GB_SQ
+	</select>
 
 
 </mapper>

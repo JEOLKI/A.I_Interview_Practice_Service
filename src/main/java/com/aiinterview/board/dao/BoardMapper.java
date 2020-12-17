@@ -23,5 +23,5 @@ public interface BoardMapper {
 	
 	public int delete(String boardSq) throws Exception;
 	
-	
+	public List<BoardVO> retrieveAllList() throws Exception;
 }

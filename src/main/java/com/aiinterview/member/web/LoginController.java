@@ -1,5 +1,7 @@
 package com.aiinterview.member.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.aiinterview.board.service.BoardService;
+import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.interview.service.InterviewService;
 import com.aiinterview.interview.vo.InterviewVO;
 import com.aiinterview.member.service.MemberService;
@@ -28,6 +32,9 @@ public class LoginController {
 	
 	@Resource(name = "interviewService")
 	private InterviewService interviewService;
+	
+	@Resource(name = "boardService")
+	private BoardService boardService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -93,7 +100,16 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/manageStatistic.do", method = { RequestMethod.GET })
-	public String manageStatistic() {
+	public String manageStatistic(Model model) {
+		
+		List<BoardVO> boardList;
+		try {
+			boardList = boardService.retrieveAllList();
+			model.addAttribute("boardList", boardList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "manage/manageStatistic";
 	}
 	

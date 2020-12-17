@@ -124,6 +124,8 @@ public class BoardController {
 		}
 		model.addAttribute("parentSq", parentSq);
 		model.addAttribute("groupNo", groupNo);
+		model.addAttribute("boardGbSq", boardGbSq);
+		model.addAttribute("boardGbNm", boardGbNm);
 		
 		return "board/boardCreate";
 	}

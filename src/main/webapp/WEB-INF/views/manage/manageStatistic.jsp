@@ -24,7 +24,6 @@
 				interviewList = data.interviewList;
 				interviewChart(interviewList);
 				
-				
 				cashChart();
 				talentChart();
 				habitChart();
@@ -34,7 +33,21 @@
 		})
 		
 		
+		$(".boardTr").on("click", function(){
+			
+			// data-board_sq
+			var boardGbSq = $(this).data("board_gb_sq");
+			var boardGbNm = $(this).data("board_gb_nm");
+	
+			window.top.location.href="/board/retrievePagingList.do?boardGbSq=" + boardGbSq +"&boardGbNm="+boardGbNm; 
+			
+		});
 		
+		$(".createBtn").on("click", function(){
+	
+			window.top.location.href="${cp }/board/create.do?boardGbSq=1&boardGbNm=공지사항"; 
+			
+		});
 	});
 
 
@@ -389,6 +402,7 @@
 			}); // end am4core.ready()
 	}
 	
+	
 </script>
 
 
@@ -487,6 +501,53 @@
 		font-weight: bold;
 	}
 	
+	.content-table{
+		width: 100%;
+		margin: 20px auto;
+		border-collapse: collapse; 
+	}
+	
+	.content-table th{
+		border-top: 2px solid #4374D9;
+		height: 40px;
+		text-align: center;
+	}
+		
+	.content-table td{
+		height: 30px;
+		text-align: center;
+		border-top: 1px solid #4374D9;
+	}
+	
+	.content-table td:first-child{
+		width: 100px;
+	}
+	
+	.content-table tr:hover{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	.createBtn{
+		display: inline-block;
+		vertical-align : top;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		height: 25px;
+		width: 100px;
+		text-align: center;
+		float: right;
+	}
+	
+	.createBtn:hover{
+	    background-color: #000d22;
+	    color: #fff;
+	}
+	
+	#boardSum{
+		font-size: 2.0em;
+	}
+	
 </style>
 
 </head>
@@ -509,11 +570,11 @@
 	
 	
 	<div class="contentBoxMediumFlat">
-		총 회원수 : 1명
+		<div>가입한 회원수  1명</div>
 	</div>
 
 	<div class="contentBoxMediumFlat">
-		총 게시글수 1개
+		<div id="boardSum">등록된 게시글 수 <span class="span">${boardList.size() }</span>개</div>
 	</div>
 	
 	<div class="contentBoxLargeLeft">
@@ -526,7 +587,45 @@
 	</div>
 	
 	<div class="contentBoxLargeRight">
+		<span class="chartTitle">최근 게시글</span>
 		
+		<a class="createBtn">공지사항 등록</a>
+		
+		<table class="content-table" id="dataTable">
+					<thead>
+						<tr>
+							<th>게시판</th>
+							<th>제목</th>
+							<th>아이디</th>
+							<th>작성일시</th>
+						</tr>
+					</thead>
+				<tbody id="boardList">
+					<c:forEach items="${boardList }" var="board">
+						<tr class="boardTr" data-board_gb_sq="${board.boardGbSq }" data-board_gb_nm="${board.boardGbNm }">
+				
+							<td>${board.boardGbNm }</td>	
+					
+							<c:choose>
+								<c:when test="${board.boardSt =='N' }">
+									<td style="text-align: left;"><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
+											[삭제된 게시글 입니다.]
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td style="text-align: left;"><c:forEach var="i" begin="1" end="${boardVO.level}" >&nbsp;&nbsp;</c:forEach>
+											 ${board.boardTitle }
+									</td>
+								</c:otherwise>
+							</c:choose>
+						
+							<td>${board.memId } </td>
+							<td>${board.boardDate }</td>
+						
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 	</div>
 	
 	<div class="contentBoxSmall">

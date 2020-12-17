@@ -146,12 +146,8 @@
 	
 	$(document).ready(function(){
 		$(".y_board").on("click", function(){
-			//console.log("click");
-			
 			// data-board_sq
 			var boardSq = $(this).data("board_sq");
-			console.log("boardSq : " + boardSq);
-	
 			document.location="/board/retrieve.do?boardSq=" + boardSq; 
 			
 		});
@@ -228,8 +224,8 @@
 						<c:choose>
 							<c:when test="${board.boardSt =='N' }">
 								<td style="text-align: left;"><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
-	                           		<c:if test="${board.level == 1 }">└─</c:if>
-										[삭제된 게시글 입니다.]
+	                           		<c:if test="${board.level != 1 }">└─</c:if>
+									[ 삭제된 게시글 입니다. ]
 								</td>
 							</c:when>
 							<c:otherwise>

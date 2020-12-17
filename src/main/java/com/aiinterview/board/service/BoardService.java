@@ -95,6 +95,10 @@ public class BoardService {
 		return boardMapper.delete(boardSq);
 	}
 
+	public List<BoardVO> retrieveAllList() throws Exception{
+		return boardMapper.retrieveAllList();
+	}
+
 	
 
 }
