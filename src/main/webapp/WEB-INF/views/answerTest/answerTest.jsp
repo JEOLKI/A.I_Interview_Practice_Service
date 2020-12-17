@@ -22,7 +22,7 @@
       </tr>
       <tr>
         <td align="right"><a href="https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started" target="_blank">Subscription</a>:</td>
-        <td><input id="subscriptionKey" type="text" size="40" value="c8fade57c0084e95b64bf948ed3184a5"></td>
+        <td><input id="subscriptionKey" type="text" size="40" value="197c1a7bc63c41a1931328e15925d597"></td>
       </tr>
       <tr>
         <td align="right">Region</td>
