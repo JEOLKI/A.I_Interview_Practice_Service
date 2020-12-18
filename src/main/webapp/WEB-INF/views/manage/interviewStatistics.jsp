@@ -60,7 +60,7 @@
 			chart.cursor.lineY.disabled = true;
 			
 			// Enable scrollbar
-			chart.scrollbarX = new am4core.Scrollbar();
+			//chart.scrollbarX = new am4core.Scrollbar();
 			
 			// Add data
 			chart.data = datas;
