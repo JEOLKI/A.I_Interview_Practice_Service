@@ -92,8 +92,8 @@ public class AnalysisController {
 		interviewVO.setMemId(memId);
 		
 		/** EgovPropertyService.sample */
-		interviewVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		interviewVO.setPageSize(propertiesService.getInt("pageSize"));
+		interviewVO.setPageUnit(propertiesService.getInt("interviewPageUnit"));
+		interviewVO.setPageSize(propertiesService.getInt("interviewPageSize"));
 
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();

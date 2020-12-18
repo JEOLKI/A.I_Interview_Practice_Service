@@ -158,7 +158,6 @@
 				<form action="${cp }/interview/update.do" method="POST">
 					<div class="title-flex">
 						<div class="title-form">
-							<input type="hidden" name="pageNm" value="resultPage">
 							<input type="hidden" name="interviewSq" value="${interviewVO.interviewSq }">
 							<input type="text" name="interviewNm" class="title-text" id="interviewNm" placeholder="${interviewVO.interviewNm }" value="${interviewVO.interviewNm }"> 
 							<span></span>

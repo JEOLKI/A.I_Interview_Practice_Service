@@ -7,6 +7,8 @@
 	        <map>
 	        	<entry key="pageUnit" value="10"/>
 	        	<entry key="pageSize" value="10"/>
+	        	<entry key="interviewPageUnit" value="5"/>
+	        	<entry key="interviewPageSize" value="5"/>
 	        </map>
 		</property>
 	</bean>

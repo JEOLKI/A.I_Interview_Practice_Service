@@ -114,6 +114,29 @@
  		height: 30px; 
  	} */
 
+	#paging{
+		text-align: center;
+		margin-top: 30px;
+	}
+	
+	#paging a, #paging strong{
+		display: inline-block;
+		border: 1px solid #4374D9;
+		border-radius: 5px;
+		width: 25px;
+		padding: 1px;
+		text-align: center;
+	}
+	
+	#paging strong{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	#paging a:hover{
+		background-color: #4374D9;
+	    color: #fff;
+	}
 	
 </style>
 
@@ -189,8 +212,9 @@
 		      window.open(url, "", options);
 		})
 		
-	    
+		
 	})
+	
 	
 	function TestChart(){
 	  $.ajax({url : "/speech/speechChart.do",
@@ -494,11 +518,21 @@
 		    }
 		});
 	}
-$(document).ready(function(){
-	$('.start-btn').on('click',function(){
-		document.location = "/interview/ready.do";
-	})
-});
+	
+	$(document).ready(function(){
+		$('.start-btn').on('click',function(){
+			document.location = "/interview/ready.do";
+		})
+	});
+	
+	 /* pagination 페이지 링크 function */
+    function linkPage(pageNo){
+    	document.listForm.pageIndex.value = pageNo;
+    	document.listForm.action = "<c:url value='/analysis/interview/retrievePagingList.do'/>";
+       	document.listForm.submit();
+    }
+	
+
 
 </script>
 
@@ -688,42 +722,7 @@ $(document).ready(function(){
 						<div class="HabitArea box" id="habitant">
 							<div class="title">내 습관어</div>
 							<div class="bar-area">
-<!-- 								<div class="unit">(회)</div> -->
-<!-- 								<div class="HabitBar"> -->
-<!-- 									<div class="label">아..</div> -->
-<!-- 									<div class="range"> -->
-<!-- 										<div class="gaze" style="width: 0px;"></div> -->
-<!-- 									</div> -->
-<!-- 									<div class="count">0</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="HabitBar"> -->
-<!-- 									<div class="label">어..</div> -->
-<!-- 									<div class="range"> -->
-<!-- 										<div class="gaze" style="width: 0px;"></div> -->
-<!-- 									</div> -->
-<!-- 									<div class="count">0</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="HabitBar"> -->
-<!-- 									<div class="label">그..</div> -->
-<!-- 									<div class="range"> -->
-<!-- 										<div class="gaze" style="width: 0px;"></div> -->
-<!-- 									</div> -->
-<!-- 									<div class="count">0</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="HabitBar"> -->
-<!-- 									<div class="label">저..</div> -->
-<!-- 									<div class="range"> -->
-<!-- 										<div class="gaze" style="width: 0px;"></div> -->
-<!-- 									</div> -->
-<!-- 									<div class="count">0</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="HabitBar"> -->
-<!-- 									<div class="label">음..</div> -->
-<!-- 									<div class="range"> -->
-<!-- 										<div class="gaze" style="width: 0px;"></div> -->
-<!-- 									</div> -->
-<!-- 									<div class="count">0</div> -->
-<!-- 								</div> -->
+							
 							</div>
 						</div>
 					</div>
@@ -731,27 +730,26 @@ $(document).ready(function(){
 				
 				<div class="MyInterviews">
 					<div class="title">면접 내역</div>
-					<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
-						<c:forEach items="${resultList }" var="interview">
-							<div class="interview-table">
-								<form action="${cp }/interview/update.do" method="POST">
+						<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
+							
+							<c:forEach items="${resultList }" var="interview">
+								<div class="interview-table">
 									<div class="SetInterviewBox">
-											<div class="date">${interview.interviewDate}</div>
-											<input type="text" class="name" name="interviewNm" value="${interview.interviewNm}"/>
-											<input type="hidden" name="interviewSq" value="${interview.interviewSq }">
-											<button type="submit" class="edit-btn interviewNmUpdateBtn">
-												<img src="/images/question-write.87c3adf2.svg" alt="">
-											</button>
+										<div class="date">${interview.interviewDate}</div>
+										<input type="text" class="name" name="interviewNm" value="${interview.interviewNm}"/>
 										<a class="button" href="/analysis/question/retrievePagingList.do?interviewSq=${interview.interviewSq }">결과 보기</a>
 									</div>
-								</form>
+								</div>
+							</c:forEach>
+							
+							<div id="paging" style="text-align: center; margin-top: 30px;">
+								<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+								<form:hidden path="pageIndex" />
 							</div>
-						</c:forEach>
-					</form:form>
+						
+						</form:form>
 				</div>
-				
 			</div>
-			<%@ include file="/WEB-INF/views/layout/footer.jsp" %>
 		</div>
 	</div>
 	

@@ -109,7 +109,7 @@ public class InterviewController {
 	
 	
 	@RequestMapping(path="/update.do", method = { RequestMethod.POST })
-	public String update(InterviewVO interviewVO,@RequestParam(required=false, defaultValue="") String pageNm, Model model) {
+	public String update(InterviewVO interviewVO, Model model) {
 		
 		try {
 			int result = interviewService.update(interviewVO);
@@ -117,11 +117,7 @@ public class InterviewController {
 			e.printStackTrace();
 		}
 		
-		if(pageNm.equals("resultPage")) {
-			return "redirect:/analysis/question/retrievePagingList.do?interviewSq=" + interviewVO.getInterviewSq();
-		}
-		
-		return "redirect:/analysis/interview/retrievePagingList.do";
+		return "redirect:/analysis/question/retrievePagingList.do?interviewSq=" + interviewVO.getInterviewSq();
 	}
 	
 	
