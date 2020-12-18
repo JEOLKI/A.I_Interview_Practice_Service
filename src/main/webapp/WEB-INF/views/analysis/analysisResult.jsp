@@ -800,14 +800,18 @@
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${S_MEMBER.memProfileNm == null }">
-							<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
-						</c:when>
 						<c:when test="${S_MEMBER == null }">
 							<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon">
 						</c:when>
 						<c:when test="${S_MEMBER != null }">
-							<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon">
+							<c:choose>
+								<c:when test="${S_MEMBER.memProfileNm == null }">
+									<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
+								</c:when>
+								<c:otherwise>
+									<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon">
+								</c:otherwise>
+							</c:choose>							
 						</c:when>
 					</c:choose>
 					<span id="averageDecibel"></span>
