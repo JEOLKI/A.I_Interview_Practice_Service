@@ -20,21 +20,17 @@ function myCashList(){
 		method : "get",
 		dataType : "json",
 		success : function(data){
-			console.log(data)
 			var html ="";
 			for(var i = 0; i< data.cashList.length ; i++){
 				var cash = data.cashList[i];
 				var start = data.startList[i];
 				var end = data.endList[i];
-				html += '<table>';
 				html += '<tr>'; 
-				html += '	<td>'+start+'</td>         ';
-				html += '	<td>'+cash.planNm+'</td>            ';
-				html += '	<td></td>                       ';
-				html += '	<td>'+cash.fmtPlanPrice+'</td>      ';
-				html += '	<td class = "term">'+start+'~'+end+'</td> ';
+				html += '	<td>'+start+'</td>';
+				html += '	<td>'+cash.planNm+'</td>';
+				html += '	<td>'+cash.fmtPlanPrice+'원 </td>';
+				html += '	<td>'+start+' ~ '+end+'</td>';
 				html += '</tr>'
-				html += '</table>';
 			}
 			$("#cashList").html(html);
 		}
@@ -42,17 +38,28 @@ function myCashList(){
 }
 </script>
 <style>
+
 	table{
-		border: 1px solid black;
+		width: 100%;
+		border-collapse: collapse;
 	}
+	
 	td{
-/* 		border: 1px solid black; */
-		width : 180px;
+		width : 100px;
+		height: 50px;
+		border-bottom: 1px solid #3b3b46;
 	}
+	
+	th{
+		height: 40px;
+		border-bottom: 1px solid #3b3b46;
+	}
+	
  	.term{ 
  		width :220px;
  		padding : 10px;
  	} 	
+ 	
 </style>
 </head>
 <body>
@@ -63,19 +70,20 @@ function myCashList(){
 			<div class="body">
 				<div class="title">결제 내역</div>
 				<div class="sub-message">"${S_MEMBER.memId }"님의 결제 내역입니다. </div>
-				<div class="OrdersView">
-					<div class="nav-bar">
-						<div class="label menu">구매일</div>
-						<div class="label menu">이용권</div>
-						<div class="label menu">결제 수단</div>
-						<div class="label price">결제 금액</div>
-						<div class="label menu">서비스 기간</div>
-					</div>
-					<div id="cashList">
+				<table class="OrdersView">
+					<thead>
+						<tr>
+							<th>구매일</th>
+							<th>이용권</th>
+							<th>결제 금액</th>
+							<th>서비스 기간</th>
+						</tr>
+					</thead>
+					<tbody id="cashList">
 						
-					</div>
+					</tbody>
 					
-				</div>
+				</table>
 			</div>
 			<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 		</div>
