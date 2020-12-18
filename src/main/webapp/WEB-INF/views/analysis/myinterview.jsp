@@ -212,6 +212,9 @@
 		      window.open(url, "", options);
 		})
 		
+		$('.start-btn').on('click',function(){
+			document.location = "/interview/ready.do";
+		})
 		
 	})
 	
@@ -518,12 +521,6 @@
 		    }
 		});
 	}
-	
-	$(document).ready(function(){
-		$('.start-btn').on('click',function(){
-			document.location = "/interview/ready.do";
-		})
-	});
 	
 	 /* pagination 페이지 링크 function */
     function linkPage(pageNo){
