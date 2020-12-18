@@ -68,7 +68,7 @@
 		font-size: 14px;
 		border-radius: 50px;
 		border: 1px solid #000d22;
-		padding: 5px 10px;
+		padding: 5px 20px;
 	}
 	
 	.speechBtn:hover, #resultBtn:hover {
@@ -182,23 +182,12 @@
 			$("#"+target+"").show();
 		})
 		
-	    const popUpOpenBtn = document.getElementById("popUpOpenBtn");
-	
-	    popUpOpenBtn.addEventListener("click", () => {
-	  	  var url = '/scriptTest/testPopup.do';
-	  	  var options = 'top=10, left=10, width=320, height=440, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
-	      	window.open(url, "", options);
-	    });
-	    
-	    const speechOpen = document.getElementById("speechOpen");
-	
-	    speechOpen.addEventListener("click", () => {
-	  	  var url = '/speech/speech.do';
-	  	  var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-	    window.open(url, "", options);
-	
-	      
-	    });
+		
+		$("#popUpOpenBtn").on('click' , function () {
+		  	  var url = '/scriptTest/testPopup.do';
+		  	  var options = 'top=10, left=10, width=320, height=440, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
+		      window.open(url, "", options);
+		})
 		
 	    
 	})
@@ -582,10 +571,9 @@ $(document).ready(function(){
 						<div class="box HelpArea" id="pronunciation">
 						
 							<div class="label"></div>
-							<div class="title">발음연습</div>
+							<div class="title">발음평가</div>
 							<div id="testBtnGrp">
-							<a id="popUpOpenBtn" class="speechBtn">읽기 평가</a> &nbsp&nbsp
-							<a id="speechOpen" class="speechBtn">영어 말하기 평가</a>
+							<a id="popUpOpenBtn" class="speechBtn">발음평가하기</a>
 							</div>
 							<div id="TestChart"></div>	
 							<br>
