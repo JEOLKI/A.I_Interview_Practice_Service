@@ -124,33 +124,35 @@ $(document).ready(function(){
 		
 		$('.scriptMngBtn').on('click', function(){
 			scriptGbSq= $(this).attr("value");
-			console.log("scriptGbSq : "+scriptGbSq);
 			document.location="/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
 			});
+		
+		$('#massiveCreate').on('click',function(){
+			$('input[type="file"]').click();
+		});
+		
+		$('input[type="file"]').on('change',function(){
+			console.log("일괄등록")
+			$('#massiveForm').submit();
+		});
+		
+		$('.scriptGbupdBtn').on('click', function(){ 
+			$('.updateCheck').empty();
+			if($(this).parent().find('.scriptGbContent').val()==""){
+				$(this).parent().find('.updateCheck').append('<span style="color:red">스크립트 구분명을 입력해주세요.</span>');
+			}else{
+				$(this).parent('form').submit();
+			}
+		});
+		
+		$('#sort').on('change',function(){
+			pageUnit = $(this).val();
+			document.location="/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit;
+		});
 });
 	
 
 
-	$('#massiveCreate').on('click',function(){
-		$('input[type="file"]').click();
-	});
-
-	$('#input[type="file"]').on('change',function(){
-		$(this).parent('form').submit();
-	});
-	
-	$('.scriptGbupdBtn').on('click', function(){ 
-		if($('.scriptGbContent').val()==""){
-			$('.scriptGbContent').attr("placeholder", "스크립트 구분명을 입력해주세요.");
-		}else{
-			$(this).parent('form').submit();
-		}
-	});
-	
-	$('#sort').on('change',function(){
-		pageUnit = $(this).val();
-		document.location="/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit;
-	});
 /* pagination 페이지 링크 function */
 function linkPage(pageNo) {
 	var pageUnit = $('#sort').val() == null ? 10 : $('#sort').val();
@@ -168,6 +170,7 @@ function searchList() {
 </script>
 </head>
 <body>
+<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
 <h1>스크립트 구분 관리</h1>
 	<div class="contentBox">
 		<h3>스크립트 구분 등록</h3>
@@ -192,7 +195,7 @@ function searchList() {
 			<h3>스크립트 구분 목록</h3>
 			
 			
-				<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
+				
 					<div class="blog-main">
 						<div id="search" class="input-group">
 							<ul class="button-search" id="uitest">
@@ -241,8 +244,9 @@ function searchList() {
 										</c:otherwise>
 									</c:choose>
 								</select>
-		      	    			<a class="scriptGbupdBtn" id="updateBtn">수정</a>
+		      	    			<a class="scriptGbupdBtn" >수정</a>
 								<a type="button" class="manageBtn scriptMngBtn" value="${scriptGb.scriptGbSq }">스크립트 관리</a>
+								<div class="updateCheck" style="display: inline-block;">&nbsp;</div>	
 							</form>
 						</c:forEach>
 					</div>
@@ -251,7 +255,7 @@ function searchList() {
 					<form:hidden path="pageIndex" />
 				</div>
 			</div>
-		</form:form>
 	</div>
+</form:form>
 </body>
 </html>

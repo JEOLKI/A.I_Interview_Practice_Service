@@ -83,11 +83,13 @@ public class ScriptGubunController {
 	@RequestMapping("/scriptManage.do")
 	public String scriptManage(@ModelAttribute("scriptVO") ScriptVO scriptVO, String scriptGbSq, String pageUnit, String pageIndex, String searchKeyword, Model model) {
 		
+		
 		ScriptGubunVO scriptGbVO = null;
 		try {
 			scriptGbVO = scriptGubunService.retrieve(scriptGbSq);
 		
 			model.addAttribute("scriptGbVO", scriptGbVO);
+			model.addAttribute("scriptGbSq", scriptGbSq);
 			
 			// 정렬 개수
 			int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
@@ -164,7 +166,7 @@ public class ScriptGubunController {
 	
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public ModelAndView createMassiveScriptGb(MultipartHttpServletRequest request) throws Exception {
+	public String createMassiveScriptGb(MultipartHttpServletRequest request) throws Exception {
 		 MultipartFile excelFile = request.getFile("excelFile");
 		 logger.debug("excelFile : {}", excelFile);
 	        if(excelFile==null || excelFile.isEmpty()){
@@ -181,9 +183,7 @@ public class ScriptGubunController {
 
 	     destFile.delete();
 
-	     ModelAndView view = new ModelAndView();
-	     view.setViewName("redirect:/scriptGubun/retrievePagingList.do");
-	     return view;
+	     return "redirect:/scriptGubun/retrievePagingList.do";
 	}
 	
 	/* 단일 수정 */
