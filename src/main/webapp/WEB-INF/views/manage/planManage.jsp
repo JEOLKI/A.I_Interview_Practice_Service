@@ -75,10 +75,12 @@ function planListAjax(){
 		width : 50px;
 		height : 50px; 
 		font-size: 0.5em;
+		text-align: center;
 	}
 	
 	#registPrice{
 		width : 100px;
+		text-align: center;
 	}
 	
 	#registTitle{
@@ -94,6 +96,9 @@ function planListAjax(){
 		border: 0.5px dotted black;
 		margin: 0px 30px;
 	}
+	#registMessage{
+		text-align: center;
+	}
 	
 	.box{
 		display: inline-block;
@@ -101,6 +106,7 @@ function planListAjax(){
 	
 	#Nm{
 		width : 180px;
+		text-align: center;
 	}
 	
 	.contentBox{
@@ -125,6 +131,11 @@ function planListAjax(){
 	    background-color: #22741C;
 	    border: 1px solid #22741C;
 	    color: #fff;
+	}
+	input{
+		border-radius: 5px;
+		border: 1px solid black;
+		
 	}
 	
 </style>
@@ -166,6 +177,7 @@ function planListAjax(){
 		               			</div>
 		                       			
 		               			<div class="marketing-message">
+		               				<div class="point"></div>
 									<div class="txt"><input id="registMessage" type="text" name="planExplain" placeholder="설명을 입력해주세요"></div>
 		               			</div>
 		                       			
