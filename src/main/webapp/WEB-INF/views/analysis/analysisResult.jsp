@@ -423,13 +423,15 @@
 		  var canvas = document.getElementById('faceChart');
 		  if (canvas.getContext) {
 		    var ctx = canvas.getContext('2d');
-		    var faceTop = imageAnalysis.faceTop*1 + 300;
-		    var faceLeft = imageAnalysis.faceLeft*1 + 50;
+		    var faceTop = imageAnalysis.faceTop*1 + 180;
+		    var faceLeft = imageAnalysis.faceLeft*1;
+		    var faceWidth = imageAnalysis.faceWidth*1;
+		    var faceHeight = imageAnalysis.faceHeight*1;
             ctx.strokeStyle = 'rgba(255, 102, 102, 1)';
             ctx.fillStyle = 'rgba(255, 102, 102, 0.2)';
             
-		    ctx.strokeRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
-            ctx.fillRect(faceTop , faceLeft, imageAnalysis.faceWidth, imageAnalysis.faceHeight );
+		    ctx.strokeRect(faceTop , faceLeft, faceWidth, faceHeight );
+            ctx.fillRect(faceTop , faceLeft, faceWidth, faceHeight );
 		  }
 	}
 	
@@ -925,7 +927,7 @@
 			<div class="background-box"></div>
 			<div class="x-axis"></div>
 			<div class="y-axis"></div>
-			<canvas id="faceChart" width="630" height="375"></canvas>
+			<canvas style="width: 90%; height: auto;" id="faceChart" width="630" height="375"></canvas>
 		</div>
 	</div>
 	<div class="close-btn">
