@@ -103,7 +103,7 @@
 			<a href="/sampQuest/statistics.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;질문 통계</a>
 		</div>
 		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_d()">
-			&ensp;&ensp;습관어 관리<i class="fa fa-caret-down" target="manage_content"></i>
+			&ensp;&ensp;습관어 관리<i class="fa fa-caret-down"></i>
 		</button>
 		<div id="demoAcc3_d" class="w3-hide w3-white w3-card">
 			<a href="/habit/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;습관어 관리</a>

@@ -3,13 +3,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="//cdn.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/plugins/forceDirected.js"></script>
 
-<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -111,6 +110,7 @@ $(function(){
 	})
 })
 
+
 function createChart(resultList){
 	am4core.ready(function() {
 
@@ -122,16 +122,13 @@ function createChart(resultList){
 		var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
 
 		chart.logo.disabled = true;
-		
+	
 		var dataSet = []
 		for(var i = 0; i < resultList.length; i++){
 			var habit = resultList[i];
-			
-			name = habit.habitGb;
-			value = habit.useCount;
-			
-			dataSet.push({name: name+"..", value: value});
 		
+			dataSet.push({name: habit.habitGb+"..", value: habit.useCount});
+	
 		}
 		chart.data = dataSet;
 

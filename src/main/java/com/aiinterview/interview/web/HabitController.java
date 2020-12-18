@@ -172,7 +172,7 @@ public class HabitController {
 	/* 습관어 통계 화면 */
 	@RequestMapping("/statistics.do")
 	public String statistics() {
-		return "manage/habitChartTest";
+		return "manage/habitStatistics";
 	}
 	
 	/* 습관어 사용 리스트 */
