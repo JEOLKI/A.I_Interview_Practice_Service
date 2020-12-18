@@ -66,7 +66,7 @@
 				</div>
 				<div class="calc-num wow fadeInUp"
 					style="visibility: visible; animation-name: fadeInUp;">
-					쌓이고 있는 실전 기출질문 <span>2,134개</span><img
+					쌓이고 있는 실전 기출질문 <span>${sampQuestCount }개</span><img
 						src="/images/stack.a84850fb.png" alt="" class="layer">
 				</div>
 			</div>

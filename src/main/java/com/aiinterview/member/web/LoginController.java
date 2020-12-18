@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.aiinterview.board.service.BoardService;
 import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.interview.service.InterviewService;
+import com.aiinterview.interview.service.SampleQuestionService;
 import com.aiinterview.interview.vo.InterviewVO;
+import com.aiinterview.interview.vo.SampleQuestionVO;
 import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
 
@@ -36,6 +38,9 @@ public class LoginController {
 	@Resource(name = "boardService")
 	private BoardService boardService;
 	
+	@Resource(name = "sampleQuestionService")
+	private SampleQuestionService sampleQuestionService; 
+	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
@@ -52,6 +57,16 @@ public class LoginController {
 			}
 			
 			model.addAttribute("interviewCount", interviewCount);
+			
+			List<SampleQuestionVO> sampleQuestList = sampleQuestionService.retrieveList();
+			
+			int sampQuestCount = 0;
+			for (SampleQuestionVO sampleQuest : sampleQuestList) {
+				if(sampleQuest.getSampQuestSt().equals("Y")) {
+					sampQuestCount ++;
+				}
+			}
+			model.addAttribute("sampQuestCount", sampQuestCount);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
