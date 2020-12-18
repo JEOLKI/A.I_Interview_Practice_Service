@@ -221,12 +221,8 @@ function setting(){
 	$("#questionFrm").submit();
 }
 
-
-
 </script>
 </head>
-
-
 <body style="overflow: hidden; scroll="no">
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
@@ -323,9 +319,5 @@ function setting(){
 			</footer>
 		</div>
 	</div>
-	<script src="/js/2.f1e4c4b1.chunk.js"></script>
-	<script src="/js/main.a74e6755.chunk.js"></script>
-
-	
 </body>
 </html>

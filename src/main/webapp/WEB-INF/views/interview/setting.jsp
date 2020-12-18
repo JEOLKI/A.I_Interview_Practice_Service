@@ -21,46 +21,30 @@ to {
   height: 10px;                                                                                       
   display: inline-block;                                                                              
   margin: 5px;   
-}                  
+}       
+#video{
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+}           
 </style>
 <script type="text/javascript" >
 	window.onload = function(){
-		document.documentElement.webkitRequestFullscreen();
+		openFullScreenMode();
 		
 		if(getCookie('check')=='${S_MEMBER.memId}'){
 			$('.InterviewTutorial.PopUp').css('display','none');
 		}
-		
-	// 전체화면 설정
-		function openFullScreenMode() {
-			var docV = document.documentElement;
-		    if (docV.requestFullscreen){
-		        docV.requestFullscreen();
-		    }
-		    else if (docV.webkitRequestFullscreen){ // Chrome, Safari (webkit)
-		        docV.webkitRequestFullscreen();
-		    }
-		    else if (docV.mozRequestFullScreen){ // Firefox
-		        docV.mozRequestFullScreen();
-		    }
-		    else if (docV.msRequestFullscreen){ // IE or Edge
-		        docV.msRequestFullscreen();
-		    }
-		}
 	}
 	
+	// 전체화면 설정
+	function openFullScreenMode() {
+		document.documentElement.webkitRequestFullscreen();
+	}
 
 	// 전체화면 해제
 	function closeFullScreenMode() {
-	    if (!document.exitFullscreen){
-	        document.exitFullscreen();
-	    }
-	    else if (document.webkitExitFullscreen) // Chrome, Safari (webkit)
-	        document.webkitExitFullscreen();
-	    else if (document.mozCancelFullScreen) // Firefox
-	        document.mozCancelFullScreen();
-	    else if (document.msExitFullscreen) // IE or Edge
-	        document.msExitFullscreen();
+	    document.webkitExitFullscreen();
 	}
 
 	// 최초 확인 모달창
@@ -98,13 +82,16 @@ to {
 		return value? value[2] : null;
 	}
 	
-	// 전체화면 
+	// 풀사이즈 화면 토글 키
 	function setSize(){
-		if(document.documentElement.requestFullscreen){
-			document.documentElement.webkitExitFullscreen();
-		}else{
+		if ((screen.availHeight || screen.height - 30) <= window.innerHeight) {
+            console.log('Fullscreen');
+            document.webkitExitFullscreen();
+        }
+        else {
+            console.log('Not Fullscreen');
 			document.documentElement.webkitRequestFullscreen();
-		}
+        }
 	}
 
 	
@@ -113,6 +100,10 @@ $(document).ready(function(){
 	$('#micCheckCancel').hide();
 	$('#speakerCheckCancel').hide();
 	
+	
+	$('#fullscreen').on('click',function(){
+
+	})
 	
 	// 인터뷰 시작 버튼
 	$('.interview-start-btn').on('click',function(){
@@ -271,7 +262,6 @@ $(document).ready(function(){
 		<div class="InterviewTest false">
 			<div class="InterviewTutorial PopUp">
 				<div class="tutorial-box">
-				
 					<div class="title">
 						모의면접을 시작하기 전에<br>아래 유의사항을 확인해 주세요!
 					</div>

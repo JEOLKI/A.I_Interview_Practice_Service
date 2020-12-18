@@ -815,10 +815,14 @@
       }
     });
   });
-	
-	
-	
 </script>
+<style type="text/css">
+#video{
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+}    
+</style>
 </head>
 <body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- TTS부분 -->
