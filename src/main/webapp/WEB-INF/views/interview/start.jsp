@@ -416,12 +416,12 @@
 		 // 클릭의 경우
 		$(document).on('click','.spacebar-area.false',function(){
 			if(SetTime == 0){ // 타이머 진행중이 아닐 경우
+				$('#sampleVoice').get(0).pause(); // 안내음성 중지
+				script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
+				questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
 				
 				startFunction(); // 녹화 시작
-				script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
-				questSq=$('.quest').eq(startCount).data('sq');
 				$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
-				
 				TimerStart(); // 타이머 시작
 				analyzeStart(); // 10초마다 이미지 분석
 				$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
@@ -483,8 +483,9 @@
 		$(document).keydown(function(event) {
 			if(event.keyCode == 32){ // space
 				if(SetTime == 0){ // 타이머 진행중이 아닐 경우
+					$('#sampleVoice').get(0).pause(); // 안내 음성 중지
 					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
-					questSq=$('.quest').eq(startCount).data('sq');
+					questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
 					
 					startFunction(); // 녹화 시작
 					$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
@@ -750,6 +751,7 @@
         pauseButton.disabled = false;
       };
 
+      // TTS 모두 출력 function
       synthesizer.synthesisCompleted = function (s, e) {
         console.log(e);
         eventsDiv.innerHTML += "(synthesized)  Reason: " + SpeechSDK.ResultReason[e.result.reason] +
@@ -979,7 +981,7 @@
 				</div>
 				<div style="text-align: center;">
 				</div>
-				<audio src="/media/interview_guide_audio.5680f6cc.mp3"	autoplay=""></audio>
+				<audio id="sampleVoice" src="/media/interview_guide_audio.5680f6cc.mp3"	autoplay=""></audio>
 			</div>
 			<div class="InterviewInterface">
 				<div class="question-message shown">
