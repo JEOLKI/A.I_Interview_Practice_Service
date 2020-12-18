@@ -29,7 +29,7 @@
 				cashChart(saleList);
 
 				saleSum = numberWithCommas(data.saleSum);
-				$('#saleSum').append(saleSum+"원");
+				$('#saleSum').append(saleSum);
 				
 				planUseList  = data.totalUseList;
 				createUseChart(planUseList);
@@ -596,8 +596,7 @@
 	<div class="contentBoxMedium">
 		<span class="chartTitle">2020년 매출</span>
 		<br>
-		<span id="saleSum"></span>
-		
+		<div class="chartContent">총<span id="saleSum" class="span">&nbsp;</span>원</div>
 		<div id="cashChart"></div>
 	</div>
 	
