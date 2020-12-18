@@ -131,8 +131,8 @@ $(document).ready(function() {
 	});
 	
 	$('.updateBtn').on('click', function(){
-		if($('#updateScriptContent').val()==""){
-			$('#updateScriptContent').attr("placeholder", "스크립트를 입력해주세요.");
+		if($(this).parent('form').children('.updateScriptContent').val()==""){
+			$(this).parent('form').children('.updateScriptContent').attr("placeholder", "스크립트를 입력해주세요.");
 		}else{
 			$(this).parent('form').submit();
 		}
@@ -221,7 +221,7 @@ function searchList(){
 					<c:forEach items="${resultList }" var="script">
 						<form class="updateFrm" action="/script/updateProcess.do" method="post">
 							<input type="hidden" name="scriptSq" value="${script.scriptSq }">
-							<input type="text" id="updateScriptContent" class="scriptContent" name="scriptContent" value="${script.scriptContent }">
+							<input type="text" class="scriptContent updateScriptContent" name="scriptContent" value="${script.scriptContent }">
 							<select class="scriptGbSq" name="scriptGbSq">
 							<c:forEach items="${scriptGbList }" var="scriptGb">
 								<c:choose>
