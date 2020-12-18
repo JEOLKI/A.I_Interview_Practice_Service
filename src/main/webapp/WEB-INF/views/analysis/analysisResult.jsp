@@ -834,7 +834,7 @@
 				55dB
 				<div class="dot-line"></div>
 			</div>
-			<img src="/static/media/audio-graph-background.493484c7.png"
+			<img src="/images/audio-graph-background.493484c7.png"
 				class="audio-graph-background" alt="audio-graph-background">
 			<div class="gradient-box"></div>
 		</div>
