@@ -237,7 +237,9 @@
 .card-header-title img{
   border-radius: 40px;
 }
+#chatApp{
 	
+}	
 </style>
 </head><body>
 <!-- 유저가 접속할 때마다 이 템플릿으로 채팅창을 생성한다. -->
@@ -246,8 +248,8 @@
 	
 	<div class="chatBox" id="chatBox">
 	  <div class="card">
-	 
 	 <header class="card-header header-title" @click="toggleChat()">
+	 
 	    <p class="card-header-title">
 	      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=${memId }" style="width: 30px;">&nbsp;${memId }님의 채팅방
 	    </p>
@@ -275,7 +277,7 @@
 							</figure>
 						</div>
 						<div class="chat-messages">
-							<div class="message">${chat.msgContent }</div><div>&nbsp</div><a>${chat.msgDate }</a>
+							<div class="message">${chat.msgContent }</div><div>&nbsp</div>${chat.msgDate }
 							<div class="from">${chat.msgReceiver }&nbsp</div>
 						</div>
 					</div>
@@ -345,6 +347,7 @@ $("#closeChat").on("click", function(){
 	var a = parent.document.querySelector("#chatting").style
 	a.display = "none"
 	$("#chatting").attr("style", "display:none");
+	webSocket.close();
 })
 
 // let message = document.getElementById("textMessage");
@@ -380,13 +383,11 @@ if(node.key=="${memId}"){
 
 // let $div = $("[data-key='"+node.key+"']");
 
-console.log(node.message)
-console.log(node.status)
 // console영역을 찾는다.
 // .messageArea
 // let log = $div.find(".console").val();
 // 아래에 메시지를 추가한다.
-$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/sally.png'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
+$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${memId }'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight); 
 
 // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
@@ -403,10 +404,8 @@ $(document).on("click", ".sendBtn", function(){
 let $div = $(this).closest(".float-left");
 // 메시지 텍스트 박스를 찾아서 값을 취득한다.
 let message = $div.find(".adminMsg").val();
-console.log("메시지 확인 :"+message)
 // 유저 key를 취득한다.
 let key = nodeKey;
-console.log("key 확인"+key)
 // console영역을 찾는다.
 // let log = $div.find(".console").val();
 
@@ -417,7 +416,6 @@ $div.find(".messageArea").append("<div class='chat-message-group writer-user'><d
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);// 텍스트 박스의 값을 초기화 한다.
 
 $div.find(".adminMsg").val("");
-console.log($div.find(".adminMsg").val(""))
 // 웹소켓으로 메시지를 보낸다.
 webSocket.send(key+"#####"+message);
 });
@@ -441,11 +439,12 @@ return true;
 function sendProcess(){
 	var msg = $("#textMessage").val();
 	var memid = "${memId }"
+	var arlam = 'Y';
 	$.ajax({
 		url: "/chat/createAdmin.do",
 		type: 'POST',
 		dataType: 'json',
-		data: { msgContent : msg, msgReceiver0 : memid},
+		data: { msgContent : msg, msgReceiver : memid, msgArlam : arlam},
     	success : function(data){
 		
     	}

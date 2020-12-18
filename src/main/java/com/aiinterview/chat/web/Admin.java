@@ -11,7 +11,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @ServerEndpoint("/admin.do")
 public class Admin extends TextWebSocketHandler {
 // 운영자 유저는 하나라고 가정하고 만약 둘 이상의 세션에서 접속을 하면 마지막 세션만 작동한다.
-private static Session admin = null;
+public static Session admin = null;
 // 운영자 유저가 접속을 하면 발생하는 이벤트 함수
 
 @OnOpen
@@ -31,6 +31,7 @@ for(String key : BroadSocket.getUserKeys()) {
 // 전송.. 전송
 visit(key);
 }
+
 }
 // 운영자 유저가 메시지를 보내면 발생하는 이벤트
 @OnMessage
@@ -48,6 +49,9 @@ BroadSocket.sendMessage(key, msg);
 @OnClose
 public void handleClose(Session userSession) {
 admin = null;
+
+BroadSocket.sendStatus("bye");
+
 }
 // 운영자 유저로 메시지를 보내는 함수
 

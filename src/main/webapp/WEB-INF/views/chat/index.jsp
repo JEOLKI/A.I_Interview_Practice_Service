@@ -255,7 +255,7 @@ body{
  
  <header class="card-header header-title" @click="toggleChat()">
     <p class="card-header-title">
-      <i class="fa fa-circle is-online"></i><img src="/member/profile.do?memId=TEST_ID2" style="width: 30px;">&nbsp;관리자와의 채팅
+      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=TEST_ID2" style="width: 30px;">&nbsp;관리자와의 채팅
     </p>
     <a id="closeChat" class="card-header-icon">
       <span  class="icon">
@@ -283,7 +283,7 @@ body{
 					</div>
 					<div class="chat-messages">
 					
-						<div class="message">${chat.msgContent }</div><div>&nbsp</div><a>${chat.msgDate }</a>
+						<div class="message">${chat.msgContent }</div><div>&nbsp</div>${chat.msgDate }
 						<div class="from">${chat.msgSender }&nbsp</div>
 						
 					</div>
@@ -344,6 +344,7 @@ body{
 var messageTextArea = document.getElementById("messageArea");
 var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
 let message = document.getElementById("textMessage");
+var arlamCheck = 'Y';
 var d = new Date();
 $(function(){
 	var c = parent.document.querySelector("#chatting").style
@@ -353,6 +354,7 @@ $(function(){
 		var a = parent.document.querySelector("#chatting").style;
 		a.display = "none";
 		$("#chatting").attr("style", "display:none");
+		webSocket.close();
 	})
 	
 	
@@ -365,7 +367,9 @@ webSocket.onopen = function(message) {
 // 콘솔에 메시지를 남긴다.
 };
 // 접속이 끝기는 경우는 브라우저를 닫는 경우이기 떄문에 이 이벤트는 의미가 없음.
-webSocket.onclose = function(message) { };
+webSocket.onclose = function(message) { 
+	
+};
 // 에러가 발생하면
 webSocket.onerror = function(message) {
 // 콘솔에 메시지를 남긴다.
@@ -373,15 +377,29 @@ webSocket.onerror = function(message) {
 };
 // 서버로부터 메시지가 도착하면 콘솔 화면에 메시지를 남긴다.
 webSocket.onmessage = function(message) {
+	
 console.log(message)
-console.log(message.data)
-$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/sally.png'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
-$("#messageArea").append("</div>")
+console.log(message.data);
+console.log("${S_MEMBER.memId}")
 
-$("#chat-content").scrollTop($("#chat-content")[0].scrollHeight); 
+if(message.data=="bye"){
+	$(".fa-circle").attr('class', 'fa fa-circle-o')
+	arlamCheck = 'N';
+	message = "";
+}else if(message.data=="${S_MEMBER.memId}"){
+	$(".fa-circle-o").attr('class', 'fa fa-circle')
+	message = "";
+	arlamCheck = 'Y';
+	
+}else{
+	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=TEST_ID2'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
+	$("#messageArea").append("</div>")
 
-
+	$("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);	
+}	
 };
+
+
 })
 // 서버로 메시지를 발송하는 함수
 // Send 버튼을 누르거나 텍스트 박스에서 엔터를 치면 실행
@@ -391,7 +409,6 @@ sendProcess();
 $("#messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message.value+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
 
 // 소켓으로 보낸다.
-console.log(message.value)
 webSocket.send(message.value);
 // 텍스트 박스 추기화
 
@@ -413,13 +430,14 @@ return true;
 }
 function sendProcess(){
 	var msg = $("#textMessage").val();
+	console.log(msg)
+	console.log(arlamCheck)
 	$.ajax({
 		url: "/chat/create.do",
 		type: 'POST',
 		dataType: 'json',
-		data: { msgContent : msg},
+		data: { msgContent : msg, msgArlam : arlamCheck},
     	success : function(data){
-		
     	}
 	 });
 }

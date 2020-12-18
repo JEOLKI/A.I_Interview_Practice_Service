@@ -23,6 +23,10 @@
 	margin : 40px 0px 0px;
 	
 }
+#chatting{
+    overflow: hidden;
+}    
+    
 
 </style>
 

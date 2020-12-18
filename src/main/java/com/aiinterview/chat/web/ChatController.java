@@ -1,7 +1,6 @@
 package com.aiinterview.chat.web;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -72,6 +71,9 @@ public class ChatController {
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
 	public String admin(HttpSession session, Model model,String memId) {
 		
+		BroadSocket.sessionId(memId);
+		
+		chatService.arlamUpdate(memId);
 		ChatVO cv = new ChatVO();
 		List<String> arrayList = new ArrayList<>();
 		
@@ -85,17 +87,6 @@ public class ChatController {
 		cv.setMsgSender(Sender);
 		cv.setMsgReceiver(memId);
 		List<ChatVO> chatList =  chatService.List(cv);
-		
-//		for (int i = 0; i < arrayList.size(); i++) {
-//			cv.setMsgSender(Sender);
-//			cv.setMsgReceiver(memId);
-//			List<ChatVO> chatList =  chatService.List(cv);
-//			
-//			System.out.println("chatList확인 : "+chatList);
-//			listList.add(chatList);
-//			
-//			model.addAttribute("Receiver", arrayList.get(i));
-//		}
 		
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("memId", memId);
@@ -183,7 +174,7 @@ public class ChatController {
 	@ResponseBody
 	@RequestMapping(path = "/createAdmin.do", method = RequestMethod.POST)
 	public void createAdmin(Model model, ChatVO cv, HttpSession session) {
-		System.out.println(cv);
+		System.out.println("값 잘들어왔는지 확인 :" +cv);
 		cv.setMsgSender("TEST_ID2");
 		chatService.create(cv);
 	}

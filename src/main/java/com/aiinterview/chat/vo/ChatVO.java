@@ -7,7 +7,16 @@ public class ChatVO {
 	private String msgDate              ;
 	private String msgSender            ;
 	private String msgReceiver          ;
+	private String msgArlam ;
 
+	
+	public String getMsgArlam() {
+		return msgArlam;
+	}
+
+	public void setMsgArlam(String msgArlam) {
+		this.msgArlam = msgArlam;
+	}
 
 	public int getMsgSq() {
 		return msgSq;
@@ -52,7 +61,7 @@ public class ChatVO {
 	@Override
 	public String toString() {
 		return "ChatVO [msgSq=" + msgSq + ", msgContent=" + msgContent + ", msgDate=" + msgDate + ", msgSender="
-				+ msgSender + ", msgReceiver=" + msgReceiver + "]";
+				+ msgSender + ", msgReceiver=" + msgReceiver + ", msgReceiver="+ msgArlam + "]";
 	}
 	
 	

@@ -32,4 +32,10 @@ public interface ChatMapper {
 	 */
 	List<ChatRoomVO>roomList();
 	
+	/**
+	 * 알람 체크를 하기 위한 메서드
+	 * @param memId 체크한 아이디 값
+	 * @return
+	 */
+	int arlamUpdate(String memId);
 }

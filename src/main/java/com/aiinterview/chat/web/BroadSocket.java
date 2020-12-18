@@ -17,16 +17,20 @@ import com.aiinterview.member.vo.MemberVO;
 // 일반 유저에서 서버간의 웹 소켓 url
 @ServerEndpoint("/broadsocket.do")
 public class BroadSocket extends TextWebSocketHandler {
+Admin sessionAdmin;
+static String sessionId;
 // searchUser 함수의 filter 표현식을 위한 인터페이스
 private interface SearchExpression {
 // 람다식을 위한 함수
 boolean expression(User user);
 }
 // 서버와 유저간의 접속을 key로 구분하기 위한 인라인 클래스
-private class User {
-Session session;
-String key;
+static class User {
+public Session session;
+public String key;
 }
+public static Session visit = null;
+
 // 유저와 서버간의 접속 리스트
 private static List<User> sessionUsers = Collections.synchronizedList(new ArrayList<>());
 // Session으로 접속 리스트에서 User 클래스를 탐색
@@ -41,6 +45,7 @@ return searchUser(x -> x.key.equals(key));
 private static User searchUser(SearchExpression func) {
 Optional<User> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
 // 결과가 있으면
+
 if (op.isPresent()) {
 // 결과를 리턴
 return op.get();
@@ -58,7 +63,8 @@ MemberVO mv =  (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
 System.out.println("유저 아이디 확인"+mv);
 
 user.key = mv.getMemId();
-
+sessionId = mv.getMemId();
+visit= userSession;
 // WebSocket의 세션
 user.session = userSession;
 // 유저 리스트에 등록한다.
@@ -105,6 +111,7 @@ if (user != null) {
 Admin.bye(user.key);
 // 위 유저 접속 리스트에서 유저를 삭제한다.
 sessionUsers.remove(user);
+
 }
 }
 // 유저간의 접속 리스트의 키를 취득하려고 할때.
@@ -119,5 +126,28 @@ ret[i] = sessionUsers.get(i).key;
 // 값 반환
 return ret;
 }
+
+public static void sendStatus(String status) {
+	// key로 접속 리스트에서 User 클래스를 탐색
+	if (visit != null) {
+		try {
+			visit.getBasicRemote().sendText(status);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+public static void sessionId(String memId) {
+	if (visit != null) {
+		try {
+			visit.getBasicRemote().sendText(memId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+
 }
 

@@ -83,6 +83,7 @@ html, body {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .chat__text {
@@ -92,9 +93,11 @@ html, body {
 
 .chat__username {
   font-weight: 600;
+  cursor: pointer;
 }
 .chat__preview{
 	diplay : block;
+	cursor: pointer;
 }
 
 .chat__preview, .chat__date {
@@ -103,6 +106,7 @@ html, body {
 
 .chat__date {
   font-size: 10px;
+  float: right;
 }
 
 .number_of_people {
@@ -112,47 +116,54 @@ html, body {
   background-color: #e6e6e6;
 }
 .chat_area, .material-icons{
-	cursor: pointer;
+	
 }
 .fa, .fa-circle{
 color: #32e4cd;
 }
+.alarm{
+ min-width: 8px;
+ padding: 0 6px;
+ font-weight: normal;
+ font-size: small;
+ color: white;
+ text-align: center;
+ text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+ background: #683db8;
+ border-radius: 11px;
+ -webkit-box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
+ box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
+    float: right;
+}
+
 </style>
 
 <script>
 	var webSocket =  new WebSocket("ws://localhost/admin.do");
 	$(function(){
-		$('.chat_area').on('click', function(){
-			memid = $(this).data("id")
-// 			if(count%2 == 1){
-// 				left = 550;				
-// 			}else{
-// 				left = 850;
-// 			}
-// 			var option = "width = 350, height = 500, top = 350, left = "+left+", location = no, toolbar=no, menubar=no, scrollbars=no, tatus=no, "
-// 			count++;
-// 			url = "/chat/admining.do?memId="+memid;
-// 			window.open(url, "", option);
-			location.href="/chat/admining.do?memId="+memid;
-			
-			$('#아이디').attr('src', '경로');
-
-		})
+		
 		webSocket.onopen = function(message) { };
 		webSocket.onclose = function(message) { };
 		webSocket.onerror = function(message) { };
 		webSocket.onmessage = function(message) {
 		let node = JSON.parse(message.data);
-		console.log(node.key)
-		console.log(node.status)
 		let $div = $("[data-id='"+node.key+"']");
 			if(node.status === "visit") {
-				console.log("콘솔 확인")
-				console.log($div.find(".fa-circle-o"))
 				$div.find(".fa-circle-o").attr('class', 'fa fa-circle')
 			}
+			else if(node.status === "message") {
+				if(node.key!='TEST_ID2'){
+					$div.find(".alarm").attr('style', 'display:block')
+					a = $div.find(".alarm").text();
+					a++
+					$div.find(".alarm").text(a);
+					$div.find(".chat__preview").text(node.message)	
+				}
+			}
 			else if(node.status === "bye") {
+				console.log("사용자 종료")
 				$div.find(".fa-circle").attr('class', 'fa fa-circle-o')	
+				
 				// 해당 키로 div를 찾아서 dom을 제거한다.
 				$("[data-key='"+node.key+"']").remove();
 			}
@@ -161,8 +172,18 @@ color: #32e4cd;
 		$("#closeChat").on("click", function(){
 			var a = parent.document.querySelector("#chatting").style
 			a.display = "none"
-			$("#chatting").attr("style", "display:none");
-		})	
+			webSocket.close()
+		})
+		
+		$('.chat_area').on('click', function(){
+			webSocket.close();
+			var a = parent.document.querySelector("#chatting").style
+			a.width = "300px";
+			memid = $(this).data("id")
+			console.log(memid)
+			location.href="/chat/admining.do?memId="+memid;
+			$('#아이디').attr('src', '경로');
+		})
 	})
 	
 	
@@ -170,7 +191,7 @@ color: #32e4cd;
 
 <body>
   <header class="header">
-    <div class="main_title">MyInterview <a id="closeChat"  style="margin-left: 54.5%">X</a>
+    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat"  style="margin-left: 55.5%">X</a>
     </div>
     <div class="icon_box">
     
@@ -191,21 +212,26 @@ color: #32e4cd;
   </header>
 
   <section class="middle">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1"><i class="material-icons">search</i></span>
-      <input type="text" class="form-control" placeholder="채팅방 이름, 참여자 검색" aria-label="Username" aria-describedby="basic-addon1">
-      <span class="input-group-addo	n"><i class="material-icons">list</i></span>
-    </div>
+<!--     <div class="input-group"> -->
+<!--       <span class="input-group-addon" id="basic-addon1"><i class="material-icons">search</i></span> -->
+<!--       <input type="text" class="form-control" placeholder="채팅방 이름, 참여자 검색" aria-label="Username" aria-describedby="basic-addon1"> -->
+<!--       <span class="input-group-addo	n"><i class="material-icons">list</i></span> -->
+<!--     </div> -->
 		
 		<c:forEach items="${roomList }" var ="room">
 			<div class="chat_area" data-id="${room.memId }" >
 				<div class="chat">
 				<img src="/member/profile.do?memId=${room.memId }" class="chat__avatar">
 					<div class="chat__text">
-						<span class="chat__username">${room.memId }</span>&nbsp<i class="fa fa-circle-o is-online"></i><br>
+						<span class="chat__username">${room.memId }</span>&nbsp<i class="fa fa-circle-o is-online"></i><span class="chat__date">${room.msgDate }</span><br>
 						<span class="chat__preview">${room.msgContent }</span>
+						<c:choose>
+							<c:when test="${room.msgArlam !=0 }">
+								<span class="alarm">${room.msgArlam }</span>
+							</c:when>
+							<c:otherwise><span class="alarm" style="display: none;">${room.msgArlam }</span></c:otherwise>
+						</c:choose> 
 					</div>
-					<span class="chat__date">${room.msgDate }</span>
 				</div>
 			</div>
 		</c:forEach>
