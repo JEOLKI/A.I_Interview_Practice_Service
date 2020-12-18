@@ -128,6 +128,10 @@
 
 <style>
 
+	body{
+		padding: 30px;
+	}
+
 	#chartdiv {
 	  width: 90%;
 	  height: 500px;

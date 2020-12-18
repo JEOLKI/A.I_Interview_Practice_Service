@@ -440,6 +440,10 @@
 
 <style>
 	
+	body{
+		padding: 30px;
+	}
+	
 	.contentBoxMedium{
 		width: 27%;
 		height: 180px;

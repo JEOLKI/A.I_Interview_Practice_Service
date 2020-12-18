@@ -28,6 +28,7 @@
 	
 	body{
 		background-color : #f5f7fb;
+		padding: 30px;
 	}
 	
 	.paging{

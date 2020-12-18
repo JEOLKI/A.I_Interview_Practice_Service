@@ -10,10 +10,10 @@
 <style type="text/css">
 
 	.managerbox{
-		margin-top: 100px;
-        margin-left: 250px;
-        width: 85%;
-        height: 750px;
+		margin-top: 60px;
+        margin-left: 200px;
+        width: 90%;
+        height: 830px;
         border: none;
 	}
 	

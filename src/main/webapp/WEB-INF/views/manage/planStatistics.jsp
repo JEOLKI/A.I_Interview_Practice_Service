@@ -15,29 +15,37 @@
 <script>
 </script>
 <style>
-body{
+	body{
       background-color : #f5f7fb;
+      padding: 30px;
    }
+   
 	#search{
 		display: inline-block; 
 	}
+	
 	a{
 		color: black;
 	}
+	
 	a:hover{
 		text-decoration: none;
 	}
+	
 	.listmenu, .conditionmenu{
 		display: inline-block; 
 	}
+	
 	.conditionmenu{
 		float: left;
 	}
+	
 	.listmenu{
 		float: right;
 		position: relative;
 		top : 7px;
 	}
+	
 	.body{
 		margin : 30px;
 	}
