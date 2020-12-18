@@ -116,7 +116,7 @@
 	</button>
 	<div id="demoAcc4" class="w3-hide w3-white w3-card">
 		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content">&ensp;&ensp;스크립트 목록</a>
-		<a href="/script/statistics.do" class="w3-bar-item w3-button" target="manage_content">&ensp;&ensp;스크립트 통계</a>
+		<a href="/scriptGubun/statistics.do" class="w3-bar-item w3-button" target="manage_content">&ensp;&ensp;스크립트 통계</a>
 	</div>
 </div>
 

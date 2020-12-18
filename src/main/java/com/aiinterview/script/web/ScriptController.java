@@ -142,7 +142,7 @@ public class ScriptController {
 		if (updateCnt == 1) {
 			return "redirect:/script/retrievePagingList.do";
 		} else {
-			return "redirect:/script/retrievePagingList.do";
+			return "manage/scriptManage";
 		}
 	}
 	
