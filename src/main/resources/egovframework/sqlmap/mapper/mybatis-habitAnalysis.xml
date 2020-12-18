@@ -62,17 +62,17 @@
 		              ORDER BY  a.interview_date) e
 		       WHERE e.habit_sq (+) = f.habit_sq
 		         AND f.habit_st = 'Y'
-	    <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-			<choose>
-				<when test="endDate == 'sysdate'">
-           AND e.interview_date(+) BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
-        		</when>
-        		<when test="endDate != 'sysdate'">
-           AND e.interview_date(+) BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
-        		</when>
-        	</choose>
-        </if>
+			    <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+					<choose>
+						<when test="endDate == 'sysdate'">
+		        AND e.interview_date(+) BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND ${'sysdate'}
+		        		</when>
+		        		<when test="endDate != 'sysdate'">
+		        AND e.interview_date(+) BETWEEN TO_DATE(#{startDate},'YYYY-MM-DD') AND TO_DATE(#{endDate},'YYYY-MM-DD')
+		        		</when>
+		        	</choose>
+		        </if>
          GROUP BY f.habit_sq, f.habit_gb
-         ORDER BY f.habit_sq)g;
+         ORDER BY f.habit_sq)g
 	</select>
 </mapper>
