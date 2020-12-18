@@ -149,6 +149,16 @@
 	$(document).ready(function() {
 		TestChart();
 		
+		$("#popUpOpenBtn").on('click' , function () {
+		  	  var popupX = (document.body.offsetWidth / 2) - (480 / 2);
+		  	  var popupY= (window.screen.height / 2) - (620 / 2);
+		  	  
+		  	  var url = '/scriptTest/testPopup.do';
+		  	  
+		  	  var options = 'top='+popupY+', left='+popupX+', width=480, height=620, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
+		      window.open(url, "", options);
+		});
+		
 		$.ajax({url : "/analysis/image/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
@@ -528,9 +538,7 @@
     	document.listForm.action = "<c:url value='/analysis/interview/retrievePagingList.do'/>";
        	document.listForm.submit();
     }
-	
-
-
+	 
 </script>
 
 </head>

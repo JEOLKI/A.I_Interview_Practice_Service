@@ -27,19 +27,37 @@ blink {
   100% { visibility: visible; }
 }
 </style>
-
-
 <script type="text/javascript" language="javascript">
-$(window).resize(function(){
-    window.resizeTo(320,510);
-});
+    scriptGbContent='';
+    scriptGbSq = 0;
+    window.onload = function(){
+	    window.resizeTo(480,620);
+    }
 
 $(document).ready(function() {
-	$('#scriptModalContent').html('<br><br>이곳에 스크립트가 출력됩니다.');
 	
+	// 언어선택
 	$('.scriptGbBtn').on('click', function() {
+		$('#scriptModalContent').html('문장 출력란');
+		$('#phraseDiv').html('');
+		
+		$('#help').css('display','none');
+		$('#play').css('display','');
+		
 		scriptGbContent = $(this).data('content');
+		scriptGbSq = $(this).data('sq');
+		
+		if(scriptGbSq == 0){
+			$('#play').hide();
+		}else{
+			$('#play').show();
+		}
+		
+		startRecognizeOnceAsyncButton.disabled = false;
+		$("#testResult").empty();
+		$('#startTestBtn').show();
 	});
+	
 });
 
 var phraseDiv;
@@ -52,111 +70,83 @@ var serviceRegion;
 var scriptGbSq;
 
 document.addEventListener("DOMContentLoaded", function () {
-startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
-subscriptionKey = document.getElementById("subscriptionKey");
-serviceRegion = document.getElementById("serviceRegion");
-phraseDiv = document.getElementById("phraseDiv");
+	startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
+	subscriptionKey = document.getElementById("subscriptionKey");
+	serviceRegion = document.getElementById("serviceRegion");
+	phraseDiv = document.getElementById("phraseDiv");
+
 
 startRecognizeOnceAsyncButton.addEventListener("click", function () {
-	startRecognizeOnceAsyncButton.disabled = true;
 	phraseDiv.innerHTML = "";
 
+	// 랜덤 지문 출력
+	$.ajax(
+		{url:"/scriptTest/retrieveScriptList.do",
+		data : {scriptGbSq : scriptGbSq},
+		method : "post",
+		success : function(data){
+				console.log('랜덤'+data.scriptVO.scriptContent);
+  				$('#scriptModalContent').html(data.scriptVO.scriptContent);
+  				scriptSq = data.scriptVO.scriptSq;
+		},
+		error: function(data){
+			$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
+		}
+	});
 	if (subscriptionKey == "" || subscriptionKey == "subscription") {
-       alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
        return;
 	};
 		      
-		  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("197c1a7bc63c41a1931328e15925d597", "koreacentral");
-    	  recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+		  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("7ec161e7215b4f0e9a153abcdfa1f815", "koreacentral");
     	  audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-    	      
-    	  	    console.log("스구 : "+scriptGbContent);
-    	  	    
-    	  	    if(scriptGbContent =="" && scriptGbContent != '한국어' && scriptGbContent != '영어'){
-    	  	    	$('#popup-close-box').html('<br><br><span style="color:red;">테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요!</span>');
-    	  	    	speechConfig = null;
-    	  	    	recognizer = null;
+    	  	    if(scriptGbContent ==''){
+    	  	    	phraseDiv.innerHTML = ('<span style="color:red;">테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요!</span>');
+    	  	    	return false;
     	  	    } else if(scriptGbContent=="한국어"){
-//     	  	    	speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
-    	  	    	speechConfig.speechRecognitionLanguage = "ko-KR";
-    	  	    	scriptModalContent.innerHTML += '<br><br><blink>🎙인식중입니다.<blink>';
+		 	    	speechConfig.speechRecognitionLanguage = "ko-KR";
+		 	    	phraseDiv.innerHTML += '<blink>🎙인식중입니다.<blink>';
     	  	    } else if(scriptGbContent=="영어"){
-//     	  	  		speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
     	  	    	speechConfig.speechRecognitionLanguage = "en-US";
-    	  	        scriptModalContent.innerHTML += '<br><br><blink>🎙인식중입니다.<blink>';
+    	  	    	phraseDiv.innerHTML += '<blink>🎙인식중입니다.<blink>';
     	  	    }else{
-//     	  	  		speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
     	  	    	speechConfig.speechRecognitionLanguage = "ko-KR";
-    	  	        scriptModalContent.innerHTML += '<br><br><blink>🎙인식중입니다.<blink>';
+    	  	    	phraseDiv.innerHTML += '<blink>🎙인식중입니다.<blink>';
     	  	    }
     	  	    
+	    	  recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
     	  	  recognizer.recognizeOnceAsync(
     	  	  	    	function (result) {
     	  	  	           	startRecognizeOnceAsyncButton.disabled = false;
 
-    	  	  	           		var resultScript = result.text;
+    	  	  	           		var resultScript = "";
+    	  	  	           		resultScript = result.text;
     	  	  	     			var result = $.post('/scriptTest/create.do', {
     	  	  	     				scriptSq : scriptSq,
     	  	  	     				performScript : resultScript}
     	  	  	     			,function(data) {
     	  	  	     				const jsonData = JSON.parse(data);
-    	  	  	     				console.log(jsonData.testResult);
-    	  	  	     				 
-    	  	  	     				$("#testResult").text(jsonData.testResult);
-    	  	  	     				
+	    	  	  	     			if(resultScript == null){
+	    	  	  	     				phraseDiv.innerHTML = "";
+	    	  	  	     				phraseDiv.innerHTML += '다시 시도하여주세요'
+	    	  	  	     			}else{
+	    	  	  	     				phraseDiv.innerHTML = "";
+		    	  	  	     			phraseDiv.innerHTML += resultScript;
+	    	  	  	     				$("#testResult").text(jsonData.testResult);
+	    	  	  	     			}
     	  	  	     			});
-    	  	  	     			scriptModalContent.innerHTML = '<br><br>결과를 확인해주세요.';
-    	  	  	     			phraseDiv.innerHTML += resultScript;
     	  	  	     			
     	  	  	             recognizer.close();
     	  	  	             recognizer = undefined;
     	  	  	           },
     	  	  	           function (err) {
     	  	  	             startRecognizeOnceAsyncButton.disabled = false;
+    	  	  	      		 phraseDiv.innerHTML = "";
     	  	  	             phraseDiv.innerHTML += '<span style="color:red;">마이크를 연결해주세요!</span>';
-
     	  	  	             recognizer.close();
     	  	  	             recognizer = undefined;
     	  	  	          	});
    });
 });
-
-
-var scriptSq;
-var scriptGbContent;
-function random(scriptGbSq){
-	
-	startRecognizeOnceAsyncButton.disabled = false;
-	$("#testResult").empty();
-	$('#startTestBtn').show();
-	$('#scriptModalContent').html('');
-	
-	$.ajax(
-   			{url:"/scriptTest/retrieveScriptList.do",
-   			data : {scriptGbSq : scriptGbSq},
-   			method : "post",
-   			success : function(data){
-   				console.log(data);
-   				console.log(data.scriptVO.scriptContent);
-	   				$('#scriptModalContent').html('<br><br>'+data.scriptVO.scriptContent);
-	   				scriptSq = data.scriptVO.scriptSq;
-	   				console.log("scriptSq : "+scriptSq);
-   			},
-   			error: function(data){
-   				$('#scriptModalContent').html('<br><br>해당하는 스크립트가 없습니다.');
-   				console.log(data.status);
-   			}
-   		});
-};
-
-// var audio = document.querySelector('audio');
-// function captureMicrophone(callback){
-// 	navigator.getUserMedia({audio : true}, callback,
-// 							function(error){
-// 								alert('마이크를 연결해주세요.');
-// 								console.error(error);
-// 	});
-// };
 </script>
 
 <style>
@@ -167,19 +157,21 @@ function random(scriptGbSq){
 
 	#phraseDiv{
 		text-align: center;
-		text-decoration: underline;
 		border: 1px solid black;
 		border-radius: 5px;
-		height: 70px;
+		height: auto;
 		width: 94%;
 		margin: 2px 3%;
+		padding: 20px;
 	}
 	
 	#scriptModalContent {
 		border: 1px solid #3b3b46;
 		margin: 10px 10px;
-		height: 150px;
+		height: 65px;
 		border-radius: 5px;
+		text-align: center;
+		padding: 20px;
 	}
 	
 	.popup-title, .popup-content {
@@ -252,39 +244,51 @@ function random(scriptGbSq){
 			<ul class="nav nav-tabs">
 				<c:forEach items="${scriptGbList }" var="scriptGb">
 						<li class="selectLang">
-				    		<a class="scriptGbBtn" data-content="${scriptGb.scriptGbContent }" data-toggle="tab" onclick="random(${scriptGb.scriptGbSq });" aria-expanded="false">${scriptGb.scriptGbContent }</a>
+				    		<a class="scriptGbBtn" data-content="${scriptGb.scriptGbContent }" data-toggle="tab" data-sq="${scriptGb.scriptGbSq }" aria-expanded="false">${scriptGb.scriptGbContent }</a>
 							<input type="hidden" id="scriptGbSq" name="scritGbSq" value="${scriptGb.scriptGbSq }">
 					   </li>
 				</c:forEach>
 			</ul>
 		</div>
-				
-				<div class="popup-content" id="scriptModalContent">
+		
+		<div id="help">
+			<div class="popup-content">
+				<span style="font-weight: bold; font-size: 23px; margin-bottom: 40px; display: block;">발음 테스트</span>
+				<div>
+					<img src="/images/speechtest.png" style="width: 50%;">
 				</div>
-				<div style="margin-top: 0px; padding-top:0px; text-align: center; font-size:14px;">
-				내가 말한
-				<br>
-				<div id="phraseDiv">
-				
+				<div style="text-align: center; margin-top: 40px; font-size: 17px;">
+					테스트할 언어를 선택 후 시작하기 버튼을<br>
+					클릭하여 출력된 문장을 읽어주세요.<br><br>
 				</div>
-				과의 일치도는
-				<span id="testResult" class="informLbl"></span>
-				% 입니다.			
-				</div>
+			</div>
+		</div>
+
+		
+		<div id="play" style="display: none; text-align: center;">
+			<span style="font-weight: bold;color: red; font-size: 17px">[출력 문장]</span>
+			<div class="popup-content" id="scriptModalContent"></div>
+			<div
+				style="margin-top: 0px; padding-top: 0px; text-align: center; font-size: 17px;">
+				<br><br>
+				<span style="font-weight: bold;color: red;">[입력 문장]</span>
+				<div id="phraseDiv"></div>
+				일치율 : <span id="testResult" class="informLbl" style="color: red; font-size: 20px; font-weight: bold;"></span> %
+			</div>
 	
-				<div class="popup-close-box" id="popup-close-box" style="font-size:14px;">
-					<label class="informLbl">
-					시작하기 버튼을 클릭한 후<br>위의 문장을 소리내어 읽어주세요.
-					</label><br><br>
-					<button class="processBtn" id="startTestBtn">
-						시작 하기
-					</button>
-				</div>
-				
-	 			<input id="subscriptionKey" type="hidden" value="c8fade57c0084e95b64bf948ed3184a5">
-	 			<input id="serviceRegion" type="hidden" value="koreacentral">
- 			
- 	</div>
- 			
+			<div class="popup-close-box" id="popup-close-box"
+				style="font-size: 17px;">
+				<label class="informLbl"> 시작하기 버튼을 클릭한 후<br>출력 문장을 소리내어
+					읽어주세요.
+				</label><br>
+				<br>
+				<button class="processBtn" id="startTestBtn">시작 하기</button>
+			</div>
+	
+			<input id="subscriptionKey" type="hidden"
+				value="7ec161e7215b4f0e9a153abcdfa1f815"> <input id="serviceRegion"
+				type="hidden" value="koreacentral">
+		</div>
+	</div>
 </body>
 </html>
