@@ -390,7 +390,7 @@
 		var analysis = [ 1 - imageAnalysis.happiness, imageAnalysis.happiness ];
 		var ctx = document.getElementById('positiveChart');
 		createImageChart(ctx, title, analysis);
-		$("#positiveSpan").empty().append(Math.round(imageAnalysis.happiness*100) + "%")
+		$("#positiveSpan").empty().append(Math.round(imageAnalysis.happiness*100) + "%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
 		$("#positiveBtag").empty().append(Math.round(imageAnalysis.happiness*100) + "%")
 		
 		$("#neutralChart").empty();
@@ -398,7 +398,7 @@
 		analysis = [ 1 - imageAnalysis.neutral,  imageAnalysis.neutral ];
 		ctx = document.getElementById('neutralChart');
 		createImageChart(ctx, title, analysis);
-		$("#neutralSpan").empty().append(Math.round(imageAnalysis.neutral*100) + "%")
+		$("#neutralSpan").empty().append(Math.round(imageAnalysis.neutral*100) + "%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
 		$("#neutralBtag").empty().append(Math.round(imageAnalysis.neutral*100) + "%")
 		
 		$("#negativeChart").empty();
@@ -407,7 +407,7 @@
 		analysis = [ 1 - negativeEmotion , negativeEmotion];
 		ctx = document.getElementById('negativeChart');
 		createImageChart(ctx, title, analysis);
-		$("#negativeSpan").empty().append(Math.round(negativeEmotion*100) + "%")
+		$("#negativeSpan").empty().append(Math.round(negativeEmotion*100) + "%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
 		$("#negativeBtag").empty().append(Math.round(negativeEmotion*100) + "%")
 		
 		$("#panicChart").empty();
@@ -416,7 +416,7 @@
 		analysis = [ 1 - panicEmotion ,  panicEmotion ];
 		ctx = document.getElementById('panicChart');
 		createImageChart(ctx, title, analysis);
-		$("#panicSpan").empty().append(Math.round(panicEmotion*100) + "%")
+		$("#panicSpan").empty().append(Math.round(panicEmotion*100) + "%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
 		$("#panicBtag").empty().append(Math.round(panicEmotion*100) + "%")
 				
 		$("#faceChart").empty();
@@ -917,6 +917,7 @@
 		<div class="title">움직임 분포도</div>
 		<div class="message">
 			면접 시 면접관을 응시하는 것이 중요합니다.
+			사각형 범위는 얼굴 움직임의 범위를 나타냅니다.
 		</div>
 		<div class="content-box">
 			<img src="/images/interviewer-character.2272ffa3.png"
