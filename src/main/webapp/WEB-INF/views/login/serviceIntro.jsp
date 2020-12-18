@@ -409,7 +409,7 @@ to {
          </article></section>
        
        
-       <%@ include file="/WEB-INF/views/layout/footer.jsp" %>
+       		<%@ include file="/WEB-INF/views/layout/footer.jsp" %>
        
          
          </main>

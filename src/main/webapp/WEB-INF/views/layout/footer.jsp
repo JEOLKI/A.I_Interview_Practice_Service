@@ -14,7 +14,7 @@
 }	
 </style>
 
-<footer class="Foote">
+<footer class="Footer">
 
 	<div class="footer-body">
 		<div class="info">
@@ -33,8 +33,7 @@
 			<div class="about-us">ABOUT US</div>
 		</div>
 		<div class="logo-area">
-			<img src="/images/Ai_Interview 로고.png" class="aiInterview-logo"
-				alt="aiInterview-logo">
+
 		</div>
 	</div>
 </footer>
