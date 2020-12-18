@@ -43,22 +43,22 @@
 	</select>
 	
 	<select id="retrieveAnalysis" resultType="com.aiinterview.analysis.vo.ImageAnalysisVO">
-SELECT ROUND(SUM(ANGER)/COUNT(*),2) ANGER,
-		       ROUND(SUM(CONTEMPT)/COUNT(*),2) CONTEMPT,
-		       ROUND(SUM(FEAR)/COUNT(*),2) FEAR,
-		       ROUND(SUM(DISGUST)/COUNT(*),2) DISGUST,
-		       ROUND(SUM(HAPPINESS)/COUNT(*),2) HAPPINESS,
-		       ROUND(SUM(NEUTRAL)/COUNT(*),2) NEUTRAL,
-		       ROUND(SUM(SADNESS)/COUNT(*),2) SADNESS,
-		       ROUND(SUM(SURPRISE)/COUNT(*),2) SURPRISE,
-		       MIN(FACE_TOP) FACE_TOP,
-       		   MIN(FACE_LEFT) FACE_LEFT,
-               MAX(FACE_TOP) FACE_WIDTH,
-       		   MAX(FACE_LEFT) FACE_HEIGHT,
-		       COUNT(*) totalCnt
-		FROM IMAGE_ANALYSIS
-		WHERE ANS_SQ = #{ansSq}
-</select>
+	SELECT ROUND(SUM(ANGER)/COUNT(*),2) ANGER,
+			       ROUND(SUM(CONTEMPT)/COUNT(*),2) CONTEMPT,
+			       ROUND(SUM(FEAR)/COUNT(*),2) FEAR,
+			       ROUND(SUM(DISGUST)/COUNT(*),2) DISGUST,
+			       ROUND(SUM(HAPPINESS)/COUNT(*),2) HAPPINESS,
+			       ROUND(SUM(NEUTRAL)/COUNT(*),2) NEUTRAL,
+			       ROUND(SUM(SADNESS)/COUNT(*),2) SADNESS,
+			       ROUND(SUM(SURPRISE)/COUNT(*),2) SURPRISE,
+			       MIN(FACE_TOP) FACE_TOP,
+	       		   MIN(FACE_LEFT) FACE_LEFT,
+	               MAX(FACE_TOP) - MIN(FACE_TOP) + MAX(FACE_WIDTH) FACE_WIDTH,
+	       		   MAX(FACE_LEFT) - MIN(FACE_LEFT) + MAX(FACE_HEIGHT) FACE_HEIGHT,
+			       COUNT(*) totalCnt
+			FROM IMAGE_ANALYSIS
+			WHERE ANS_SQ = #{ansSq}
+	</select>
 	
 	<select id="retrieveGrowth" resultType="com.aiinterview.analysis.vo.ImageAnalysisVO">
 			SELECT A.INTERVIEW_SQ, AVG(D.ANGER)*100 ANGER,
