@@ -7,6 +7,7 @@
 	var habitMap = '';
 	var habitLength = '';
 	var habitLength = '';
+	var repeatList = '';
 	$(document).ready(function() {
 			$.ajax({
 					url : "/analysis/answer/retrieveAnalysis.do",
@@ -258,9 +259,16 @@
 	
 	/* 반복어 리포트 */
 	function createRepeatHtml(repeatList){
-		
+		var fullGage = 140;
+		var repeatmax = 0;
 		repeatHtml = '';
 		
+		for(var i = 0; i<repeatList.length; i++){
+			if(Number(repeatmax) < count){
+				repeatmax = count;
+			}
+		}
+		console.log(repeatmax);
 		if(repeatList == null || repeatList ==''){
 			repeatHtml += '<div class="comment no-exist">답변 중 반복어 사용 횟수';
 			repeatHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
@@ -272,10 +280,14 @@
 			repeatHtml += '<span aria-hidden="true" class="fa fa-question-circle fa undefined"></span>';
 			repeatHtml += '<div class="comment-box repeat">한 가지 단어를 지나치게 많이 반복하면 전문성과 언어 구사력에 있어 좋은 인상을 주기 어렵습니다.</div>';
 			repeatHtml += '</div>';
+			
 			for(var i=0; i<repeatList.length; i++){
-			repeatHtml += '<div class="habitual word-graph select repeat">';
+				
+				var gage =  Number(fullGage*repeatList[i].repeatCount/repeatmax);
+				
+				repeatHtml += '<div class="habitual word-graph select repeat">';
 				repeatHtml += '<div class="label">'+repeatList[i].repeatCount+'회</div>';
-				repeatHtml += '<div class="rectangle" style="height: '+repeatList[i].repeatCount*20+'px;"></div>';
+				repeatHtml += '<div class="rectangle" style="height: '+gage+'px;"></div>';
 				repeatHtml += '<div class="name">'+repeatList[i].repeatContent+'</div>';
 				repeatHtml += '</div>';
 			}
