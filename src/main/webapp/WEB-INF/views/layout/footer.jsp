@@ -14,20 +14,7 @@
 }	
 </style>
 
-<footer class="Footer --undefined">
-	<div data-ch-testid="launcher" class="Launcherstyled__Wrapper-oef45p-0 ekjiAG" id="chatting">
-			<div class="Launcherstyled__TextLauncher-oef45p-1 lbMRR">
-				<div
-					class="Launcherstyled__TextLauncherContent-oef45p-2 inNMmP textLauncherContent">문제가
-					생겼나요?</div>
-				<div
-					class="Launcherstyled__TextLauncherIcon-oef45p-3 kZmISt textLauncherIcon">
-					<div data-ch-testid="badge"
-						class="Badgestyled__Badge-sc-1ztqq4-0 Launcherstyled__Badge-oef45p-5 iwEgLY">1</div>
-				</div>
-			</div>
-		</div>
-
+<footer class="Foote">
 
 	<div class="footer-body">
 		<div class="info">
@@ -38,24 +25,14 @@
 		</div>
 		<div class="nav-flex">
 			<div class="user-agreement">
-				<a href="/login/userAgree.do">회원이용약관</a>
+				<a>회원이용약관</a>
 			</div>
 			<div class="personal-info">
-				<a href="/login/personalAgree.do">개인정보처리방침</a>
+				<a>개인정보처리방침</a>
 			</div>
 			<div class="about-us">ABOUT US</div>
 		</div>
 		<div class="logo-area">
-			<div class="icons">
-				<a
-					href="https://www.facebook.com/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5-%EB%AA%A8%EC%9D%98%EB%A9%B4%EC%A0%91-iamterview-103464748013569"
-					target="blank"><img src="/images/facebook-btn.ba58ba0e.svg"
-					alt="" class="link-btn"></a><a
-					href="https://www.instagram.com/oz_official" target="blank"><img
-					src="/images/insta-btn.757adbff.svg" alt="" class="link-btn"></a><a
-					href="https://blog.naver.com/iamterview" target="blank"><img
-					src="/images/naver-btn.dda55f6e.svg" alt="" class="link-btn"></a>
-			</div>
 			<img src="/images/Ai_Interview 로고.png" class="aiInterview-logo"
 				alt="aiInterview-logo">
 		</div>
