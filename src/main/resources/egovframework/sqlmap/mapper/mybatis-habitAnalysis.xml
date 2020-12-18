@@ -49,17 +49,19 @@
 	
 	
 	<select id="retrieveHabitUseCountList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.HabitAnalysisVO">
-		SELECT ROWNUM rn, f.habit_gb, NVL(e.useCount ,0) AS useCount
-		  FROM habit f,
-				(SELECT d.habit_sq, NVL(SUM(d.habit_count),0) AS useCount, a.interview_date
-				   FROM interview a, question b, answer c, HABIt_analysis d
-				  WHERE a.interview_sq = b.interview_sq
-				    AND b.quest_sq = c.quest_sq
-				    AND c.ans_sq = d.ans_sq
-				  GROUP BY d.habit_sq, a.interview_date
-				  ORDER BY d.habit_sq) e
-		 WHERE e.habit_sq (+) = f.habit_sq
-		   AND f.habit_st = 'Y'
+		SELECT ROWNUM rn, g.habit_gb, g.useCount
+		  FROM
+		     (SELECT f.habit_sq, f.habit_gb, NVL(sum(e.useCount) ,0) AS useCount
+		        FROM habit f,
+		            (SELECT d.habit_sq, NVL(SUM(d.habit_count),0) AS useCount, a.interview_date
+		               FROM interview a, question b, answer c, habit_analysis d
+		              WHERE a.interview_sq = b.interview_sq
+		                AND b.quest_sq = c.quest_sq
+		                AND c.ans_sq = d.ans_sq
+		              GROUP BY d.habit_sq, a.interview_date
+		              ORDER BY  a.interview_date) e
+		       WHERE e.habit_sq (+) = f.habit_sq
+		         AND f.habit_st = 'Y'
 	    <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
 			<choose>
 				<when test="endDate == 'sysdate'">
@@ -70,5 +72,7 @@
         		</when>
         	</choose>
         </if>
+         GROUP BY f.habit_sq, f.habit_gb
+         ORDER BY f.habit_sq)g;
 	</select>
 </mapper>
