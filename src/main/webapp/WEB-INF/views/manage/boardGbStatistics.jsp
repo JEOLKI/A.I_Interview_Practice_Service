@@ -101,6 +101,10 @@
 		display: inline-block;
 		float: left;
 	}
+	
+	h3{
+		margin-left: 3%;
+	}
 
 </style>
 
@@ -110,7 +114,7 @@
 	<h1>게시판 통계</h1>
 
 	<div class="contentBox">
-	
+		<h3>게시판 별 게시글 개수</h3>
 		<div id="chartdiv"></div>
 	</div>
 
