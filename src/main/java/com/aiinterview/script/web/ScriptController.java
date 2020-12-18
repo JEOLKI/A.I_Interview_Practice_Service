@@ -89,17 +89,21 @@ public class ScriptController {
 	
 	/* 등록 */
 	@RequestMapping(path = "/createProcess.do", method = { RequestMethod.POST })
-	public String createProcess(String scriptContent, String scriptGbSq, String scriptSt) throws Exception {
+	public String createProcess(String scriptContent, String scriptGbSq, String scriptSt){
 		ScriptVO scriptVO = new ScriptVO(scriptContent, scriptSt, scriptGbSq);
 		
-		scriptService.create(scriptVO);
-		return "redirect:/script/retrievePagingList.do";
+		try {
+			scriptService.create(scriptVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
 	}
 	
 
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public ModelAndView createMassiveScript(MultipartHttpServletRequest request, String scriptGbSq) {
+	public String createMassiveScript(MultipartHttpServletRequest request, String scriptGbSq) {
 		MultipartFile excelFile = request.getFile("excelFile");
 		
 		if(excelFile == null || excelFile.isEmpty()) {
@@ -122,28 +126,28 @@ public class ScriptController {
 		
 		destFile.delete();
 		
-		ModelAndView view = new ModelAndView();
-        view.setViewName("redirect:/script/retrievePagingList.do");
-        return view;
+        return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
 	}
 	
 	/* 단일 수정*/
 	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
-	public String updateProcess(ScriptVO scriptVO, Model model) throws Exception {
+	public String updateProcess(ScriptVO scriptVO, String pageScriptGbSq, Model model){
 		
-		ScriptVO scriptVo = scriptService.retrieve(scriptVO.getScriptSq());
-		scriptVo.setScriptContent(scriptVO.getScriptContent());
-		scriptVo.setScriptSt(scriptVO.getScriptSt());
-		scriptVo.setScriptGbSq(scriptVO.getScriptGbSq());
-
-		logger.debug("scriptVO : {}", scriptVO);
-		int updateCnt = scriptService.update(scriptVo);
-		model.addAttribute("scriptVO", scriptVo);
-		if (updateCnt == 1) {
-			return "redirect:/script/retrievePagingList.do";
-		} else {
-			return "manage/scriptManage";
+		try {
+			ScriptVO dbscriptVO = scriptService.retrieve(scriptVO.getScriptSq());
+			dbscriptVO.setScriptContent(scriptVO.getScriptContent());
+			dbscriptVO.setScriptSt(scriptVO.getScriptSt());
+			dbscriptVO.setScriptGbSq(scriptVO.getScriptGbSq());
+			
+			int updateCnt = scriptService.update(dbscriptVO);
+			if (updateCnt == 1) {
+				model.addAttribute("scriptVO", dbscriptVO);
+				return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+pageScriptGbSq;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "manage/scriptManage";
 	}
 	
 	/* 일괄 다운로드 */

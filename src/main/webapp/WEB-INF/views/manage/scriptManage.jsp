@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI_INTERVIEW</title>
 </head>
 
@@ -112,6 +113,7 @@ body{
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
+var pageUnit = '';
 $(document).ready(function() {
 	$('#regBtn').on('click', function() {
 		if($('#scriptContent').val()==''){
@@ -127,21 +129,32 @@ $(document).ready(function() {
 	});
 	
 	$('input[type="file"]').on('change',function(){
+		console.log("일괄등록");
 		$('#massiveForm').submit();
 	});
 	
+	
 	$('.updateBtn').on('click', function(){
-		if($(this).parent('form').children('.updateScriptContent').val()==""){
-			$(this).parent('form').children('.updateScriptContent').attr("placeholder", "스크립트를 입력해주세요.");
+		console.log("수정");
+		console.log($(this).parent().find('.updateScriptContent').val());
+		$('.updateCheck').empty();
+		if($(this).parent().find('.updateScriptContent').val()==""){
+			$(this).parent().find('.updateCheck').append('<span style="color:red">스크립트를 입력해주세요.</span>');
 		}else{
-			$(this).parent('form').submit();
+			$(this).parent().submit();
 		}
 	});
 	
+	
 	$('#sort').on('change',function(){
 		pageUnit = $(this).val();
-		document.location="/script/retrievePagingList.do?pageUnit="+pageUnit;
+		document.location="/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+pageUnit;
 	});
+	
+	$('#searchBtn').on('click', function(){
+		searchKeyword = $('#searchKeyword').val();
+		document.location = "/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&searchKeyword="+searchKeyword;
+	})
 	
 });
 
@@ -153,18 +166,15 @@ function linkPage(pageNo){
    	document.listForm.submit();
 }
  
-/* 검색 */
-function searchList(){
-	document.listForm.action = "<c:url value='/script/retrievePagingList.do'/>";
-   	document.listForm.submit();
-}
 </script>
 <body>
+	<form:form commandName="scriptVO" id="listForm" name="listForm" method="get">
 <h1>스크립트 관리</h1>
 <div class="contentBox">
 	<h3>스크립트 등록</h3>
 	<div class="registdiv">
 		<form id="regForm" action="/script/createProcess.do" method="post">
+			<input type="hidden" name="scriptGbSq" value="${scriptGbSq }">
 			<input type="text" id="scriptContent" name="scriptContent" placeholder="스크립트" value="">
 			<select id="status" name="scriptSt">
 				<option value="Y" selected="selected">사용</option>
@@ -178,7 +188,7 @@ function searchList(){
 	
 <div class="contentBox">
 	<h3>스크립트 목록</h3>
-	<form:form commandName="scriptVO" id="listForm" name="listForm" method="get">
+
 			<div class="blog-main">
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
@@ -200,7 +210,7 @@ function searchList(){
 	        				</form:select>
 	                        <form:input  path="searchKeyword" cssClass="custom-input" cssStyle="width:40%"/>
 	        	            <span class="btn">
-	        	                <a class="searchBtn" onclick="searchList()">검색</a>
+	        	                <a id="searchBtn">검색</a>
 	        	            </span>
 	        	        </li>
 	                </ul>
@@ -210,9 +220,9 @@ function searchList(){
 					<a class="excelBtn" href="/script/list/excelDown.do?scriptGbSq=${scriptGbVO.scriptGbSq}">↓ excel 다운로드</a> 
 					<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
 					<!-- excel file 읽어오기 -->
-				    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="script/massiveCreateProcess.do"/>" >
-				        <input type="file" name="excelFile" hidden/>
-				    </form>
+					<form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/script/massiveCreateProcess.do?scriptGbSq=${scriptGbSq }"/>" >
+			        	<input hidden type="file" name="excelFile" />
+			   		</form>
 				</div>
 			    
 			    <br>
@@ -221,6 +231,7 @@ function searchList(){
 					<c:forEach items="${resultList }" var="script">
 						<form class="updateFrm" action="/script/updateProcess.do" method="post">
 							<input type="hidden" name="scriptSq" value="${script.scriptSq }">
+							<input type="hidden" name="pageScriptGbSq" value="${scriptGbSq }">
 							<input type="text" class="scriptContent updateScriptContent" name="scriptContent" value="${script.scriptContent }">
 							<select class="scriptGbSq" name="scriptGbSq">
 							<c:forEach items="${scriptGbList }" var="scriptGb">
@@ -248,6 +259,7 @@ function searchList(){
 							</c:choose>
 						</select>
 							<a class="updateBtn" id="updateBtn">수정</a>
+							<div class="updateCheck" style="display: inline-block;">&nbsp;</div>	
 						</form>
 					</c:forEach>
 				</div>
@@ -257,7 +269,7 @@ function searchList(){
 					<form:hidden path="pageIndex" />
 				</div>
 			</div>
-		</form:form>
 	</div>
+</form:form>
 </body>
 </html>
