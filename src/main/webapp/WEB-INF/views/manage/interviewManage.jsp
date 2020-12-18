@@ -169,6 +169,10 @@
 	<h1>면접 관리</h1>
 	
 	<div class="contentBox">
+		<div id="interviewCountDiv">현재 진행중인 면접 수 <span id="interviewCountSpan">${interviewList.size() }</span>회 </div>
+	</div>
+	
+	<div class="contentBox">
 		<h3>면접 목록</h3>
 		<form:form commandName="interviewVO" id="listForm" name="listForm" method="get">
 				<div class="input-group">
@@ -220,10 +224,7 @@
 		</form:form>
 	</div>
 	
-	<div class="contentBox">
-		<div id="interviewCountDiv">현재 진행중인 면접 수 <span id="interviewCountSpan">${interviewList.size() }</span>회 </div>
-	</div>
-	
+
 	
 </body>
 </html>
