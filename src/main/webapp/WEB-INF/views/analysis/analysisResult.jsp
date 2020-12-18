@@ -264,8 +264,8 @@
 		repeatHtml = '';
 		
 		for(var i = 0; i<repeatList.length; i++){
-			if(Number(repeatmax) < count){
-				repeatmax = count;
+			if(Number(repeatmax) < repeatList[i].repeatCount){
+				repeatmax = repeatList[i].repeatCount;
 			}
 		}
 		console.log(repeatmax);
