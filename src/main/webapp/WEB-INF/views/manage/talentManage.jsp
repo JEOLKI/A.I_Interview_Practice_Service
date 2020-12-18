@@ -10,8 +10,9 @@
 <title>Insert title here</title>
 <style type="text/css">
 	body{
-      background-color : #f5f7fb;
-   }
+		background-color : #f5f7fb;
+		padding: 30px;
+	}
 	
 	#search{
 		display: inline-block; 

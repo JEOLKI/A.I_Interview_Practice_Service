@@ -12,7 +12,10 @@
 	#search{
 		display: inline-block; 
 	}
-	
+	body{
+		background-color : #f5f7fb;
+		padding: 30px;
+	}
 	.menu{
 		margin-top : 20px;
 		margin-bottom: 20px;

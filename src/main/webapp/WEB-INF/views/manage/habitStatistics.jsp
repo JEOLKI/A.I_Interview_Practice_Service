@@ -12,7 +12,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.contentBox{
+	body{
+		background-color : #f5f7fb;
+		padding: 30px;
+	}
+	.contentBox{
 		width: 70%;
 		padding: 20px 30px;
 		background-color: white;

@@ -23,10 +23,10 @@
 	.menu{
 		margin-bottom: 20px;
 	}
-	.body{
-		margin : 30px;
+	body{
+		background-color : #f5f7fb;
+		padding: 30px;
 	}
-	
 	.updateBtn{
 		padding-left: 10px;
 		padding-right: 10px;

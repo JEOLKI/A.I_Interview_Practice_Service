@@ -34,10 +34,10 @@
 		position: relative;
 		top : 7px;
 	}
-	.body{
-		margin : 30px;
+	body{
+		background-color : #f5f7fb;
+		padding: 30px;
 	}
-	
 	.content__title{
 		margin-bottom: 30px;
 	}

@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <style>
+	body{
+		background-color : #f5f7fb;
+		padding: 30px;
+	}
 	#search{
 		display: inline-block; 
 	}
