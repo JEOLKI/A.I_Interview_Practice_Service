@@ -59,12 +59,17 @@ public class QuestionGubunController {
 		questGbVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		questGbVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<QuestionGubunVO> resultList = questionGubunService.retrievePagingList(questGbVO);
-		model.addAttribute("resultList", resultList);
-
-		int totCnt = questionGubunService.retrievePagingListCnt(questGbVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
+		List<QuestionGubunVO> resultList;
+		try {
+			resultList = questionGubunService.retrievePagingList(questGbVO);
+			model.addAttribute("resultList", resultList);
+			
+			int totCnt = questionGubunService.retrievePagingListCnt(questGbVO);
+			paginationInfo.setTotalRecordCount(totCnt);
+			model.addAttribute("paginationInfo", paginationInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "manage/questionGubunManage";
 	}
@@ -85,7 +90,6 @@ public class QuestionGubunController {
 	
 	@RequestMapping("/searchlist.do")
 	public String retrieveQuestGbSearch(String keyword, Model model){
-		System.out.println("질문 구분 검색 keyword : " + keyword);
 
 		List<QuestionGubunVO> questGbSearchList = null;
 		try {
@@ -121,17 +125,25 @@ public class QuestionGubunController {
 
 	}
 
+	/* 수정 */
 	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
 	public String updateProcess(QuestionGubunVO questGbVO, Model model) {
-		System.out.println("질문 구분 수정 - questGbVO : " + questGbVO);
 
-		int updateCnt = questionGubunService.update(questGbVO);
-		System.out.println("질문 구분 수정 - updateCnt : " + updateCnt);
-		if (updateCnt == 1) {
-			return "redirect:/questGb/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
-		} else {
-			return "manage/questionGubunManage";
+		try {
+			int updateCnt = 0;
+			for(int i=0; i<questGbVO.getQuestGbSqs().length; i++) {
+				QuestionGubunVO updateQuestGbVO = questionGubunService.retrieve(questGbVO.getQuestGbSqs()[i]);
+				updateQuestGbVO.setQuestGbContent(questGbVO.getQuestGbContents()[i]);
+				updateQuestGbVO.setQuestGbSt(questGbVO.getQuestGbSts()[i]);
+				updateCnt += questionGubunService.update(updateQuestGbVO);
+			}
+			if (updateCnt == questGbVO.getQuestGbSqs().length) {
+				return "redirect:/questGb/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "manage/questionGubunManage";
 	}
 
 	@RequestMapping("/list/excelDown.do")

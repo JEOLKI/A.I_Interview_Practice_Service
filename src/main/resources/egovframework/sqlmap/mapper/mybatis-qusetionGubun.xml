@@ -29,6 +29,13 @@
 	</update>
 	
 	
+	<!-- 조회 -->
+	<select id="retrieve" parameterType="String"  resultType="com.aiinterview.interview.vo.QuestionGubunVO">
+		SELECT *
+		  FROM question_gb
+		 WHERE quest_gb_sq = #{questGbSq}
+	</select>
+	
 	<!-- 검색 -->
 	<select id="retrieveQuestGbSearchList" parameterType="String" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
 		SELECT *

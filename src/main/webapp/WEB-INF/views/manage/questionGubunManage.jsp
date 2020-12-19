@@ -22,7 +22,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 373px;
+		margin-right: 49.5%;
 	}
 	#searchKeyword{
 		height: 25px;
@@ -53,7 +53,10 @@
 		width: 400px;
 		margin-bottom: 10px;
 	}
-	
+	#questGbContent{
+    	width: 447px;
+    	margin-bottom: 10px;
+	}
 	.content__title{
 		margin-bottom: 30px;
 	}
@@ -143,7 +146,15 @@
 		background-color: #4374D9;
 	    color: #fff;
 	}
-	
+	.updateBtn{
+		width: 70px;
+		float: right;
+        margin-right: 49.5%;
+    	margin-top: 10px;
+	}
+	.list{
+		margin : 10px 0px;
+	}
 </style>
     <script type="text/javaScript" language="javascript" defer="defer">
 	$(document).ready(function(){
@@ -200,6 +211,12 @@
 	function searchList(){
 		document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
        	document.listForm.submit();
+	}
+	
+	/* 수정 */
+	function updateList() {
+		document.listForm.action = "<c:url value='/questGb/updateProcess.do'/>";
+		document.listForm.submit();
 	}
 	
 </script>
@@ -270,10 +287,10 @@
 			    	<br>
 					<div class="existQuestGb" id="questGbList">
 						<c:forEach items="${resultList }" var="questGb">
-							<form class="questGbUpdateFrm" action="${cp }/questGb/updateProcess.do" method="post">
-								<input type="hidden" name="questGbSq" value="${questGb.questGbSq}">
-								<input type="text" class="updateContent" class="questGbContent" name="questGbContent" value="<c:out value="${questGb.questGbContent}"/>">
-								<select class="questGbSt" name="questGbSt">
+							<div class="list">
+								<input type="hidden" name="questGbSqs" value="${questGb.questGbSq}">
+								<input type="text" class="updateContent" class="questGbContent" name="questGbContents" value="<c:out value="${questGb.questGbContent}"/>">
+								<select class="questGbSt" name="questGbSts">
 									<c:choose>
 										<c:when test="${questGb.questGbSt == 'Y' }">
 											<option value="Y" selected="selected">사용</option>
@@ -285,12 +302,11 @@
 										</c:otherwise>
 									</c:choose>
 								</select>
-								<a class="updateBtn">수정</a>
 								<div id="updateCheck" style="display: inline-block;">&nbsp;</div>
-							</form>
+							</div>
 						</c:forEach>
+						<a class="updateBtn" onclick="updateList()">수정</a>
 					</div>
-					
 					<div class= "paging">
 						<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 						<form:hidden path="pageIndex" />

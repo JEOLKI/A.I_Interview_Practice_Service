@@ -26,7 +26,7 @@ public interface QuestionGubunMapper {
 	 * @param questGbVO
 	 * @return
 	 */
-	public int update(QuestionGubunVO questGbVO);
+	public int update(QuestionGubunVO questGbVO)throws Exception;
 	
 	/**
 	 * 샘플질문 구분(직무) 검색 목록을 조회하는 메서드
@@ -40,7 +40,7 @@ public interface QuestionGubunMapper {
 	 * @param questGbVO
 	 * @return 해당페이지 목록
 	 */
-	public List<QuestionGubunVO> retrievePagingList(QuestionGubunVO questGbVO);
+	public List<QuestionGubunVO> retrievePagingList(QuestionGubunVO questGbVO)throws Exception;
 
 	
 	/**
@@ -48,13 +48,22 @@ public interface QuestionGubunMapper {
 	 * @param questGbVO
 	 * @return 전체 questGbVO 개수
 	 */
-	public int retrievePagingListCnt(QuestionGubunVO questGbVO);
+	public int retrievePagingListCnt(QuestionGubunVO questGbVO)throws Exception;
 
 	/**
 	 * 사용중인 샘플질문 구분(직무) 목록을 조회하는 메서드
 	 * @return questGbList
 	 * @throws Exception 
 	 */
-	public List<QuestionGubunVO> retrieveUsingList();
+	public List<QuestionGubunVO> retrieveUsingList()throws Exception;
+
+	
+	/**
+	 * 질문구분번호에 해당하는 질문구분 객체를 조회하는 메서드
+	 * 업데이트용
+	 * @param string
+	 * @return
+	 */
+	public QuestionGubunVO retrieve(String questGbSq) throws Exception;
 
 }

@@ -72,10 +72,8 @@ public class QuestionGubunService {
 	 * @param questGbVO
 	 * @return
 	 */
-	public int update(QuestionGubunVO questGbVO) {
-		logger.debug("질문 구분 수정  service");
+	public int update(QuestionGubunVO questGbVO) throws Exception {
 		int updateCnt = questionGubunMapper.update(questGbVO);
-		logger.debug("질문 구분 수정  service updateCnt : "+updateCnt);
 		return updateCnt;
 	}
 	
@@ -94,7 +92,7 @@ public class QuestionGubunService {
 	 * @param questGbVO
 	 * @return 해당페이지 목록
 	 */
-	public List<QuestionGubunVO> retrievePagingList(QuestionGubunVO questGbVO) {
+	public List<QuestionGubunVO> retrievePagingList(QuestionGubunVO questGbVO)throws Exception {
 		return questionGubunMapper.retrievePagingList(questGbVO);
 	}
 
@@ -107,7 +105,7 @@ public class QuestionGubunService {
 	 * @param questGbVO
 	 * @return 전체 questGbVO 개수
 	 */
-	public int retrievePagingListCnt(QuestionGubunVO questGbVO) {
+	public int retrievePagingListCnt(QuestionGubunVO questGbVO)throws Exception {
 		return questionGubunMapper.retrievePagingListCnt(questGbVO);
 	}
 
@@ -117,8 +115,18 @@ public class QuestionGubunService {
 	 * @return questGbList
 	 * @throws Exception 
 	 */
-	public List<QuestionGubunVO> retrieveUsingList() {
+	public List<QuestionGubunVO> retrieveUsingList() throws Exception{
 		return questionGubunMapper.retrieveUsingList();
+	}
+
+	/**
+	 * 질문구분번호에 해당하는 질문구분 객체를 조회하는 메서드
+	 * 업데이트용
+	 * @param string
+	 * @return
+	 */
+	public QuestionGubunVO retrieve(String questGbSq) throws Exception{
+		return questionGubunMapper.retrieve(questGbSq);
 	}
 
 
