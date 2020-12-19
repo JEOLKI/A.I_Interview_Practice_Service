@@ -220,21 +220,28 @@
 				<div class="table-responsive">
 					<c:forEach var="i" begin="0" end="${ resultList.size()==0? resultList.size() : resultList.size()-1 }" step="1">
 						<div class="inputBox">
-							<input type="hidden" name="boardGbSqArr[${i }]" value="${resultList[i].boardGbSq}">
-							<input type="text" class="boardGbNm" name="boardGbNmArr[${i }]" value="${resultList[i].boardGbNm}">
-							<select class="boardGbSt" name="boardGbStArr[${i }]">
-									<c:choose>
-										<c:when test="${resultList[i].boardGbSt == 'Y' }">
-											<option value="Y" selected="selected">사용</option>
-											<option value="N">미사용</option>
-										</c:when>
-										<c:otherwise>
-											<option value="Y">사용</option>
-											<option value="N" selected="selected">미사용</option>
-										</c:otherwise>
-									</c:choose>
-							</select>
-							<a class="categoryMngBtn manageBtn" href="${cp }/category/retrievePagingList.do?boardGbSq=${resultList[i].boardGbSq }">말머리 관리</a>
+							<c:choose>
+								<c:when test="${ resultList.size()==0 }">
+									등록된 게시판이 없습니다.
+								</c:when>
+								<c:otherwise>
+									<input type="hidden" name="boardGbSqArr[${i }]" value="${resultList[i].boardGbSq}">
+									<input type="text" class="boardGbNm" name="boardGbNmArr[${i }]" value="${resultList[i].boardGbNm}">
+									<select class="boardGbSt" name="boardGbStArr[${i }]">
+											<c:choose>
+												<c:when test="${resultList[i].boardGbSt == 'Y' }">
+													<option value="Y" selected="selected">사용</option>
+													<option value="N">미사용</option>
+												</c:when>
+												<c:otherwise>
+													<option value="Y">사용</option>
+													<option value="N" selected="selected">미사용</option>
+												</c:otherwise>
+											</c:choose>
+									</select>
+									<a class="categoryMngBtn manageBtn" href="${cp }/category/retrievePagingList.do?boardGbSq=${resultList[i].boardGbSq }">말머리 관리</a>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</c:forEach>
 					<br>
@@ -245,6 +252,7 @@
 					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 					<form:hidden path="pageIndex" />
 				</div>
+				
 			</div>
 		</form:form>
 	</div>
