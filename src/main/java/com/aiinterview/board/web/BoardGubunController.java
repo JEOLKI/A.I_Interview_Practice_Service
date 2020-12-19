@@ -102,7 +102,12 @@ public class BoardGubunController {
 	public String update(BoardGubunVO boardGubunVO) {
 		
 		try {
-			boardGubunService.update(boardGubunVO);
+			for(int i=0; i< boardGubunVO.getBoardGbSqArr().length ; i++) {
+				boardGubunVO.setBoardGbNm(boardGubunVO.getBoardGbNmArr()[i]);
+				boardGubunVO.setBoardGbSq(boardGubunVO.getBoardGbSqArr()[i]);
+				boardGubunVO.setBoardGbSt(boardGubunVO.getBoardGbStArr()[i]);
+				boardGubunService.update(boardGubunVO);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

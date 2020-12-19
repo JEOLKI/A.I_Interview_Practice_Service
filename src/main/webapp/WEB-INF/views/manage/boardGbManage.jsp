@@ -45,6 +45,13 @@
        	document.listForm.submit();
 	}
 	
+	/* 검색 */
+	function updateList(){
+		document.listForm.action = "<c:url value='${cp }/boardGubun/update.do'/>";
+       	document.listForm.submit();
+	}
+	
+	
 </script>
 
 <style type="text/css">
@@ -75,8 +82,11 @@
 	}
 	
 	.updateBtn{
+		display: inline-block;
 		width: 50px;
 		background: white;
+		float: right;
+		margin-right: 30%;
 	}
 	
 	.manageBtn:hover, .updateBtn:hover, .searchBtn:hover{
@@ -115,6 +125,7 @@
 		border: 1px solid #000d22;
 		border-radius: 5px;
 		padding: 1px 5px;
+		float: left;
 	}
 	
 	.updateFrm{
@@ -150,6 +161,13 @@
 	    color: #fff;
 	}
 	
+	.table-responsive{
+		margin-top: 20px;
+	}
+	
+	.inputbox{
+		margin-top: 5px; 
+	}
 	
 </style>
 
@@ -176,6 +194,14 @@
 	<div class="contentBox">
 		<h3>게시판 목록</h3>
 
+			    <div id="excelBox">
+					<a class="excelBtn" href="${cp }/boardGubun/list/excelDown.do">↓ excel 다운로드</a> 
+					<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
+					<!-- excel file 읽어오기 -->
+				    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
+				        <input type="file" name="excelFile" hidden/>
+				    </form>
+				</div>
 		
 		<form:form commandName="boardGubunVO" id="listForm" name="listForm" method="get">
 			<div class="blog-main">
@@ -193,25 +219,17 @@
 	                </ul>
 		       	</div>
 			    
-			    <div id="excelBox">
-					<a class="excelBtn" href="${cp }/boardGubun/list/excelDown.do">↓ excel 다운로드</a> 
-					<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
-					<!-- excel file 읽어오기 -->
-				    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
-				        <input type="file" name="excelFile" hidden/>
-				    </form>
-				</div>
 			    
 			    <br>
 			    
 				<div class="table-responsive">
-					<c:forEach items="${resultList }" var="boardGubun">
-						<form class="updateFrm" action="${cp }/boardGubun/update.do" method="post">
-							<input type="hidden" name="boardGbSq" value="${boardGubun.boardGbSq}">
-							<input type="text" class="boardGbNm" name="boardGbNm" value="${boardGubun.boardGbNm}">
-							<select class="boardGbSt" name="boardGbSt">
+					<c:forEach var="i" begin="0" end="${resultList.size() }" step="1">
+						<div class="inputbox">
+							<input type="hidden" name="boardGbSqArr[${i }]" value="${resultList[i].boardGbSq}">
+							<input type="text" class="boardGbNm" name="boardGbNmArr[${i }]" value="${resultList[i].boardGbNm}">
+							<select class="boardGbSt" name="boardGbStArr[${i }]">
 									<c:choose>
-										<c:when test="${boardGubun.boardGbSt == 'Y' }">
+										<c:when test="${resultList[i].boardGbSt == 'Y' }">
 											<option value="Y" selected="selected">사용</option>
 											<option value="N">미사용</option>
 										</c:when>
@@ -221,10 +239,11 @@
 										</c:otherwise>
 									</c:choose>
 							</select>
-							<button type="submit" class="updateBtn">수정</button>
-							<a class="categoryMngBtn manageBtn" href="${cp }/category/retrievePagingList.do?boardGbSq=${boardGubun.boardGbSq }">말머리 관리</a>
-						</form>
+							<a class="categoryMngBtn manageBtn" href="${cp }/category/retrievePagingList.do?boardGbSq=${resultList[i].boardGbSq }">말머리 관리</a>
+						</div>
 					</c:forEach>
+					<br>
+						<a class="updateBtn" href="javascript:updateList();">수정</a>
 				</div>
 			
 				<div class= "paging">

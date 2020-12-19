@@ -9,6 +9,36 @@ public class BoardGubunVO extends BaseVO{
 	private String boardGbSt; // 보드구분 상태
 	private String count;
 	
+	private String[] boardGbSqArr; // 보드구분 번호
+	private String[] boardGbNmArr; // 보드구분 이름
+	private String[] boardGbStArr;
+	
+	
+	
+	public String[] getBoardGbSqArr() {
+		return boardGbSqArr;
+	}
+
+	public void setBoardGbSqArr(String[] boardGbSqArr) {
+		this.boardGbSqArr = boardGbSqArr;
+	}
+
+	public String[] getBoardGbNmArr() {
+		return boardGbNmArr;
+	}
+
+	public void setBoardGbNmArr(String[] boardGbNmArr) {
+		this.boardGbNmArr = boardGbNmArr;
+	}
+
+	public String[] getBoardGbStArr() {
+		return boardGbStArr;
+	}
+
+	public void setBoardGbStArr(String[] boardGbStArr) {
+		this.boardGbStArr = boardGbStArr;
+	}
+
 	public String getCount() {
 		return count;
 	}
