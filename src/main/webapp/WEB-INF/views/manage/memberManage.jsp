@@ -108,6 +108,7 @@ $(document).ready(function(){
 		border: 1px solid #000d22;
 		border-radius: 5px;
 		padding: 1px 5px;
+		height: 26px;
 	}
 	
 	.excelBtn:hover{
@@ -163,7 +164,12 @@ $(document).ready(function(){
 			<div id="root boarding">
 				<div class=" blog-main">
 					<div class="input-group" >
-				     	<ul>
+						
+					</div>
+					
+					<div id="excelBox">
+						<a class="excelBtn" href="/member/memberExcel.do">↓ excel 다운로드</a>  
+				     	<ul style="float: right;">
 				        	<li>
 				        		<select id="sort" class="custom-select">
 									<c:forEach var="value" begin="5" end="20" step="5">
@@ -192,11 +198,7 @@ $(document).ready(function(){
 		        	                <a class="searchBtn"  href="javascript:searchList();">검색</a>
 		        	            </span>
 		        	        </li>
-						</ul>
-					</div>
-					
-					<div id="excelBox">
-						<a class="excelBtn" href="/member/memberExcel.do">↓ excel 다운로드</a>  
+	        	        </ul>
 					</div>
 							
 					<div class="table-responsive">
