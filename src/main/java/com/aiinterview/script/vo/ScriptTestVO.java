@@ -1,8 +1,6 @@
 package com.aiinterview.script.vo;
 
-import com.aiinterview.base.vo.BaseVO;
-
-public class ScriptTestVO extends BaseVO{
+public class ScriptTestVO extends ScriptVO{
 	private String scriptTestSq;	//스크립트 테스트 고유번호
 	private String scriptTestScore;	//테스트 결과 점수
 	private String performScript;	//사용자의 테스트 스크립트
@@ -67,10 +65,14 @@ public class ScriptTestVO extends BaseVO{
 
 	@Override
 	public String toString() {
-		return "ScriptTestVO [scriptTestSq=" + scriptTestSq + ", scriptTestScore=" + scriptTestScore
-				+ ", performScript=" + performScript + ", scriptTestDate=" + scriptTestDate + ", memId=" + memId
-				+ ", scriptSq=" + scriptSq + ", scriptGbSq=" + scriptGbSq + "]";
+		return "ScriptTestVO [	scriptTestSq=" + scriptTestSq
+							+ ", scriptTestScore=" + scriptTestScore
+							+ ", performScript=" + performScript
+							+ ", scriptTestDate=" + scriptTestDate
+							+ ", memId=" + memId
+							+ ", scriptSq=" + scriptSq
+							//+ ", scriptContent=" + scriptContent
+							//+ ", scriptSt=" + scriptSt
+							+ ", scriptGbSq=" + scriptGbSq + "]";
 	}
-	
-	
 }

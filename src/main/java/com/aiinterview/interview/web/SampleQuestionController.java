@@ -87,8 +87,12 @@ public class SampleQuestionController {
 		
 		
 		/* 질문 구분 목록 추출 */
-		List<QuestionGubunVO> questGbList = questionGubunService.retrieveUsingList();
-		model.addAttribute("questGbList", questGbList);
+		List<QuestionGubunVO> questGbList = null;
+		try {
+			questGbList = questionGubunService.retrieveUsingList();
+			model.addAttribute("questGbList", questGbList);
+		} catch (Exception e) {
+		}
 		
 		
 		return "manage/sampleQuestionManage";

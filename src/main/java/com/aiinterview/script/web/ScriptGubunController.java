@@ -1,7 +1,6 @@
 package com.aiinterview.script.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.aiinterview.analysis.vo.ScriptAnalysisVO;
 import com.aiinterview.script.service.ScriptGubunService;
 import com.aiinterview.script.service.ScriptService;
 import com.aiinterview.script.vo.ScriptGubunVO;
+import com.aiinterview.script.vo.ScriptTestVO;
 import com.aiinterview.script.vo.ScriptVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -256,52 +256,61 @@ public class ScriptGubunController {
 
 	/* 통계 화면*/
 	@RequestMapping(path = "/statistics.do", method = { RequestMethod.GET })
-	public String statisticsView() throws Exception {
+	public String statisticsView(Model model) throws Exception {
+		
+		//활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
+		List<ScriptGubunVO> scriptGbList = null;
+	
+
+		scriptGbList = scriptGubunService.retrieveList();
+		List<ScriptGubunVO> availableGbList = new ArrayList<>();
+		for (ScriptGubunVO scriptGb : scriptGbList) {
+			if (scriptGb.getScriptGbSt().equals("Y")) {
+				availableGbList.add(scriptGb);
+			}
+		}
+		model.addAttribute("scriptGbList", availableGbList);
+		
 		return "script/scriptGbStatistics";
 	}
 	
-//	/* 통계 한 거 페이징*/
-//	@RequestMapping("/retrieveStatisticsPagingList.do")
-//	public String scriptGbStatistics(ScriptGbAnalysisVO scriptGbAnalysisVO,String pageUnit, String startDate, String endDate, String searchKeyword, Model model) {
-//		
-//		Map<String, Object> statisticMap = new HashMap<>();
-//		statisticMap.put("startDate", startDate);
-//		statisticMap.put("endDate", endDate);
-//		statisticMap.put("searchKeyword", searchKeyword);
-//		
-//		
-//		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
-//		model.addAttribute("pageUnit" , pageUnitInt);
-//		
-//		/** EgovPropertyService.sample */
-//		scriptGbAnalysisVO.setPageUnit(propertiesService.getInt("pageUnit"));
-//		scriptGbAnalysisVO.setPageSize(propertiesService.getInt("pageSize"));
-//		
-//		scriptGbAnalysisVO.setPageUnit(pageUnitInt);
-//		
-//		/** pageing setting */
-//		PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo(scriptGbAnalysisVO.getPageIndex());
-//		paginationInfo.setRecordCountPerPage(scriptGbAnalysisVO.getPageUnit());
-//		paginationInfo.setPageSize(scriptGbAnalysisVO.getPageSize());
-//		
-//		scriptGbAnalysisVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-//		scriptGbAnalysisVO.setLastIndex(paginationInfo.getLastRecordIndex());
-//		scriptGbAnalysisVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-//		
-//		statisticMap.put("scriptGbAnalysisVO", scriptGbAnalysisVO);
-//		
-//		List<ScriptGbAnalysisVO> scriptGbCountList;
-//		try {
-//			scriptGbCountList = scriptGubunService.retrieveStatisticsPagingList(statisticMap);
-//			model.addAttribute("scriptGbCountList", scriptGbCountList);
-//			
-//			int totCnt = scriptGubunService.retrieveStatisticsPagingListCnt(statisticMap);
-//			paginationInfo.setTotalRecordCount(totCnt);
-//			model.addAttribute("paginationInfo", paginationInfo);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return "jsonView";
-//	}
+	/* 통계 : 스구별 스테에 사용된 스 사용 빈도*/
+	@RequestMapping("/retrieveRankingList.do")
+	public String retrieveRankingList(String scriptGbSq, String startDate, String endDate, Model model) {
+		
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("scriptGbSq", scriptGbSq);
+		
+		
+		List<ScriptAnalysisVO> scriptRankingList;
+		try {
+			//여기에 머잇냐면  랭킹, 스시, 스크립트문, totCnt
+			scriptRankingList = scriptGubunService.retrieveRankingList(statisticMap);
+			
+			logger.debug("scripbRankingList : {}", scriptRankingList);
+			model.addAttribute("scriptRankingList", scriptRankingList);
+		} catch (Exception e) {
+		}
+		
+		return "jsonView";
+	}
+	
+	/* 통계 : 스구별 점수 표준편차 */
+	@RequestMapping("/retrieveScoreList.do")
+	public String retrieveScoreList(String scriptGbSq, Model model) {
+		
+		List<ScriptTestVO> scriptScoreList = null;
+		try {
+			scriptScoreList = scriptGubunService.retrieveScoreList(scriptGbSq);
+		} catch (Exception e) {
+		}
+		logger.debug("scriptScoreList : {}", scriptScoreList);
+		model.addAttribute("scriptScoreList", scriptScoreList);
+		
+		return "jsonView";
+		
+	}
+	
 }

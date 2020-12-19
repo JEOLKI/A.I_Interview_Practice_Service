@@ -246,7 +246,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 						<li class="selectLang">
 				    		<a class="scriptGbBtn" data-content="${scriptGb.scriptGbContent }" data-toggle="tab" data-sq="${scriptGb.scriptGbSq }" aria-expanded="false">${scriptGb.scriptGbContent }</a>
 							<input type="hidden" id="scriptGbSq" name="scritGbSq" value="${scriptGb.scriptGbSq }">
-					   </li>
+					   	</li>
 				</c:forEach>
 			</ul>
 		</div>

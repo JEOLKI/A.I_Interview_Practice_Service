@@ -8,293 +8,375 @@
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <title>AI_INTERVIEW</title>
 
+<script>
+/**
+ *  yyyyMMdd 포맷으로 반환
+ */
+function getFormatDate(date){
+    var year = date.getFullYear();              //yyyy
+    var month = (1 + date.getMonth());          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '' + month + '' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+}
+
+var today = new Date();
+today = getFormatDate(today);
+</script>
+
 <style>
-/* 	#search{ */
-/* 		display: inline-block; */
-/* 	} */
+	body{
+      background-color : #f5f7fb;
+      padding: 30px;
+   }
+	#RankingChart {
+	  width: 50%;
+	  height: 400px;
+	}
 	
-/* 	#searchBtn{ */
-/* 		display: inline-block; */
-/* 	    vertical-align: middle; */
-/* 	    border: 1px solid #000d22; */
-/* 	    border-radius: 5px; */
-/* 	    height: 23px; */
-/* 	    padding: 0px 10px; */
-/* 	    text-align: center; */
-/* 	    position: relative; */
-/* 	    top: -2px; */
-/* 	} */
+	#detailScoreChart{
+	 width: 50%;
+	 height: 400px;
+	}
+
+ 	#search{ 
+ 		display: inline-block; 
+ 	} 
 	
-/* 	#searchBtn:hover{ */
-/* 	    background-color: #000d22; */
-/* 	    color: #fff; */
-/* 	} */
+ 	#searchBtn{ 
+ 		display: inline-block; AA
+ 	    vertical-align: middle; 
+ 	    border: 1px solid #000d22; 
+ 	    border-radius: 5px; 
+ 	    height: 23px; 
+ 	    padding: 0px 10px; 
+ 	    text-align: center; 
+ 	    position: relative; 
+ 	    top: -2px; 
+ 	} 
 	
-/* 	.listmenu, .conditionmenu{ */
-/* 		display: inline-block;  */
-/* 	} */
+ 	#searchBtn:hover{ 
+ 	    background-color: #000d22; 
+ 	    color: #fff; 
+ 	} 
 	
-/* 	.conditionmenu{ */
-/* 		float: left; */
-/* 	} */
+ 	.listmenu, .conditionmenu{ 
+ 		display: inline-block;  
+ 	} 
 	
-/* 	.listmenu{ */
-/* 		float: right; */
-/* 		position: relative; */
-/* 		top : 7px; */
-/* 	} */
+ 	.conditionmenu{ 
+ 		float: left; 
+ 	} 
 	
-/* 	.body{ */
-/* 		margin : 30px; */
-/* 	} */
+ 	.listmenu{ 
+ 		float: right; 
+ 		position: relative; 
+ 		top : 7px; 
+ 	} 
 	
-/* 	.content__title{ */
-/* 		margin-bottom: 30px; */
-/* 	} */
+ 	.body{ 
+ 		margin : 30px; 
+ 	} 
 	
-/* 	h1{ */
-/* 		font-weight:bold; */
-/* 	} */
+ 	.content__title{ 
+ 		margin-bottom: 30px; 
+ 	} 
 	
-/* 	td{ */
-/* 		width: 250px; */
-/* 		text-align: center; */
-/* 	} */
+ 	h1{ 
+ 		font-weight:bold; 
+ 	} 
 	
-/* 	tr{ */
-/* 		height: 50px; */
-/* 	} */
+ 	td{ 
+ 		width: 250px; 
+ 		text-align: center; 
+ 	} 
 	
-/* 	.list { */
-/* 		display: inline-block; */
-/* 		float : left; */
-/* 		width: 45%; */
-/* 	} */
+ 	tr{ 
+ 		height: 50px; 
+ 	} 
 	
-/* 	.chart{ */
-/* 		display: inline-block; */
-/* 		float : right; */
-/* 		width: 45%; */
-/* 	} */
+ 	.list { 
+ 		display: inline-block; 
+ 		float : left; 
+ 		width: 45%; 
+ 	} 
 	
-/* 	.title th{ */
-/* 		width: 250px; */
-/* 		border-bottom: 2px solid black; */
-/* 		text-align: center; */
-/* 		font-size: 1.2em; */
-/* 	} */
+ 	.chart{ 
+ 		display: inline-block; 
+ 		float : right; 
+ 		width: 45%; 
+ 	} 
 	
-/* 	table{ */
-/* 		border-collapse: collapse; */
-/* 	} */
+ 	.title th{ 
+ 		width: 250px; 
+ 		border-bottom: 2px solid black; 
+ 		text-align: center; 
+ 		font-size: 1.2em; 
+ 	} 
 	
-/* 	.chart{ */
-/* 		padding :10px; */
-/* 		margin-left: 50px; */
-/* 		height: 400px; */
-/* 		width: 45%; */
-/* 	} */
+ 	table{ 
+ 		border-collapse: collapse; 
+ 	} 
 	
-/* 	#sum{ */
-/* 		border-top: 1px solid black; */
-/* 		font-weight: bold; */
-/* 	} */
+ 	.chart{ 
+ 		padding :10px; 
+ 		margin-left: 50px; 
+ 		height: 400px; 
+ 		width: 45%; 
+ 	} 
 	
-/* 	.contentBox{ */
-/* 		width: 70%; */
-/* 		padding: 20px 30px; */
-/* 		background-color: white; */
-/* 		border-radius: 10px; */
-/* 		margin: 10px 0px; */
-/* 		box-shadow: 5px 5px #EAEAEA; */
-/* 		display: inline-block; */
-/* 		float: left; */
-/* 	} */
+ 	#sumCnt{ 
+ 		border-top: 1px solid black; 
+ 		font-weight: bold; 
+ 	} 
 	
-/* 	input{ */
-/* 		border-radius: 5px; */
-/* 		border : 1px solid black; */
-/* 	} */
+ 	.contentBox{ 
+ 		width: 70%; 
+ 		padding: 20px 30px; 
+ 		background-color: white; 
+ 		border-radius: 10px; 
+ 		margin: 10px 0px; 
+ 		box-shadow: 5px 5px #EAEAEA; 
+ 		display: inline-block; 
+ 		float: left; 
+ 	} 
 	
-/* 	.scriptGbCountList{ */
-/* 		margin-top: 50px; */
-/* 	} */
+ 	input{ 
+ 		border-radius: 5px; 
+ 		border : 1px solid black; 
+ 	} 
+	
+ 	.scriptGbRankingList{
+ 		margin-top: 50px;
+ 	}
+ 	
+ 	.scriptContentTitle{
+ 		width : 50%;
+ 	}
+ 	
+ 	#tabContent{
+ 		display : inline;
+ 		float : center;
+ 	}
 </style>
 
 <script>
-// $(document).ready(function(){
-// 	$.ajax({ url : "/scriptGubun/retrieveStatisticsPagingList.do", 
-// 		 data : {"startDate" : startDate,
-// 			 	 "endDate" 	 : endDate},
-// 		 dataType : "json",
-// 		 success : function(data){
-// 			html="";
+var startDate;
+var endDate;
+var scriptGbSq;
+var scriptRankingList=[];
+var scriptScoreList=[];
+
+$(document).ready(function(){
+	startDate = $('#start').val() == ''?  today : $('#start').val();
+	endDate = $('#end').val() == ''? today : $('#end').val();
+	console.log("startDate : "+startDate);
+	console.log("endDate : "+endDate);
+	
+	// 탭 토글 클릭 시
+	$('.scriptGbTab').on('click', function(){
+		scriptGbSq = $(this).attr('value');
 		
-// 			// Themes begin
-// 			am4core.useTheme(am4themes_animated);
-// 			// Themes end
-// 			var chart = am4core.create("scriptGbCountChart", am4charts.PieChart);		 
-					
-// 			var sum = 0;
-// 			var chartData2 = [];
-// 			var scriptGb="";
-// 			var scriptGbCount=0;
-// 			for(var i=0; i< data.scriptGbCountList.length; i++){
-// 				var scriptGb = data.scriptGbCountList[i];
-				
-// 				scriptGbContent=scriptGb.scriptGbContent;
-// 				scriptGbCount=scriptGb.scriptGbCount;
-				
-// 			    chartData2.push({scriptGbContent:scriptGbContent, scriptGbCount: scriptGbCount}); 
-					
-// 				 html += '<tr class="scriptGb">';
-// 				 html += '<td>'+scriptGb.rn+'</td>';
-// 				 html += '<td class="scriptGbContent">'+scriptGb.scriptGbContent+'</td>';
-// 				 html += '<td class="scriptGbCount" value="'+scriptGb.scriptGbCount+'">'+scriptGb.scriptGbCount+'</td>';
-// 				 html += '</tr>';
+		//랭킹 테이블
+	 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
+				data : {"startDate" : '20201101', //->startDate,
+					 	 "endDate" 	 : '20201219', //->endDate,
+					 	 "scriptGbSq": scriptGbSq},
+				dataType : "json",
+				success : function(data){
+					scriptRankingList = data.scriptRankingList;
+					//console.log("scriptRankingList : "+scriptRankingList);
+					drawRankingChart(scriptRankingList);
+					}	//sucess 종료	 
+		}); //ranking ajax 종료
+		
+		//score chart
+		$.ajax({url : "/scriptGubun/retrieveScoreList.do",
+				data : {"startDate" : '20201101', 	//->startDate,
+						"endDate" : '20201219', 	//->endDate,
+						"scriptGbSq" : scriptGbSq},
+				dataType : "json",
+				success : function(data){
+					scriptScoreList = data.scriptScoreList;
+					console.log("scriptScoreList : "+scriptScoreList);
+					drawScoreChart(scriptScoreList);
+				}//success 종료
+		}); //score ajax 종료
+	});// tab click 종료
+	
+	
+	/* Score Chart */
+	function drawScoreChart(scriptScoreList){
+		
+		am4core.ready(function() {
+			// Themes begin
+			am4core.useTheme(am4themes_kelly);
+			am4core.useTheme(am4themes_animated);
+			// Themes end
 				 
-// 				 sum += scriptGb.scriptGbCount;
-// 			 }
-// 			 html += '<tr id="sum">';
-// 			 html += '<td>합  계</td>';
-// 			 html += '<td></td>';
-// 			 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-// 			 $('#scriptGbCountList').empty();
-// 			 $('#scriptGbCountList').append(html);
-// 			chart.data =  chartData2;
-				   
-// 			chart.radius = am4core.percent(70);
-// 			// Set inner radius
-// 			chart.innerRadius = am4core.percent(50);
+			var chart = am4core.create("scoreChart", am4charts.XYChart);
+			chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 			
-// 			// Add and configure Series
-// 			var pieSeries = chart.series.push(new am4charts.PieSeries());
-// 			pieSeries.dataFields.value = "scriptGbCount";
-// 			pieSeries.dataFields.category = "scriptGbContent";
+			var chartData = [];
+			var scoreList = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+			var zero=0, one=0, two=0, three=0, four=0, five=0, six=0, seven=0, eight=0, nine=0, ten=0;
+			var score;
 
-// 			pieSeries.labels.template.maxWidth = 65;
-// 			pieSeries.labels.template.wrap = true;
-// 			// end am4core.ready()
-// 		 }
-	
-// });
-	
-// 	$('#start').on('change',function(){
-// 		$('#startDate').val($(this).val());
-// 	})
-// 	$('#end').on('change',function(){
-// 		$('#endDate').val($(this).val());
-// 	})
-// 	var startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
-// 	var endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
-	
-// 	// 전체 스크립트 구분 수
-// 	$('#selectBtn, #searchBtn, #sort').on('click',function(){
-// 		var searchKeyword = $('#searchKeyword').val();
-// 		var pageUnit = $(this).val();
-// 		$.ajax({ url : "/scriptGubun/retrieveStatisticsPagingList.do", 
-// 				 data : {"startDate" : startDate,
-// 				 	 	 "endDate" 	 : endDate,
-// 				 		 "searchKeyword" : searchKeyword},
-// 				 dataType : "json",
-// 				 success : function(data){
-// 					 html="";
-// 					 // Themes begin
-// 					am4core.useTheme(am4themes_animated);
-// 					// Themes end
-					
-// 				var chart = am4core.create("scriptGbCountChart", am4charts.PieChart);		 
-						
-//  				 var sum = 0;
-// 				 var chartData2 = [];
-// 				 var scriptGb="";
-// 				 var scriptGbCount=0;
-// 				 for(var i=0; i< data.scriptGbCountList.length; i++){
-// 						var scriptGb = data.scriptGbCountList[i];
-						
-// 						scriptGbContent=scriptGb.scriptGbContent;
-// 						scriptGbCount=scriptGb.scriptGbCount;
-						
-// 					    chartData2.push({scriptGbContent:scriptGbContent, scriptGbCount: scriptGbCount}); 
-							
-// 						 html += '<tr class="scriptGb">';
-// 						 html += '<td>'+scriptGb.rn+'</td>';
-// 						 html += '<td class="scriptGbContent">'+scriptGb.scriptGbContent+'</td>';
-// 						 html += '<td class="scriptGbCount" value="'+scriptGb.scriptGbCount+'">'+scriptGb.scriptGbCount+'</td>';
-// 						 html += '</tr>';
-						 
-// 						 sum += scriptGb.scriptGbCount;
-// 					 }
-// 					 html += '<tr id="sum">';
-// 					 html += '<td>합  계</td>';
-// 					 html += '<td></td>';
-// 					 html += '<td id="sumCount" value="'+sum+'">'+sum+'</td>';
-// 					 $('#scriptGbCountList').empty();
-// 					 $('#scriptGbCountList').append(html);
-// 					chart.data =  chartData2;
-					
-// 					// Set inner radius
-// 					chart.innerRadius = am4core.percent(50);
-					
-// 					// Add and configure Series
-// 					var pieSeries = chart.series.push(new am4charts.PieSeries());
-// 					pieSeries.dataFields.value = "scriptGbCount";
-// 					pieSeries.dataFields.category = "scriptGbContent";
+			for(var i=0; i<scriptScoreList.length; i++){
+				var testScore = scriptScoreList[i].scriptTestScore;
+				
+				var resultScore = (testScore/10)*10;
+				if(resultScore==0){
+					zero += 1;
+				}else if(resultScore==10){
+					one += 1;
+				}else if(resultScore==20){
+					two += 1;
+				}else if(resultScore==30){
+					three += 1;
+				}else if(resultScore==40){
+					four += 1;
+				}else if(resultScore==50){
+					five += 1;
+				}else if(resultScore==60){
+					six += 1;
+				}else if(resultScore==70){
+					seven += 1;
+				}else if(resultScore==80){
+					eight += 1;
+				}else if(resultScore==90){
+					nine += 1;
+				}else if(resultScore==100) {
+					ten += 1;
+					console.log("ten : " + ten);
+				}
+			}//for문 종료
+//			var cntNumList = [Number(zero), Number(one), Number(two), Number(three), Number(four), Number(five), Number(six), Number(seven), Number(eight), Number(nine), Number(ten)];
+			var cntNumList = [zero, one, two, three, four, five, six, seven, eight, nine, ten];
+			console.log("cntNumList :"+cntNumList);
 
-// 					pieSeries.labels.template.maxWidth = 50;
-// 					pieSeries.labels.template.wrap = true;
-// 					// end am4core.ready()
-// 				 }
-// 		});
-// 	});
-// });
+			for(var i=0; i<scoreList.length; i++){
+				calScore = cntNumList[i];//바 그릴 데이터
+				score = scoreList[i]; 	//x축에 찍을 데이터
+				
+			    chartData.push({calScore:calScore, score:score}); 
+			 }
+			
+			var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+			categoryAxis.renderer.grid.template.location = 0;
+			categoryAxis.dataFields.category = "calScore";
+			categoryAxis.renderer.minGridDistance = 40;
+			categoryAxis.fontSize = 11;
+
+			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+			valueAxis.min = 0;
+			valueAxis.max = 100;
+			valueAxis.strictMinMax = true;
+			valueAxis.renderer.minGridDistance = 30;
+			// axis break
+			var axisBreak = valueAxis.axisBreaks.create();
+
+			// fixed axis break
+			var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
+			axisBreak.breakSize = 0.05 * (1 - d) / d; //0.05 means that the break will take 5% of the total value axis height
+
+			// make break expand on hover
+			var hoverState = axisBreak.states.create("hover");
+			hoverState.properties.breakSize = 1;
+			hoverState.properties.opacity = 0.1;
+			hoverState.transitionDuration = 1500;
+
+			axisBreak.defaultState.transitionDuration = 1000;
+
+			var series = chart.series.push(new am4charts.ColumnSeries());
+			series.dataFields.categoryX = "calScore";
+			series.dataFields.valueY = "score";
+			series.columns.template.tooltipText = "{valueY.value}";
+			series.columns.template.tooltipY = 0;
+			series.columns.template.strokeOpacity = 0;
+
+			// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+			series.columns.template.adapter.add("fill", function(fill, target) {
+			 return chart.colors.getIndex(target.dataItem.index);
+			});
+		}); // end am4core.ready()
+	};//fn_ScoreChart end
+	
+	/* Ranking Chart */
+	function drawRankingChart(scriptRankingList){
+		html="";
+		var sumCnt = 0;
+		
+		for(var i=0; i<scriptRankingList.length; i++){
+			html += '<tr class="scriptRank">';
+			html += '	<td>'+scriptRankingList[i].rank+'</td>';
+			html += '	<td class="scriptContentTitle">'+scriptRankingList[i].scriptContent+'</td>';
+			html += '	<td>'+scriptRankingList[i].totCnt+'</td>';
+			html += '</tr>';
+			
+			sumCnt += scriptRankingList[i].totCnt;
+		}
+		html += '<tr id="sumCnt">'
+		html += '	<td>합  계</td>';
+		html += '	<td></td>'
+		html += '	<td>'+sumCnt+'</td>';
+		html += '</tr>'
+		
+		$('#rankingList').empty();
+		$('#rankingList').append(html);
+	}; //fn_drawRankingChart 종료
+}); //ready function 종료
 </script>
-
 </head>
 
 
 
 <body>
-<%-- <form:form commandName="ScriptGbAnalysisVO" id="listForm" name="listForm" method="post"> --%>
-<!-- 	<h1>스크립트 구분 통계</h1> -->
-<!-- 	<div class="scriptGbStatistics"> -->
-<!-- 		 <div id="scriptGb"> -->
-<!-- 			<div class="contentBox">	 -->
-<!-- 		 		<div class="conditionmenu"> -->
-<!-- 			    	기간 : <input id="start" type="date"> -->
-<!-- 			    	~ -->
-<!-- 			    	<input id="end" type="date"> -->
-<!-- 			    		<input type="hidden" id="startDate" name="startDate" > -->
-<!-- 			    		<input type="hidden" id="endDate" name="endDate" > -->
-<!-- 			    		<img id="selectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:5px; left:5px;"> -->
-<!-- 			    </div> -->
-<!-- 			    <div class="listmenu"> -->
-<!-- 					<div id="search"> -->
-<!-- 						<input type="text" id="searchKeyword" > -->
-<!-- 						<span id="searchBtn">검색</span> -->
-<!-- 					</div> -->
-<!-- 					<span >&nbsp;&nbsp;&nbsp;&nbsp;</span> -->
-<!-- 			    </div> -->
-<!-- 			</div> -->
-<!-- 			<div class="contentBox">	  -->
-<!-- 		  		<div class="list"> -->
-<!-- 		  			<table class="scriptGbCountList"> -->
-<!-- 					  	<tr class="title"> -->
-<!-- 					  			<th></th> -->
-<!-- 					  			<th>언 어</th> -->
-<!-- 					  			<th>도출 수</th> -->
-<!-- 					  	</tr>  -->
-<!-- 					  	<tbody id="scriptGbCountList"> -->
-<!-- 					  	</tbody> -->
-<!-- 					</table> -->
-<!-- 		  		</div> -->
-<!-- 			 	 <div id="scriptGbCountChart" class="scriptGbCount chart"></div> -->
-<!-- 			 </div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<%-- </form:form>	 --%>
-<!-- </body> -->
+	<h1>스크립트 통계</h1>
+	<div class="scriptGbStatistics">
+		<div class="contentBox">
+			<ul class="nav nav-tabs">
+				<c:forEach items="${scriptGbList }" var="scriptGb">
+				    <li>
+				    	<a class="scriptGbTab" value="${scriptGb.scriptGbSq }">${scriptGb.scriptGbContent }</a>
+				    </li>
+				</c:forEach>
+			</ul>
+			<br>
+					
+			<div id="Menu" class="tab-pane fade in active">
+		    <div class="conditionmenu">
+		    	기간 : <input id="start" type="date" value=""> ~ <input id="end" type="date" value="">
+		    		<img id="selectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
+		    </div>
+			</div>
+		</div>
+		
+		<div class="tab-content">
+			<div class="contentBox">
+				<div id="tabContent" class="tab-pane fade content in active">
+					<div class="tabContent" style="width:60%">
+				  		<table class="contentList">
+					  		<tr class="title">
+					  			<th class="rn">순위</th>
+					  			<th class="scriptContentTitle">스크립트</th>
+					  			<th>테스트 횟수</th>
+					  		</tr>
+					  		<tbody id="rankingList">
+					  		</tbody>
+						</table>
+					</div>	
+					<div id="scoreChart" class="content chart" style="width:40%">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
 </html>
