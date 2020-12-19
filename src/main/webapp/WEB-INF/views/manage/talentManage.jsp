@@ -290,6 +290,7 @@
 				</div>
 			</c:forEach>
 			<a class="updateBtn" onclick="updateList()">수정</a>
+			<br>
 		</div>
 			<div id="paging">
 				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
