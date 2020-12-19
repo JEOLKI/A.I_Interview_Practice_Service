@@ -45,7 +45,7 @@
        	document.listForm.submit();
 	}
 	
-	/* 검색 */
+	/* 수정 */
 	function updateList(){
 		document.listForm.action = "<c:url value='${cp }/boardGubun/update.do'/>";
        	document.listForm.submit();
@@ -128,10 +128,6 @@
 		float: left;
 	}
 	
-	.updateFrm{
-		margin: 10px 0px;
-	}
-	
 	.excelBtn:hover{
 	    background-color: #22741C;
 	    border: 1px solid #22741C;
@@ -165,7 +161,7 @@
 		margin-top: 20px;
 	}
 	
-	.inputbox{
+	.inputBox{
 		margin-top: 5px; 
 	}
 	
@@ -194,14 +190,14 @@
 	<div class="contentBox">
 		<h3>게시판 목록</h3>
 
-			    <div id="excelBox">
-					<a class="excelBtn" href="${cp }/boardGubun/list/excelDown.do">↓ excel 다운로드</a> 
-					<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
-					<!-- excel file 읽어오기 -->
-				    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
-				        <input type="file" name="excelFile" hidden/>
-				    </form>
-				</div>
+	    <div id="excelBox">
+			<a class="excelBtn" href="${cp }/boardGubun/list/excelDown.do">↓ excel 다운로드</a> 
+			<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
+			<!-- excel file 읽어오기 -->
+		    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
+		        <input type="file" name="excelFile" hidden/>
+		    </form>
+		</div>
 		
 		<form:form commandName="boardGubunVO" id="listForm" name="listForm" method="get">
 			<div class="blog-main">
@@ -218,13 +214,12 @@
 	        	        </li>
 	                </ul>
 		       	</div>
-			    
-			    
+		       	
 			    <br>
 			    
 				<div class="table-responsive">
-					<c:forEach var="i" begin="0" end="${resultList.size() }" step="1">
-						<div class="inputbox">
+					<c:forEach var="i" begin="0" end="${ resultList.size()==0? resultList.size() : resultList.size()-1 }" step="1">
+						<div class="inputBox">
 							<input type="hidden" name="boardGbSqArr[${i }]" value="${resultList[i].boardGbSq}">
 							<input type="text" class="boardGbNm" name="boardGbNmArr[${i }]" value="${resultList[i].boardGbNm}">
 							<select class="boardGbSt" name="boardGbStArr[${i }]">

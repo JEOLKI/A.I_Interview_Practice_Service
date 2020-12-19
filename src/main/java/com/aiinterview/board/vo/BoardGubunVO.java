@@ -7,11 +7,12 @@ public class BoardGubunVO extends BaseVO{
 	private String boardGbSq; // 보드구분 번호
 	private String boardGbNm; // 보드구분 이름
 	private String boardGbSt; // 보드구분 상태
+	
 	private String count;
 	
-	private String[] boardGbSqArr; // 보드구분 번호
-	private String[] boardGbNmArr; // 보드구분 이름
-	private String[] boardGbStArr;
+	private String[] boardGbSqArr; // 보드구분 번호배열
+	private String[] boardGbNmArr; // 보드구분 이름배열
+	private String[] boardGbStArr; // 보그구분 상태배열
 	
 	
 	
