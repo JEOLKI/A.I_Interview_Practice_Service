@@ -16,7 +16,7 @@
 		<!-- mybatis 쿼리 파일 경로 설정
 			현재 진행중인 프로젝트에 알맞게 경로를 수정함.
 		 -->
-		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/mapper/**/mybatis-*.xml" />
+		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/mapper/mybatis-*.xml" />
 	</bean>
 
 	<!-- MapperConfigurer setup for MyBatis Database Layer with @Mapper("deptMapper") in DeptMapper Interface -->
