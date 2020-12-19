@@ -30,7 +30,7 @@ to {
 </style>
 <script type="text/javascript" >
 	window.onload = function(){
-		openFullScreenMode();
+// 		openFullScreenMode();
 		
 		if(getCookie('check')=='${S_MEMBER.memId}'){
 			$('.InterviewTutorial.PopUp').css('display','none');
@@ -257,6 +257,7 @@ $(document).ready(function(){
 <title>Insert title here</title>
 </head>
 <body style="overflow: hidden;" scroll="no">
+	<input type="button" id="startbutton">
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root">
 		<div class="InterviewTest false">
@@ -440,10 +441,8 @@ $(document).ready(function(){
 			<div class="bg-video camera">
 				<div class="bg-layer"></div>
 				<video id="video" class="user-camera-video false" autoplay></video>
-<!-- 				<canvas id="canvas"> </canvas> -->
 			</div>
 		</div>
 	</div>
-	<style data-styled="active" data-styled-version="5.1.1"></style>
 </body>
 </html>
