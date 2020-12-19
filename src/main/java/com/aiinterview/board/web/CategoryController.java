@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aiinterview.board.service.CategoryService;
-import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.board.vo.CategoryVO;
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
@@ -93,7 +92,14 @@ public class CategoryController {
 	public String update(CategoryVO categoryVO) {
 		
 		try {
-			categoryService.update(categoryVO);
+			
+			for(int i=0; i< categoryVO.getCatSqArr().length ; i++) {
+				categoryVO.setCatSq(categoryVO.getCatSqArr()[i]);
+				categoryVO.setCatContent(categoryVO.getCatContentArr()[i]);
+				categoryVO.setCatSt(categoryVO.getCatStArr()[i]);
+				categoryService.update(categoryVO);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

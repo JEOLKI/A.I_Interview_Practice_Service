@@ -36,14 +36,20 @@
 	/* pagination 페이지 링크 function */
 	function linkPage(pageNo){
 		document.listForm.pageIndex.value = pageNo;
-		document.listForm.action = "<c:url value='/category/retrievePagingList.do'/>";
+		document.listForm.action = "<c:url value='${cp }/category/retrievePagingList.do'/>";
 	   	document.listForm.submit();
 	}
 	
 	/* 검색 */
 	function searchList(){
-	document.listForm.action = "<c:url value='/category/retrievePagingList.do'/>";
+	document.listForm.action = "<c:url value='${cp }/category/retrievePagingList.do'/>";
 		document.listForm.submit();
+	}
+	
+	/* 수정 */
+	function updateList(){
+		document.listForm.action = "<c:url value='${cp }/category/update.do'/>";
+       	document.listForm.submit();
 	}
 
 
@@ -81,10 +87,7 @@
 		border: 1px solid #000d22;
 		border-radius: 5px;
 		padding: 1px 5px;
-	}
-	
-	.updateFrm{
-		margin: 10px 0px;
+		float: left;
 	}
 	
 	.excelBtn:hover{
@@ -143,12 +146,24 @@
 	}
 	
 	.updateBtn{
-		width: 80px;
+		display: inline-block;
+		width: 50px;
+		background: white;
+		float: right;
+		margin-right: 30%;
 	}
 	
 	#categoryRegBtn:hover, .updateBtn:hover, .searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
+	}
+	
+	.table-responsive{
+		margin-top: 20px;
+	}
+	
+	.inputBox{
+		margin-top: 5px; 
 	}
 
 </style>
@@ -177,6 +192,15 @@
 	<div class="contentBox">
 		<h3>말머리 목록</h3>
 		
+		<div id="excelBox">
+			<a class="excelBtn" href="${cp }/category/list/excelDown.do">↓ excel 다운로드</a> 
+			<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
+			<!-- excel file 읽어오기 -->
+		    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
+		        <input type="file" name="excelFile" hidden/>
+		    </form>
+		</div>
+		
 		<form:form commandName="categoryVO" id="listForm" name="listForm" method="get">
 			<div class="blog-main">
 				<div class="input-group">
@@ -193,38 +217,37 @@
 	                </ul>
 		       	</div>
 			    
-			    <div id="excelBox">
-					<a class="excelBtn" href="${cp }/category/list/excelDown.do">↓ excel 다운로드</a> 
-					<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
-					<!-- excel file 읽어오기 -->
-				    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
-				        <input type="file" name="excelFile" hidden/>
-				    </form>
-				</div>
-			    
 			    <br>
 			    
 				<div class="table-responsive">
-					<c:forEach items="${resultList }" var="category">
-						<form class="updateFrm" action="${cp }/category/update.do" method="post">
-							<input type="hidden" name="boardGbSq" value="${boardGbSq }">
-							<input type="hidden" name="catSq" value="${category.catSq}">
-							<input class="catContent" name="catSq" value="${category.catContent}">
-							<select class="catSt custom-select" name="catSt">
-									<c:choose>
-										<c:when test="${category.catSt == 'Y' }">
-											<option value="Y" selected="selected">사용</option>
-											<option value="N">미사용</option>
-										</c:when>
-										<c:otherwise>
-											<option value="Y">사용</option>
-											<option value="N" selected="selected">미사용</option>
-										</c:otherwise>
-									</c:choose>
-							</select>
-							<button type="submit" class="updateBtn">수정</button>
-						</form>
+					<c:forEach var="i" begin="0" end="${ resultList.size()==0? resultList.size() : resultList.size()-1 }" step="1">
+						<div class="inputBox">
+							<c:choose>
+								<c:when test="${ resultList.size()==0 }">
+									게시판에 등록된 말머리가 없습니다.
+								</c:when>
+								<c:otherwise>
+									<input type="hidden" name="catSqArr[${i }]" value="${resultList[i].catSq}">
+									<input class="catContent" name="catContentArr[${i }]" value="${resultList[i].catContent}">
+									<select class="catSt custom-select" name="catStArr[${i }]">
+											<c:choose>
+												<c:when test="${resultList[i].catSt == 'Y' }">
+													<option value="Y" selected="selected">사용</option>
+													<option value="N">미사용</option>
+												</c:when>
+												<c:otherwise>
+													<option value="Y">사용</option>
+													<option value="N" selected="selected">미사용</option>
+												</c:otherwise>
+											</c:choose>
+									</select>
+								</c:otherwise>
+							</c:choose>
+						</div>
 					</c:forEach>
+					<br>
+					<input type="hidden" name="boardGbSq" value="${boardGbSq }">
+					<a class="updateBtn" href="javascript:updateList();">수정</a>
 				</div>
 			
 				<div class= "paging">
