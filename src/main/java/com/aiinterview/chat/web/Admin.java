@@ -1,5 +1,6 @@
 package com.aiinterview.chat.web;
 import java.io.IOException;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -12,8 +13,12 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class Admin extends TextWebSocketHandler {
 // 운영자 유저는 하나라고 가정하고 만약 둘 이상의 세션에서 접속을 하면 마지막 세션만 작동한다.
 public static Session admin = null;
+public static String admincode = null;
 // 운영자 유저가 접속을 하면 발생하는 이벤트 함수
 
+//public static void sendAdmin () {
+//	BroadSocket.sessionId("TEST_ID2");
+//}
 @OnOpen
 public void handleOpen(Session userSession) {
 // 기존에 운영자 유저의 소켓이 접속중이라면
@@ -29,8 +34,13 @@ admin = userSession;
 // 기존에 접속해 있는 유저의 정보를 운영자 client로 보낸다.
 for(String key : BroadSocket.getUserKeys()) {
 // 전송.. 전송
+System.out.println("key 확인"+key);
 visit(key);
 }
+//sendAdmin();
+// 여기에다가 key값을 눌렀을때 클릭한걸로 하면은 가능할 수도있다. 
+// 들어갈때마다 메시지를 보내기 때문에 
+//BroadSocket.sendMessage(key, message);
 
 }
 // 운영자 유저가 메시지를 보내면 발생하는 이벤트
@@ -40,8 +50,10 @@ public void handleMessage(String message, Session userSession) throws IOExceptio
 String[] split = message.split("#####", 2);
 // 앞은 key 데이터
 String key = split[0];
+System.out.println("split[0]"+ key);
 // 뒤 정보는 메시지
 String msg = split[1];
+System.out.println("split[1]"+ msg);
 // 일반 유저의 key로 탐색후 메시지 전송
 BroadSocket.sendMessage(key, msg);
 }
@@ -57,7 +69,6 @@ BroadSocket.sendStatus("bye");
 
 private static void send(String message) {
 	if (admin != null) {
-		System.out.println("운영자 확인" + admin);
 		try {
 		admin.getBasicRemote().sendText(message);
 		

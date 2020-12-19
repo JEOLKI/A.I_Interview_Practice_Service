@@ -21,7 +21,7 @@
 	bottom: 4%;
 	left: 2%;
 	overflow: hidden;
-	height : 470px;
+	height : 475px;
 }
 .iwEgly{
 	display: inline-flex;
@@ -45,10 +45,37 @@
 
 .alarm{
 	position: fixed;
-	z-index: 30;
+	z-index: 1;
 	color : white;
 	bottom: 78px;
 	left: 55px;
+}
+
+
+.nav-counter {
+ bottom: 8%;
+ left: 5.5%;
+ z-index: 10;
+ position: fixed;
+ min-width: 8px;
+ height: 20px;
+ line-height: 20px;
+ margin-top: -11px;
+ padding: 0 6px;
+ font-weight: normal;
+ font-size: small;
+ color: white;
+ text-align: center;
+ text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+ background: #683db8;
+ border: 1px solid #911f28;
+ border-radius: 11px;
+ background-image: -webkit-linear-gradient(top, #e8616c, #dd202f);
+ background-image: -moz-linear-gradient(top, #e8616c, #dd202f);
+ background-image: -o-linear-gradient(top, #e8616c, #dd202f);
+ background-image: linear-gradient(to bottom, #e8616c, #dd202f);
+ -webkit-box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
+ box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
 }
 </style>
 
@@ -73,16 +100,32 @@
 					$("#chatting").attr("style", "width : 300px;");
 				}
 		})
+		var a = arlamCount()
+		console.log(a)
+		$("#arlamCount").val(a)
+	
 	})
+function arlamCount(){
+	var count;
+	$.ajax({
+		url : "/chat/arlamCount.do",
+		type : 'GET',
+		async : false,
+		success : function(data){
+			count = data;
+		}
+	})
+	return count;
+}
 </script>
 
 
 <img id="image" class=""
-	src="/images/ch-new-symbol-powered.png" alt="버그">
+	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="arlamCount">30</span> 
 	
 <!-- <div class="alarm iwEgly">100</div> -->
 	
-<iframe id="chatting"  src = ""  style="display:none; overflow: hidden"  > 
+<iframe id="chatting"  src = ""  style="display:none; overflow: hidden"  >
 
 </iframe>
 

@@ -11,6 +11,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.aiinterview.member.vo.MemberVO;
@@ -71,6 +72,9 @@ user.session = userSession;
 sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
 Admin.visit(user.key);
+
+
+
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
 @OnMessage
@@ -105,12 +109,14 @@ e.printStackTrace();
 public void handleClose(Session userSession) {
 // Session으로 접속 리스트에서 User 클래스를 탐색
 User user = getUser(userSession);
+User userVisit =getUser(visit);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 // 운영자 Client에 유저 key로 접속 종료를 알린다.
 Admin.bye(user.key);
 // 위 유저 접속 리스트에서 유저를 삭제한다.
 sessionUsers.remove(user);
+
 
 }
 }

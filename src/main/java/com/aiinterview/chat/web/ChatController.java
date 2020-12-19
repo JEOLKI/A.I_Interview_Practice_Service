@@ -6,8 +6,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.jdt.internal.compiler.ast.ModuleDeclaration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,22 +32,29 @@ public class ChatController {
 	private MemberService memberService;
 	
 	ChatVO cv = new ChatVO();
-	public static HttpSession usersSession;
+	public static  HttpSession usersSession;
 	public static  List<String> IdList = new ArrayList<>();
 	
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
-	public String test(Model model) {
+	public String test(Model model, HttpSession session) {
 		List<ChatRoomVO> roomList = chatService.roomList();
 		model.addAttribute("roomList", roomList);
 		return "chat/chatRoom";
 	}
 	
+	@ResponseBody
+	@RequestMapping(path = "arlamCount.do", method = RequestMethod.GET)
+	public String arlamgCount(Model model, HttpSession session) {
+		
+		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		String arlamCount = chatService.arlamCount(mv.getMemId());
+		model.addAttribute("arlamCount", arlamCount);
+		return arlamCount;
+	}
 	
 	
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
-		
-		
 		usersSession =session;
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
@@ -68,10 +77,16 @@ public class ChatController {
 		
 	}
 	
+	public static void sendAdminKey (String key, String message) {
+		BroadSocket.sendMessage(key, message);
+	}
+	
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
 	public String admin(HttpSession session, Model model,String memId) {
 		
-		BroadSocket.sessionId(memId);
+//		BroadSocket.sessionId(memId);
+		
+		sendAdminKey(memId, "AI_INTERVIEW_ADMIN_CHAT_ENTER");
 		
 		chatService.arlamUpdate(memId);
 		ChatVO cv = new ChatVO();

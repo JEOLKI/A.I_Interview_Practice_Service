@@ -34,4 +34,7 @@ public class ChatService {
 		return chatMapper.arlamUpdate(memId);
 	}
 	
+	public String arlamCount(String memId){
+		return chatMapper.arlamCount(memId);
+	}
 }

@@ -182,8 +182,8 @@ color: #32e4cd;
 			memid = $(this).data("id")
 			console.log(memid)
 			location.href="/chat/admining.do?memId="+memid;
-			$('#아이디').attr('src', '경로');
 		})
+		
 	})
 	
 	
@@ -237,6 +237,7 @@ color: #32e4cd;
 		</c:forEach>
 
   </section>
+  
 </body>
 
 </html>

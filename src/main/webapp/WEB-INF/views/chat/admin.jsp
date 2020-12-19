@@ -248,6 +248,7 @@
 	
 	<div class="chatBox" id="chatBox">
 	  <div class="card">
+	  	    <button id="backList">뒤2</button>
 	 <header class="card-header header-title" @click="toggleChat()">
 	 
 	    <p class="card-header-title">
@@ -344,6 +345,7 @@ $(function(){
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 
 $("#closeChat").on("click", function(){
+	webSocket.send("${memId}" +"#####"+ "bye");
 	var a = parent.document.querySelector("#chatting").style
 	a.display = "none"
 	$("#chatting").attr("style", "display:none");
@@ -353,7 +355,8 @@ $("#closeChat").on("click", function(){
 // let message = document.getElementById("textMessage");
 // 운영자에서의 open, close, error는 의미가 없어서 형태만 선언
 webSocket.onopen = function(message) { };
-webSocket.onclose = function(message) { };
+webSocket.onclose = function(message) { 
+};
 webSocket.onerror = function(message) { };
 // 서버로 부터 메시지가 오면
 webSocket.onmessage = function(message) {
@@ -368,9 +371,13 @@ nodeKey= node.key
 // visit은 유저가 접속했을 때 알리는 메시지다.
 if(node.status === "visit") {
 	
+// 	webSocket.send(node.key);
+webSocket.send("${memId}" +"#####"+"AI_INTERVIEW_ADMIN_CHAT_ENTER");
+	
 if(node.key=="${memId}"){
 	$div.find(".fa-circle-o").attr('class', 'fa fa-circle')
 }
+
 
 	
 // 위 템플릿 div를 취득한다.
@@ -387,8 +394,10 @@ if(node.key=="${memId}"){
 // .messageArea
 // let log = $div.find(".console").val();
 // 아래에 메시지를 추가한다.
+if(node.key=="${memId}"){
 $div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${memId }'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight); 
+}
 
 // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
 } else if(node.status === "bye") {
@@ -417,7 +426,7 @@ $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight)
 
 $div.find(".adminMsg").val("");
 // 웹소켓으로 메시지를 보낸다.
-webSocket.send(key+"#####"+message);
+webSocket.send("${memId}" +"#####"+message);
 });
 // 텍스트 박스에서 엔터키를 누르면
 $(document).on("keydown", ".adminMsg", function(){
@@ -432,6 +441,11 @@ return true;
 });
 
 
+	$("#backList").on('click', function(){
+		var a = parent.document.querySelector("#chatting").style
+		a.width = "350px";
+		location.href = "/chat/room.do";
+	})
 
 
 })

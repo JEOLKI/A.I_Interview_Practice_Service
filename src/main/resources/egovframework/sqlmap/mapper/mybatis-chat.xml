@@ -10,7 +10,7 @@
 	select * from(
 	select MSG_SQ, MSG_CONTENT, 
 	<![CDATA[
-        CASE WHEN TO_CHAR(SYSDATE-1, 'YYYY/MM/DD') < TO_CHAR(MSG_DATE, 'YYYY/MM/DD') THEN TO_CHAR(MSG_DATE,'HH24:MI')
+        CASE WHEN TO_CHAR(SYSDATE-1, 'YYYY/MM/DD') < TO_CHAR(MSG_DATE, 'YYYY/MM/DD') THEN TO_CHAR(MSG_DATE,'AM HH:MI')
             ELSE TO_CHAR(MSG_DATE,'YYYY/MM/DD') END AS MSG_DATE,
              ]]>
         MSG_SENDER, MSG_RECEIVER from message
@@ -18,7 +18,7 @@
 	union
 	select MSG_SQ, MSG_CONTENT,
 	<![CDATA[ 
-        CASE WHEN TO_CHAR(SYSDATE-1, 'YYYY/MM/DD') < TO_CHAR(MSG_DATE, 'YYYY/MM/DD') THEN TO_CHAR(MSG_DATE,'HH24:MI')
+        CASE WHEN TO_CHAR(SYSDATE-1, 'YYYY/MM/DD') < TO_CHAR(MSG_DATE, 'YYYY/MM/DD') THEN TO_CHAR(MSG_DATE,'AM HH:MI')
             ELSE TO_CHAR(MSG_DATE,'YYYY/MM/DD') END AS MSG_DATE,
     ]]>       
         MSG_SENDER, MSG_RECEIVER from message
@@ -37,13 +37,18 @@
 		and msg_arlam = 'N'
 	</update>
 	
+	<select id="arlamCount" parameterType="String" resultType="String">
+		select count(*) from message
+		where msg_arlam = 'N'
+		and msg_sender = #{memId}
+	</select>
 	
 	
 	<select id="roomList" resultType="com.aiinterview.chat.vo.ChatRoomVO" >
 	
 	SELECT A.MEM_ID, A.MSG_CONTENT, A.MSG_DATE, A.MEM_PROFILE_NM, A.MEM_PROFILE_PATH, NVL(B.MSG_ARLAM,0) AS MSG_ARLAM
 	FROM
-	(SELECT A.MSG_SENDER AS MEM_ID , A.MSG_CONTENT, TO_CHAR(A.Msg_Date, 'YYYY-MM-DD HH:MI')MSG_DATE, B.MEM_PROFILE_NM, B.MEM_PROFILE_PATH
+	(SELECT A.MSG_SENDER AS MEM_ID , A.MSG_CONTENT, TO_CHAR(A.Msg_Date, 'YYYY-MM-DD AM HH:MI')MSG_DATE, B.MEM_PROFILE_NM, B.MEM_PROFILE_PATH
 		FROM
 		    (SELECT A.MSG_SQ, A.MSG_SENDER, B.MSG_CONTENT, B.Msg_Date
 		    FROM

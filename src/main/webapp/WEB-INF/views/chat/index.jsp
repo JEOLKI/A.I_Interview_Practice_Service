@@ -346,6 +346,17 @@ var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
 let message = document.getElementById("textMessage");
 var arlamCheck = 'Y';
 var d = new Date();
+var minutes = ("00"+ d.getMinutes()).slice(-2)
+var str = "";
+var hours = d.getHours();
+
+
+if (hours > 12){
+	str = "오후"
+	hours = hours - 12;
+}else{
+	str = "오전"
+}
 $(function(){
 	var c = parent.document.querySelector("#chatting").style
 	c.overflow= "hidden";
@@ -385,18 +396,20 @@ console.log("${S_MEMBER.memId}")
 if(message.data=="bye"){
 	$(".fa-circle").attr('class', 'fa fa-circle-o')
 	arlamCheck = 'N';
-	message = "";
-}else if(message.data=="${S_MEMBER.memId}"){
+	message.data = "";
+// }else if(message.data=="${S_MEMBER.memId}"){
+}else if(message.data=="AI_INTERVIEW_ADMIN_CHAT_ENTER"){
 	$(".fa-circle-o").attr('class', 'fa fa-circle')
-	message = "";
+	message.data = "";
 	arlamCheck = 'Y';
-	
-}else{
-	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=TEST_ID2'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
+}
+else{																																																																																	
+	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=TEST_ID2'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
 	$("#messageArea").append("</div>")
 
 	$("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);	
-}	
+	
+}
 };
 
 
@@ -406,7 +419,10 @@ if(message.data=="bye"){
 function sendMessage() {
 	
 sendProcess();
-$("#messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message.value+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
+
+$("#messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message.value+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div></div>");
+
+
 
 // 소켓으로 보낸다.
 webSocket.send(message.value);
