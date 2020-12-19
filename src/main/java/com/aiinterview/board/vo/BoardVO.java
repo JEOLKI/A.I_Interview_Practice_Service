@@ -2,7 +2,8 @@ package com.aiinterview.board.vo;
 
 public class BoardVO extends AttachmentVO {
 
-	private int rnum;
+	private int rnum;	// 글 정렬 번호
+	
 	private String boardSq; // 게시글 번호
 	private String boardGbSq; // 게시글 구분 번호
 	private String boardTitle; // 게시글 제목
@@ -13,7 +14,8 @@ public class BoardVO extends AttachmentVO {
 	private String parentSq; // 게시글 부모 번호
 	private String memId; // 회원 아이디
 	private String catContent; // 카테고리 번호
-	private int level;
+	
+	private int level; // 답글 판단을 위한 level
 	private String boardGbNm; // 보드구분 이름
 
 	public String getBoardGbNm() {
