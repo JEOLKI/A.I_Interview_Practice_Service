@@ -115,10 +115,17 @@ public class TalentController {
 	@RequestMapping(path ="/updateProcess.do", method = {RequestMethod.POST})
 	public String updateProcess(TalentVO talentVO, Model model) {
 		
-		int updateCnt = 0;
 		try {
-			updateCnt = talentService.update(talentVO);
-			if(updateCnt==1) {
+			
+			int updateCnt = 0;
+			for(int i = 0; i<talentVO.getTalentSqs().length; i++) {
+				TalentVO updateTalentVO = talentService.retrieve(talentVO.getTalentSqs()[i]);
+				updateTalentVO.setTalentNm(talentVO.getTalentNms()[i]);
+				updateTalentVO.setTalentSt(talentVO.getTalentSts()[i]);
+				updateCnt += talentService.update(updateTalentVO);
+			}
+			
+			if(updateCnt == talentVO.getTalentSqs().length) {
 				return "redirect:/talent/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
 			}
 		} catch (Exception e) {

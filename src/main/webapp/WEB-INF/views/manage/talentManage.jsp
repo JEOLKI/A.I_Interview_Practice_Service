@@ -29,7 +29,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 280px;
+	    margin-right: 40.2%;
 	}
 	#talentRegistBtn, .updateBtn, .keywordMngBtn, .searchBtn{
 		display: inline-block;
@@ -129,6 +129,13 @@
 	    border: 1px solid #22741C;
 	    color: #fff;
 	}
+	.list{
+		margin : 10px 0px;
+	}
+	.updateBtn{
+		float: right;
+	 	margin-right: 40.3%;
+	}
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -190,10 +197,15 @@
 	document.listForm.action = "<c:url value='/talent/retrievePagingList.do'/>";
 		document.listForm.submit();
 	}
+	
+	/* 수정 */
+	function updateList() {
+		document.listForm.action = "<c:url value='/talent/updateProcess.do'/>";
+		document.listForm.submit();
+	}
 </script>
 </head>
 <body>
-<form:form commandName="talentVO" id="listForm" name="listForm" method="post">
 	<h1>인재상 관리</h1>
 	
 		<div class="contentBox">
@@ -230,6 +242,7 @@
 			        <input hidden type="file" name="excelFile" />
 			    </form>
 			</div>
+			<form:form commandName="talentVO" id="listForm" name="listForm" method="post">
 			<div class="listmenu"> 
 			<select id="sort">
 				<c:forEach var="value" begin="5" end="20" step="5">
@@ -257,10 +270,10 @@
 		</div>
 		<div class="existTalent" id="talentList">
 			<c:forEach items="${resultList }" var="talent">
-				<form class="talentUpdateFrm" action="${cp }/talent/updateProcess.do" method="post">
-					<input type="hidden" name="talentSq" value="${talent.talentSq}">
-					<input type="text" class="talentNm" name="talentNm" value="${talent.talentNm}">
-					<select class="talentSt" name="talentSt">
+				<div class="list">
+					<input type="hidden" name="talentSqs" value="${talent.talentSq}">
+					<input type="text" class="talentNm" name="talentNms" value="${talent.talentNm}">
+					<select class="talentSt" name="talentSts">
 							<c:choose>
 								<c:when test="${talent.talentSt == 'Y' }">
 									<option value="Y" selected="selected">사용</option>
@@ -272,17 +285,17 @@
 								</c:otherwise>
 							</c:choose>
 						</select>
-					<a class="updateBtn" >수정</a>
 					<a class="keywordMngBtn" value="${talent.talentSq }">키워드 관리</a>
 					<div class="updateCheck" style="display: inline-block;">&nbsp;</div>	
-					</form>
+				</div>
 			</c:forEach>
+			<a class="updateBtn" onclick="updateList()">수정</a>
 		</div>
 			<div id="paging">
 				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 				<form:hidden path="pageIndex" />
 			</div>
+		</form:form>
 		</div>	
-	</form:form>
 </body>
 </html>
