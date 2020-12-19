@@ -46,7 +46,7 @@ public class ScriptGubunController {
 	
 	/* 페이징 리스트 별 스크립트 구분*/
 	@RequestMapping("/retrievePagingList.do")
-	public String retrievePagingList(@ModelAttribute("scriptGubunVO") ScriptGubunVO scriptGubunbVO, String pageUnit, Model model) throws Exception {
+	public String retrievePagingList(@ModelAttribute("scriptGubunVO") ScriptGubunVO scriptGubunbVO, String pageUnit, Model model) {
 		
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
@@ -67,22 +67,26 @@ public class ScriptGubunController {
 		scriptGubunbVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		scriptGubunbVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<ScriptGubunVO> resultList =scriptGubunService.retrievePagingList(scriptGubunbVO);
-		model.addAttribute("scriptGbList", resultList);
-		
-		logger.debug("resultList : {}", resultList);
-
-		int totCnt =scriptGubunService.retrievePagingListCnt(scriptGubunbVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("paginationInfo", paginationInfo);
+		List<ScriptGubunVO> resultList;
+		try {
+			resultList = scriptGubunService.retrievePagingList(scriptGubunbVO);
+			model.addAttribute("scriptGbList", resultList);
+			
+			logger.debug("resultList : {}", resultList);
+			
+			int totCnt =scriptGubunService.retrievePagingListCnt(scriptGubunbVO);
+			paginationInfo.setTotalRecordCount(totCnt);
+			
+			model.addAttribute("paginationInfo", paginationInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "manage/scriptGubunManage";
 	}
 	
 
 	@RequestMapping("/scriptManage.do")
-	public String scriptManage(@ModelAttribute("scriptVO") ScriptVO scriptVO, String scriptGbSq, String pageUnit, String pageIndex, String searchKeyword, Model model) {
-		
+	public String scriptManage(ScriptVO scriptVO, String scriptGbSq, String pageUnit, String pageIndex, String searchKeyword, Model model) {
 		
 		ScriptGubunVO scriptGbVO = null;
 		try {
@@ -156,9 +160,12 @@ public class ScriptGubunController {
 	
 	/* 단일 등록 */
 	@RequestMapping(path="/createProcess.do", method = {RequestMethod.POST})
-	public String createProcess(String scriptGbContent, String scriptGbSt) throws Exception {
+	public String createProcess(String scriptGbContent, String scriptGbSt) {
 		ScriptGubunVO scriptGbVO = new ScriptGubunVO(scriptGbContent, scriptGbSt);
-		scriptGubunService.create(scriptGbVO);
+		try {
+			scriptGubunService.create(scriptGbVO);
+		} catch (Exception e) {
+		}
 		logger.debug("scriptGbVO : {}", scriptGbVO);
 		
 		return "redirect:/scriptGubun/retrievePagingList.do";
@@ -166,7 +173,7 @@ public class ScriptGubunController {
 	
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveScriptGb(MultipartHttpServletRequest request) throws Exception {
+	public String createMassiveScriptGb(MultipartHttpServletRequest request) {
 		 MultipartFile excelFile = request.getFile("excelFile");
 		 logger.debug("excelFile : {}", excelFile);
 	        if(excelFile==null || excelFile.isEmpty()){
@@ -177,8 +184,7 @@ public class ScriptGubunController {
 	     try {
 	            excelFile.transferTo(destFile);
 	            scriptGubunService.createMassiveScriptGubun(destFile);
-	        } catch (IllegalStateException | IOException e) {
-	            throw new RuntimeException(e.getMessage(),e);
+	        } catch (Exception e) {
 	        }
 
 	     destFile.delete();
@@ -186,21 +192,27 @@ public class ScriptGubunController {
 	     return "redirect:/scriptGubun/retrievePagingList.do";
 	}
 	
-	/* 단일 수정 */
+	/* 수정 */
 	@RequestMapping(path="/updateProcess.do", method = {RequestMethod.POST})
-	public String updateProcess(ScriptGubunVO scriptGbVO) throws Exception {
+	public String updateProcess(@ModelAttribute("scriptGubunVO") ScriptGubunVO scriptGbVO){
+		
+		try {
 
-		ScriptGubunVO scriptGbVo = scriptGubunService.retrieve((scriptGbVO.getScriptGbSq()));
-		scriptGbVo.setScriptGbContent(scriptGbVO.getScriptGbContent());
-		scriptGbVo.setScriptGbSt(scriptGbVO.getScriptGbSt());
-		
-		int updateCnt = scriptGubunService.update(scriptGbVo);
-		
-		if(updateCnt == 1) {
-			return "redirect:/scriptGubun/retrievePagingList.do";
-		}else {
-			return "manage/scriptGubunManage";
+		int updateCnt = 0;
+			for(int i=0; i<scriptGbVO.getScriptGbSqs().length; i++) {
+				ScriptGubunVO updateScriptGbVO = scriptGubunService.retrieve(scriptGbVO.getScriptGbSqs()[i]);
+				updateScriptGbVO.setScriptGbContent(scriptGbVO.getScriptGbContents()[i]);
+				updateScriptGbVO.setScriptGbSt(scriptGbVO.getScriptGbSts()[i]);
+				updateCnt += scriptGubunService.update(updateScriptGbVO);
+			}
+			
+			if(updateCnt == scriptGbVO.getScriptGbSqs().length) {
+				return "redirect:/scriptGubun/retrievePagingList.do";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "manage/scriptGubunManage";
 	}
 	
 	/* 일괄 다운로드 */

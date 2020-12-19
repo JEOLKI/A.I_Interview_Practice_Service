@@ -11,13 +11,15 @@
 	input[type=file]{
 		display : none;
 	}
-	.input-group {
-			display: inline-block;
-			float: right;
-			margin-right: 25%;
-	}
 	body{
 		background-color : #f5f7fb;
+	}
+	.listmenu{
+		display: inline-block; 
+		margin-right: 83px;
+	}
+	.list{
+		margin : 10px 0px;
 	}
 	
 	#scriptGbContent, .scriptGbContent, .custom-input{
@@ -33,6 +35,7 @@
 		border: 1px solid #000d22;
 		border-radius: 5px;
 		padding: 1px 5px;
+		float: left;
 	}
 		
 	.excelBtn:hover{
@@ -48,18 +51,14 @@
 		vertical-align: top;
 	}
 	
-	.scriptGbupdBtn, .manageBtn, .searchBtn{
-		display: inline-block;
-		vertical-align : top;
-		border: 1px solid #000d22;
-		border-radius: 5px;
-		height: 29px;
-		width: 100px;
-		text-align: center;
-	}
+	
+	
 
-	.scriptGbupdBtn{
-		width: 50px;
+	.updateBtn{
+		width: 70px;
+		float: right;
+		margin-right: 399px;
+    	margin-top: 10px;
 	}
 	
 	.contentBox{
@@ -77,11 +76,21 @@
 	margin: 10px 0px;
 	}
 	
-	.searchBtn{
+	#searchBtn{
 		width: 80px;
 	}
+
+	.updateBtn, .manageBtn, #searchBtn{
+		display: inline-block;
+		vertical-align : top;
+		border: 1px solid #000d22;
+		border-radius: 5px;
+		height: 29px;
+		width: 100px;
+		text-align: center;
+	}
 	
-	.scriptGbupdBtn:hover, .manageBtn:hover, .searchBtn:hover{
+	.updateBtn:hover, .manageBtn:hover, #searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
 	}
@@ -107,6 +116,11 @@
 	.paging a:hover{
 		background-color: #4374D9;
 	    color: #fff;
+	}
+	.input-group{
+		display: inline-block;
+		float: right;
+		margin-right: 25%;
 	}
 	
 </style>
@@ -149,9 +163,8 @@ $(document).ready(function(){
 			pageUnit = $(this).val();
 			document.location="/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit;
 		});
-});
-	
-
+		
+})
 
 /* pagination 페이지 링크 function */
 function linkPage(pageNo) {
@@ -166,11 +179,17 @@ function searchList() {
 	document.listForm.action = "<c:url value='/scriptGubun/retrievePagingList.do'/>";
 	document.listForm.submit();
 }
+
+/* 수정 */
+function updateList() {
+	document.listForm.action = "<c:url value='/scriptGubun/updateProcess.do'/>";
+	document.listForm.submit();
+}
 	
 </script>
 </head>
 <body>
-<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
+
 <h1>스크립트 구분 관리</h1>
 	<div class="contentBox">
 		<h3>스크립트 구분 등록</h3>
@@ -188,18 +207,20 @@ function searchList() {
 		</div>
 		
 		
-		
-		
-		
 		<div class="contentBox">
 			<h3>스크립트 구분 목록</h3>
-			
-			
-				
-					<div class="blog-main">
+				<div class="blog-main">
+					<div class="excelmenu">
+						<a class="excelBtn" href="/scriptGubun/list/excelDown.do">↓ excel 다운로드</a>
+						<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
+						<form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="/scriptGubun/massiveCreateProcess.do"/>">
+							<input type="file" name="excelFile"/>
+						</form>
+					</div>
+					<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
 						<div id="search" class="input-group">
 							<ul class="button-search" id="uitest">
-								<li>
+								<li class="listmenu">
 									<select id="sort" class="custom-select">
 										<c:forEach var="value" begin="5" end="20" step="5">
 											<c:choose>
@@ -214,25 +235,20 @@ function searchList() {
 									</select>
 									<form:input path="searchKeyword" cssClass="custom-input"/>
 									<span class="btn">
-				     	            	<a onclick="searchList()" class="searchBtn">검색</a>
+				     	            	<a onclick="searchList()" id="searchBtn" class="searchBtn">검색</a>
 				     	    		</span>
 								</li>
 							</ul>
 						</div>
-							<a class="excelBtn" href="/scriptGubun/list/excelDown.do">↓ excel 다운로드</a>
-							<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
-							<form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="/scriptGubun/massiveCreateProcess.do"/>">
-								<input type="file" name="excelFile"/>
-							</form>
 						<br>
 						<br>
 		
 						<div class="table-responsive">
 							<c:forEach items="${scriptGbList }" var="scriptGb">
-							<form class="scriptGbUpdForm" action="/scriptGubun/updateProcess.do" method="post">
-								<input type="hidden" name="scriptGbSq" value="${scriptGb.scriptGbSq }" />
-								<input type="text" class="scriptGbContent" name="scriptGbContent" value="${scriptGb.scriptGbContent }"/>
-								<select class="scriptGbSt" name="scriptGbSt">
+								<div class="list">
+								<input type="hidden" name="scriptGbSqs" value="${scriptGb.scriptGbSq }" />
+								<input type="text" class="scriptGbContent" name="scriptGbContents" value="${scriptGb.scriptGbContent }"/>
+								<select class="scriptGbSt" name="scriptGbSts">
 									<c:choose>
 										<c:when test="${scriptGb.scriptGbSt=='Y'}">
 											<option value="Y" selected="selected">사용</option>
@@ -244,18 +260,19 @@ function searchList() {
 										</c:otherwise>
 									</c:choose>
 								</select>
-		      	    			<a class="scriptGbupdBtn" >수정</a>
 								<a type="button" class="manageBtn scriptMngBtn" value="${scriptGb.scriptGbSq }">스크립트 관리</a>
-								<div class="updateCheck" style="display: inline-block;">&nbsp;</div>	
-							</form>
+								<div class="updateCheck" style="display: inline-block;">&nbsp;</div>
+								</div>	
 						</c:forEach>
+						<a class="updateBtn" onclick="updateList()" >수정</a>
+						<br>
+						<div class= "paging">
+							<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+							<form:hidden path="pageIndex" />
+						</div>
 					</div>
-				<div class= "paging">
-					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
-					<form:hidden path="pageIndex" />
-				</div>
+				</form:form>
 			</div>
 	</div>
-</form:form>
 </body>
 </html>
