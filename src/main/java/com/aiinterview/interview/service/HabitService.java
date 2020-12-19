@@ -113,6 +113,16 @@ public class HabitService {
 	public int retrievePagingListCnt(HabitVO habitVO) throws Exception {
 		return habitMapper.retrievePagingListCnt(habitVO);	}
 
+	/**
+	 * 습관어 번호에 해당하는 습관어 객체를 조회하는 메서드
+	 * 업데이트용
+	 * @param string
+	 * @return
+	 */
+	public HabitVO retrieveOne(String habitSq) throws Exception{
+		return habitMapper.retrieveOne(habitSq);
+	}
+
 
 
 }

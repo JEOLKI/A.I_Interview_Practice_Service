@@ -95,10 +95,15 @@ public class HabitController {
 	@RequestMapping(path ="/updateProcess.do", method = {RequestMethod.POST})
 	public String updateProcess(HabitVO habitVO, Model model) {
 		
-		int updateCnt;
 		try {
-			updateCnt = habitService.update(habitVO);
-			if(updateCnt==1) {
+			int updateCnt = 0;
+			for(int i =0; i<habitVO.getHabitSqs().length; i++) {
+				HabitVO updateHabitVO = habitService.retrieveOne(habitVO.getHabitSqs()[i]);
+				updateHabitVO.setHabitGb(habitVO.getHabitGbs()[i]);
+				updateHabitVO.setHabitSt(habitVO.getHabitSts()[i]);
+				updateCnt += habitService.update(updateHabitVO);
+			}
+			if(updateCnt==habitVO.getHabitSqs().length) {
 				return "redirect:/habit/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
 			}else {
 			}

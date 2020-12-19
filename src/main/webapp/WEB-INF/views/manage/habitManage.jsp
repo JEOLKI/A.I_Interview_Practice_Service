@@ -28,7 +28,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 383px;
+	    margin-right: 49.5%;
 	}
 	#habitRegistBtn, .updateBtn, .searchBtn{
 		display: inline-block;
@@ -119,6 +119,15 @@
 	    border: 1px solid #22741C;
 	    color: #fff;
 	}
+	.updateBtn{
+		width: 70px;
+		float: right;
+        margin-right: 49.5%;
+    	margin-top: 10px;
+	}
+	.list{
+		margin : 10px 0px;
+	}
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -176,6 +185,13 @@
 		document.listForm.action = "<c:url value='/habit/retrievePagingList.do'/>";
        	document.listForm.submit();
 	}
+	
+	/* 수정 */
+	function updateList() {
+		document.listForm.action = "<c:url value='/habit/updateProcess.do'/>";
+		document.listForm.submit();
+	}
+	
 </script>
 </head>
 <body>
@@ -205,7 +221,6 @@
 		</div>
 		<div class="contentBox">
 			<h3>습관어 목록</h3>
-				<form:form commandName="habitVO" id="listForm" name="listForm" method="post">
 		
 					<div class="menu">
 					<div class="excelmenu">
@@ -216,6 +231,7 @@
 					        <input hidden type="file" name="excelFile" />
 					    </form>
 					</div>
+				<form:form commandName="habitVO" id="listForm" name="listForm" method="post">
 					<div class="listmenu">
 						<select id="sort">
 							<c:forEach var="value" begin="5" end="20" step="5">
@@ -243,25 +259,25 @@
 					</div>
 					<div class="existHabit" id="habitList">
 						<c:forEach items="${resultList }" var="habit">
-							<form class="habitUpdateFrm" action="${cp }/habit/updateProcess.do" method="post">
-								<input type="hidden" name="habitSq" value="${habit.habitSq}">
-								<input type="text" class="habitGb" name="habitGb" value="${habit.habitGb}">
-								<select class="habitSt" name="habitSt">
+							<div class="list">
+								<input type="hidden" name="habitSqs" value="${habit.habitSq}">
+								<input type="text" class="habitGb" name="habitGbs" value="${habit.habitGb}">
+								<select class="habitSt" name="habitSts">
 										<c:choose>
-											<c:when test="${habit.habitSt == 'Y' }">
-												<option value="Y" selected="selected">사용</option>
-												<option value="N">미사용</option>
-											</c:when>
-											<c:otherwise>
-												<option value="Y">사용</option>
-												<option value="N" selected="selected">미사용</option>
-											</c:otherwise>
-										</c:choose>
-									</select>
-									<a class="updateBtn" >수정</a>
-									<div id="updateCheck" style="display: inline-block;">&nbsp;</div>
-								</form>	
+										<c:when test="${habit.habitSt == 'Y' }">
+											<option value="Y" selected="selected">사용</option>
+											<option value="N">미사용</option>
+										</c:when>
+										<c:otherwise>
+											<option value="Y">사용</option>
+											<option value="N" selected="selected">미사용</option>
+										</c:otherwise>
+									</c:choose>
+								</select>
+								<div id="updateCheck" style="display: inline-block;">&nbsp;</div>
+							</div>
 						</c:forEach>
+						<a class="updateBtn" onclick="updateList()" >수정</a>
 					</div>
 					<div id="paging">
 						<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />

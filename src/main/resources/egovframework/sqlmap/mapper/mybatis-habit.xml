@@ -21,6 +21,12 @@
 		WHERE habit_sq = #{habitSq}
 	</select>
 	
+	<select id="retrieveOne" parameterType="String"  resultType="com.aiinterview.interview.vo.HabitVO">
+		SELECT *
+		FROM habit
+		WHERE habit_sq = #{habitSq}
+	</select>
+	
 	<insert id="create" >
 		<selectKey keyProperty="habitSq" resultType="String" order="BEFORE">
 			SELECT habit_sq.nextval FROM dual 
