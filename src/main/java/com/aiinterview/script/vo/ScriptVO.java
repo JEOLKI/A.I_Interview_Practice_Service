@@ -8,6 +8,11 @@ public class ScriptVO extends BaseVO{
 	private String scriptSt;		//스크립트의 활성화, 비활성화 여부
 	private String scriptGbSq; 		//스크립트구분(언어)의 고유 번호
 	
+	private String[] scriptSqs; 		//스크립트 고유 번호를 받기 위한 배열
+	private String[] scriptContents;	//스크립트 내용를 받기 위한 배열
+	private String[] scriptSts;		//스크립트의 활성화, 비활성화 여부를 받기 위한 배열
+	private String[] scriptGbSqs; 		//스크립트구분(언어)의 고유 번호를 받기 위한 배열
+
 	public ScriptVO() {
 		
 	}
@@ -48,6 +53,43 @@ public class ScriptVO extends BaseVO{
 
 	public void setScriptGbSq(String scriptGbSq) {
 		this.scriptGbSq = scriptGbSq;
+	}
+	
+	
+	
+	
+	
+
+	public String[] getScriptSqs() {
+		return scriptSqs;
+	}
+
+	public void setScriptSqs(String[] scriptSqs) {
+		this.scriptSqs = scriptSqs;
+	}
+
+	public String[] getScriptContents() {
+		return scriptContents;
+	}
+
+	public void setScriptContents(String[] scriptContents) {
+		this.scriptContents = scriptContents;
+	}
+
+	public String[] getScriptSts() {
+		return scriptSts;
+	}
+
+	public void setScriptSts(String[] scriptSts) {
+		this.scriptSts = scriptSts;
+	}
+
+	public String[] getScriptGbSqs() {
+		return scriptGbSqs;
+	}
+
+	public void setScriptGbSqs(String[] scriptGbSqs) {
+		this.scriptGbSqs = scriptGbSqs;
 	}
 
 	@Override

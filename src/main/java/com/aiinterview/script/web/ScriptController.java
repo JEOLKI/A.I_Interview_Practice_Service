@@ -130,24 +130,26 @@ public class ScriptController {
 	}
 	
 	/* 단일 수정*/
-	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
+	@RequestMapping("/updateProcess.do")
 	public String updateProcess(ScriptVO scriptVO, String pageScriptGbSq, Model model){
-		
 		try {
-			ScriptVO dbscriptVO = scriptService.retrieve(scriptVO.getScriptSq());
-			dbscriptVO.setScriptContent(scriptVO.getScriptContent());
-			dbscriptVO.setScriptSt(scriptVO.getScriptSt());
-			dbscriptVO.setScriptGbSq(scriptVO.getScriptGbSq());
+			int updateCnt = 0;
 			
-			int updateCnt = scriptService.update(dbscriptVO);
-			if (updateCnt == 1) {
-				model.addAttribute("scriptVO", dbscriptVO);
+			for(int i=0; i<scriptVO.getScriptGbSqs().length; i++) {
+				ScriptVO updateScriptVO = scriptService.retrieve(scriptVO.getScriptSqs()[i]);
+				updateScriptVO.setScriptContent(scriptVO.getScriptContents()[i]);
+				updateScriptVO.setScriptSt(scriptVO.getScriptSts()[i]);
+				updateScriptVO.setScriptGbSq(scriptVO.getScriptGbSqs()[i]);
+				updateCnt += scriptService.update(updateScriptVO);
+			}
+			
+			if (updateCnt == scriptVO.getScriptGbSqs().length) {
 				return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+pageScriptGbSq;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "manage/scriptManage";
+		return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+pageScriptGbSq;
 	}
 	
 	/* 일괄 다운로드 */
