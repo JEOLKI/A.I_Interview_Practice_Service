@@ -13,6 +13,7 @@
 	endCount = ${questionGoList.size()}; // 질문의 개수
 	var decibelIndex = 0; // 데시벨 인덱스
 	var frequencyIndex = 0; // 주파수 인덱스
+	endTTS = false; // TTS종료 확인
 	
 	var tid;
 	var aid;
@@ -133,30 +134,30 @@
       }
     }
 	
-	// 전체화면 설정
-	function openFullScreenMode() {
-	    if (docV.requestFullscreen){
-	        docV.requestFullscreen();
-	    }
-	    else if (docV.webkitRequestFullscreen) // Chrome, Safari (webkit)
-	        docV.webkitRequestFullscreen();
-	    else if (docV.mozRequestFullScreen) // Firefox
-	        docV.mozRequestFullScreen();
-	    else if (docV.msRequestFullscreen) // IE or Edge
-	        docV.msRequestFullscreen();
-	}
+// 	// 전체화면 설정
+// 	function openFullScreenMode() {
+// 	    if (docV.requestFullscreen){
+// 	        docV.requestFullscreen();
+// 	    }
+// 	    else if (docV.webkitRequestFullscreen) // Chrome, Safari (webkit)
+// 	        docV.webkitRequestFullscreen();
+// 	    else if (docV.mozRequestFullScreen) // Firefox
+// 	        docV.mozRequestFullScreen();
+// 	    else if (docV.msRequestFullscreen) // IE or Edge
+// 	        docV.msRequestFullscreen();
+// 	}
 	
-	// 전체화면 해제
-	function closeFullScreenMode() {
-	    if (document.exitFullscreen)
-	        document.exitFullscreen();
-	    else if (document.webkitExitFullscreen) // Chrome, Safari (webkit)
-	        document.webkitExitFullscreen();
-	    else if (document.mozCancelFullScreen) // Firefox
-	        document.mozCancelFullScreen();
-	    else if (document.msExitFullscreen) // IE or Edge
-	        document.msExitFullscreen();
-	}
+// 	// 전체화면 해제
+// 	function closeFullScreenMode() {
+// 	    if (document.exitFullscreen)
+// 	        document.exitFullscreen();
+// 	    else if (document.webkitExitFullscreen) // Chrome, Safari (webkit)
+// 	        document.webkitExitFullscreen();
+// 	    else if (document.mozCancelFullScreen) // Firefox
+// 	        document.mozCancelFullScreen();
+// 	    else if (document.msExitFullscreen) // IE or Edge
+// 	        document.msExitFullscreen();
+// 	}
 	
 	// 2분 타이머 설정
 	function timer(){
@@ -171,7 +172,6 @@
 		msg = "<font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
 		msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
 		msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
-		
 		
 		document.all.time.innerHTML = msg;
 		
@@ -211,6 +211,8 @@
 				SetTime=0; // 타이머 시간 되돌리기
 				$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
 			}
+		}else if(SetTime == 15){
+			$('.next-question').html("답변 종료<br><div class='spacebar-area false'>SPACE BAR</div>"); // 답변 종료
 		}
 	}
 	
@@ -261,6 +263,22 @@
 			function(data) {
 				if(data[0]=== undefined){ // 분석할 사진에 문제가 있을경우
 					console.log('영상을 분석할 수 없습니다.')
+					var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="0" >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="0" >'
+					
+					$("#analysisData").append(html);
+					
+					index += 1;
 				}else{
 					emotion = data[0].faceAttributes.emotion;
 					face = data[0].faceRectangle
@@ -410,9 +428,6 @@
 			$("#analysisData").submit();
 		})
 		
-		// 풀스크린메서드
-		openFullScreenMode();
-		
 		 // 클릭의 경우
 		$(document).on('click','.spacebar-area.false',function(){
 			if(SetTime == 0){ // 타이머 진행중이 아닐 경우
@@ -420,26 +435,32 @@
 				script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
 				questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
 				
-				startFunction(); // 녹화 시작
-				$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
-				TimerStart(); // 타이머 시작
-				analyzeStart(); // 10초마다 이미지 분석
-				$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
-				
-				$('.next-question.shown').html('다음 질문<br><div class="spacebar-area false">SPACE BAR</div>'); //버튼 내용 변경
 				$('.message-balloon').empty();
 				$('.message-balloon').text(script); // 면접 질문 출력
 				$('#synthesisText').val(script); // 면접 질문 옮기기
-				$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
+				$('.attention-message.shown').text('') // 주목 하는곳 비우기
 				
-				console.log('타이머 시작')				
-				$('.attention-message.shown').text('');
+				if(SetTime%60<10){ // 타이머 표시
+					m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
+					
+				}else{
+					m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
+				}
+				
+				msg = "<font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
+				msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
+				msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
+				
+				document.all.time.innerHTML = msg;
+				
+				$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
 			}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space
 				console.log('타이머 멈추기')	;
 				console.log('시작카운트 : '+startCount);
 				console.log('종료카운트 : '+endCount);
 				
 				startCount++; // 답변 진행되면서 횟수 증가	
+				$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 				$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 				
 				
@@ -452,6 +473,7 @@
 				
 				script = "다음 질문을 준비해주세요.";
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+					$('.next-question').html(""); // 버튼 지우기
 					download(); // 녹화 중지
 					clearInterval(tid);		// 타이머 해제
 					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
@@ -487,20 +509,25 @@
 					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
 					questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
 					
-					startFunction(); // 녹화 시작
-					$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
-					TimerStart(); // 타이머 시작
-					analyzeStart(); // 10초마다 이미지 분석
-					$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
-						
-					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 					$('.message-balloon').empty();
 					$('.message-balloon').text(script); // 면접 질문 출력
 					$('#synthesisText').val(script); // 면접 질문 옮기기
-					$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
+					$('.attention-message.shown').text('') // 주목 하는곳 비우기
 					
-					console.log('타이머 시작')				
-					$('.attention-message.shown').text('');
+					if(SetTime%60<10){ // 타이머 표시
+						m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
+						
+					}else{
+						m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
+					}
+					
+					msg = "<font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
+					msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
+					msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
+					
+					document.all.time.innerHTML = msg;
+					
+					$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
 				}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space(질문 종료)15초 이후 
 					console.log('타이머 멈추기')	;	
 					console.log('시작카운트 : '+startCount);
@@ -508,6 +535,7 @@
 					console.log('최종 답변 스크립트 : ' + script);
 					
 					startCount++; // 답변 진행되면서 횟수 증가
+					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 					$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
 					
 					clearInterval(tid);		// 타이머 해제
@@ -521,6 +549,7 @@
 					
 					script = "다음 질문을 준비해주세요.";
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+						$('.next-question').html(""); // 버튼 지우기
 						download(); // 녹화 중지
 						clearInterval(tid);		// 타이머 해제
 						$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
@@ -637,8 +666,8 @@
   // TTS 최초 진입 시 설정
   function Initialize(onComplete) {
     if (!!window.SpeechSDK) {
-      document.getElementById('content').style.display = 'block';
-      document.getElementById('warning').style.display = 'none';
+//       document.getElementById('content').style.display = 'block';
+//       document.getElementById('warning').style.display = 'none';
       onComplete(window.SpeechSDK);
     }
   }
@@ -707,6 +736,7 @@
 
     // 시작버튼
     startSynthesisAsyncButton.addEventListener("click", function () {
+	$('.next-question.shown').html(''); //버튼 내용 변경
       resultsDiv.innerHTML = "";
       eventsDiv.innerHTML = "";
       wordBoundaryList = [];
@@ -733,6 +763,15 @@
         pauseButton.disabled = true;
         resumeButton.disabled = true;
         wordBoundaryList = [];
+        
+        startFunction(); // 녹화 시작
+		$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
+		TimerStart(); // 타이머 시작
+		analyzeStart(); // 10초마다 이미지 분석
+		$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
+			
+		console.log('타이머 시작')				
+		$('.attention-message.shown').text('');
       };
 
       var audioConfig  = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
@@ -1002,7 +1041,5 @@
 			</div>
 		</div>
 	</div>
-	<script src="/js/2.f1e4c4b1.chunk.js"></script>
-	<script src="/js/main.a74e6755.chunk.js"></script>
 </body>
 </html>
