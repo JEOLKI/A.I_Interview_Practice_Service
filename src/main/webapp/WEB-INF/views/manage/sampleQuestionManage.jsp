@@ -18,7 +18,7 @@
 	}
 	.listmenu{
 		float: right;
-	    margin-right: 172px;
+        margin-right: 31.5%;
 	}
 	.menu{
 		margin-bottom: 20px;
@@ -46,8 +46,12 @@
 		padding-bottom: 2px;
 	}
 	
-	.sampQuestContent,#sampQuestContent{
+	.sampQuestContent{
 		width: 600px;
+		margin-bottom: 10px;
+	}
+	#sampQuestContent{
+	    width: 547px;
 		margin-bottom: 10px;
 	}
 	
@@ -138,6 +142,15 @@
 		background-color: #4374D9;
 	    color: #fff;
 	}
+	.updateBtn{
+		width: 70px;
+		float: right;
+	    margin-right: 31.5%;
+    	margin-top: 10px;
+	}
+	.list{
+		margin : 10px 0px;
+	}
 </style>
 <script type="text/javaScript" language="javascript" defer="defer">
 $(document).ready(function(){
@@ -191,6 +204,13 @@ function linkPage(pageNo){
 /* 검색 */
 function searchList(){
 document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
+	document.listForm.submit();
+}
+
+
+/* 수정 */
+function updateList() {
+	document.listForm.action = "<c:url value='/sampQuest/updateProcess.do'/>";
 	document.listForm.submit();
 }
 </script>
@@ -264,8 +284,8 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 		    	<br><br>
 				<div class="existSampQuest" id="sampQuestList">
 					<c:forEach items="${resultList }" var="sampQuest">
-						<form class="sampQuestUpdateFrm" action="${cp }/sampQuest/updateProcess.do" method="post">
-								<select class="questGbSq" name="questGbSq">
+							<div class="list">
+								<select class="questGbSq" name="questGbSqs">
 									<c:forEach items="${questGbList }" var="questGb">
 										<c:choose>
 											<c:when test="${sampQuest.questGbSq == questGb.questGbSq }">
@@ -277,9 +297,9 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 										</c:choose>
 									</c:forEach>
 								</select>
-								<input type="hidden" name="sampQuestSq" value="${sampQuest.sampQuestSq}">
-								<input type="text" class="sampQuestContent" name="sampQuestContent" value="<c:out value="${sampQuest.sampQuestContent}"/>">
-								<select class="sampQuestSt" name="sampQuestSt">
+								<input type="hidden" name="sampQuestSqs" value="${sampQuest.sampQuestSq}">
+								<input type="text" class="sampQuestContent" name="sampQuestContents" value="<c:out value="${sampQuest.sampQuestContent}"/>">
+								<select class="sampQuestSt" name="sampQuestSts">
 									<c:choose>
 										<c:when test="${sampQuest.sampQuestSt == 'Y' }">
 											<option value="Y" selected="selected">사용</option>
@@ -291,10 +311,10 @@ document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
 										</c:otherwise>
 									</c:choose>
 								</select>
-								<a class="updateBtn">수정</a>
 								<div id="updateCheck" style="display: inline-block;">&nbsp;</div>
-						</form>
+							</div>
 					</c:forEach>
+							<a class="updateBtn" onclick="updateList()">수정</a>
 				</div>
 				<div id="paging">
 					<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />

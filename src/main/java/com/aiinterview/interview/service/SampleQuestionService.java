@@ -128,4 +128,14 @@ public class SampleQuestionService {
 	public List<SampleQuestionVO> retrieveQuestGbAndSampUseCount(Map<String, String> statisticMap) throws Exception{
 		return sampleQuestionMapper.retrieveQuestGbAndSampUseCount(statisticMap);
 	}
+
+	/**
+	 * 샘플질문 번호에 해당하는 샘플질문 객체를 가져오는 메서드
+	 * 업데이트용
+	 * @param string
+	 * @return
+	 */
+	public SampleQuestionVO retrieveOne(String sampQuestSq) throws Exception{
+		return sampleQuestionMapper.retrieveOne(sampQuestSq);
+	}
 }

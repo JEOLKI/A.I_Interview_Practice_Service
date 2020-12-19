@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import org.apache.ibatis.javassist.expr.NewArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -172,14 +173,17 @@ public class SampleQuestionController {
 	/* 샘플질문 수정 */
 	@RequestMapping(path = "/updateProcess.do", method = { RequestMethod.POST })
 	public String updateProcess(SampleQuestionVO sampQuestVO, Model model) {
-		System.out.println("샘플 질문 수정 - sampQuestVO : " + sampQuestVO);
 
-		int updateCnt;
 		try {
-			updateCnt = sampleQuestionService.update(sampQuestVO);
-			System.out.println("샘플 질문  수정 - updateCnt : " + updateCnt);
-			if (updateCnt == 1) {
-				return "redirect:/sampQuest/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
+			int updateCnt=0;
+			for(int i = 0; i<sampQuestVO.getSampQuestSqs().length; i++) {
+				SampleQuestionVO updateSampQuestVO = sampleQuestionService.retrieveOne(sampQuestVO.getSampQuestSqs()[i]);
+				updateSampQuestVO.setSampQuestContent(sampQuestVO.getSampQuestContents()[i]);
+				updateSampQuestVO.setSampQuestSt(sampQuestVO.getSampQuestSts()[i]);
+				updateCnt += sampleQuestionService.update(updateSampQuestVO);
+				if (updateCnt == sampQuestVO.getSampQuestSqs().length) {
+					return "redirect:/sampQuest/retrievePagingList.do"; // 업데이트 성공시 리다이렉트
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

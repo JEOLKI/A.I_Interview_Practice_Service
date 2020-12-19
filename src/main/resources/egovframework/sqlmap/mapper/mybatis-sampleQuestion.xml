@@ -70,6 +70,12 @@
 		   AND samp_quest_content LIKE '%' || #{searchKeyword} || '%'
 		   AND samp_quest_st = 'Y' 
 	</select>
+	<!-- 해당 객체 가져오기 (업데이트용) -->
+	<select id="retrieveOne" parameterType="String" resultType="com.aiinterview.interview.vo.SampleQuestionVO">
+		SELECT *
+          FROM sample_question
+		 WHERE samp_quest_sq = #{sampQuestSq} 
+	</select>
 	
 	<!-- 직무별 사용 통계 -->
 	<select id="retrieveQuestGbUseCount" parameterType="hashmap" resultType="com.aiinterview.interview.vo.SampleQuestionVO">
