@@ -136,6 +136,21 @@
 	    border: 1px solid #22741C;
 	    color: #fff;
 	}
+	.list{
+		margin : 10px 0px;
+	}
+	.deleteBtn{
+		display:block;
+		float: right;
+	 	margin-right: 40.3%;
+	}
+	.deleteCheck{
+		margin-right: 10px;
+	    width: 26px;
+	    height: 24px;
+	    position: relative;
+	    top: 5px;
+	}
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -180,7 +195,12 @@
 		})
 		
 		$('.deleteBtn').on('click',function(){
-			$(this).parent().submit();
+			$('input:checkbox[name=deleteChecks]:not(checked)').attr("checked", true);
+		})
+		
+		$('.deleteCheck').on('click', function(){
+			$(this).val("Y");
+// 			$('input:checkbox[name=deleteChecks]:not(checked)').attr("checked", true); 
 		})
 
 	})
@@ -199,6 +219,13 @@
 		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
 		document.location = "/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit+"&searchKeyword="+searchKeyword;
 	
+	}
+	
+	/* 삭제 */
+	function deleteList() {
+		document.getElementsByName("deleteChecks").checked = true;
+		document.listForm.action = "<c:url value='/keyword/delete.do'/>";
+		document.listForm.submit();
 	}
 	
 </script>
@@ -248,6 +275,7 @@
 			        <input type="file" name="excelFile" />
 			    </form>
 			</div>
+			<form:form commandName="keywordVO" id="listForm" name="listForm" method="post">
 			<div class="listmenu">
 				<select id="sort">
 					<c:forEach var="value" begin="5" end="20" step="5">
@@ -272,14 +300,16 @@
 		<br>
 		<br>
 		<div class="existKeyword" id="keywordList">
+			<input type="hidden" name="talentSq" value="${talentVO.talentSq }">
 			<c:forEach items="${resultList }" var="keyword">
-				<form class="talentUpdateFrm" action="${cp }/keyword/delete.do" method="post">
-					<input type="hidden" name="talentSq" value="${talentVO.talentSq}">
-					<input type="hidden" name="keywordSq" value="${keyword.keywordSq}">
-					<input type="text" class="keywordContent" name="keywordContent" value="${keyword.keywordContent}">
-					<a class="deleteBtn">삭제</a>
-				</form>
+				<div class="list">
+				<input type="checkbox" name="deleteChecks" class="deleteCheck" value="N">
+				<input type="hidden" name="talentSqs" value="${talentVO.talentSq}">
+				<input type="hidden" name="keywordSqs" value="${keyword.keywordSq}">
+				<input type="text" class="keywordContent" name="keywordContents" value="${keyword.keywordContent}">
+				</div>
 			</c:forEach>
+			<a class="deleteBtn" onclick="deleteList()">삭제</a>
 		</div>
 		<div id="paging">
 			<!-- 페이지번호 -->
@@ -297,8 +327,9 @@
 					</li>
 				</c:forEach>
 			</ul>
-				</div>
 			</div>
+		</form:form>
+		</div>
 	</div>
 </body>
 </html>

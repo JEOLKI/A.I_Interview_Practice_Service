@@ -117,23 +117,22 @@ public class KeywordController {
 	}
 	
 	@RequestMapping("/delete.do")
-	public String delete(String talentSq, String keywordSq, Model model) {
-		System.out.println("키워드 삭제 talentSq : "+talentSq+", keywordSq : "+keywordSq);
-		// 1. keywordSq, talentSq 값 매칭된 행 조회  -> 해당 행 삭제
-		Map<String,	String> deleteMap = new HashMap<>();
-		deleteMap.put("talentSq", talentSq);
-		deleteMap.put("keywordSq", keywordSq);
-		
+	public String delete(KeywordVO keywordVO, String talentSq, Model model) {
 		try {
-			int deleteCnt = keywordMathingService.delete(deleteMap);
-			
-			if(deleteCnt>0) {
-				return "redirect:/talent/keywordManage.do?talentSq="+talentSq;
-			} else {
-				model.addAttribute("msg", "키워드 삭제 실패");
-			}
-		} catch (Exception e) {
-			model.addAttribute("msg", "키워드 삭제 실패");
+			int deleteCnt = 0;
+//			for(int i =0; i<keywordVO.getKeywordSqs().length; i++) {
+//				if(keywordVO.getDeleteChecks()[i].equals("Y")) {
+//					// 1. keywordSq, talentSq 값 매칭된 행 조회  -> 해당 행 삭제
+//					Map<String,	String> deleteMap = new HashMap<>();
+//					deleteMap.put("talentSq", keywordVO.getTalentSqs()[i]);
+//					deleteMap.put("keywordSq", keywordVO.getKeywordSqs()[i]);
+//					
+//					deleteCnt += keywordMathingService.delete(deleteMap);
+//				}
+//			}
+			return "redirect:/talent/keywordManage.do?talentSq="+talentSq;
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "manage/talentKeywordManage";
 	}
