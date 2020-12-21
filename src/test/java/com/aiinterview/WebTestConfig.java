@@ -20,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/egovframework/spring/context-common.xml",
+									"file:src/main/webapp/WEB-INF/config/egovframework/springmvc/dispatcher-servlet.xml",
 									"classpath:/egovframework/spring/context-datasource_dev.xml",
 									"classpath:/egovframework/spring/context-mapper.xml",
 									"classpath:/egovframework/spring/context-properties.xml"})
