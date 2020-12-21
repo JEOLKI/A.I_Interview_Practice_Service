@@ -26,7 +26,7 @@ public class AnswerServiceTest extends ModelTestConfig {
 		AnswerVO answerVO = answerService.retrieve(questSq);
 		
 		/***Then***/
-		assertEquals("1", answerVO.getInterviewSq());
+		assertEquals("1", answerVO.getQuestSq());
 		
 	}
 	
