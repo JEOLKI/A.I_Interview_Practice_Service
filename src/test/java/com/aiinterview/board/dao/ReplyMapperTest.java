@@ -1,4 +1,4 @@
-package com.aiinterview.interview.dao;
+package com.aiinterview.board.dao;
 
 import static org.junit.Assert.*;
 
