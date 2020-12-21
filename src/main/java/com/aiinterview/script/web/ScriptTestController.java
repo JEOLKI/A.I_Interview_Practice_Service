@@ -6,8 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +31,6 @@ public class ScriptTestController {
 	@Resource(name = "scriptGubunService")
 	private ScriptGubunService scriptGbService;
 	
-	
 	@RequestMapping(path = "/create.do")
 	public String create(Model model, String performScript, HttpSession session, String scriptSq) {
 		
@@ -47,9 +44,6 @@ public class ScriptTestController {
 		
 		ArrayList<String> systemScriptList = scriptTest.nGram(scriptContent); //스크립트에 출력된 출력 문
 		ArrayList<String> memberScriptList = scriptTest.nGram(performScript); //사용자가 말한스크립트 문
-		
-		System.out.println("출력된 문자 " + systemScriptList.toString());
-		System.out.println("말한 문자"+memberScriptList.toString());
 
 		int result = scriptTest.resultNGram(systemScriptList, memberScriptList);
 		session.setAttribute("scriptTestResult", result);
@@ -77,7 +71,6 @@ public class ScriptTestController {
 		}
 
 		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
-		// 활성상태가 "Y"인 스크립트 구분 리스트
 		for (ScriptGubunVO scriptGb : scriptGbList) {
 			if (scriptGb.getScriptGbSt().equals("Y")) {
 				availableGbList.add(scriptGb);
@@ -86,7 +79,6 @@ public class ScriptTestController {
 		model.addAttribute("scriptGbList", availableGbList);
 		return "script/testPopup";
 	}
-	
 	
 	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
 	public String retrieveSelectList(String scriptGbSq ,Model model) {
@@ -105,7 +97,6 @@ public class ScriptTestController {
 		model.addAttribute("scriptVO", scriptVO);
 		return "jsonView";
 	}
-	
 	
 	/**
 	 * 각각의 스크립트를 리스트내에 두 음절씩 분리하여 입력하는 메소드

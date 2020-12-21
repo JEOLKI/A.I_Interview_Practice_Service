@@ -11,7 +11,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface ScriptMapper {
 	
 	/**
-	 * 전체 스크립트를 페이징 처리 후 한 페이지당 보여지는 스크립트의 리스트
+	 * 페이징 처리 후 해당 페이지의 스크립트 리스트를 반환하는 메서드
 	 * @param scriptVO
 	 * @return List<ScriptVO>
 	 * @throws Exception
@@ -33,7 +33,6 @@ public interface ScriptMapper {
 	 */
 	public void create(ScriptVO ScriptVO) throws Exception;
 	
-	
 	/**
 	 * 스크립트 전체 리스트를 반환하는 메서드
 	 * @return List<ScriptVo>
@@ -49,6 +48,13 @@ public interface ScriptMapper {
 	 */
 	public int update(ScriptVO ScriptVO) throws Exception;
 	
+	/**
+	 * 스크립트 하나를 반환하는 메서드
+	 * @param scriptSq
+	 * @return ScriptVO
+	 * @throws Exception
+	 */
+	public ScriptVO retrieve(String scriptSq) throws Exception;
 
 	/**
 	 * 검색한 스크립트의 리스트를 조회하는 메서드
@@ -58,14 +64,6 @@ public interface ScriptMapper {
 	public List<ScriptVO> retrieveScriptSearchList(String keyword) throws Exception;
 	
 	/**
-	 * 스크립트 하나를 반환하는 메서드
-	 * @param scriptSq
-	 * @return ScriptVO
-	 * @throws Exception
-	 */
-	public ScriptVO retrieve(String scriptSq) throws Exception;
-	
-	/**
 	 * 스크립트 구분 sq에 맞는 스크립트 전체리스트를 반환하는 메서드
 	 * @return List<ScriptVo>
 	 * @throws Exception
@@ -73,7 +71,7 @@ public interface ScriptMapper {
 	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception;
 
 	/**
-	 * 스크립트 구분 별 스크립트 목록을 조회하는 메서드
+	 * 
 	 * @param retrieveMap
 	 * @return
 	 * @throws Exception

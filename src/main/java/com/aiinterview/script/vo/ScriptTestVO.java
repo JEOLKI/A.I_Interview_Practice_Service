@@ -9,6 +9,9 @@ public class ScriptTestVO extends ScriptVO{
 	private String scriptSq;		//스크립트의 고유번호
 	private String scriptGbSq;      //리스트뽑을떄 필요한 스크립트 구분번호
 	
+	private int rank;			//많이 사용된 script ranking
+	private int totCnt;			//많이 사용된 script의 total Count
+	
 	public ScriptTestVO() {
 		
 	}
@@ -23,56 +26,80 @@ public class ScriptTestVO extends ScriptVO{
 	public String getScriptTestSq() {
 		return scriptTestSq;
 	}
+
 	public void setScriptTestSq(String scriptTestSq) {
 		this.scriptTestSq = scriptTestSq;
 	}
+
 	public String getScriptTestScore() {
 		return scriptTestScore;
 	}
+
 	public void setScriptTestScore(String scriptTestScore) {
 		this.scriptTestScore = scriptTestScore;
 	}
+
 	public String getPerformScript() {
 		return performScript;
 	}
+
 	public void setPerformScript(String performScript) {
 		this.performScript = performScript;
 	}
+
 	public String getScriptTestDate() {
 		return scriptTestDate;
 	}
+
 	public void setScriptTestDate(String scriptTestDate) {
 		this.scriptTestDate = scriptTestDate;
 	}
+
 	public String getMemId() {
 		return memId;
 	}
+
 	public void setMemId(String memId) {
 		this.memId = memId;
 	}
+
 	public String getScriptSq() {
 		return scriptSq;
 	}
+
 	public void setScriptSq(String scriptSq) {
 		this.scriptSq = scriptSq;
 	}
+
 	public String getScriptGbSq() {
 		return scriptGbSq;
 	}
+
 	public void setScriptGbSq(String scriptGbSq) {
 		this.scriptGbSq = scriptGbSq;
 	}
 
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public int getTotCnt() {
+		return totCnt;
+	}
+
+	public void setTotCnt(int totCnt) {
+		this.totCnt = totCnt;
+	}
+
 	@Override
 	public String toString() {
-		return "ScriptTestVO [	scriptTestSq=" + scriptTestSq
-							+ ", scriptTestScore=" + scriptTestScore
-							+ ", performScript=" + performScript
-							+ ", scriptTestDate=" + scriptTestDate
-							+ ", memId=" + memId
-							+ ", scriptSq=" + scriptSq
-							//+ ", scriptContent=" + scriptContent
-							//+ ", scriptSt=" + scriptSt
-							+ ", scriptGbSq=" + scriptGbSq + "]";
+		return "ScriptTestVO [scriptTestSq=" + scriptTestSq + ", scriptTestScore=" + scriptTestScore
+				+ ", performScript=" + performScript + ", scriptTestDate=" + scriptTestDate + ", memId=" + memId
+				+ ", scriptSq=" + scriptSq + ", scriptGbSq=" + scriptGbSq + ", rank=" + rank + ", totCnt=" + totCnt
+				+ "]";
 	}
 }

@@ -4,34 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.script.dao.ScriptGubunMapper">
 
-	<!-- 전체 목록 조회 -->
-	<select id="retrieveList" parameterType="String"
-		resultType="com.aiinterview.script.vo.ScriptGubunVO">
-		SELECT *
-		FROM script_gb
-		ORDER BY script_gb_content
-	</select>
-
-	<!-- 단일 등록 -->
-	<insert id="create">
-		<selectKey keyProperty="scriptGbSq" resultType="String" order="BEFORE">
-			SELECT script_gb_sq.nextval FROM dual 
-		</selectKey>
-		INSERT INTO script_gb
-		VALUES (TO_NUMBER(#{scriptGbSq}), #{scriptGbContent}, #{scriptGbSt})
-	</insert>
-
-	<!-- 수정 -->
-	<update id="update">
-		UPDATE script_gb
-		SET script_gb_content = #{scriptGbContent},
-		script_gb_st = #{scriptGbSt}
-		WHERE script_gb_sq = #{scriptGbSq}
-	</update>
-
 	<!-- 페이징 -->
-	<select id="retrievePagingList"
-		resultType="com.aiinterview.script.vo.ScriptGubunVO">
+	<select id="retrievePagingList" resultType="com.aiinterview.script.vo.ScriptGubunVO">
 		SELECT A.*
 		FROM (
 		SELECT ROWNUM RNUM,
@@ -62,6 +36,39 @@
 			AND script_gb_sq LIKE '%'||#{searchKeyword}||'%'
 		</if>
 	</select>
+	
+	<!-- 단일 등록 -->
+	<insert id="create">
+		<selectKey keyProperty="scriptGbSq" resultType="String" order="BEFORE">
+			SELECT script_gb_sq.nextval FROM dual 
+		</selectKey>
+		INSERT INTO script_gb
+		VALUES (TO_NUMBER(#{scriptGbSq}), #{scriptGbContent}, #{scriptGbSt})
+	</insert>
+	
+	<!-- 전체 목록 조회 -->
+	<select id="retrieveList" parameterType="String"
+		resultType="com.aiinterview.script.vo.ScriptGubunVO">
+		SELECT *
+		FROM script_gb
+		ORDER BY script_gb_content
+	</select>
+
+	<!-- 수정 -->
+	<update id="update">
+		UPDATE script_gb
+		SET script_gb_content = #{scriptGbContent},
+		script_gb_st = #{scriptGbSt}
+		WHERE script_gb_sq = #{scriptGbSq}
+	</update>
+	
+	<!-- 스크립트 한개 -->
+	<select id="retrieve" parameterType="String"
+		resultType="com.aiinterview.script.vo.ScriptGubunVO">
+		SELECT *
+		FROM script_gb
+		WHERE script_gb_sq = #{scriptGbSq}
+	</select>
 
 	<!-- 검색 -->
 	<select id="retrieveScriptGubunSearchList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptGubunVO">
@@ -71,61 +78,8 @@
 		ORDER BY script_gb_content
 	</select>
 
-	<!-- 스크립트 한개 -->
-	<select id="retrieve" parameterType="String"
-		resultType="com.aiinterview.script.vo.ScriptGubunVO">
-		SELECT *
-		FROM script_gb
-		WHERE script_gb_sq = #{scriptGbSq}
-	</select>
-	
-		<!-- 페이징 : 통계리스트 select -->
-<!-- 	<select id="retrieveStatisticsList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.ScriptGubunVO"> -->
-<!-- 		SELECT ROWNUM rn, -->
-<!-- 				       f.* -->
-<!-- 	              FROM (SELECT e.script_gb_content, count(*) as scriptGbCount -->
-<!-- 						  FROM script_gb e  -->
-<!-- 							  (SELECT script_test_sq , script_test_date -->
-<!-- 								 FROM script_test -->
-<!-- 								 WHERE 1=1 -->
-<!-- 								 <if test="startDate != null and startDate != '' and endDate != null and endDate != ''"> -->
-<!-- 									<choose> -->
-<!-- 			          					<when test="endDate == 'sysdate'"> -->
-<!-- 	           					  AND script_test_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND ${'sysdate'} -->
-<!-- 	             						</when> -->
-<!-- 	             						<when test="endDate != 'sysdate'"> -->
-<!-- 	             				  AND script_test_date BETWEEN to_date(#{startDate},'YYYY-MM-DD') AND to_date(#{endDate},'YYYY-MM-DD') -->
-<!-- 	             						</when> -->
-<!-- 	             					</choose> -->
-<!-- 	          					</if> -->
-<!-- 								) a -->
-<!-- 						 WHERE a.interview_sq = b.interview_sq -->
-<!-- 				     	   AND b.quest_sq = c.quest_sq -->
-<!-- 						   AND c.ans_sq = d.ans_sq -->
-<!-- 						   AND d.talent_sq = e.talent_sq -->
-<!-- 						    <if test="searchKeyword != null and searchKeyword != ''"> -->
-<!-- 					   	   AND e.talent_nm LIKE '%' || #{searchKeyword} || '%' -->
-<!-- 					  		</if> -->
-<!-- 						 GROUP BY d.talent_sq, e.talent_nm -->
-<!-- 						 ORDER BY d.talent_sq) f -->
-<!-- 	</select> -->
-	
-	<!-- 통계: 스크립트 구분의 이용 빈도 : 순위, 스크립트문, 사용 횟수-->
-<!-- 	<select id="retrieveRankingList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.ScriptGbAnalysisVO"> -->
-<!-- 	SELECT  DENSE_RANK() OVER (ORDER BY scriptGbCount DESC) as rank, e.script_gb_sq, e.script_gb_content, scriptGbCount  -->
-<!-- 	FROM    (SELECT  c.script_gb_content, count(*) as scriptGbCount, d.script_gb_sq -->
-<!-- 	        FROM    script_gb c,(SELECT b.script_gb_sq, b.script_content, count(*)  -->
-<!-- 	                            FROM script_test a, script b -->
-<!-- 	                            WHERE a.script_sq = b.script_sq -->
-<!-- 	                            AND a.script_test_date BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD') -->
-<!-- 	                            GROUP BY b.script_content, b.script_gb_sq) d -->
-<!-- 	        WHERE   c.script_gb_sq = d.script_gb_sq -->
-<!-- 	        GROUP BY c.script_gb_content, d.script_gb_sq -->
-<!-- 	        ORDER BY scriptGbCount DESC) e -->
-<!-- 	</select> -->
-	
 	<!-- 통계: 스크립트 이용 빈도 : 순위, 스시, 스크립트문, totCnt-->
-	<select id="retrieveRankingList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.ScriptAnalysisVO">
+	<select id="retrieveRankingList" parameterType="hashmap" resultType="com.aiinterview.script.vo.ScriptTestVO">
 		SELECT  DENSE_RANK() OVER (ORDER BY totCnt DESC) as Rank, d.*
 		FROM    (SELECT  c.script_sq, c.script_content, count(*) AS totCnt
 		        FROM    (SELECT a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date

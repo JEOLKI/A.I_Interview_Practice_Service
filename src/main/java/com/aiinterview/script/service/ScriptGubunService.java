@@ -1,16 +1,14 @@
 package com.aiinterview.script.service;
 
 import java.io.File;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.aiinterview.analysis.vo.ScriptAnalysisVO;
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
 import com.aiinterview.script.dao.ScriptGubunMapper;
@@ -19,8 +17,6 @@ import com.aiinterview.script.vo.ScriptTestVO;
 
 @Service("scriptGubunService")
 public class ScriptGubunService {
-	private static final Logger logger = LoggerFactory.getLogger(ScriptGubunService.class);
-	
 	@Resource(name = "scriptGubunMapper")
 	private ScriptGubunMapper scriptGubunMapper;
 	
@@ -95,17 +91,6 @@ public class ScriptGubunService {
 		return scriptGubunMapper.update(ScriptGbVO);
 	}
 	
-	
-	/**
-	 * 검색한 스크립트 구분 리스트를 반환하는 메서드
-	 * @param keyword
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ScriptGubunVO> retrieveScriptGubunSearchList(String keyword)  throws Exception{
-		return scriptGubunMapper.retrieveScriptGubunSearchList(keyword);
-	}
-	
 	/**
 	 * 스크립트 구분 하나를 반환하는 메서드
 	 * @param scriptGbSq
@@ -115,16 +100,24 @@ public class ScriptGubunService {
 	public ScriptGubunVO retrieve(String scriptGbSq) throws Exception{
 		return scriptGubunMapper.retrieve(scriptGbSq);
 	}
+	
+	/**
+	 * 스크립트 구분을 검색하는 메서드
+	 * @param searchKeyword
+	 * @return
+	 */
+	public List<ScriptGubunVO> retrieveScriptGubunSearchList(String keyword) throws Exception{
+		return scriptGubunMapper.retrieveScriptGubunSearchList(keyword);
+	}
 
 	/**
-	 * 스크립트 구분 도출 횟수 및 순위 리스트를 조회하는 메서드
+	 * 스크립트 구분별 스크립트 도출 횟수 및 순위 리스트를 조회하는 메서드
 	 * 스크립트 구분 통계용
 	 * @param statisticMap
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ScriptAnalysisVO> retrieveRankingList(Map<String, String> statisticMap) throws Exception{
-		logger.debug("service script랭리 : {}", statisticMap);
+	public List<ScriptTestVO> retrieveRankingList(Map<String, String> statisticMap) throws Exception{
 		return scriptGubunMapper.retrieveRankingList(statisticMap);
 	}
 

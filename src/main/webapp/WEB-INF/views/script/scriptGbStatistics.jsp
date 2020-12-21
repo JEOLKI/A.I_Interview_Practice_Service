@@ -124,7 +124,6 @@ today = getFormatDate(today);
 </style>
 
 <script>
-
 var startDate;
 var endDate;
 var scriptGbSq;
@@ -132,22 +131,10 @@ var scriptRankingList=[];
 var scriptScoreList=[];
 
 $(document).ready(function(){
-	startDate = $('#start').val() == '2020-10-02'?  today : $('#start').val();
+	startDate = $('#start').val() == ''? '2020-12-02' : $('#start').val();
 	endDate = $('#end').val() == ''? today : $('#end').val();
 	
-	//시작하자마자 한국어 통계1
- 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
-		data : {"startDate" : startDate,
-			 	 "endDate" 	 : endDate,
-			 	 "scriptGbSq": scriptGbSq},
-		dataType : "json",
-		success : function(data){
-			scriptRankingList = data.scriptRankingList;
-			drawRankingChart(scriptRankingList);
-			}	//sucess 종료	 
-	}); //ranking ajax 종료
-
-	//score chart
+	//시작 시 score chart
 	$.ajax({url : "/scriptGubun/retrieveScoreList.do",
 			data : {"startDate" : startDate,
 					"endDate" : endDate,
@@ -159,77 +146,63 @@ $(document).ready(function(){
 			}//success 종료
 	}); //score ajax 종료
 	
-	// 탭 토글 클릭 시
+	//시작 시 ranking table
+ 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
+			data : {"startDate" : startDate,
+			 	 	"endDate" 	: endDate,
+			 	 	"scriptGbSq": scriptGbSq},
+		dataType : "json",
+		success : function(data){
+			scriptRankingList = data.scriptRankingList;
+			drawRankingChart(scriptRankingList);
+			}	//sucess 종료	 
+	}); //ranking ajax 종료
+	
 	$('.scriptGbTab').on('click', function(){
 		scriptGbSq = $(this).attr('value');
-		//랭킹 테이블
-	 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
-				data : {"startDate" : '20201101', //->startDate,
-					 	 "endDate" 	 : '20201219', //->endDate,
+	});
+	
+	$('#selectBtn, .scriptGbTab').on('click',function(){
+	 	//ranking table
+		$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
+				data : {"startDate" : startDate,
+					 	 "endDate" 	 : endDate,
 					 	 "scriptGbSq": scriptGbSq},
 				dataType : "json",
 				success : function(data){
 					scriptRankingList = data.scriptRankingList;
-					//console.log("scriptRankingList : "+scriptRankingList);
 					drawRankingChart(scriptRankingList);
 					}	//sucess 종료	 
 		}); //ranking ajax 종료
 		
 		//score chart
 		$.ajax({url : "/scriptGubun/retrieveScoreList.do",
-				data : {"startDate" : '20201101', 	//->startDate,
-						"endDate" : '20201219', 	//->endDate,
+				data : {"startDate" : startDate,
+						"endDate" : endDate,
 						"scriptGbSq" : scriptGbSq},
 				dataType : "json",
 				success : function(data){
 					scriptScoreList = data.scriptScoreList;
-					console.log("scriptScoreList : "+scriptScoreList);
 					drawScoreChart(scriptScoreList);
 				}//success 종료
 		}); //score ajax 종료
-	});// tab click 종료
-	
-	
-	/* Ranking Chart */
-	function drawRankingChart(scriptRankingList){
-		var html="";
-		var sumCnt = 0;
-		
-		for(var i=0; i<scriptRankingList.length; i++){
-			html += '<tr class="scriptRank">';
-			html += '	<td>'+scriptRankingList[i].rank+'</td>';
-			html += '	<td class="scriptContentTitle">'+scriptRankingList[i].scriptContent+'</td>';
-			html += '	<td>'+scriptRankingList[i].totCnt+'</td>';
-			html += '</tr>';
-			
-			sumCnt += scriptRankingList[i].totCnt;
-		}
-		html += '<tr id="sumCnt">'
-		html += '	<td>합  계</td>';
-		html += '	<td></td>'
-		html += '	<td>'+sumCnt+'</td>';
-		html += '</tr>'
-		
-		$('#rankingList').empty();
-		$('#rankingList').append(html);
-	}; //fn_drawRankingChart 종료
+	});// searchBtn 종료
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
 		am4core.ready(function() {
 			am4core.useTheme(am4themes_kelly);
 			am4core.useTheme(am4themes_animated);
-
+				 
 			var chart = am4core.create("scoreChart", am4charts.XYChart);
 			chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 			
 			var chartData = [];
 			var scoreList = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 			var zero=0, one=0, two=0, three=0, four=0, five=0, six=0, seven=0, eight=0, nine=0, ten=0;
-			var score;
-
 			for(var i=0; i<scriptScoreList.length; i++){
 				var testScore = scriptScoreList[i].scriptTestScore;
+				
 				var resultScore = (testScore/10)*10;
 				if(resultScore==0){
 					zero += 1;
@@ -255,11 +228,10 @@ $(document).ready(function(){
 					ten += 1;
 				}
 			}
-			
 			var cntNumList = [zero, one, two, three, four, five, six, seven, eight, nine, ten];
+			
 			var sumLiteral=0;
 			for(var i=0; i<cntNumList.length; i++){
-				console.log("ListLength" +cntNumList.length);
 				literal = cntNumList[i];	//바 그릴 데이터
 				example = scoreList[i]; 	//x축에 찍을 데이터
 				
@@ -280,13 +252,11 @@ $(document).ready(function(){
 			valueAxis.max=sumLiteral+1;
 			valueAxis.strictMinMax = true;
 			valueAxis.renderer.minGridDistance = 30;
-			
 			var axisBreak = valueAxis.axisBreaks.create();
-			
+
 			var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
 			axisBreak.breakSize = 0.05 * (1 - d) / d;
 
-			// make break expand on hover
 			var hoverState = axisBreak.states.create("hover");
 			hoverState.properties.breakSize = 1;
 			hoverState.properties.opacity = 0.1;
@@ -306,11 +276,33 @@ $(document).ready(function(){
 			});
 		}); // end am4core.ready()
 	};//fn_ScoreChart end
+	
+	/* Ranking Chart */
+	function drawRankingChart(scriptRankingList){
+		html="";
+		var sumCnt = 0;
+		
+		for(var i=0; i<scriptRankingList.length; i++){
+			html += '<tr class="scriptRank">';
+			html += '	<td>'+scriptRankingList[i].rank+'</td>';
+			html += '	<td class="scriptContentTitle">'+scriptRankingList[i].scriptContent+'</td>';
+			html += '	<td>'+scriptRankingList[i].totCnt+'</td>';
+			html += '</tr>';
+			
+			sumCnt += scriptRankingList[i].totCnt;
+		}
+		html += '<tr id="sumCnt">'
+		html += '	<td>합  계</td>';
+		html += '	<td></td>'
+		html += '	<td>'+sumCnt+'</td>';
+		html += '</tr>'
+		
+		$('#rankingList').empty();
+		$('#rankingList').append(html);
+	}; //fn_drawRankingChart 종료
 }); //ready function 종료
 </script>
 </head>
-
-
 
 <body>
 	<h1>스크립트 통계</h1>

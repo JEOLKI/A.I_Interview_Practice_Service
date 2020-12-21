@@ -3,7 +3,6 @@ package com.aiinterview.script.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.aiinterview.analysis.vo.ScriptAnalysisVO;
 import com.aiinterview.script.vo.ScriptGubunVO;
 import com.aiinterview.script.vo.ScriptTestVO;
 
@@ -48,7 +47,6 @@ public interface ScriptGubunMapper {
 	 */
 	public int update(ScriptGubunVO ScriptGbVO) throws Exception;
 	
-
 	/**
 	 * 스크립트 구분 하나를 반환하는 메서드
 	 * @param scriptGbSq
@@ -71,7 +69,7 @@ public interface ScriptGubunMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ScriptAnalysisVO> retrieveRankingList(Map<String, String> statisticMap) throws Exception;
+	public List<ScriptTestVO> retrieveRankingList(Map<String, String> statisticMap) throws Exception;
 
 	/**
 	 * 스크립트 구분 별 테스트 점수를 조회하는 메서드

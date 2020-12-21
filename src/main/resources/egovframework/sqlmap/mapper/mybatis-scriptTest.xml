@@ -3,17 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.script.dao.ScriptTestMapper">
-
-<!-- 	<select id="retrieve" parameterType="String" resultType="com.aiinterview.script.vo.ScriptGubunVO"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM	script_gb -->
-<!-- 		WHERE	script_gb_sq = #{scriptGbSq} -->
-<!-- 	</select> -->
-
-<!-- 	<select id="retrieveList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptGubunVO"> -->
-<!-- 		SELECT * -->
-<!-- 		FROM script_gb -->
-<!-- 	</select> -->
 	
 	<insert id="create">
 		<selectKey keyProperty="scriptTestSq" resultType="String" order="BEFORE" keyColumn="scriptTestSq">
@@ -24,7 +13,6 @@
 	</insert>
 	
 	<select id="retrieve" resultType="com.aiinterview.script.vo.ScriptTestVO" parameterType="com.aiinterview.script.vo.ScriptTestVO">
-		
 		SELECT *
 		FROM script_test A ,script B, script_gb C
 		WHERE  A.script_sq = B.script_sq
@@ -32,11 +20,4 @@
 		AND A.mem_id= #{memId }
 		AND C.script_gb_sq = #{scriptGbSq}	
 	</select>
-	
-<!-- 	<update id="update" > -->
-<!-- 		UPDATE script_gb  -->
-<!-- 		   SET script_gb_content = #{scriptGbContent}, -->
-<!-- 		 	   script_gb_st = #{scriptGbSt} -->
-<!-- 		 WHERE script_gb_sq = #{scriptGbSq}  -->
-<!-- 	</update> -->
 </mapper>

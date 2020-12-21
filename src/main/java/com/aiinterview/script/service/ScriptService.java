@@ -15,7 +15,6 @@ import com.aiinterview.script.vo.ScriptVO;
 
 @Service("scriptService")
 public class ScriptService {
-	
 	@Resource(name = "scriptMapper")
 	private ScriptMapper scriptMapper;
 
@@ -56,9 +55,9 @@ public class ScriptService {
 		  readOption.setFilePath(destFile.getAbsolutePath());
 		  readOption.setOutputColumns("A","B");
 		  readOption.setStartRow(2);
-
+	
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
-
+	
 		  ScriptVO scriptVO = null;
 		  for(Map<String, String> script : excelContent) {
 			  scriptVO = new ScriptVO();
@@ -119,7 +118,7 @@ public class ScriptService {
 	}
 
 	/**
-	 * 페이징 후 해당 스크립트 구분에 해당하는 스크립트 리스트를 반환하는 메서드
+	 * 스크립트 구분 별 스크립트 목록을 조회하는 메서드
 	 * @param retrieveMap
 	 * @return
 	 */
