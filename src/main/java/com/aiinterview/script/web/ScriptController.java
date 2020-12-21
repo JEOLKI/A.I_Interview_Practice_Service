@@ -30,8 +30,6 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @RequestMapping("/script")
 @Controller
 public class ScriptController {
-	private static final Logger logger = LoggerFactory.getLogger(ScriptController.class);
-	
 	@Resource(name = "scriptService")
 	private ScriptService scriptService;
 
@@ -61,7 +59,6 @@ public class ScriptController {
 		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
 		paginationInfo.setPageSize(scriptVO.getPageSize());
 		
-		
 		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
@@ -83,7 +80,6 @@ public class ScriptController {
 			}
 		}
 		model.addAttribute("scriptGbList", availableGbList);
-		
 		return "manage/scriptManage";
 	}
 	
@@ -94,12 +90,9 @@ public class ScriptController {
 		
 		try {
 			scriptService.create(scriptVO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 		return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
 	}
-	
 
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
@@ -120,12 +113,9 @@ public class ScriptController {
 		
 		try {
 			scriptService.createMassiveScript(destFile, scriptGbSq);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 		
 		destFile.delete();
-		
         return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+scriptGbSq;
 	}
 	
@@ -146,9 +136,7 @@ public class ScriptController {
 			if (updateCnt == scriptVO.getScriptGbSqs().length) {
 				return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+pageScriptGbSq;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 		return "redirect:/scriptGubun/scriptManage.do?scriptGbSq="+pageScriptGbSq;
 	}
 	
@@ -160,9 +148,7 @@ public class ScriptController {
 		List<ScriptVO> scriptList = null;
 		try {
 			scriptList = scriptService.retrieveSelectList(scriptGbSq);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 		
 		//excel 파일의 header
 		List<String> header = new ArrayList<String>();
@@ -188,8 +174,6 @@ public class ScriptController {
 		model.addAttribute("data", data);
 		model.addAttribute("fileName", "SCRIPT");
 		model.addAttribute("sheetName", "SCRIPT");
-	
 		return "excelView";
 	}
-
 }
