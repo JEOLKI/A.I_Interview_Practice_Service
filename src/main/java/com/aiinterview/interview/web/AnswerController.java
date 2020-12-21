@@ -252,7 +252,7 @@ public class AnswerController {
 			List<KeywordAnalysisVO> keywordAnalysisList = new ArrayList<>();
 			
 			for(int i=0; i<keywordMatchingList.size(); i++) {
-				String kyewordContent = keywordService.retrieveMathcingKeyword(keywordMatchingList.get(i).getKeywordSq());
+				String kyewordContent = keywordService.retrieveKeywordContent(keywordMatchingList.get(i).getKeywordSq());
 				String[] keywordArr = script.split(kyewordContent);
 				KeywordAnalysisVO keywordAnalysisVO = new KeywordAnalysisVO();
 				keywordAnalysisVO.setKeywordSq(keywordMatchingList.get(i).getKeywordSq());
