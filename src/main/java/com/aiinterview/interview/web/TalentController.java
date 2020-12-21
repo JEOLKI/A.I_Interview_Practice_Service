@@ -189,33 +189,23 @@ public class TalentController {
 	}
 	
 	@RequestMapping("/keywordManage.do")
-	public String keywordManage(String talentSq, String pageUnit,String pageIndex, String searchKeyword, Model model) {
+	public String keywordManage(KeywordVO keywordVO,String pageUnit, Model model) {
 		
 		// 인재상 가져오기
 		TalentVO talentVO;
 		try {
-			talentVO = talentService.retrieve(talentSq);
-			
-		
+			talentVO = talentService.retrieve(keywordVO.getTalentSq());
 		
 			// 정렬 개수
 			int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 			model.addAttribute("pageUnit" , pageUnitInt);
 			
-			// 현재 페이지 번호
-			int pageIndexInt = pageIndex == null? 1 : Integer.parseInt(pageIndex);
-			
-		
-			
-			// 해당 인재상에 매칭된 키워드 목록 가져오기
-			KeywordVO keywordVO = new KeywordVO();
 			
 			/** EgovPropertyService.sample */
 			keywordVO.setPageUnit(propertiesService.getInt("pageUnit"));
 			keywordVO.setPageSize(propertiesService.getInt("pageSize"));
 			
 			keywordVO.setPageUnit(pageUnitInt);
-			keywordVO.setPageIndex(pageIndexInt);
 			
 			/** pageing setting */
 			PaginationInfo paginationInfo = new PaginationInfo();
@@ -231,8 +221,8 @@ public class TalentController {
 			Map<String, Object> retrieveMap = new HashMap<>();
 			retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
 			retrieveMap.put("lastIndex", keywordVO.getLastIndex());
-			retrieveMap.put("talentSq", talentSq);
-			retrieveMap.put("searchKeyword", searchKeyword);
+			retrieveMap.put("talentSq", keywordVO.getTalentSq());
+			retrieveMap.put("searchKeyword", keywordVO.getSearchKeyword());
 			
 			
 			List<KeywordVO> resultList = null;
@@ -247,7 +237,9 @@ public class TalentController {
 			model.addAttribute("talentVO",talentVO);
 			return "manage/talentKeywordManage";
 
-		} catch (Exception e) { }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "manage/talentKeywordManage";
 	}
 	

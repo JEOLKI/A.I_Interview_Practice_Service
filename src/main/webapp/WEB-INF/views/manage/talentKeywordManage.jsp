@@ -29,7 +29,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 400px;
+		margin-right: 40.5%;
 	}
 	
 	#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, .searchBtn{
@@ -56,7 +56,7 @@
 	
 	
 	.talentNm{
-		width: 400px;
+	    width: 545px;
 		padding-left: 10px;
 	}
 	
@@ -102,7 +102,9 @@
 	}
 	.paging{
 		text-align: center;
-		margin-top: 30px;
+		margin-top: 60px;
+		position: relative;
+   		right: 20%;		
 	}
 	
 	.paging a, .paging strong{
@@ -140,6 +142,7 @@
 		margin : 10px 0px;
 	}
 	.deleteBtn{
+		width: 70px;		
 		display:block;
 		float: right;
 	 	margin-right: 40.3%;
@@ -194,36 +197,34 @@
 			}
 		})
 		
-		$('.deleteBtn').on('click',function(){
-			$('input:checkbox[name=deleteChecks]:not(checked)').attr("checked", true);
-		})
-		
 		$('.deleteCheck').on('click', function(){
 			$(this).val("Y");
-// 			$('input:checkbox[name=deleteChecks]:not(checked)').attr("checked", true); 
 		})
 
 	})
-	
-	
-	
 	/* pagination 페이지 링크 function */
 	function linkPage(pageNo){
 		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-		document.location = "/talent/keywordManage.do?pageIndex="+pageNo+"&talentSq=${talentVO.talentSq }&pageUnit="+pageUnit;
+		document.listForm.pageIndex.value = pageNo;
+		document.listForm.action = "<c:url value='/talent/keywordManage.do?pageUnit="+pageUnit+"'/>";
+	   	document.listForm.submit();
 	}
 	
 	/* 검색 */
-	function search(){
-		var searchKeyword = $('#searchKeyword').val();
-		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-		document.location = "/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit+"&searchKeyword="+searchKeyword;
-	
+	function searchList(){
+		document.listForm.action = "<c:url value='/talent/keywordManage.do'/>";
+		document.listForm.submit();
 	}
 	
 	/* 삭제 */
 	function deleteList() {
-		document.getElementsByName("deleteChecks").checked = true;
+		var checks = document.querySelectorAll('.deleteCheck'); 
+        for (var i = 0; i < checks.length; i++) { 
+        	checks[i].checked = true; 
+        	if(checks[i].value=="N"){
+	        	checks[i].style.visibility = "hidden";
+        	}
+        } 
 		document.listForm.action = "<c:url value='/keyword/delete.do'/>";
 		document.listForm.submit();
 	}
@@ -290,11 +291,14 @@
 					</c:forEach>
 				</select> 
 				<div id="search">
-					<input type="text" id="searchKeyword" >
-					<span class="btn btn-primary">
-		        	 	<a class="searchBtn" href="javascript:search();">검색</a>
-		            </span>
-				</div>
+				<ul>
+        			<label for="searchKeyword" style="visibility:hidden;display:none;"><spring:message code="search.keyword" /></label>
+                        <form:input path="searchKeyword" cssClass="txt"/>
+                     <span class="btn btn-primary">
+        	         <a class="searchBtn" href="javascript:searchList();">검색</a>
+        	         </span>
+                </ul>
+			</div>
 			</div>
 		</div>
 		<br>
@@ -311,23 +315,10 @@
 			</c:forEach>
 			<a class="deleteBtn" onclick="deleteList()">삭제</a>
 		</div>
-		<div id="paging">
-			<!-- 페이지번호 -->
-			<ul>
-				<c:forEach var="i" begin="${paginationInfo.firstPageNoOnPageList }" end="${paginationInfo.lastPageNoOnPageList }">
-					<li class="page">
-						<c:choose>
-							<c:when test="${paginationInfo.currentPageNo == i }">
-								<span style="font-weight:bold;">${i }</span>
-							</c:when>
-							<c:otherwise>
-								<span onclick="linkPage(${i})">${i }</span>
-							</c:otherwise>
-						</c:choose>
-					</li>
-				</c:forEach>
-			</ul>
-			</div>
+		<div id="paging" class="paging">
+			<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
+			<form:hidden path="pageIndex" />
+		</div>
 		</form:form>
 		</div>
 	</div>

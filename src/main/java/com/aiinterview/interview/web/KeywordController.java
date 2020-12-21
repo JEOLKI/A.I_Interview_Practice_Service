@@ -61,54 +61,39 @@ public class KeywordController {
 		int matchingCnt = 0;
 		String insertMchCnt = null;
 		try {
-			System.out.println("keywordContent : "+keywordContent);
-			System.out.println("키워드 조회 시작");
 			keywordCnt = keywordService.retrieve(keywordContent);
-			System.out.println("키워드 조회 후");
 			Map<String, String> createMap = new HashMap<>();
 			
 			if(keywordCnt == 0) { // 3.
-				System.out.println("키워드 없음");
-				System.out.println("키워드 insert");
-				System.out.println("keywordContent : "+keywordContent);
 				
 				keywordService.create(keywordContent);
 				
 				keywordSq = keywordService.retrieveKeywordSq(keywordContent);
-				System.out.println("키워드 insert- keywordSq : " +keywordSq);
 				if(keywordSq>0) {
 					createMap.put("talentSq", talentSq);
 					createMap.put("keywordSq", keywordSq+"");
 					insertMchCnt = keywordMathingService.create(createMap);
 				}
 			}else { // 2.
-				System.out.println("키워드 있음");
 				keywordSq = keywordService.retrieveKeywordSq(keywordContent);
-				System.out.println("키워드 있음 - keywordSq : "+keywordSq);
 				// 매칭여부 조회
 				createMap.put("talentSq", talentSq);
 				createMap.put("keywordSq", keywordSq+"");
 				matchingCnt = keywordMathingService.retrieve(createMap);
 				if(matchingCnt > 0) {
-					System.out.println("매칭 있음");
 					model.addAttribute("msg", "**이미 등록된 키워드입니다.");
 					return "redirect:/talent/keywordManage.do?talentSq="+talentSq; // 키워드 일치, 매칭 일치 시 되돌려보냄
 				} else {
-					System.out.println("매칭 없음");
 					insertMchCnt = keywordMathingService.create(createMap);
-					System.out.println("matchingCnt : " + matchingCnt);
 				}
 			}
 			
 		} catch (Exception e) {
-			System.out.println("인서트 실패");
 		}
 		if(keywordSq != 0 || insertMchCnt !=null) {
-			System.out.println("인서트 성공");
 			model.addAttribute("msg", "");
 			return "redirect:/talent/keywordManage.do?talentSq="+talentSq; // 둘다 insert 성공시 redirect
 		}else {
-			System.out.println("인서트 결과 다름");
 			model.addAttribute("msg", "**키워드 등록 실패");
 			return "manage/talentKeywordManage"; // 키워드 일치, 매칭 일치 시 되돌려보냄
 		}
@@ -120,16 +105,16 @@ public class KeywordController {
 	public String delete(KeywordVO keywordVO, String talentSq, Model model) {
 		try {
 			int deleteCnt = 0;
-//			for(int i =0; i<keywordVO.getKeywordSqs().length; i++) {
-//				if(keywordVO.getDeleteChecks()[i].equals("Y")) {
-//					// 1. keywordSq, talentSq 값 매칭된 행 조회  -> 해당 행 삭제
-//					Map<String,	String> deleteMap = new HashMap<>();
-//					deleteMap.put("talentSq", keywordVO.getTalentSqs()[i]);
-//					deleteMap.put("keywordSq", keywordVO.getKeywordSqs()[i]);
-//					
-//					deleteCnt += keywordMathingService.delete(deleteMap);
-//				}
-//			}
+			for(int i =0; i<keywordVO.getKeywordSqs().length; i++) {
+				if(keywordVO.getDeleteChecks()[i].equals("Y")) {
+					// 1. keywordSq, talentSq 값 매칭된 행 조회  -> 해당 행 삭제
+					Map<String,	String> deleteMap = new HashMap<>();
+					deleteMap.put("talentSq", keywordVO.getTalentSqs()[i]);
+					deleteMap.put("keywordSq", keywordVO.getKeywordSqs()[i]);
+					
+					deleteCnt += keywordMathingService.delete(deleteMap);
+				}
+			}
 			return "redirect:/talent/keywordManage.do?talentSq="+talentSq;
 		}catch (Exception e) {
 			e.printStackTrace();
