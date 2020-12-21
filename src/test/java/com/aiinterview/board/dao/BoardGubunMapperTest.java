@@ -13,12 +13,19 @@ import org.slf4j.LoggerFactory;
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.board.vo.BoardGubunVO;
 
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 public class BoardGubunMapperTest extends ModelTestConfig{
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardGubunMapperTest.class);
 	
 	@Resource(name="boardGubunMapper")
 	private BoardGubunMapper boardGubunMapper;
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 	
 	@Test
 	public void retrieveListTest() throws Exception {
@@ -53,6 +60,17 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		
 		/***Given***/
 		BoardGubunVO boardGubunVO = new BoardGubunVO();
+		boardGubunVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		boardGubunVO.setPageSize(propertiesService.getInt("pageSize"));
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(boardGubunVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(boardGubunVO.getPageUnit());
+		paginationInfo.setPageSize(boardGubunVO.getPageSize());
+
+		boardGubunVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		boardGubunVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		boardGubunVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/***When***/
 		List<BoardGubunVO> boardGubunList = boardGubunMapper.retrievePagingList(boardGubunVO);
@@ -120,6 +138,19 @@ public class BoardGubunMapperTest extends ModelTestConfig{
 		
 		/***Then***/
 		assertEquals(1, result);
+		
+	}
+	
+	@Test
+	public void retrieveStatisticsTest() throws Exception {
+		
+		/***Given***/
+		
+		/***When***/
+		List<BoardGubunVO> boardGubunList = boardGubunMapper.retrieveStatistics();
+		
+		/***Then***/
+		assertEquals(4, boardGubunList.size());
 		
 	}
 	

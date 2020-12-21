@@ -1,6 +1,7 @@
 package com.aiinterview.board.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -11,10 +12,17 @@ import org.junit.Test;
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.board.vo.BoardGubunVO;
 
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 public class BoardGubunServiceTest extends ModelTestConfig{
 
 	@Resource(name="boardGubunService")
 	private BoardGubunService boardGubunService;
+	
+	/** EgovPropertyService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
 	
 	@Test
 	public void retrieveListTest() throws Exception {
@@ -50,6 +58,21 @@ public class BoardGubunServiceTest extends ModelTestConfig{
 		/***Given***/
 		BoardGubunVO boardGubunVO = new BoardGubunVO();
 		
+		/** EgovPropertyService.sample */
+		boardGubunVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		boardGubunVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(boardGubunVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(boardGubunVO.getPageUnit());
+		paginationInfo.setPageSize(boardGubunVO.getPageSize());
+
+		boardGubunVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		boardGubunVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		boardGubunVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		
 		/***When***/
 		List<BoardGubunVO> boardGubunList = boardGubunService.retrievePagingList(boardGubunVO);
 		
@@ -84,7 +107,7 @@ public class BoardGubunServiceTest extends ModelTestConfig{
 		String result = boardGubunService.create(boardGubunVO);
 		
 		/***Then***/
-		assertEquals(5, result);
+		assertTrue(Integer.parseInt(result) > 0);
 		
 	}
 	
@@ -116,6 +139,19 @@ public class BoardGubunServiceTest extends ModelTestConfig{
 		
 		/***Then***/
 		assertEquals(1, result);
+		
+	}
+	
+	@Test
+	public void retrieveStatisticsTest() throws Exception {
+		
+		/***Given***/
+		
+		/***When***/
+		List<BoardGubunVO> boardGubunList = boardGubunService.retrieveStatistics();
+		
+		/***Then***/
+		assertEquals(4, boardGubunList.size());
 		
 	}
 

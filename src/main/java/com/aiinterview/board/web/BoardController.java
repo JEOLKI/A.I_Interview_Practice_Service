@@ -27,6 +27,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import com.aiinterview.board.service.BoardService;
 import com.aiinterview.board.service.CategoryService;
 import com.aiinterview.board.vo.AttachmentVO;
+import com.aiinterview.board.vo.BoardGroupVO;
 import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.board.vo.CategoryVO;
 import com.aiinterview.common.util.FileUploadUtil;
@@ -100,15 +101,16 @@ public class BoardController {
 	public String boardDetail(String boardSq,
 							  Model model) {
 		
-		Map<String, Object> map = new HashMap<>();
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
 		try {
-			map = boardService.retrieve(boardSq);
+			boardGroupVO = boardService.retrieve(boardSq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("boardVO", map.get("boardVO"));
-		model.addAttribute("attachmentList", map.get("attachmentList"));
-		model.addAttribute("replyList", map.get("replyList"));
+		
+		model.addAttribute("boardVO", boardGroupVO.getBoardVO());
+		model.addAttribute("attachmentList", boardGroupVO.getAttachmentList());
+		model.addAttribute("replyList", boardGroupVO.getReplyList());
 		
 		return "board/boardDetail";
 	}
@@ -136,8 +138,8 @@ public class BoardController {
 		logger.debug("boardVO : {}", boardVO);
 		boardVO.setBoardSt("Y");
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardVO", boardVO);
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
+		boardGroupVO.setBoardVO(boardVO);
 		
 		logger.debug("mtfRequest : {}", mtfRequest.getFiles("file"));
 
@@ -164,10 +166,10 @@ public class BoardController {
 		}
 		
 		logger.debug("atchFileList : {}", attachmentList);
-		map.put("attachmentList", attachmentList);
+		boardGroupVO.setAttachmentList(attachmentList);
 		String boardSq = "";
 		try {
-			boardSq = boardService.create(map);
+			boardSq = boardService.create(boardGroupVO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -194,14 +196,14 @@ public class BoardController {
 	
 	@RequestMapping(path = "/update.do", method = {RequestMethod.GET})
 	public String updateView(String boardSq, String boardGbSq, Model model) {
-		Map<String, Object> map = new HashMap<>();
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
 		try {
-			map = boardService.retrieve(boardSq);
+			boardGroupVO = boardService.retrieve(boardSq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		BoardVO boardVO = (BoardVO) map.get("boardVO");
-		List<AttachmentVO> attachmentList = (List<AttachmentVO>)map.get("attachmentList");
+		BoardVO boardVO = boardGroupVO.getBoardVO();
+		List<AttachmentVO> attachmentList = boardGroupVO.getAttachmentList();
 		
 		try {
 			model.addAttribute("categoryList", categoryService.retrieveList(new CategoryVO(boardGbSq)));
@@ -222,9 +224,9 @@ public class BoardController {
 		logger.debug("boardVO : {}", boardVO);
 		boardVO.setBoardSt("Y");
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardVO", boardVO);
-		map.put("deleteAtchSq", deleteAtchSq);
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
+		boardGroupVO.setBoardVO(boardVO);
+		boardGroupVO.setDeleteAtchSqList(deleteAtchSq);
 		
 		logger.debug("mtfRequest : {}", mtfRequest.getFiles("file"));
 
@@ -251,10 +253,12 @@ public class BoardController {
 		}
 		
 		logger.debug("atchFileList : {}", attachmentList);
-		map.put("attachmentList", attachmentList);
+		
+		boardGroupVO.setAttachmentList(attachmentList);
+		
 		String boardSq = "";
 		try {
-			boardSq = boardService.update(map);
+			boardSq = boardService.update(boardGroupVO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

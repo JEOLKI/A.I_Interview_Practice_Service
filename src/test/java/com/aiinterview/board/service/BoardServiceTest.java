@@ -1,4 +1,4 @@
-package com.aiinterview.board.dao;
+package com.aiinterview.board.service;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,15 +9,16 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.aiinterview.ModelTestConfig;
+import com.aiinterview.board.vo.BoardGroupVO;
 import com.aiinterview.board.vo.BoardVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
-public class BoardMapperTest extends ModelTestConfig{
-	
-	@Resource(name="boardMapper")
-	private BoardMapper boardMapper;
+public class BoardServiceTest extends ModelTestConfig{
+
+	@Resource(name="boardService")
+	private BoardService boardService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -30,7 +31,7 @@ public class BoardMapperTest extends ModelTestConfig{
 		String BoardGbSq = "1";
 		
 		/***When***/
-		List<BoardVO> boardList = boardMapper.retrieveList(BoardGbSq);
+		List<BoardVO> boardList = boardService.retrieveList(BoardGbSq);
 
 		/***Then***/
 		assertEquals(2, boardList.size());
@@ -56,7 +57,7 @@ public class BoardMapperTest extends ModelTestConfig{
 		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/***When***/
-		List<BoardVO> boardList = boardMapper.retrievePagingList(boardVO);
+		List<BoardVO> boardList = boardService.retrievePagingList(boardVO);
 		
 		/***Then***/
 		assertEquals(2, boardList.size());
@@ -71,7 +72,7 @@ public class BoardMapperTest extends ModelTestConfig{
 		boardVO.setBoardGbSq("1");
 		
 		/***When***/
-		int result = boardMapper.retrievePagingListCnt(boardVO);
+		int result = boardService.retrievePagingListCnt(boardVO);
 
 		/***Then***/
 		assertEquals(2, result);
@@ -85,17 +86,18 @@ public class BoardMapperTest extends ModelTestConfig{
 		String boardSq = "1";
 		
 		/***When***/
-		BoardVO boardVO = boardMapper.retrieve(boardSq);
+		BoardGroupVO boardGroupVO = boardService.retrieve(boardSq);
 		
 		/***Then***/
-		assertEquals("1", boardVO.getBoardSq());
+		assertEquals("1", boardGroupVO.getBoardVO().getBoardSq());
 		
 	}
-	
+
 	@Test
 	public void createTest() throws Exception {
 		
 		/***Given***/
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
 		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardGbSq("1");
 		boardVO.setBoardTitle("TEST");
@@ -106,13 +108,14 @@ public class BoardMapperTest extends ModelTestConfig{
 		boardVO.setMemId("TEST_ID");
 		boardVO.setCatContent("TEST");
 		
-		String boardGbSq = "1";
+		boardGroupVO.setBoardVO(boardVO);
 		
 		/***When***/
-		boardMapper.create(boardVO);
+		boardService.create(boardGroupVO);
+		String boardGbSq = "1";
 		
 		/***Then***/
-		assertEquals(3, boardMapper.retrieveList(boardGbSq).size());
+		assertEquals(3, boardService.retrieveList(boardGbSq).size());
 		
 	}
 	
@@ -120,6 +123,7 @@ public class BoardMapperTest extends ModelTestConfig{
 	public void updateTest() throws Exception {
 		
 		/***Given***/
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
 		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardSq("1");
 		boardVO.setBoardGbSq("1");
@@ -131,11 +135,13 @@ public class BoardMapperTest extends ModelTestConfig{
 		boardVO.setMemId("TEST_ID");
 		boardVO.setCatContent("TEST");
 		
+		boardGroupVO.setBoardVO(boardVO);
+		
 		/***When***/
-		int result = boardMapper.update(boardVO);
+		String boardSq = boardService.update(boardGroupVO);
 		
 		/***Then***/
-		assertEquals(1, result);
+		assertEquals("1", boardSq);
 		
 	}
 	
@@ -146,7 +152,7 @@ public class BoardMapperTest extends ModelTestConfig{
 		String boardSq = "1";
 		
 		/***When***/
-		int result = boardMapper.delete(boardSq);
+		int result = boardService.delete(boardSq);
 		
 		/***Then***/
 		assertEquals(1, result);
@@ -159,7 +165,7 @@ public class BoardMapperTest extends ModelTestConfig{
 		/***Given***/
 		
 		/***When***/
-		List<BoardVO> boardList = boardMapper.retrieveAllList();
+		List<BoardVO> boardList = boardService.retrieveAllList();
 		
 		/***Then***/
 		assertEquals(6, boardList.size());
@@ -168,5 +174,4 @@ public class BoardMapperTest extends ModelTestConfig{
 	
 	
 	
-
 }

@@ -9,7 +9,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("boardMapper")
 public interface BoardMapper {
 	
-	public List<BoardVO> retrieveList() throws Exception;
+	public List<BoardVO> retrieveList(String boardGbSq) throws Exception;
 	
 	public List<BoardVO> retrievePagingList(BoardVO boardVO) throws Exception;
 	
@@ -24,4 +24,5 @@ public interface BoardMapper {
 	public int delete(String boardSq) throws Exception;
 	
 	public List<BoardVO> retrieveAllList() throws Exception;
+	
 }

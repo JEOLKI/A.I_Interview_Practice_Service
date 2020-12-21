@@ -1,6 +1,6 @@
-package com.aiinterview.board.dao;
+package com.aiinterview.board.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -9,15 +9,14 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.aiinterview.ModelTestConfig;
-import com.aiinterview.board.dao.ReplyMapper;
 import com.aiinterview.board.vo.ReplyVO;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
-public class ReplyMapperTest extends ModelTestConfig{
+public class ReplyServiceTest extends ModelTestConfig{
 
-	@Resource(name="replyMapper")
-	private ReplyMapper replyMapper;
+	@Resource(name="replyService")
+	private ReplyService replyService;
 	
 	@Test
 	public void retrieveListTest() throws Exception {
@@ -26,10 +25,10 @@ public class ReplyMapperTest extends ModelTestConfig{
 		String boardSq = "1";
 		
 		/***When***/
-		List<ReplyVO> categoryList = replyMapper.retrieveList(boardSq);
+		List<ReplyVO> replyList = replyService.retrieveList(boardSq);
 
 		/***Then***/
-		assertEquals(1, categoryList.size());
+		assertEquals(1, replyList.size());
 		
 	}
 	
@@ -41,7 +40,7 @@ public class ReplyMapperTest extends ModelTestConfig{
 		replyVO.setBoardSq("1");
 		
 		/***When***/
-		int result = replyMapper.retrievePagingListCnt(replyVO);
+		int result = replyService.retrievePagingListCnt(replyVO);
 
 		/***Then***/
 		assertEquals(1, result);
@@ -53,8 +52,6 @@ public class ReplyMapperTest extends ModelTestConfig{
 		
 		/***Given***/
 		ReplyVO replyVO = new ReplyVO();
-		replyVO.setPageUnit(10);
-		replyVO.setPageSize(10);
 		replyVO.setBoardSq("1");
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -66,10 +63,10 @@ public class ReplyMapperTest extends ModelTestConfig{
 		replyVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/***When***/
-		List<ReplyVO> categoryList = replyMapper.retrievePagingList(replyVO);
+		List<ReplyVO> replyList = replyService.retrievePagingList(replyVO);
 		
 		/***Then***/
-		assertEquals(1, categoryList.size());
+		assertEquals(1, replyList.size());
 		
 	}
 	
@@ -80,7 +77,7 @@ public class ReplyMapperTest extends ModelTestConfig{
 		String replySq = "1";
 		
 		/***When***/
-		ReplyVO replyVO = replyMapper.retrieve(replySq);
+		ReplyVO replyVO = replyService.retrieve(replySq);
 		
 		/***Then***/
 		assertEquals("1", replyVO.getReplySq());
@@ -93,15 +90,17 @@ public class ReplyMapperTest extends ModelTestConfig{
 		/***Given***/
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setBoardSq("1");
-		replyVO.setReplyContent("TESTCONTENT");
+		replyVO.setReplyContent("TEST");;
 		replyVO.setReplySt("Y");
 		replyVO.setMemId("TEST_ID");
 		
+		String boardSq = "1";
+		
 		/***When***/
-		replyMapper.create(replyVO);
+		replyService.create(replyVO);
 		
 		/***Then***/
-		assertEquals(2, replyMapper.retrieveList("1").size());
+		assertEquals(2, replyService.retrieveList(boardSq).size());
 		
 	}
 	
@@ -111,11 +110,13 @@ public class ReplyMapperTest extends ModelTestConfig{
 		/***Given***/
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setReplySq("1");
-		replyVO.setReplyContent("UPDATETEST");
+		replyVO.setBoardSq("1");
+		replyVO.setReplyContent("TEST");;
 		replyVO.setReplySt("N");
+		replyVO.setMemId("TEST_ID");
 		
 		/***When***/
-		int result = replyMapper.update(replyVO);
+		int result = replyService.update(replyVO);
 		
 		/***Then***/
 		assertEquals(1, result);
@@ -128,10 +129,13 @@ public class ReplyMapperTest extends ModelTestConfig{
 		/***Given***/
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setReplySq("1");
+		replyVO.setBoardSq("1");
+		replyVO.setReplyContent("TEST");;
 		replyVO.setReplySt("N");
+		replyVO.setMemId("TEST_ID");
 		
 		/***When***/
-		int result = replyMapper.delete(replyVO);
+		int result = replyService.delete(replyVO);
 		
 		/***Then***/
 		assertEquals(1, result);

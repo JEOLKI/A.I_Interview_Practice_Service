@@ -38,12 +38,13 @@ public class CategoryMapperTest extends ModelTestConfig {
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setBoardGbSq("1");
 		
 		/***When***/
 		int result = categoryMapper.retrievePagingListCnt(categoryVO);
 
 		/***Then***/
-		assertEquals(5, result);
+		assertEquals(2, result);
 		
 	}
 	
@@ -52,6 +53,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setBoardGbSq("1");
 		categoryVO.setPageUnit(10);
 		categoryVO.setPageSize(10);
 		
@@ -67,7 +69,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 		List<CategoryVO> categoryList = categoryMapper.retrievePagingList(categoryVO);
 		
 		/***Then***/
-		assertEquals(5, categoryList.size());
+		assertEquals(2, categoryList.size());
 		
 	}
 	
@@ -90,6 +92,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setBoardGbSq("1");
 		categoryVO.setCatContent("TESTCODE");
 		categoryVO.setCatSt("Y");
 		
@@ -97,7 +100,7 @@ public class CategoryMapperTest extends ModelTestConfig {
 		categoryMapper.create(categoryVO);
 		
 		/***Then***/
-		assertEquals(6, categoryMapper.retrieveList(categoryVO).size());
+		assertEquals(3, categoryMapper.retrieveList(categoryVO).size());
 		
 	}
 	

@@ -1,8 +1,6 @@
 package com.aiinterview.board.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,6 +11,7 @@ import com.aiinterview.board.dao.AttachmentMapper;
 import com.aiinterview.board.dao.BoardMapper;
 import com.aiinterview.board.dao.ReplyMapper;
 import com.aiinterview.board.vo.AttachmentVO;
+import com.aiinterview.board.vo.BoardGroupVO;
 import com.aiinterview.board.vo.BoardVO;
 
 @Transactional
@@ -32,29 +31,30 @@ public class BoardService {
 		return boardMapper.retrievePagingList(boardVO);
 	}
 	
-	public List<BoardVO> retrieveList() throws Exception{
-		return boardMapper.retrieveList();
+	public List<BoardVO> retrieveList(String BoardGbSq) throws Exception{
+		return boardMapper.retrieveList(BoardGbSq);
 	}
 
 	public int retrievePagingListCnt(BoardVO boardVO) throws Exception {
 		return boardMapper.retrievePagingListCnt(boardVO);
 	}
 	
-	public Map<String, Object> retrieve(String boardSq) throws Exception{
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardVO", boardMapper.retrieve(boardSq));
-		map.put("attachmentList", attachmentMapper.retrieveList(boardSq));
-		map.put("replyList", replyMapper.retrieveList(boardSq));
-		return map;
+	public BoardGroupVO retrieve(String boardSq) throws Exception{
+		BoardGroupVO boardGroupVO = new BoardGroupVO();
+		boardGroupVO.setBoardVO(boardMapper.retrieve(boardSq));
+		boardGroupVO.setAttachmentList(attachmentMapper.retrieveList(boardSq));
+		boardGroupVO.setReplyList(replyMapper.retrieveList(boardSq));
+		
+		return boardGroupVO;
 	}
 	
-	public String create(Map<String, Object> map) throws Exception{
+	public String create(BoardGroupVO boardGroupVO) throws Exception{
 		
-		BoardVO boardVO = (BoardVO) map.get("boardVO");
+		BoardVO boardVO = boardGroupVO.getBoardVO();
 		boardMapper.create(boardVO);
 		
 		String boardSq = boardVO.getBoardSq();
-		List<AttachmentVO> attachmentList = (List<AttachmentVO>) map.get("attachmentList");
+		List<AttachmentVO> attachmentList = boardGroupVO.getAttachmentList();
 		
 		if(attachmentList == null) return boardSq;
 		
@@ -67,25 +67,27 @@ public class BoardService {
 		
 	}
 	
-	public String update(Map<String, Object> map) throws Exception{
+	public String update(BoardGroupVO boardGroupVO) throws Exception{
 		
-		BoardVO boardVO = (BoardVO) map.get("boardVO");
+		BoardVO boardVO = boardGroupVO.getBoardVO();
 		
 		int updateCnt = boardMapper.update(boardVO);
 		
-		List<String> deleteAtchSq = (List<String>) map.get("deleteAtchSq");
+		List<String> deleteAtchSq = boardGroupVO.getDeleteAtchSqList();
 		
 		if(deleteAtchSq != null) {
 			for(String atchSq : deleteAtchSq) {
 				attachmentMapper.delete(atchSq);
 			}
 		}
-		List<AttachmentVO> attachmentList = (List<AttachmentVO>) map.get("attachmentList");
 		
-		int insertCnt = 0;
-		for(AttachmentVO attachmentVO : attachmentList) {
-			attachmentVO.setBoardSq(boardVO.getBoardSq());
-			attachmentMapper.create(attachmentVO);
+		List<AttachmentVO> attachmentList = boardGroupVO.getAttachmentList();
+		
+		if(attachmentList != null) {
+			for(AttachmentVO attachmentVO : attachmentList) {
+				attachmentVO.setBoardSq(boardVO.getBoardSq());
+				attachmentMapper.create(attachmentVO);
+			}
 		}
 		
 		return boardVO.getBoardSq();

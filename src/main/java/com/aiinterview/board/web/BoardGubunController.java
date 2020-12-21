@@ -22,7 +22,6 @@ import com.aiinterview.board.service.BoardGubunService;
 import com.aiinterview.board.vo.BoardGubunVO;
 import com.aiinterview.common.util.excel.option.ReadOption;
 import com.aiinterview.common.util.excel.read.ExcelRead;
-import com.aiinterview.interview.vo.InterviewVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -38,7 +37,7 @@ public class BoardGubunController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 	
-	@RequestMapping(path ="/retrieveList.do")
+	@RequestMapping(value="/retrieveList.do")
 	public String retrieveList(Model model) {
 		try {
 			model.addAttribute("boardGubunList", boardGubunService.retrieveList());

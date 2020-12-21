@@ -29,7 +29,7 @@ public class CategoryServiceTest extends ModelTestConfig{
 		List<CategoryVO> categoryList = categoryService.retrieveList(categoryVO);
 
 		/***Then***/
-		assertEquals(5, categoryList.size());
+		assertEquals(2, categoryList.size());
 		
 	}
 	
@@ -38,12 +38,13 @@ public class CategoryServiceTest extends ModelTestConfig{
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setBoardGbSq("1");
 		
 		/***When***/
 		int result = categoryService.retrievePagingListCnt(categoryVO);
 
 		/***Then***/
-		assertEquals(5, result);
+		assertEquals(2, result);
 		
 	}
 	
@@ -52,6 +53,7 @@ public class CategoryServiceTest extends ModelTestConfig{
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setBoardGbSq("1");
 		categoryVO.setPageUnit(10);
 		categoryVO.setPageSize(10);
 		
@@ -67,7 +69,7 @@ public class CategoryServiceTest extends ModelTestConfig{
 		List<CategoryVO> categoryList = categoryService.retrievePagingList(categoryVO);
 		
 		/***Then***/
-		assertEquals(5, categoryList.size());
+		assertEquals(2, categoryList.size());
 		
 	}
 	
@@ -90,6 +92,7 @@ public class CategoryServiceTest extends ModelTestConfig{
 		
 		/***Given***/
 		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setBoardGbSq("1");
 		categoryVO.setCatContent("TESTCODE");
 		categoryVO.setCatSt("Y");
 		
@@ -97,7 +100,7 @@ public class CategoryServiceTest extends ModelTestConfig{
 		categoryService.create(categoryVO);
 		
 		/***Then***/
-		assertEquals(6, categoryService.retrieveList(categoryVO).size());
+		assertEquals(3, categoryService.retrieveList(categoryVO).size());
 		
 	}
 	
