@@ -14,7 +14,7 @@ body{
 		background-color : #f5f7fb;
 	}
 	
-	.updateBtn,  #regBtn, .searchBtn{
+	.updateBtn,  #regBtn, #searchBtn{
 		display: inline-block;
 		vertical-align : top;
 		border: 1px solid #000d22;
@@ -24,7 +24,7 @@ body{
 		text-align: center;
 	}
 
-	#regBtn:hover, .updateBtn:hover, .searchBtn:hover{
+	#regBtn:hover, .updateBtn:hover, #searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
 	}
@@ -32,7 +32,7 @@ body{
 	.updateForm {
 		margin: 10px 0px;
 	}
-	.searchBtn{
+	#searchBtn{
 		width: 80px;
 	}
 
@@ -57,9 +57,12 @@ body{
 		height: 30px;
 		padding: 0px 10px;
 	}
-	
 	.scriptContent{
 		width : 53.5%;
+	}
+	
+	#scriptContent{
+	    width: 51.5%;
 	}
 		
 	#status, .custom-select, .scriptSt, #sort, .scriptGbSq{
@@ -89,6 +92,8 @@ body{
 	.paging{
 		text-align: center;
 		margin-top: 30px;
+		position: relative;
+    	right: 15%;	
 	}
 	
 	.paging a, .paging strong{
@@ -117,6 +122,13 @@ body{
 	.list{
 		margin : 10px 0px;
 	}
+	.input-group{
+		float : right;
+		margin-right: 29%;
+	}
+	.table-responsive{
+		margin-top: 30px;
+	}
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -124,7 +136,7 @@ var pageUnit = '';
 $(document).ready(function() {
 	$('#regBtn').on('click', function() {
 		if($('#scriptContent').val()==''){
-			var html = '⚠  스크립트를 입력해주세요!';
+			var html = '스크립트를 입력해주세요.';
 			$('#check').append(html);
 		}else{
 			$('#regForm').submit();
@@ -136,14 +148,11 @@ $(document).ready(function() {
 	});
 	
 	$('input[type="file"]').on('change',function(){
-		console.log("일괄등록");
 		$('#massiveForm').submit();
 	});
 	
 	
 	$('.updateBtn').on('click', function(){
-		console.log("수정");
-		console.log($(this).parent().find('.updateScriptContent').val());
 		$('.updateCheck').empty();
 		if($(this).parent().find('.updateScriptContent').val()==""){
 			$(this).parent().find('.updateCheck').append('<span style="color:red">스크립트를 입력해주세요.</span>');

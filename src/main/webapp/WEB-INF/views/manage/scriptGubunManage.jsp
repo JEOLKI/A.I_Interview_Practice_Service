@@ -51,9 +51,6 @@
 		vertical-align: top;
 	}
 	
-	
-	
-
 	.updateBtn{
 		width: 70px;
 		float: right;
@@ -99,7 +96,7 @@
 		text-align: center;
 		margin-top: 60px;
 	    position: relative;
-	    right: 25%;
+	    right: 20%;
 	}
 	
 	.paging a, .paging strong{
@@ -122,7 +119,7 @@
 	.input-group{
 		display: inline-block;
 		float: right;
-		margin-right: 25%;
+		margin-right: 32.6%;
 	}
 	
 </style>
