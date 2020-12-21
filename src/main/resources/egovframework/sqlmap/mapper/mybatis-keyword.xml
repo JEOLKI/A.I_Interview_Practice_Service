@@ -5,59 +5,6 @@
   
 <mapper namespace="com.aiinterview.interview.dao.KeywordMapper">
 
-	<!-- 전체 목록 조회 -->
-	<select id="retrieveList" resultType="com.aiinterview.interview.vo.KeywordVO">
-		SELECT *
-		  FROM keyword
-	</select>
-	
-	<!-- 등록 -->
-<!-- 	<insert id="create" > -->
-<!-- 		<selectKey keyProperty="keywordSq" resultType="String" order="BEFORE"> -->
-<!-- 			SELECT keyword_sq.nextval FROM dual  -->
-<!-- 		</selectKey> -->
-<!-- 			INSERT INTO keyword (keyword_sq, keyword_content, keyword_st) -->
-<!-- 			VALUES (TO_NUMBER(#{keywordSq}), #{keywordContent}, #{keywordSt})  -->
-<!-- 	</insert> -->
-
-	<!-- 수정 -->
-	<update id="update">
-		UPDATE keyword 
-		   SET keyword_content = #{keywordContent}
-		 WHERE keyword = #{keywordSq} 
-	</update>
-	
-	
-	<!-- 페이징 : 해당 페이지리스트 select -->
-	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.KeywordVO">
-		SELECT A.*
-		  FROM (
-		  	SELECT ROWNUM RNUM, 
-		  		   S.*
-		      FROM (
-		      	SELECT keyword_sq, 
-		      		   keyword_content
-		          FROM keyword
-		         WHERE 1=1
-		          <if test="searchKeyword != null and searchKeyword != ''">
-				   AND keyword_content LIKE '%' || #{searchKeyword} || '%'
-				  </if>
-		         ORDER BY keyword_sq 
-		   	) S
-		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
-	   ) A 
-	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
-	</select>
-	
-	<select id="retrievePagingListCnt" resultType="int">
-		SELECT count(*) totCnt
-		  FROM keyword
-		 WHERE 1=1
-		  <if test="searchKeyword != null and searchKeyword !=''">
-		   AND keyword_content LIKE '%'||#{searchKeyword}||'%'	
-		  </if>
-	</select>
-	<!-- //페이징 -->
 	
 	<!-- 인재상별 키워드 목록 조회 -->
 	<select id="retrieveTalentKeywordPagingList" parameterType="hashmap" resultType="com.aiinterview.interview.vo.KeywordVO">
@@ -92,7 +39,6 @@
 		   </if>
 	</select>
 	
-	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 이하 모델링 수정 이후 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
 	<!-- 해당 내용의 keywordVO 개수 추출 -->
 	<select id="retrieve" parameterType="String"  resultType="int" >
@@ -121,8 +67,8 @@
 		                       WHERE talent_sq = #{talentSq})
 	</select>
 	
-	<!-- 해당 내용의 keywordVO 추출 -->
-	<select id="retrieveMathcingKeyword" parameterType="String" resultType="String" >
+	<!-- 해당 키워드 번호의 키워드 내용 추출 -->
+	<select id="retrieveKeywordContent" parameterType="String" resultType="String" >
 		SELECT keyword_content
 		  FROM keyword
 		 WHERE keyword_sq = #{keywordSq}

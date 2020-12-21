@@ -25,76 +25,6 @@ public class KeywordService {
 	@Resource(name="keywordMatchingMapper")
 	private KeywordMatchingMapper keywordMatchingMapper;
 
-	/**
-	 * 페이징처리를 위한  해당페이지 키워드 리스트 추출
-	 * @param keywordVO
-	 * @return
-	 */
-	public List<KeywordVO> retrievePagingList(KeywordVO keywordVO)throws Exception {
-		return keywordMapper.retrievePagingList(keywordVO);
-	}
-
-
-	/**
-	 * 페이징처리를 위한 키워드 총 개수를 구하는 메서드
-	 * @param keywordVO
-	 * @return 샘플질문 총 개수
-	 */
-	public int retrievePagingListCnt(KeywordVO keywordVO)throws Exception {
-		return keywordMapper.retrievePagingListCnt(keywordVO);
-	}
-
-
-	/**
-	 * 키워드를 등록하는 메서드
-	 * @param keywordVO
-	 */
-	public String create(KeywordVO keywordVO, String talentSq)throws Exception {
-		
-		String KeywordSq = keywordMapper.create(keywordVO);
-		
-		KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
-		keywordMatchingVO.setKeywordSq(KeywordSq);
-		keywordMatchingVO.setTalentSq(talentSq);
-		
-		String keywordMatchingSq = keywordMatchingMapper.create(keywordMatchingVO);
-		
-		if(KeywordSq.equals(keywordMatchingSq)) {
-			return  KeywordSq;
-		}
-		else {
-			return "";
-		}
-	}
-	
-
-	
-	/**
-	 * 키워드 목록을 조회하는 메서드
-	 * @return keywordList
-	 * @throws Exception 
-	 */
-	public List<KeywordVO> retrieveList() throws Exception {
-		return keywordMapper.retrieveList();
-	}
-
-	/**
-	 * 키워드를 수정하는 메서드
-	 * @param keywordVO
-	 * @return
-	 */
-	public int update(KeywordVO keywordVO, String talentSq) throws Exception {
-		
-		int kwdUpdateCnt = keywordMapper.update(keywordVO);
-		
-		KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
-		keywordMatchingVO.setKeywordSq(keywordVO.getKeywordSq());
-		keywordMatchingVO.setTalentSq(talentSq);
-		
-		int kwdMchUpdateCnt = keywordMatchingMapper.update(keywordMatchingVO);
-		
-		return kwdUpdateCnt + kwdMchUpdateCnt;
-	}
 
 	/**
 	 * 인재상별 키워드 목록을 조회하는 메서드
@@ -106,7 +36,7 @@ public class KeywordService {
 	}
 	
 	/**
-	 * 인재상별 모든 키워드 수를 조회하는 메서드 
+	 * 해당 인재상번호의 모든 키워드 수를 조회하는 메서드 
 	 * 다운로드용
 	 * @param talentSq
 	 * @return
@@ -115,7 +45,6 @@ public class KeywordService {
 		return keywordMapper.retrieveTalentKeywordPagingListCnt(retrieveMap);
 	}
 
-////////////////////////////////////////// 이하 모델링 수정 이후/////////////////////////////////////////////
 	
 	/**
 	 * 해당 내용의 키워드 존재여부를 조회하는 메서드
@@ -139,7 +68,7 @@ public class KeywordService {
 
 	
 	/**
-	 * 해당내용의 키워드를 조회하는 메서드
+	 * 해당내용의 키워드번호를 조회하는 메서드
 	 * @param keywordContent
 	 * @return
 	 * @throws Exception 
@@ -161,13 +90,13 @@ public class KeywordService {
 
 
 	/**
-	 * 인재상별 모든 키워드 리스트 조회하는 메서드 
-	 * 다운로드용
+	 * 키워드 번호에 해당하는 키워드 내용 리스트 조회하는 메서드 
+	 * 인재상 분석용
 	 * @param talentSq
 	 * @return
 	 */
-	public String retrieveMathcingKeyword(String keywordSq)throws Exception {
-		return keywordMapper.retrieveMathcingKeyword(keywordSq);
+	public String retrieveKeywordContent(String keywordSq)throws Exception {
+		return keywordMapper.retrieveKeywordContent(keywordSq);
 	}
 
 	

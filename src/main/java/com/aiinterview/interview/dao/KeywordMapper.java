@@ -9,40 +9,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("keywordMapper")
 public interface KeywordMapper {
-	/**
-	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
-	 * @param keywordVO
-	 * @return 해당페이지 목록
-	 */
-	public List<KeywordVO> retrievePagingList(KeywordVO keywordVO)throws Exception;
 	
-	/**
-	 * 페이징처리를 위한 전체 keywordVO 개수 구하는 메서드
-	 * @param keywordVO
-	 * @return 전체 keywordVO 개수
-	 */
-	public int retrievePagingListCnt(KeywordVO keywordVO)throws Exception;
-	
-	/**
-	 * 키워드를 등록하는 메서드
-	 * @param keywordVO
-	 */
-	public String create(KeywordVO keywordVO)throws Exception;
-
-	
-	/**
-	 * 키워드 목록을 조회하는 메서드
-	 * @return keywordVO
-	 */
-	public List<KeywordVO> retrieveList()throws Exception;
-
-	/**
-	 * 키워드를 수정하는 메서드
-	 * @param keywordVO
-	 * @return
-	 */
-	public int update(KeywordVO keywordVO)throws Exception;
-
 
 	/**
 	 * 인재상별 키워드 목록을 조회하는 메서드
@@ -57,7 +24,6 @@ public interface KeywordMapper {
 	 * @return
 	 */
 	public int retrieveTalentKeywordPagingListCnt(Map<String, Object> retrieveMap)throws Exception;
-/////////////////////////////////// 이하 모델링 수정 이후 ///////////////////////////////////
 
 	/**
 	 * 해당 내용의 키워드 존재여부를 조회하는 메서드
@@ -96,7 +62,7 @@ public interface KeywordMapper {
 	 * @param talentSq
 	 * @return
 	 */
-	public String retrieveMathcingKeyword(String keywordSq)throws Exception;
+	public String retrieveKeywordContent(String keywordSq)throws Exception;
 
 
 	
