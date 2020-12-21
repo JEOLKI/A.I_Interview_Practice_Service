@@ -35,20 +35,7 @@ today = getFormatDate(today);
       background-color : #f5f7fb;
       padding: 30px;
    }
-	#RankingChart {
-	  width: 50%;
-	  height: 400px;
-	}
-	
-	#detailScoreChart{
-	 width: 50%;
-	 height: 400px;
-	}
-
- 	#search{ 
- 		display: inline-block; 
- 	} 
-	
+ 	
  	#searchBtn{ 
  		display: inline-block; AA
  	    vertical-align: middle; 
@@ -66,28 +53,11 @@ today = getFormatDate(today);
  	    color: #fff; 
  	} 
 	
- 	.listmenu, .conditionmenu{ 
- 		display: inline-block;  
- 	} 
-	
  	.conditionmenu{ 
+ 		display: inline-block;  
  		float: left; 
  	} 
-	
- 	.listmenu{ 
- 		float: right; 
- 		position: relative; 
- 		top : 7px; 
- 	} 
-	
- 	.body{ 
- 		margin : 30px; 
- 	} 
-	
- 	.content__title{ 
- 		margin-bottom: 30px; 
- 	} 
-	
+
  	h1{ 
  		font-weight:bold; 
  	} 
@@ -101,18 +71,6 @@ today = getFormatDate(today);
  		height: 50px; 
  	} 
 	
- 	.list { 
- 		display: inline-block; 
- 		float : left; 
- 		width: 45%; 
- 	} 
-	
- 	.chart{ 
- 		display: inline-block; 
- 		float : right; 
- 		width: 45%; 
- 	} 
-	
  	.title th{ 
  		width: 250px; 
  		border-bottom: 2px solid black; 
@@ -123,14 +81,7 @@ today = getFormatDate(today);
  	table{ 
  		border-collapse: collapse; 
  	} 
-	
- 	.chart{ 
- 		padding :10px; 
- 		margin-left: 50px; 
- 		height: 400px; 
- 		width: 45%; 
- 	} 
-	
+
  	#sumCnt{ 
  		border-top: 1px solid black; 
  		font-weight: bold; 
@@ -145,28 +96,35 @@ today = getFormatDate(today);
  		box-shadow: 5px 5px #EAEAEA; 
  		display: inline-block; 
  		float: left; 
+ 	}
+ 	
+ 	.tabContent{
+ 		width: 45%;
+ 		margin: 0px;
+ 	}
+ 	
+ 	.chart { 
+/*  		display: inline-block;  */
+ 		float : right; 
+ 		width: 45%; 
+ 		padding :10px; 
+/*  		margin-left: 50px;  */
+ 		height: 400px; 
+ 		margin: 0px;
  	} 
 	
  	input{ 
  		border-radius: 5px; 
  		border : 1px solid black; 
  	} 
-	
- 	.scriptGbRankingList{
- 		margin-top: 50px;
- 	}
- 	
+
  	.scriptContentTitle{
  		width : 50%;
- 	}
- 	
- 	#tabContent{
- 		display : inline;
- 		float : center;
  	}
 </style>
 
 <script>
+
 var startDate;
 var endDate;
 var scriptGbSq;
@@ -174,15 +132,36 @@ var scriptRankingList=[];
 var scriptScoreList=[];
 
 $(document).ready(function(){
-	startDate = $('#start').val() == ''?  today : $('#start').val();
+	startDate = $('#start').val() == '2020-10-02'?  today : $('#start').val();
 	endDate = $('#end').val() == ''? today : $('#end').val();
-	console.log("startDate : "+startDate);
-	console.log("endDate : "+endDate);
+	
+	//시작하자마자 한국어 통계1
+ 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
+		data : {"startDate" : startDate,
+			 	 "endDate" 	 : endDate,
+			 	 "scriptGbSq": scriptGbSq},
+		dataType : "json",
+		success : function(data){
+			scriptRankingList = data.scriptRankingList;
+			drawRankingChart(scriptRankingList);
+			}	//sucess 종료	 
+	}); //ranking ajax 종료
+
+	//score chart
+	$.ajax({url : "/scriptGubun/retrieveScoreList.do",
+			data : {"startDate" : startDate,
+					"endDate" : endDate,
+					"scriptGbSq" : scriptGbSq},
+			dataType : "json",
+			success : function(data){
+				scriptScoreList = data.scriptScoreList;
+				drawScoreChart(scriptScoreList);
+			}//success 종료
+	}); //score ajax 종료
 	
 	// 탭 토글 클릭 시
 	$('.scriptGbTab').on('click', function(){
 		scriptGbSq = $(this).attr('value');
-		
 		//랭킹 테이블
 	 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
 				data : {"startDate" : '20201101', //->startDate,
@@ -211,15 +190,36 @@ $(document).ready(function(){
 	});// tab click 종료
 	
 	
+	/* Ranking Chart */
+	function drawRankingChart(scriptRankingList){
+		var html="";
+		var sumCnt = 0;
+		
+		for(var i=0; i<scriptRankingList.length; i++){
+			html += '<tr class="scriptRank">';
+			html += '	<td>'+scriptRankingList[i].rank+'</td>';
+			html += '	<td class="scriptContentTitle">'+scriptRankingList[i].scriptContent+'</td>';
+			html += '	<td>'+scriptRankingList[i].totCnt+'</td>';
+			html += '</tr>';
+			
+			sumCnt += scriptRankingList[i].totCnt;
+		}
+		html += '<tr id="sumCnt">'
+		html += '	<td>합  계</td>';
+		html += '	<td></td>'
+		html += '	<td>'+sumCnt+'</td>';
+		html += '</tr>'
+		
+		$('#rankingList').empty();
+		$('#rankingList').append(html);
+	}; //fn_drawRankingChart 종료
+	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
-		
 		am4core.ready(function() {
-			// Themes begin
 			am4core.useTheme(am4themes_kelly);
 			am4core.useTheme(am4themes_animated);
-			// Themes end
-				 
+
 			var chart = am4core.create("scoreChart", am4charts.XYChart);
 			chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 			
@@ -230,7 +230,6 @@ $(document).ready(function(){
 
 			for(var i=0; i<scriptScoreList.length; i++){
 				var testScore = scriptScoreList[i].scriptTestScore;
-				
 				var resultScore = (testScore/10)*10;
 				if(resultScore==0){
 					zero += 1;
@@ -254,37 +253,38 @@ $(document).ready(function(){
 					nine += 1;
 				}else if(resultScore==100) {
 					ten += 1;
-					console.log("ten : " + ten);
 				}
-			}//for문 종료
-//			var cntNumList = [Number(zero), Number(one), Number(two), Number(three), Number(four), Number(five), Number(six), Number(seven), Number(eight), Number(nine), Number(ten)];
+			}
+			
 			var cntNumList = [zero, one, two, three, four, five, six, seven, eight, nine, ten];
-			console.log("cntNumList :"+cntNumList);
-
-			for(var i=0; i<scoreList.length; i++){
-				calScore = cntNumList[i];//바 그릴 데이터
-				score = scoreList[i]; 	//x축에 찍을 데이터
+			var sumLiteral=0;
+			for(var i=0; i<cntNumList.length; i++){
+				console.log("ListLength" +cntNumList.length);
+				literal = cntNumList[i];	//바 그릴 데이터
+				example = scoreList[i]; 	//x축에 찍을 데이터
 				
-			    chartData.push({calScore:calScore, score:score}); 
-			 }
+				sumLiteral += literal;
+			    chartData.push({example:example, literal:literal}); 
+			 };
+			 
+			chart.data =  chartData;
 			
 			var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 			categoryAxis.renderer.grid.template.location = 0;
-			categoryAxis.dataFields.category = "calScore";
+			categoryAxis.dataFields.category = "example";
 			categoryAxis.renderer.minGridDistance = 40;
 			categoryAxis.fontSize = 11;
 
 			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-			valueAxis.min = 0;
-			valueAxis.max = 100;
+			valueAxis.min=0;
+			valueAxis.max=sumLiteral+1;
 			valueAxis.strictMinMax = true;
 			valueAxis.renderer.minGridDistance = 30;
-			// axis break
+			
 			var axisBreak = valueAxis.axisBreaks.create();
-
-			// fixed axis break
+			
 			var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-			axisBreak.breakSize = 0.05 * (1 - d) / d; //0.05 means that the break will take 5% of the total value axis height
+			axisBreak.breakSize = 0.05 * (1 - d) / d;
 
 			// make break expand on hover
 			var hoverState = axisBreak.states.create("hover");
@@ -295,42 +295,17 @@ $(document).ready(function(){
 			axisBreak.defaultState.transitionDuration = 1000;
 
 			var series = chart.series.push(new am4charts.ColumnSeries());
-			series.dataFields.categoryX = "calScore";
-			series.dataFields.valueY = "score";
+			series.dataFields.categoryX = "example";
+			series.dataFields.valueY = "literal";
 			series.columns.template.tooltipText = "{valueY.value}";
 			series.columns.template.tooltipY = 0;
 			series.columns.template.strokeOpacity = 0;
-
-			// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+			
 			series.columns.template.adapter.add("fill", function(fill, target) {
-			 return chart.colors.getIndex(target.dataItem.index);
+			return chart.colors.getIndex(target.dataItem.index);
 			});
 		}); // end am4core.ready()
 	};//fn_ScoreChart end
-	
-	/* Ranking Chart */
-	function drawRankingChart(scriptRankingList){
-		html="";
-		var sumCnt = 0;
-		
-		for(var i=0; i<scriptRankingList.length; i++){
-			html += '<tr class="scriptRank">';
-			html += '	<td>'+scriptRankingList[i].rank+'</td>';
-			html += '	<td class="scriptContentTitle">'+scriptRankingList[i].scriptContent+'</td>';
-			html += '	<td>'+scriptRankingList[i].totCnt+'</td>';
-			html += '</tr>';
-			
-			sumCnt += scriptRankingList[i].totCnt;
-		}
-		html += '<tr id="sumCnt">'
-		html += '	<td>합  계</td>';
-		html += '	<td></td>'
-		html += '	<td>'+sumCnt+'</td>';
-		html += '</tr>'
-		
-		$('#rankingList').empty();
-		$('#rankingList').append(html);
-	}; //fn_drawRankingChart 종료
 }); //ready function 종료
 </script>
 </head>
@@ -360,8 +335,8 @@ $(document).ready(function(){
 		
 		<div class="tab-content">
 			<div class="contentBox">
-				<div id="tabContent" class="tab-pane fade content in active">
-					<div class="tabContent" style="width:60%">
+				<div class="tab-pane fade content in active">
+					<div class="tabContent">
 				  		<table class="contentList">
 					  		<tr class="title">
 					  			<th class="rn">순위</th>
@@ -372,7 +347,7 @@ $(document).ready(function(){
 					  		</tbody>
 						</table>
 					</div>	
-					<div id="scoreChart" class="content chart" style="width:40%">
+					<div id="scoreChart" class="content chart">
 					</div>
 				</div>
 			</div>
