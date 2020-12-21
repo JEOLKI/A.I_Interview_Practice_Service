@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.script.vo.ScriptGubunVO;
@@ -20,8 +18,6 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 public class ScriptGubunMapperTest extends ModelTestConfig{
-	private static final Logger logger = LoggerFactory.getLogger(ScriptGubunMapperTest.class);
-
 	@Resource(name="scriptGubunMapper")
 	private ScriptGubunMapper scriptGubunMapper;
 	
@@ -47,7 +43,6 @@ public class ScriptGubunMapperTest extends ModelTestConfig{
 		
 		/***When***/
 		List<ScriptGubunVO> scriptGubunList = scriptGubunMapper.retrievePagingList(scriptGbVO);
-		logger.debug("scriptGbList : {}", scriptGubunList);
 		
 		/***Then***/
 		assertEquals(2, scriptGubunList.size());
@@ -137,7 +132,6 @@ public class ScriptGubunMapperTest extends ModelTestConfig{
 		
 		/***When***/
 		List<ScriptTestVO> rankingList = scriptGubunMapper.retrieveRankingList(statisticMap);
-		logger.debug("rankingList : {}", rankingList);
 		
 		/***Then***/
 		assertEquals(2, rankingList.size());
