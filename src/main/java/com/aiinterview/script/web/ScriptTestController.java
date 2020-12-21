@@ -51,6 +51,9 @@ public class ScriptTestController {
 		
 		ArrayList<String> systemScriptList = scriptTest.nGram(scriptContent); //스크립트에 출력된 출력 문
 		ArrayList<String> memberScriptList = scriptTest.nGram(performScript); //사용자가 말한스크립트 문
+		
+		System.out.println("출력된 문자 " + systemScriptList.toString());
+		System.out.println("말한 문자"+memberScriptList.toString());
 
 		int result = scriptTest.resultNGram(systemScriptList, memberScriptList);
 		session.setAttribute("scriptTestResult", result);
@@ -148,8 +151,8 @@ public class ScriptTestController {
 	 * @return int타입의 일치도 값
 	 */
 	public int resultNGram(ArrayList<String> systemScriptList, ArrayList<String> memberScriptList) {
-		long count = 0;
-		long size = systemScriptList.size();
+		int count = 0;
+		int size = systemScriptList.size();
 		
 		for (int i = 0; i < systemScriptList.size(); i++) {
 			for (int j = 0; j < memberScriptList.size(); j++) {
@@ -158,6 +161,6 @@ public class ScriptTestController {
 				}
 			}
 		}
-		return (int)((count * 100) / size);
+		return (int)((double)count/(double)size*100);
 	}
 }
