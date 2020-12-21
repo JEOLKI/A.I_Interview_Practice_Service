@@ -16,7 +16,6 @@
 	}
 	.listmenu{
 		display: inline-block; 
-		margin-right: 83px;
 	}
 	.list{
 		margin : 10px 0px;
