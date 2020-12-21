@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.aiinterview.analysis.vo.AnalysisVO;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
@@ -62,18 +63,18 @@ public class AnswerController {
 		
 		List<ImageAnalysisVO> imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		AnalysisVO analysisVO = new AnalysisVO();
 		
-		map.put("imageAnalysisList", imageAnalysisList);
-		
-		System.out.println("파일 확인 : " + mtfRequest.getFile("mtfRequest"));
+		analysisVO.setImageAnalysisList(imageAnalysisList);
 		
 		/* 영상 다운로드 */
 		MultipartFile answerVideo = mtfRequest.getFile("mtfRequest");
 		if(answerVideo.getSize() > 0) {
 			String videoPath = "D:\\answerVideo\\" + UUID.randomUUID().toString() + ".webm";
 			answerVO.setVideoPath(videoPath);
-			map.put("answerVO", answerVO);
+			
+			analysisVO.setAnswerVO(answerVO);
+
 			File uploadVideo = new File(videoPath);
 			try {
 				answerVideo.transferTo(uploadVideo);
@@ -83,7 +84,6 @@ public class AnswerController {
 		}
 		
 		// 언어분석
-		
 		String script = answerVO.getAnsContent();
 		
 		/* 습관어 분석 */
@@ -101,11 +101,10 @@ public class AnswerController {
 				habitAnalysisVO.setHabitCount(habitArr.length-1+"");
 				habitAnalysisVOList.add(habitAnalysisVO);
 			}
-			map.put("habitAnalysisVOList", habitAnalysisVOList);
+			analysisVO.setHabitAnalysisList(habitAnalysisVOList);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
 		
 		/* 반복어 분석 */
 		// 언어 분석 기술 문어/구어 중 한가지만 선택해 사용
@@ -222,7 +221,7 @@ public class AnswerController {
             
             
             // 반복어 리스트
-            List<RepeatAnalysisVO> repeatList = new ArrayList<>();
+            List<RepeatAnalysisVO> repeatAnalysisList = new ArrayList<>();
             
             // 형태소들 중 명사들에 대해서 많이 노출된 순으로 출력 ( 최대 5개 )
             morphemes
@@ -239,13 +238,12 @@ public class AnswerController {
                 		RepeatAnalysisVO repeatAnalysisVO = new RepeatAnalysisVO();
                 		repeatAnalysisVO.setRepeatContent(morpheme.text);
                 		repeatAnalysisVO.setRepeatCount(morpheme.count+"");
-                		repeatList.add(repeatAnalysisVO);
+                		repeatAnalysisList.add(repeatAnalysisVO);
                 	}
                 });
-            map.put("repeatList", repeatList);
             
-				
-			
+            analysisVO.setRepeatAnalysisList(repeatAnalysisList);
+            
 			/* 인재상 분석 */
 			List<KeywordMatchingVO> keywordMatchingList = keywordMatchingService.retrieveList();
 			
@@ -262,16 +260,15 @@ public class AnswerController {
 				keywordAnalysisList.add(keywordAnalysisVO);
 			}
 			
-			map.put("keywordAnalysisList", keywordAnalysisList);
+			analysisVO.setKeywordAnalysisList(keywordAnalysisList);
 			
 			
 			/* 음성 분석*/
 			List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisVO.getVoiceAnalysisVOLIst();
-			map.put("voiceAnalysisList", voiceAnalysisList);
+			
+			analysisVO.setVoiceAnalysisList(voiceAnalysisList);
 					
-			answerSeivce.create(map);
-				
-				
+			answerSeivce.create(analysisVO);
 				
         } catch (MalformedURLException e) {
             e.printStackTrace();
