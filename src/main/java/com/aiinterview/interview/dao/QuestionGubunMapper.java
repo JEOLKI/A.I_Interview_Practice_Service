@@ -28,12 +28,6 @@ public interface QuestionGubunMapper {
 	 */
 	public int update(QuestionGubunVO questGbVO)throws Exception;
 	
-	/**
-	 * 샘플질문 구분(직무) 검색 목록을 조회하는 메서드
-	 * @return questGbList
-	 */
-	public List<QuestionGubunVO> retrieveQuestGbSearchList(String keyword) throws Exception;
-
 	
 	/**
 	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드

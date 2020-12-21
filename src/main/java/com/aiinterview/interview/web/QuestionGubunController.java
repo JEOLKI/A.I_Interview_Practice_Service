@@ -88,20 +88,6 @@ public class QuestionGubunController {
 		return "redirect:/questGb/retrievePagingList.do";
 	}
 	
-	@RequestMapping("/searchlist.do")
-	public String retrieveQuestGbSearch(String keyword, Model model){
-
-		List<QuestionGubunVO> questGbSearchList = null;
-		try {
-			questGbSearchList = questionGubunService.retrieveQuestGbSearchList(keyword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("질문 구분 검색 목록 " + questGbSearchList);
-		model.addAttribute("questGbSearchList", questGbSearchList);
-		
-		return "jsonView";
-	}
 
 	@RequestMapping("/massiveCreateProcess.do")
 	public String createMassiveHabit(MultipartHttpServletRequest request){

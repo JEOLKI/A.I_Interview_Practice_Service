@@ -78,16 +78,6 @@ public class QuestionGubunService {
 	}
 	
 	/**
-	 * 샘플질문 구분(직무) 검색 목록을 조회하는 메서드
-	 * @return questGbList
-	 * @throws Exception 
-	 */
-	public List<QuestionGubunVO> retrieveQuestGbSearchList(String keyword) throws Exception {
-		logger.debug("질문 구분 검색  service keyword : {} ",keyword);
-		return questionGubunMapper.retrieveQuestGbSearchList(keyword);
-	}
-	
-	/**
 	 * 페이징처리를 위한 해당페이지 목록 조회하는 메서드
 	 * @param questGbVO
 	 * @return 해당페이지 목록
@@ -96,9 +86,6 @@ public class QuestionGubunService {
 		return questionGubunMapper.retrievePagingList(questGbVO);
 	}
 
-	/**
-	 * 
-	 */
 	
 	/**
 	 * 페이징처리를 위한 전체 questGbVO 개수 구하는 메서드

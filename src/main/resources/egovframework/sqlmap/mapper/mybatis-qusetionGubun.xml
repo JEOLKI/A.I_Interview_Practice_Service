@@ -36,12 +36,6 @@
 		 WHERE quest_gb_sq = #{questGbSq}
 	</select>
 	
-	<!-- 검색 -->
-	<select id="retrieveQuestGbSearchList" parameterType="String" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
-		SELECT *
-		 FROM question_gb
-		WHERE quest_gb_content LIKE '%'||#{keyword}||'%'
-	</select>
 	
 	<!-- 페이징 : 해당 페이지리스트 select -->
 	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.QuestionGubunVO">
