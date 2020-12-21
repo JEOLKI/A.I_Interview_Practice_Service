@@ -24,8 +24,6 @@ import com.aiinterview.script.vo.ScriptVO;
 @RequestMapping("/scriptTest")
 @Controller
 public class ScriptTestController {
-	private static final Logger logger = LoggerFactory.getLogger(ScriptTestController.class);
-
 	@Resource(name = "scriptTestService")
 	private ScriptTestService scriptTestService;
 	
@@ -42,15 +40,16 @@ public class ScriptTestController {
 		ScriptVO scriptVO=null;
 		try {
 			scriptVO = scriptService.retrieve(scriptSq);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 		String scriptContent = scriptVO.getScriptContent();
 		
 		ScriptTestController scriptTest = new ScriptTestController();
 		
 		ArrayList<String> systemScriptList = scriptTest.nGram(scriptContent); //스크립트에 출력된 출력 문
 		ArrayList<String> memberScriptList = scriptTest.nGram(performScript); //사용자가 말한스크립트 문
+		
+		System.out.println("출력된 문자 " + systemScriptList.toString());
+		System.out.println("말한 문자"+memberScriptList.toString());
 
 		int result = scriptTest.resultNGram(systemScriptList, memberScriptList);
 		session.setAttribute("scriptTestResult", result);
@@ -62,23 +61,14 @@ public class ScriptTestController {
 
 		try {
 			scriptTestService.create(scriptTestVO);
-		}catch(Exception ex) {
-		}
+		}catch(Exception ex) { }
 		
 		model.addAttribute("result", result);
 		return "analysis/scriptTestResult";
 	}
 	
-	//문제 x
 	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
 	public String testPopup(Model model) {
-		/*List<ScriptVO> scriptList = null;
-		try {
-			scriptList = scriptService.retrieveList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		// 전체 스크립트 구분 리스트
 		List<ScriptGubunVO> scriptGbList = null;
 		try {
 			scriptGbList = scriptGbService.retrieveList();
@@ -93,7 +83,6 @@ public class ScriptTestController {
 				availableGbList.add(scriptGb);
 			}
 		}
-		//model.addAttribute("scriptList", scriptList);
 		model.addAttribute("scriptGbList", availableGbList);
 		return "script/testPopup";
 	}
@@ -109,13 +98,10 @@ public class ScriptTestController {
 			e.printStackTrace();
 		}
 		
-		logger.debug("사이즈는 : {}",scriptList.size());
 		int randomInt = (int)(Math.random()*scriptList.size());
-		logger.debug("랜덤 번호는 : {}",randomInt);
 		
 		ScriptVO scriptVO = scriptList.get(randomInt);
 		
-		logger.debug("scriptVO : {}",scriptVO);
 		model.addAttribute("scriptVO", scriptVO);
 		return "jsonView";
 	}
@@ -148,8 +134,8 @@ public class ScriptTestController {
 	 * @return int타입의 일치도 값
 	 */
 	public int resultNGram(ArrayList<String> systemScriptList, ArrayList<String> memberScriptList) {
-		long count = 0;
-		long size = systemScriptList.size();
+		int count = 0;
+		int size = systemScriptList.size();
 		
 		for (int i = 0; i < systemScriptList.size(); i++) {
 			for (int j = 0; j < memberScriptList.size(); j++) {
@@ -158,6 +144,6 @@ public class ScriptTestController {
 				}
 			}
 		}
-		return (int)((count * 100) / size);
+		return (int)((double)count/(double)size*100);
 	}
 }
