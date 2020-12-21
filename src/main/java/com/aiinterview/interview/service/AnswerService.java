@@ -1,7 +1,6 @@
 package com.aiinterview.interview.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,6 +11,7 @@ import com.aiinterview.analysis.dao.ImageAnalysisMapper;
 import com.aiinterview.analysis.dao.KeywordAnalysisMapper;
 import com.aiinterview.analysis.dao.RepeatAnalysisMapper;
 import com.aiinterview.analysis.dao.VoiceAnalysisMapper;
+import com.aiinterview.analysis.vo.AnalysisVO;
 import com.aiinterview.analysis.vo.HabitAnalysisVO;
 import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.KeywordAnalysisVO;
@@ -45,14 +45,15 @@ public class AnswerService {
 	public AnswerVO retrieve(String questSq) throws Exception{
 		return answerMapper.retrieve(questSq);
 	}
-	public String create(Map<String, Object> map) throws Exception{
+	
+	public String create(AnalysisVO analysisVO) throws Exception{
 		
-		AnswerVO answerVO = (AnswerVO) map.get("answerVO");
+		AnswerVO answerVO = analysisVO.getAnswerVO();
 		
 		answerMapper.create(answerVO);
 		String ansSq = answerVO.getAnsSq();
 		
-		List<ImageAnalysisVO> imageAnalysisList = (List<ImageAnalysisVO>) map.get("imageAnalysisList");
+		List<ImageAnalysisVO> imageAnalysisList = analysisVO.getImageAnalysisList();
 		for (ImageAnalysisVO imageAnalysisVO : imageAnalysisList) {
 			imageAnalysisVO.setAnsSq(ansSq);
 			imageAnalysisMapper.create(imageAnalysisVO);
@@ -60,28 +61,28 @@ public class AnswerService {
 		
 		
 		/* 습관어 insert */
-		List<HabitAnalysisVO> habitAnalysisVOList = (List<HabitAnalysisVO>) map.get("habitAnalysisVOList");
+		List<HabitAnalysisVO> habitAnalysisVOList = analysisVO.getHabitAnalysisList();
 		for (HabitAnalysisVO habitAnalysisVO : habitAnalysisVOList) {
 			habitAnalysisVO.setAnsSq(ansSq);
 			habitAnalysisMapper.create(habitAnalysisVO);
 		}
 		
 		/* 반복어 insert */
-		List<RepeatAnalysisVO> repeatList = (List<RepeatAnalysisVO>) map.get("repeatList");
-		for (RepeatAnalysisVO repeatAnalysisVO : repeatList) {
+		List<RepeatAnalysisVO> repeatAnalysisList = analysisVO.getRepeatAnalysisList();
+		for (RepeatAnalysisVO repeatAnalysisVO : repeatAnalysisList) {
 			repeatAnalysisVO.setAnsSq(ansSq);
 			repeatAnalysisMapper.create(repeatAnalysisVO);
 		}
 		
 		/* 키워드 분석 (인재상 ) insert */
-		List<KeywordAnalysisVO> keywordAnalysisList = (List<KeywordAnalysisVO>) map.get("keywordAnalysisList");
+		List<KeywordAnalysisVO> keywordAnalysisList = analysisVO.getKeywordAnalysisList();
 		for (KeywordAnalysisVO keywordAnalysisVO : keywordAnalysisList) {
 			keywordAnalysisVO.setAnsSq(ansSq);
 			keywordAnalysisMapper.create(keywordAnalysisVO);
 		}
 		
 		/* 음성 분석 (데시벨, 헤르츠 ) insert */
-		List<VoiceAnalysisVO> voiceAnalysisList = (List<VoiceAnalysisVO>) map.get("voiceAnalysisList");
+		List<VoiceAnalysisVO> voiceAnalysisList = analysisVO.getVoiceAnalysisList();
 		for (VoiceAnalysisVO voiceAnalysisVO : voiceAnalysisList) {
 			voiceAnalysisVO.setAnsSq(ansSq);
 			voiceAnalysisMapper.create(voiceAnalysisVO);
