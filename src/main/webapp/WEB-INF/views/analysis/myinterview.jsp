@@ -16,7 +16,7 @@
 		box-sizing: border-box;
 	}
 	
-	.TestChart{
+	.testChart{
 		background:transparent;
 		background-color: white;
 		height: 500px;
@@ -147,18 +147,9 @@
 	
 	
 	$(document).ready(function() {
-		TestChart();
+		testChart();
 		
-		$("#popUpOpenBtn").on('click' , function () {
-		  	  var popupX = (document.body.offsetWidth / 2) - (480 / 2);
-		  	  var popupY= (window.screen.height / 2) - (620 / 2);
-		  	  
-		  	  var url = '/scriptTest/testPopup.do';
-		  	  
-		  	  var options = 'top='+popupY+', left='+popupX+', width=480, height=620, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
-		      window.open(url, "", options);
-		});
-		
+		/* 성장그래프 - 감정, 움직임 */
 		$.ajax({url : "/analysis/image/retrieveGrowth.do",
 			method : "get",
 			success : function(data){
@@ -215,26 +206,29 @@
 			$("#"+target+"").show();
 		})
 		
-		
-		$("#popUpOpenBtn").on('click' , function () {
-		  	  var url = '/scriptTest/testPopup.do';
-		  	  var options = 'top=10, left=10, width=320, height=440, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
-		      window.open(url, "", options);
-		})
-		
 		$('.start-btn').on('click',function(){
 			document.location = "/interview/ready.do";
 		})
 		
+		$("#popUpOpenBtn").on('click' , function () {
+		  	  //var popupX = (document.body.offsetWidth / 2) - (480 / 2);
+		  	  //var popupY= (window.screen.height / 2) - (620 / 2);
+		  	  
+		  	  var url = '/scriptTest/testPopup.do';
+		  	  
+		  	  var options = 'width=300, height=500, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
+		      window.open(url, "", options);
+		});
+		
 	})
 	
 	
-	function TestChart(){
+	function testChart(){
 	  $.ajax({url : "/speech/speechChart.do",
 		  method : "get",
 		  success : function(data){
 			  var html = data;	
-			  $("#TestChart").html(html);
+			  $("#testChart").html(html);
 		  }
 	  })
 	}
@@ -329,8 +323,6 @@
 	}
 	
 	
-	
-	
 	/* 성장그래프 - 말 빠르기 데이터 */
 	function speedGrowthdata(speedGrowthList){
 		var max = 700;
@@ -382,63 +374,46 @@
 		        }
 		    }
 		});
-		
-	
-		
 	}
 	
+	/* 성장그래프 - 감정분석 데이터*/	
 	function imageGrowthdata(imageAnalysisList){
 		
-		
 		lables = [];
-		analysis = [];
+		positiveAnalysis = [];
+		neutralAnalysis = [];
+		negativeAnalysis = [];
+		panicAnalysis = [];
+		faceAnalysis = [];
+		
+		
 		for(var i = 0; i < imageAnalysisList.length ; i++){
 			labels.push(i);
-			analysis.push(imageAnalysisList[i].happiness);
-		}
-		var title = ['happiness']
-		var ctx = document.getElementById('positiveChart');
-		imageGrowthChart(ctx, labels, title, analysis);
-		
-		title = ['neutral']
-		analysis = [];
-		for(var i = 0; i < imageAnalysisList.length ; i++){
-			analysis.push(imageAnalysisList[i].neutral);
-		}
-		ctx = document.getElementById('neutralChart');
-		imageGrowthChart(ctx, labels, title, analysis);
-		
-		title = ['negative']
-		analysis = [];
-		for(var i = 0; i < imageAnalysisList.length ; i++){
+			
+			positiveAnalysis.push(imageAnalysisList[i].happiness);
+			
+			neutralAnalysis.push(imageAnalysisList[i].neutral);
+			
 			negative = imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
-			analysis.push(negative);
-		}
-		ctx = document.getElementById('negativeChart');
-		imageGrowthChart(ctx, labels, title, analysis);
-		
-		title = ['panic']
-		analysis = [];
-		for(var i = 0; i < imageAnalysisList.length ; i++){
+			negativeAnalysis.push(negative);
+			
 			panic = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
-			analysis.push(panic);
-		}
-		ctx = document.getElementById('panicChart');
-		imageGrowthChart(ctx, labels, title, analysis);
-		
-		title = ['facePosition']
-		analysis = [];
-		var facelabel = [];	
-		for(var i = 0; i < imageAnalysisList.length ; i++){
-			facelabel.push(i);
+			panicAnalysis.push(panic);
+			
 			position = imageAnalysisList[i].faceTop*1 + imageAnalysisList[i].faceLeft*1;
-			analysis.push(position);
+			faceAnalysis.push(position);
+			
 		}
-		ctx = document.getElementById('faceChart');
-		imageGrowthChart(ctx, facelabel, title, analysis);
+		
+		imageGrowthChart(document.getElementById('positiveChart'), labels, ['happiness'], positiveAnalysis);
+		imageGrowthChart(document.getElementById('neutralChart'), labels, ['neutral'], neutralAnalysis);
+		imageGrowthChart(document.getElementById('negativeChart'), labels, ['negative'], negativeAnalysis);
+		imageGrowthChart(document.getElementById('panicChart'), labels, ['panic'], panicAnalysis);
+		imageGrowthChart(document.getElementById('faceChart'), labels, ['facePosition'], faceAnalysis);
 		
 	}
 	
+	/* 성장그래프 - 감정분석 차트*/
 	function imageGrowthChart(ctx, labels, title, analysis, max){
 		var myChart = new Chart(ctx, {
 			type: 'line',
@@ -614,7 +589,7 @@
 							<div id="testBtnGrp">
 							<a id="popUpOpenBtn" class="speechBtn">발음평가하기</a>
 							</div>
-							<div id="TestChart"></div>	
+							<div id="testChart"></div>	
 							<br>
 							
 						</div>
