@@ -344,19 +344,12 @@ body{
 var messageTextArea = document.getElementById("messageArea");
 var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
 let message = document.getElementById("textMessage");
-var arlamCheck = 'Y';
-var d = new Date();
-var minutes = ("00"+ d.getMinutes()).slice(-2)
-var str = "";
-var hours = d.getHours();
+
+var arlamCheck = 'N';
+
+var d= "";
 
 
-if (hours > 12){
-	str = "오후"
-	hours = hours - 12;
-}else{
-	str = "오전"
-}
 $(function(){
 	var c = parent.document.querySelector("#chatting").style
 	c.overflow= "hidden";
@@ -366,6 +359,7 @@ $(function(){
 		a.display = "none";
 		$("#chatting").attr("style", "display:none");
 		webSocket.close();
+		top.document.location.reload()
 	})
 	
 	
@@ -388,10 +382,20 @@ webSocket.onerror = function(message) {
 };
 // 서버로부터 메시지가 도착하면 콘솔 화면에 메시지를 남긴다.
 webSocket.onmessage = function(message) {
+
+d = new Date();
+var minutes = ("00"+ d.getMinutes()).slice(-2)
+var str = "";
+var hours = d.getHours();		
 	
-console.log(message)
-console.log(message.data);
-console.log("${S_MEMBER.memId}")
+
+if (hours > 12){
+	str = "오후"
+	hours = hours - 12;
+}else{
+	str = "오전"
+}
+
 
 if(message.data=="bye"){
 	$(".fa-circle").attr('class', 'fa fa-circle-o')
@@ -403,12 +407,10 @@ if(message.data=="bye"){
 	message.data = "";
 	arlamCheck = 'Y';
 }
-else{																																																																																	
+else{
 	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=TEST_ID2'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
 	$("#messageArea").append("</div>")
-
 	$("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);	
-	
 }
 };
 
@@ -417,6 +419,19 @@ else{
 // 서버로 메시지를 발송하는 함수
 // Send 버튼을 누르거나 텍스트 박스에서 엔터를 치면 실행
 function sendMessage() {
+	
+	d = new Date();
+	var minutes = ("00"+ d.getMinutes()).slice(-2)
+	var str = "";
+	var hours = d.getHours();		
+		
+
+	if (hours > 12){
+		str = "오후"
+		hours = hours - 12;
+	}else{
+		str = "오전"
+	}
 	
 sendProcess();
 
@@ -446,8 +461,6 @@ return true;
 }
 function sendProcess(){
 	var msg = $("#textMessage").val();
-	console.log(msg)
-	console.log(arlamCheck)
 	$.ajax({
 		url: "/chat/create.do",
 		type: 'POST',

@@ -30,8 +30,8 @@ public class ChatService {
 		return chatMapper.roomList();
 	}
 	
-	public int arlamUpdate(String memId) {
-		return chatMapper.arlamUpdate(memId);
+	public int arlamUpdate(ChatVO cv) {
+		return chatMapper.arlamUpdate(cv);
 	}
 	
 	public String arlamCount(String memId){

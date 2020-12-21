@@ -31,16 +31,17 @@
 		#{msgSender}, #{msgReceiver}, #{msgArlam})
 	</insert>
 	
-	<update id="arlamUpdate" parameterType="String">
+	<update id="arlamUpdate" parameterType="com.aiinterview.chat.vo.ChatVO">
 		update message set msg_arlam = 'Y'
-		where Msg_Sender = #{memId }
+		where msg_sender = #{msgSender }
+		and msg_Receiver = #{msgReceiver}
 		and msg_arlam = 'N'
 	</update>
 	
 	<select id="arlamCount" parameterType="String" resultType="String">
 		select count(*) from message
 		where msg_arlam = 'N'
-		and msg_sender = #{memId}
+		and msg_receiver = #{memId}
 	</select>
 	
 	

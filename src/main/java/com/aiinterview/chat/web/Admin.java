@@ -56,6 +56,8 @@ String msg = split[1];
 System.out.println("split[1]"+ msg);
 // 일반 유저의 key로 탐색후 메시지 전송
 BroadSocket.sendMessage(key, msg);
+
+BroadArlam.sendMessage(key, msg);
 }
 // 접속이 끊기면 위 운영자 세션을 null 처리한다.
 @OnClose
@@ -83,6 +85,12 @@ public static void visit(String key) {
 // json 구조로 status는 visit이고 key는 유저 키 정보이다.(javascript와 맞추는 프로토콜)
 send("{\"status\":\"visit\", \"key\":\"" + key + "\"}");
 }
+
+public static void chatEnter(String key) {
+// json 구조로 status는 visit이고 key는 유저 키 정보이다.(javascript와 맞추는 프로토콜)
+	send("{\"status\":\"chatEnter\", \"key\":\"" + key + "\"}");
+}
+
 // 일반 유저가 메시지를 보낼 때, 운영자 유저에게 알리는 함수
 public static void sendMessage(String key, String message) {
 // json 구조로 status는 message이고 key는 유저 키 정보이다.(javascript와 맞추는 프로토콜) message는 보내는 메시지이다.

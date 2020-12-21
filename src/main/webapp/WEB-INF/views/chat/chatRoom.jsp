@@ -166,13 +166,15 @@ color: #32e4cd;
 				
 				// 해당 키로 div를 찾아서 dom을 제거한다.
 				$("[data-key='"+node.key+"']").remove();
+				
 			}
 		}
 		
 		$("#closeChat").on("click", function(){
 			var a = parent.document.querySelector("#chatting").style
 			a.display = "none"
-			webSocket.close()
+			webSocket.close()	
+			parent.document.location.reload()
 		})
 		
 		$('.chat_area').on('click', function(){
@@ -181,6 +183,7 @@ color: #32e4cd;
 			a.width = "300px";
 			memid = $(this).data("id")
 			console.log(memid)
+			console.log("정신나갈거같아.")
 			location.href="/chat/admining.do?memId="+memid;
 		})
 		
