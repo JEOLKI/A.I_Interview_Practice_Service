@@ -23,9 +23,8 @@ public class AnswerMapperTest extends ModelTestConfig{
 		
 		/***When***/
 		AnswerVO answerVO = answerMapper.retrieve(questSq);
-		
 		/***Then***/
-		assertEquals("1", answerVO.getInterviewSq());
+		assertEquals("1", answerVO.getAnsSq());
 		
 	}
 	
@@ -38,7 +37,7 @@ public class AnswerMapperTest extends ModelTestConfig{
 		answerVO.setVideoPath("TEST");
 		answerVO.setAnsTime("10");
 		answerVO.setAnsSpeed("60");
-		answerVO.setQuestSq("1");
+		answerVO.setQuestSq("6");
 		
 		/***When***/
 		answerMapper.create(answerVO);

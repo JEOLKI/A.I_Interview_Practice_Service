@@ -1,9 +1,13 @@
-package com.aiinterview.interview.dao;
+package com.aiinterview.interview.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,13 +15,14 @@ import org.junit.Test;
 
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.interview.vo.InterviewVO;
+import com.aiinterview.interview.vo.QuestionVO;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
-public class InterviewMapperTest extends ModelTestConfig {
-
-	@Resource(name="interviewMapper")
-	private InterviewMapper interviewMapper;
+public class InterviewServiceTest extends ModelTestConfig{
+	
+	@Resource(name="interviewService")
+	private InterviewService interviewService;
 	
 	@Test
 	public void retrieveListTest() throws Exception {
@@ -25,7 +30,7 @@ public class InterviewMapperTest extends ModelTestConfig {
 		/***Given***/
 		
 		/***When***/
-		List<InterviewVO> interviewList = interviewMapper.retrieveList();
+		List<InterviewVO> interviewList = interviewService.retrieveList();
 		
 		/***Then***/
 		assertEquals(5, interviewList.size());
@@ -40,7 +45,7 @@ public class InterviewMapperTest extends ModelTestConfig {
 		interviewVO.setMemId("MEMBER1");
 		
 		/***When***/
-		int result = interviewMapper.retrievePagingListCnt(interviewVO);
+		int result = interviewService.retrievePagingListCnt(interviewVO);
 
 		/***Then***/
 		assertEquals(5, result);
@@ -66,7 +71,7 @@ public class InterviewMapperTest extends ModelTestConfig {
 		interviewVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/***When***/
-		List<InterviewVO> interviewList = interviewMapper.retrievePagingList(interviewVO);
+		List<InterviewVO> interviewList = interviewService.retrievePagingList(interviewVO);
 		
 		/***Then***/
 		assertEquals(5, interviewList.size());
@@ -80,7 +85,7 @@ public class InterviewMapperTest extends ModelTestConfig {
 		String interviewSq = "1";
 		
 		/***When***/
-		InterviewVO interviewVO = interviewMapper.retrieve(interviewSq);
+		InterviewVO interviewVO = interviewService.retrieve(interviewSq);
 		
 		/***Then***/
 		assertEquals("1", interviewVO.getInterviewSq());
@@ -91,15 +96,22 @@ public class InterviewMapperTest extends ModelTestConfig {
 	public void createTest() throws Exception {
 		
 		/***Given***/
+		Map<String, Object> map = new HashMap<String, Object>();
 		InterviewVO interviewVO = new InterviewVO();
-		interviewVO.setInterviewSq("1");
 		interviewVO.setMemId("MEMBER1");
+		map.put("interviewVO", interviewVO); // map 객체에 면접 객체 넣기
+		
+		List<QuestionVO> questionVOList = new ArrayList<>();
+		QuestionVO questionVO = new QuestionVO("테스트 질문", "0");
+		questionVOList.add(questionVO); // 최종 질문 목록에 추가
+		map.put("questionVOList", questionVOList);
+		
 		
 		/***When***/
-		interviewMapper.create(interviewVO);
+		String interviewSq = interviewService.create(map);
 		
 		/***Then***/
-		assertTrue(interviewVO.getInterviewSq() != "0");
+		assertTrue(interviewSq != null);
 		
 	}
 	
@@ -113,7 +125,7 @@ public class InterviewMapperTest extends ModelTestConfig {
 
 		
 		/***When***/
-		int result = interviewMapper.update(interviewVO);
+		int result = interviewService.update(interviewVO);
 		
 		/***Then***/
 		assertEquals(1, result);
@@ -127,11 +139,11 @@ public class InterviewMapperTest extends ModelTestConfig {
 		String interviewSq = "1";
 		
 		/***When***/
-		int result = interviewMapper.delete(interviewSq);
+		int result = interviewService.delete(interviewSq);
 		
 		/***Then***/
 		assertEquals(1, result);
 		
 	}
-	
+
 }
