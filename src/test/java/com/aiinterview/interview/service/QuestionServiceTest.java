@@ -1,7 +1,6 @@
-package com.aiinterview.interview.dao;
+package com.aiinterview.interview.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -10,16 +9,14 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.aiinterview.ModelTestConfig;
-import com.aiinterview.interview.dao.QuestionMapper;
 import com.aiinterview.interview.vo.QuestionVO;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+public class QuestionServiceTest extends ModelTestConfig {
 
-public class QuestionMapperTest extends ModelTestConfig{
-
-	@Resource(name="questionMapper")
-	private QuestionMapper questionMapper;
+	@Resource(name="questionService")
+	private QuestionService questionService;
 	
 	@Test
 	public void retrieveListTest() throws Exception {
@@ -28,7 +25,7 @@ public class QuestionMapperTest extends ModelTestConfig{
 		String interviewSq = "1";
 		
 		/***When***/
-		List<QuestionVO> questionList = questionMapper.retrieveList(interviewSq);
+		List<QuestionVO> questionList = questionService.retrieveList(interviewSq);
 
 		/***Then***/
 		assertEquals(1, questionList.size());
@@ -43,7 +40,7 @@ public class QuestionMapperTest extends ModelTestConfig{
 		questionVO.setInterviewSq("1");
 		
 		/***When***/
-		int result = questionMapper.retrievePagingListCnt(questionVO);
+		int result = questionService.retrievePagingListCnt(questionVO);
 
 		/***Then***/
 		assertEquals(1, result);
@@ -69,27 +66,10 @@ public class QuestionMapperTest extends ModelTestConfig{
 		questionVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		/***When***/
-		List<QuestionVO> questionList = questionMapper.retrievePagingList(questionVO);
+		List<QuestionVO> questionList = questionService.retrievePagingList(questionVO);
 		
 		/***Then***/
 		assertEquals(1, questionList.size());
-		
-	}
-	
-	@Test
-	public void createTest() throws Exception {
-		
-		/***Given***/
-		QuestionVO questionVO = new QuestionVO();
-		questionVO.setQuestContent("TESTQUESTION");
-		questionVO.setInterviewSq("1");
-		questionVO.setSampQuestSq("1");
-		
-		/***When***/
-		questionMapper.create(questionVO);
-		
-		/***Then***/
-		assertTrue(Integer.parseInt(questionVO.getQuestSq()) > 0);
 		
 	}
 
