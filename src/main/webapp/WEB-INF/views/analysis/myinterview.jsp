@@ -716,7 +716,7 @@
 								<div class="interview-table">
 									<div class="SetInterviewBox">
 										<div class="date">${interview.interviewDate}</div>
-										<input type="text" class="name" name="interviewNm" value="${interview.interviewNm}"/>
+										<span class="name">${interview.interviewNm}</span>
 										<a class="button" href="/analysis/question/retrievePagingList.do?interviewSq=${interview.interviewSq }">결과 보기</a>
 									</div>
 								</div>
