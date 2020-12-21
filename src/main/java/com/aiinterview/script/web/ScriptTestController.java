@@ -24,8 +24,6 @@ import com.aiinterview.script.vo.ScriptVO;
 @RequestMapping("/scriptTest")
 @Controller
 public class ScriptTestController {
-	private static final Logger logger = LoggerFactory.getLogger(ScriptTestController.class);
-
 	@Resource(name = "scriptTestService")
 	private ScriptTestService scriptTestService;
 	
@@ -42,9 +40,7 @@ public class ScriptTestController {
 		ScriptVO scriptVO=null;
 		try {
 			scriptVO = scriptService.retrieve(scriptSq);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 		String scriptContent = scriptVO.getScriptContent();
 		
 		ScriptTestController scriptTest = new ScriptTestController();
@@ -62,23 +58,14 @@ public class ScriptTestController {
 
 		try {
 			scriptTestService.create(scriptTestVO);
-		}catch(Exception ex) {
-		}
+		}catch(Exception ex) { }
 		
 		model.addAttribute("result", result);
 		return "analysis/scriptTestResult";
 	}
 	
-	//문제 x
 	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
 	public String testPopup(Model model) {
-		/*List<ScriptVO> scriptList = null;
-		try {
-			scriptList = scriptService.retrieveList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		// 전체 스크립트 구분 리스트
 		List<ScriptGubunVO> scriptGbList = null;
 		try {
 			scriptGbList = scriptGbService.retrieveList();
@@ -93,7 +80,6 @@ public class ScriptTestController {
 				availableGbList.add(scriptGb);
 			}
 		}
-		//model.addAttribute("scriptList", scriptList);
 		model.addAttribute("scriptGbList", availableGbList);
 		return "script/testPopup";
 	}
@@ -109,13 +95,10 @@ public class ScriptTestController {
 			e.printStackTrace();
 		}
 		
-		logger.debug("사이즈는 : {}",scriptList.size());
 		int randomInt = (int)(Math.random()*scriptList.size());
-		logger.debug("랜덤 번호는 : {}",randomInt);
 		
 		ScriptVO scriptVO = scriptList.get(randomInt);
 		
-		logger.debug("scriptVO : {}",scriptVO);
 		model.addAttribute("scriptVO", scriptVO);
 		return "jsonView";
 	}
