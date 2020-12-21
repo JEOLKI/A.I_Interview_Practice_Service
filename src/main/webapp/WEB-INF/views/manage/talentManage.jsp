@@ -54,7 +54,7 @@
 	
 	
 	.talentNm{
-		width: 500px;
+        width: 500px;
 		padding-left: 10px;
 	}
 	
@@ -85,6 +85,8 @@
 	.paging{
 		text-align: center;
 		margin-top: 30px;
+	    position: relative;
+    	right: 20%;
 	}
 	
 	.paging a, .paging strong{
@@ -292,7 +294,7 @@
 			<a class="updateBtn" onclick="updateList()">수정</a>
 			<br>
 		</div>
-			<div id="paging">
+			<div id="paging"  class="paging">
 				<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 				<form:hidden path="pageIndex" />
 			</div>

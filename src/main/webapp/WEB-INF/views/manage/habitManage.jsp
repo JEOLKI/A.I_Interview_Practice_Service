@@ -128,6 +128,30 @@
 	.list{
 		margin : 10px 0px;
 	}
+	.paging{
+		text-align: center;
+	    margin-top: 60px;
+	    position: relative;
+	    right: 25%;
+	}
+	
+	.paging a, .paging strong{
+		display: inline-block;
+		border: 1px solid #4374D9;
+		border-radius: 5px;
+		width: 25px;
+		padding: 1px;
+	}
+	
+	.paging strong{
+		background-color: #4374D9;
+	    color: #fff;
+	}
+	
+	.paging a:hover{
+		background-color: #4374D9;
+	    color: #fff;
+	}
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -279,7 +303,7 @@
 						</c:forEach>
 						<a class="updateBtn" onclick="updateList()" >수정</a>
 					</div>
-					<div id="paging">
+					<div id="paging" class="paging">
 						<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 						<form:hidden path="pageIndex" />
 					</div>

@@ -97,7 +97,9 @@
 	
 	.paging{
 		text-align: center;
-		margin-top: 30px;
+		margin-top: 60px;
+	    position: relative;
+	    right: 25%;
 	}
 	
 	.paging a, .paging strong{

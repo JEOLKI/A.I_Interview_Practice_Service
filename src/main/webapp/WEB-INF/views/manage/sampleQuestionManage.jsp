@@ -122,7 +122,9 @@
 	}
 	.paging{
 		text-align: center;
-		margin-top: 30px;
+	    margin-top: 60px;
+	    position: relative;
+	    right: 18%;
 	}
 	
 	.paging a, .paging strong{
@@ -316,7 +318,7 @@ function updateList() {
 					</c:forEach>
 							<a class="updateBtn" onclick="updateList()">수정</a>
 				</div>
-				<div id="paging">
+				<div id="paging" class="paging">
 					<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 					<form:hidden path="pageIndex" />
 				</div>
