@@ -58,7 +58,7 @@ body{
 		padding: 0px 10px;
 	}
 	.scriptContent{
-		width : 53.5%;
+		width : 54.5%;
 	}
 	
 	#scriptContent{
