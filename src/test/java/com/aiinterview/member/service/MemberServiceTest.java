@@ -11,6 +11,8 @@ import org.junit.Test;
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.member.vo.MemberVO;
 
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 public class MemberServiceTest extends ModelTestConfig{
 	
 	@Resource(name="memberService")
@@ -171,8 +173,13 @@ public class MemberServiceTest extends ModelTestConfig{
 	public void retirevePagingListTest() throws Exception {
 		/***Given***/
 		MemberVO memberVO = new MemberVO();
-		memberVO.setPageUnit(10);
-		memberVO.setPageSize(10);
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(memberVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(memberVO.getPageUnit());
+		paginationInfo.setPageSize(memberVO.getPageSize());
+		memberVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		memberVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		memberVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		/***When***/
 		List<MemberVO> memberList =  memberService.retrievePagingList(memberVO);
