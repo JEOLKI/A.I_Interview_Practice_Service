@@ -135,6 +135,7 @@
 		margin : 10px 0px;
 	}
 	.updateBtn{
+		width: 70px;
 		float: right;
 	 	margin-right: 40.3%;
 	}
