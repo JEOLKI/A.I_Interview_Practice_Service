@@ -124,7 +124,7 @@ public class MemberMapperTest extends ModelTestConfig{
 		
 
 		/***When***/
-		int deleteCnt = memberMapper.delete("TEST_ID2");
+		int deleteCnt = memberMapper.delete("MEMBER1");
 
 		/***Then***/
 		assertEquals(1, deleteCnt);
@@ -134,7 +134,7 @@ public class MemberMapperTest extends ModelTestConfig{
 	public void updateTest() throws Exception{
 		/***Given***/
 		MemberVO memberVO = new MemberVO();
-		memberVO.setMemId("TEST_ID3");
+		memberVO.setMemId("MEMBER1");
 		memberVO.setMemPw("UPDATE_PW");
 		memberVO.setMemAlias("UPDATE_ALIAS");
 		memberVO.setMemTel("010-1111-1111");
@@ -167,7 +167,7 @@ public class MemberMapperTest extends ModelTestConfig{
 		int result  = memberMapper.retrievePagingListCnt(memberVO);
 
 		/***Then***/
-		assertEquals(3, result);
+		assertEquals(4, result);
 	}
 	
 	@Test
@@ -181,7 +181,7 @@ public class MemberMapperTest extends ModelTestConfig{
 		List<MemberVO> memberList =  memberMapper.retrievePagingList(memberVO);
 
 		/***Then***/
-		assertEquals(3, memberList.size());
+		assertEquals(4, memberList.size());
 	}
 	
 	@Test
@@ -193,7 +193,7 @@ public class MemberMapperTest extends ModelTestConfig{
 		List<MemberVO> memberList = memberMapper.manageMember();
 		
 		/***Then***/
-		assertEquals(3, memberList.size());
+		assertEquals(4, memberList.size());
 	}
 	
 	@Test
@@ -205,7 +205,7 @@ public class MemberMapperTest extends ModelTestConfig{
 		List<MemberVO> memberList = memberMapper.retrieveMajor(memberVO);
 
 		/***Then***/
-		assertEquals(3, memberList.size());
+		assertEquals(2, memberList.size());
 	}
 	
 	@Test
@@ -217,7 +217,7 @@ public class MemberMapperTest extends ModelTestConfig{
 		List<MemberVO> memberList = memberMapper.retrieveEducation(memberVO);
 		
 		/***Then***/
-		assertEquals(3, memberList.size());
+		assertEquals(4, memberList.size());
 	}
 	
 	@Test
