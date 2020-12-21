@@ -144,7 +144,6 @@ $(document).ready(function(){
 		});
 		
 		$('input[type="file"]').on('change',function(){
-			console.log("일괄등록")
 			$('#massiveForm').submit();
 		});
 		

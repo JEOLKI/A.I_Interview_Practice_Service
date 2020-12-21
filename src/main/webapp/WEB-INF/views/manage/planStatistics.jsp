@@ -175,8 +175,6 @@ $(document).ready(function(){
 		endDate = $('#saleEndDate').val() == ''? 'sysdate' : $('#saleEndDate').val();
 		var searchKeyword = $('#saleSearchKeyword').val();
 		
-		console.log(startDate);
-		console.log(endDate);
 		$.ajax({ url : "/plan/totalSaleStatistics.do", 
 				 data : {"startDate" : startDate,
 					 	 "endDate" 	 : endDate,

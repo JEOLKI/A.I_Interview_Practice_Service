@@ -76,7 +76,6 @@ $(function(){
 		 	 	 "endDate" 	 : endDate},
 		 dataType : "json",
 		 success : function(data){
-			console.log(data);
 			
 			var resultList = data.resultList;
 			
@@ -101,7 +100,6 @@ $(function(){
 			 	 	 "endDate" 	 : endDate},
 			 dataType : "json",
 			 success : function(data){
-				console.log(data);
 				
 				var resultList = data.resultList;
 				

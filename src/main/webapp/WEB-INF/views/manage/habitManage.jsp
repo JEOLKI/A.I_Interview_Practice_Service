@@ -189,7 +189,6 @@
 				var html = '<span style="color:red">**내용을 입력해주세요</span>';
 				$('#updateCheck').append(html);
 			}else{
-				console.log("수정");
 				$(this).parent().submit();
 			}
 		})	
