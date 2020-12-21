@@ -134,7 +134,6 @@ public class KeywordService {
 	 * @return
 	 */
 	public void create(String keywordContent) throws Exception{
-		System.out.println("서비스 keywordContent : "+ keywordContent);
 		keywordMapper.create(keywordContent);
 	}
 

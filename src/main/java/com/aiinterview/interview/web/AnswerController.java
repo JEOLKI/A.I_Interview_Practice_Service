@@ -70,7 +70,6 @@ public class AnswerController {
 		
 		/* 영상 다운로드 */
 		MultipartFile answerVideo = mtfRequest.getFile("mtfRequest");
-		System.out.println("파일 사이즈 확인 : " + answerVideo.getSize());
 		if(answerVideo.getSize() > 0) {
 			String videoPath = "D:\\answerVideo\\" + UUID.randomUUID().toString() + ".webm";
 			answerVO.setVideoPath(videoPath);
@@ -158,7 +157,6 @@ public class AnswerController {
             // http 요청 오류 시 처리
             if ( responseCode != 200 ) {
                 // 오류 내용 출력
-                System.out.println("[error] " + responBodyJson);
             }
  
             responeBody = gson.fromJson(responBodyJson, Map.class);
@@ -169,7 +167,6 @@ public class AnswerController {
             // 분석 요청 오류 시 처리
             if ( result != 0 ) {
                 // 오류 내용 출력
-                System.out.println("[error] " + responeBody.get("result"));
             }
  
             // 분석 결과 활용
@@ -238,14 +235,13 @@ public class AnswerController {
                 .limit(3)
                 .forEach(morpheme -> {
                 	// db에 보낼 반복어 객체 생성
-                	RepeatAnalysisVO repeatAnalysisVO = new RepeatAnalysisVO();
-                	repeatAnalysisVO.setRepeatContent(morpheme.text);
-                	System.out.println(morpheme.text);
-                	repeatAnalysisVO.setRepeatCount(morpheme.count+"");
-                	System.out.println(morpheme.count+"");
-                	repeatList.add(repeatAnalysisVO);
+                	if(morpheme.count>1) {
+                		RepeatAnalysisVO repeatAnalysisVO = new RepeatAnalysisVO();
+                		repeatAnalysisVO.setRepeatContent(morpheme.text);
+                		repeatAnalysisVO.setRepeatCount(morpheme.count+"");
+                		repeatList.add(repeatAnalysisVO);
+                	}
                 });
-            System.out.println("반복어 분석  : "+repeatList);
             map.put("repeatList", repeatList);
             
 				
@@ -257,7 +253,6 @@ public class AnswerController {
 			
 			for(int i=0; i<keywordMatchingList.size(); i++) {
 				String kyewordContent = keywordService.retrieveMathcingKeyword(keywordMatchingList.get(i).getKeywordSq());
-				System.out.println("kyewordContent : " + kyewordContent);
 				String[] keywordArr = script.split(kyewordContent);
 				KeywordAnalysisVO keywordAnalysisVO = new KeywordAnalysisVO();
 				keywordAnalysisVO.setKeywordSq(keywordMatchingList.get(i).getKeywordSq());
@@ -267,14 +262,12 @@ public class AnswerController {
 				keywordAnalysisList.add(keywordAnalysisVO);
 			}
 			
-			System.out.println("인재상 분석  : "+keywordAnalysisList);
 			map.put("keywordAnalysisList", keywordAnalysisList);
 			
 			
 			/* 음성 분석*/
 			List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisVO.getVoiceAnalysisVOLIst();
 			map.put("voiceAnalysisList", voiceAnalysisList);
-			System.out.println("음성 분석  : "+voiceAnalysisList);
 					
 			answerSeivce.create(map);
 				
