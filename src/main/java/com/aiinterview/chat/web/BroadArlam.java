@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.aiinterview.member.vo.MemberVO;
 // 일반 유저에서 서버간의 웹 소켓 url
-@ServerEndpoint("/broadsocket.do")
-public class BroadSocket extends TextWebSocketHandler {
+@ServerEndpoint("/broadarlam.do")
+public class BroadArlam extends TextWebSocketHandler {
 Admin sessionAdmin;
 static String sessionId;
 // searchUser 함수의 filter 표현식을 위한 인터페이스
@@ -71,9 +70,6 @@ user.session = userSession;
 // 유저 리스트에 등록한다.
 sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
-Admin.visit(user.key);
-
-
 
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
@@ -84,7 +80,6 @@ User user = getUser(userSession);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 // 운영자 Client에 유저 key와 메시지를 보낸다.
-Admin.sendMessage(user.key, message);
 }
 }
 // 운영자 client가 유저에게 메시지를 보내는 함수
@@ -112,7 +107,6 @@ User user = getUser(userSession);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 // 운영자 Client에 유저 key로 접속 종료를 알린다.
-Admin.bye(user.key);
 // 위 유저 접속 리스트에서 유저를 삭제한다.
 sessionUsers.remove(user);
 

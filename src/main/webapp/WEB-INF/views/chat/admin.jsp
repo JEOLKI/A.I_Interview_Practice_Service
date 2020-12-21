@@ -254,7 +254,7 @@
 	    <p class="card-header-title">
 	      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=${memId }" style="width: 30px;">&nbsp;${memId }님의 채팅방
 	    </p>
-	    <a id="closeChat" class="card-header-icon">
+	    <a id="closeChatUser" class="card-header-icon">
 	      <span class="icon">
 	        <i class="fa fa-close"></i>
 	      </span>
@@ -337,19 +337,22 @@
 <!-- 소스를 간단하게 하기 위하 Jquery를 사용했습니다. -->
 <script type="text/javascript">
 // 서버의 admin의 서블릿으로 웹 소켓을 한다.
-var d = new Date();
+var d= "";
+
+var arlamCheck = 'N';
 var nodeKey = "";
 var webSocket =  new WebSocket("ws://localhost/admin.do");
 let $div = $("#chatApp");
 $(function(){
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 
-$("#closeChat").on("click", function(){
+$("#closeChatUser").on("click", function(){
 	webSocket.send("${memId}" +"#####"+ "bye");
 	var a = parent.document.querySelector("#chatting").style
 	a.display = "none"
 	$("#chatting").attr("style", "display:none");
 	webSocket.close();
+	top.document.location.reload()
 })
 
 // let message = document.getElementById("textMessage");
@@ -360,6 +363,19 @@ webSocket.onclose = function(message) {
 webSocket.onerror = function(message) { };
 // 서버로 부터 메시지가 오면
 webSocket.onmessage = function(message) {
+	
+d = new Date();
+var minutes = ("00"+ d.getMinutes()).slice(-2)
+var str = "";
+var hours = d.getHours();
+
+if (hours > 12){
+	str = "오후"
+	hours = hours - 12;
+}else{
+	str = "오전"
+}
+
 // 메시지의 구조는 JSON 형태로 만들었다.
 let node = JSON.parse(message.data);
 
@@ -376,6 +392,7 @@ webSocket.send("${memId}" +"#####"+"AI_INTERVIEW_ADMIN_CHAT_ENTER");
 	
 if(node.key=="${memId}"){
 	$div.find(".fa-circle-o").attr('class', 'fa fa-circle')
+	arlamCheck = 'Y';
 }
 
 
@@ -395,14 +412,14 @@ if(node.key=="${memId}"){
 // let log = $div.find(".console").val();
 // 아래에 메시지를 추가한다.
 if(node.key=="${memId}"){
-$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${memId }'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+" </div></div>");
-$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight); 
+$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${memId }'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
+$div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 }
 
 // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
 } else if(node.status === "bye") {
 $div.find(".fa-circle").attr('class', 'fa fa-circle-o')	
-	
+arlamCheck = 'N';	
 // 해당 키로 div를 찾아서 dom을 제거한다.
 $("[data-key='"+node.key+"']").remove();
 }
@@ -420,8 +437,20 @@ let key = nodeKey;
 
 
 // 아래에 메시지를 추가한다.
+d = new Date();
+var minutes = ("00"+ d.getMinutes()).slice(-2)
+var str = "";
+var hours = d.getHours();
+
+if (hours > 12){
+	str = "오후"
+	hours = hours - 12;
+}else{
+	str = "오전"
+}
+
 sendProcess()
-$div.find(".messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message+"</div><div class='from'>"+d.getHours()+":"+d.getMinutes()+"</div></div></div>");
+$div.find(".messageArea").append("<div class='chat-message-group writer-user'><div class='chat-messages'><div class='message'>"+message+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div></div>");
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);// 텍스트 박스의 값을 초기화 한다.
 
 $div.find(".adminMsg").val("");
@@ -439,8 +468,6 @@ return false;
 }
 return true;
 });
-
-
 	$("#backList").on('click', function(){
 		var a = parent.document.querySelector("#chatting").style
 		a.width = "350px";
@@ -453,12 +480,11 @@ return true;
 function sendProcess(){
 	var msg = $("#textMessage").val();
 	var memid = "${memId }"
-	var arlam = 'Y';
 	$.ajax({
 		url: "/chat/createAdmin.do",
 		type: 'POST',
 		dataType: 'json',
-		data: { msgContent : msg, msgReceiver : memid, msgArlam : arlam},
+		data: { msgContent : msg, msgReceiver : memid, msgArlam : arlamCheck},
     	success : function(data){
 		
     	}

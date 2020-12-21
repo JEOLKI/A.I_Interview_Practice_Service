@@ -36,10 +36,15 @@ public class ChatController {
 	public static  List<String> IdList = new ArrayList<>();
 	
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
-	public String test(Model model, HttpSession session) {
+	public String room(Model model, HttpSession session) {
 		List<ChatRoomVO> roomList = chatService.roomList();
 		model.addAttribute("roomList", roomList);
 		return "chat/chatRoom";
+	}
+	
+	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
+	public String test(Model model, HttpSession session) {
+		return "chat/test";
 	}
 	
 	@ResponseBody
@@ -56,15 +61,19 @@ public class ChatController {
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
 		usersSession =session;
+		ChatVO cv = new ChatVO();
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
-		
 		String receiver = "TEST_ID2";
 		
+		Admin.chatEnter(memId);
+		
+		cv.setMsgSender(receiver);
+		cv.setMsgReceiver(memId);
+		chatService.arlamUpdate(cv);
+		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
-		cv.setMsgSender(memId);
-		cv.setMsgReceiver(receiver);
 		
 		List<ChatVO> chatList =  chatService.List(cv);
 		
@@ -88,7 +97,6 @@ public class ChatController {
 		
 		sendAdminKey(memId, "AI_INTERVIEW_ADMIN_CHAT_ENTER");
 		
-		chatService.arlamUpdate(memId);
 		ChatVO cv = new ChatVO();
 		List<String> arrayList = new ArrayList<>();
 		
@@ -99,8 +107,11 @@ public class ChatController {
 		        arrayList.add(data);
 		}
 		
-		cv.setMsgSender(Sender);
-		cv.setMsgReceiver(memId);
+		cv.setMsgSender(memId);
+		cv.setMsgReceiver(Sender);
+		System.out.println("업데이트 확인 : "+  cv);
+		chatService.arlamUpdate(cv);
+		
 		List<ChatVO> chatList =  chatService.List(cv);
 		
 		model.addAttribute("chatList", chatList);

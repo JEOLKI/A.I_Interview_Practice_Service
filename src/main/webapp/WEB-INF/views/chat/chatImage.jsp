@@ -63,7 +63,7 @@
  margin-top: -11px;
  padding: 0 6px;
  font-weight: normal;
- font-size: small;
+ font-size: small; 
  color: white;
  text-align: center;
  text-shadow: 0 1px rgba(0, 0, 0, 0.2);
@@ -82,29 +82,73 @@
 
 
 <script>
+	webSocket = "";
 	$(document).ready(function() {
-		$("#image").on("click", function() {
-				var url = ""
-				var option = "width = 350, height = 500, top = 350, left = 150, location = no, toolbar=no, menubar=no, scrollbars=no, tatus=no "
-				if('${S_MEMBER.memId}' == 'TEST_ID2'){
-					$("#chatting").attr("src", "/chat/room.do");
-					$("#chatting").attr("style", "display:block");
-					$("#chatting").attr("style", "width : 350px");
+		
+		
+		var a = arlamCount()
+		$("#arlamCount").html(a)
+		if('${S_MEMBER.memId}' == 'TEST_ID2'){
+			var webSocket =  new WebSocket("ws://localhost/admin.do");
+			webSocket.onopen = function(message) { };
+			webSocket.onclose = function(message) { };
+			webSocket.onerror = function(message) { };
+			// 서버로 부터 메시지가 오면
+			webSocket.onmessage = function(message) {
+				let node = JSON.parse(message.data);
+				if(node.status === "message"){
+					a++
+					$("#arlamCount").html(a)	
 				}
-				else if("${S_MEMBER.memId}" == "" || "${S_MEMBER.memId}" == null){
-					alert("로그인 후에 이용해주세요")
+			}
+		}else{ 
+			var webSocket =  new WebSocket("ws://localhost/broadarlam.do");
+			webSocket.onopen = function(message) { };
+			webSocket.onclose = function(message) { };
+			webSocket.onerror = function(message) { };
+			webSocket.onmessage = function(message) {
+				console.log(message.data)
+				if(message.data=="bye"){
+				}else if(message.data=="AI_INTERVIEW_ADMIN_CHAT_ENTER"){
 				}
 				else{
-					$("#chatting").attr("src", "/chat/chat.do");
-					$("#chatting").attr("style", "display:block");
-					$("#chatting").attr("style", "width : 300px;");
+					a++
+					$("#arlamCount").html(a)	
 				}
-		})
-		var a = arlamCount()
-		console.log(a)
-		$("#arlamCount").val(a)
+			}
+		}
+		
+		
+		$("#image").on("click", function() {
+			var url = ""
+			var option = "width = 350, height = 500, top = 350, left = 150, location = no, toolbar=no, menubar=no, scrollbars=no, tatus=no "
+			if('${S_MEMBER.memId}' == 'TEST_ID2'){
+				$("#chatting").attr("src", "/chat/room.do");
+				$("#chatting").attr("style", "display:block");
+				$("#chatting").attr("style", "width : 350px");
+				webSocket.close();
+			}
+			else if("${S_MEMBER.memId}" == "" || "${S_MEMBER.memId}" == null){
+				alert("로그인 후에 이용해주세요")
+			}
+			else{
+				$("#chatting").attr("src", "/chat/chat.do");
+				$("#chatting").attr("style", "display:block");
+				$("#chatting").attr("style", "width : 300px;");
+				$("#arlamCount").html("0")
+				webSocket.close();
+			}
+	})
+		
+	
+		$("#arlamCount").css("display", "none")	
+		if("${S_MEMBER.memId}"!= null && "${S_MEMBER.memId}" != ""){
+			$("#arlamCount").css("display", "block")
+			
+		}
 	
 	})
+	
 function arlamCount(){
 	var count;
 	$.ajax({
@@ -117,17 +161,17 @@ function arlamCount(){
 	})
 	return count;
 }
+	
+
 </script>
 
 
 <img id="image" class=""
-	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="arlamCount">30</span> 
+	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="arlamCount" ></span> 
 	
 <!-- <div class="alarm iwEgly">100</div> -->
 	
 <iframe id="chatting"  src = ""  style="display:none; overflow: hidden"  >
 
 </iframe>
-
-
 
