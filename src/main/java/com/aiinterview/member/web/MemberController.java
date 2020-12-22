@@ -47,11 +47,6 @@ public class MemberController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 	
-	@RequestMapping(path = "/test.do", method = { RequestMethod.GET })
-	public String testView() {
-		return "member/test";
-	}
-
 	@RequestMapping(path = "/retrieveid.do", method = { RequestMethod.GET })
 	public String retrieveId(MemberVO memberVo, Model model){
 		MemberVO searchMemberVo = null;
@@ -109,7 +104,6 @@ public class MemberController {
 		try {
 			memberList = memberService.aliasCheck(memAlias);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("memberList",memberList);
@@ -226,7 +220,6 @@ public class MemberController {
 			// 확장자 추출
 			int index = profile.getOriginalFilename().lastIndexOf(".");
 			String extension = profile.getOriginalFilename().substring(index + 1); 
-			
 			// 프로필파일 vo 등록
 			memberVo.setMemProfileNm(profile.getOriginalFilename());
 			String uploadFileName = UUID.randomUUID().toString() + "." + extension;
