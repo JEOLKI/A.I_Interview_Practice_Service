@@ -382,7 +382,7 @@ function boardGubunList(){
 			<a class="service-intro false" href="/login/serviceIntro.do">서비스 소개</a>
 			<a class="help-info false" href="/login/help.do">도움말</a>
 			<c:choose>
-				<c:when test="${S_MEMBER.memAuth == 'Y'}">
+				<c:when test="${S_MEMBER.memAuth != 'N'}">
 					<a class="managepage false" href="/login/manage.do">관리자 페이지</a>
 				</c:when>
 			</c:choose>

@@ -52,19 +52,23 @@ to {
 	top: 0;
 }
 #zipcodeBtn {
-    height: 40px;
+    height: 28px;
     width : 100px;
     text-align: center;
     position: absolute;
     margin-left: 10px;
     background: #3b3b46;
     color : white;
+    font-size: 12px;
 }
 .addr{
 	width: 400px;
 }
 .adddrNm{
 	display: inline-block;
+}
+#memAddr1,#memAddr2,#memZipcode{
+	width:280px;
 }
 
 </style>

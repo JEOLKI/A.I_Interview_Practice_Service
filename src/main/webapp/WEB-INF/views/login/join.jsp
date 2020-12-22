@@ -22,6 +22,7 @@
 		margin-left: 10px;
 		background-color: #3b3b46;
 		color: white;
+		font-size: 12px;
 	}
 </style>
 
