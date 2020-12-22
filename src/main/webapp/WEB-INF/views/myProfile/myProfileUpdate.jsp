@@ -248,7 +248,7 @@ $.ajax({
 									</c:otherwise>
 								</c:choose>
 									<input type="file" id="file" name="profile">
-<%-- 									<input type="hidden" id="memId" name="memId" value="${S_MEMBER.memId }"> --%>
+									<input type="hidden" name="memId" value="${S_MEMBER.memId }">
 									<input type="hidden" id="memProfileNm" name="memProfileNm" value="${S_MEMBER.memProfileNm }">
 									<input type="hidden" id="memProfilePath" name="memProfilePath" value="${S_MEMBER.memProfilePath }">
 							</div>
@@ -273,7 +273,7 @@ $.ajax({
 								비밀번호<span>(필수)</span>
 							</div>
 							<div class="content name-area" style="flex-direction: column">
-								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwOne"   style="height: 44px;"><br>
+								<input type="password" name="memPw" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwOne"   style="height: 44px;"><br>
 								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwTwo" style="height: 44px;">
 								<span id="checkPw" class="check"></span>
 							</div>
@@ -460,6 +460,5 @@ $.ajax({
 			</div>
 		</div>
 	</form>
-	<style data-styled="active" data-styled-version="5.1.1"></style>
 </body>
 </html>

@@ -450,8 +450,8 @@ function boardGubunList(){
 				<br />
 			<form action="/login/process.do" method="post">
 				<div class="input-left">
-					<span class="inputname">아이디</span> <input class="input" type="text" name="memId" value="TEST_ID"><br>
-					<span class="inputname">비밀번호</span> <input class="input" type="password" name="memPw" value="TEST_PW"><br>
+					<span class="inputname">아이디</span> <input class="input" type="text" name="loginMemId" value="TEST_ID"><br>
+					<span class="inputname">비밀번호</span> <input class="input" type="password" name="loginMemPw" value="TEST_PW"><br>
 				</div>
 				<div class="input-right">
 					<button id="loginbtn" type="submit">로그인</button>

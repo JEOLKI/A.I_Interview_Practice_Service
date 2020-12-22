@@ -88,14 +88,14 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
-	public String login(String memId, String memPw, HttpSession session, Model model) throws Exception {
-		MemberVO memberVo = memberService.retrieve(memId);
+	public String login(String loginMemId, String loginMemPw, HttpSession session, Model model) throws Exception {
+		MemberVO memberVo = memberService.retrieve(loginMemId);
 		
 		InterviewVO interviewVO = new InterviewVO();
 		/** EgovPropertyService.sample */
 		interviewVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		interviewVO.setPageSize(propertiesService.getInt("pageSize"));
-		interviewVO.setMemId(memId);
+		interviewVO.setMemId(loginMemId);
 		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -107,10 +107,10 @@ public class LoginController {
 		interviewVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		interviewVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		if (memberVo == null || !memberVo.getMemPw().equals(memPw)) {
-			model.addAttribute("memId", memId);
+		if (memberVo == null || !memberVo.getMemPw().equals(loginMemPw)) {
+			model.addAttribute("memId", loginMemId);
 			return "redirect:/login/main.do";
-		} else if (memberVo.getMemPw().equals(memPw)&&"Y".equals(memberVo.getMemSt())) {
+		} else if (memberVo.getMemPw().equals(loginMemPw)&&"Y".equals(memberVo.getMemSt())) {
 			session.setAttribute("S_MEMBER", memberVo);
 			usersSession = session;
 			if(interviewService.retrievePagingList(interviewVO).size()==0){
