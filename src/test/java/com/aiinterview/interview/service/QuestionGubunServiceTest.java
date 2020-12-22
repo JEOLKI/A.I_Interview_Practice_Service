@@ -49,7 +49,7 @@ public class QuestionGubunServiceTest extends ModelTestConfig{
 	@Test
 	public void createMassiveQuestGbTest() throws Exception{
 		/***Given***/
-		File destFile = new File("C:\\Users\\PC-13\\Desktop\\guestionGubun.xlsx");
+		File destFile = new File("src/test/resources/file/guestionGubunTest.xlsx");
 
 		/***When***/
 		questionGubunService.createMassiveQuestGb(destFile);

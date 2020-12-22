@@ -99,7 +99,7 @@ public class TalentServiceTest extends ModelTestConfig {
 	@Test
 	public void createMassiveTalentTest() throws Exception{
 		/***Given***/
-		File destFile = new File("C:\\Users\\PC-13\\Desktop\\talent.xlsx");
+		File destFile = new File("src/test/resources/file/talentTest.xlsx");
 
 		/***When***/
 		talentService.createMassiveTalent(destFile);
