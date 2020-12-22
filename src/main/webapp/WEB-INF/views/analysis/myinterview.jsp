@@ -142,6 +142,12 @@
 	    margin-top: 5px;
 	}
 	
+	.test-start-btn{
+	 	background-color:rgba(4, 124, 245);
+		font-size: 16px;
+		border-radius: 50px;
+		padding: 10px 20px;
+	}
 </style>
 
 <script>
@@ -156,6 +162,18 @@
 			method : "get",
 			data : {memId : "${S_MEMBER.memId}"},
 			success : function(data){
+				if(data.scriptTestList.length==0){
+					$('#testResultZone').empty();
+					$('#testBtnGrp').hide();
+					$('#pronunciation .title').empty();
+					
+					$('#pronunciation .title').append('<h3 style="margin-top:5px; float:center;" >발음 평가 🔉<h3>');
+					
+					var html ="";
+					html += '<h3>지금 바로 테스트에 도전하고,<br>나만의 발음 그래프를 확인하세요!<h3>';
+					html += '<a class="test-start-btn" onclick="testStartPopUp();">TEST START!</a>';
+					$('#testResultZone').append(html);
+				}
 				scriptTestChart(data.scriptTestList);
 			}
 		})
@@ -222,16 +240,19 @@
 		})
 		
 		$("#popUpOpenBtn").on('click' , function () {
-		  	  //var popupX = (document.body.offsetWidth / 2) - (480 / 2);
-		  	  //var popupY= (window.screen.height / 2) - (620 / 2);
-		  	  
-		  	  var url = '/scriptTest/testPopup.do';
-		  	  
-		  	  var options = 'width=300, height=500, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
-		      window.open(url, "", options);
+			testStartPopUp();
 		});
-		
 	})
+
+	function testStartPopUp(){
+		 //var popupX = (document.body.offsetWidth / 2) - (480 / 2);
+	  	  //var popupY= (window.screen.height / 2) - (620 / 2);
+	  	  
+	  	  var url = '/scriptTest/testPopup.do';
+	  	  
+	  	  var options = 'width=300, height=500, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
+	      window.open(url, "", options);
+	};
 	
 	function scriptTestChart(scriptTestList){
 		
@@ -691,11 +712,12 @@
 							<br>
 							<br>
 						
-							<label class="chartLabel">한국어</label>
-							<canvas id="koreanTestChart" class="graph-canvas" width="200" height="35"></canvas>	
-							<label class="chartLabel">영어</label>
-							<canvas id="englishTestChart" class="graph-canvas" width="200" height="35"></canvas>	
-							
+							<div id="testResultZone">
+								<label class="chartLabel">한국어</label>
+								<canvas id="koreanTestChart" class="graph-canvas" width="200" height="35"></canvas>	
+								<label class="chartLabel">영어</label>
+								<canvas id="englishTestChart" class="graph-canvas" width="200" height="35"></canvas>	
+							</div>
 						</div>
 						
 						
