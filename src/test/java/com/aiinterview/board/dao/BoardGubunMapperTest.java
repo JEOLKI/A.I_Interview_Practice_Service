@@ -2,6 +2,7 @@ package com.aiinterview.board.dao;
 
 import static org.junit.Assert.assertEquals;
 
+
 import java.util.List;
 
 import javax.annotation.Resource;

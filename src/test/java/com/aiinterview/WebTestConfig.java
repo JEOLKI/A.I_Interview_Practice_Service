@@ -38,8 +38,8 @@ public class WebTestConfig {
 
 	@Before
 	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 		
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
 		populator.addScripts(new ClassPathResource("/db/initData.sql")); // 사용할 스크립트 경로
 		populator.setContinueOnError(false); // 스크립트 실행중 에러 발생시 멈춤

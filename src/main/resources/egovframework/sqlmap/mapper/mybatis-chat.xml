@@ -27,8 +27,8 @@
 	</select>
 	
 	<insert id="create" parameterType="com.aiinterview.chat.vo.ChatVO" >
-		INSERT INTO MESSAGE VALUES(message_sq.nextval,#{msgContent},SYSDATE, 
-		#{msgSender}, #{msgReceiver}, #{msgAlarm})
+		INSERT INTO MESSAGE(MSG_SQ, MSG_CONTENT, MSG_DATE, MSG_SENDER, MSG_RECEIVER, MSG_ALARM)
+		 VALUES(message_sq.nextval,#{msgContent},SYSDATE, #{msgSender}, #{msgReceiver}, #{msgAlarm})
 	</insert>
 	
 	<update id="alarmUpdate" parameterType="com.aiinterview.chat.vo.ChatVO">
