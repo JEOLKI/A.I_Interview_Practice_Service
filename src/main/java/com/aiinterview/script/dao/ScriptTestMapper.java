@@ -1,7 +1,5 @@
 package com.aiinterview.script.dao;
 
-import java.util.List;
-
 import com.aiinterview.script.vo.ScriptTestVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -14,13 +12,5 @@ public interface ScriptTestMapper {
 	 * @return 
 	 * @throws Exception
 	 */
-	public void create(ScriptTestVO ScriptTestVO) throws Exception;
-	
-	/**
-	 * 스크립트 테스트 결과를 출력하기 위한 메서드
-	 * @param stVo
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ScriptTestVO> retrieve (ScriptTestVO stVo)throws Exception;
+	public void create(ScriptTestVO scriptTestVO) throws Exception;
 }
