@@ -192,16 +192,23 @@
 								<c:when test="${member.memId != S_MEMBER.memId }">
 									<input type="text" class="memId" name="memId" value="${member.memId}" readonly="readonly">
 									<select class="memAuth" name="memAuth">
-											<c:choose>
-												<c:when test="${member.memAuth == 'Y' }">
-													<option value="Y" selected="selected">관리자</option>
-													<option value="N">일반회원</option>
-												</c:when>
-												<c:otherwise>
-													<option value="N" selected="selected">일반회원</option>
-													<option value="Y">관리자</option>
-												</c:otherwise>
-											</c:choose>
+										<c:choose>
+											<c:when test="${member.memAuth == 'Y' }">
+												<option value="Y" selected="selected">관리자</option>
+												<option value="C">상담사</option>
+												<option value="N">일반회원</option>
+											</c:when>
+											<c:when test="${member.memAuth == 'C' }">
+												<option value="C" selected="selected">상담사</option>
+												<option value="N">일반회원</option>
+												<option value="Y">관리자</option>
+											</c:when>
+											<c:otherwise>
+												<option value="N" selected="selected">일반회원</option>
+												<option value="Y">관리자</option>
+												<option value="C">상담사</option>
+											</c:otherwise>
+										</c:choose>
 									</select>
 									<button type="submit" class="updateBtn">권한 수정</button>
 								</c:when>
