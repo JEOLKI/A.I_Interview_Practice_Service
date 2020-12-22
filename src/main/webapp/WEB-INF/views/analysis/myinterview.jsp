@@ -233,7 +233,6 @@
 		
 	})
 	
-	
 	function scriptTestChart(scriptTestList){
 		
 		koreanlabels = [0];
@@ -250,8 +249,6 @@
 				englishScore.push(scriptTestList[i].scriptTestScore);
 				englishlabels.push(i);
 			}
-			
-			
 		}
 		
 		var myChart = new Chart(document.getElementById('englishTestChart'), {
