@@ -26,6 +26,7 @@ blink {
   50% { visibility: hidden; }
   100% { visibility: visible; }
 }
+
 </style>
 <script type="text/javascript" language="javascript">
     scriptGbContent='';
@@ -38,6 +39,8 @@ $(document).ready(function() {
 	
 	// 언어선택
 	$('.scriptGbBtn').on('click', function() {
+		$('#title').css('display','none');
+		
 		$('#scriptModalContent').html('문장 출력란');
 		$('#phraseDiv').html('');
 		
@@ -232,14 +235,20 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 		box-shadow: 5px 5px #EAEAEA;
 		display: inline-block;
 	}
-	
+	#title{
+		font-weight: bold; 
+		font-size: 23px; 
+		margin-bottom: 40px; 
+		display: block; 
+		text-align: center;
+	}
 </style>
 </head>
 
 <body>
 
 	<div class="contentBox">
-	
+		<span id="title">발음 테스트</span>	
 		<div class="pro" style="font-size:13px;">
 			<ul class="nav nav-tabs">
 				<c:forEach items="${scriptGbList }" var="scriptGb">
@@ -253,9 +262,8 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 		
 		<div id="help">
 			<div class="popup-content">
-				<span style="font-weight: bold; font-size: 23px; margin-bottom: 40px; display: block;">발음 테스트</span>
 				<div>
-					<img src="/images/speechtest.png" style="width: 50%;">
+					<img src="/images/speak.svg" style="width: 50%;">
 				</div>
 				<div style="text-align: center; margin-top: 40px; font-size: 17px;">
 					테스트할 언어를 선택 후 시작하기 버튼을<br>
