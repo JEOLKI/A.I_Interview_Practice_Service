@@ -194,12 +194,12 @@
 									<select class="memAuth" name="memAuth">
 											<c:choose>
 												<c:when test="${member.memAuth == 'Y' }">
-													<option value="N" selected="selected">일반회원</option>
-													<option value="Y">관리자</option>
-												</c:when>
-												<c:otherwise>
 													<option value="Y" selected="selected">관리자</option>
 													<option value="N">일반회원</option>
+												</c:when>
+												<c:otherwise>
+													<option value="N" selected="selected">일반회원</option>
+													<option value="Y">관리자</option>
 												</c:otherwise>
 											</c:choose>
 									</select>
