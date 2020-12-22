@@ -35,24 +35,7 @@ today = getFormatDate(today);
       background-color : #f5f7fb;
       padding: 30px;
    }
- 	
- 	#searchBtn{ 
- 		display: inline-block; AA
- 	    vertical-align: middle; 
- 	    border: 1px solid #000d22; 
- 	    border-radius: 5px; 
- 	    height: 23px; 
- 	    padding: 0px 10px; 
- 	    text-align: center; 
- 	    position: relative; 
- 	    top: -2px; 
- 	} 
-	
- 	#searchBtn:hover{ 
- 	    background-color: #000d22; 
- 	    color: #fff; 
- 	} 
-	
+
  	.conditionmenu{ 
  		display: inline-block;  
  		float: left; 
@@ -104,11 +87,11 @@ today = getFormatDate(today);
  	}
  	
  	.chart { 
-/*  		display: inline-block;  */
+  		display: inline-block;
  		float : right; 
  		width: 45%; 
  		padding :10px; 
-/*  		margin-left: 50px;  */
+  		margin-left: 50px;
  		height: 400px; 
  		margin: 0px;
  	} 
@@ -127,13 +110,14 @@ today = getFormatDate(today);
 var startDate;
 var endDate;
 var scriptGbSq;
-var scriptRankingList=[];
-var scriptScoreList=[];
+
 
 $(document).ready(function(){
-	startDate = $('#start').val() == ''? '2020-12-02' : $('#start').val();
+	startDate = $('#start').val() == ''? '20201002' : $('#start').val();
 	endDate = $('#end').val() == ''? today : $('#end').val();
 	
+	var scriptRankingList=[];
+	var scriptScoreList=[];
 	//시작 시 score chart
 	$.ajax({url : "/scriptGubun/retrieveScoreList.do",
 			data : {"startDate" : startDate,
@@ -195,6 +179,7 @@ $(document).ready(function(){
 			am4core.useTheme(am4themes_animated);
 				 
 			var chart = am4core.create("scoreChart", am4charts.XYChart);
+			chart.logo.disabled = true;
 			chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 			
 			var chartData = [];
@@ -300,6 +285,7 @@ $(document).ready(function(){
 		$('#rankingList').empty();
 		$('#rankingList').append(html);
 	}; //fn_drawRankingChart 종료
+	
 }); //ready function 종료
 </script>
 </head>
@@ -320,7 +306,7 @@ $(document).ready(function(){
 			<div id="Menu" class="tab-pane fade in active">
 		    <div class="conditionmenu">
 		    	기간 : <input id="start" type="date" value=""> ~ <input id="end" type="date" value="">
-		    		<img id="selectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
+		    		<img id="selectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top: 4px; left:5px;">
 		    </div>
 			</div>
 		</div>

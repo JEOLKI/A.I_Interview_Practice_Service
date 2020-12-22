@@ -1,7 +1,6 @@
 package com.aiinterview.script.web;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -245,11 +242,23 @@ public class ScriptGubunController {
 		return "script/scriptGbStatistics";
 	}
 	
+	
 	/* 통계 : 스구별 스테에 사용된 스 사용 빈도*/
 	@RequestMapping("/retrieveRankingList.do")
 	public String retrieveRankingList(String scriptGbSq, String startDate, String endDate, Model model) {
-		scriptGbSq = scriptGbSq == null ? "4" : scriptGbSq;
-		
+		if(scriptGbSq==null) {
+			List<ScriptGubunVO> scriptGbList = null;
+			try {
+				scriptGbList = scriptGubunService.retrieveList();
+			} catch (Exception e) { }
+			
+			for(ScriptGubunVO scriptGb : scriptGbList) {
+				if(scriptGb.getScriptGbContent().equals("한국어")) {
+					scriptGbSq = scriptGb.getScriptGbSq();
+				}
+			}
+		}
+
 		Map<String, String> statisticMap = new HashMap<>();
 		statisticMap.put("startDate", startDate);
 		statisticMap.put("endDate", endDate);
@@ -266,8 +275,18 @@ public class ScriptGubunController {
 	/* 통계 : 스구별 점수 표준편차 */
 	@RequestMapping("/retrieveScoreList.do")
 	public String retrieveScoreList(String scriptGbSq, Model model) {
-		
-		scriptGbSq = scriptGbSq == null ? "4" : scriptGbSq;
+		if(scriptGbSq==null) {
+			List<ScriptGubunVO> scriptGbList = null;
+			try {
+				scriptGbList = scriptGubunService.retrieveList();
+			} catch (Exception e) { }
+			
+			for(ScriptGubunVO scriptGb : scriptGbList) {
+				if(scriptGb.getScriptGbContent().equals("한국어")) {
+					scriptGbSq = scriptGb.getScriptGbSq();
+				}
+			}
+		}
 		
 		List<ScriptTestVO> scriptScoreList = null;
 		try {
@@ -275,7 +294,5 @@ public class ScriptGubunController {
 		} catch (Exception e) { }
 		model.addAttribute("scriptScoreList", scriptScoreList);
 		return "jsonView";
-		
 	}
-	
 }
