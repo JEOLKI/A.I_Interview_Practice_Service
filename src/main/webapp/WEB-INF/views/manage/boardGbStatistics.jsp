@@ -76,7 +76,7 @@
 		
 		categoryAxis.sortBySeries = series;
 		chart.data = datas;
-		
+		chart.logo.disabled = true;
 		}); // end am4core.ready()
 		
 	}
