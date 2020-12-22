@@ -54,9 +54,11 @@ public class AnswerService {
 		String ansSq = answerVO.getAnsSq();
 		
 		List<ImageAnalysisVO> imageAnalysisList = analysisVO.getImageAnalysisList();
-		for (ImageAnalysisVO imageAnalysisVO : imageAnalysisList) {
-			imageAnalysisVO.setAnsSq(ansSq);
-			imageAnalysisMapper.create(imageAnalysisVO);
+		if(imageAnalysisList != null) {
+			for (ImageAnalysisVO imageAnalysisVO : imageAnalysisList) {
+				imageAnalysisVO.setAnsSq(ansSq);
+				imageAnalysisMapper.create(imageAnalysisVO);
+			}
 		}
 		
 		
@@ -69,9 +71,11 @@ public class AnswerService {
 		
 		/* 반복어 insert */
 		List<RepeatAnalysisVO> repeatAnalysisList = analysisVO.getRepeatAnalysisList();
-		for (RepeatAnalysisVO repeatAnalysisVO : repeatAnalysisList) {
-			repeatAnalysisVO.setAnsSq(ansSq);
-			repeatAnalysisMapper.create(repeatAnalysisVO);
+		if(repeatAnalysisList!=null) {
+			for (RepeatAnalysisVO repeatAnalysisVO : repeatAnalysisList) {
+				repeatAnalysisVO.setAnsSq(ansSq);
+				repeatAnalysisMapper.create(repeatAnalysisVO);
+			}
 		}
 		
 		/* 키워드 분석 (인재상 ) insert */

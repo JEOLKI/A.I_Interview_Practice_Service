@@ -108,7 +108,7 @@ public class AnswerController {
 		
 		/* 반복어 분석 */
 		
-		if(answerVO.getAnsContent() != null && answerVO.getAnsContent() != "") {
+		if(answerVO.getAnsContent() != null && !"".equals(answerVO.getAnsContent())) {
 			// 언어 분석 기술 문어/구어 중 한가지만 선택해 사용
 	        // 언어 분석 기술(문어)
 //	        String openApiURL = "http://aiopen.etri.re.kr:8000/WiseNLU";  

@@ -263,22 +263,6 @@
 			function(data) {
 				if(data[0]=== undefined){ // 분석할 사진에 문제가 있을경우
 					console.log('영상을 분석할 수 없습니다.')
-					var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="0" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="0" >'
-					
-					$("#analysisData").append(html);
-					
-					index += 1;
 				}else{
 					emotion = data[0].faceAttributes.emotion;
 					face = data[0].faceRectangle
@@ -324,7 +308,11 @@
 		
 		ansContent = answer; // 해당 질문내용
 		ansTime = SetTime; // 경과시간 입력
-		ansSpeed = (ansContent.length)/ansTime*60; // 말빠르기
+		if(ansContent == ""){
+			ansSpeed = 0;
+		}else{
+			ansSpeed = (ansContent.length)/ansTime*60; // 말빠르기
+		}
 		
 		fd.append('name', 'answerVideo'); // name지정
 		fd.append("mtfRequest", blob); // 영상 데이터
