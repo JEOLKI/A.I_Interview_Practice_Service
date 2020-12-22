@@ -45,7 +45,7 @@ public class HabitControllerTest extends WebTestConfig{
 
 	@Test
 	public void updateProcessTest() throws Exception {
-		mockMvc.perform(post("/habit/createProcess.do")
+		mockMvc.perform(post("/habit/updateProcess.do")
 				.param("habitSqs[0]", "1")
 				.param("habitGbs[0]", "TEST")
 				.param("habitSts[0]", "N"))
