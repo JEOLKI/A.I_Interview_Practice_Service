@@ -42,7 +42,9 @@
 						
 						/* 빠르기 */
 						speed = data.answerVO.ansSpeed;
-						createSpeedHtml(speed,scriptLength);
+						if(speed != null){
+							createSpeedHtml(speed,scriptLength);
+						}
 						
 						/* 인재상 - 인재상 & 퍼센트 */
 						talentList = data.talentAnalysisList;
@@ -207,7 +209,9 @@
 		
 		// 속도 그래프
 		var ctx = document.getElementById('speedChart');
-		createSpeedChart(ctx, speed);
+		if(speed !=0&& speed !=null){
+			createSpeedChart(ctx, speed);
+		}
 		
 	}
 	
@@ -343,7 +347,7 @@
 	/* 스크립트 리포트*/
 	function createScriptHtml(script,scriptLength){
 		if(script==null || script==''){
-			$('.MyAnswer .stt').html('<span class="false false"></span>')						
+			$('.MyAnswer .stt').html('<div style="text-align:center; padding:50px; font-weight:bold; font-size : 20px">정상적인 답변이 감지되지 않았습니다</div>')						
 		} else {
 			$('.MyAnswer .stt').text(script);
 		}
@@ -467,6 +471,7 @@
 
 			  // Create chart instance
 			  var container = am4core.create("videoChart", am4core.Container);
+				container.logo.disabled = true;
 			  container.layout = "grid";
 			  container.fixedWidthGrid = false;
 			  container.width = am4core.percent(100);
