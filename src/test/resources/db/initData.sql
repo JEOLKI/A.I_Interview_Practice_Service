@@ -32,9 +32,9 @@ TRUNCATE TABLE MEMBER;
 -- MEMBER
 INSERT INTO MEMBER VALUES('TEST_ID','TEST_PW','Y','Y','TEST_ALIAS','TEST_NAME','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'신입','대학교 졸업','F','KAKAO','개발','2020년 상반기','공학','brown.png','D:\profile\brown.png');
 INSERT INTO MEMBER VALUES('TEST_ID2','TEST_PW','C','Y','TEST_ALIAS2','TEST_NAME','010-1234-5678','TEST_ADDR1','TEST_ADDR2',12345,'신입','대학교 졸업','F','KAKAO','개발','2020년 상반기','공학','brown.png','D:\profile\brown.png');
-INSERT INTO MEMBER VALUES('MEMBER1','1234','','Y','MEMBER1','MEMBER1','010-1234-5678','경기 성남시 분당구 판교역로 235','2층',13494,'경력','석 / 박사 이상','F','LG','인사','2019 하반기','인문','','');
-INSERT INTO MEMBER VALUES('MEMBER2','1234','','Y','MEMBER2','MEMBER2','010-5678-1234','제주특별자치도 제주시 첨단로 242','DAUM',63309,'경력','대학교 재학','F','네이버','기획','2016년 상반기','공학','','');
-INSERT INTO MEMBER VALUES('MEMBER3','1234','','Y','MEMBER3','MEMBER3','010-7412-8523','경기 성남시 분당구 내정로 54','101동 505호',13607,'신입','기타','F','토스','개발','2020년 상반기','공학','','');
+INSERT INTO MEMBER VALUES('MEMBER1','1234','N','Y','MEMBER1','MEMBER1','010-1234-5678','경기 성남시 분당구 판교역로 235','2층',13494,'경력','석 / 박사 이상','F','LG','인사','2019 하반기','인문','','');
+INSERT INTO MEMBER VALUES('MEMBER2','1234','N','Y','MEMBER2','MEMBER2','010-5678-1234','제주특별자치도 제주시 첨단로 242','DAUM',63309,'경력','대학교 재학','F','네이버','기획','2016년 상반기','공학','','');
+INSERT INTO MEMBER VALUES('MEMBER3','1234','N','Y','MEMBER3','MEMBER3','010-7412-8523','경기 성남시 분당구 내정로 54','101동 505호',13607,'신입','기타','F','토스','개발','2020년 상반기','공학','','');
 
 --BOARD_GB
 INSERT INTO BOARD_GB VALUES(1,'공지사항','Y');
