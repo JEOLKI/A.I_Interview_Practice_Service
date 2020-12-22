@@ -2,6 +2,7 @@ package com.aiinterview.interview.service;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import org.junit.Test;
 
 import com.aiinterview.ModelTestConfig;
 import com.aiinterview.interview.vo.HabitVO;
+import com.aiinterview.interview.vo.QuestionGubunVO;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -44,7 +46,7 @@ public class HabitServiceTest extends ModelTestConfig {
 	}
 	
 	@Test
-	public void retrieve() throws Exception{
+	public void retrieveTest() throws Exception{
 		/***Given***/
 		String habitSq = "1";
 
@@ -58,7 +60,7 @@ public class HabitServiceTest extends ModelTestConfig {
 	
 	
 	@Test
-	public void update() throws Exception{
+	public void updateTest() throws Exception{
 		/***Given***/
 		HabitVO habitVO = new HabitVO();
 		habitVO.setHabitSq("1");
@@ -74,7 +76,20 @@ public class HabitServiceTest extends ModelTestConfig {
 	}
 	
 	@Test
-	public void retrieveUsingList() throws Exception{
+	public void createMassiveHabitTest() throws Exception{
+		/***Given***/
+		File destFile = new File("src/test/resources/file/habitTest.xlsx");
+
+		/***When***/
+		habitService.createMassiveHabit(destFile);
+		 List<HabitVO> retrieveList = habitService.retrieveList();
+
+		/***Then***/
+		assertEquals(10, retrieveList.size());
+	}
+	
+	@Test
+	public void retrieveUsingListTest() throws Exception{
 		/***Given***/
 
 		/***When***/
@@ -86,7 +101,19 @@ public class HabitServiceTest extends ModelTestConfig {
 	}
 	
 	@Test
-	public void retrievePagingList() throws Exception{
+	public void retrievePagingListCntTest() throws Exception{
+		/***Given***/
+		HabitVO habitVO = new HabitVO();
+		
+		/***When***/
+		int totCnt = habitService.retrievePagingListCnt(habitVO);
+
+		/***Then***/
+		assertEquals(5, totCnt);
+	}
+	
+	@Test
+	public void retrievePagingListTest() throws Exception{
 		/***Given***/
 		HabitVO habitVO = new HabitVO();
 		habitVO.setPageUnit(3);
@@ -106,7 +133,7 @@ public class HabitServiceTest extends ModelTestConfig {
 	}
 	
 	@Test
-	public void retrieveOne() throws Exception{
+	public void retrieveOneTest() throws Exception{
 		/***Given***/
 		String habitSq = "1";
 

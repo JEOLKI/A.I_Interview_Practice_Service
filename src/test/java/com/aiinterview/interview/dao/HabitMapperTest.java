@@ -45,7 +45,7 @@ public class HabitMapperTest extends ModelTestConfig{
 	}
 	
 	@Test
-	public void retrieve() throws Exception{
+	public void retrieveTest() throws Exception{
 		/***Given***/
 		String habitSq = "1";
 
@@ -59,7 +59,7 @@ public class HabitMapperTest extends ModelTestConfig{
 	
 	
 	@Test
-	public void update() throws Exception{
+	public void updateTest() throws Exception{
 		/***Given***/
 		HabitVO habitVO = new HabitVO();
 		habitVO.setHabitSq("1");
@@ -75,7 +75,7 @@ public class HabitMapperTest extends ModelTestConfig{
 	}
 	
 	@Test
-	public void retrieveUsingList() throws Exception{
+	public void retrieveUsingListTest() throws Exception{
 		/***Given***/
 
 		/***When***/
@@ -87,7 +87,7 @@ public class HabitMapperTest extends ModelTestConfig{
 	}
 	
 	@Test
-	public void retrievePagingList() throws Exception{
+	public void retrievePagingListTest() throws Exception{
 		/***Given***/
 		HabitVO habitVO = new HabitVO();
 		habitVO.setPageUnit(3);
@@ -107,7 +107,19 @@ public class HabitMapperTest extends ModelTestConfig{
 	}
 	
 	@Test
-	public void retrieveOne() throws Exception{
+	public void retrievePagingListCntTest() throws Exception{
+		/***Given***/
+		HabitVO habitVO = new HabitVO();
+		
+		/***When***/
+		int totCnt = habitMapper.retrievePagingListCnt(habitVO);
+
+		/***Then***/
+		assertEquals(5, totCnt);
+	}
+	
+	@Test
+	public void retrieveOneTest() throws Exception{
 		/***Given***/
 		String habitSq = "1";
 
