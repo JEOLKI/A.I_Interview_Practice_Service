@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+
 <script>
 	var talentNm = '';
 	var habitMap = '';
@@ -359,18 +360,8 @@
 		            label: 'score',
 		            data: analysis,
 		            backgroundColor: [
-		                'rgba(54, 162, 235, 0.2)',
-		                'rgba(255, 99, 132, 0.2)',
-		                'rgba(255, 206, 86, 0.2)',
-		                'rgba(75, 192, 192, 0.2)',
-		                'rgba(153, 102, 255, 0.2)'
-		            ],
-		            borderColor: [
-		                'rgba(54, 162, 235, 1)',
-		                'rgba(255, 99, 132, 1)',
-		                'rgba(255, 206, 86, 1)',
-		                'rgba(75, 192, 192, 1)',
-		                'rgba(153, 102, 255, 1)'
+		                'rgba(213, 213, 213, 0.3)',
+		                'rgba(36, 166, 189, 0.5)',
 		            ],
 		            borderWidth: 1	
 		        }]
@@ -425,38 +416,131 @@
 		  var canvas = document.getElementById('faceChart');
 		  if (canvas.getContext) {
 		    var ctx = canvas.getContext('2d');
-		    var faceTop = imageAnalysis.faceTop*1 + 180;
+		    var faceTop = imageAnalysis.faceTop*1 + 200;
 		    var faceLeft = imageAnalysis.faceLeft*1;
 		    var faceWidth = imageAnalysis.faceWidth*1;
 		    var faceHeight = imageAnalysis.faceHeight*1;
-            ctx.strokeStyle = 'rgba(255, 102, 102, 1)';
             ctx.fillStyle = 'rgba(255, 102, 102, 0.2)';
             
-		    ctx.strokeRect(faceTop , faceLeft, faceWidth, faceHeight );
             ctx.fillRect(faceTop , faceLeft, faceWidth, faceHeight );
 		  }
 	}
 	
+
 	/* 비디오 분석 */
 	function videoAnalysisChart(imageAnalysisList){
 		var ctx = document.getElementById('videoChart');
 		
-		labels = [];
 		positive = [];
 		neutral = [];
 		negative = [];
 		panic = [];
 		for(var i = 0; i < imageAnalysisList.length ; i++){
-			labels.push(i);
-			positive.push(imageAnalysisList[i].happiness*100);
-			neutral.push(imageAnalysisList[i].neutral*100);
+			
 			negativeScore= imageAnalysisList[i].anger*1 + imageAnalysisList[i].contempt*1 + imageAnalysisList[i].disgust*1  + imageAnalysisList[i].sadness*1 
-			negative.push(negativeScore*100);
 			panicScore = imageAnalysisList[i].fear*1 + imageAnalysisList[i].surprise*1;
-			panic.push(panicScore*100);
+			
+			if( i == imageAnalysisList.length-1){
+				positiveData = { "date": i, "value": imageAnalysisList[i].happiness*100, "opacity": 1 };
+				neutralData = { "date": i, "value": imageAnalysisList[i].neutral*100, "opacity": 1 };
+				neutralData = { "date": i, "value": negativeScore*100 , "opacity": 1 };
+				panicData = { "date": i, "value": panicScore*100 , "opacity": 1 };
+			} else{
+				positiveData = { "date": i, "value": imageAnalysisList[i].happiness*100 };
+				neutralData = { "date": i, "value": imageAnalysisList[i].neutral*100 };
+				neutralData = { "date": i, "value": negativeScore*100 };
+				panicData = { "date": i, "value": panicScore*100 };
+			}
+			
+			positive.push(positiveData);
+			neutral.push(neutralData);
+			negative.push(neutralData);
+			panic.push(panicData);
+			
 		}
 		
-		new Chart(ctx, {
+		am4core.ready(function() {
+
+			// Themes begin
+			am4core.useTheme(am4themes_animated);
+			// Themes end
+
+			  // Create chart instance
+			  var container = am4core.create("videoChart", am4core.Container);
+			  container.layout = "grid";
+			  container.fixedWidthGrid = false;
+			  container.width = am4core.percent(100);
+			  container.height = am4core.percent(100);
+
+			  // Color set
+			  var colors = new am4core.ColorSet();
+
+			  // Functions that create various sparklines
+			  function createLine(title, data, color) {
+
+			    var chart = container.createChild(am4charts.XYChart);
+			    chart.width = am4core.percent(100);
+			    chart.height = 70;
+			    
+			    chart.data = data;
+
+			    chart.titles.template.fontSize = 10;
+			    chart.titles.template.textAlign = "left";
+			    chart.titles.template.isMeasured = false;
+			    chart.titles.create().text = title;
+
+			    chart.padding(20, 5, 2, 5);
+
+			    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+			    dateAxis.renderer.grid.template.disabled = true;
+			    dateAxis.renderer.labels.template.disabled = true;
+			    dateAxis.startLocation = 0.5;
+			    dateAxis.endLocation = 0.7;
+			    dateAxis.cursorTooltipEnabled = false;
+
+			    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+			    valueAxis.min = 0;
+			    valueAxis.renderer.grid.template.disabled = true;
+			    valueAxis.renderer.baseGrid.disabled = true;
+			    valueAxis.renderer.labels.template.disabled = true;
+			    valueAxis.cursorTooltipEnabled = false;
+
+			    chart.cursor = new am4charts.XYCursor();
+			    chart.cursor.lineY.disabled = true;
+			    chart.cursor.behavior = "none";
+
+			    var series = chart.series.push(new am4charts.LineSeries());
+			    series.tooltipText = "{date}: [bold]{value}";
+			    series.dataFields.dateX = "date";
+			    series.dataFields.valueY = "value";
+			    series.tensionX = 0.8;
+			    series.strokeWidth = 2;
+			    series.stroke = color;
+
+			    // render data points as bullets
+			    var bullet = series.bullets.push(new am4charts.CircleBullet());
+			    bullet.circle.opacity = 0;
+			    bullet.circle.fill = color;
+			    bullet.circle.propertyFields.opacity = "opacity";
+			    bullet.circle.radius = 3;
+
+			    return chart;
+			  }
+
+			  createLine("긍정적", positive, colors.getIndex(0));
+			  createLine("무표정", neutral, colors.getIndex(1));
+			  createLine("부정적인", negative, colors.getIndex(2));
+			  createLine("당황함", panic, colors.getIndex(3));
+			  
+			});
+		
+		
+		
+		
+		
+		
+		
+		/* new Chart(ctx, {
 			    type: 'line',
 			    data: {
 			        labels: labels,
@@ -464,34 +548,34 @@
 			        			{
 						            label: '긍정적', 
 									data: positive,
-									borderColor: "#7B68EE",
+									borderColor: "#6799FF",
 									backgroundColor: 'transparent', 
 									lineTension: 0.4,
-								    fill: true,
+								    borderWidth: 2 //선굵기
 						        },
 			        			{
 						            label: '무표정',
 									data: neutral,
-									borderColor: "#191970",
+									borderColor: "#8C8C8C",
 									backgroundColor: 'transparent', 
 									lineTension: 0.4,
-								    fill: true,
+								    borderWidth: 2 //선굵기
 						        },
 			        			{
 						            label: '부정적', 
 									data: negative,
-									borderColor: "#00BFFF",
+									borderColor: "#F15F5F",
 									backgroundColor: 'transparent', 
 									lineTension: 0.4,
-								    fill: true,
+								    borderWidth: 2 //선굵기
 						        },
 			        			{
 						            label: '당황함', 
 									data: panic,
-									borderColor: "#87CEFA",
-									backgroundColor: 'transparent', 
+									borderColor: "#FFE08C",
+									backgroundColor: 'transparent',
 									lineTension: 0.4,
-								    fill: true,
+								    borderWidth: 2 //선굵기
 						        },
 						        ]
 			    },
@@ -523,7 +607,7 @@
 	                    }
 	                }
 			    }
-			});
+			}); */
 		
 	}
 	
@@ -713,7 +797,14 @@
 	
 </script>
 
+<style>
 
+	#chartdiv {
+  width: 40%;
+  height: 500px;
+}
+
+</style>
 
 <div class="review-body" id="review-id">
 	<div class="title">답변영상 분석</div>
@@ -743,7 +834,7 @@
 		</div>
 		
 		<div class="comments">
-			<canvas id="videoChart"></canvas>
+			<div id="videoChart"></div>
 		</div>
 	</div>
 	
@@ -934,7 +1025,7 @@
 	<div class="GazeGraph">
 		<div class="title">움직임 분포도</div>
 		<div class="message">
-			면접 시 면접관을 응시하는 것이 중요합니다.
+			면접 시 면접관을 응시하는 것이 중요합니다. <br>
 			사각형 범위는 얼굴 움직임의 범위를 나타냅니다.
 		</div>
 		<div class="content-box">
