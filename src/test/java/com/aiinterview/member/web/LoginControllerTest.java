@@ -62,6 +62,13 @@ public class LoginControllerTest extends WebTestConfig {
 	}
 	
 	@Test
+	public void joinTest() throws Exception{
+		mockMvc.perform(get("/login/join.do"))
+		.andExpect(status().is(200))
+		.andExpect(view().name("login/join"));
+	}
+	
+	@Test
 	public void helpTest() throws Exception{
 		mockMvc.perform(get("/login/help.do"))
 		.andExpect(status().is(200))
