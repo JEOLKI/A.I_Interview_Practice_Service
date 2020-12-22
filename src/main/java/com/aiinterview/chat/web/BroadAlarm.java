@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -55,14 +56,23 @@ return op.get();
 return null;
 }
 // browser에서 웹 소켓으로 접속하면 호출되는 함수
+//private String getMember() {
+//	HttpSession session = null;
+//	MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+//	return mv.getMemId();
+//}
 @OnOpen
 public void handleOpen(Session userSession) {
 // 인라인 클래스 User를 생성
 User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
+//String memkey =  getMember();
 MemberVO mv =  (MemberVO) LoginController.usersSession.getAttribute("S_MEMBER");
-System.out.println("유저 아이디 확인"+mv);
+//System.out.println("유저 아이디 확인"+memkey);
+System.out.println("유저 아이디 확인"+mv.getMemId());
 
+//user.key = memkey;
+//sessionId = memkey;
 user.key = mv.getMemId();
 sessionId = mv.getMemId();
 visit= userSession;

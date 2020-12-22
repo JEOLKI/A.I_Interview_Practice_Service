@@ -72,11 +72,12 @@
 	</select>
 	
 	<select id= "managePlanUse" resultType="com.aiinterview.plan.vo.PlanUseVO">
-		select B.USE_SQ     ,
-	   B.START_DATE ,
-	   B.END_DATE   ,
-	   B.MEM_ID     ,
+		select B.USE_SQ,
+	   B.START_DATE,
+	   B.END_DATE,
+	   B.MEM_ID,
 	   B.PLAN_SQ,
+	   A.Plan_Price,
        A.PLAN_NM,
        A.PLAN_PERIOD,
        TO_CHAR(B.START_DATE) startDay,

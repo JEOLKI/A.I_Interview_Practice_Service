@@ -7,7 +7,6 @@
 <head>
   <meta charset="utf-8">
   <title>terview Talk</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -140,6 +139,8 @@ color: #32e4cd;
 
 <script>
 	var webSocket =  new WebSocket("ws://localhost/admin.do");
+	
+	var managerId = getManager()
 	$(function(){
 		
 		webSocket.onopen = function(message) { };
@@ -151,8 +152,9 @@ color: #32e4cd;
 			if(node.status === "visit") {
 				$div.find(".fa-circle-o").attr('class', 'fa fa-circle')
 			}
+			
 			else if(node.status === "message") {
-				if(node.key!='TEST_ID2'){
+				if(node.key!=managerId){
 					$div.find(".alarm").attr('style', 'display:block')
 					a = $div.find(".alarm").text();
 					a++
@@ -188,8 +190,17 @@ color: #32e4cd;
 		})
 		
 	})
-	
-	
+function getManager(){
+	$.ajax({
+		url: "/chat/managerId.do",
+		type: 'GET',
+		dataType: 'json',
+    	success : function(data){
+			console.log(data)
+    	}
+	})	
+}
+
 </script>
 
 <body>

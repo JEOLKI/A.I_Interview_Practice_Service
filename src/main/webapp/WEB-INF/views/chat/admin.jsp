@@ -269,7 +269,7 @@
 		  
 			<c:forEach items="${chatList }" var = "chat">
 				
-				<c:if test="${chat.msgSender != 'TEST_ID2'}">
+				<c:if test="${chat.msgSender != manager}">
 					<div class="chat-message-group">
 						<div class="chat-thumb">
 							<figure class="image is-32x32">
@@ -282,7 +282,7 @@
 						</div>
 					</div>
 				</c:if>
-	    		<c:if test="${chat.msgSender == 'TEST_ID2'}">
+	    		<c:if test="${chat.msgSender == manager}">
 					<div class="chat-message-group writer-user">
 				        <div class="chat-messages">
 				          <div class="message">${chat.msgContent }</div>

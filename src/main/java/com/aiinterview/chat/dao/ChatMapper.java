@@ -45,4 +45,10 @@ public interface ChatMapper {
 	 * @return
 	 */
 	String alarmCount(String memId);
+	
+	/**
+	 * 채팅 관리자를 찾기 위한 메서드
+	 * @return
+	 */
+	MemberVO searchManager();
 }

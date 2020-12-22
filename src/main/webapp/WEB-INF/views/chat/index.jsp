@@ -255,7 +255,7 @@ body{
  
  <header class="card-header header-title" @click="toggleChat()">
     <p class="card-header-title">
-      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=TEST_ID2" style="width: 30px;">&nbsp;관리자와의 채팅
+      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=${manager }" style="width: 30px;">&nbsp;관리자와의 채팅
     </p>
     <a id="closeChat" class="card-header-icon">
       <span  class="icon">
@@ -278,7 +278,7 @@ body{
 				<div class="chat-message-group">
 					<div class="chat-thumb">
 						<figure class="image is-32x32">
-							<img src="/member/profile.do?memId=TEST_ID2">
+							<img src="/member/profile.do?memId=${manager }">
 						</figure>
 					</div>
 					<div class="chat-messages">
@@ -408,7 +408,7 @@ if(message.data=="bye"){
 	alarmCheck = 'Y';
 }
 else{
-	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=TEST_ID2'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
+	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${manager }'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
 	$("#messageArea").append("</div>")
 	$("#chat-content").scrollTop($("#chat-content")[0].scrollHeight);	
 }

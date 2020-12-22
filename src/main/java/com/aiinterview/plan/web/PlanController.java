@@ -180,7 +180,6 @@ public class PlanController {
 		header.add("PLAN_EXPLAIN");
 		header.add("PLAN_ST");
 		header.add("PLAN_PERIOD");
-		System.out.println("헤더설정2");
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 

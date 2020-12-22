@@ -37,4 +37,8 @@ public class ChatService {
 	public String alarmCount(String memId){
 		return chatMapper.alarmCount(memId);
 	}
+	
+	public MemberVO searchManager() {
+		return chatMapper.searchManager();
+	}
 }

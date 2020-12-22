@@ -64,11 +64,13 @@ public class ChatController {
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
-		String receiver = "TEST_ID2";
+		
+		MemberVO manager = chatService.searchManager();
+		String sender = manager.getMemId();
 		
 		Admin.chatEnter(memId);
 		
-		cv.setMsgSender(receiver);
+		cv.setMsgSender(sender);
 		cv.setMsgReceiver(memId);
 		chatService.alarmUpdate(cv);
 		
@@ -79,7 +81,8 @@ public class ChatController {
 		System.out.println("chatList확인 : "+chatList);
 		
 		model.addAttribute("chatList", chatList);
-		model.addAttribute("Receiver", receiver);
+		model.addAttribute("manager", sender);
+		
 		
 		return "chat/index";
 		
@@ -99,7 +102,8 @@ public class ChatController {
 		ChatVO cv = new ChatVO();
 		List<String> arrayList = new ArrayList<>();
 		
-		String Sender = "TEST_ID2";
+		MemberVO manager = chatService.searchManager();
+		String sender = manager.getMemId();
 		
 		for(String data : IdList){
 		    if(!arrayList.contains(data))
@@ -107,7 +111,7 @@ public class ChatController {
 		}
 		
 		cv.setMsgSender(memId);
-		cv.setMsgReceiver(Sender);
+		cv.setMsgReceiver(sender);
 		System.out.println("업데이트 확인 : "+  cv);
 		chatService.alarmUpdate(cv);
 		
@@ -115,6 +119,7 @@ public class ChatController {
 		
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("memId", memId);
+		model.addAttribute("manager", sender);
 		
 		return "chat/admin";
 	}
@@ -125,11 +130,12 @@ public class ChatController {
 //		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 //		String memId = mv.getMemId();
 		
-		String Sender = "TEST_ID2";
+		MemberVO manager = chatService.searchManager();
+		String sender = manager.getMemId();
 //		cv.setMsgSender(memId);
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
-		cv.setMsgSender(Sender);//관리자 아이디
+		cv.setMsgSender(sender);//관리자 아이디
 		List<ChatVO> chatList =  chatService.List(cv);
 		System.out.println("cv 결과값 : "+cv);
 		model.addAttribute("chatList", chatList);
@@ -145,7 +151,8 @@ public class ChatController {
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		
-		String receiver = "TEST_ID2";
+		MemberVO manager = chatService.searchManager();
+		String receiver = manager.getMemId();
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
 		cv.setMsgSender(memId);
@@ -187,22 +194,35 @@ public class ChatController {
 	@RequestMapping(path = "/create.do", method = RequestMethod.POST)
 	public void createProcess(Model model, ChatVO cv, HttpSession session) {
 		
-		System.out.println(cv);
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
+		
+		MemberVO manager = chatService.searchManager();
+		String receiver = manager.getMemId();
+		
 		cv.setMsgSender(memId);
-		cv.setMsgReceiver("TEST_ID2");
+		cv.setMsgReceiver(receiver);
 		chatService.create(cv);
 	}
 	
 	
 	@ResponseBody
 	@RequestMapping(path = "/createAdmin.do", method = RequestMethod.POST)
-	public void createAdmin(Model model, ChatVO cv, HttpSession session) {
-		System.out.println("값 잘들어왔는지 확인 :" +cv);
-		cv.setMsgSender("TEST_ID2");
+	public void createAdmin(ChatVO cv) {
+		MemberVO manager = chatService.searchManager();
+		String sender = manager.getMemId();
+		cv.setMsgSender(sender);
 		chatService.create(cv);
 	}
+	
+	@ResponseBody
+	@RequestMapping(path = "/managerId.do", method = RequestMethod.GET)
+	public String managerId() {
+		MemberVO manager = chatService.searchManager();
+		String sender = manager.getMemId();
+		return sender;
+	}
 
+	
 	
 }

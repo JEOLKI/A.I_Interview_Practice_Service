@@ -16,9 +16,6 @@ public static Session admin = null;
 public static String admincode = null;
 // 운영자 유저가 접속을 하면 발생하는 이벤트 함수
 
-//public static void sendAdmin () {
-//	BroadSocket.sessionId("TEST_ID2");
-//}
 @OnOpen
 public void handleOpen(Session userSession) {
 // 기존에 운영자 유저의 소켓이 접속중이라면

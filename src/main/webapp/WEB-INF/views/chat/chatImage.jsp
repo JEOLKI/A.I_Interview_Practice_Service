@@ -88,7 +88,10 @@
 		
 		var a = alarmCount()
 		$("#alarmCount").html(a)
-		if('${S_MEMBER.memId}' == 'TEST_ID2'){
+		
+		if("${S_MEMBER.memId}" == "" || "${S_MEMBER.memId}" == null){
+		
+		}else if('${S_MEMBER.memAuth}' == 'C'){
 			var webSocket =  new WebSocket("ws://localhost/admin.do");
 			webSocket.onopen = function(message) { };
 			webSocket.onclose = function(message) { };
@@ -122,7 +125,7 @@
 		$("#image").on("click", function() {
 			var url = ""
 			var option = "width = 350, height = 500, top = 350, left = 150, location = no, toolbar=no, menubar=no, scrollbars=no, tatus=no "
-			if('${S_MEMBER.memId}' == 'TEST_ID2'){
+			if('${S_MEMBER.memAuth}' == 'C'){
 				webSocket.close();
 				$("#chatting").attr("src", "/chat/room.do");
 				$("#chatting").attr("style", "display:block");
