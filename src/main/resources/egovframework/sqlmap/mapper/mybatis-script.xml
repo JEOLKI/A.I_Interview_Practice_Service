@@ -108,6 +108,6 @@
 	<select id="retrieveScriptSearchList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
 		SELECT *
 		 FROM script
-		WHERE quest_content LIKE '%'||#{keyword}||'%'
+		WHERE script_content LIKE '%'||#{keyword}||'%'
 	</select>
 </mapper>
