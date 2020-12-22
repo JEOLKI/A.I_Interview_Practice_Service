@@ -26,13 +26,20 @@ function PlanUse(){
 			var check = data.planUseCheck
 			console.log(check.term)
 			if(check.term>0){
-				
 				var html = "";
 				var plan = data.planUse
 				
 				html += '<div class="ticket-area"> ';
 				html += `<div class="PaymentForm sprint" >`;
-				html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')"  >                                 `;
+				if(check.term == 1){
+					html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')"  >                                 `;
+				}else if(check.term == 3){
+					html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_half.png')"  >                                 `;
+				}else if(check.term == 5){
+					html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_marathon.png')"  >                                 `;
+				}else{
+					html += `	<div class="PaymentTicket" style="background-image:url('/images/구매전.png')"  >                                 `;
+				}
 // 				html += '	<img src="/images/ticket_sprint.png" alt="" class="bg-img"> '; 
 				html += '	<div class="date">                                          ';
 				html += '		<span>'+check.term+'</span>일 남았습니다.                                    ';

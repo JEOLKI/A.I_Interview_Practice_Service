@@ -16,10 +16,16 @@
 var planClass = ['sprint', 'half', 'marathon'];
 		
 $(document).ready(function() {
+	$.ajax({url : "/member/myPlanAjax.do",
+		method : "get",
+		dataType : "json",
+		success : function(data){
+			check = data.planUseCheck.term;
+		}
+	})
 	payPlanAjax("${pvContent.planSq}");
 
 	$('#payment').on('click', function(){
-		var check =  "${planUseCheck.term }"
 		if(check>0){
 			alert("아직 이용권 기간이 남아 있습니다.");
 		}else{
@@ -36,10 +42,6 @@ $(document).ready(function() {
 			}, function(rsp) {
 			    if ( rsp.success ) {
 			    	 var msg = '결제가 완료되었습니다.';
-	        /*          msg += '\n고유ID : ' + rsp.imp_uid;
-	                 msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-	                 msg += '\결제 금액 : ' + rsp.paid_amount;
-	                 msg += '카드 승인번호 : ' + rsp.apply_num; */
 	                 
 	                alert(msg);
 

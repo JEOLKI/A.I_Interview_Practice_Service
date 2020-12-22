@@ -21,8 +21,6 @@ $(document).ready(function() {
 	buyPlanAjax();
 });
 
-
-
 function buyPlanAjax(){
 	
 	$.ajax({url : "/plan/planListAjax.do",

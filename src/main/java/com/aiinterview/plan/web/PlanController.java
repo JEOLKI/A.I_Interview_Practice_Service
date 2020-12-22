@@ -56,7 +56,6 @@ public class PlanController {
 			planList = planService.planList();
 			model.addAttribute("planList", planList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

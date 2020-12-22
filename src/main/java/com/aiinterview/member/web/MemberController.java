@@ -126,7 +126,6 @@ public class MemberController {
 		try {
 			insertCnt = memberService.create(memberVo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -155,13 +154,14 @@ public class MemberController {
 		puv.setMemId(memId);
 		
 		try {
-			if (planService.planUseCount(puv) > 0) {
+			if (planService.planUseCount(puv) > 0) { // 이용중인 요금제가 존재
 				PlanUseVO planUseCheck =  
 						planService.planUseCheck(puv);
 				
 				pv.setPlanSq(planUseCheck.getPlanSq());
 				PlanVO planUse = planService.planContent(pv);
 				
+				// 사용중인 요금제 날짜 설정 구문
 				long calDate = planUseCheck.getEndDate().getTime() - planUseCheck.getStartDate().getTime();
 				long calDateDays =calDate / (24*60*60*1000);
 				planUseCheck.setTerm((int) (calDateDays = Math.abs(calDateDays))); 
@@ -172,11 +172,9 @@ public class MemberController {
 				puv.setTerm(-1);
 				
 				model.addAttribute("planUseCheck", puv);
-				
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "jsonView";
@@ -193,7 +191,6 @@ public class MemberController {
 		try {
 			deleteCnt = memberService.delete(memId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(deleteCnt == 1) {
@@ -274,7 +271,6 @@ public class MemberController {
 				try {
 					session.setAttribute("S_MEMBER", memberService.retrieve(memberVo.getMemId()));
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return "redirect:/member/myprofileview.do";
