@@ -252,7 +252,6 @@ public class MemberController {
 				try {
 					session.setAttribute("S_MEMBER", memberService.retrieve(memberVo.getMemId()));
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return "redirect:/member/myprofileview.do";

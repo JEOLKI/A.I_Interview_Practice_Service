@@ -70,8 +70,6 @@
 	            <when test="memAuth != null and memAuth != ''">
 				,MEM_AUTH			= #{memAuth}
 				</when>
-	            <when test="memAuth == null and memAuth == ''">
-				</when>
 			</choose>
 	  WHERE	MEM_ID				= #{memId} 
 	</update>
