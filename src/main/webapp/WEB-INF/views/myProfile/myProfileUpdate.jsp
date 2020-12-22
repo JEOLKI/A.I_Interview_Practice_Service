@@ -52,10 +52,13 @@ to {
 	top: 0;
 }
 #zipcodeBtn {
-    height: 32px;
+    height: 40px;
+    width : 100px;
     text-align: center;
     position: absolute;
     margin-left: 10px;
+    background: #3b3b46;
+    color : white;
 }
 .addr{
 	width: 400px;
@@ -260,7 +263,7 @@ $.ajax({
 									value="${S_MEMBER.memAlias }" id="memAlias" style="height: 44px;">
 								<div class="btn-area">
 									<input type="hidden" id="check" value="N">
-									<button type="button" class="btn active" id="aliasCheck">중복검사</button><br>
+									<button type="button" class="btn active" id="aliasCheck" style="opacity: 1">중복검사</button><br>
 								</div>
 							</div>
 							<br>

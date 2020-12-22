@@ -20,6 +20,8 @@
 		text-align: center;
 		position:absolute;
 		margin-left: 10px;
+		background-color: #3b3b46;
+		color: white;
 	}
 </style>
 
@@ -239,7 +241,7 @@
 						<input type="text" name="memId" id="memId"
 							placeholder="사용할 아이디를 입력하세요">
 						<div class="btn-area">
-							<button type="button" class="btn false" id="idCheck">중복검사</button>
+							<button type="button" class="btn false" id="idCheck" style="opacity: 1">중복검사</button>
 						</div>
 					</div>
 					<div id="checkId" class="check"></div>
@@ -271,7 +273,7 @@
 						<input type="text" name="memAlias" id="memAlias"
 							placeholder="사용할 닉네임을 입력하세요" value="">
 						<div class="btn-area">
-							<button type="button" class="btn false" id="aliasCheck">중복검사</button>
+							<button type="button" class="btn false" id="aliasCheck" style="opacity: 1">중복검사</button>
 						</div>
 					</div>
 					<div id="checkAlias" class="check"></div>
@@ -355,7 +357,7 @@
 							</div>
 							<div>
 								<input type="text" class="form-control" id="memAddr1" name="memAddr1" placeholder="사용자 주소" READONLY>
-								<button type="button" id="zipcodeBtn" class="btn new select">우편번호 찾기</button>
+								<button type="button" class="btn false" id="zipcodeBtn" >우편번호 찾기</button>
 							</div>
 						</div>
 						<br>
