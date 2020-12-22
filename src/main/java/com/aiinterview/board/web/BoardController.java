@@ -49,10 +49,6 @@ public class BoardController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
-	/** Validator */
-	@Resource(name = "beanValidator")
-	protected DefaultBeanValidator beanValidator;
-
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@RequestMapping(value = "/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
