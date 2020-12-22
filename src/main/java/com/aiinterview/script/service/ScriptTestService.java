@@ -1,5 +1,7 @@
 package com.aiinterview.script.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -21,4 +23,10 @@ public class ScriptTestService {
 	public void create(ScriptTestVO scriptTestVO) throws Exception{
 		scriptTestMapper.create(scriptTestVO);
 	}
+	
+	public List<ScriptTestVO> retrieveList(String memId) throws Exception{
+		return scriptTestMapper.retrieveList(memId);
+	}
+	
+	
 }

@@ -2,15 +2,11 @@ package com.aiinterview.script.vo;
 
 import com.aiinterview.base.vo.BaseVO;
 
-/**
- * @author PC-13
- *
- */
 public class ScriptGubunVO extends BaseVO{
+	
 	private String scriptGbSq; 		//스크립트 구분 언어의 고유번호
 	private String scriptGbContent; //스크립트 구분 언어
 	private String scriptGbSt;		//스크립트 언어의 활성화 여부
-	
 	
 	private String[] scriptGbSqs;			// 스크립트 구분 언어의 고유번호를 배열로 받을 변수
 	private String[] scriptGbContents;	//스크립트 구분 언어를 배열로 받을 변수    

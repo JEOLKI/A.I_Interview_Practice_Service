@@ -1,13 +1,17 @@
 package com.aiinterview.script.vo;
 
 public class ScriptTestVO extends ScriptVO{
+	
 	private String scriptTestSq;	//스크립트 테스트 고유번호
 	private String scriptTestScore;	//테스트 결과 점수
 	private String performScript;	//사용자의 테스트 스크립트
 	private String scriptTestDate;	//테스트 실시 날짜
 	private String memId;			//테스트에 응시한 회원ID
 	private String scriptSq;		//스크립트의 고유번호
+	
 	private String scriptGbSq;      //리스트뽑을떄 필요한 스크립트 구분번호
+	private String scriptGbContent; //스크립트 구분 언어
+	private String scriptGbSt;		//스크립트 언어의 활성화 여부
 	
 	private int rank;			//많이 사용된 script ranking
 	private int totCnt;			//많이 사용된 script의 total Count
@@ -21,6 +25,22 @@ public class ScriptTestVO extends ScriptVO{
 		this.performScript = performScript;
 		this.memId = memId;
 		this.scriptSq = scriptSq;
+	}
+	
+	public String getScriptGbContent() {
+		return scriptGbContent;
+	}
+
+	public void setScriptGbContent(String scriptGbContent) {
+		this.scriptGbContent = scriptGbContent;
+	}
+
+	public String getScriptGbSt() {
+		return scriptGbSt;
+	}
+
+	public void setScriptGbSt(String scriptGbSt) {
+		this.scriptGbSt = scriptGbSt;
 	}
 
 	public String getScriptTestSq() {

@@ -1,5 +1,7 @@
 package com.aiinterview.script.dao;
 
+import java.util.List;
+
 import com.aiinterview.script.vo.ScriptTestVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -13,4 +15,7 @@ public interface ScriptTestMapper {
 	 * @throws Exception
 	 */
 	public void create(ScriptTestVO scriptTestVO) throws Exception;
+
+	public List<ScriptTestVO> retrieveList(String memId) throws Exception;
+	
 }

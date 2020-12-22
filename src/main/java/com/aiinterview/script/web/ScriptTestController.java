@@ -137,4 +137,18 @@ public class ScriptTestController {
 		}
 		return (int)((double)count/(double)size*100);
 	}
+	
+	
+	@RequestMapping(path = "/retrieveScriptTestList.do", method = { RequestMethod.GET })
+	public String retrieveScriptTestList(String memId, Model model) {
+		
+		try {
+			List<ScriptTestVO> scriptTestList = scriptTestService.retrieveList(memId);
+			model.addAttribute("scriptTestList", scriptTestList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "jsonView";
+	}
+	
 }

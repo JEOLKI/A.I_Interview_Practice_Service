@@ -16,12 +16,6 @@
 		box-sizing: border-box;
 	}
 	
-	.testChart{
-		background:transparent;
-		background-color: white;
-		height: 500px;
-		
-	}
 	#pronunciation{
 		padding: 30px 30px;
 		padding-bottom: 0px;
@@ -138,6 +132,16 @@
 	    color: #fff;
 	}
 	
+	.chartLabel{
+		font-size: 10px;
+	    padding: 2px 9px;
+	    background-color: #e9edf1;
+	    border-radius: 30px;
+	    float: left;
+	    margin-bottom: 5px;
+	    margin-top: 5px;
+	}
+	
 </style>
 
 <script>
@@ -145,9 +149,16 @@
 	var imageAnalysisList;
 	var labels = [];
 	
-	
 	$(document).ready(function() {
-		testChart();
+		
+		/* 발음평가 그래프 */
+		$.ajax({url : "/scriptTest/retrieveScriptTestList.do",
+			method : "get",
+			data : {memId : "${S_MEMBER.memId}"},
+			success : function(data){
+				scriptTestChart(data.scriptTestList);
+			}
+		})
 		
 		/* 성장그래프 - 감정, 움직임 */
 		$.ajax({url : "/analysis/image/retrieveGrowth.do",
@@ -223,16 +234,106 @@
 	})
 	
 	
-	function testChart(){
-	  $.ajax({url : "/speech/speechChart.do",
-		  method : "get",
-		  success : function(data){
-			  var html = data;	
-			  $("#testChart").html(html);
-		  }
-	  })
+	function scriptTestChart(scriptTestList){
+		
+		koreanlabels = [0];
+		englishlabels = [0];
+		koreanScore = [0];
+		englishScore = [0];
+		
+		for(var i = 0 ; i < scriptTestList.length; i++){
+			
+			if(scriptTestList[i].scriptGbContent == '한국어'){
+				koreanScore.push(scriptTestList[i].scriptTestScore);
+				koreanlabels.push(i);
+			} else if (scriptTestList[i].scriptGbContent == '영어') {
+				englishScore.push(scriptTestList[i].scriptTestScore);
+				englishlabels.push(i);
+			}
+			
+			
+		}
+		
+		var myChart = new Chart(document.getElementById('englishTestChart'), {
+				type: 'line',
+			    data: { 
+					labels: englishlabels, 
+					datasets: [{ 
+						label: 'English Test', 
+						backgroundColor: 'transparent', 
+						borderColor: 'rgb(255,+99,+132)',
+						data: englishScore,
+						lineTension: 0,
+					    fill: true,
+					    pointStyle: 'circle',
+					    pointRadius: 2,
+					    borderWidth: 1 //선굵기
+					}]
+			    },
+			    options: {
+			        responsive: true,
+			        legend: {
+			            display: false
+			          },
+			        scales: {
+			        	  xAxes: [{
+				                display: false,
+				                scaleLabel: {
+				                    display: true,
+				                }
+				            }],
+				            yAxes: [{
+				                display: true,
+				                ticks: {
+				                    suggestedMin: 0,
+				                    suggestedMax: 100,
+				                    stepSize: 50
+				                }
+				            }]
+			        }
+			    }
+			});
+		
+		var myChart = new Chart(document.getElementById('koreanTestChart'), {
+				type: 'line',
+			    data: { 
+					labels: koreanlabels, 
+					datasets: [{ 
+						label: 'English Test', 
+						backgroundColor: 'transparent', 
+						borderColor: 'rgb(255,+99,+132)',
+						data: koreanScore,
+						lineTension: 0,
+					    fill: true,
+					    pointStyle: 'circle',
+					    pointRadius: 2,
+					    borderWidth: 1 //선굵기
+					}]
+			    },
+			    options: {
+			        responsive: true,
+			        legend: {
+			            display: false
+			          },
+			        scales: {
+			        	  xAxes: [{
+				                display: false,
+				                scaleLabel: {
+				                    display: true,
+				                }
+				            }],
+				            yAxes: [{
+				                display: true,
+				                ticks: {
+				                    suggestedMin: 0,
+				                    suggestedMax: 100,
+				                    stepSize: 50
+				                }
+				            }]
+			        }
+			    }
+			});
 	}
-	
 
 	/* 성장그래프 - 습관어(바) */
 	function habitCountHtml(habitCountList, habitList){
@@ -587,10 +688,16 @@
 							<div class="label"></div>
 							<div class="title">발음평가</div>
 							<div id="testBtnGrp">
-							<a id="popUpOpenBtn" class="speechBtn">발음평가하기</a>
+								<a id="popUpOpenBtn" class="speechBtn">발음평가하기</a>
 							</div>
-							<div id="testChart"></div>	
+							
 							<br>
+							<br>
+						
+							<label class="chartLabel">한국어</label>
+							<canvas id="koreanTestChart" class="graph-canvas" width="200" height="35"></canvas>	
+							<label class="chartLabel">영어</label>
+							<canvas id="englishTestChart" class="graph-canvas" width="200" height="35"></canvas>	
 							
 						</div>
 						

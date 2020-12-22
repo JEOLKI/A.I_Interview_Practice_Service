@@ -11,4 +11,13 @@
 			INSERT INTO script_test
 			VALUES (TO_NUMBER(#{scriptTestSq}), #{scriptTestScore}, #{performScript}, sysdate, #{memId}, #{scriptSq}) 
 	</insert>
+	
+	<select id="retrieveList" resultType="com.aiinterview.script.vo.ScriptTestVO">
+		SELECT *
+		FROM SCRIPT_TEST A, SCRIPT B, SCRIPT_GB C
+		WHERE A.MEM_ID = #{memId}
+		AND A.SCRIPT_SQ = B.SCRIPT_SQ 
+		AND B.SCRIPT_GB_SQ = C.SCRIPT_GB_SQ
+	</select>
+	
 </mapper>
