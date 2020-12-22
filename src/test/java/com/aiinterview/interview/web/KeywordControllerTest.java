@@ -53,9 +53,9 @@ public class KeywordControllerTest  extends WebTestConfig {
 	}
 	
 	@Test
-	public void createMassiveHabitTest() throws Exception {
-		InputStream is  = getClass().getResourceAsStream("/file/habitTest.xlsx");
-		MockMultipartFile file = new MockMultipartFile("excelFile", "habitTest.xlsx", "xlsx", is);
+	public void createMassiveKeywordTest() throws Exception {
+		InputStream is  = getClass().getResourceAsStream("/file/keywordTest.xlsx");
+		MockMultipartFile file = new MockMultipartFile("excelFile", "keywordTest.xlsx", "xlsx", is);
 		
 		mockMvc.perform(fileUpload("/keyword/massiveCreateProcess.do")
 				.file(file)

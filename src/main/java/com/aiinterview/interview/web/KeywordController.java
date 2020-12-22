@@ -160,7 +160,7 @@ public class KeywordController {
 	
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveHabit(MultipartHttpServletRequest request, String talentSq) {
+	public String createMassiveKeyword(MultipartHttpServletRequest request, String talentSq) {
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
