@@ -146,7 +146,7 @@ public class CategoryController {
 	
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveHabit(MultipartHttpServletRequest request, String boardGbSq) {
+	public String createMassive(MultipartHttpServletRequest request, String boardGbSq) {
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
@@ -163,6 +163,7 @@ public class CategoryController {
 		ReadOption readOption = new ReadOption();
 		readOption.setFilePath(destFile.getAbsolutePath());
 		readOption.setOutputColumns("A");
+		readOption.setOutputColumns("B");
 		readOption.setStartRow(2);
 		
 		CategoryVO categoryVO = new CategoryVO();

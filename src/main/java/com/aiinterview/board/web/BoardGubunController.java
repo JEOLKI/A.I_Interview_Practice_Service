@@ -116,7 +116,7 @@ public class BoardGubunController {
 	
 	/* 일괄 다운로드 */
 	@RequestMapping("/list/excelDown.do")
-	public String excelDown(Model model, String talentSq)  {
+	public String excelDown(Model model)  {
 		
 		// 출력할 리스트 가져오기
 		List<BoardGubunVO> boardGubunList = new ArrayList<>();
@@ -151,7 +151,8 @@ public class BoardGubunController {
 	
 	/* 일괄 등록 */
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveHabit(MultipartHttpServletRequest request) {
+	public String createMassive(MultipartHttpServletRequest request) {
+		
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
@@ -168,6 +169,7 @@ public class BoardGubunController {
 		ReadOption readOption = new ReadOption();
 		readOption.setFilePath(destFile.getAbsolutePath());
 		readOption.setOutputColumns("A");
+		readOption.setOutputColumns("B");
 		readOption.setStartRow(2);
 		
 		BoardGubunVO boardGubunVO = new BoardGubunVO();
@@ -187,7 +189,6 @@ public class BoardGubunController {
 		destFile.delete();
 
 		return "redirect:/boardGubun/retrievePagingList.do";
-
 	}
 	
 	@RequestMapping(value="/statistic.do")
@@ -202,7 +203,7 @@ public class BoardGubunController {
 			List<BoardGubunVO> boardGbList = boardGubunService.retrieveStatistics();
 			model.addAttribute("boardGbList", boardGbList);
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		
 		return "jsonView";

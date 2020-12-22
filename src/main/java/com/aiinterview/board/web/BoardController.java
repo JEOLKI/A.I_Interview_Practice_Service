@@ -94,8 +94,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(path = "/retrieve.do", method = {RequestMethod.GET})
-	public String boardDetail(String boardSq,
-							  Model model) {
+	public String boardDetail(String boardSq, Model model) {
 		
 		BoardGroupVO boardGroupVO = new BoardGroupVO();
 		try {
