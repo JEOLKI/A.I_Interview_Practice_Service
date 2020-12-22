@@ -386,39 +386,42 @@
 		valueAxis.renderer.line.disabled = true; //disables axis line
 		valueAxis.renderer.labels.template.disabled = true; //disables labels
 		valueAxis.renderer.grid.template.disabled = true;  //disables grid
-			// axis break
+		
+		// axis break
+		if(sum-max > 2){
 			var axisBreak = valueAxis.axisBreaks.create();
 			axisBreak.startValue = max+1;
 			axisBreak.endValue = sum-1;
 			axisBreak.breakSize = 0.005;
-			
 			// fixed axis break
 			var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
 			axisBreak.breakSize = 0.05 * (1 - d) / d; 
-
-		// make break expand on hover
-		var hoverState = axisBreak.states.create("hover");
-		hoverState.properties.breakSize = 1;
-		hoverState.properties.opacity = 0.1;
-		hoverState.transitionDuration = 1500;
-
-		axisBreak.defaultState.transitionDuration = 1000;
-		/*
-		// this is exactly the same, but with events
-		axisBreak.events.on("over", function() {
-		  axisBreak.animate(
-			[{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
-			1500,
-			am4core.ease.sinOut
-		  );
-		});
-		axisBreak.events.on("out", function() {
-		  axisBreak.animate(
-			[{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
-			1000,
-			am4core.ease.quadOut
-		  );
-		});*/
+	
+			// make break expand on hover
+			var hoverState = axisBreak.states.create("hover");
+			hoverState.properties.breakSize = 1;
+			hoverState.properties.opacity = 0.1;
+			hoverState.transitionDuration = 1500;
+	
+			axisBreak.defaultState.transitionDuration = 1000;
+			// this is exactly the same, but with events
+			axisBreak.events.on("over", function() {
+			  axisBreak.animate(
+				[{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
+				1500,
+				am4core.ease.sinOut
+			  );
+			});
+			axisBreak.events.on("out", function() {
+			  axisBreak.animate(
+				[{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
+				1000,
+				am4core.ease.quadOut
+			  );
+			});
+		}
+		
+		
 
 		var series = chart.series.push(new am4charts.ColumnSeries());
 		series.dataFields.categoryX = "plan";
