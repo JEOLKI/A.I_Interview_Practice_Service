@@ -153,7 +153,7 @@ public class LoginController {
 	
 	
 	@RequestMapping(path = "/join.do", method = { RequestMethod.GET })
-	public String main(MemberVO memberVo, Model model) {
+	public String join(MemberVO memberVo, Model model) {
 		return "login/join";
 	}
 	
