@@ -71,7 +71,7 @@ public interface ScriptMapper {
 	public List<ScriptVO> retrieveSelectList(String scriptGbSq) throws Exception;
 
 	/**
-	 * 
+	 * 스크립트 구분 별 스크립트 목록을 조회하는 메서드
 	 * @param retrieveMap
 	 * @return
 	 * @throws Exception
