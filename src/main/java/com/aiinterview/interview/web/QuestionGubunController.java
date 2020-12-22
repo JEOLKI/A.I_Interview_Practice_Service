@@ -90,7 +90,7 @@ public class QuestionGubunController {
 	
 
 	@RequestMapping("/massiveCreateProcess.do")
-	public String createMassiveHabit(MultipartHttpServletRequest request){
+	public String createMassiveQuestGb(MultipartHttpServletRequest request){
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
