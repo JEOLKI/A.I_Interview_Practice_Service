@@ -248,13 +248,12 @@
 	
 	<div class="chatBox" id="chatBox">
 	  <div class="card">
-	  	    <button id="backList">뒤2</button>
 	 <header class="card-header header-title" @click="toggleChat()">
 	 
 	    <p class="card-header-title">
 	      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=${memId }" style="width: 30px;">&nbsp;${memId }님의 채팅방
 	    </p>
-	    <a id="closeChatUser" class="card-header-icon">
+	    <a class="card-header-icon" id="backList">
 	      <span class="icon">
 	        <i class="fa fa-close"></i>
 	      </span>
@@ -339,21 +338,21 @@
 // 서버의 admin의 서블릿으로 웹 소켓을 한다.
 var d= "";
 
-var arlamCheck = 'N';
+var alarmCheck = 'N';
 var nodeKey = "";
 var webSocket =  new WebSocket("ws://localhost/admin.do");
 let $div = $("#chatApp");
 $(function(){
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 
-$("#closeChatUser").on("click", function(){
-	webSocket.send("${memId}" +"#####"+ "bye");
-	var a = parent.document.querySelector("#chatting").style
-	a.display = "none"
-	$("#chatting").attr("style", "display:none");
-	webSocket.close();
-	top.document.location.reload()
-})
+// $("#closeChatUser").on("click", function(){
+// 	webSocket.send("${memId}" +"#####"+ "bye");
+// 	var a = parent.document.querySelector("#chatting").style
+// 	a.display = "none"
+// 	$("#chatting").attr("style", "display:none");
+// 	webSocket.close();
+// 	top.document.location.reload()
+// })
 
 // let message = document.getElementById("textMessage");
 // 운영자에서의 open, close, error는 의미가 없어서 형태만 선언
@@ -392,7 +391,7 @@ webSocket.send("${memId}" +"#####"+"AI_INTERVIEW_ADMIN_CHAT_ENTER");
 	
 if(node.key=="${memId}"){
 	$div.find(".fa-circle-o").attr('class', 'fa fa-circle')
-	arlamCheck = 'Y';
+	alarmCheck = 'Y';
 }
 
 
@@ -419,7 +418,7 @@ $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight)
 // bye는 유저가 접속을 끊었을 때 알려주는 메시지이다.
 } else if(node.status === "bye") {
 $div.find(".fa-circle").attr('class', 'fa fa-circle-o')	
-arlamCheck = 'N';	
+alarmCheck = 'N';	
 // 해당 키로 div를 찾아서 dom을 제거한다.
 $("[data-key='"+node.key+"']").remove();
 }
@@ -484,7 +483,7 @@ function sendProcess(){
 		url: "/chat/createAdmin.do",
 		type: 'POST',
 		dataType: 'json',
-		data: { msgContent : msg, msgReceiver : memid, msgArlam : arlamCheck},
+		data: { msgContent : msg, msgReceiver : memid, msgAlarm : alarmCheck},
     	success : function(data){
 		
     	}

@@ -14,9 +14,10 @@ import javax.websocket.server.ServerEndpoint;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.aiinterview.member.vo.MemberVO;
+import com.aiinterview.member.web.LoginController;
 // 일반 유저에서 서버간의 웹 소켓 url
-@ServerEndpoint("/broadarlam.do")
-public class BroadArlam extends TextWebSocketHandler {
+@ServerEndpoint("/broadalarm.do")
+public class BroadAlarm extends TextWebSocketHandler {
 Admin sessionAdmin;
 static String sessionId;
 // searchUser 함수의 filter 표현식을 위한 인터페이스
@@ -59,7 +60,7 @@ public void handleOpen(Session userSession) {
 // 인라인 클래스 User를 생성
 User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
-MemberVO mv =  (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
+MemberVO mv =  (MemberVO) LoginController.usersSession.getAttribute("S_MEMBER");
 System.out.println("유저 아이디 확인"+mv);
 
 user.key = mv.getMemId();

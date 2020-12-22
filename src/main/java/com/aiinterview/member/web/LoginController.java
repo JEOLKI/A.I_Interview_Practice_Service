@@ -28,6 +28,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @Controller
 public class LoginController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	public static  HttpSession usersSession;
 	
 	@Resource(name = "memberService") 
 	private MemberService memberService;
@@ -111,6 +112,7 @@ public class LoginController {
 			return "redirect:/login/main.do";
 		} else if (memberVo.getMemPw().equals(memPw)&&"Y".equals(memberVo.getMemSt())) {
 			session.setAttribute("S_MEMBER", memberVo);
+			usersSession = session;
 			if(interviewService.retrievePagingList(interviewVO).size()==0){
 				// 면접 결과가 없을 경우
 				logger.debug("면접결과 없을경우 {}",interviewService.retrievePagingList(interviewVO).size());

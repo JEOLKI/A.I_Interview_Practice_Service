@@ -7,14 +7,14 @@ public class ChatRoomVO {
 	private String memId;
 	private String memProfileNm;
 	private String memProfilePath;
-	private String msgArlam ;
+	private String msgAlarm ;
 	
 	
-	public String getMsgArlam() {
-		return msgArlam;
+	public String getMsgAlarm() {
+		return msgAlarm;
 	}
-	public void setMsgArlam(String msgArlam) {
-		this.msgArlam = msgArlam;
+	public void setMsgAlarm(String msgAlarm) {
+		this.msgAlarm = msgAlarm;
 	}
 	public String getMsgContent() {
 		return msgContent;
@@ -50,7 +50,7 @@ public class ChatRoomVO {
 	@Override
 	public String toString() {
 		return "ChatRoomVO [msgContent=" + msgContent + ", msgDate=" + msgDate + ", memId=" + memId + ", memProfileNm="
-				+ memProfileNm + ", memProfilePath=" + memProfilePath + ", msgReceiver="+ msgArlam + "]";
+				+ memProfileNm + ", memProfilePath=" + memProfilePath + ", msgReceiver="+ msgAlarm + "]";
 	}
 	
 	

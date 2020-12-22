@@ -37,12 +37,12 @@ public interface ChatMapper {
 	 * @param memId 체크한 아이디 값
 	 * @return
 	 */
-	int arlamUpdate(ChatVO cv);
+	int alarmUpdate(ChatVO cv);
 	
 	/**
 	 * 전체알람의 개수를 카운트하기 위한 메서드
 	 * @param memId 체크한 아이디 값
 	 * @return
 	 */
-	String arlamCount(String memId);
+	String alarmCount(String memId);
 }

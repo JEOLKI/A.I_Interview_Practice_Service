@@ -86,8 +86,8 @@
 	$(document).ready(function() {
 		
 		
-		var a = arlamCount()
-		$("#arlamCount").html(a)
+		var a = alarmCount()
+		$("#alarmCount").html(a)
 		if('${S_MEMBER.memId}' == 'TEST_ID2'){
 			var webSocket =  new WebSocket("ws://localhost/admin.do");
 			webSocket.onopen = function(message) { };
@@ -98,11 +98,11 @@
 				let node = JSON.parse(message.data);
 				if(node.status === "message"){
 					a++
-					$("#arlamCount").html(a)	
+					$("#alarmCount").html(a)	
 				}
 			}
 		}else{ 
-			var webSocket =  new WebSocket("ws://localhost/broadarlam.do");
+			var webSocket =  new WebSocket("ws://localhost/broadalarm.do");
 			webSocket.onopen = function(message) { };
 			webSocket.onclose = function(message) { };
 			webSocket.onerror = function(message) { };
@@ -113,7 +113,7 @@
 				}
 				else{
 					a++
-					$("#arlamCount").html(a)	
+					$("#alarmCount").html(a)	
 				}
 			}
 		}
@@ -123,36 +123,36 @@
 			var url = ""
 			var option = "width = 350, height = 500, top = 350, left = 150, location = no, toolbar=no, menubar=no, scrollbars=no, tatus=no "
 			if('${S_MEMBER.memId}' == 'TEST_ID2'){
+				webSocket.close();
 				$("#chatting").attr("src", "/chat/room.do");
 				$("#chatting").attr("style", "display:block");
 				$("#chatting").attr("style", "width : 350px");
-				webSocket.close();
 			}
 			else if("${S_MEMBER.memId}" == "" || "${S_MEMBER.memId}" == null){
 				alert("로그인 후에 이용해주세요")
 			}
 			else{
+				webSocket.close();
 				$("#chatting").attr("src", "/chat/chat.do");
 				$("#chatting").attr("style", "display:block");
 				$("#chatting").attr("style", "width : 300px;");
-				$("#arlamCount").html("0")
-				webSocket.close();
+				$("#alarmCount").html("0")
 			}
 	})
 		
 	
-		$("#arlamCount").css("display", "none")	
+		$("#alarmCount").css("display", "none")	
 		if("${S_MEMBER.memId}"!= null && "${S_MEMBER.memId}" != ""){
-			$("#arlamCount").css("display", "block")
+			$("#alarmCount").css("display", "block")
 			
 		}
 	
 	})
 	
-function arlamCount(){
+function alarmCount(){
 	var count;
 	$.ajax({
-		url : "/chat/arlamCount.do",
+		url : "/chat/alarmCount.do",
 		type : 'GET',
 		async : false,
 		success : function(data){
@@ -167,7 +167,7 @@ function arlamCount(){
 
 
 <img id="image" class=""
-	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="arlamCount" ></span> 
+	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="alarmCount" ></span> 
 	
 <!-- <div class="alarm iwEgly">100</div> -->
 	

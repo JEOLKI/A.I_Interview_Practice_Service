@@ -57,7 +57,7 @@ System.out.println("split[1]"+ msg);
 // 일반 유저의 key로 탐색후 메시지 전송
 BroadSocket.sendMessage(key, msg);
 
-BroadArlam.sendMessage(key, msg);
+BroadAlarm.sendMessage(key, msg);
 }
 // 접속이 끊기면 위 운영자 세션을 null 처리한다.
 @OnClose

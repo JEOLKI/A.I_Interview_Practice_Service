@@ -48,15 +48,14 @@ public class ChatController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(path = "arlamCount.do", method = RequestMethod.GET)
-	public String arlamgCount(Model model, HttpSession session) {
+	@RequestMapping(path = "alarmCount.do", method = RequestMethod.GET)
+	public String alarmgCount(Model model, HttpSession session) {
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-		String arlamCount = chatService.arlamCount(mv.getMemId());
-		model.addAttribute("arlamCount", arlamCount);
-		return arlamCount;
+		String alarmCount = chatService.alarmCount(mv.getMemId());
+		model.addAttribute("alarmCount", alarmCount);
+		return alarmCount;
 	}
-	
 	
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
@@ -71,7 +70,7 @@ public class ChatController {
 		
 		cv.setMsgSender(receiver);
 		cv.setMsgReceiver(memId);
-		chatService.arlamUpdate(cv);
+		chatService.alarmUpdate(cv);
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
 		
@@ -110,7 +109,7 @@ public class ChatController {
 		cv.setMsgSender(memId);
 		cv.setMsgReceiver(Sender);
 		System.out.println("업데이트 확인 : "+  cv);
-		chatService.arlamUpdate(cv);
+		chatService.alarmUpdate(cv);
 		
 		List<ChatVO> chatList =  chatService.List(cv);
 		

@@ -345,7 +345,7 @@ var messageTextArea = document.getElementById("messageArea");
 var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
 let message = document.getElementById("textMessage");
 
-var arlamCheck = 'N';
+var alarmCheck = 'N';
 
 var d= "";
 
@@ -399,13 +399,13 @@ if (hours > 12){
 
 if(message.data=="bye"){
 	$(".fa-circle").attr('class', 'fa fa-circle-o')
-	arlamCheck = 'N';
+	alarmCheck = 'N';
 	message.data = "";
 // }else if(message.data=="${S_MEMBER.memId}"){
 }else if(message.data=="AI_INTERVIEW_ADMIN_CHAT_ENTER"){
 	$(".fa-circle-o").attr('class', 'fa fa-circle')
 	message.data = "";
-	arlamCheck = 'Y';
+	alarmCheck = 'Y';
 }
 else{
 	$("#messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=TEST_ID2'></figure></div><div class='chat-messages'><div class='message'>"+message.data+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
@@ -465,7 +465,7 @@ function sendProcess(){
 		url: "/chat/create.do",
 		type: 'POST',
 		dataType: 'json',
-		data: { msgContent : msg, msgArlam : arlamCheck},
+		data: { msgContent : msg, msgAlarm : alarmCheck},
     	success : function(data){
     	}
 	 });

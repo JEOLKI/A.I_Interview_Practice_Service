@@ -122,7 +122,7 @@
     <bean id="chatHandler" class="com.aiinterview.chat.web.ChatHandler"></bean>
     <bean id="broadSocket" class="com.aiinterview.chat.web.BroadSocket"></bean>
     <bean id="admin" class="com.aiinterview.chat.web.Admin"></bean>
-    <bean id="broadarlam" class="com.aiinterview.chat.web.BroadArlam"></bean>
+    <bean id="broadalarm" class="com.aiinterview.chat.web.BroadAlarm"></bean>
 
 
 	<bean id="EgovImgPaginationRenderer" class="com.aiinterview.common.web.EgovImgPaginationRenderer"/>
@@ -163,7 +163,7 @@
 	<websocket:mapping handler="chatHandler" path="/chatting.do" />
 	<websocket:mapping handler="broadSocket" path="/broadsocket.do" />
 	<websocket:mapping handler="admin" path="/admin.do" />
-	<websocket:mapping handler="broadarlam" path="/broadarlam.do" />
+	<websocket:mapping handler="broadalarm" path="/broadalarm.do" />
 		<websocket:handshake-interceptors>
 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></bean>
 		</websocket:handshake-interceptors>

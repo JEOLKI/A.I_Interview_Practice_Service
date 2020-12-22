@@ -229,10 +229,10 @@ color: #32e4cd;
 						<span class="chat__username">${room.memId }</span>&nbsp<i class="fa fa-circle-o is-online"></i><span class="chat__date">${room.msgDate }</span><br>
 						<span class="chat__preview">${room.msgContent }</span>
 						<c:choose>
-							<c:when test="${room.msgArlam !=0 }">
-								<span class="alarm">${room.msgArlam }</span>
+							<c:when test="${room.msgAlarm !=0 }">
+								<span class="alarm">${room.msgAlarm }</span>
 							</c:when>
-							<c:otherwise><span class="alarm" style="display: none;">${room.msgArlam }</span></c:otherwise>
+							<c:otherwise><span class="alarm" style="display: none;">${room.msgAlarm }</span></c:otherwise>
 						</c:choose> 
 					</div>
 				</div>
