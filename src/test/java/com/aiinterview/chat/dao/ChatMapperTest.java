@@ -25,21 +25,21 @@ public class ChatMapperTest extends ModelTestConfig {
 	
 	
 	@Test
-	public void ListTest()throws Exception {
+	public void listTest() throws Exception {
 		/*** Given ***/
 		ChatVO cv = new ChatVO();
-		cv.setMsgReceiver("TEST_ID2");
+		cv.setMsgReceiver("TEST_ID2"); 
 		cv.setMsgSender("MEMBER1");
 
 		/*** When ***/
-		List<ChatVO> chatList =  chatMapper.List(cv);
+		List<ChatVO> chatList =  chatMapper.retrieveList(cv);
 
 		/*** Then ***/
 		assertEquals(5, chatList.size());
 	}
 	
 	@Test
-	public void createTest()throws Exception{
+	public void createTest() throws Exception{
 		/*** Given ***/
 		ChatVO cv = new ChatVO();
 		cv.setMsgAlarm("N");
@@ -54,18 +54,18 @@ public class ChatMapperTest extends ModelTestConfig {
 	}
 
 	@Test 
-	public void roomListTest()throws Exception{
+	public void roomListTest() throws Exception{
 		/*** Given ***/
 		
 		/*** When ***/
-		List<ChatRoomVO> chatList = chatMapper.roomList();
+		List<ChatRoomVO> chatList = chatMapper.retrieveRoomList();
 		
 		/*** Then ***/
 		assertEquals(2, chatList.size());
 	}
 	
 	@Test
-	public void alarmUpdate() {
+	public void alarmUpdate() throws Exception {
 		/*** Given ***/
 		ChatVO cv = new ChatVO();
 		cv.setMsgReceiver("TEST_ID2");
@@ -77,7 +77,7 @@ public class ChatMapperTest extends ModelTestConfig {
 	}
 	
 	@Test
-	public void alarmCount() {
+	public void alarmCount() throws Exception {
 		/*** Given ***/
 		String memId = "TEST_ID2";
 		/*** When ***/
@@ -87,7 +87,7 @@ public class ChatMapperTest extends ModelTestConfig {
 	}
 	
 	@Test
-	public void searchManager() {
+	public void searchManager() throws Exception {
 		/*** Given ***/
 		
 		/*** When ***/

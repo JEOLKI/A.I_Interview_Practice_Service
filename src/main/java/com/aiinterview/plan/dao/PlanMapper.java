@@ -52,13 +52,13 @@ public interface PlanMapper {
 	 * 요금별 정보를 엑셀로 출력하기 위한 메서드
 	 * @return
 	 */
-	List<PlanVO> managePlan()throws Exception;
+	List<PlanVO> managePlan() throws Exception;
 	
 	/**
 	 * 이용자들의 리스트를 엑셀로 출력하기 위한 메서드
 	 * @return
 	 */
-	List<PlanUseVO> managePlanUse()throws Exception;
+	List<PlanUseVO> managePlanUse() throws Exception;
 	
 	/**
 	 * 이용권을 구매하기위한 메서드
@@ -74,7 +74,6 @@ public interface PlanMapper {
 	 */
 	PlanUseVO planUseCheck(PlanUseVO puv);
 	
-	
 	/**
 	 * 사용하고 있는사람이 있는지 확인하기 위한 메서드
 	 * @param puv
@@ -87,20 +86,30 @@ public interface PlanMapper {
 	 * @param bv
 	 * @return
 	 */
-	List<PlanUseVO> managePlanUseList(BaseVO bv);
+//	List<PlanUseVO> managePlanUseList(BaseVO bv);
 
 	/**
 	 * 페이지 전체 개수 
 	 * @return
 	 */
-	int PlanUseCount();
+//	int planUseList();
 	
 	
 	
-	
+	/**
+	 * 페이지 전체 조회를 위한 메서드
+	 * @param planUseVO
+	 * @return
+	 * @throws Exception
+	 */
 	public List<PlanUseVO> retrievePagingList(PlanUseVO planUseVO) throws Exception;
 	
-	public int retrievePagingListCnt(PlanUseVO planUseVO) throws Exception;
+	/**
+	 * 검색을 위한 메서드
+	 * @return
+	 * @throws Exception
+	 */
+	public int retrievePagingListCnt() throws Exception;
 
 	/**
 	 * 전체 요금제 사용 통계 조회
@@ -117,6 +126,12 @@ public interface PlanMapper {
 	 */
 	List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap)throws Exception;
 
+	/**
+	 * 이용권날짜가 끝나는 사람의 확인을 하기 위한 메서드
+	 * @param memId
+	 * @return
+	 * @throws Exception
+	 */
 	int retrieveEndDate(String memId) throws Exception;
 
 	/**

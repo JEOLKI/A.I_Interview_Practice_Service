@@ -6,7 +6,7 @@
 
 <mapper namespace="com.aiinterview.chat.dao.ChatMapper">
 
-	<select id="List" parameterType="com.aiinterview.chat.vo.ChatVO" resultType="com.aiinterview.chat.vo.ChatVO">
+	<select id="retrieveList" parameterType="com.aiinterview.chat.vo.ChatVO" resultType="com.aiinterview.chat.vo.ChatVO">
 	select * from(
 	select MSG_SQ, MSG_CONTENT, 
 	<![CDATA[
@@ -45,7 +45,7 @@
 	</select>
 	
 	
-	<select id="roomList" resultType="com.aiinterview.chat.vo.ChatRoomVO" >
+	<select id="retrieveRoomList" resultType="com.aiinterview.chat.vo.ChatRoomVO" >
 
 	SELECT A.MEM_ID, A.MSG_CONTENT, A.MSG_DATE, A.MEM_PROFILE_NM,
 	A.MEM_PROFILE_PATH, NVL(B.MSG_ALARM,0) AS MSG_ALARM

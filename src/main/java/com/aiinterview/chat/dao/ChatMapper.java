@@ -16,7 +16,7 @@ public interface ChatMapper {
 	 * @param cv에 들어가는 1:1 채팅 두개
 	 * @return
 	 */
-	List<ChatVO> List(ChatVO cv);
+	List<ChatVO> retrieveList(ChatVO cv);
 
 	/**
 	 * 채팅 로그를 db에 저장하기 위한 메서드
@@ -30,7 +30,7 @@ public interface ChatMapper {
 	 * @param mv 전체 회원의 이름
 	 * @return 
 	 */
-	List<ChatRoomVO>roomList();
+	List<ChatRoomVO>retrieveRoomList();
 	
 	/**
 	 * 알람 체크를 하기 위한 메서드

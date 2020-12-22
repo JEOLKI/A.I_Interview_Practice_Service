@@ -33,7 +33,7 @@ public class PlanService {
 	public int planUseCreate(PlanUseVO puv) throws Exception {
 		return planMapper.planUseCreate(puv);
 	}
-	
+	 
 	public PlanUseVO planUseCheck(PlanUseVO puv) throws Exception {
 		return planMapper.planUseCheck(puv);
 	}
@@ -62,21 +62,21 @@ public class PlanService {
 		return planMapper.planUseCount(puv);
 	}
 	
-	public List<PlanUseVO> managePlanUseList(BaseVO bv)throws Exception{
-		return planMapper.managePlanUseList(bv);
-	}
-	
-	public int PlanUseCount() throws Exception{
-		return planMapper.PlanUseCount();
-	}
+//	public List<PlanUseVO> managePlanUseList(BaseVO bv)throws Exception{
+//		return planMapper.managePlanUseList(bv);
+//	}
+//	
+//	public int planUseList() throws Exception{
+//		return planMapper.planUseList();
+//	}
 	
 	
 	public List<PlanUseVO> retrievePagingList(PlanUseVO planUseVO) throws Exception {
 		return planMapper.retrievePagingList(planUseVO);
 	}
 	
-	public int retrievePagingListCnt(PlanUseVO planUseVO) throws Exception {
-		return planMapper.retrievePagingListCnt(planUseVO);
+	public int retrievePagingListCnt() throws Exception {
+		return planMapper.retrievePagingListCnt();
 	}
 
 	/**

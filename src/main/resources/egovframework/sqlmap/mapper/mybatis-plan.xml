@@ -18,10 +18,44 @@
 		where plan_sq = #{planSq}
 	</select>
 	
+	<insert id="create" parameterType="com.aiinterview.plan.vo.PlanVO">
+		Insert into PLAN (PLAN_SQ,PLAN_NM,PLAN_PRICE,PLAN_EXPLAIN,PLAN_ST,PLAN_PERIOD)
+		values (plan_sq.nextval, #{planNm }, #{planPrice}, #{planExplain }, 'Y' ,#{planPeriod })	
+	</insert>
+	
+	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO">
+		UPDATE plan set plan_st = 'N'
+		where plan_sq = #{planSq}
+	</update>
+	
+	<select id = "CashList" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO">
+		SELECT * 
+		FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
+		WHERE mem_id = #{memId}
+	</select>	
+	
+	<select id= "managePlan" resultType="com.aiinterview.plan.vo.PlanVO">
+		select * from plan
+	</select>
+	
+	<select id= "managePlanUse" resultType="com.aiinterview.plan.vo.PlanUseVO">
+		select B.USE_SQ,
+	   B.START_DATE,
+	   B.END_DATE,
+	   B.MEM_ID,
+	   B.PLAN_SQ,
+	   A.Plan_Price,
+       A.PLAN_NM,
+       A.PLAN_PERIOD,
+       TO_CHAR(B.START_DATE) startDay,
+       TO_CHAR(B.END_DATE) endDay
+	 FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
+	</select>
+	
 	<insert id="planUseCreate" parameterType="com.aiinterview.plan.vo.PlanUseVO" >
 		Insert into PLAN_USE 
 		(USE_SQ, START_DATE, END_DATE, MEM_ID, PLAN_SQ)
-		values(plan_use_sq.nextval, sysdate, sysdate+#{planPeriod}, #{memId}, 2)
+		values(plan_use_sq.nextval, sysdate, sysdate+#{planPeriod}, #{memId}, #{planSq})
 	</insert>
 
 	<select id="planUseCheck" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO" >
@@ -44,59 +78,18 @@
 			
 	</select>
 
-	<select id="planUseMinute" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="int" >
-		SELECT (ROUND((#{endDate}-sysdate)*24*60)) 
-		FROM plan_use
-	</select>
-
-
-	
-	<insert id="create" parameterType="com.aiinterview.plan.vo.PlanVO">
-		Insert into PLAN (PLAN_SQ,PLAN_NM,PLAN_PRICE,PLAN_EXPLAIN,PLAN_ST,PLAN_PERIOD)
-		values (plan_sq.nextval, #{planNm }, #{planPrice}, #{planExplain }, 'Y' ,#{planPeriod })	
-	</insert>
-
-	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO">
-		UPDATE plan set plan_st = 'N'
-		where plan_sq = #{planSq}
-	</update>
-
-	<select id = "CashList" parameterType="com.aiinterview.plan.vo.PlanUseVO" resultType="com.aiinterview.plan.vo.PlanUseVO">
-	SELECT * 
-	FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
-	WHERE mem_id = #{memId}
-	</select>
-	
-	<select id= "managePlan" resultType="com.aiinterview.plan.vo.PlanVO">
-		select * from plan
-	</select>
-	
-	<select id= "managePlanUse" resultType="com.aiinterview.plan.vo.PlanUseVO">
-		select B.USE_SQ,
-	   B.START_DATE,
-	   B.END_DATE,
-	   B.MEM_ID,
-	   B.PLAN_SQ,
-	   A.Plan_Price,
-       A.PLAN_NM,
-       A.PLAN_PERIOD,
-       TO_CHAR(B.START_DATE) startDay,
-       TO_CHAR(B.END_DATE) endDay
-	 FROM plan A inner join plan_use B on A.plan_sq = B.plan_sq
-	</select>
-	
-	<select id="managePlanUseList" resultType="com.aiinterview.plan.vo.PlanUseVO" parameterType="com.aiinterview.base.vo.BaseVO">
+	<!-- <select id="managePlanUseList" resultType="com.aiinterview.plan.vo.PlanUseVO" parameterType="com.aiinterview.base.vo.BaseVO">
 		 SELECT * FROM
 		    (SELECT ROWNUM rn, a.* FROM
 		        (SELECT * FROM  plan A inner join plan_use B on A.plan_sq = B.plan_sq
 		         ORDER BY use_sq) a)
 		WHERE rn BETWEEN (#{pageIndex} - 1) * #{pageUnit} + 1  AND #{pageIndex} * #{pageUnit}
-	</select>
+	</select> -->
 	
-	<select id="PlanUseCount" resultType="int">
+	<!-- <select id="planUseList" resultType="int">
 		SELECT COUNT(*)
 		FROM plan_use	
-	</select>
+	</select> -->
 	
 <!-- 	<update id="update" parameterType="com.aiinterview.plan.vo.PlanVO"> -->
 <!-- 		UPDATE plan set plan_nm = #{planNm}, plan_price = #{planPrice},  -->

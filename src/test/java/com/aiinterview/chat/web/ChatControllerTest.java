@@ -15,15 +15,15 @@ import com.aiinterview.member.vo.MemberVO;
 public class ChatControllerTest extends WebTestConfig{
 	
 	@Test
-	public void roomTest()throws Exception {
+	public void roomTest() throws Exception {
 
 		mockMvc.perform(get("/chat/room.do"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("chat/chatRoom"));
 	}
-
+ 
 	@Test 
-	public void alarmgCount()throws Exception{
+	public void alarmgCount( ) throws Exception{
 		MemberVO mv = new MemberVO();
 		mv.setMemId("MEMBER1");
 		mv.setMemAuth("Y");
@@ -40,7 +40,7 @@ public class ChatControllerTest extends WebTestConfig{
 	}
 	
 	@Test
-	public void chatUser()throws Exception{
+	public void chatUser() throws Exception{
 		MemberVO mv = new MemberVO();
 		mv.setMemId("MEMBER1");
 		mv.setMemAuth("Y");
@@ -61,7 +61,7 @@ public class ChatControllerTest extends WebTestConfig{
 	}
 	
 	@Test
-	public void adminTest()throws Exception{
+	public void adminTest() throws Exception{
 		mockMvc.perform(get("/chat/admining.do")
 				.param("memId", "MEMBER1"))
 		.andExpect(status().isOk())
@@ -69,7 +69,7 @@ public class ChatControllerTest extends WebTestConfig{
 	}
 	
 	@Test
-	public void create()throws Exception{
+	public void create() throws Exception{
 		MemberVO mv = new MemberVO();
 		mv.setMemId("MEMBER1");
 		mv.setMemAuth("Y");
@@ -85,7 +85,7 @@ public class ChatControllerTest extends WebTestConfig{
 	}
 	
 	@Test
-	public void createAdmin()throws Exception{
+	public void createAdmin() throws Exception{
 		MemberVO mv = new MemberVO();
 		mv.setMemId("MEMBER1");
 		mv.setMemAuth("Y");
@@ -103,7 +103,7 @@ public class ChatControllerTest extends WebTestConfig{
 	}
 	
 	@Test
-	public void managerId()throws Exception{
+	public void managerId() throws Exception{
 		mockMvc.perform(get("/chat/managerId.do"))
 		.andExpect(status().isOk())
 		.andReturn();

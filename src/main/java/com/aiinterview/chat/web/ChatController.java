@@ -37,7 +37,7 @@ public class ChatController {
 	
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
 	public String room(Model model, HttpSession session) {
-		List<ChatRoomVO> roomList = chatService.roomList();
+		List<ChatRoomVO> roomList = chatService.retrieveRoomList();
 		model.addAttribute("roomList", roomList);
 		return "chat/chatRoom";
 	}
@@ -72,7 +72,7 @@ public class ChatController {
 		
 		//내가 보내는 사람이기 때문에 세션에서 가져온다.
 		
-		List<ChatVO> chatList =  chatService.List(cv);
+		List<ChatVO> chatList =  chatService.retrieveList(cv);
 		
 		System.out.println("chatList확인 : "+chatList);
 		
@@ -93,22 +93,16 @@ public class ChatController {
 		sendAdminKey(memId, "AI_INTERVIEW_ADMIN_CHAT_ENTER");
 		
 		ChatVO cv = new ChatVO();
-		List<String> arrayList = new ArrayList<>();
 		
 		MemberVO manager = chatService.searchManager();
 		String sender = manager.getMemId();
-		
-		for(String data : IdList){
-		    if(!arrayList.contains(data))
-		        arrayList.add(data);
-		}
 		
 		cv.setMsgSender(memId);
 		cv.setMsgReceiver(sender);
 		System.out.println("업데이트 확인 : "+  cv);
 		chatService.alarmUpdate(cv);
 		
-		List<ChatVO> chatList =  chatService.List(cv);
+		List<ChatVO> chatList =  chatService.retrieveList(cv);
 		
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("memId", memId);

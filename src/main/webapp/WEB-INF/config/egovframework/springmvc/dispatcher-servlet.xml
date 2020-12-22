@@ -119,7 +119,6 @@
     <mvc:resources location="/resources/" mapping="/resource/**"/>
     <mvc:annotation-driven/>
     
-    <bean id="chatHandler" class="com.aiinterview.chat.web.ChatHandler"></bean>
     <bean id="broadSocket" class="com.aiinterview.chat.web.BroadSocket"></bean>
     <bean id="admin" class="com.aiinterview.chat.web.Admin"></bean>
     <bean id="broadalarm" class="com.aiinterview.chat.web.BroadAlarm"></bean>
@@ -160,7 +159,6 @@
 	
 
 <websocket:handlers>
-	<websocket:mapping handler="chatHandler" path="/chatting.do" />
 	<websocket:mapping handler="broadSocket" path="/broadsocket.do" />
 	<websocket:mapping handler="admin" path="/admin.do" />
 	<websocket:mapping handler="broadalarm" path="/broadalarm.do" />

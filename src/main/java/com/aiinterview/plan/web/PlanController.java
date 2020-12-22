@@ -38,11 +38,6 @@ public class PlanController {
 	@Resource(name = "planService")
 	private PlanService planService;
 
-	@RequestMapping(path = "/modal.do", method = RequestMethod.GET)
-	public String modal(Model model) {
-
-		return "plan/modal";
-	}
 
 	@RequestMapping(path = "/planList.do", method = RequestMethod.GET)
 	public String planListView(Model model) {
@@ -58,8 +53,7 @@ public class PlanController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return "jsonView";
+		return "jsonView"; 
 	}
 
 	@RequestMapping(path = "/planContent.do", method = RequestMethod.GET)
@@ -110,7 +104,8 @@ public class PlanController {
 			pvContent = planService.planContent(pv);
 			PlanUseVO puv = new PlanUseVO();
 			puv.setPlanPeriod(pvContent.getPlanPeriod());
-
+			puv.setPlanSq(pvContent.getPlanSq());
+			
 			MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 			puv.setMemId(mv.getMemId());
 
@@ -247,17 +242,17 @@ public class PlanController {
 		return "excelView";
 	}
 
-	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
+/*	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
 	public String manageCash(Model model) {
 		BaseVO bv = new BaseVO();
 		try {
-			int totalCnt = planService.PlanUseCount();
+			int totalCnt = planService.planUseList();
 			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
 			int page = bv.getPageIndex();
 			int pageSize = bv.getPageUnit();
 
 			model.addAttribute("page", page);
-			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("pageSize", pageSize); 
 			model.addAttribute("cashList", planService.managePlanUseList(bv));
 			model.addAttribute("pages", pages);
 
@@ -276,7 +271,7 @@ public class PlanController {
 
 			int page = bv.getPageIndex() == 0 ? 1 : bv.getPageIndex();
 			int pageSize = bv.getPageUnit() == 0 ? 5 : bv.getPageUnit();
-			int totalCnt = planService.PlanUseCount();
+			int totalCnt = planService.planUseList();
 			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
 			// int page = bv.getPageIndex();
 			// int pageSize = bv.getPageUnit() ;
@@ -301,7 +296,9 @@ public class PlanController {
 			e.printStackTrace();
 		}
 		return "jsonView";
-	}
+	}*/
+	
+	
 
 	@RequestMapping(path = "/cashList.do", method = RequestMethod.GET)
 	public String cashListView(Model model, HttpSession session, BaseVO bv) {
@@ -335,18 +332,12 @@ public class PlanController {
 		return "myProfile/myProfile";
 	}
 
-	@RequestMapping(path = "/buyPlanTest.do", method = RequestMethod.GET)
-	public String buyPlanTest(Model model) {
-		return "plan/buyPlanTest";
-	}
-
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
 	@RequestMapping(value = "/retrievePagingList.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String retrievePagingList(PlanUseVO planuseVO, HttpSession session, ModelMap model) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 
 		/** EgovPropertyService.sample */
 		planuseVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -372,7 +363,7 @@ public class PlanController {
 
 		int totCnt = 0;
 		try {
-			totCnt = planService.retrievePagingListCnt(planuseVO);
+			totCnt = planService.retrievePagingListCnt();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

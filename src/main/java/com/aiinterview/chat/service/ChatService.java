@@ -18,16 +18,16 @@ public class ChatService {
 	@Resource(name = "chatMapper")
 	private ChatMapper chatMapper;
 	
-	public List<ChatVO> List(ChatVO cv){
-		return chatMapper.List(cv);
+	public List<ChatVO> retrieveList(ChatVO cv){
+		return chatMapper.retrieveList(cv);
 	}
 	
 	public int create(ChatVO cv) {
 		return chatMapper.create(cv);
 	}
 	
-	public List<ChatRoomVO> roomList(){
-		return chatMapper.roomList();
+	public List<ChatRoomVO> retrieveRoomList(){
+		return chatMapper.retrieveRoomList();
 	}
 	
 	public int alarmUpdate(ChatVO cv) {
