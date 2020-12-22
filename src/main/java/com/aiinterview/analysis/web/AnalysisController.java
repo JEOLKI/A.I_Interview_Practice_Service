@@ -185,16 +185,17 @@ public class AnalysisController {
 	}
 	
 	@RequestMapping(value = "/answer/retrieve.do")
-	public String retrieveView(String questSq, Model model, String shareMemId) {    
+	public String retrieveView(String questSq, Model model, String shareMemId, String profilePath) {    
 		model.addAttribute("questSq", questSq);
 		model.addAttribute("shareMemId", shareMemId);
+		model.addAttribute("profilePath", profilePath);
 		return "analysis/analysisResult";
 	}
 	
 	@RequestMapping(value = "/answer/retrieveAnalysis.do")
-	public String retrieveAnalysis(String questSq, Model model, HttpSession session, String shareMemId) {           
+	public String retrieveAnalysis(String questSq, Model model, HttpSession session,String shareMemId, String profilePath) {           
 		model.addAttribute("shareMemId", shareMemId);
-		
+		model.addAttribute("profilePath", profilePath);
 		String ansSq = "";
 		
 		try {
@@ -338,19 +339,21 @@ public class AnalysisController {
 	}
 	
 	@RequestMapping(value = "/share.do")
-	public String share(String shareMemId, String sharePw, String interviewSq, Model model) {
+	public String share(String shareMemId, String sharePw, String interviewSq, Model model,String profilePath) {
 		model.addAttribute("sharePw", sharePw);
 		model.addAttribute("shareMemId", shareMemId);
-		String shareUrl = "/analysis/resultShare.do?interviewSq="+interviewSq+"&shareMemId="+shareMemId;
+		model.addAttribute("profilePath", profilePath);
+		String shareUrl = "/analysis/resultShare.do?interviewSq="+interviewSq+"&shareMemId="+shareMemId+"&profilePath="+profilePath;
 		model.addAttribute("shareUrl", shareUrl);
 		
 		return "analysis/analysisShare";
 	}
 	
 	@RequestMapping(value = "/resultShare.do")
-	public String resultShare(String shareMemId, QuestionVO questionVO, Model model) {
+	public String resultShare(String shareMemId, QuestionVO questionVO, Model model, String profilePath) {
 		
 		model.addAttribute("shareMemId", shareMemId);
+		model.addAttribute("profilePath", profilePath);
 		
 		try {
 			InterviewVO interviewVO = interviewService.retrieve(questionVO.getInterviewSq());

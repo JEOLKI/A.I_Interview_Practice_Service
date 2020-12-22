@@ -67,7 +67,7 @@
 			 var sharePw = $(".pw-input").val();
 			 var dummy = document.createElement("textarea");
 			 document.body.appendChild(dummy);
-			 dummy.value = "${serverIp}/analysis/share.do?sharePw="+sharePw+"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }";
+			 dummy.value = "${serverIp}/analysis/share.do?sharePw="+sharePw+"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }&profilePath=${S_MEMBER.memProfilePath}";
 			 dummy.select();
 			 document.execCommand("copy");
 			 document.body.removeChild(dummy);
