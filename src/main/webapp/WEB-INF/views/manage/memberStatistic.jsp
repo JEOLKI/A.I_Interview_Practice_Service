@@ -159,7 +159,7 @@ $(document).ready(function(){
 				 
 			 var chart = am4core.create("majorChart", am4charts.XYChart);
 				chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-			
+				chart.logo.disabled = true;
 				
 		    var sum = 0;
 			var chartData2 = [];
@@ -248,7 +248,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("educationChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -337,7 +337,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("searchJobDateChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -426,7 +426,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("careerChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -515,7 +515,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("genderChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -613,7 +613,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("majorChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -704,7 +704,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("educationChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -794,7 +794,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("searchJobDateChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -885,7 +885,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("careerChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
@@ -975,7 +975,7 @@ $(document).ready(function(){
 					 
 				 var chart = am4core.create("genderChart", am4charts.XYChart);
 					chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-				
+					chart.logo.disabled = true;
 					
 			    var sum = 0;
 				var chartData2 = [];
