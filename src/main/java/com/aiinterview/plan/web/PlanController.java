@@ -91,10 +91,10 @@ public class PlanController {
 		return "jsonView";
 	}
 	
-	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.POST)
-	public String planUseCreate() {
-		return "jsonView";
-	}
+//	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.POST)
+//	public String planUseCreate() {
+//		return "jsonView";
+//	}
 
 	@RequestMapping(path = "/planUseCreate.do", method = RequestMethod.GET)
 	public String planUseCreateView(PlanVO pv, HttpSession session, Model model) {
@@ -147,7 +147,7 @@ public class PlanController {
 		return "manage/planManage";
 	}
 
-	@RequestMapping(path = "/totalPayList.do")
+	@RequestMapping(path = "/totalPayList.do", method = RequestMethod.GET)
 	public String totalPayList(HttpSession session) {
 		PlanUseVO puv = new PlanUseVO();
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
@@ -161,7 +161,7 @@ public class PlanController {
 		return "plan/totalPayList";
 	}
 
-	@RequestMapping("/planExcel.do")
+	@RequestMapping(path ="/planExcel.do", method = RequestMethod.GET)
 	public String planExcelDown(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기
@@ -198,7 +198,7 @@ public class PlanController {
 		return "excelView";
 	}
 
-	@RequestMapping("/planUseExcel.do")
+	@RequestMapping(path ="/planUseExcel.do", method = RequestMethod.GET)
 	public String planUseExcel(Model model) throws Exception {
 
 		// 출력할 리스트 가져오기

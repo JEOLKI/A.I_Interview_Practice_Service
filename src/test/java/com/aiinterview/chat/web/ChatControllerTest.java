@@ -87,7 +87,6 @@ public class ChatControllerTest extends WebTestConfig{
 	@Test
 	public void createAdmin() throws Exception{
 		MemberVO mv = new MemberVO();
-		mv.setMemId("MEMBER1");
 		mv.setMemAuth("Y");
 		
 		mv.setMemId("TEST_ID2");

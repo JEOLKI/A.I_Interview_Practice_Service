@@ -104,6 +104,14 @@ public class ChatController {
 		
 		List<ChatVO> chatList =  chatService.retrieveList(cv);
 		
+		try {
+			MemberVO mv = memberService.retrieve(memId);
+			model.addAttribute("mv", mv);
+			System.out.println(mv);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("memId", memId);
 		model.addAttribute("manager", sender);

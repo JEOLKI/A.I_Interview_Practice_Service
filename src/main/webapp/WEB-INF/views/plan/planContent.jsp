@@ -45,17 +45,17 @@ $(document).ready(function() {
 	                 
 	                alert(msg);
 
-			    	$.ajax({
-			    		url: "/plan/planUseCreate.do",
-			    		type: 'POST',
-			    		dataType: 'json',
-			    		data: {//기타 필요한 데이터가 있으면 추가 전달
-				    			imp_uid : rsp.imp_uid,
-				    			merchant_uid : rsp.merchant_uid},
-				    	success : function(data){
+// 			    	$.ajax({
+// 			    		url: "/plan/planUseCreate.do",
+// 			    		type: 'POST',
+// 			    		dataType: 'json',
+// 			    		data: {//기타 필요한 데이터가 있으면 추가 전달
+// 				    			imp_uid : rsp.imp_uid,
+// 				    			merchant_uid : rsp.merchant_uid},
+// 				    	success : function(data){
 			    		
-				    	}
-			    	 });
+// 				    	}
+// 			    	 });
 			    	 //결제 완료 페이지
 			    	location.href = "/plan/planUseCreate.do?planSq="+"${pvContent.planSq}"
 			    } else {

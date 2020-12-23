@@ -6,10 +6,8 @@
 #image {
 	position: fixed;
 	z-index: 30;
-/* 	bottom: 40px; */
-/* 	left: 20px; */
-	bottom: 4%;
-	left: 2%;
+	bottom: 35px;
+	left: 31px;
 	width: 50px;
 	cursor: pointer;
 	overflow: hidden;
@@ -53,10 +51,10 @@
 
 
 .nav-counter {
- bottom: 8%;
- left: 5.5%;
- z-index: 10;
+ bottom: 88px;
+ left: 90px;
  position: fixed;
+ z-index: 1;
  min-width: 8px;
  height: 20px;
  line-height: 20px;
@@ -67,15 +65,30 @@
  color: white;
  text-align: center;
  text-shadow: 0 1px rgba(0, 0, 0, 0.2);
- background: #683db8;
+ background: #dd202f;
  border: 1px solid #911f28;
  border-radius: 11px;
- background-image: -webkit-linear-gradient(top, #e8616c, #dd202f);
- background-image: -moz-linear-gradient(top, #e8616c, #dd202f);
- background-image: -o-linear-gradient(top, #e8616c, #dd202f);
- background-image: linear-gradient(to bottom, #e8616c, #dd202f);
- -webkit-box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
- box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.chatbox-open{
+ bottom: 90px;
+ left: 90px;
+ z-index: 10;
+ position: fixed;
+ min-width: 8px;
+ width: 52px;
+ height: 52px;
+ line-height: 20px;
+ margin-top: -11px;
+ font-weight: normal;
+ font-size: small; 
+ color: white;
+ text-align: center;
+ text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+ background: #0360a5;
+ border-radius: 50%;
+ margin: 16px;
+ box-shadow: -12px 15px 20px 0 rgba(46, 61, 73, 0.15);
 }
 </style>
 
@@ -169,8 +182,13 @@ function alarmCount(){
 </script>
 
 
-<img id="image" class=""
-	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="alarmCount" ></span> 
+<!-- <img id="image" class=""
+	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="alarmCount" ></span> -->
+	
+<button id="image" class="chatbox-open">
+    <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+</button>
+<span class="nav-counter" id="alarmCount" ></span>
 	
 <!-- <div class="alarm iwEgly">100</div> -->
 	

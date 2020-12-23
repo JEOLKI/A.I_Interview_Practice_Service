@@ -126,6 +126,7 @@ public interface PlanMapper {
 	 */
 	List<PlanStatisticsVO> retrieveTotalSale(Map<String, String> statisticMap)throws Exception;
 
+	
 	/**
 	 * 이용권날짜가 끝나는 사람의 확인을 하기 위한 메서드
 	 * @param memId

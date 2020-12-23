@@ -38,6 +38,7 @@ public class PlanMapperTest extends ModelTestConfig{
 		assertEquals(3, planList.size());
 		
 	}
+	
 	@Test
 	public void planContentTest() throws Exception{
 		
@@ -108,7 +109,6 @@ public class PlanMapperTest extends ModelTestConfig{
 		assertEquals(3, puvList.size());
 	}
 	
-//	values(plan_use_sq.nextval, sysdate, sysdate+#{planPeriod}, #{memId}, #{planSq})
 	
 	@Test
 	public void planUseCreateTest() throws Exception{
@@ -147,8 +147,7 @@ public class PlanMapperTest extends ModelTestConfig{
 		assertEquals(0, planUseCount);
 		
 	}
-//	retrievePagingList
-//	retrievePagingListCnt
+	
 	@Test
 	public void retrievePagingListTest() throws Exception{
 		/*** Given ***/
@@ -176,9 +175,19 @@ public class PlanMapperTest extends ModelTestConfig{
 	public void retrievePagingListCntTest() throws Exception{
 		
 		/*** Given ***/
-		String startDate = "2020-12-10";
+		
+		/*** When ***/
+		int result = planMapper.retrievePagingListCnt();
+		/*** Then ***/
+		assertEquals(3, result);
+	}
+	
+	@Test
+	public void totalStatisticsTest() throws Exception{
+		/*** Given ***/
+		String startDate = "2020-11-10";
 		String endDate = "2020-12-12";
-		String searchKeyword = "";
+		String searchKeyword = "이용";
 		Map<String, String> statisticMap = new HashMap<>();
 		statisticMap.put("startDate", startDate);
 		statisticMap.put("endDate", endDate);
@@ -188,11 +197,49 @@ public class PlanMapperTest extends ModelTestConfig{
 
 		
 		/*** When ***/
-		int result = planMapper.retrievePagingListCnt();
+		totalUseList = planMapper.retrieveTotalUse(statisticMap);
 		/*** Then ***/
-		assertEquals(3, result);
+		assertEquals(3, totalUseList.size());
 	}
 	
+	@Test
+	public void totalSaleStatisticsTest() throws Exception{
+		/*** Given ***/
+		String startDate = "2020-11-10";
+		String endDate = "2020-12-12";
+		String searchKeyword = "이용";
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("searchKeyword", searchKeyword);
+
+		List<PlanStatisticsVO> totalSaleList = null;
+		
+		/*** When ***/
+		totalSaleList = planMapper.retrieveTotalSale(statisticMap);
+		/*** Then ***/
+		assertEquals(3, totalSaleList.size());
+	}
+	
+	@Test
+	public void retrieveEndDate() throws Exception{
+		/*** Given ***/
+		String memId= "TEST_ID";
+		/*** When ***/
+		int count = planMapper.retrieveEndDate(memId);
+		/*** Then ***/
+		assertEquals(0, count);
+	}
+	
+	@Test
+	public void retrieveDailySale() throws Exception{
+		/*** Given ***/
+
+		/*** When ***/
+		List<PlanStatisticsVO> psvList =  planMapper.retrieveDailySale();
+		/*** Then ***/
+		assertEquals(1, psvList.size());
+	}
 	
 }
 

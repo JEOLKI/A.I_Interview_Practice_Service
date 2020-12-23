@@ -251,7 +251,16 @@
 	 <header class="card-header header-title" @click="toggleChat()">
 	 
 	    <p class="card-header-title">
-	      <i class="fa fa-circle-o is-online"></i><img src="/member/profile.do?memId=${memId }" style="width: 30px;">&nbsp;${memId }님의 채팅방
+	      <i class="fa fa-circle-o is-online"></i>
+	      
+	      <c:choose>
+			<c:when test="${mv.memProfileNm ==null }">
+				<img alt="error" src="/images/defaultImage.jpg" style="width: 30px;">&nbsp;${memId }님의 채팅방
+			</c:when>
+			<c:otherwise>
+				<img src="/member/profile.do?memId=${mv.memId }" style="width: 30px;">&nbsp;${memId }님의 채팅방
+			</c:otherwise>
+	   	  </c:choose>
 	    </p>
 	    <a class="card-header-icon" id="backList">
 	      <span class="icon">
@@ -266,6 +275,8 @@
 	    <div class="content messageArea" >
 	    
 		
+		
+				
 		  
 			<c:forEach items="${chatList }" var = "chat">
 				
@@ -273,8 +284,17 @@
 					<div class="chat-message-group">
 						<div class="chat-thumb">
 							<figure class="image is-32x32">
-								<img src="/member/profile.do?memId=${memId }">
-							</figure>
+								<c:choose>
+									<c:when test="${mv.memProfileNm ==null }">
+										<img alt="error" src="/images/defaultImage.jpg"
+											class="chat__avatar">
+									</c:when>
+									<c:otherwise>
+										<img src="/member/profile.do?memId=${mv.memId }"
+											alt="error" class="chat__avatar">
+									</c:otherwise>
+								</c:choose>
+								</figure>
 						</div>
 						<div class="chat-messages">
 							<div class="message">${chat.msgContent }</div><div>&nbsp</div>${chat.msgDate }
@@ -411,7 +431,12 @@ if(node.key=="${memId}"){
 // let log = $div.find(".console").val();
 // 아래에 메시지를 추가한다.
 if(node.key=="${memId}"){
-$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${memId }'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
+	
+	if("${mv.memProfileNm}" == null ||"${mv.memProfileNm}" ==""){
+		$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/images/defaultImage.jpg'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");		
+	}else{
+		$div.find(".messageArea").append("<div class='chat-message-group'><div class='chat-thumb'><figure class='image is-32x32'><img src='/member/profile.do?memId=${memId }'></figure></div><div class='chat-messages'><div class='message'>"+node.message+"</div><div class='from'>"+str+" "+hours+":"+minutes+" </div></div>");
+	}	
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 }
 

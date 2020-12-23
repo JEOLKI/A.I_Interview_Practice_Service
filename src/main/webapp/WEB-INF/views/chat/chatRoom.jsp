@@ -134,7 +134,9 @@ color: #32e4cd;
  box-shadow: inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 1px rgba(0, 0, 0, 0.12);
     float: right;
 }
-
+.chat_area:hover{
+	 background-color: #F6F6F6;
+}
 </style>
 
 <script>
@@ -205,7 +207,7 @@ function getManager(){
 
 <body>
   <header class="header">
-    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat"  style="margin-left: 55.5%">X</a>
+    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat" style="margin-left: 55.5%; color:white;">X</a>
     </div>
     <div class="icon_box">
     
@@ -233,9 +235,16 @@ function getManager(){
 <!--     </div> -->
 		
 		<c:forEach items="${roomList }" var ="room">
-			<div class="chat_area" data-id="${room.memId }" >
+			<div class="chat_area" data-id="${room.memId }"  >
 				<div class="chat">
-				<img src="/member/profile.do?memId=${room.memId }" class="chat__avatar">
+				<c:choose>
+					<c:when test="${room.memProfileNm ==null }">
+						<img alt="error" src="/images/defaultImage.jpg" class="chat__avatar">
+					</c:when>
+					<c:otherwise>
+						<img src="/member/profile.do?memId=${room.memId }" alt="error" class="chat__avatar">
+					</c:otherwise>
+				</c:choose>
 					<div class="chat__text">
 						<span class="chat__username">${room.memId }</span>&nbsp<i class="fa fa-circle-o is-online"></i><span class="chat__date">${room.msgDate }</span><br>
 						<span class="chat__preview">${room.msgContent }</span>

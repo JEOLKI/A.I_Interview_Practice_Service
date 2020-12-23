@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/egovframework/spring/context-common.xml",
 									"file:src/main/webapp/WEB-INF/config/egovframework/springmvc/dispatcher-servlet.xml",
