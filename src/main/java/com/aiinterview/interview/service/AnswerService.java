@@ -53,11 +53,14 @@ public class AnswerService {
 		answerMapper.create(answerVO);
 		String ansSq = answerVO.getAnsSq();
 		
+		/* 이미지 */
 		List<ImageAnalysisVO> imageAnalysisList = analysisVO.getImageAnalysisList();
 		if(imageAnalysisList != null) {
 			for (ImageAnalysisVO imageAnalysisVO : imageAnalysisList) {
-				imageAnalysisVO.setAnsSq(ansSq);
-				imageAnalysisMapper.create(imageAnalysisVO);
+				if(imageAnalysisVO.getAnger()!=null) {
+					imageAnalysisVO.setAnsSq(ansSq);
+					imageAnalysisMapper.create(imageAnalysisVO);
+				}
 			}
 		}
 		
