@@ -11,8 +11,6 @@
 	SetTime = 0; // 타이머 초기값(경과시간)
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
-	var decibelIndex = 0; // 데시벨 인덱스
-	var frequencyIndex = 0; // 주파수 인덱스
 	endTTS = false; // TTS종료 확인
 	
 	var tid;
@@ -177,18 +175,38 @@
 		
 		// 시간이 종료 되었으면..
 		if (SetTime >= 120) {
-			download();
-			
-			startCount++;
-			script = "다음 질문을 준비해주세요.";
-			
-			$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
-			clearInterval(tid);		// 타이머 해제
 			console.log('타이머 멈추기')	;	
 			console.log('시작카운트 : '+startCount);
 			console.log('종료카운트 : '+endCount);
-				
+			console.log('최종 답변 스크립트 : ' + script);
+			
+			startCount++; // 답변 진행되면서 횟수 증가
+			$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
+			$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
+			
+			clearInterval(tid);		// 타이머 해제
+			$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
+			$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
+			clearInterval(aid);		// 10초마다 이미지 분석 종료
+			
+			
+			download(); // 녹화 중지
+			createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
+			
+			script = "다음 질문을 준비해주세요.";
 			if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+// 				script = "분석중입니다. 잠시만 기다려주세요"
+// 				$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
+// 				$('#time').hide();// 타이머 지우기
+// 				$('.attention-message.shown').css("background-image", "");// 원 지우기
+// 				$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
+// 				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 하나만 출력
+// 				$('.attention-message.shown').css("margin-top", "200px"); // 마진
+// 				$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
+				
+// 				window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
+				
+				$('.next-question').html(""); // 버튼 지우기
 				download(); // 녹화 중지
 				clearInterval(tid);		// 타이머 해제
 				$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
@@ -199,10 +217,10 @@
 				$('#time').hide();// 타이머 지우기
 				$('.attention-message.shown').css("background-image", "");// 원 지우기
 				$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
-				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 하나만 출력
+				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
 				$('.attention-message.shown').css("margin-top", "200px"); // 마진
 				$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
-				
+
 				window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
 			}else{
 				$('.message-balloon').empty(); // 메세지 창 지우기
@@ -286,6 +304,7 @@
 				 
 				$("#responseTextArea").val(JSON.stringify(data, null, 2));
 				$('.spacebar-area').attr('disabled', false); // 버튼 비활성화 해제
+				
 			})
 	.fail(
 			function(jqXHR, textStatus, errorThrown) {
@@ -305,7 +324,6 @@
 	function createAnswer(){
 		var form = $('#analysisData')[0]; // form안에 있는 input들의 모음
 		var fd = new FormData(form); 
-		
 		ansContent = answer; // 해당 질문내용
 		ansTime = SetTime; // 경과시간 입력
 		if(ansContent == ""){
@@ -322,11 +340,11 @@
 		fd.append("questSq", questSq); // 대답의 시퀀스 
 		
 		// 확인용 console.log
-		console.log(ansContent);
-		console.log(ansTime);
-		console.log(ansSpeed);
-		console.log(startCount);
-		console.log(questSq);
+		console.log("내용"+ansContent);
+		console.log("시간"+ansTime);
+		console.log("속도"+ansSpeed);
+		console.log("카운트"+startCount);
+		console.log("시퀀스"+questSq);
 			
 		$.ajax(
 			{url:"/answer/create.do",
@@ -343,8 +361,12 @@
 			},
 			error : function(data){
 				console.log(data.status);
+				console.log(data)
 			}
 		});
+		blob = null; // blob 데이터 초기화
+		recordedChunks.splice(0); // blob 데이터 초기화
+		return true;
 	}
 	
 	// blob 데이터 넘기기
@@ -457,7 +479,7 @@
 				
 				download(); // 녹화 중지
 				createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
-				
+				$("#analysisData").empty(); // 비우기
 				
 				script = "다음 질문을 준비해주세요.";
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
@@ -534,6 +556,7 @@
 					
 					download(); // 녹화 중지
 					createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
+					$("#analysisData").empty(); // 비우기
 					
 					script = "다음 질문을 준비해주세요.";
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
@@ -567,6 +590,8 @@
 		
 		// 음성 테스트
 		$(document).on('click','#voice',function(){
+			var decibelIndex = 0; // 데시벨 인덱스
+			var frequencyIndex = 0; // 주파수 인덱스
 			decibelSum = 0; // 데시벨 초기값
 			frequencySum = 0; // 주파수초기값
 			navigator.mediaDevices.getUserMedia({ audio: true, video: false })                                     
@@ -654,8 +679,6 @@
   // TTS 최초 진입 시 설정
   function Initialize(onComplete) {
     if (!!window.SpeechSDK) {
-//       document.getElementById('content').style.display = 'block';
-//       document.getElementById('warning').style.display = 'none';
       onComplete(window.SpeechSDK);
     }
   }
@@ -1018,7 +1041,7 @@
 								2분이며,</div>
 							<div class="text-line false">질문을 잘 듣고 중앙의 원을 보며 차분하게 답변해
 								주세요.</div>
-							<div class="text-line false" style="color: red; font-weight: bold;">질문 시작 후 15초 이내에는 다음 질문으로 넘어갈 수 없습니다.</div>
+							<div class="text-line false" style="color: #ff5d5d; font-weight: bold;">질문 시작 후 15초 이내에는 다음 질문으로 넘어갈 수 없습니다.</div>
 						</div>
 					</div>
 				</div>

@@ -18,8 +18,10 @@
 						
 						imageAnalysis = data.imageAnalysis;
 						imageAnalysisList = data.imageAnalysisList;
-						imageAnalysisChart(imageAnalysis);
-						videoAnalysisChart(imageAnalysisList);
+						if(imageAnalysis != null){
+							imageAnalysisChart(imageAnalysis);
+							videoAnalysisChart(imageAnalysisList);
+						}
 						
 						
 						/* 스크립트 */
@@ -504,7 +506,8 @@
 			    dateAxis.cursorTooltipEnabled = false;
 
 			    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-			    valueAxis.min = 0;
+			    valueAxis.min = -0;
+			    valueAxis.max = 100;
 			    valueAxis.renderer.grid.template.disabled = true;
 			    valueAxis.renderer.baseGrid.disabled = true;
 			    valueAxis.renderer.labels.template.disabled = true;
@@ -849,13 +852,9 @@
 		<div class="content-box">
 			<div class="text">
 				<div class="length">
-					총 <span>82</span>자
+					총 <span>0</span>자
 				</div>
 				<div class="stt">
-					<span class="false no-repeat">안녕 안녕 안녕 </span><span
-						class="point no-repeat"> </span><span class="false no-repeat">아
-						이렇게 시간 초를 왜 안 나와 아니 오늘 보면서 말하고 써 있었어 자기 얼굴은 안 보이네 보여 주지도 않고 바로
-						카레 하나 보다 근데 그게 더 면접이 맡기는 거울 보면서 면접 안 하잖아 답변완료 </span>
 				</div>
 			</div>
 			<div class="words">
