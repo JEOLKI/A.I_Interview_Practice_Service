@@ -31,9 +31,9 @@ public class ScriptTestController {
 	@Resource(name = "scriptGubunService")
 	private ScriptGubunService scriptGbService;
 	
+	
 	@RequestMapping(path = "/create.do")
-	public String create(Model model, String performScript, HttpSession session, String scriptSq) {
-		
+	public String create(String resultScript, String scriptSq, Model model,  HttpSession session) {
 		ScriptVO scriptVO=null;
 		try {
 			scriptVO = scriptService.retrieve(scriptSq);
@@ -43,22 +43,24 @@ public class ScriptTestController {
 		ScriptTestController scriptTest = new ScriptTestController();
 		
 		ArrayList<String> systemScriptList = scriptTest.nGram(scriptContent); //스크립트에 출력된 출력 문
-		ArrayList<String> memberScriptList = scriptTest.nGram(performScript); //사용자가 말한스크립트 문
+		ArrayList<String> memberScriptList = scriptTest.nGram(resultScript); //사용자가 말한스크립트 문
 
 		int result = scriptTest.resultNGram(systemScriptList, memberScriptList);
-		session.setAttribute("scriptTestResult", result);
+		List<Integer> diffrentIndexs = getDiffrentIndexs(scriptContent, resultScript);
 		
 		MemberVO memberVo = (MemberVO)session.getAttribute("S_MEMBER");
 		String memId = memberVo.getMemId();
 		
-		ScriptTestVO scriptTestVO = new ScriptTestVO(result+"", performScript, memId, scriptSq);
-
+		ScriptTestVO scriptTestVO = new ScriptTestVO(result+"", resultScript, memId, scriptSq);
+		
 		try {
 			scriptTestService.create(scriptTestVO);
 		}catch(Exception ex) { }
 		
+		model.addAttribute("performScript", resultScript);
 		model.addAttribute("result", result);
-		return "analysis/scriptTestResult";
+		model.addAttribute("diffrentIndexs", diffrentIndexs);
+		return "jsonView";
 	}
 	
 	@RequestMapping(path = "/testPopup.do", method = { RequestMethod.GET })
@@ -127,15 +129,27 @@ public class ScriptTestController {
 	public int resultNGram(ArrayList<String> systemScriptList, ArrayList<String> memberScriptList) {
 		int count = 0;
 		int size = systemScriptList.size();
-		
 		for (int i = 0; i < systemScriptList.size(); i++) {
 			for (int j = 0; j < memberScriptList.size(); j++) {
 				if (systemScriptList.get(i).equals(memberScriptList.get(j))) {
 					count += 1;
 				}
+				
 			}
 		}
 		return (int)((double)count/(double)size*100);
+	}
+	
+	/*불일치 인덱스 구하는 메서드*/
+	public List<Integer> getDiffrentIndexs(String scriptContent, String resultScript){
+		List<Integer> diffrentIndexs = new ArrayList<>();
+		
+		for (int i = 0; i < resultScript.length(); i++) {
+			if(Character.toUpperCase(resultScript.charAt(i)) !=  Character.toUpperCase(scriptContent.charAt(i))){
+				diffrentIndexs.add(i);
+			}
+		}
+		return diffrentIndexs;
 	}
 	
 	
