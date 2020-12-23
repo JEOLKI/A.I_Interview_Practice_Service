@@ -3,39 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiinterview.script.dao.ScriptMapper">
-	<!-- 페이징 : 해당 페이지리스트 select -->
-	<select id="retrievePagingList" resultType="com.aiinterview.script.vo.ScriptVO">
-		SELECT A.*
-		  FROM (
-		  	SELECT ROWNUM RNUM, 
-		  		   S.*
-		      FROM (
-		      	SELECT script_sq, 
-		      		   script_content, 
-		      		   script_st,
-		      		   script_gb_sq
-		          FROM script
-		         WHERE 1=1
-		          <if test="searchKeyword != null and searchKeyword != ''">
-				   AND script_content LIKE '%' || #{searchKeyword} || '%'
-				  </if>
-		         ORDER BY script_sq 
-		   	) S
-		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
-	   ) A 
-	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
-	</select>
-	
-	<!-- 페이징 : 전체 스크립트 갯수 -->
-	<select id="retrievePagingListCnt" resultType="int">
-		SELECT count(*) totCnt
-		  FROM script
-		 WHERE 1=1
-		  <if test="searchKeyword != null and searchKeyword !=''">
-		   AND script_content LIKE '%'||#{searchKeyword}||'%'	
-		  </if>
-	</select>
-	
+
 	<!-- 등록 -->
 	<insert id="create" >
 		INSERT INTO script
@@ -110,4 +78,38 @@
 		 FROM script
 		WHERE script_content LIKE '%'||#{keyword}||'%'
 	</select>
+	
+		<!-- 페이징 : 해당 페이지리스트 select -->
+<!-- 	<select id="retrievePagingList" resultType="com.aiinterview.script.vo.ScriptVO"> -->
+<!-- 		SELECT A.* -->
+<!-- 		  FROM ( -->
+<!-- 		  	SELECT ROWNUM RNUM,  -->
+<!-- 		  		   S.* -->
+<!-- 		      FROM ( -->
+<!-- 		      	SELECT script_sq,  -->
+<!-- 		      		   script_content,  -->
+<!-- 		      		   script_st, -->
+<!-- 		      		   script_gb_sq -->
+<!-- 		          FROM script -->
+<!-- 		         WHERE 1=1 -->
+<!-- 		          <if test="searchKeyword != null and searchKeyword != ''"> -->
+<!-- 				   AND script_content LIKE '%' || #{searchKeyword} || '%' -->
+<!-- 				  </if> -->
+<!-- 		         ORDER BY script_sq  -->
+<!-- 		   	) S -->
+<!-- 		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex} -->
+<!-- 	   ) A  -->
+<!-- 	<![CDATA[WHERE A.RNUM > #{firstIndex}]]> -->
+<!-- 	</select> -->
+	
+	<!-- 페이징 : 전체 스크립트 갯수 -->
+<!-- 	<select id="retrievePagingListCnt" resultType="int"> -->
+<!-- 		SELECT count(*) totCnt -->
+<!-- 		  FROM script -->
+<!-- 		 WHERE 1=1 -->
+<!-- 		  <if test="searchKeyword != null and searchKeyword !=''"> -->
+<!-- 		   AND script_content LIKE '%'||#{searchKeyword}||'%'	 -->
+<!-- 		  </if> -->
+<!-- 	</select> -->
+	
 </mapper>

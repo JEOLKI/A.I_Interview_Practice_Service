@@ -2,6 +2,8 @@ package com.aiinterview.script.service;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -29,5 +31,17 @@ public class ScriptTestServiceTest extends ModelTestConfig{
 		
 		/***Then***/
 		assertTrue(scriptTestVO.getScriptTestSq() != "0");
+	}
+	
+	@Test
+	public void retrieveListTest( ) throws Exception{
+		/***Given***/
+		String memId = "MEMBER2";
+		
+		/***When***/
+		List<ScriptTestVO> scriptTestList = scriptTestService.retrieveList(memId);
+		
+		/***Then***/
+		assertEquals(4, scriptTestList.size());
 	}
 }

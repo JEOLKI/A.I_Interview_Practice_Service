@@ -26,41 +26,6 @@ public class ScriptServiceTest extends ModelTestConfig{
 	protected EgovPropertyService propertiesService;
 
 	@Test
-	public void retrievePagingListTest() throws Exception{
-		/***Given***/
-		ScriptVO scriptVO = new ScriptVO();
-		scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		scriptVO.setPageSize(propertiesService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
-		paginationInfo.setPageSize(scriptVO.getPageSize());
-
-		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		/***When***/
-		List<ScriptVO> scriptList = scriptService.retrievePagingList(scriptVO);
-		
-		/***Then***/
-		assertEquals(6, scriptList.size());
-	}
-
-	@Test
-	public void retrievePagingListCntTest() throws Exception{
-		/***Given***/
-		ScriptVO scriptVO = new ScriptVO();
-		
-		/***When***/
-		int totCnt = scriptService.retrievePagingListCnt(scriptVO);
-		
-		/***Then***/
-		assertEquals(6, totCnt);
-	}
-	
-	@Test
 	public void createTest() throws Exception{
 		/***Given***/
 		ScriptVO scriptVO = new ScriptVO();
@@ -197,4 +162,39 @@ public class ScriptServiceTest extends ModelTestConfig{
 		/***Then***/
 		assertEquals(2, totCnt);
 	}
+	
+//	@Test
+//	public void retrievePagingListTest() throws Exception{
+//		/***Given***/
+//		ScriptVO scriptVO = new ScriptVO();
+//		scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
+//		scriptVO.setPageSize(propertiesService.getInt("pageSize"));
+//		
+//		PaginationInfo paginationInfo = new PaginationInfo();
+//		paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
+//		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
+//		paginationInfo.setPageSize(scriptVO.getPageSize());
+//
+//		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+//		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
+//		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+//		
+//		/***When***/
+//		List<ScriptVO> scriptList = scriptService.retrievePagingList(scriptVO);
+//		
+//		/***Then***/
+//		assertEquals(6, scriptList.size());
+//	}
+//
+//	@Test
+//	public void retrievePagingListCntTest() throws Exception{
+//		/***Given***/
+//		ScriptVO scriptVO = new ScriptVO();
+//		
+//		/***When***/
+//		int totCnt = scriptService.retrievePagingListCnt(scriptVO);
+//		
+//		/***Then***/
+//		assertEquals(6, totCnt);
+//	}
 }

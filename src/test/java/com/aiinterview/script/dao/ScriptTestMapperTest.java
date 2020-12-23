@@ -1,6 +1,9 @@
 package com.aiinterview.script.dao;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -29,5 +32,17 @@ public class ScriptTestMapperTest extends ModelTestConfig{
 		
 		/***Then***/
 		assertTrue(scriptTestVO.getScriptTestSq() != "0");
+	}
+	
+	@Test
+	public void retrieveListTest( ) throws Exception{
+		/***Given***/
+		String memId = "MEMBER2";
+		
+		/***When***/
+		List<ScriptTestVO> scriptTestList = scriptTestMapper.retrieveList(memId);
+		
+		/***Then***/
+		assertEquals(4, scriptTestList.size());
 	}
 }

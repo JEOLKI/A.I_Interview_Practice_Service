@@ -16,6 +16,12 @@ public interface ScriptTestMapper {
 	 */
 	public void create(ScriptTestVO scriptTestVO) throws Exception;
 
+	/**
+	 * 특정 멤버의 script Test 결과를 반환하는 메서드
+	 * @param memId
+	 * @return
+	 * @throws Exception
+	 */
 	public List<ScriptTestVO> retrieveList(String memId) throws Exception;
 	
 }

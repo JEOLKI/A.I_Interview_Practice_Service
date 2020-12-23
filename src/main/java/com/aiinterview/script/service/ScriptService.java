@@ -17,24 +17,6 @@ import com.aiinterview.script.vo.ScriptVO;
 public class ScriptService {
 	@Resource(name = "scriptMapper")
 	private ScriptMapper scriptMapper;
-
-	/**
-	 * 페이징 처리 후 해당 페이지의 스크립트 리스트를 반환하는 메서드
-	 * @param scriptVO
-	 * @return
-	 */
-	public List<ScriptVO> retrievePagingList(ScriptVO scriptVO) throws Exception{
-		return scriptMapper.retrievePagingList(scriptVO);
-	}
-
-	/**
-	 * 페이징처리를 위한 스크립트의 총 개수를 구하는 메서드
-	 * @param scriptVO
-	 * @return 스크립트의 총 개수
-	 */
-	public int retrievePagingListCnt(ScriptVO scriptVO) throws Exception{
-		return scriptMapper.retrievePagingListCnt(scriptVO);
-	}
 	
 	/**
 	 * 스크립트 단일 등록 메서드
@@ -134,4 +116,22 @@ public class ScriptService {
 	public int retrieveScriptGbScriptPagingListCnt(ScriptVO scriptVO) throws Exception{
 		return scriptMapper.retrieveScriptGbScriptPagingListCnt(scriptVO);
 	}
+	
+//	/**
+//	 * 페이징 처리 후 해당 페이지의 스크립트 리스트를 반환하는 메서드
+//	 * @param scriptVO
+//	 * @return
+//	 */
+//	public List<ScriptVO> retrievePagingList(ScriptVO scriptVO) throws Exception{
+//		return scriptMapper.retrievePagingList(scriptVO);
+//	}
+//
+//	/**
+//	 * 페이징처리를 위한 스크립트의 총 개수를 구하는 메서드
+//	 * @param scriptVO
+//	 * @return 스크립트의 총 개수
+//	 */
+//	public int retrievePagingListCnt(ScriptVO scriptVO) throws Exception{
+//		return scriptMapper.retrievePagingListCnt(scriptVO);
+//	}
 }
