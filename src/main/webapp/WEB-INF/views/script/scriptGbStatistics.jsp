@@ -4,19 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <title>AI_INTERVIEW</title>
 
 <script>
-/**
- *  yyyyMMdd 포맷으로 반환
- */
+/* yyyyMMdd 포맷으로 반환  */
 function getFormatDate(date){
     var year = date.getFullYear();              //yyyy
     var month = (1 + date.getMonth());          //M
@@ -71,19 +65,23 @@ today = getFormatDate(today);
  	} 
 	
  	.contentBox{ 
- 		width: 70%; 
+ 		width: 70%;
  		padding: 20px 30px; 
  		background-color: white; 
  		border-radius: 10px; 
  		margin: 10px 0px; 
  		box-shadow: 5px 5px #EAEAEA; 
  		display: inline-block; 
- 		float: left; 
+ 		float: left;
+ 	}
+ 	
+ 	#contentBox{
+   		display: table; 
  	}
  	
  	.tabContent{
- 		width: 45%;
- 		margin: 0px;
+ 		width : 51%;
+  		height : 100px; 
  	}
  	
  	.chart { 
@@ -102,7 +100,12 @@ today = getFormatDate(today);
  	} 
 
  	.scriptContentTitle{
- 		width : 50%;
+ 		width : 70%;
+ 	}
+
+ 	#rankingList{
+ 		position: absolute;
+ 		width : 33%;
  	}
 </style>
 
@@ -111,14 +114,14 @@ var startDate;
 var endDate;
 var scriptGbSq;
 
-
 $(document).ready(function(){
 	startDate = $('#start').val() == ''? '20201002' : $('#start').val();
 	endDate = $('#end').val() == ''? today : $('#end').val();
 	
 	var scriptRankingList=[];
 	var scriptScoreList=[];
-	//시작 시 score chart
+	
+	//최초 노출 score chart
 	$.ajax({url : "/scriptGubun/retrieveScoreList.do",
 			data : {"startDate" : startDate,
 					"endDate" : endDate,
@@ -130,7 +133,7 @@ $(document).ready(function(){
 			}//success 종료
 	}); //score ajax 종료
 	
-	//시작 시 ranking table
+	//최초 노출 ranking table
  	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
 			data : {"startDate" : startDate,
 			 	 	"endDate" 	: endDate,
@@ -174,92 +177,79 @@ $(document).ready(function(){
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
-		am4core.ready(function() {
-			am4core.useTheme(am4themes_kelly);
-			am4core.useTheme(am4themes_animated);
-				 
-			var chart = am4core.create("scoreChart", am4charts.XYChart);
-			chart.logo.disabled = true;
-			chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-			
-			var chartData = [];
-			var scoreList = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-			var zero=0, one=0, two=0, three=0, four=0, five=0, six=0, seven=0, eight=0, nine=0, ten=0;
-			for(var i=0; i<scriptScoreList.length; i++){
-				var testScore = scriptScoreList[i].scriptTestScore;
-				
-				var resultScore = (testScore/10)*10;
-				if(resultScore==0){
-					zero += 1;
-				}else if(resultScore==10){
-					one += 1;
-				}else if(resultScore==20){
-					two += 1;
-				}else if(resultScore==30){
-					three += 1;
-				}else if(resultScore==40){
-					four += 1;
-				}else if(resultScore==50){
-					five += 1;
-				}else if(resultScore==60){
-					six += 1;
-				}else if(resultScore==70){
-					seven += 1;
-				}else if(resultScore==80){
-					eight += 1;
-				}else if(resultScore==90){
-					nine += 1;
-				}else if(resultScore==100) {
-					ten += 1;
+		
+		var stackDataset=[];
+		var dataset = [];
+		console.log
+		for(var i in scriptScoreList){
+// 			console.log("scriptScoreList[i]"+scriptScoreList[i].scriptTestScore);
+				var radius;
+				if(scriptScoreList[i].scriptTestScore=="100"){
+					var x = 10; var y = 10; radius = 10;
+					
+					for(var j in dataset){
+					console.log("100 - dataset[j] : "+dataset[j].data);
+						if(scriptScoreList[i].scriptTestScore == JSON.stringify(dataset[j])){
+							radius += 5;
+						}
+					}
+					dataset.push({x:x, y:y, r:radius});
+				}else{
+					radius = 10;
+					var x = scriptScoreList[i].scriptTestScore.charAt(0);
+					var y = scriptScoreList[i].scriptTestScore.charAt(1);
+					
+					for(var j in dataset){
+						console.log("100 - dataset[j] : "+dataset[j].data);
+						if(scriptScoreList[i].scriptTestScore == JSON.stringify(dataset[j])){
+							radius += 5;
+						}
+					}
+					dataset.push({x:x, y:y, r:radius});
 				}
-			}
-			var cntNumList = [zero, one, two, three, four, five, six, seven, eight, nine, ten];
-			
-			var sumLiteral=0;
-			for(var i=0; i<cntNumList.length; i++){
-				literal = cntNumList[i];	//바 그릴 데이터
-				example = scoreList[i]; 	//x축에 찍을 데이터
-				
-				sumLiteral += literal;
-			    chartData.push({example:example, literal:literal}); 
-			 };
-			 
-			chart.data =  chartData;
-			
-			var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-			categoryAxis.renderer.grid.template.location = 0;
-			categoryAxis.dataFields.category = "example";
-			categoryAxis.renderer.minGridDistance = 40;
-			categoryAxis.fontSize = 11;
-
-			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-			valueAxis.min=0;
-			valueAxis.max=sumLiteral+1;
-			valueAxis.strictMinMax = true;
-			valueAxis.renderer.minGridDistance = 30;
-			var axisBreak = valueAxis.axisBreaks.create();
-
-			var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-			axisBreak.breakSize = 0.05 * (1 - d) / d;
-
-			var hoverState = axisBreak.states.create("hover");
-			hoverState.properties.breakSize = 1;
-			hoverState.properties.opacity = 0.1;
-			hoverState.transitionDuration = 1500;
-
-			axisBreak.defaultState.transitionDuration = 1000;
-
-			var series = chart.series.push(new am4charts.ColumnSeries());
-			series.dataFields.categoryX = "example";
-			series.dataFields.valueY = "literal";
-			series.columns.template.tooltipText = "{valueY.value}";
-			series.columns.template.tooltipY = 0;
-			series.columns.template.strokeOpacity = 0;
-			
-			series.columns.template.adapter.add("fill", function(fill, target) {
-			return chart.colors.getIndex(target.dataItem.index);
-			});
-		}); // end am4core.ready()
+		}// i - for 종료
+		
+		function dynamicColors(){
+		        var r = Math.floor(Math.random() * 255);
+		        var g = Math.floor(Math.random() * 255);
+		        var b = Math.floor(Math.random() * 255);
+		        return "rgba(" + r + "," + g + "," + b + ", 0.2)";
+		};
+		
+		var colorChart = dynamicColors();
+		var bubbleData = {datasets :
+							[{	label : "점수 분포",
+							    backgroundColor: colorChart,
+							    data: dataset
+						  	}]
+						 }; //bubbleData exit
+	
+		var ctx = document.getElementById('scoreChartCanvas').getContext('2d');
+		var scoreChart 	= new Chart(ctx, {
+				  showTooltips : true,
+				  type  	: 'bubble',
+				  data		: bubbleData,
+				  options	: {
+		      		responsive	: true,
+				  	scales 		: { xAxes	: [{
+							                display		: true,
+							                ticks		: { display  : true,
+							                				autoSkip : false,
+															beginAtZero : true,
+							                				maxTicksLimit: 11,
+											                max: 10,
+											                stepSize: 1 }}],
+						            yAxes	: [{
+							            	display		: true,
+							                ticks 		: { display  : true,
+							                				autoSkip : false,
+															beginAtZero : true,
+							                				maxTicksLimit: 11,
+										                    max: 10,
+										                    stepSize: 1 }}]
+								}//scales종료
+				  }//option exit
+		}); //scoreChart exit
 	};//fn_ScoreChart end
 	
 	/* Ranking Chart */
@@ -285,7 +275,6 @@ $(document).ready(function(){
 		$('#rankingList').empty();
 		$('#rankingList').append(html);
 	}; //fn_drawRankingChart 종료
-	
 }); //ready function 종료
 </script>
 </head>
@@ -312,7 +301,7 @@ $(document).ready(function(){
 		</div>
 		
 		<div class="tab-content">
-			<div class="contentBox">
+			<div id="contentBox" class="contentBox">
 				<div class="tab-pane fade content in active">
 					<div class="tabContent">
 				  		<table class="contentList">
@@ -326,6 +315,7 @@ $(document).ready(function(){
 						</table>
 					</div>	
 					<div id="scoreChart" class="content chart">
+						<canvas id="scoreChartCanvas"></canvas>
 					</div>
 				</div>
 			</div>
