@@ -709,7 +709,7 @@
 
 		        // split out the label and value and make your own tooltip here
 		        var parts = tooltip.text.split(":");
-		        var innerHtml = "<div id='user'  class='user-pitch' style='left: 238px;'><img src='/member/profile.do?memId=${S_MEMBER.memId }'	alt='profile-icon' class='profile-icon'><br><b>${S_MEMBER.memAlias }</b>님의 평균 음역대<br><span id='averageRange'></span><div class='line' ></div><div class='point'></div></div>";
+		        var innerHtml ="";
 		        tooltipEl.html(innerHtml);
 
 		        tooltipEl.css({
@@ -764,7 +764,7 @@
 								if(${S_MEMBER == null}){
 									var data = '"${shareMemId }"'+'님의 평균음역대';
 								}else{
-									var data = '"${S_MEMBER.memAlias }"'+'님의 평균음역대';
+									var data = '"${shareMemId }"'+'님의 평균음역대';
 								}
 								ctx.fillText(data, bar._model.x+10, bar._model.y - 70);
 								
@@ -895,13 +895,20 @@
 							${shareMemId}님의 평균 성량<br>
 						</c:when>
 						<c:when test="${S_MEMBER != null }">
-							${S_MEMBER.memAlias }님의 평균 성량<br>
+							<c:choose>
+								<c:when test="${S_MEMBER.memId != shareMemId}">
+									${shareMemId}님의 평균 성량<br>
+								</c:when>
+								<c:otherwise>
+									${S_MEMBER.memAlias }님의 평균 성량<br>
+								</c:otherwise>
+							</c:choose>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${S_MEMBER == null }">
 							<c:choose>
-								<c:when test="${profilePath == null }">
+								<c:when test="${profilePath == '' }">
 									<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
 								</c:when>
 								<c:otherwise>
@@ -911,13 +918,20 @@
 						</c:when>
 						<c:when test="${S_MEMBER != null }">
 							<c:choose>
-								<c:when test="${S_MEMBER.memProfileNm == null }">
-									<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
+								<c:when test="${S_MEMBER.memId != shareMemId }">
+									<img alt="" src="/member/profile.do?memId=${shareMemId }" class="profile-icon">
 								</c:when>
-								<c:otherwise>
-									<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon">
-								</c:otherwise>
-							</c:choose>							
+								<c:when test="${S_MEMBER.memId == shareMemId }">
+									<c:choose>
+										<c:when test="${S_MEMBER.memProfileNm == null }">
+											<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
+										</c:when>
+									</c:choose>
+									<c:otherwise>
+										<img alt="" src="/member/profile.do?memId=${S_MEMBER.memId }" class="profile-icon">
+									</c:otherwise>
+								</c:when>
+							</c:choose>
 						</c:when>
 					</c:choose>
 					<span id="averageDecibel"></span>
@@ -946,32 +960,39 @@
 		<div class="pitch-graph">
 			<div class="pitch-line"></div>
 			<div id="user"  class="user-pitch" style="left: 238px; display: none;">
-				<c:choose>
-					<c:when test="${S_MEMBER.memProfileNm == null }">
-						<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br>
-					</c:when>
-					<c:when test="${S_MEMBER == null }">
-						<c:choose>
-							<c:when test="${profilePath ==null }">
-								<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br>
-							</c:when>
-							<c:otherwise>
-								<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon"><br>
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:when test="${S_MEMBER != null }">
-						<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon"><br>
-					</c:when>
-				</c:choose>
-				<c:choose>
-					<c:when test="${S_MEMBER == null }">
-						<b>${shareMemId}</b>님의 평균 음역대<br>
-					</c:when>
-					<c:when test="${S_MEMBER != null }">
-						<b>${S_MEMBER.memAlias }</b>님의 평균 음역대<br>
-					</c:when>
-				</c:choose>
+<%-- 				<c:choose> --%>
+<%-- 					<c:when test="${S_MEMBER.memProfileNm == null }">  --%>
+<!-- 						<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br> -->
+<%-- 					</c:when> --%>
+<%-- 					<c:when test="${S_MEMBER == null }"> --%>
+<%-- 						<c:choose> --%>
+<%-- 							<c:when test="${profilePath ==null }"> --%>
+<!-- 								<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br> -->
+<%-- 							</c:when> --%>
+<%-- 							<c:otherwise> --%>
+<%-- 								<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon"><br> --%>
+<%-- 							</c:otherwise> --%>
+<%-- 						</c:choose> --%>
+<%-- 					</c:when> --%>
+<%-- 					<c:when test="${S_MEMBER != null }"> --%>
+<%-- 						<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon"><br> --%>
+<%-- 					</c:when> --%>
+<%-- 				</c:choose> --%>
+<%-- 				<c:choose> --%>
+<%-- 					<c:when test="${S_MEMBER == null }"> --%>
+<%-- 						<b>${shareMemId}</b>님의 평균 음역대<br> --%>
+<%-- 					</c:when> --%>
+<%-- 					<c:when test="${S_MEMBER != null }"> --%>
+<%-- 						<c:choose> --%>
+<%-- 							<c:when test="${S_MEMBER.memId != shareMemId}"> --%>
+<%-- 								<b>${shareMemId}</b>님의 평균 음역대<br> --%>
+<%-- 							</c:when> --%>
+<%-- 							<c:otherwise> --%>
+<%-- 								<b>${S_MEMBER.memAlias }</b>님의 평균 음역대<br> --%>
+<%-- 							</c:otherwise> --%>
+<%-- 						</c:choose> --%>
+<%-- 					</c:when> --%>
+<%-- 				</c:choose> --%>
 				<span id="averageRange"></span>
 				<div class="line" ></div>
 				<div class="point"></div>
