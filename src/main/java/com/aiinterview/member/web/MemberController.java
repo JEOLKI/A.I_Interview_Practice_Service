@@ -53,7 +53,6 @@ public class MemberController {
 		try {
 			searchMemberVo = memberService.retrieveId(memberVo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
@@ -66,7 +65,6 @@ public class MemberController {
 		try {
 			searchMemberVo = memberService.retrievePw(memberVo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("searchMemberVo", searchMemberVo);
