@@ -177,36 +177,45 @@ $(document).ready(function(){
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
-		
-		var stackDataset=[];
 		var dataset = [];
-		console.log
-		for(var i in scriptScoreList){
-// 			console.log("scriptScoreList[i]"+scriptScoreList[i].scriptTestScore);
-				var radius;
-				if(scriptScoreList[i].scriptTestScore=="100"){
-					var x = 10; var y = 10; radius = 10;
-					
-					for(var j in dataset){
-					console.log("100 - dataset[j] : "+dataset[j].data);
-						if(scriptScoreList[i].scriptTestScore == JSON.stringify(dataset[j])){
-							radius += 5;
-						}
+		for(i in scriptScoreList){
+			var radiusOneHund;
+			var radiusElse;
+			
+			if(scriptScoreList[i].scriptTestScore == "100" && dataset.length == 0){
+				var x = 10; var y = 10;
+				dataset.push({x:x, y:y, r:10});
+			}else if(scriptScoreList[i].scriptTestScore == "100" && dataset.length != 0){
+				var x = 10; var y = 10;
+				radiusOneHund = 10;
+				for(j in dataset){
+					console.log("dataset.length : "+dataset.length);
+					if(dataset[j].x == x && dataset[j].y == y){
+						radiusOneHund += 0.01;
+						dataset.push({x:x, y:y, r:radiusOneHund});
+					}else{
+						dataset.push({x:x, y:y, r:10});
 					}
-					dataset.push({x:x, y:y, r:radius});
-				}else{
-					radius = 10;
-					var x = scriptScoreList[i].scriptTestScore.charAt(0);
-					var y = scriptScoreList[i].scriptTestScore.charAt(1);
-					
-					for(var j in dataset){
-						console.log("100 - dataset[j] : "+dataset[j].data);
-						if(scriptScoreList[i].scriptTestScore == JSON.stringify(dataset[j])){
-							radius += 5;
-						}
-					}
-					dataset.push({x:x, y:y, r:radius});
 				}
+			} //100 end
+			
+			var x = scriptScoreList[i].scriptTestScore.charAt(0);
+			var y = scriptScoreList[i].scriptTestScore.charAt(1);
+			
+			//else score
+			if(scriptScoreList[i].scriptTestScore != "100" && dataset.length == 0){
+				dataset.push({x:x, y:y, r:10});
+			}else if(scriptScoreList[i].scriptTestScore != "100" && dataset.length != 0){
+				radiusElse = 10;
+				for(j in dataset){
+					if(dataset[j].x == x && dataset[j].y == y){
+						radiusElse += 0.01;
+						dataset.push({x:x, y:y, r:radiusElse});
+					}else{
+						dataset.push({x:x, y:y, r:10});
+					}
+				}
+			}
 		}// i - for 종료
 		
 		function dynamicColors(){
