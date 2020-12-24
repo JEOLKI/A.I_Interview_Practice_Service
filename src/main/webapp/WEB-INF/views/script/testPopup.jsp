@@ -72,6 +72,7 @@ $(document).ready(function() {
 		$('#help').css('display','none');
 		$('#play').css('display','none');
 		$('#result').css('display','');
+		$('.guide.test').html('');
 
 		$.ajax(
 			{url:"/scriptTest/create.do",
@@ -80,23 +81,19 @@ $(document).ready(function() {
 			type : "post",
 			success : function(data){
 				performScript = data.performScript;
-				diffrentIndexs = data.diffrentIndexs;
-				scriptArr = Array.from(performScript);
+				differentArr = data.differentArr;
+				scriptArr = performScript.split(' ');
 				html = "";
-				length = html.length;
-				for(var i =0; i<scriptArr.length; i++){
-					console.log(length);
-					for(var j=0; j<diffrentIndexs.length;j++){
-						if(diffrentIndexs[j]==i){
-							html += '<span style="color:#FF4646;">'+scriptArr[i]+'</span>';
-							length++;
-							break;
+				if(scriptArr>1){
+					for(var i =0; i<scriptArr.length; i++){
+						if(scriptArr[i] == differentArr[i]){
+							html += '<span style="color:#FF4646;">'+scriptArr[i]+'&nbsp</span>';
+						} else{
+							html += scriptArr[i]+"&nbsp";
 						}
 					}
-					if(length <=i){
-						html += scriptArr[i];
-						length++;
-					}
+				} else {
+					$('.guide.result').html('어떤 이유로 인해 측정에 실패했습니다 :(<br>혹시 마이크에 문제가 있는 건 아닌지 확인해 보세요!').css('fontSize','0.85em');
 				}
 				
 				$('.scriptContent').html(html);
@@ -111,7 +108,7 @@ $(document).ready(function() {
 				} else if(testScore < 100){
 					scoreText += '<span>일치율</span><br><b>&nbsp;'+testScore+'</b>%';
 				} else{
-					scoreText += '<span>일치율</span><br><b>'+100+'</b>%';
+					scoreText += '<span>일치율</span><br><b>'+testScore+'</b>%';
 				}
 				$('.scoreText').html(scoreText);
 			},
@@ -130,6 +127,7 @@ $(document).ready(function() {
 		$('#endTestBtn').css('display','none');	// 완료 버튼 안보이기
 		$('#startTestBtn').css('display','');	// 시작 버튼 보이기
 		$('.scriptContent').empty();			// 테스트할 스크립트란 비우기
+		$('.guide.test').val('시작 버튼을 눌러주세요.');
 	})
 });
 
@@ -150,6 +148,8 @@ document.addEventListener("DOMContentLoaded", function () {
 startRecognizeOnceAsyncButton.addEventListener("click", function () {
 	$('#startTestBtn').css("display","none");
 	$('#endTestBtn').css("display", "");
+	$('.guide.test').html('읽기를 마친 후 완료버튼을 눌러주세요.');
+	 
 	
 	// 랜덤 지문 출력
 	$.ajax(
@@ -216,6 +216,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 	   			$('.present').css("display","none");  
 	   			$('#endTestBtn').css('display','none');
 	   			$('#resultBtn').css('display','');
+	   			$('.guide.test').html('');
 	   		 	audioContext.close().then(function() {
 	   			})
    			 } 
@@ -293,8 +294,6 @@ function createScriptTest(resultScript, scriptSq){
 				"scriptSq" : scriptSq},
 		type : "post",
 		success : function(data){
-			console.log("성공");
-			console.log(data);
 			testScore = data.result;
 			resultScript = data.performScript;
 		},
@@ -721,7 +720,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div class="scoreText"></div>
 			</div>
 			<div class="resultScriptBox">
-				<p class="guide result">마이크를 통해 입력된 문장입니다.</p>
+				<p class="guide result">붉은색으로 입력된 부분이 일치하지 않습니다.</p>
 				<br><br>
 				<p class="scriptContent"></p>
 			</div>

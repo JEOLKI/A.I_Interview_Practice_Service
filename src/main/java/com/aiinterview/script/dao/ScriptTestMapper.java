@@ -1,6 +1,7 @@
 package com.aiinterview.script.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aiinterview.script.vo.ScriptTestVO;
 
@@ -23,5 +24,12 @@ public interface ScriptTestMapper {
 	 * @throws Exception
 	 */
 	public List<ScriptTestVO> retrieveList(String memId) throws Exception;
+
+	/**
+	 * 스크립트 테스트 일치도 구하는 메서드
+	 * @param testScoreMap
+	 * @return
+	 */
+	public int retrieveScore(Map<String, String> testScoreMap);
 	
 }

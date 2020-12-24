@@ -20,4 +20,8 @@
 		AND B.SCRIPT_GB_SQ = C.SCRIPT_GB_SQ
 	</select>
 	
+	<select id="retrieveScore" parameterType="hashmap"  resultType="int">
+		SELECT UTL_MATCH.EDIT_DISTANCE_SIMILARITY(#{scriptContent}, #{resultScript}) AS scriptTestScore
+		  FROM DUAL
+	</select>
 </mapper>

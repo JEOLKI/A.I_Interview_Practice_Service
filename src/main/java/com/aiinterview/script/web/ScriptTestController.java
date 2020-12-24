@@ -1,7 +1,9 @@
 package com.aiinterview.script.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -42,11 +44,12 @@ public class ScriptTestController {
 		
 		ScriptTestController scriptTest = new ScriptTestController();
 		
-		ArrayList<String> systemScriptList = scriptTest.nGram(scriptContent); //스크립트에 출력된 출력 문
-		ArrayList<String> memberScriptList = scriptTest.nGram(resultScript); //사용자가 말한스크립트 문
-
-		int result = scriptTest.resultNGram(systemScriptList, memberScriptList);
-		List<Integer> diffrentIndexs = getDiffrentIndexs(scriptContent, resultScript);
+		Map<String, String> testScoreMap = new HashMap<String, String>();
+		testScoreMap.put("scriptContent", scriptContent);
+		testScoreMap.put("resultScript", resultScript);
+		
+		int result = scriptTestService.retrieveScore(testScoreMap);
+ 		String[] differentArr = getDifferentArr(scriptContent, resultScript);
 		
 		MemberVO memberVo = (MemberVO)session.getAttribute("S_MEMBER");
 		String memId = memberVo.getMemId();
@@ -59,7 +62,7 @@ public class ScriptTestController {
 		
 		model.addAttribute("performScript", resultScript);
 		model.addAttribute("result", result);
-		model.addAttribute("diffrentIndexs", diffrentIndexs);
+		model.addAttribute("differentArr", differentArr);
 		return "jsonView";
 	}
 	
@@ -102,56 +105,36 @@ public class ScriptTestController {
 		return "jsonView";
 	}
 	
-	/**
-	 * 각각의 스크립트를 리스트내에 두 음절씩 분리하여 입력하는 메소드
-	 * @param script
-	 * @return ArrayList<String>
-	 */
-	public ArrayList<String> nGram(String script) {
-		ArrayList<String> list = new ArrayList<String>();
-		ArrayList<String> result = new ArrayList<String>();
-	
-		for (int i = 0; i <= script.length() - 1; i++) {
-			list.add(Character.toString(script.charAt(i)));
-		}
-	
-		for (int i = 0; i < list.size() - 1; i++) {
-			result.add(list.get(i) + list.get(i + 1));
-		}
-		return result;
-	}
-
-	/**
-	 * 분리된 리스트의 각 인덱스내의 값들을 비교하여
-	 * 두 스크립트의 일치도를 반환하는 메소드
-	 * @param systemScriptList
-	 * @param memberScriptList
-	 * @return int타입의 일치도 값
-	 */
-	public int resultNGram(ArrayList<String> systemScriptList, ArrayList<String> memberScriptList) {
-		int count = 0;
-		int size = systemScriptList.size();
-		for (int i = 0; i < systemScriptList.size(); i++) {
-			for (int j = 0; j < memberScriptList.size(); j++) {
-				if (systemScriptList.get(i).equals(memberScriptList.get(j))) {
-					count += 1;
-				}
-				
-			}
-		}
-		return (int)((double)count/(double)size*100);
-	}
 	
 	/*불일치 인덱스 구하는 메서드*/
-	public List<Integer> getDiffrentIndexs(String scriptContent, String resultScript){
-		List<Integer> diffrentIndexs = new ArrayList<>();
+	public String[] getDifferentArr(String scriptContent, String resultScript){
 		
-		for (int i = 0; i < resultScript.length(); i++) {
-			if(Character.toUpperCase(resultScript.charAt(i)) !=  Character.toUpperCase(scriptContent.charAt(i))){
-				diffrentIndexs.add(i);
+		String[] scriptContentArr = scriptContent.split(" ");
+		String[] resultScriptArr = resultScript.split(" ");
+		String[] differentArr;
+		
+		if(scriptContentArr.length <= resultScriptArr.length && scriptContentArr.length >0 ) { // 기준스크립트 < 결과 스크립트
+			
+			differentArr = new String[resultScriptArr.length];
+			
+			for(int i =0; i < scriptContentArr.length; i++) {
+				if(!scriptContentArr[i].equals(resultScriptArr[i])) {
+					differentArr[i] = resultScriptArr[i];
+				}
+			}
+			for(int i=scriptContentArr.length; i<resultScriptArr.length; i++) {
+				differentArr[i] = resultScriptArr[i];
+			}
+		} else {// 결과 스크립트 < 기준스크립트  
+			differentArr = new String[resultScriptArr.length];
+			for(int i =0; i < resultScriptArr.length; i++) {
+				if(!scriptContentArr[i].equals(resultScriptArr[i])) {
+					differentArr[i] = resultScriptArr[i];
+				}
 			}
 		}
-		return diffrentIndexs;
+		
+		return differentArr;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.aiinterview.script.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -33,4 +34,14 @@ public class ScriptTestService {
 	public List<ScriptTestVO> retrieveList(String memId) throws Exception{
 		return scriptTestMapper.retrieveList(memId);
 	}
+
+	/**
+	 * 스크립트 테스트 일치도 구하는 메서드
+	 * @param testScoreMap
+	 * @return
+	 */
+	public int retrieveScore(Map<String, String> testScoreMap) {
+		return scriptTestMapper.retrieveScore(testScoreMap);
+	}
+
 }
