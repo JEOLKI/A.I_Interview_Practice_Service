@@ -16,6 +16,10 @@
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
+
+<!-- aes 암호화 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 <script>
 	
 	$(document).ready(function() {
@@ -69,14 +73,32 @@
 		})
 		
 		$(".ShareBox").on("click", ".content-box > .active", function() {
-			 var sharePw = $(".pw-input").val();
-			 var dummy = document.createElement("textarea");
-			 document.body.appendChild(dummy);
-			 dummy.value = "${serverIp}/analysis/share.do?sharePw="+sharePw+"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }&profilePath=${S_MEMBER.memProfilePath}";
-			 dummy.select();
-			 document.execCommand("copy");
-			 document.body.removeChild(dummy);
-			 alert("링크가 복사 되었습니다.")
+			var sharePw = $(".pw-input").val();
+			var dummy = document.createElement("textarea");
+			document.body.appendChild(dummy);
+			
+			var iv = 'e9d3712c4d5c35093d340733b8c26b92';
+			var salt = 'deafa8b6802cebcc0bcceaaa5f3461a9';
+			var passPhrase = 'e534cf179007db7e6360ebf95fa5d51c';
+			
+			var keySize = 128;
+			var iterationCount = 10000;
+			var key128Bits = CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), { keySize: keySize / 32, iterations: iterationCount } );
+
+			
+			//var encrypted = CryptoJS.AES.encrypt(
+    		sharePw = CryptoJS.AES.encrypt(
+    										sharePw,
+    										key128Bits,
+								            { iv: CryptoJS.enc.Hex.parse(iv) });
+			
+			dummy.value = "${serverIp}/analysis/share.do?sharePw="+sharePw +"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }";
+			dummy.select();
+			document.execCommand("copy");
+			document.body.removeChild(dummy);
+			
+			alert("링크가 복사 되었습니다.")
+			
 		})
 		
 		$(".x-btn").on('click', function() {
@@ -102,6 +124,41 @@
 		
 		
 	});
+	
+	
+	function aesParam(param){
+		
+		var txt = '';
+		
+		function txtAppend(str){
+			txt = txt + str + '\r\n';
+		}
+		
+		//String => Hex
+		function toHex(str){   
+		var hex = '';
+		for(var i=0;i<str.length;i++) {
+		hex += ''+str.charCodeAt(i).toString(16);
+		}    
+		return hex;
+		};
+		
+		var key = CryptoJS.enc.Hex.parse(toHex('this is aes key1')); //16자리
+		var iv  = CryptoJS.enc.Hex.parse(toHex('this is aes iv01')); //16자리   
+		 
+		txtAppend('key:'+CryptoJS.enc.Hex.stringify(key));
+		txtAppend('iv:'+CryptoJS.enc.Hex.stringify(iv));
+		 
+		var words  = param;    
+		 
+		var encrypted = CryptoJS.AES.encrypt(words, key, { iv: iv });
+		txtAppend('hex:'+encrypted.ciphertext);
+		txtAppend('aes:'+encrypted);
+		
+		return txt;
+	
+	}
+	
 	
 </script>
 

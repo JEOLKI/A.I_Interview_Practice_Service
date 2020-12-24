@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aiinterview.analysis.service.HabitAnalysisService;
 import com.aiinterview.analysis.service.ImageAnalysisService;
@@ -26,6 +27,7 @@ import com.aiinterview.analysis.vo.ImageAnalysisVO;
 import com.aiinterview.analysis.vo.RepeatAnalysisVO;
 import com.aiinterview.analysis.vo.TalentAnalysisVO;
 import com.aiinterview.analysis.vo.VoiceAnalysisVO;
+import com.aiinterview.common.util.aes.AesCryptUtil;
 import com.aiinterview.interview.service.AnswerService;
 import com.aiinterview.interview.service.HabitService;
 import com.aiinterview.interview.service.InterviewService;
@@ -35,6 +37,7 @@ import com.aiinterview.interview.vo.AnswerVO;
 import com.aiinterview.interview.vo.HabitVO;
 import com.aiinterview.interview.vo.InterviewVO;
 import com.aiinterview.interview.vo.QuestionVO;
+import com.aiinterview.member.service.MemberService;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.plan.service.PlanService;
 import com.aiinterview.plan.vo.PlanStatisticsVO;
@@ -45,6 +48,9 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @RequestMapping("/analysis")
 @Controller
 public class AnalysisController {
+	
+	@Resource(name = "memberService")
+	private MemberService memberService;
 	
 	@Resource(name = "interviewService")
 	private InterviewService interviewService;
@@ -243,7 +249,6 @@ public class AnalysisController {
 			
             /* 음성 - voiceAnalysisList (데시벨,헤르츠)*/
             List<VoiceAnalysisVO> voiceAnalysisList = voiceAnalysisService.retrieveList(ansSq);
-            MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
             model.addAttribute("voiceAnalysisList", voiceAnalysisList);
 			
 		} catch (Exception e) {
@@ -338,22 +343,47 @@ public class AnalysisController {
 		return "jsonView";
 	}
 	
+	public static String stringToHex(String s) {
+        String result = "";
+
+        for (int i = 0; i < s.length(); i++) {
+          result += String.format("%02X", (int) s.charAt(i));
+        }
+
+        return result;
+    } 
+	
 	@RequestMapping(value = "/share.do")
-	public String share(String shareMemId, String sharePw, String interviewSq, Model model,String profilePath) {
-		model.addAttribute("sharePw", sharePw);
+	public String share(String sharePw, String interviewSq, String shareMemId,  Model model) {
+		
+        String shareUrl = "/analysis/resultShare.do?interviewSq="+interviewSq+"&shareMemId="+shareMemId;
+		
+        model.addAttribute("aesSharePw", sharePw);
 		model.addAttribute("shareMemId", shareMemId);
-		model.addAttribute("profilePath", profilePath);
-		String shareUrl = "/analysis/resultShare.do?interviewSq="+interviewSq+"&shareMemId="+shareMemId+"&profilePath="+profilePath;
 		model.addAttribute("shareUrl", shareUrl);
 		
 		return "analysis/analysisShare";
 	}
 	
 	@RequestMapping(value = "/resultShare.do")
-	public String resultShare(String shareMemId, QuestionVO questionVO, Model model, String profilePath) {
+	public String resultShare(String aesSharePw, String inSharePw, String shareMemId, QuestionVO questionVO, Model model, RedirectAttributes rd) {
+		
+		String oriSharePw = AesCryptUtil.decrypt(aesSharePw);
+		
+		if(!inSharePw.equals(oriSharePw)) {
+			rd.addAttribute("wrongMsg", "잘못된 코드입니다.");
+			return "redirect:/analysis/share.do?sharePw="+aesSharePw+"&interviewSq="+questionVO.getInterviewSq()+"&shareMemId="+ shareMemId;
+		}
+		
+		MemberVO shareMember = null;
+		try {
+			shareMember = memberService.retrieve(shareMemId);
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
 		
 		model.addAttribute("shareMemId", shareMemId);
-		model.addAttribute("profilePath", profilePath);
+		model.addAttribute("profilePath", shareMember.getMemProfilePath());
 		
 		try {
 			InterviewVO interviewVO = interviewService.retrieve(questionVO.getInterviewSq());
