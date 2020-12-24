@@ -144,11 +144,6 @@
 							<div class="report" id="report${question.questSq }"> </div>						
 						</div>	
 					</c:forEach>
-
-
-
-
-
 			</div>
 			
 			<img
