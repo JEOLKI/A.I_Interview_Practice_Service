@@ -106,21 +106,39 @@ function readURL(value){
 	
 	$(document).ready(function(){
 		$('.memPw').on('input',function(){
-			if($('#memPwOne').val()!=$('#memPwTwo').val()){
-				$('#checkPw').empty();
-				$('#checkPw').append('<span style="color:red; font-size:13px;">비밀번호가 일치하지 않습니다</span>');
-				$('#check').val('N');
+			if($('#memPwOne').val()!='' && $('#memPwTwo').val()!=''){
+				if($('#memPwOne').val()!=$('#memPwTwo').val()){
+					if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPwOne").val()) || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPwTwo").val())){
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:red">최소 하나의 문자, 숫자로 최소 8자리 입력가능합니다</span><br><br>');
+						$('#check').val('N');
+					}else{
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
+						$('#check').val('N');
+					}
+				}else if($('#memPwOne').val()==$('#memPwTwo').val()){
+					if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPwOne").val()) || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPwTwo").val())){
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:red">최소 하나의 문자, 숫자로 최소 8자리 입력가능합니다</span><br><br>');
+						$('#check').val('N');
+					}else{
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:green">비밀번호가 일치합니다</span><br><br>');
+						$('#check').val('Y');
+					}
+				}
 			}else{
 				$('#checkPw').empty();
-				$('#checkPw').append('<span style="color:green; font-size:13px;">비밀번호가 일치합니다</span>');
-				$('#check').val('Y');
+				$('#check').val('N');
 			}
 		});
 		
 	$('#aliasCheck').on('click',function(){
-		console.log('체크')
 		if($('#memAlias').val()==''){
 			alert('닉네임을 입력하세요');
+		}else if(!/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]{2,8}$/.test($("#memAlias").val())){
+			alert("닉네임은 한글/영문/숫자로 2~8자리 입력 가능합니다.");
 		}else{
 			$('#checkAlias').empty();
 			aliasCheck();
@@ -204,31 +222,36 @@ function readURL(value){
 	
 function aliasCheck(){
 	memAlias = $('#memAlias').val();
-
-	
-$.ajax({
-		url : "/member/aliasCheck.do",
-		data : {
-			memAlias : memAlias
-		},
-		method : "post",
-		success : function(data) {
-			if (data == '') {
-				html = '<span style="color:green; font-size:11px;">사용가능한 닉네임입니다</span>';
-				$('#check').val('Y');
-				$('#memAlias').attr('readonly',true);
-				$('#checkAlias').append(html);
-			} else {
-				html = '<span style="color:red;font-size:11px;">중복된 닉네임입니다</span>';
-				$('#memAlias').val('');
-				$('#check').val('N');
-				$('#checkAlias').append(html);
-			}
-		},
-		error : function(data) {
-			console.log(data.status);
-		}
-	});
+	if(memAlias == '${S_MEMBER.memAlias}'){
+		html = '<span style="color:green; font-size:11px;">기존 닉네임을 유지합니다</span>';
+		$('#check').val('Y');
+		$('#memAlias').attr('readonly',true);
+		$('#checkAlias').append(html);
+	}else{
+		$.ajax({
+				url : "/member/aliasCheck.do",
+				data : {
+					memAlias : memAlias
+				},
+				method : "post",
+				success : function(data) {
+					if (data.memberList.length == 0) {
+						html = '<span style="color:green; font-size:11px;">사용가능한 닉네임입니다</span>';
+						$('#check').val('Y');
+						$('#memAlias').attr('readonly',true);
+						$('#checkAlias').append(html);
+					} else {
+						html = '<span style="color:red;font-size:11px;">중복된 닉네임입니다</span>';
+						$('#memAlias').val('');
+						$('#check').val('N');
+						$('#checkAlias').append(html);
+					}
+				},
+				error : function(data) {
+					console.log(data.status);
+				}
+			});
+	}
 };
 </script>
 </head>
@@ -277,8 +300,8 @@ $.ajax({
 								비밀번호<span>(필수)</span>
 							</div>
 							<div class="content name-area" style="flex-direction: column">
-								<input type="password" name="memPw" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwOne"   style="height: 44px;"><br>
-								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwTwo" style="height: 44px;">
+								<input type="password" name="memPw" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwOne"   style="height: 44px; width: 350px;"maxlength="20"><br>
+								<input type="password" placeholder="변경할 비밀번호를 입력하세요" class="memPw" value="${S_MEMBER.memPw}" id="memPwTwo" style="height: 44px; width: 350px;"maxlength="20">
 								<span id="checkPw" class="check"></span>
 							</div>
 						</div>

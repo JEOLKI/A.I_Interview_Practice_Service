@@ -40,20 +40,39 @@
 	
 	$(document).ready(function(){
 		$('.memPw').on('input',function(){
-			if($('#memPw1').val()!=$('#memPw2').val()){
-				$('#checkPw').empty();
-				$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
-				$('#check').val('N');
+			if($('#memPw1').val()!='' && $('#memPw2').val()!=''){
+				if($('#memPw1').val()!=$('#memPw2').val()){
+					if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw1").val()) || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw2").val())){
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:red">비밀번호는 최소 하나의 문자, 숫자로 최소 8자리 입력가능합니다.</span><br><br>');
+						$('#check').val('N');
+					}else{
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
+						$('#check').val('N');
+					}
+				}else if($('#memPw1').val()==$('#memPw2').val()){
+					if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw1").val()) || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw2").val())){
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:red">비밀번호는 최소 하나의 문자, 숫자로 최소 8자리 입력가능합니다.</span><br><br>');
+						$('#check').val('N');
+					}else{
+						$('#checkPw').empty();
+						$('#checkPw').append('<span style="color:green">비밀번호가 일치합니다</span><br><br>');
+						$('#check').val('Y');
+					}
+				}
 			}else{
 				$('#checkPw').empty();
-				$('#checkPw').append('<span style="color:green">비밀번호가 일치합니다</span><br><br>');
-				$('#check').val('Y');
+				$('#check').val('N');
 			}
 		});
 		
 		$('#idCheck').on('click',function(){
 			if($('#memId').val()==''){
 				alert('아이디를 입력하세요');
+			}else if(!/^[a-zA-Z0-9]{4,20}$/.test($("#memId").val())){
+				alert("아이디는 영문/숫자로  4~20자리 입력가능합니다.");
 			}else{
 				$('#checkId').empty();
 				idCheck();
@@ -63,11 +82,21 @@
 		$('#aliasCheck').on('click',function(){
 			if($('#memAlias').val()==''){
 				alert('닉네임을 입력하세요');
+			}else if(!/^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]{2,8}$/.test($("#memAlias").val())){
+				alert("닉네임은 한글/영문/숫자로 2~8자리 입력 가능합니다.");
 			}else{
 				$('#checkAlias').empty();
 				aliasCheck();
 			}
 		});
+		
+		$('#memTel').on('input',function(){
+			if(/[^0-9]/.test($("#memTel").val())){
+				let str = $('#memTel').val();
+				let edit = str.replace(/[^0-9.]/g,'');
+				$('#memTel').val(edit);
+			}
+		})
 		
 		$('#newcomer').on('click',function(){
 			$('#memCareer').val('신입');
@@ -145,6 +174,8 @@
 				alert('중복체크를 확인해주세요');
 				return false;
 			}else{
+				tel = "010-" + ($('#memTel').val()).substr(0,4) + "-" + ($('#memTel').val()).substr(4,4);
+				$('#memTel').val(tel);
 				$('#fr').submit();
 				return true;
 			}
@@ -254,9 +285,9 @@
 					<div class="name-input"
 						style="flex-direction: column; margin-bottom: 40px;">
 						<input type="password" name="memPw" id="memPw1" class="memPw"
-							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value=""><br>
+							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="" maxlength="20"><br>
 						<input type="password"  id="memPw2" class="memPw"
-							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="">
+							style="display: block" placeholder="사용할 비밀번호를 입력하세요" value="" maxlength="20">
 					</div>
 					<div id="checkPw" class="check"></div>
 
@@ -284,7 +315,9 @@
 						<span class="red">*</span>사용자 연락처
 					</div>
 					<div class="name-input">
-						<input type="text" name="memTel" id="memTel" placeholder="사용할 연락처를 입력하세요">
+						<input type="text" value="010" readonly="readonly" style="width: 30px;"> 
+						<input type="text" name="memTel" id="memTel" placeholder="사용할 연락처를 입력하세요" maxlength="8">
+						<div id="checkTel" class="check"></div>
 					</div>
 
 					<div class="set-career-flex">
