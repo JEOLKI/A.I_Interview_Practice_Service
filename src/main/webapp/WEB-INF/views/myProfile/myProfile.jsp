@@ -28,14 +28,14 @@ function PlanUse(){
 			if(check.term>0){
 				var html = "";
 				var plan = data.planUse
-				
+				var planSq = check.planSq
 				html += '<div class="ticket-area"> ';
 				html += `<div class="PaymentForm sprint" >`;
-				if(check.term == 1){
+				if(planSq == 1){
 					html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_sprint.png')"  >                                 `;
-				}else if(check.term == 3){
+				}else if(planSq == 2){
 					html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_half.png')"  >                                 `;
-				}else if(check.term == 5){
+				}else if(planSq == 3){
 					html += `	<div class="PaymentTicket" style="background-image:url('/images/ticket_marathon.png')"  >                                 `;
 				}else{
 					html += `	<div class="PaymentTicket" style="background-image:url('/images/구매전.png')"  >                                 `;

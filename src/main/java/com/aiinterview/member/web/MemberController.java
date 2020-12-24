@@ -4,6 +4,7 @@ package com.aiinterview.member.web;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,9 +155,9 @@ public class MemberController {
 				PlanVO planUse = planService.planContent(pv);
 				
 				// 사용중인 요금제 날짜 설정 구문
-				long calDate = planUseCheck.getEndDate().getTime() - planUseCheck.getStartDate().getTime();
-				long calDateDays =calDate / (24*60*60*1000);
-				planUseCheck.setTerm((int) (calDateDays = Math.abs(calDateDays))); 
+				long calDate = planUseCheck.getEndDate().getTime() - Math.abs((long)(new Date().getTime()));
+				double calDateDays =calDate / (double)(24*60*60*1000);
+				planUseCheck.setTerm((int) (calDateDays = Math.ceil(calDateDays))); 
 				
 				model.addAttribute("planUse", planUse);
 				model.addAttribute("planUseCheck", planUseCheck);
