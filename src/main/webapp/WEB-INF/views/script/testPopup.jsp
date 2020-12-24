@@ -46,12 +46,12 @@ $(document).ready(function() {
 	$('.scriptGbBtn').on('click', function() {
 		$('#title').css('display','none');
 		
-// 		$('scriptModalContent').html('<span>테스트 시작시 스크립트가 출력됩니다.<br>출력된 스크립트를 소리내여 읽어주세요.</span>').css({'color':'#A6A6A6', 'font-size':'0.9em'});
-// 		$('#phraseDiv').html('');
 		
-		$('#help').css('display','none');
-		$('#result').css('display','none');
-		$('#play').css('display','');
+		$('#help').css('display','none');			// 첫 안내 페이지 안보이기
+		$('#result').css('display','none');			// 결과 페이지 안보이기
+		$('#play').css('display','');				// 테스트 진행 페이지 보이기
+		$('#endTestBtn').css('display','none');		// 완료 버튼 안보이기
+		$('.scriptContent').empty();				// 테스트할 스크립트란 비우기
 		
 		scriptGbContent = $(this).data('content');
 		scriptGbSq = $(this).data('sq');
@@ -79,11 +79,8 @@ $(document).ready(function() {
 					"scriptSq" : scriptSq},
 			type : "post",
 			success : function(data){
-				console.log("성공");
-				console.log(data);
 				performScript = data.performScript;
 				diffrentIndexs = data.diffrentIndexs;
-				console.log(diffrentIndexs);
 				scriptArr = Array.from(performScript);
 				html = "";
 				length = html.length;
@@ -124,14 +121,15 @@ $(document).ready(function() {
 		});
 	})
 	
+	// 다시 테스트하기 버튼 클릭 시
 	$('#retryBtn').on('click',function(){
-		$('#help').css('display','none');
-		$('#play').css('display','');
-		$('#result').css('display','none');
-		$('#resultBtn').css('display','none');
-		$('#endTestBtn').css('display','none');
-		$('#startTestBtn').css('display','');
-		$('.scriptContent').empty();
+		$('#help').css('display','none');		// 첫 안내페이지 안보이기
+		$('#result').css('display','none');		// 결과 페이지 안보이기
+		$('#play').css('display','');			// 테스트 진행 페이지 보이기
+		$('#resultBtn').css('display','none');	// 결과 버튼 안보이기
+		$('#endTestBtn').css('display','none');	// 완료 버튼 안보이기
+		$('#startTestBtn').css('display','');	// 시작 버튼 보이기
+		$('.scriptContent').empty();			// 테스트할 스크립트란 비우기
 	})
 });
 
@@ -160,7 +158,13 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 		method : "post",
 		success : function(data){
   				$('.scriptContent').html(data.scriptVO.scriptContent);
+  				$('#synthesisText').val(data.scriptVO.scriptContent);
   				scriptSq = data.scriptVO.scriptSq;
+  				if(data.scriptGbContent == '영어'){
+  					 $('#voiceOptions>.ko-KR').remove(); // #voiceOptions태그의 .ko-KR 클래스만 제거
+  				}else if(data.scriptGbContent == '한국어'){
+  					 $('#voiceOptions>.en-US').remove(); // #voiceOptions태그의 .en-US 클래스만 제거
+  				}
 		},
 		error: function(data){
 			$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
@@ -330,7 +334,169 @@ function createScoreChart(ctx, testScore){
 	});
 	
 }
+/* 아래부터 TTS */
+// var authorizationEndpoint = "tokenTTS.php";
 
+// function RequestAuthorizationToken() {
+//   if (authorizationEndpoint) {
+//     var a = new XMLHttpRequest();
+//     a.open("GET", authorizationEndpoint);
+//     a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//     a.send("");
+//     a.onload = function() {
+//         var token = JSON.parse(atob(this.responseText.split(".")[1]));
+//         regionOptions.value = token.region;
+//         authorizationToken = this.responseText;
+//         subscriptionKeyTTS.disabled = true;
+//         subscriptionKeyTTS.value = "using authorization token (hit F5 to refresh)";
+//         console.log("Got an authorization token: " + token);
+//     }
+//   }
+// }
+// TTS 최초 진입 시 설정
+function Initialize(onComplete) {
+  if (!!window.SpeechSDK) {
+    onComplete(window.SpeechSDK);
+  }
+}
+// TTS 버튼 설정
+var resultsDiv, eventsDiv;
+var highlightDiv;
+var startSynthesisAsyncButton, pauseButton, resumeButton;
+var updateVoiceListButton;
+var subscriptionKeyTTS, regionOptions;
+var authorizationToken;
+var voiceOptions, isSsml;
+var SpeechSDK;
+var synthesisText;
+var synthesizer;
+var player;
+var wordBoundaryList = [];
+
+// 음성 TTS
+document.addEventListener("DOMContentLoaded", function () {
+  startSynthesisAsyncButton = document.getElementById("startSynthesisAsyncButton");
+  updateVoiceListButton = document.getElementById("updateVoiceListButton");
+  pauseButton = document.getElementById("pauseButton");
+  resumeButton = document.getElementById("resumeButton");
+  subscriptionKeyTTS = document.getElementById("subscriptionKeyTTS");
+  regionOptions = document.getElementById("regionOptions");
+  voiceOptions = document.getElementById("voiceOptions");
+  isSsml = document.getElementById("isSSML");
+
+  setInterval(function () {
+    if (player !== undefined) {
+      const currentTime = player.currentTime;
+      var wordBoundary;
+      for (const e of wordBoundaryList) {
+        if (currentTime * 1000 > e.audioOffset / 10000) {
+          wordBoundary = e;
+        } else {
+          break;
+        }
+      }
+      if (wordBoundary !== undefined) {
+                "<span class='highlight'>" + wordBoundary.text + "</span>" +
+                synthesisText.value.substr(wordBoundary.textOffset + wordBoundary.wordLength);
+      } else {
+      }
+    }
+  }, 50);
+
+
+  // 시작버튼
+  startSynthesisAsyncButton.addEventListener("click", function () {
+    wordBoundaryList = [];
+    synthesisText = document.getElementById("synthesisText");
+
+    var speechConfig;
+    if (authorizationToken) {
+      speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, regionOptions.value);
+    } else {
+      if (subscriptionKeyTTS.value === "" || subscriptionKeyTTS.value === "subscription") {
+        alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+        return;
+      }
+      speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKeyTTS.value, regionOptions.value);
+    }
+
+    speechConfig.speechSynthesisVoiceName = voiceOptions.value;
+
+    player = new SpeechSDK.SpeakerAudioDestination();
+    player.onAudioEnd = function (_) {
+      window.console.log("playback finished");
+      startSynthesisAsyncButton.disabled = false;
+      wordBoundaryList = [];
+      
+    };
+
+    var audioConfig  = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
+
+    synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+
+    synthesizer.synthesizing = function (s, e) {
+      window.console.log(e);
+    };
+
+    synthesizer.synthesisStarted = function (s, e) {
+      window.console.log(e);
+    };
+
+    // TTS 모두 출력 function
+    synthesizer.synthesisCompleted = function (s, e) {
+      console.log(e);
+    };
+
+    synthesizer.SynthesisCanceled = function (s, e) {
+      const cancellationDetails = SpeechSDK.CancellationDetails.fromResult(e.result);
+      let str = "(cancel) Reason: " + SpeechSDK.CancellationReason[cancellationDetails.reason];
+      if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
+        str += ": " + e.result.errorDetails;
+      }
+      window.console.log(e);
+      startSynthesisAsyncButton.disabled = false;
+    };
+
+    synthesizer.wordBoundary = function (s, e) {
+      window.console.log(e);
+      wordBoundaryList.push(e);
+    };
+
+    const complete_cb = function (result) {
+      if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+      } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
+      }
+      window.console.log(result);
+      synthesizer.close();
+      synthesizer = undefined;
+    };
+    const err_cb = function (err) {
+      startSynthesisAsyncButton.disabled = false;
+      window.console.log(err);
+      synthesizer.close();
+      synthesizer = undefined;
+    };
+    if (isSsml.checked) {
+      synthesizer.speakSsmlAsync(synthesisText.value,
+              complete_cb,
+              err_cb);
+    } else {
+      synthesizer.speakTextAsync(synthesisText.value,
+              complete_cb,
+              err_cb);
+    }
+  });
+
+  // 최초 진입 시
+  Initialize(function (speechSdk) {
+    SpeechSDK = speechSdk;
+    startSynthesisAsyncButton.disabled = false;
+
+    if (typeof RequestAuthorizationToken === "function") {
+      RequestAuthorizationToken();
+    }
+  });
+});
 </script>
 
 <style>
@@ -531,7 +697,7 @@ function createScoreChart(ctx, testScore){
 
 		
 		<div id="play" style="display: none;">
-			<span class="listenBtn">발음 듣기</span>
+			<span class="listenBtn" id="startSynthesisAsyncButton">발음 듣기</span>
 			<div class="scriptBox">
 				<p class="guide script">문장을 정확하게 소리내어 읽어보세요.</p>
 				<br><br>
@@ -562,5 +728,59 @@ function createScoreChart(ctx, testScore){
 			<button class="processBtn" id="retryBtn">다시 테스트하기</button>
 		</div>
 	</div>
+	<!-- TTS부분 -->
+	<div id="tts" style="display:none">
+	  <table>
+	    <tr>
+	      <td align="right">
+	        <label for="subscriptionKey">
+	          <a href="https://docs.microsoft.com/azure/cognitive-services/speech-service/get-started"
+	             rel="noreferrer noopener"
+	             target="_blank">Subscription Key</a>
+	        </label>
+	      </td>
+	      <td><input id="subscriptionKeyTTS" type="text" size="40" value="197c1a7bc63c41a1931328e15925d597"></td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label for="regionOptions">Region</label></td>
+	      <td>
+	        <select id="regionOptions">
+	          <option value="southeastasia">South East Asia</option>
+	        </select>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label >Voice</label></td>
+	      <td>
+	        <button id="updateVoiceListButton">Update Voice List</button>
+	        <select id="voiceOptions">
+	          <option class="ko-KR" value="Microsoft Server Speech Text to Speech Voice (ko-KR, SunHiNeural)">Microsoft Server Speech Text to Speech Voice (ko-KR, SunHiNeural)</option>
+	          <option class="ko-KR" value="Microsoft Server Speech Text to Speech Voice (ko-KR, InJoonNeural)">Microsoft Server Speech Text to Speech Voice (ko-KR, InJoonNeural)</option>
+	          <option class="en-US" value="Microsoft Server Speech Text to Speech Voice (en-US, JennyNeural)">Microsoft Server Speech Text to Speech Voice (en-US, JennyNeural)</option>
+	          <option class="en-US" value="Microsoft Server Speech Text to Speech Voice (en-US, GuyNeural)">Microsoft Server Speech Text to Speech Voice (en-US, GuyNeural)</option>
+	        </select>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label for="isSSML">Is SSML</label><br></td>
+	      <td>
+	        <input type="checkbox" id="isSSML" name="isSSML" value="ssml">
+	      </td>
+	    </tr>
+	    <tr>
+	      <td align="right"><label for="synthesisText">Text</label></td>
+	      <td>
+	        <textarea id="synthesisText" style="display: inline-block;width:500px;height:100px"
+	               placeholder="Input text or ssml for synthesis."></textarea>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td></td>
+	      <td>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+	<!-- TTS부분 -->
 </body>
 </html>

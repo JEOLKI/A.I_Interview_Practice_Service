@@ -88,6 +88,8 @@ public class ScriptTestController {
 		List<ScriptVO> scriptList = null;
 		try {
 			scriptList = scriptService.retrieveSelectList(scriptGbSq);
+			ScriptGubunVO scriptGubunVO = scriptGbService.retrieve(scriptGbSq);
+			model.addAttribute("scriptGbContent", scriptGubunVO.getScriptGbContent());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
