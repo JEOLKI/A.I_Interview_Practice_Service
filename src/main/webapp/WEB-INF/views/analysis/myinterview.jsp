@@ -253,7 +253,7 @@
 	  	  
 	  	  var url = '/scriptTest/testPopup.do';
 	  	  
-	  	  var options = 'width=300, height=500, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
+	  	  var options = 'width=340, height=500, status=no, menubar=no, toolbar=no, resizable=no, scrollbars=no';
 	      window.open(url, "", options);
 	};
 	

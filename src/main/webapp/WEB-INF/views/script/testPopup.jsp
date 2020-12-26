@@ -32,7 +32,7 @@ blink {
     scriptGbContent='';
     scriptGbSq = 0;
     window.onload = function(){
-	    window.resizeTo(480,620);
+	    window.resizeTo(400,600);
     }
 	
 $(document).ready(function() {
@@ -85,7 +85,7 @@ $(document).ready(function() {
 				differentArr = data.differentArr;
 				scriptArr = performScript.split(' ');
 				html = "";
-				if(scriptArr.length>1){
+				if(scriptArr.length>0){
 					for(var i =0; i<scriptArr.length; i++){
 						if(scriptArr[i] == differentArr[i]){
 							html += '<span style="color:#FF4646;">'+scriptArr[i]+'&nbsp</span>';
@@ -147,49 +147,60 @@ document.addEventListener("DOMContentLoaded", function () {
 	startRecognizeOnceAsyncButton = document.getElementById("startTestBtn");
 	subscriptionKey = document.getElementById("subscriptionKey");
 	serviceRegion = document.getElementById("serviceRegion");
-
-
-startRecognizeOnceAsyncButton.addEventListener("click", function () {
-	$('#startTestBtn').css("display","none");
-	$('#endTestBtn').css("display", "");
-	$('.guide.test').html('읽기를 마친 후 완료버튼을 눌러주세요.');
-	 
-	
-	// 랜덤 지문 출력
-	$.ajax(
-		{url:"/scriptTest/retrieveScriptList.do",
-		data : {scriptGbSq : scriptGbSq},
-		method : "post",
-		success : function(data){
-				$('.scriptContent').empty();
-  				$('.scriptContent').html(data.scriptVO.scriptContent);
-  				$('#synthesisText').val(data.scriptVO.scriptContent);
-  				scriptSq = data.scriptVO.scriptSq;
-  				if(data.scriptGbContent == '영어'){
-  					 $('#voiceOptions>.ko-KR').remove(); // #voiceOptions태그의 .ko-KR 클래스만 제거
-  				}else if(data.scriptGbContent == '한국어'){
-  					 $('#voiceOptions>.en-US').remove(); // #voiceOptions태그의 .en-US 클래스만 제거
-  				}
-		},
-		error: function(data){
-			$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
-		}
-	});
-	if (subscriptionKey == "" || subscriptionKey == "subscription") {
-       return;
-	};
 		      
 	  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("7ec161e7215b4f0e9a153abcdfa1f815", "koreacentral");
    	  audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     	  
-    	  function colorGage(vol) {                                                                             
-           let fullgage = $('.volume').width();                                                                       
-           let presentVol = Math.round(vol)*2;                                                         
-           let voluemGage = $('.present').css({"width":presentVol, "display" : ""});                                             
-         }      
+   	  // 볼륨 게이지 그리기 펑션
+   	  function colorGage(vol) {                                                                             
+          let fullgage = $('.volume').width();                                                                       
+          let presentVol = Math.round(vol)*2;                                                         
+          let voluemGage = $('.present').css({"width":presentVol, "display" : ""});                                             
+        }      
     	  
     	  navigator.mediaDevices.getUserMedia({ audio: true})                                     
           .then(function(stream) {                                                                              
+			
+			//시작 버튼 클릭 시
+			startRecognizeOnceAsyncButton.addEventListener("click", function () {
+			$('#startTestBtn').css("display","none");
+			$('#endTestBtn').css("display", "");
+			$('.guide.test').html('읽기를 마친 후 완료버튼을 눌러주세요.');
+			
+			 
+			// 랜덤 지문 출력
+			$.ajax(
+				{url:"/scriptTest/retrieveScriptList.do",
+				data : {scriptGbSq : scriptGbSq},
+				method : "post",
+				success : function(data){
+						$('.scriptContent').empty();
+		  				$('.scriptContent').html(data.scriptVO.scriptContent);
+		  				$('#synthesisText').val(data.scriptVO.scriptContent);
+		  				scriptSq = data.scriptVO.scriptSq;
+		  				if(data.scriptGbContent == '영어'){
+		  					 $('#voiceOptions>.ko-KR').remove(); // #voiceOptions태그의 .ko-KR 클래스만 제거
+		  				}else if(data.scriptGbContent == '한국어'){
+		  					 $('#voiceOptions>.en-US').remove(); // #voiceOptions태그의 .en-US 클래스만 제거
+		  				}
+				},
+				error: function(data){
+					$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
+				}
+			});
+			if (subscriptionKey == "" || subscriptionKey == "subscription") {
+		       return;
+			};
+			 if(scriptGbContent ==''){
+	   	  	    	$('.scriptContent').html('<span style="color:#FF4646;">테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요!</span>');
+	   	  	    	return false;
+	   	  	    } else if(scriptGbContent=="한국어"){
+		 	    	speechConfig.speechRecognitionLanguage = "ko-KR";
+	   	  	    } else if(scriptGbContent=="영어"){
+	   	  	    	speechConfig.speechRecognitionLanguage = "en-US";
+	   	  	    }else{
+	   	  	    	speechConfig.speechRecognitionLanguage = "ko-KR";
+	   	  	    }
             var audioContext = new AudioContext();                                                                  
             var analyser = audioContext.createAnalyser();                                                           
             var microphone = audioContext.createMediaStreamSource(stream);                                          
@@ -216,30 +227,22 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
               colorGage(average);                                                                               
             }
             
-        	// 마이크 볼륨그리기 중지
+        	// 완료 버튼 클릭 시 
      		 endTestBtn.onclick = function() {
 	   			$('.present').css("display","none");  
 	   			$('#endTestBtn').css('display','none');
 	   			$('#resultBtn').css('display','');
 	   			$('.guide.test').html('');
+	   			startRecognizeOnceAsyncButton.disabled = false;
+	   		   	recognizer.stopContinuousRecognitionAsync();
 	   		 	audioContext.close().then(function() {
 	   			})
    			 } 
-          })
-   	  	    if(scriptGbContent ==''){
-   	  	    	$('.scriptContent').html('<span style="color:#FF4646;">테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요!</span>');
-   	  	    	return false;
-   	  	    } else if(scriptGbContent=="한국어"){
-	 	    	speechConfig.speechRecognitionLanguage = "ko-KR";
-   	  	    } else if(scriptGbContent=="영어"){
-   	  	    	speechConfig.speechRecognitionLanguage = "en-US";
-   	  	    }else{
-   	  	    	speechConfig.speechRecognitionLanguage = "ko-KR";
-   	  	    }
+   	  	   
     	  	    
-	    	recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+    	recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
           
-          recognizer.recognizing = (s, e) => {
+      	recognizer.recognizing = (s, e) => {
   	
 	  	console.log(`RECOGNIZING: Text=${e.result.text}`);
 	    };
@@ -280,9 +283,17 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
    });
    
 	//음성 스탑버튼 클릭 시 
-	endTestBtn.addEventListener("click", function () {
-		startRecognizeOnceAsyncButton.disabled = false;
-	   	recognizer.stopContinuousRecognitionAsync();
+// 	endTestBtn.addEventListener("click", function () {
+		
+// 	});
+   })
+   .catch(function(err) {
+	   if(err.name =='NotFoundError'){
+		   $('.guide.test').css({'color' : 'red',
+			                     'fontSize' : '0.7em',
+			                     'fontWeight' : 'bold'});
+		   $('.guide.test').html('마이크가 연결되지 않았습니다.<br>테스트 진행을위해 마이크를 연결해 주세요. : )');
+	   }
 	});
 });
 
@@ -632,7 +643,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    display: inline-block;
 	    background-color: #FF4646;
         position: relative;
-  	 	bottom: 40px;
+  	 	bottom: 35px;
 	}
 	
 	#scoreChart{
