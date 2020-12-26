@@ -1,11 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI_INTERVIEW</title>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
@@ -143,10 +139,13 @@
 	}
 	
 	.test-start-btn{
-	 	background-color:rgba(4, 124, 245);
+		display: inline-block;
+	 	background-color: #13e3eb;
 		font-size: 16px;
 		border-radius: 50px;
-		padding: 10px 20px;
+		padding: 13px 24px;
+		margin-top: 10px;
+		font-weight: bold;
 	}
 </style>
 
@@ -162,19 +161,23 @@
 			method : "get",
 			data : {memId : "${S_MEMBER.memId}"},
 			success : function(data){
-				if(data.scriptTestList.length==0){
+				
+				if(data.scriptTestList.length == 0){
 					$('#testResultZone').empty();
 					$('#testBtnGrp').hide();
 					$('#pronunciation .title').empty();
 					
-					$('#pronunciation .title').append('<h3 style="margin-top:5px; float:center;" >발음 평가 🔉<h3>');
+					$('#pronunciation .title').append('<h4 style="margin-top:5px; float:center;" >발음 평가 🔉</h4>');
 					
 					var html ="";
-					html += '<h3>지금 바로 테스트에 도전하고,<br>나만의 발음 그래프를 확인하세요!<h3>';
+					html += '<h4>지금 바로 테스트에 도전하고,<br>나만의 발음 그래프를 확인하세요!</h4>';
 					html += '<a class="test-start-btn" onclick="testStartPopUp();">TEST START!</a>';
 					$('#testResultZone').append(html);
+				}else{
+					scriptTestChart(data.scriptTestList);
 				}
-				scriptTestChart(data.scriptTestList);
+				
+			
 			}
 		})
 		
