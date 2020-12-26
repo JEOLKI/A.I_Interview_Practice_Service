@@ -51,6 +51,7 @@ $(document).ready(function() {
 		$('#result').css('display','none');			// 결과 페이지 안보이기
 		$('#play').css('display','');				// 테스트 진행 페이지 보이기
 		$('#endTestBtn').css('display','none');		// 완료 버튼 안보이기
+		$('#resultBtn').css('display','none');		// 결과보기 버튼 안보이기
 		$('.scriptContent').empty();				// 테스트할 스크립트란 비우기
 		
 		scriptGbContent = $(this).data('content');
@@ -157,6 +158,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 		data : {scriptGbSq : scriptGbSq},
 		method : "post",
 		success : function(data){
+				$('.scriptContent').empty();
   				$('.scriptContent').html(data.scriptVO.scriptContent);
   				$('#synthesisText').val(data.scriptVO.scriptContent);
   				scriptSq = data.scriptVO.scriptSq;
@@ -183,7 +185,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
            let voluemGage = $('.present').css({"width":presentVol, "display" : ""});                                             
          }      
     	  
-    	  navigator.mediaDevices.getUserMedia({ audio: true })                                     
+    	  navigator.mediaDevices.getUserMedia({ audio: true , video: true})                                     
           .then(function(stream) {                                                                              
             var audioContext = new AudioContext();                                                                  
             var analyser = audioContext.createAnalyser();                                                           
