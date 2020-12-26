@@ -61,21 +61,4 @@ public interface ScriptGubunMapper {
 	 * @return
 	 */
 	public List<ScriptGubunVO> retrieveScriptGubunSearchList(String keyword) throws Exception;
-
-	/**
-	 * 스크립트 구분 도출 횟수 및 순위 리스트를 조회하는 메서드
-	 * 스크립트 구분 통계용
-	 * @param statisticMap
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ScriptTestVO> retrieveRankingList(Map<String, String> statisticMap) throws Exception;
-
-	/**
-	 * 스크립트 구분 별 테스트 점수를 조회하는 메서드
-	 * @param scriptGbSq
-	 * @return
-	 * @throws Exception
-	 */
-	public List<ScriptTestVO> retrieveScoreList(String scriptGbSq) throws Exception;
 }

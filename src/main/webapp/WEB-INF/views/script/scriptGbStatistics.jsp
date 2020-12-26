@@ -122,7 +122,7 @@ $(document).ready(function(){
 	var scriptScoreList=[];
 	
 	//최초 노출 score chart
-	$.ajax({url : "/scriptGubun/retrieveScoreList.do",
+	$.ajax({url : "/scriptTest/retrieveScoreList.do",
 			data : {"startDate" : startDate,
 					"endDate" : endDate,
 					"scriptGbSq" : scriptGbSq},
@@ -134,7 +134,7 @@ $(document).ready(function(){
 	}); //score ajax 종료
 	
 	//최초 노출 ranking table
- 	$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
+ 	$.ajax({url : "/scriptTest/retrieveRankingList.do", 
 			data : {"startDate" : startDate,
 			 	 	"endDate" 	: endDate,
 			 	 	"scriptGbSq": scriptGbSq},
@@ -151,7 +151,7 @@ $(document).ready(function(){
 	
 	$('#selectBtn, .scriptGbTab').on('click',function(){
 	 	//ranking table
-		$.ajax({url : "/scriptGubun/retrieveRankingList.do", 
+		$.ajax({url : "/scriptTest/retrieveRankingList.do", 
 				data : {"startDate" : startDate,
 					 	 "endDate" 	 : endDate,
 					 	 "scriptGbSq": scriptGbSq},
@@ -163,7 +163,7 @@ $(document).ready(function(){
 		}); //ranking ajax 종료
 		
 		//score chart
-		$.ajax({url : "/scriptGubun/retrieveScoreList.do",
+		$.ajax({url : "/scriptTest/retrieveScoreList.do",
 				data : {"startDate" : startDate,
 						"endDate" : endDate,
 						"scriptGbSq" : scriptGbSq},
@@ -177,58 +177,35 @@ $(document).ready(function(){
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
-		var dataset = [];
+		console.log("scriptScoreList : "+scriptScoreList);
+			var dataset = [];
 		for(i in scriptScoreList){
-			var radiusOneHund;
-			var radiusElse;
+			var r = scriptScoreList[i].totCnt;
 			
-			if(scriptScoreList[i].scriptTestScore == "100" && dataset.length == 0){
+			if(scriptScoreList[i].scriptTestScore == "100"){
 				var x = 10; var y = 10;
-				dataset.push({x:x, y:y, r:10});
-			}else if(scriptScoreList[i].scriptTestScore == "100" && dataset.length != 0){
-				var x = 10; var y = 10;
-				radiusOneHund = 10;
-				for(j in dataset){
-					console.log("dataset.length : "+dataset.length);
-					if(dataset[j].x == x && dataset[j].y == y){
-						radiusOneHund += 0.01;
-						dataset.push({x:x, y:y, r:radiusOneHund});
-					}else{
-						dataset.push({x:x, y:y, r:10});
-					}
-				}
-			} //100 end
-			
-			var x = scriptScoreList[i].scriptTestScore.charAt(0);
-			var y = scriptScoreList[i].scriptTestScore.charAt(1);
-			
-			//else score
-			if(scriptScoreList[i].scriptTestScore != "100" && dataset.length == 0){
-				dataset.push({x:x, y:y, r:10});
-			}else if(scriptScoreList[i].scriptTestScore != "100" && dataset.length != 0){
-				radiusElse = 10;
-				for(j in dataset){
-					if(dataset[j].x == x && dataset[j].y == y){
-						radiusElse += 0.01;
-						dataset.push({x:x, y:y, r:radiusElse});
-					}else{
-						dataset.push({x:x, y:y, r:10});
-					}
-				}
+				dataset.push({x:x, y:y, r:5*r})
+			}else if(scriptScoreList[i].scriptTestScore != "100"){
+				var x = Number(scriptScoreList[i].scriptTestScore.charAt(0));
+				var y = Number(scriptScoreList[i].scriptTestScore.charAt(1));
+
+				dataset.push({x:x, y:y, r:5*r})
 			}
-		}// i - for 종료
+		}
 		
+// 		console.log("dataset entry :"+ JSON.stringify({dataset}));
 		function dynamicColors(){
 		        var r = Math.floor(Math.random() * 255);
 		        var g = Math.floor(Math.random() * 255);
 		        var b = Math.floor(Math.random() * 255);
-		        return "rgba(" + r + "," + g + "," + b + ", 0.2)";
+		        return "rgba(" + r + "," + g + "," + b + ", 1)";
 		};
 		
 		var colorChart = dynamicColors();
 		var bubbleData = {datasets :
 							[{	label : "점수 분포",
 							    backgroundColor: colorChart,
+							    borderColor : colorChart,
 							    data: dataset
 						  	}]
 						 }; //bubbleData exit

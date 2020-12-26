@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.aiinterview.script.dao.ScriptMapper;
 import com.aiinterview.script.dao.ScriptTestMapper;
 import com.aiinterview.script.vo.ScriptTestVO;
 
@@ -44,4 +45,24 @@ public class ScriptTestService {
 		return scriptTestMapper.retrieveScore(testScoreMap);
 	}
 
+	/**
+	 * 스크립트 구분별 스크립트 도출 횟수 및 순위 리스트를 조회하는 메서드
+	 * 스크립트 구분 통계용
+	 * @param statisticMap
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScriptTestVO> retrieveRankingList(Map<String, String> statisticMap) throws Exception{
+		return scriptTestMapper.retrieveRankingList(statisticMap);
+	}
+
+	/**
+	 * 스크립트 구분 별 테스트 점수를 조회하는 메서드
+	 * @param testScoreMap
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ScriptTestVO> retrieveScoreList(Map<String, String> testScoreMap) throws Exception{
+		return scriptTestMapper.retrieveScoreList(testScoreMap);
+	}
 }

@@ -105,7 +105,6 @@ public class ScriptTestController {
 		return "jsonView";
 	}
 	
-	
 	/*불일치 인덱스 구하는 메서드*/
 	public String[] getDifferentArr(String scriptContent, String resultScript){
 		
@@ -137,7 +136,6 @@ public class ScriptTestController {
 		return differentArr;
 	}
 	
-	
 	@RequestMapping(path = "/retrieveScriptTestList.do", method = { RequestMethod.GET })
 	public String retrieveScriptTestList(String memId, Model model) {
 		
@@ -150,4 +148,70 @@ public class ScriptTestController {
 		return "jsonView";
 	}
 	
+	/* 통계 : 스구별 스테에 사용된 스 사용 빈도*/
+	@RequestMapping("/retrieveRankingList.do")
+	public String retrieveRankingList(String scriptGbSq, String startDate, String endDate, Model model) {
+		if(scriptGbSq==null) {
+			List<ScriptGubunVO> scriptGbList = null;
+			try {
+				scriptGbList = scriptGbService.retrieveList();
+			} catch (Exception e) { }
+			
+			for(ScriptGubunVO scriptGb : scriptGbList) {
+				if(scriptGb.getScriptGbContent().equals("한국어")) {
+					scriptGbSq = scriptGb.getScriptGbSq();
+				}
+			}
+		}
+
+		Map<String, String> statisticMap = new HashMap<>();
+		statisticMap.put("startDate", startDate);
+		statisticMap.put("endDate", endDate);
+		statisticMap.put("scriptGbSq", scriptGbSq);
+		
+		List<ScriptTestVO> scriptRankingList = null;
+		try {
+			scriptRankingList = scriptTestService.retrieveRankingList(statisticMap);
+			model.addAttribute("scriptRankingList", scriptRankingList);
+		} catch (Exception e) { }
+		return "jsonView";
+	}
+	
+	/* 통계 : 스구별 점수 표준편차 */
+	@RequestMapping("/retrieveScoreList.do")
+	public String retrieveScoreList(String scriptGbSq, String startDate, String endDate, Model model) {
+		if(scriptGbSq==null) {
+			List<ScriptGubunVO> scriptGbList = null;
+			try {
+				scriptGbList = scriptGbService.retrieveList();
+			} catch (Exception e) { }
+			
+			for(ScriptGubunVO scriptGb : scriptGbList) {
+				if(scriptGb.getScriptGbContent().equals("한국어")) {
+					scriptGbSq = scriptGb.getScriptGbSq();
+				}
+			}
+		}
+		
+		Map<String, String> testScoreMap = new HashMap<String, String>();
+		testScoreMap.put("startDate", startDate);
+		testScoreMap.put("endDate", endDate);
+		testScoreMap.put("scriptGbSq", scriptGbSq);
+		
+		List<ScriptTestVO> scriptScoreList = null;
+		try {
+			scriptScoreList = scriptTestService.retrieveScoreList(testScoreMap);
+		} catch (Exception e) { }
+		model.addAttribute("scriptScoreList", scriptScoreList);
+		return "jsonView";
+	}
+	
+//	@RequestMapping(path = "/retrieveSameScore.do")
+//	public String retrieveSameScoreView(String startDate, String endDate, String scriptGbSq, Model model) {
+//
+//		
+//		
+//		model.addAttribute("testScoreMap", testScoreMap);
+//		return "jsonView";
+//	}
 }
