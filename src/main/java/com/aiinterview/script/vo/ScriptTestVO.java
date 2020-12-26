@@ -13,8 +13,9 @@ public class ScriptTestVO extends ScriptVO{
 	private String scriptGbContent; //스크립트 구분 언어
 	private String scriptGbSt;		//스크립트 언어의 활성화 여부
 	
-	private int rank;			//많이 사용된 script ranking
-	private int totCnt;			//많이 사용된 script의 total Count
+	private int rank;			//스크립트 구분 별 스크립트 사용 횟수 랭킹
+	private int totCnt;			//스크립트 별 사용 횟수
+	private int avgScore;		//스크립트 별 평균 점수
 	
 	public ScriptTestVO() {
 		
@@ -25,22 +26,6 @@ public class ScriptTestVO extends ScriptVO{
 		this.performScript = performScript;
 		this.memId = memId;
 		this.scriptSq = scriptSq;
-	}
-	
-	public String getScriptGbContent() {
-		return scriptGbContent;
-	}
-
-	public void setScriptGbContent(String scriptGbContent) {
-		this.scriptGbContent = scriptGbContent;
-	}
-
-	public String getScriptGbSt() {
-		return scriptGbSt;
-	}
-
-	public void setScriptGbSt(String scriptGbSt) {
-		this.scriptGbSt = scriptGbSt;
 	}
 
 	public String getScriptTestSq() {
@@ -99,6 +84,22 @@ public class ScriptTestVO extends ScriptVO{
 		this.scriptGbSq = scriptGbSq;
 	}
 
+	public String getScriptGbContent() {
+		return scriptGbContent;
+	}
+
+	public void setScriptGbContent(String scriptGbContent) {
+		this.scriptGbContent = scriptGbContent;
+	}
+
+	public String getScriptGbSt() {
+		return scriptGbSt;
+	}
+
+	public void setScriptGbSt(String scriptGbSt) {
+		this.scriptGbSt = scriptGbSt;
+	}
+
 	public int getRank() {
 		return rank;
 	}
@@ -115,11 +116,20 @@ public class ScriptTestVO extends ScriptVO{
 		this.totCnt = totCnt;
 	}
 
+	public int getAvgScore() {
+		return avgScore;
+	}
+
+	public void setAvgScore(int avgScore) {
+		this.avgScore = avgScore;
+	}
+
 	@Override
 	public String toString() {
 		return "ScriptTestVO [scriptTestSq=" + scriptTestSq + ", scriptTestScore=" + scriptTestScore
 				+ ", performScript=" + performScript + ", scriptTestDate=" + scriptTestDate + ", memId=" + memId
-				+ ", scriptSq=" + scriptSq + ", scriptGbSq=" + scriptGbSq + ", rank=" + rank + ", totCnt=" + totCnt
+				+ ", scriptSq=" + scriptSq + ", scriptGbSq=" + scriptGbSq + ", scriptGbContent=" + scriptGbContent
+				+ ", scriptGbSt=" + scriptGbSt + ", rank=" + rank + ", totCnt=" + totCnt + ", avgScore=" + avgScore
 				+ "]";
 	}
 }

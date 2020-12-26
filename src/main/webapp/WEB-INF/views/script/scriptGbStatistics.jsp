@@ -49,11 +49,19 @@ today = getFormatDate(today);
  	} 
 	
  	.title th{ 
- 		width: 250px; 
+ 		width: 250px;
  		border-bottom: 2px solid black; 
  		text-align: center; 
  		font-size: 1.2em; 
  	} 
+
+	th .scriptContentTitle, td .scriptContentTitle{
+		width : 50%;
+	}
+	
+	th .scriptAvgScore, td .scriptAvgScore, th .scriptTotCnt, td .scriptTotCnt{
+		width : 20%;
+	}
 	
  	table{ 
  		border-collapse: collapse; 
@@ -99,9 +107,9 @@ today = getFormatDate(today);
  		border : 1px solid black; 
  	} 
 
- 	.scriptContentTitle{
- 		width : 70%;
- 	}
+/*  	.scriptContentTitle{  */
+/*   		width : 70%;  */
+/*   	} */
 
  	#rankingList{
  		position: absolute;
@@ -247,13 +255,15 @@ $(document).ready(function(){
 			html += '<tr class="scriptRank">';
 			html += '	<td>'+scriptRankingList[i].rank+'</td>';
 			html += '	<td class="scriptContentTitle">'+scriptRankingList[i].scriptContent+'</td>';
-			html += '	<td>'+scriptRankingList[i].totCnt+'</td>';
+			html += '	<td class="scriptAvgScore">'+scriptRankingList[i].avgScore+'</td>';
+			html += '	<td class="scripptTotCnt">'+scriptRankingList[i].totCnt+'</td>';
 			html += '</tr>';
 			
 			sumCnt += scriptRankingList[i].totCnt;
 		}
 		html += '<tr id="sumCnt">'
 		html += '	<td>합  계</td>';
+		html += '	<td></td>'
 		html += '	<td></td>'
 		html += '	<td>'+sumCnt+'</td>';
 		html += '</tr>'
@@ -294,7 +304,8 @@ $(document).ready(function(){
 					  		<tr class="title">
 					  			<th class="rn">순위</th>
 					  			<th class="scriptContentTitle">스크립트</th>
-					  			<th>테스트 횟수</th>
+					  			<th class="scriptAvgScore">평균</th>
+					  			<th class="scriptTotCnt">횟수</th>
 					  		</tr>
 					  		<tbody id="rankingList">
 					  		</tbody>
