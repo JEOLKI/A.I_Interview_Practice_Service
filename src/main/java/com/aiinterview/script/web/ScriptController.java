@@ -130,7 +130,9 @@ public class ScriptController {
 		model.addAttribute("header", header);
 		model.addAttribute("data", data);
 		model.addAttribute("fileName", "SCRIPT");
-		model.addAttribute("sheetName", "SCRIPT");
+		model.addAttribute("sheetName", "스크립트 목록");
+		model.addAttribute("titleSize", header.size());
+		
 		return "excelView";
 	}
 	

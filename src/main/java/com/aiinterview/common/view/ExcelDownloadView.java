@@ -45,6 +45,8 @@ public class ExcelDownloadView extends AbstractView {
 
 		// poi 라이브러리를 이용하여 엑셀 파일을 생성
 
+		
+		// cell rownum
 		int rowNo = 0;
 		
 		XSSFWorkbook xssfWb = null;
@@ -103,6 +105,26 @@ public class ExcelDownloadView extends AbstractView {
 			xssfSheet.autoSizeColumn(i);
 			xssfSheet.setColumnWidth(i, (xssfSheet.getColumnWidth(i))+(short)1024);
 		}
+		
+		final int firstRowNumber = xssfSheet.getFirstRowNum();
+		final int lastRowNumber = xssfSheet.getLastRowNum();
+		
+		final int columnNumber = 0;
+
+		final int filterValue = 1;
+		
+		// Iterate rows
+		for (int rowNumber = firstRowNumber; rowNumber < lastRowNumber; rowNumber++) {
+		       final Row row2 = xssfSheet.getRow(rowNumber);
+	       if (row2 != null) {
+	           final XSSFCell cell = (XSSFCell) row2.getCell(columnNumber);
+	           // Filter cells
+	           if (cell != null && cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC && cell.getNumericCellValue() == filterValue) {
+	               System.out.println("Found cell with value " + filterValue + " at [" + rowNumber + "," + columnNumber + "]");
+	           }               
+	       }
+		}
+		
 		
 		OutputStream os = response.getOutputStream();
 

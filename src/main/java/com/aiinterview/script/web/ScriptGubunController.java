@@ -219,7 +219,9 @@ public class ScriptGubunController {
 		model.addAttribute("header", header);
 		model.addAttribute("data", data);
 		model.addAttribute("fileName", "SCRIPT_GUBUN");
-		model.addAttribute("sheetName", "SCRIPT_GUBUN");
+		model.addAttribute("sheetName", "스크립트 구분목록");
+		model.addAttribute("titleSize", header.size());
+		
 		return "excelView";
 	}
 
