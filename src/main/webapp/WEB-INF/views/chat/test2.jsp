@@ -2,9 +2,7 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-
-<head>
+<html><head>
   <meta charset="utf-8">
   <title>terview Talk</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.css" rel="stylesheet">
@@ -12,14 +10,16 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <link rel="stylesheet" href="./css/style.css">
-</head>
-
 <style>
+*{
+box-sizing: content-box;
+}
 html, body {
   margin: 0;
   font-family: 'Open Sans';
   font-weight: 400;
   font-size: 14px;
+  width : 290px;
 }
 
 .header {
@@ -28,7 +28,7 @@ html, body {
     color: white;
     width: 100%;
     font-weight: 300;
-    height: 75px;
+    height: auto;
 }
 
 
@@ -142,7 +142,6 @@ color: #32e4cd;
     display: -ms-flexbox;
     display: flex;
     width: 100%;
-    height : 37px;
 }
 .input-group-addon {
     padding: .5rem .75rem;
@@ -178,8 +177,19 @@ color: #32e4cd;
     border-radius: .25rem;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+.input-group-addon { 
+    padding: .5rem .75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: #495057;
+    text-align: center;
+    background-color: #e9ecef;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+}
 </style>
-
 <script>
 	var webSocket =  new WebSocket("ws://localhost/admin.do");
 	
@@ -244,40 +254,44 @@ function getManager(){
 	})	
 }
 function filter(){
-	var value, name, item, i;
-	
-	value = document.getElementById("value").value.toUpperCase();
-	item = document.getElementsByClassName("chat_area");
-	
-	for(i=0;i<item.length;i++){
-		name = item[i].getElementsByClassName("chat__username");
-		if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
-	    	item[i].style.display = "flex";
-	  	}else{
-	    	item[i].style.display = "none";
-	  	}
-	}
-}	
 
-</script>
+       var value, name, item, i;
+
+       value = document.getElementById("value").value.toUpperCase();
+       item = document.getElementsByClassName("chat_area");
+
+       for(i=0;i<item.length;i++){
+         name = item[i].getElementsByClassName("chat__username");
+         if(name[0].innerHTML.toUpperCase().indexOf(value) > -1){
+           item[i].style.display = "flex";
+         }else{
+           item[i].style.display = "none";
+         }
+       }
+     }
+</script></head>
+
+
+
+
 
 <body>
   <header class="header">
-    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat" style="margin-left: 55.5%; color:white;">X</a>
+    <div class="main_title">MyInterview&nbsp; &nbsp;<a id="closeChat" style="padding-left: 48%; color:white;">X</a>
     </div>
-<!--     <div class="icon_box"> -->
+    <div class="icon_box">
     
-<!--       <span class="left_icon_box"> -->
-<!--       <span class="left_icon"><i class="material-icons">person</i></span> -->
-<!--       <span class="left_icon"><i class="material-icons">message</i></span> -->
+      <span class="left_icon_box">
+      <span class="left_icon"><i class="material-icons">person</i></span>
+      <span class="left_icon"><i class="material-icons">message</i></span>
 <!--       <span class="left_icon"><i class="material-icons">more</i></span> -->
-<!--       </span> -->
+      </span>
 
-<!--       <span class="right_icon_box"> -->
+      <span class="right_icon_box">
 <!--       <span class="right_icon"><i class="material-icons">notifications</i></span> -->
-<!--       <span class="right_icon"><i class="material-icons">settings</i></span> -->
-<!--       </span> -->
-<!--     </div> -->
+      <span class="right_icon"><i class="material-icons">settings</i></span>
+      </span>
+    </div>
   </header>
 
   <section class="middle">
@@ -287,33 +301,56 @@ function filter(){
       <span class="input-group-addon"><i class="material-icons">list</i></span>
     </div>
 		
-		<c:forEach items="${roomList }" var ="room">
-			<div class="chat_area" data-id="${room.memId }"  >
+		
+			<div class="chat_area" data-id="TEST_ID">
 				<div class="chat">
-				<c:choose>
-					<c:when test="${room.memProfileNm ==null }">
-						<img alt="error" src="/images/defaultImage.jpg" class="chat__avatar">
-					</c:when>
-					<c:otherwise>
-						<img src="/member/profile.do?memId=${room.memId }" alt="error" class="chat__avatar">
-					</c:otherwise>
-				</c:choose>
+						<img src="/member/profile.do?memId=TEST_ID" alt="error" class="chat__avatar">
 					<div class="chat__text">
-						<span class="chat__username">${room.memId }</span>&nbsp<i class="fa fa-circle-o is-online"></i><span class="chat__date">${room.msgDate }</span><br>
-						<span class="chat__preview">${room.msgContent }</span>
-						<c:choose>
-							<c:when test="${room.msgAlarm !=0 }">
-								<span class="alarm">${room.msgAlarm }</span>
-							</c:when>
-							<c:otherwise><span class="alarm" style="display: none;">${room.msgAlarm }</span></c:otherwise>
-						</c:choose> 
+						<span class="chat__username">TEST_ID</span>&nbsp;<i class="fa fa-circle-o is-online"></i><span class="chat__date">2020-12-23
+	오후 04:55</span><br>
+						<span class="chat__preview">GDDD</span>
+							<span class="alarm" style="display: none;">0</span>
 					</div>
 				</div>
 			</div>
-		</c:forEach>
-
+			
+			<div class="chat_area" data-id="MEMBER1">
+				<div class="chat">
+						<img src="/member/profile.do?memId=MEMBER1" alt="error" class="chat__avatar">
+					<div class="chat__text">
+						<span class="chat__username">MEMBER1</span>&nbsp;<i class="fa fa-circle-o is-online"></i><span class="chat__date">2020-12-23
+	오후 04:55</span><br>
+						<span class="chat__preview">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</span>
+							<span class="alarm" style="display: none;">0</span>
+					</div>
+				</div>
+			</div>
+		
+			<div class="chat_area" data-id="MEMBER3">
+				<div class="chat">
+						<img alt="error" src="/images/defaultImage.jpg" class="chat__avatar">
+					<div class="chat__text">
+						<span class="chat__username">MEMBER3</span>&nbsp;<i class="fa fa-circle-o is-online"></i><span class="chat__date">2020-12-23
+	오전 11:49</span><br>
+						<span class="chat__preview">안녕하세요</span>
+							<span class="alarm" style="display: none;">0</span>
+					</div>
+				</div>
+			</div>
+		
+			<div class="chat_area" data-id="MEMBER2">
+				<div class="chat">
+						<img src="/member/profile.do?memId=MEMBER2" alt="error" class="chat__avatar">
+					<div class="chat__text">
+						<span class="chat__username">MEMBER2</span>&nbsp;<i class="fa fa-circle-o is-online"></i><span class="chat__date">2020-12-22
+	오전 12:00</span><br>
+						<span class="chat__preview">안녕하세요</span>
+							<span class="alarm" style="display: none;">0</span>
+					</div>
+				</div>
+			</div>
   </section>
   
-</body>
 
-</html>
+
+</body></html>

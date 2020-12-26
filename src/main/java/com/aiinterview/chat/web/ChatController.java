@@ -35,6 +35,17 @@ public class ChatController {
 	public static  HttpSession usersSession;
 	public static  List<String> IdList = new ArrayList<>();
 	
+	
+	
+	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
+	public String test() {
+		return "chat/test";
+	}
+	@RequestMapping(path = "/test2.do", method = RequestMethod.GET)
+	public String test2() {
+		return "chat/test2";
+	}
+	
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
 	public String room(Model model, HttpSession session) {
 		List<ChatRoomVO> roomList = chatService.retrieveRoomList();

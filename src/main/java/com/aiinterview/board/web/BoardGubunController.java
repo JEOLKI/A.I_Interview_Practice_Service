@@ -144,7 +144,8 @@ public class BoardGubunController {
 		model.addAttribute("header",header);
 		model.addAttribute("data",data);
 		model.addAttribute("fileName","BOARDGUBUN");
-		model.addAttribute("sheetName","BOARDGUBUN");
+		model.addAttribute("sheetName","게시판 목록");
+		model.addAttribute("titleSize", header.size());
 		
 		return "excelView";
 	}

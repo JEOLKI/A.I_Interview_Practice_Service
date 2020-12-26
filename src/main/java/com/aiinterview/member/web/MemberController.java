@@ -369,7 +369,8 @@ public class MemberController {
 		model.addAttribute("header", header);
 		model.addAttribute("data", data);
 		model.addAttribute("fileName", "MEMBER");
-		model.addAttribute("sheetName", "MEMBER");
+		model.addAttribute("sheetName", "회원 목록");
+		model.addAttribute("titleSize", header.size());
 
 		return "excelView";
 	}

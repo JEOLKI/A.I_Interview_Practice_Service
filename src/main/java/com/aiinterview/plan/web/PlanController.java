@@ -2,8 +2,10 @@ package com.aiinterview.plan.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -193,14 +195,16 @@ public class PlanController {
 		model.addAttribute("header", header);
 		model.addAttribute("data", data);
 		model.addAttribute("fileName", "PLAN");
-		model.addAttribute("sheetName", "PLAN");
+		model.addAttribute("sheetName", "요금제 목록");
+		model.addAttribute("titleSize", header.size());
 
 		return "excelView";
 	}
 
 	@RequestMapping(path ="/planUseExcel.do", method = RequestMethod.GET)
 	public String planUseExcel(Model model) throws Exception {
-
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
 		// 출력할 리스트 가져오기
 		List<PlanUseVO> planUseList = planService.managePlanUse();
 
@@ -237,10 +241,13 @@ public class PlanController {
 		model.addAttribute("header", header);
 		model.addAttribute("data", data);
 		model.addAttribute("fileName", "PLANUSE");
-		model.addAttribute("sheetName", "PLANUSE");
-
+		model.addAttribute("sheetName", "결제 내역");
+		model.addAttribute("titleSize", header.size());
+		
 		return "excelView";
 	}
+	
+	
 
 /*	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
 	public String manageCash(Model model) {

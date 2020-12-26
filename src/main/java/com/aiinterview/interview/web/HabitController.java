@@ -162,7 +162,9 @@ public class HabitController {
 			model.addAttribute("header",header);
 			model.addAttribute("data",data);
 			model.addAttribute("fileName","HABIT");
-			model.addAttribute("sheetName","HABIT");
+			model.addAttribute("sheetName","습관어 목록");
+			model.addAttribute("titleSize", header.size());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

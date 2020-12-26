@@ -139,7 +139,9 @@ public class CategoryController {
 		model.addAttribute("header",header);
 		model.addAttribute("data",data);
 		model.addAttribute("fileName","CATEGORY");
-		model.addAttribute("sheetName","CATEGORY");
+		model.addAttribute("sheetName","말머리 목록");
+		model.addAttribute("titleSize", header.size());
+		
 		
 		return "excelView";
 	}

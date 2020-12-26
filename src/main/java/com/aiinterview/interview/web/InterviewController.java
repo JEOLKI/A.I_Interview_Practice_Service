@@ -219,7 +219,8 @@ public class InterviewController {
 		model.addAttribute("header",header);
 		model.addAttribute("data",data);
 		model.addAttribute("fileName","INTERVIEWLIST");
-		model.addAttribute("sheetName","INTERVIEWLIST");
+		model.addAttribute("sheetName","면접 통계");
+		model.addAttribute("titleSize", header.size());
 		
 		return "excelView";
 	}

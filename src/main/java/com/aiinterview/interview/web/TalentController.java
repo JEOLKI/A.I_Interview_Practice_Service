@@ -177,8 +177,9 @@ public class TalentController {
 			model.addAttribute("header",header);
 			model.addAttribute("data",data);
 			model.addAttribute("fileName","TALENT");
-			model.addAttribute("sheetName","TALENT");
-
+			model.addAttribute("sheetName","인재상 목록");
+			model.addAttribute("titleSize", header.size());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

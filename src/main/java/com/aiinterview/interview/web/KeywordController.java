@@ -150,7 +150,9 @@ public class KeywordController {
 			model.addAttribute("header",header);
 			model.addAttribute("data",data);
 			model.addAttribute("fileName","KEYWORD");
-			model.addAttribute("sheetName",talentVO.getTalentNm());
+			model.addAttribute("sheetName","키워드 목록");
+			model.addAttribute("titleSize", header.size());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

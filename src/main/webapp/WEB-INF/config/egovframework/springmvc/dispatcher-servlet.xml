@@ -68,6 +68,7 @@
 	<bean id="videoView" class="com.aiinterview.common.view.VideoView"/>
 	
 	<bean id="excelView" class="com.aiinterview.common.view.ExcelDownloadView"/>
+	<bean id="excelTestView" class="com.aiinterview.common.view.ExcelTestView"/>
 	
 	<bean id="fileDownloadView" class="com.aiinterview.common.view.fileDownloadView"/>
 

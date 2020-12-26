@@ -159,7 +159,9 @@ public class QuestionGubunController {
 			model.addAttribute("header",header);
 			model.addAttribute("data",data);
 			model.addAttribute("fileName","QUESTION_GB");
-			model.addAttribute("sheetName","QUESTION_GB");
+			model.addAttribute("sheetName","직무 목록");
+			model.addAttribute("titleSize", header.size());
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

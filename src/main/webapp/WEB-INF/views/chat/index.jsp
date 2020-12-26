@@ -24,7 +24,7 @@
   margin: 20px;
 }
 .allUsersList .card-header{
-  background: #683db8;
+  background: #0360a5;
   color: #FFF;
   padding: 10px;
 }
@@ -48,7 +48,7 @@
   border-radius: 30px;
 }
 .usersChatList .card-header{
-  background: #683db8;
+  background: #0360a5;
   font-size: 13px;
 }
 .chatBox{
@@ -64,7 +64,7 @@
   border-radius: 4px;
 }
 .chatBox .card-header{
-  background: #683db8;
+  background: #0360a5;
 }
 .header-title{
   height: 50px;
@@ -91,7 +91,7 @@
 }
 .my-content .message{
   float: right;
-  background: #683db8;
+  background: #0360a5;
   color: #FFF;
   text-align: right;
   padding: 10px;
@@ -157,7 +157,7 @@
 }
 .writer-user .chat-messages .message{
   float: right;
-  background: #683db8;
+  background: #0360a5;
   color: #FFF;
 }
 .writer-user .chat-messages .from{
@@ -283,8 +283,8 @@ body{
 					</div>
 					<div class="chat-messages">
 					
-						<div class="message">${chat.msgContent }</div><div>&nbsp</div>${chat.msgDate }
-						<div class="from">${chat.msgSender }&nbsp</div>
+						<div class="message">${chat.msgContent }</div><div>&nbsp</div>
+						<div class="from">${chat.msgDate }&nbsp</div>
 						
 					</div>
 				</div>
@@ -294,7 +294,7 @@ body{
 				<div class="chat-message-group writer-user">
 			        <div class="chat-messages">
 			          <div class="message">${chat.msgContent }</div>
-			          <div class="from">${chat.msgSender }&nbsp ${chat.msgDate}</div>
+			          <div class="from">${chat.msgDate }</div>
 			        </div>
       			</div>
     		</c:when>

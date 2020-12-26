@@ -165,7 +165,8 @@ public class SampleQuestionController {
 			model.addAttribute("header",header);
 			model.addAttribute("data",data);
 			model.addAttribute("fileName","SAMPLE_QUESTION");
-			model.addAttribute("sheetName","SAMPLE_QUESTION");
+			model.addAttribute("sheetName","샘플 질문 목록");
+			model.addAttribute("titleSize", header.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
