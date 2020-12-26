@@ -132,7 +132,6 @@ public class ScriptTestController {
 				}
 			}
 		}
-		
 		return differentArr;
 	}
 	
@@ -205,13 +204,4 @@ public class ScriptTestController {
 		model.addAttribute("scriptScoreList", scriptScoreList);
 		return "jsonView";
 	}
-	
-//	@RequestMapping(path = "/retrieveSameScore.do")
-//	public String retrieveSameScoreView(String startDate, String endDate, String scriptGbSq, Model model) {
-//
-//		
-//		
-//		model.addAttribute("testScoreMap", testScoreMap);
-//		return "jsonView";
-//	}
 }

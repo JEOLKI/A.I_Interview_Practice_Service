@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.aiinterview.ModelTestConfig;
+import com.aiinterview.script.vo.ScriptTestVO;
 import com.aiinterview.script.vo.ScriptVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;

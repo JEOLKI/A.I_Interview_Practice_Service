@@ -121,31 +121,4 @@ public class ScriptGubunMapperTest extends ModelTestConfig{
 		/***Then***/
 		assertEquals(1, searchList.size());
 	}
-
-	@Test
-	public void retrieveRankingListTest( ) throws Exception{
-		/***Given***/
-		Map<String, String> statisticMap = new HashMap<String, String>();
-		statisticMap.put("startDate", "20201002");
-		statisticMap.put("endDate", "20201231");
-		statisticMap.put("scriptGbSq", "2");
-		
-		/***When***/
-		List<ScriptTestVO> rankingList = scriptGubunMapper.retrieveRankingList(statisticMap);
-		
-		/***Then***/
-		assertEquals(2, rankingList.size());
-	}
-
-	@Test
-	public void retrieveScoreListTest( ) throws Exception{
-		/***Given***/
-		String scriptGbSq = "2";
-		
-		/***When***/
-		List<ScriptTestVO> scoreList = scriptGubunMapper.retrieveScoreList(scriptGbSq);
-
-		/***Then***/
-		assertEquals(3, scoreList.size());
-	}
 }

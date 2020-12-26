@@ -54,4 +54,27 @@ public class ScriptTestControllerTest extends WebTestConfig{
 		} catch (Exception e) { }
 	}
 
+	@Test
+	public void retrieveRankingListTest() {
+		try {
+			mockMvc.perform(get("/scriptTest/retrieveRankingList.do")
+					.param("startDate", "2020-10-02")
+					.param("endDate", "sysdate")
+					.param("scriptGbSq", "2"))
+			.andExpect(status().is(200))
+			.andExpect(view().name("jsonView"));
+		} catch (Exception e) { }
+	}
+	
+	@Test
+	public void retrieveScoreListTest() {
+		try {
+			mockMvc.perform(get("/scriptTest/retrieveScoreList.do")
+					.param("startDate", "2020-10-02")
+					.param("endDate", "sysdate")
+					.param("scriptGbSq", "2"))
+			.andExpect(status().is(200))
+			.andExpect(view().name("jsonView"));
+		} catch (Exception e) { }
+	}
 }
