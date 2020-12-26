@@ -197,6 +197,7 @@
 	.nav{
 		padding-top: 17px; 
 	}
+	
 </style>
 
 <script>
@@ -263,7 +264,7 @@ $(document).ready(function() {
    				}
    			},
    			error: function(data){
-   				console.log(data.status);
+   				//console.log(data.status);
    			}
    		});
    	}
@@ -277,7 +278,7 @@ $(document).ready(function() {
    			data : {memNm : memNm, memTel :memTel, memId : memId},
    			method : "get",
    			success : function(data){
-   				console.log(data.searchMemberVo);
+   				//console.log(data.searchMemberVo);
    				if(data.searchMemberVo == null){
    					html = '일치하는 회원정보가 존재하지 않습니다.';
    					$('#findPw').html(html);
@@ -286,7 +287,7 @@ $(document).ready(function() {
    				}
    			},
    			error: function(data){
-   				console.log(data.status);
+   				//console.log(data.status);
    			}
    		});
    	}
@@ -302,7 +303,7 @@ $(document).ready(function() {
 	   			data : {memId :memId, memPw : memPw},
 	   			method : "get",
 	   			success : function(data){
-	   				console.log(data.updateCnt);
+	   				//console.log(data.updateCnt);
 	   				if(data.updateCnt == 1){
 		   				alert("비밀번호 변경이 완료되었습니다.");
 		   				document.location = '/login/main.do';
@@ -311,7 +312,7 @@ $(document).ready(function() {
 	   				}
 	   			},
 	   			error: function(data){
-	   				console.log(data.status);
+	   				//console.log(data.status);
 	   			}
 	   		});
 	   	}
@@ -319,7 +320,7 @@ $(document).ready(function() {
     	
 //팝업 Close 기능
 function close_pop(flag) {
- $('#myModal').hide();
+	$('#myModal').hide();
 };
 function search_close_pop(flag) {
 	$('#searchModal').hide();
@@ -378,11 +379,10 @@ function boardGubunList(){
 				</div>
 			</div>
 			
-			
 			<a class="service-intro false" href="/login/serviceIntro.do">서비스 소개</a>
 			<a class="help-info false" href="/login/help.do">도움말</a>
 			<c:choose>
-				<c:when test="${S_MEMBER.memAuth != 'N'}">
+				<c:when test="${S_MEMBER.memAuth == 'Y' || S_MEMBER.memAuth == 'C'}">
 					<a class="managepage false" href="/login/manage.do">관리자 페이지</a>
 				</c:when>
 			</c:choose>
@@ -409,7 +409,6 @@ function boardGubunList(){
 								<img src="/member/profile.do?memId=${S_MEMBER.memId }" alt="profile-icon" class="profile-icon">${S_MEMBER.memAlias }
 							</c:otherwise>
 						</c:choose>
-			<!-- 				<span aria-hidden="true" class="fa fa-angle-down fa undefined"></span> -->
 					</div>
 					
 					<div class="user-popup">
@@ -528,9 +527,9 @@ function boardGubunList(){
 		<!-- changeModal content -->
 		<div id="changeModal-content">
 			<p style="text-align: left;">
-				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">[비밀번호 변경]
-					</span></b></span>
+				<span style="font-size: 14pt;">
+					<b><span style="font-size: 24pt;">[비밀번호 변경] </span></b>
+				</span>
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
 			<form action="">
