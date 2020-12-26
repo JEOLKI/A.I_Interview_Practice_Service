@@ -85,7 +85,7 @@ $(document).ready(function() {
 				differentArr = data.differentArr;
 				scriptArr = performScript.split(' ');
 				html = "";
-				if(scriptArr>1){
+				if(scriptArr.length>1){
 					for(var i =0; i<scriptArr.length; i++){
 						if(scriptArr[i] == differentArr[i]){
 							html += '<span style="color:#FF4646;">'+scriptArr[i]+'&nbsp</span>';
@@ -128,7 +128,10 @@ $(document).ready(function() {
 		$('#endTestBtn').css('display','none');	// 완료 버튼 안보이기
 		$('#startTestBtn').css('display','');	// 시작 버튼 보이기
 		$('.scriptContent').empty();			// 테스트할 스크립트란 비우기
+		
+		resultScript = "";
 		$('.guide.test').val('시작 버튼을 눌러주세요.');
+		
 	})
 });
 
@@ -185,7 +188,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
            let voluemGage = $('.present').css({"width":presentVol, "display" : ""});                                             
          }      
     	  
-    	  navigator.mediaDevices.getUserMedia({ audio: true , video: true})                                     
+    	  navigator.mediaDevices.getUserMedia({ audio: true})                                     
           .then(function(stream) {                                                                              
             var audioContext = new AudioContext();                                                                  
             var analyser = audioContext.createAnalyser();                                                           
@@ -283,7 +286,7 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 	});
 });
 
-//테스트 완료 시 ScriptTest 생성하는 ajax
+//테스트 완료 시 ScriptTestVO 생성하는 ajax
 function createScriptTest(resultScript, scriptSq){
 	
 	$.ajax(
