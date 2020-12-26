@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	
+<!DOCTYPE html>
 <html>
 <head>
+
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+
 <script src="/js/capture.js"></script>
 <script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <script type="text/javascript">
@@ -59,31 +62,31 @@
     	
     recognizer.recognizing = (s, e) => {
   	
-  	console.log(`RECOGNIZING: Text=${e.result.text}`);
+  	//console.log(`RECOGNIZING: Text=${e.result.text}`);
     };
         
    	recognizer.recognized = (s, e) => { // 음성에서 스크립트 추출
    		editText = e.result.text.replace(/undefined/g,'');
-   		console.log('음성인식 : '+ editText);
+   		//console.log('음성인식 : '+ editText);
    	
-		console.log(`RECOGNIZED: Text=${e.result.text}`);
+		//console.log(`RECOGNIZED: Text=${e.result.text}`);
 	    phraseDiv.innerHTML += editText;
 	    answer+=editText;
 	    
  	   if (e.result.reason == ResultReason.RecognizedSpeech) {
     	}
     	else if (e.result.reason == ResultReason.NoMatch) {
-    	   console.log("NOMATCH: Speech could not be recognized.");
+    	   //console.log("NOMATCH: Speech could not be recognized.");
    	    }
    	};
     	
     recognizer.canceled = (s, e) => { // 중간취소
-    	console.log(`CANCELED: Reason=${e.reason}`);
+    	//console.log(`CANCELED: Reason=${e.reason}`);
 
   	    if (e.reason == CancellationReason.Error) {
-  	        console.log("CANCELED: ErrorCode=${e.errorCode}");
-  	        console.log("CANCELED: ErrorDetails='${e.errorDetails}'");
-  	        console.log("CANCELED: Did you update the subscription info?");
+  	        //console.log("CANCELED: ErrorCode=${e.errorCode}");
+  	        //console.log("CANCELED: ErrorDetails='${e.errorDetails}'");
+  	        //console.log("CANCELED: Did you update the subscription info?");
   	    }
 
   	    recognizer.stopContinuousRecognitionAsync();
@@ -91,7 +94,7 @@
    	recognizer.startContinuousRecognitionAsync();
   	
   	recognizer.sessionStopped = (s, e) => { // 세션 끊어짐
-  	    console.log("\n    Session stopped event.");
+  	    //console.log("\n    Session stopped event.");
   	    recognizer.stopContinuousRecognitionAsync();
   	};
  });
@@ -127,7 +130,7 @@
             authorizationToken = this.responseText;
             subscriptionKeySTT.disabled = true;
             subscriptionKeySTT.value = "using authorization token (hit F5 to refresh)";
-            console.log("Got an authorization token: " + token);
+            //console.log("Got an authorization token: " + token);
         }
       }
     }
@@ -175,10 +178,10 @@
 		
 		// 시간이 종료 되었으면..
 		if (SetTime >= 120) {
-			console.log('타이머 멈추기')	;	
-			console.log('시작카운트 : '+startCount);
-			console.log('종료카운트 : '+endCount);
-			console.log('최종 답변 스크립트 : ' + script);
+			//console.log('타이머 멈추기')	;	
+			//console.log('시작카운트 : '+startCount);
+			//console.log('종료카운트 : '+endCount);
+			//console.log('최종 답변 스크립트 : ' + script);
 			
 			startCount++; // 답변 진행되면서 횟수 증가
 			$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
@@ -280,7 +283,7 @@
 	.done(
 			function(data) {
 				if(data[0]=== undefined){ // 분석할 사진에 문제가 있을경우
-					console.log('영상을 분석할 수 없습니다.')
+					//console.log('영상을 분석할 수 없습니다.')
 				}else{
 					emotion = data[0].faceAttributes.emotion;
 					face = data[0].faceRectangle
@@ -340,11 +343,11 @@
 		fd.append("questSq", questSq); // 대답의 시퀀스 
 		
 		// 확인용 console.log
-		console.log("내용"+ansContent);
-		console.log("시간"+ansTime);
-		console.log("속도"+ansSpeed);
-		console.log("카운트"+startCount);
-		console.log("시퀀스"+questSq);
+		//console.log("내용"+ansContent);
+		//console.log("시간"+ansTime);
+		//console.log("속도"+ansSpeed);
+		//console.log("카운트"+startCount);
+		//console.log("시퀀스"+questSq);
 			
 		$.ajax(
 			{url:"/answer/create.do",
@@ -355,13 +358,13 @@
 			processData: false,
 			success : function(data){
 				decibel = 0;
-				console.log("성공");
-				console.log(data);
+				//console.log("성공");
+				//console.log(data);
 				
 			},
 			error : function(data){
-				console.log(data.status);
-				console.log(data)
+				//console.log(data.status);
+				//console.log(data)
 			}
 		});
 		blob = null; // blob 데이터 초기화
@@ -465,9 +468,9 @@
 				
 				$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
 			}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space
-				console.log('타이머 멈추기')	;
-				console.log('시작카운트 : '+startCount);
-				console.log('종료카운트 : '+endCount);
+				//console.log('타이머 멈추기')	;
+				//console.log('시작카운트 : '+startCount);
+				//console.log('종료카운트 : '+endCount);
 				
 				startCount++; // 답변 진행되면서 횟수 증가	
 				$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
@@ -539,10 +542,10 @@
 					
 					$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
 				}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space(질문 종료)15초 이후 
-					console.log('타이머 멈추기')	;	
-					console.log('시작카운트 : '+startCount);
-					console.log('종료카운트 : '+endCount);
-					console.log('최종 답변 스크립트 : ' + script);
+					//console.log('타이머 멈추기')	;	
+					//console.log('시작카운트 : '+startCount);
+					//console.log('종료카운트 : '+endCount);
+					//console.log('최종 답변 스크립트 : ' + script);
 					
 					startCount++; // 답변 진행되면서 횟수 증가
 					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
@@ -650,7 +653,7 @@
 				  
 		  // 음성 측정 멈추기
 		  $('#voiceStop').on('click',function(){
-				  console.log('음성 측정 종료')
+				  //console.log('음성 측정 종료')
 					  javascriptNode.onaudioprocess = null;
 			});
 		});                                                                                                  
@@ -672,7 +675,7 @@
           authorizationToken = this.responseText;
           subscriptionKeyTTS.disabled = true;
           subscriptionKeyTTS.value = "using authorization token (hit F5 to refresh)";
-          console.log("Got an authorization token: " + token);
+          //console.log("Got an authorization token: " + token);
       }
     }
   }
