@@ -24,11 +24,12 @@
 		SELECT a.interview_sq, NVL(SUM(d.habit_count),0) AS habit_count
 		  FROM habit_analysis d, answer c, question b, (SELECT interview_sq 
 		                             				      FROM interview
-		                             				     WHERE mem_id = #{memId}) a
+		                             				     WHERE mem_id = #{memId}
+		                             				       AND ROWNUM <![CDATA[  <  ]]>6) a
 		 WHERE b.interview_sq IN a.interview_sq
 		   AND c.quest_sq IN b.quest_sq
 		   AND d.ans_sq (+) IN c.ans_sq
-		   AND ROWNUM <![CDATA[  <  ]]>6
+		  
 		 GROUP BY a.interview_sq
 		 ORDER BY a.interview_sq DESC
 	</select>
