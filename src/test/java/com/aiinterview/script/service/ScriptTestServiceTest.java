@@ -2,7 +2,9 @@ package com.aiinterview.script.service;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -43,5 +45,21 @@ public class ScriptTestServiceTest extends ModelTestConfig{
 		
 		/***Then***/
 		assertEquals(4, scriptTestList.size());
+	}
+	
+	@Test
+	public void retrieveScoreTest( ) throws Exception{
+		/***Given***/
+		Map<String, String> testScoreMap = new HashMap<>();
+		String first = "동해물과 백두산이 마르고 닳도록";
+		testScoreMap.put("scriptContent", first);
+		String second = "동해물과 백두산이 마르고 닳도록";
+		testScoreMap.put("resultScript", second);
+		
+		/***When***/
+		int score = scriptTestService.retrieveScore(testScoreMap);
+
+		/***Then***/
+		assertEquals(100, score);
 	}
 }

@@ -281,12 +281,8 @@ startRecognizeOnceAsyncButton.addEventListener("click", function () {
 	});
 });
 
-//테스트 끝날 때 ScriptTest 생성하는 ajax
+//테스트 완료 시 ScriptTest 생성하는 ajax
 function createScriptTest(resultScript, scriptSq){
-	
-	// 확인용 console.log
-	console.log(resultScript);
-	console.log(scriptSq);
 	
 	$.ajax(
 		{url:"/scriptTest/create.do",
@@ -305,9 +301,6 @@ function createScriptTest(resultScript, scriptSq){
 /* 스코어 차트 */
 function createScoreChart(ctx, testScore){
 
-	console.log("차트그려")
-	console.log(testScore);
-	
 	var scoreChart = new Chart(ctx, {
 		type: 'doughnut',
 		data: {
@@ -334,24 +327,6 @@ function createScoreChart(ctx, testScore){
 	
 }
 /* 아래부터 TTS */
-// var authorizationEndpoint = "tokenTTS.php";
-
-// function RequestAuthorizationToken() {
-//   if (authorizationEndpoint) {
-//     var a = new XMLHttpRequest();
-//     a.open("GET", authorizationEndpoint);
-//     a.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-//     a.send("");
-//     a.onload = function() {
-//         var token = JSON.parse(atob(this.responseText.split(".")[1]));
-//         regionOptions.value = token.region;
-//         authorizationToken = this.responseText;
-//         subscriptionKeyTTS.disabled = true;
-//         subscriptionKeyTTS.value = "using authorization token (hit F5 to refresh)";
-//         console.log("Got an authorization token: " + token);
-//     }
-//   }
-// }
 // TTS 최초 진입 시 설정
 function Initialize(onComplete) {
   if (!!window.SpeechSDK) {
@@ -545,8 +520,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		padding : 10px;
 	}
 	
-	
-	
 	.informLbl{
 		margin-top: 30px;
 		font-weight: normal;
@@ -565,6 +538,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		box-shadow: 5px 5px #EAEAEA;
 		display: inline-block;
 	}
+	
 	#title{
 		font-weight: bold; 
 		font-size: 23px; 
@@ -572,6 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		display: block; 
 		text-align: center;
 	}
+	
 	.listenBtn{
 		display: inline-block;
 	    height: 35px;
@@ -584,6 +559,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    padding: 6.5px 10px;
         margin: 5px 15px;
 	}
+	
 	.scriptBox{
 		width: 95%;
 		height: 200px;
@@ -593,11 +569,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		margin: 10px 3%;
 		text-align: center;
 	}
+	
 	.scriptContent{
 		font-weight: bold;
 		font-size : 1.3em;
 		color: #35356C;
 	}
+	
 	.resultScriptBox{
 		width: 95%;
 		height: 170px;
@@ -607,6 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		margin: 10px 3%;
 		text-align: center;
 	}
+	
 	.processBtn{
 		width: 95%;
 		border-radius: 5px;
@@ -615,19 +594,23 @@ document.addEventListener("DOMContentLoaded", function () {
 		color: #fff;
 		margin: 10px 3%;
 	}
+	
 	.processBtn:hover{
 	    background-color: white;
 	    color: #000d22;
 	}
+	
 	.guide{
 		display : inline-block;
 		font-size: 0.9em;
 		color: #35356C; 
 		margin: 5px 0px;
 	}
+	
 	.test{
 		text-align: center;
 	}
+	
 	.volume{
 		border-radius: 16px;
 		padding: 6px;
@@ -636,6 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    margin: 7.5% 15%;
 	    background-color: #FFBEBE;
 	}
+	
 	.present{
 		margin : 0% 15%;
 		border-radius: 16px;
@@ -645,9 +629,11 @@ document.addEventListener("DOMContentLoaded", function () {
         position: relative;
   	 	bottom: 40px;
 	}
+	
 	#scoreChart{
 	    margin: 10px auto;
 	}
+	
 	.scoreText{
 		width: 105px;
 	    margin: 85px auto 0;
@@ -658,9 +644,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	    bottom: 170px;
 	    color: #4741F3;
 	}
+	
 	b{
 		font-size: 50px;
 	}
+	
 	.score{
 		height: 170px;
 	}
@@ -720,7 +708,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div class="scoreText"></div>
 			</div>
 			<div class="resultScriptBox">
-				<p class="guide result">붉은색으로 입력된 부분이 일치하지 않습니다.</p>
+				<p class="guide result">붉은색으로 표시된 부분이 일치하지 않습니다.</p>
 				<br><br>
 				<p class="scriptContent"></p>
 			</div>
