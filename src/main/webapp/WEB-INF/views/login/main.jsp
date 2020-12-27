@@ -26,6 +26,9 @@
 		$('#home').on('click',function(){
 			document.location = "/login/home.do";
 		});
+		$('.start-btn').on('click',function(){
+			document.location = "/login/home.do";
+		});
 		
 	});
 
