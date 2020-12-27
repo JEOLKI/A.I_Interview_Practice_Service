@@ -42,7 +42,8 @@ public class ScriptTestController {
 		} catch (Exception e) { }
 		String scriptContent = scriptVO.getScriptContent();
 		
-		ScriptTestController scriptTest = new ScriptTestController();
+		int lastIndex = resultScript.indexOf(".");
+		resultScript = resultScript.substring(0, lastIndex); 
 		
 		Map<String, String> testScoreMap = new HashMap<String, String>();
 		testScoreMap.put("scriptContent", scriptContent);
@@ -85,7 +86,31 @@ public class ScriptTestController {
 		return "script/testPopup";
 	}
 	
-	@RequestMapping(path = "/retrieveScriptList.do", method = { RequestMethod.POST })
+	@RequestMapping("/testStart.do")
+	public String testStart(Model model, String scriptGbSq) {
+		// 상단 탭 언어종류
+		List<ScriptGubunVO> scriptGbList = null;
+		try {
+			scriptGbList = scriptGbService.retrieveList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
+		for (ScriptGubunVO scriptGb : scriptGbList) {
+			if (scriptGb.getScriptGbSt().equals("Y")) {
+				availableGbList.add(scriptGb);
+				if(scriptGb.getScriptGbSq().equals(scriptGbSq)) {
+					model.addAttribute("scriptGbContent", scriptGb.getScriptGbContent());
+				}
+			}
+		}
+		model.addAttribute("scriptGbList", availableGbList);
+		model.addAttribute("scriptGbSq", scriptGbSq);
+		return "script/testStart";
+	}
+	
+	@RequestMapping(path = "/retrieveScriptList.do")
 	public String retrieveSelectList(String scriptGbSq ,Model model) {
 		
 		List<ScriptVO> scriptList = null;
