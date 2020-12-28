@@ -20,6 +20,7 @@ html, body {
   font-family: 'Open Sans';
   font-weight: 400;
   font-size: 14px;
+  width : 300px;
 }
 
 .header {
@@ -263,7 +264,7 @@ function filter(){
 
 <body>
   <header class="header">
-    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat" style="margin-left: 55.5%; color:white;">X</a>
+    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat" style="margin-left: 47%; color:white;">X</a>
     </div>
 <!--     <div class="icon_box"> -->
     

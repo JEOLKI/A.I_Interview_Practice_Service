@@ -12,12 +12,12 @@
 	cursor: pointer;
 	overflow: hidden;
 	
-	animation: fadein 2s;
-	-moz-animation: fadein 2s;
-	/* Firefox */
-	-webkit-animation: fadein 2s;
-	/* Safari and Chrome */
-	-o-animation: fadein 2s;
+/* 	animation: fadein 2s; */
+/* 	-moz-animation: fadein 2s; */
+/* 	/* Firefox */ */
+/* 	-webkit-animation: fadein 2s; */
+/* 	/* Safari and Chrome */ */
+/* 	-o-animation: fadein 2s; */
 	/* Opera */
 }
 
@@ -205,7 +205,6 @@ to {
 										"click",
 										function() {
 											var url = ""
-											var option = "width = 350, height = 500, top = 350, left = 150, location = no, toolbar=no, menubar=no, scrollbars=no, tatus=no "
 											if ('${S_MEMBER.memAuth}' == 'C') {
 												webSocket.close();
 												$("#chatting").attr("src",
@@ -213,7 +212,7 @@ to {
 												$("#chatting").attr("style",
 														"display:block");
 												$("#chatting").attr("style",
-														"width : 350px");
+														"width : 300px");
 											} else if ("${S_MEMBER.memId}" == ""
 													|| "${S_MEMBER.memId}" == null) {
 												alert("로그인 후에 이용해주세요")
