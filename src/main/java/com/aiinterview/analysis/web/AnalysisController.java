@@ -45,7 +45,6 @@ import com.aiinterview.plan.vo.PlanStatisticsVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
-@RequestMapping("/analysis")
 @Controller
 public class AnalysisController {
 	
@@ -88,9 +87,9 @@ public class AnalysisController {
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
-
-	//http://localhost/analysis/interview/retrievePagingList.do
-	@RequestMapping(value = "/interview/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
+	
+	
+	@RequestMapping(value = "/analysis/interview/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(InterviewVO interviewVO, HttpSession session, ModelMap model) {
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
@@ -135,7 +134,7 @@ public class AnalysisController {
 		}
 	}
 	
-	@RequestMapping(value = "/question/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/analysis/question/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(QuestionVO questionVO, ModelMap model) {
 		
 		InetAddress server;
@@ -190,7 +189,7 @@ public class AnalysisController {
 		return "analysis/myInterviewResult";
 	}
 	
-	@RequestMapping(value = "/answer/retrieve.do")
+	@RequestMapping(value = "/analysis/answer/retrieve.do")
 	public String retrieveView(String questSq, Model model, String shareMemId, String profilePath) {    
 		model.addAttribute("questSq", questSq);
 		model.addAttribute("shareMemId", shareMemId);
@@ -198,7 +197,7 @@ public class AnalysisController {
 		return "analysis/analysisResult";
 	}
 	
-	@RequestMapping(value = "/answer/retrieveAnalysis.do")
+	@RequestMapping(value = "/analysis/answer/retrieveAnalysis.do")
 	public String retrieveAnalysis(String questSq, Model model, HttpSession session,String shareMemId, String profilePath) {           
 		model.addAttribute("shareMemId", shareMemId);
 		model.addAttribute("profilePath", profilePath);
@@ -259,7 +258,7 @@ public class AnalysisController {
 	}
 	
 	
-	@RequestMapping(value="/image/retrieveGrowth.do")
+	@RequestMapping(value="/analysis/image/retrieveGrowth.do")
 	public String imageRetrieveGrowth(HttpSession session, Model model) {
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
@@ -276,7 +275,7 @@ public class AnalysisController {
 	}
 	
 	/* 성장그래프 - 말 빠르기 */
-	@RequestMapping(value="/speed/retrieveGrowth.do")
+	@RequestMapping(value="/analysis/speed/retrieveGrowth.do")
 	public String speedRetrieveGrowth(HttpSession session, Model model) {
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
@@ -293,7 +292,7 @@ public class AnalysisController {
 	}
 	
 	/* 성장그래프 - 습관어 (차트 )*/
-	@RequestMapping(value="/habit/retrieveGrowth.do")
+	@RequestMapping(value="/analysis/habit/retrieveGrowth.do")
 	public String habitRetrieveGrowth(HttpSession session, Model model) {
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
@@ -310,7 +309,7 @@ public class AnalysisController {
 	}
 	
 	/* 성장그래프 - 습관어별 (바) */
-	@RequestMapping(value="/habit/retrieveCount.do")
+	@RequestMapping(value="/analysis/habit/retrieveCount.do")
 	public String habitRetrieveCount(HttpSession session, Model model) {
 		
 		MemberVO memberVO = (MemberVO) session.getAttribute("S_MEMBER");
@@ -329,7 +328,7 @@ public class AnalysisController {
 	}
 	
 	/* 성장그래프- 음성분석 */
-	@RequestMapping(value = "/voice/retrieveGrowth.do")
+	@RequestMapping(value = "/analysis/voice/retrieveGrowth.do")
 	public String voiceRetrieveGrowth(HttpSession session, Model model) {
 		MemberVO memverVO = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = memverVO.getMemId();
@@ -353,7 +352,7 @@ public class AnalysisController {
         return result;
     } 
 	
-	@RequestMapping(value = "/share.do")
+	@RequestMapping(value = "/analysis/share.do")
 	public String share(String sharePw, String interviewSq, String shareMemId,  Model model) {
 		
         String shareUrl = "/analysis/resultShare.do?interviewSq="+interviewSq+"&shareMemId="+shareMemId;
@@ -365,7 +364,7 @@ public class AnalysisController {
 		return "analysis/analysisShare";
 	}
 	
-	@RequestMapping(value = "/resultShare.do")
+	@RequestMapping(value = "/analysis/resultShare.do")
 	public String resultShare(String aesSharePw, String inSharePw, String shareMemId, QuestionVO questionVO, Model model, RedirectAttributes rd) {
 		
 		String oriSharePw = AesCryptUtil.decrypt(aesSharePw);
@@ -426,7 +425,7 @@ public class AnalysisController {
 		return "analysis/shareInterviewResult";
 	}
 	
-	@RequestMapping(value="/manageStatistic.do")
+	@RequestMapping(value="/analysis/manageStatistic.do")
 	public String manageStatistic(Model model) {
 		
 		try {
