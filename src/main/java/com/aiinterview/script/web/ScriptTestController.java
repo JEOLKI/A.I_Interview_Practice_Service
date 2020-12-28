@@ -43,7 +43,9 @@ public class ScriptTestController {
 		String scriptContent = scriptVO.getScriptContent();
 		
 		int lastIndex = resultScript.indexOf(".");
-		resultScript = resultScript.substring(0, lastIndex); 
+		if(lastIndex>0) {
+			resultScript = resultScript.substring(0, lastIndex); 
+		}
 		
 		Map<String, String> testScoreMap = new HashMap<String, String>();
 		testScoreMap.put("scriptContent", scriptContent);

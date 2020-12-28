@@ -31,7 +31,7 @@ blink {
     scriptGbContent='';
     scriptGbSq = 0;
     window.onload = function(){
-	    window.resizeTo(400,600);
+	    window.resizeTo(400,630);
     }
 	
 $(document).ready(function() {
@@ -88,7 +88,7 @@ $(document).ready(function() {
 
 	.contentBox{
 		width: 93%;
-		padding: 20px 30px;
+		padding: 78px 30px;
 		background-color: white;
 		border-radius: 10px;
 		margin: 10px 3%;

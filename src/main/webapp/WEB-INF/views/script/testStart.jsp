@@ -71,7 +71,7 @@ blink {
 
 	.contentBox{
 		width: 93%;
-		padding: 20px 30px;
+		padding: 18px 30px;
 		background-color: white;
 		border-radius: 10px;
 		margin: 10px 3%;
@@ -142,7 +142,7 @@ blink {
 	
 	.guide{
 		display : inline-block;
-		font-size: 0.9em;
+		font-size: 0.85em;
 		color: #35356C; 
 		margin: 5px 0px;
 	}
@@ -195,13 +195,14 @@ blink {
 </style>
 <script>
 window.onload = function(){
-    window.resizeTo(400,600);
+    window.resizeTo(400,630);
 }
 $(document).ready(function(){
 	scriptGbSq = $('#selectedSq').val();
 	scriptGbContent = $('#selectedGb').val();
 	$('#endTestBtn').css("display", "none");
 	$('#resultBtn').css('display','none');
+	$('.present').css('visibility','hidden');
 	$('#result').css('display','none');
 	$('.scriptContent').empty();				// 테스트할 스크립트란 비우기
 	
@@ -218,8 +219,9 @@ $(document).ready(function(){
 	// 결과보기 버튼 클릭 시
 	$('#resultBtn').on('click',function(){
 		$('#play').css('display','none');
+		$('.present').css('visibility','hidden');
 		$('#result').css('display','');
-		$('.guide.test').html('');
+		$('.guide.test').html('&nbsp;').css('fontSize','0.5em');
 
 		$.ajax(
 			{url:"/scriptTest/create.do",
@@ -230,8 +232,8 @@ $(document).ready(function(){
 				performScript = data.performScript;
 				differentArr = data.differentArr;
 				scriptArr = performScript.split(' ');
-				html = "";
-				if(scriptArr.length>0){
+				html = "";               
+				if(scriptArr.length>0 && scriptArr[0] != ''){
 					for(var i =0; i<scriptArr.length; i++){
 						if(scriptArr[i] == differentArr[i]){
 							html += '<span style="color:#FF4646;">'+scriptArr[i]+'&nbsp</span>';
@@ -240,14 +242,15 @@ $(document).ready(function(){
 						}
 					}
 				} else {
-					$('.guide.result').html('어떤 이유로 인해 측정에 실패했습니다 :(<br>혹시 마이크에 문제가 있는 건 아닌지 확인해 보세요!').css('fontSize','0.85em');
+					$('.guide.result').html('어떤 이유로 인해 측정에 실패했습니다 :(<br>혹시 마이크에 문제가 있는 건 아닌지 <br>확인해 보세요!').css({'fontSize' : '0.85em',
+																														'color' : 'red'});
 				}
 				
 				$('.scriptContent').html(html);
 
 				testScore = data.result;
 				var ctx = document.getElementById('scoreChart');
-				createScoreChart(ctx, testScore);
+				createScoreChart(ctx, testScore );
 				
 				scoreText = "";
 				if(testScore < 10){
@@ -305,7 +308,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			startRecognizeOnceAsyncButton.addEventListener("click", function () {
 			$('#startTestBtn').css("display","none");
 			$('#endTestBtn').css("display", "");
-			$('.guide.test').html('읽기를 마친 후 완료버튼을 눌러주세요.');
+			$('.present').css('visibility','');
+			$('.guide.test').html('읽기를 마친 후 완료버튼을 눌러주세요.<br>&nbsp;');
 			 
 			// 랜덤 지문 출력
 			$.ajax(
@@ -331,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		       return;
 			};
 			 if(scriptGbContent ==''){
-	   	  	    	$('.scriptContent').html('<span style="color:#FF4646;">테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요!</span>');
+	   	  	    	$('.guide.test').html('<span style="color:#FF4646;">테스트 진행을 위해<br>상단 탭의 언어를 선택해주세요!</span>');
 	   	  	    	return false;
 	   	  	    } else if(scriptGbContent=="한국어"){
 		 	    	speechConfig.speechRecognitionLanguage = "ko-KR";
@@ -368,10 +372,10 @@ document.addEventListener("DOMContentLoaded", function () {
             
         	// 완료 버튼 클릭 시 
      		 endTestBtn.onclick = function() {
-	   			$('.present').css("display","none");  
+	   			$('.present').css("visibility","hidden");  
 	   			$('#endTestBtn').css('display','none');
 	   			$('#resultBtn').css('display','');
-	   			$('.guide.test').html('');
+	   			$('.guide.test').html('&nbsp;<br>&nbsp;');
 	   			startRecognizeOnceAsyncButton.disabled = false;
 	   		   	recognizer.stopContinuousRecognitionAsync();
 	   		 	audioContext.close().then(function() {
@@ -432,23 +436,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 
-//테스트 완료 시 ScriptTestVO 생성하는 ajax
-// function createScriptTest(resultScript, scriptSq){
-	
-// 	$.ajax(
-// 		{url:"/scriptTest/create.do",
-// 		data : {"resultScript" : resultScript,
-// 				"scriptSq" : scriptSq},
-// 		type : "post",
-// 		success : function(data){
-// 			testScore = data.result;
-// 			resultScript = data.performScript;
-// 		},
-// 		error : function(data){
-// 			console.log(data.status);
-// 		}
-// 	});
-// };
 
 /* 스코어 차트 */
 function createScoreChart(ctx, testScore){
@@ -504,7 +491,7 @@ function createScoreChart(ctx, testScore){
 		<div class="volume"></div>
 		<div class="volume present"></div>
 		<div class="test">
-			<p class="guide test">시작 버튼을 눌러주세요.</p>
+			<p class="guide test">시작 버튼을 눌러주세요.<br>&nbsp;</p>
 			<button class="processBtn" id="startTestBtn">시작</button>
 			<button class="processBtn" id="endTestBtn">완료</button>
 			<button class="processBtn" id="resultBtn">결과 보기</button>
@@ -522,6 +509,7 @@ function createScoreChart(ctx, testScore){
 				<br><br>
 				<p class="scriptContent"></p>
 			</div>
+			<p class="guide test">&nbsp;<br>&nbsp;</p>
 			<button class="processBtn" id="retryBtn">다시 테스트하기</button>
 	</div>
 	<!-- TTS부분 -->
