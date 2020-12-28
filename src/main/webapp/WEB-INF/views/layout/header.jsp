@@ -256,7 +256,7 @@ $(document).ready(function() {
    			method : "get",
    			success : function(data){
    				if(data.searchMemberVo==null){
-   					html = '일치하는 회원정보가 존재하지 않습니다.';
+   					html = '<br>'+'일치하는 회원정보가 존재하지 않습니다.';
 	   				$('#findId').html(html);
    				}else{
 	   				html = '아이디는 ' +data.searchMemberVo.memId +'입니다.';
@@ -509,8 +509,8 @@ function boardGubunList(){
 					<button id="searchPwBtn" type="button">찾기</button>
 				</div>
 			</form>
-			<div>
-				<span style="color: red" id="findPw"></span>
+			<div style=" margin-top: 60px;">
+				<span style="color: red;" id="findPw"></span>
 			</div>
 			<br>
 			<div
