@@ -40,17 +40,45 @@
 
 	<!-- 통계 : 스크립트 구분 별 점수 분포도 -->
 	<select id="retrieveScoreList" parameterType="hashmap"  resultType="com.aiinterview.script.vo.ScriptTestVO">
-		SELECT  c.script_test_score, c.script_sq, c.script_test_date, count(c.scoreCnt) as totCnt
-		FROM   (SELECT     a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date, count(*) as scoreCnt
+		SELECT c.script_test_score, c.script_sq, c.script_test_date, count(c.scoreCnt) as totCnt
+		FROM   (SELECT      (CASE 
+		                    WHEN a.script_test_score=0 THEN 0
+		                    <![CDATA[
+		                    WHEN a.script_test_score>=1 AND a.script_test_score<=9 THEN 1
+		                    WHEN a.script_test_score>=10 AND a.script_test_score<=19 THEN 10
+		                    WHEN a.script_test_score>=20 AND a.script_test_score<=29 THEN 20
+		                    WHEN a.script_test_score>=30 AND a.script_test_score<=39 THEN 30
+		                    WHEN a.script_test_score>=40 AND a.script_test_score<=49 THEN 40
+		                    WHEN a.script_test_score>=50 AND a.script_test_score<=59 THEN 50
+		                    WHEN a.script_test_score>=60 AND a.script_test_score<=69 THEN 60
+		                    WHEN a.script_test_score>=70 AND a.script_test_score<=79 THEN 70
+		                    WHEN a.script_test_score>=80 AND a.script_test_score<=89 THEN 80
+		                    WHEN a.script_test_score>=90 AND a.script_test_score<=99 THEN 90
+		                    ]]>
+		                    WHEN a.script_test_score=100 THEN 100 END) AS script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date, count(*) as scoreCnt
 		        FROM        script_test a, script b
 		        WHERE       a.script_sq = b.script_sq
 		        AND         b.script_gb_sq = #{scriptGbSq}
 		        AND         a.script_test_date BETWEEN #{startDate} AND #{endDate}
 		        GROUP BY    a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date) c
 		GROUP BY    c.script_test_score, c.script_sq, c.script_content, c.script_test_date, c.scoreCnt
-		ORDER BY    c.script_test_score DESC, c.script_test_date DESC
+		ORDER BY    c.script_test_score ASC, c.script_test_date DESC
 	</select>
 	
+	<!-- 통계 : 스크립트 구분 별 점수 분포도 -->
+<!-- 	<select id="retrieveScoreList" parameterType="hashmap"  resultType="com.aiinterview.script.vo.ScriptTestVO"> -->
+<!-- 		SELECT  c.script_test_score, c.script_sq, c.script_test_date, count(c.scoreCnt) as totCnt -->
+<!-- 		FROM   (SELECT     a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date, count(*) as scoreCnt -->
+<!-- 		        FROM        script_test a, script b -->
+<!-- 		        WHERE       a.script_sq = b.script_sq -->
+<!-- 		        AND         b.script_gb_sq = #{scriptGbSq} -->
+<!-- 		        AND         a.script_test_date BETWEEN #{startDate} AND #{endDate} -->
+<!-- 		        GROUP BY    a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date) c -->
+<!-- 		GROUP BY    c.script_test_score, c.script_sq, c.script_content, c.script_test_date, c.scoreCnt -->
+<!-- 		ORDER BY    c.script_test_score DESC, c.script_test_date DESC -->
+<!-- 	</select> -->
+
+
 	
 <!-- 	<select id="retrieveScoreList" parameterType="String"  resultType="com.aiinterview.script.vo.ScriptTestVO"> -->
 <!-- 		SELECT 	a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date -->
