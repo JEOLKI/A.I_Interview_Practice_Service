@@ -27,7 +27,7 @@ import com.aiinterview.board.vo.AttachmentVO;
 import com.aiinterview.board.vo.BoardGroupVO;
 import com.aiinterview.board.vo.BoardVO;
 import com.aiinterview.board.vo.CategoryVO;
-import com.aiinterview.common.util.FileUploadUtil;
+import com.aiinterview.common.util.file.FileUploadUtil;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
