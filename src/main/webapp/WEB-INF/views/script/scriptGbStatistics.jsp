@@ -280,25 +280,27 @@ $(document).ready(function(){
 				    scales: {
 				      xAxes: [{
 				        ticks: {
-				          maxRotation: 90,
-				          minRotation: 80
+				          maxRotation: 0,
+				          minRotation: 0
 				        },
 				          gridLines: {
-				          offsetGridLines: true
+				        	display : false,
+				         	offsetGridLines: false
 				        }
 				      },
 				      {
 				        position: "top",
 				        ticks: {
-				          maxRotation: 90,
-				          minRotation: 80,
+				          maxRotation: 0,
+				          minRotation: 0,
 				          display :  false,
 				          autoSkip : true,
 				          max : max+1,
 				          stepSize : 1
 				        },
 				        gridLines: {
-				          offsetGridLines: true
+				        	display : false,
+				         	offsetGridLines: false
 				        }
 				      }],//xAxes 종료
 				      yAxes: [{
