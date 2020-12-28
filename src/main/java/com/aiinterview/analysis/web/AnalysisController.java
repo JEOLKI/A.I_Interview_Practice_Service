@@ -189,7 +189,7 @@ public class AnalysisController {
 		return "analysis/myInterviewResult";
 	}
 	
-	@RequestMapping(value = "/answer/retrieve.do")
+	@RequestMapping(value = "/analysis/answer/retrieve.do")
 	public String retrieveView(String questSq, Model model, String shareMemId, String profilePath) {
 		
 		MemberVO memberVO = null;
