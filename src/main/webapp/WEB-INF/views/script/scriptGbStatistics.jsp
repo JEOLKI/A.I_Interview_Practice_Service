@@ -90,6 +90,7 @@ today = getFormatDate(today);
  	.tabContent{
  		width : 51%;
   		height : 100px; 
+  		padding-top : 10%;
  	}
  	
  	.chart { 
@@ -183,69 +184,6 @@ $(document).ready(function(){
 		}); //score ajax 종료
 	});// searchBtn 종료
 	
-	/* Score Chart */
-	function drawScoreChart(scriptScoreList){
-		console.log("scriptScoreList : "+scriptScoreList);
-			var dataset = [];
-		for(i in scriptScoreList){
-			var r = scriptScoreList[i].totCnt;
-			
-			if(scriptScoreList[i].scriptTestScore == "100"){
-				var x = 10; var y = 10;
-				dataset.push({x:x, y:y, r:5*r})
-			}else if(scriptScoreList[i].scriptTestScore != "100"){
-				var x = Number(scriptScoreList[i].scriptTestScore.charAt(0));
-				var y = Number(scriptScoreList[i].scriptTestScore.charAt(1));
-
-				dataset.push({x:x, y:y, r:5*r})
-			}
-		}
-		
-// 		console.log("dataset entry :"+ JSON.stringify({dataset}));
-		function dynamicColors(){
-		        var r = Math.floor(Math.random() * 255);
-		        var g = Math.floor(Math.random() * 255);
-		        var b = Math.floor(Math.random() * 255);
-		        return "rgba(" + r + "," + g + "," + b + ", 1)";
-		};
-		
-		var colorChart = dynamicColors();
-		var bubbleData = {datasets :
-							[{	label : "점수 분포",
-							    backgroundColor: colorChart,
-							    borderColor : colorChart,
-							    data: dataset
-						  	}]
-						 }; //bubbleData exit
-	
-		var ctx = document.getElementById('scoreChartCanvas').getContext('2d');
-		var scoreChart 	= new Chart(ctx, {
-				  showTooltips : true,
-				  type  	: 'bubble',
-				  data		: bubbleData,
-				  options	: {
-		      		responsive	: true,
-				  	scales 		: { xAxes	: [{
-							                display		: true,
-							                ticks		: { display  : true,
-							                				autoSkip : false,
-															beginAtZero : true,
-							                				maxTicksLimit: 11,
-											                max: 10,
-											                stepSize: 1 }}],
-						            yAxes	: [{
-							            	display		: true,
-							                ticks 		: { display  : true,
-							                				autoSkip : false,
-															beginAtZero : true,
-							                				maxTicksLimit: 11,
-										                    max: 10,
-										                    stepSize: 1 }}]
-								}//scales종료
-				  }//option exit
-		}); //scoreChart exit
-	};//fn_ScoreChart end
-	
 	/* Ranking Chart */
 	function drawRankingChart(scriptRankingList){
 		html="";
@@ -271,6 +209,111 @@ $(document).ready(function(){
 		$('#rankingList').empty();
 		$('#rankingList').append(html);
 	}; //fn_drawRankingChart 종료
+	
+	/* Score Chart */
+	function drawScoreChart(scriptScoreList){
+		var sumCnt=0;
+		var scoreBoardList = [];
+		var totCntList = [];
+		var max=0;
+		console.log("scriptScoreList : "+scriptScoreList);
+		for(i in scriptScoreList){
+			var scoreBoard = scriptScoreList[i].scriptTestScore;
+			var totCnt = scriptScoreList[i].totCnt;
+
+			sumCnt += scriptScoreList[i].totCnt;
+			
+			scoreBoardList.push(scoreBoard);
+			totCntList.push(totCnt);
+			
+			if(scriptScoreList[i].totCnt > 0){
+				max = scriptScoreList[i].totCnt;	
+			}
+		}
+		
+		console.log("scoreBoardList : "+scoreBoardList);
+		console.log("totCntList : "+totCntList);
+		
+// 		var colorChart = ["#AF7", "#FA4", "#FF7", "#2A7", "#AF7", "#FA4", "#FF7", "#2A7", "#AF7", "#FA4", "#FF7"];
+		var barData = {
+				labels : scoreBoardList,
+				datasets :
+			[{	label  : "점수 분포",
+				data: totCntList,
+			  	backgroundColor: [	'rgba(255, 99, 132, 0.2)',
+							        'rgba(54, 162, 235, 0.2)',
+							        'rgba(255, 206, 86, 0.2)',
+							        'rgba(75, 192, 192, 0.2)',
+							        'rgba(153, 102, 255, 0.2)',
+							        'rgba(255, 159, 64, 0.2)',
+							        'rgba(255, 99, 132, 0.2)',
+							        'rgba(54, 162, 235, 0.2)',
+							        'rgba(255, 206, 86, 0.2)',
+							        'rgba(75, 192, 192, 0.2)',
+							        'rgba(153, 102, 255, 0.2)'
+			 				 	],
+ 				borderColor : [	'rgba(255,99,132,1)',
+						        'rgba(54, 162, 235, 1)',
+						        'rgba(255, 206, 86, 1)',
+						        'rgba(75, 192, 192, 1)',
+						        'rgba(153, 102, 255, 1)',
+						        'rgba(255, 159, 64, 1)',
+						        'rgba(255,99,132,1)',
+						        'rgba(54, 162, 235, 1)',
+						        'rgba(255, 206, 86, 1)',
+						        'rgba(75, 192, 192, 1)',
+						        'rgba(153, 102, 255, 1)'
+			 				],
+			   	borderWidth: 1
+		  	}]
+		 }; //barData exit
+		 
+		var ctx = document.getElementById('scoreChartCanvas').getContext('2d');
+		const chart = new Chart(ctx, {
+			   type: "bar",
+			   data: barData,
+			   options: {
+				   legend: {
+				        display: false
+				    },
+				    responsive: true,
+				    scales: {
+				      xAxes: [{
+				        ticks: {
+				          maxRotation: 90,
+				          minRotation: 80
+				        },
+				          gridLines: {
+				          offsetGridLines: true
+				        }
+				      },
+				      {
+				        position: "top",
+				        ticks: {
+				          maxRotation: 90,
+				          minRotation: 80,
+				          display :  false,
+				          autoSkip : true,
+				          max : max+1,
+				          stepSize : 1
+				        },
+				        gridLines: {
+				          offsetGridLines: true
+				        }
+				      }],//xAxes 종료
+				      yAxes: [{
+				        ticks: {
+				          beginAtZero: true,
+				          display :  true,
+				          autoSkip : true,
+				          max : max+1,
+				          stepSize : 1
+				        }
+				      }] //yAxes 종료
+				    }
+				  }
+			});
+	}//drawScoreCharat 종료
 }); //ready function 종료
 </script>
 </head>
