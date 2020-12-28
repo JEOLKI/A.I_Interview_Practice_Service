@@ -46,7 +46,7 @@ public class AnalysisControllerTest extends WebTestConfig{
 	public void retrievePagingListTwoTest() throws Exception {
 		mockMvc.perform(post("/analysis/question/retrievePagingList.do"))
 		.andExpect(status().is(200))
-		.andExpect(view().name("analysis/myinterviewresult"));
+		.andExpect(view().name("analysis/myInterviewResult"));
 	}
 	
 	@Test

@@ -129,7 +129,7 @@ public class AnalysisController {
 		model.addAttribute("paginationInfo", paginationInfo);
 		
 		if(resultList.size()>0) {
-			return "analysis/myinterview";
+			return "analysis/myInterview";
 		}else {
 			return "login/home";
 		}
@@ -187,7 +187,7 @@ public class AnalysisController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 		
-		return "analysis/myinterviewresult";
+		return "analysis/myInterviewResult";
 	}
 	
 	@RequestMapping(value = "/answer/retrieve.do")
