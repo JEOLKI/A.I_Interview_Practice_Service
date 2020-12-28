@@ -449,18 +449,18 @@
 			if( i == imageAnalysisList.length-1){
 				positiveData = { "date": i, "value": imageAnalysisList[i].happiness*100, "opacity": 1 };
 				neutralData = { "date": i, "value": imageAnalysisList[i].neutral*100, "opacity": 1 };
-				neutralData = { "date": i, "value": negativeScore*100 , "opacity": 1 };
+				negativeData = { "date": i, "value": negativeScore*100 , "opacity": 1 };
 				panicData = { "date": i, "value": panicScore*100 , "opacity": 1 };
 			} else{
 				positiveData = { "date": i, "value": imageAnalysisList[i].happiness*100 };
 				neutralData = { "date": i, "value": imageAnalysisList[i].neutral*100 };
-				neutralData = { "date": i, "value": negativeScore*100 };
+				negativeData = { "date": i, "value": negativeScore*100 };
 				panicData = { "date": i, "value": panicScore*100 };
 			}
 			
 			positive.push(positiveData);
 			neutral.push(neutralData);
-			negative.push(neutralData);
+			negative.push(negativeData);
 			panic.push(panicData);
 			
 		}
@@ -486,8 +486,8 @@
 			  function createLine(title, data, color) {
 
 			    var chart = container.createChild(am4charts.XYChart);
-			    chart.width = am4core.percent(100);
-			    chart.height = 70;
+			    chart.width = am4core.percent(50);
+			    chart.height = am4core.percent(50);
 			    
 			    chart.data = data;
 
@@ -496,18 +496,20 @@
 			    chart.titles.template.isMeasured = false;
 			    chart.titles.create().text = title;
 
-			    chart.padding(20, 5, 2, 5);
-
+			    //chart.padding(20, 5, 2, 5);
+			    
 			    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 			    dateAxis.renderer.grid.template.disabled = true;
 			    dateAxis.renderer.labels.template.disabled = true;
 			    dateAxis.startLocation = 0.5;
-			    dateAxis.endLocation = 0.7;
+			    dateAxis.endLocation = 0.6;
 			    dateAxis.cursorTooltipEnabled = false;
 
 			    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-			    valueAxis.min = -0;
+			    valueAxis.min = 0;
 			    valueAxis.max = 100;
+			    valueAxis.extraMin = 0.1;
+			    valueAxis.extraMax = 0.1; 
 			    valueAxis.renderer.grid.template.disabled = true;
 			    valueAxis.renderer.baseGrid.disabled = true;
 			    valueAxis.renderer.labels.template.disabled = true;
@@ -534,13 +536,14 @@
 
 			    return chart;
 			  }
-
+			  
 			  createLine("긍정적", positive, colors.getIndex(0));
 			  createLine("무표정", neutral, colors.getIndex(1));
 			  createLine("부정적인", negative, colors.getIndex(2));
 			  createLine("당황함", panic, colors.getIndex(3));
 			  
 			});
+		
 		
 		
 		
