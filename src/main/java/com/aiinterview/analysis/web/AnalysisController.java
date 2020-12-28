@@ -189,11 +189,21 @@ public class AnalysisController {
 		return "analysis/myInterviewResult";
 	}
 	
-	@RequestMapping(value = "/analysis/answer/retrieve.do")
-	public String retrieveView(String questSq, Model model, String shareMemId, String profilePath) {    
+	@RequestMapping(value = "/answer/retrieve.do")
+	public String retrieveView(String questSq, Model model, String shareMemId, String profilePath) {
+		
+		MemberVO memberVO = null;
+		try {
+			if(shareMemId != null) {
+				memberVO = memberService.retrieve(shareMemId);
+				model.addAttribute("profilePath", memberVO.getMemProfilePath());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("questSq", questSq);
 		model.addAttribute("shareMemId", shareMemId);
-		model.addAttribute("profilePath", profilePath);
+		
 		return "analysis/analysisResult";
 	}
 	

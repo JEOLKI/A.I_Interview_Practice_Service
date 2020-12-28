@@ -645,8 +645,8 @@
 		        datasets: [{
 		            label: null,
 		            data: decibel,
-		            borderColor: "rgba(20, 80, 220, 1)",
-		            backgroundColor: "rgba(20, 80, 200, 0.5)",
+		            borderColor: "rgba(255, 255, 255, 0.3)",
+		            backgroundColor: "rgba(40, 203, 209, 0.6)",
 		            fill: true,
 		            lineTension: 0.5,
 		            pointRadius:0
@@ -762,15 +762,21 @@
 							var meta = chartInstance.controller.getDatasetMeta(i);
 							meta.data.forEach(function (bar, index) {
 								if(${S_MEMBER == null}){
-									var data = '"${shareMemId }"'+'님의 평균음역대';
+									var data = '"${shareMemId }"';
 								}else{
-									var data = '"${shareMemId }"'+'님의 평균음역대';
+									if(${shareMemId == null}){
+										var data = '"${S_MEMBER.memAlias }"';
+									}else{
+										var data = '"${shareMemId }"';
+									}
 								}
-								ctx.fillText(data, bar._model.x+10, bar._model.y - 70);
+								ctx.fillText(data, bar._model.x, bar._model.y - 100);
+								data = '님의 평균음역대';
+								ctx.fillText(data, bar._model.x, bar._model.y - 70);
 								
 								ctx.font = "bold 20px Verdana";
 								data = averageRange+'Hz';
-								ctx.fillText(data, bar._model.x+10, bar._model.y - 25);
+								ctx.fillText(data, bar._model.x, bar._model.y - 25);
 							});
 						});
 					}
@@ -896,19 +902,20 @@
 						</c:when>
 						<c:when test="${S_MEMBER != null }">
 							<c:choose>
-								<c:when test="${S_MEMBER.memId != shareMemId}">
-									${shareMemId}님의 평균 성량<br>
+								<c:when test="${shareMemId == null}">
+									${S_MEMBER.memAlias }님의 평균 성량<br>
 								</c:when>
 								<c:otherwise>
-									${S_MEMBER.memAlias }님의 평균 성량<br>
+									${shareMemId}님의 평균 성량<br>
 								</c:otherwise>
 							</c:choose>
 						</c:when>
 					</c:choose>
+					
 					<c:choose>
 						<c:when test="${S_MEMBER == null }">
 							<c:choose>
-								<c:when test="${profilePath == '' }">
+								<c:when test="${profilePath == null }">
 									<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
 								</c:when>
 								<c:otherwise>
@@ -916,20 +923,28 @@
 								</c:otherwise>
 							</c:choose>
 						</c:when>
+						
 						<c:when test="${S_MEMBER != null }">
 							<c:choose>
-								<c:when test="${S_MEMBER.memId != shareMemId }">
-									<img alt="" src="/member/profile.do?memId=${shareMemId }" class="profile-icon">
+								<c:when test="${shareMemId != null }">
+									<c:choose>
+										<c:when test="${profilePath == null }">
+											<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
+										</c:when>
+										<c:otherwise>
+											<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon">
+										</c:otherwise>
+									</c:choose>
 								</c:when>
-								<c:when test="${S_MEMBER.memId == shareMemId }">
+								<c:when test="${shareMemId == null }">
 									<c:choose>
 										<c:when test="${S_MEMBER.memProfileNm == null }">
 											<img alt="" src="/images/defaultImage.jpg" class="profile-icon">
 										</c:when>
+										<c:otherwise>
+											<img alt="" src="/member/profile.do?memId=${S_MEMBER.memId }" class="profile-icon">
+										</c:otherwise>
 									</c:choose>
-									<c:otherwise>
-										<img alt="" src="/member/profile.do?memId=${S_MEMBER.memId }" class="profile-icon">
-									</c:otherwise>
 								</c:when>
 							</c:choose>
 						</c:when>
@@ -946,8 +961,7 @@
 					<span>55dB</span>
 				</div>
 			</div>
-			<canvas id="decibelChart" class="audio-graph" width="791" height="179"
-				style="display: block; height: 200px; width: 880px;"></canvas>
+			<canvas id="decibelChart" class="audio-graph" width="1200" height="280" style="display: block;"></canvas>
 			<div class="guide-line">
 				55dB
 				<div class="dot-line"></div>
@@ -960,39 +974,6 @@
 		<div class="pitch-graph">
 			<div class="pitch-line"></div>
 			<div id="user"  class="user-pitch" style="left: 238px; display: none;">
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${S_MEMBER.memProfileNm == null }">  --%>
-<!-- 						<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br> -->
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${S_MEMBER == null }"> --%>
-<%-- 						<c:choose> --%>
-<%-- 							<c:when test="${profilePath ==null }"> --%>
-<!-- 								<img alt="" src="/images/defaultImage.jpg" class="profile-icon"><br> -->
-<%-- 							</c:when> --%>
-<%-- 							<c:otherwise> --%>
-<%-- 								<img src="/member/profile.do?memId=${shareMemId}"	alt="profile-icon" class="profile-icon"><br> --%>
-<%-- 							</c:otherwise> --%>
-<%-- 						</c:choose> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${S_MEMBER != null }"> --%>
-<%-- 						<img src="/member/profile.do?memId=${S_MEMBER.memId }"	alt="profile-icon" class="profile-icon"><br> --%>
-<%-- 					</c:when> --%>
-<%-- 				</c:choose> --%>
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${S_MEMBER == null }"> --%>
-<%-- 						<b>${shareMemId}</b>님의 평균 음역대<br> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${S_MEMBER != null }"> --%>
-<%-- 						<c:choose> --%>
-<%-- 							<c:when test="${S_MEMBER.memId != shareMemId}"> --%>
-<%-- 								<b>${shareMemId}</b>님의 평균 음역대<br> --%>
-<%-- 							</c:when> --%>
-<%-- 							<c:otherwise> --%>
-<%-- 								<b>${S_MEMBER.memAlias }</b>님의 평균 음역대<br> --%>
-<%-- 							</c:otherwise> --%>
-<%-- 						</c:choose> --%>
-<%-- 					</c:when> --%>
-<%-- 				</c:choose> --%>
 				<span id="averageRange"></span>
 				<div class="line" ></div>
 				<div class="point"></div>
