@@ -28,6 +28,7 @@
 
 <script>
 	$(document).ready(function(){
+		$('#searchJobDate').val($('#selYear').val()+ $('.half.select').attr('value'));
 	    $('#zipcodeBtn').on('click',function(){
 		    new daum.Postcode({
 		        oncomplete: function(data) {
@@ -446,9 +447,11 @@
 
 								<c:forEach begin="0" end="10" var="result" step="1">
 
-									<option value="<c:out value="${yearStart - result}" />"
-										<c:if test="${(yearStart - result) == searchVO.bsnsYear}"> selected="selected"</c:if>><c:out
-											value="${yearStart - result}" /></option>
+									<option value="<c:out value="${yearStart+1 - result}" />"<c:if test="${(yearStart+1 - result) == searchVO.bsnsYear}">
+											selected="selected"
+										</c:if>>
+										<c:out value="${yearStart+1 - result}" />
+									</option>
 
 								</c:forEach>
 							</select>
@@ -456,7 +459,7 @@
 						<div id="firsthalf" class="half select" value="년 상반기">상반기</div>
 						<div id="secondhalf" class="half false" value="년 하반기">하반기</div>
 					</div>
-						<input type="hidden" id="searchJobDate" name="searchJobDate" value="2020년 상반기">
+						<input type="hidden" id="searchJobDate" name="searchJobDate">
 
 					<div class="major-flex radio-area">
 						<div class="label bold">전공</div>

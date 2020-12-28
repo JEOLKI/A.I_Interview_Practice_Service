@@ -402,9 +402,9 @@ function aliasCheck(){
 										style="width: 108px; height: 30px">
 										<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart" />
 										<c:forEach begin="0" end="10" var="result" step="1">
-											<option value="<c:out value="${yearStart - result}" />"
-												<c:if test="${(yearStart - result) == searchVO.bsnsYear}"> selected="selected"</c:if>>
-												<c:out value="${yearStart - result}" /></option>
+											<option value="<c:out value="${yearStart+1 - result}" />"
+												<c:if test="${(yearStart+1 - result) == (S_MEMBER.searchJobDate).substring(0,4)}"> selected="selected"</c:if>>
+												<c:out value="${yearStart+1 - result}" /></option>
 										</c:forEach>
 									</select>
 								</div>
