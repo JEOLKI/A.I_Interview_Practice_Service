@@ -1,4 +1,4 @@
-package com.aiinterview.common.util;
+package com.aiinterview.common.util.file;
 
 public class FileUploadUtil {
 	
