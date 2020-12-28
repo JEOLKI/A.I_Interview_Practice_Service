@@ -9,126 +9,139 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
-<%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
- <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script>
 </script>
 <style>
-	body{
-      background-color : #f5f7fb;
-      padding: 30px;
-   }
-   
-	#search{
-		display: inline-block; 
-	}
-	
-	a{
-		color: black;
-	}
-	
-	a:hover{
-		text-decoration: none;
-	}
-	
-	.listmenu, .conditionmenu{
-		display: inline-block; 
-	}
-	
-	.conditionmenu{
-		float: left;
-	}
-	
-	.listmenu{
-		float: right;
-		position: relative;
-		top : 7px;
-	}
-	
-	.body{
-		margin : 30px;
-	}
-	
-	.content__title{
-		margin-bottom: 30px;
-	}
-	
-	h1{
-		font-weight:bold;
-	}
-	
-	#content{
-		display: inline-block;
-		width: 50%;
-		
-	}
-	th, td{
-		width: 250px;
-		text-align: center;
-	}
-	th{
-		font-size: 1.2em;
-	}
-	tr{
-		height: 50px;
-	}
-	#sum{
-		border-top: 1px solid black;
-		font-weight: bold;
-	}
-	.title{
-		border-bottom: 2px solid black;
-	}
-	.saleList, .useList{
-		margin-top: 50px;
-		display: inline-block;
-		float : left;
-		width: 45%;
-	}
-	.chart{
-		display: inline-block;
-		float :right;
-		width: 45%;
-	}
-	.chart{
-		margin-left: 50px;
-		height: 400px;
-	}
-	.contentBox{
-		width: 70%;
-		padding: 20px 30px;
-		background-color: white;
-		border-radius: 10px;
-		margin: 10px 0px;
-		box-shadow: 5px 5px #EAEAEA;
-		display: inline-block;
-		float: left;
-	}
-	input{
-		border-radius: 5px;
-		border : 1px solid black;
-	}
-	.w3-container html{
-		background-color: #f5f7fb;
-	}
-	#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, #saleSearchBtn, #useSearchBtn {
-		display: inline-block;
-	    vertical-align: middle;
-	    border: 1px solid #000d22;
-	    border-radius: 5px;
-	    height: 23px;
-	    padding: 0px 10px;
-	    text-align: center;
-	    position: relative;
-	    top: -2px;
-	}
-	
-	#registBtn:hover, #saleSearchBtn:hover, #useSearchBtn:hover,.updateBtn:hover, #talentUpdateBtn:hover, .deleteBtn:hover{
-	    background-color: #000d22;
-	    color: #fff;
-	}
-	
+body {
+	background-color: #f5f7fb;
+	padding: 30px;
+}
+
+#search {
+	display: inline-block;
+}
+
+a {
+	color: black;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.listmenu, .conditionmenu {
+	display: inline-block;
+}
+
+.conditionmenu {
+	float: left;
+}
+
+.listmenu {
+	float: right;
+	position: relative;
+	top: 7px;
+}
+
+.body {
+	margin: 30px;
+}
+
+.content__title {
+	margin-bottom: 30px;
+}
+
+h1 {
+	font-weight: bold;
+}
+
+#content {
+	display: inline-block;
+	width: 50%;
+}
+
+th, td {
+	width: 250px;
+	text-align: center;
+}
+
+th {
+	font-size: 1.2em;
+}
+
+tr {
+	height: 50px;
+}
+
+#sum {
+	border-top: 1px solid black;
+	font-weight: bold;
+}
+
+.title {
+	border-bottom: 2px solid black;
+}
+
+.saleList, .useList {
+	margin-top: 50px;
+	display: inline-block;
+	float: left;
+	width: 45%;
+}
+
+.chart {
+	display: inline-block;
+	float: right;
+	width: 45%;
+}
+
+.chart {
+	margin-left: 50px;
+	height: 400px;
+}
+
+.contentBox {
+	width: 70%;
+	padding: 20px 30px;
+	background-color: white;
+	border-radius: 10px;
+	margin: 10px 0px;
+	box-shadow: 5px 5px #EAEAEA;
+	display: inline-block;
+	float: left;
+}
+
+input {
+	border-radius: 5px;
+	border: 1px solid black;
+}
+
+.w3-container html {
+	background-color: #f5f7fb;
+}
+
+#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, #saleSearchBtn,
+	#useSearchBtn {
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #000d22;
+	border-radius: 5px;
+	height: 23px;
+	padding: 0px 10px;
+	text-align: center;
+	position: relative;
+	top: -2px;
+}
+
+#registBtn:hover, #saleSearchBtn:hover, #useSearchBtn:hover, .updateBtn:hover,
+	#talentUpdateBtn:hover, .deleteBtn:hover {
+	background-color: #000d22;
+	color: #fff;
+}
 </style>
 <script>
 
@@ -256,11 +269,20 @@ function createUseChart(totalUseList){
 	chart.logo.disabled = true;
 		
 	var sum = 0;
+	var min = totalUseList[0].useCount;
+	var max = 0;
 	var chartData = [];
 	for(var i=0; i< totalUseList.length; i++){
 		var planUse = totalUseList[i];
 		
 	    chartData.push({plan:planUse.planNm, useCount: planUse.useCount});
+	    
+	    if(min > planUse.useCount){
+	   		min = planUse.useCount;
+	    }
+	    if(max < planUse.useCount){
+	    	max = planUse.useCount; 
+	    }
 	    
 	    sum += planUse.useCount;
 			
@@ -279,39 +301,44 @@ function createUseChart(totalUseList){
 	valueAxis.max = sum+1;
 	valueAxis.strictMinMax = true;
 	valueAxis.renderer.minGridDistance = 30;
-	// axis break
-	var axisBreak = valueAxis.axisBreaks.create();
-	//axisBreak.startValue = 4;
-	//axisBreak.endValue = 8;
-	//axisBreak.breakSize = 0.005;
-
-	// fixed axis break
-	var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-	axisBreak.breakSize = 0.05 * (1 - d) / d; /* 0.05 means that the break will take 5% of the total value axis height*/
-
-	// make break expand on hover
-	var hoverState = axisBreak.states.create("hover");
-	hoverState.properties.breakSize = 1;
-	hoverState.properties.opacity = 0.1;
-	hoverState.transitionDuration = 1500;
-
-	axisBreak.defaultState.transitionDuration = 1000;
-	/*
-	// this is exactly the same, but with events
-	axisBreak.events.on("over", function() {
-	  axisBreak.animate(
-		[{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
-		1500,
-		am4core.ease.sinOut
-	  );
-	});
-	axisBreak.events.on("out", function() {
-	  axisBreak.animate(
-		[{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
-		1000,
-		am4core.ease.quadOut
-	  );
-	});*/
+	
+	
+	if(sum - max > 2){
+		// axis break
+		var axisBreak2 = valueAxis.axisBreaks.create();
+		
+		axisBreak2.startValue = max+1;
+		axisBreak2.endValue = sum-1;
+		axisBreak2.breakSize = 0.005;
+	
+		// fixed axis break
+		var d = (axisBreak2.endValue - axisBreak2.startValue) / (valueAxis.max - valueAxis.min);
+		axisBreak2.breakSize = 0.05 * (1 - d) / d; /* 0.05 means that the break will take 5% of the total value axis height*/
+	
+		// make break expand on hover
+		var hoverState = axisBreak2.states.create("hover");
+		hoverState.properties.breakSize = 1;
+		hoverState.properties.opacity = 0.1;
+		hoverState.transitionDuration = 1500;
+	
+		axisBreak2.defaultState.transitionDuration = 1000;
+	 
+		// this is exactly the same, but with events
+		axisBreak2.events.on("over", function() {
+			axisBreak2.animate(
+			[{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
+			1500,
+			am4core.ease.sinOut
+		  );
+		});
+		axisBreak2.events.on("out", function() {
+			axisBreak2.animate(
+			[{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
+			1000,
+			am4core.ease.quadOut
+		  );
+		});
+	}
 
 	var series = chart.series.push(new am4charts.ColumnSeries());
 	series.dataFields.categoryX = "plan";
@@ -367,12 +394,22 @@ function createSaleChart(totalSaleList){
 		
 	var countSum = 0;
 	var saleSum = 0;
+	var min = totalSaleList[0].sale;
+	var max = 0;
+	
 	var chartData = [];
 	for(var i=0; i< totalSaleList.length; i++){
 		var planUse = totalSaleList[i];
 		
 	    chartData.push({plan:planUse.planNm, sale: planUse.sale});
 	    
+	    
+	    if(min >  planUse.sale){
+	    	min =  planUse.sale;
+	    }
+	    if(max <  planUse.sale){
+	    	max =  planUse.sale;
+	    }
 	    countSum += planUse.useCount;
 		saleSum += planUse.sale;
 			
@@ -391,23 +428,29 @@ function createSaleChart(totalSaleList){
 	valueAxis.max = saleSum+10000;
 	valueAxis.strictMinMax = true;
 	valueAxis.renderer.minGridDistance = 30;
-	// axis break
-	var axisBreak = valueAxis.axisBreaks.create();
-	//axisBreak.startValue = 4;
-	//axisBreak.endValue = 8;
-	//axisBreak.breakSize = 0.005;
+	
+	
+	
+	if(saleSum - max > 20000){
+		// axis break
+		var axisBreak3 = valueAxis.axisBreaks.create();
+		axisBreak3.startValue = max + 10000;
+		axisBreak3.endValue = saleSum - 10000;
+		axisBreak3.breakSize = 0.005;
+	
+		// fixed axis break
+		var d = (axisBreak3.endValue - axisBreak3.startValue) / (valueAxis.max - valueAxis.min);
+		axisBreak3.breakSize = 0.05 * (1 - d) / d; /* 0.05 means that the break will take 5% of the total value axis height */
+	
+		// make break expand on hover
+		var hoverState = axisBreak3.states.create("hover");
+		hoverState.properties.breakSize = 1;
+		hoverState.properties.opacity = 0.1;
+		hoverState.transitionDuration = 1500;
+	
+		axisBreak3.defaultState.transitionDuration = 1000;
+	}
 
-	// fixed axis break
-	var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-	axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
-
-	// make break expand on hover
-	var hoverState = axisBreak.states.create("hover");
-	hoverState.properties.breakSize = 1;
-	hoverState.properties.opacity = 0.1;
-	hoverState.transitionDuration = 1500;
-
-	axisBreak.defaultState.transitionDuration = 1000;
 
 	var series = chart.series.push(new am4charts.ColumnSeries());
 	series.dataFields.categoryX = "plan";
@@ -457,88 +500,89 @@ function createSaleHtml(totalSaleList){
 </script>
 </head>
 <body>
-	<form:form commandName="planVO" id="listForm" name="listForm" method="post">
+	<form:form commandName="planVO" id="listForm" name="listForm"
+		method="post">
 		<h1>요금제 통계</h1>
-			<div class="planStatistics">
-				<div class="contentBox">
-					<ul class="nav nav-tabs">
-					    <li class="active"><a data-target="use" data-toggle="tab" href="#use">이용자</a></li>
-					    <li><a id="saleTab" data-target="sale" data-toggle="tab" href="#sale">매출</a></li>
-					</ul>
-					<br><br>
-					 <div id="useMenu" class="tab-pane fade in active">
-						    <div class="conditionmenu">
-						    	기간 : 
-						    	<input id="useStart" type="date">
-						    	~
-						    	<input id="useEnd" type="date">
-						    		<input type="hidden" id="useStartDate" name="startDate" >
-						    		<input type="hidden" id="useEndDate" name="endDate" >
-						    		<img id="useSelectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
-						    </div>
-						    <div class="listmenu">
-								<div id="search">
-									<input type="text" id="useSearchKeyword" >
-									<span id="useSearchBtn">검색</span>
-								</div>
-						    </div>
-					 </div>
-					 <div id="saleMenu" class="tab-pane fade ">
-					 		<div class="conditionmenu">
-						    	기간 : 
-						    	<input id="saleStart" type="date">
-						    	~
-						    	<input id="saleEnd" type="date">
-						    		<input type="hidden" id="saleStartDate" name="startDate" >
-						    		<input type="hidden" id="saleEndDate" name="endDate" >
-						    		<img id="saleSelectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top:-5px; left:5px;">
-						    </div>
-						    <div class="listmenu">
-								<div id="search">
-									<input type="text" id="saleSearchKeyword" >
-									<span id="saleSearchBtn">검색</span>
-								</div>
-						    	<a href="${cp }/plan/list/excelDown.do">↓ 목록 내려받기</a> 
-						    </div>
+		<div class="planStatistics">
+			<div class="contentBox">
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-target="use" data-toggle="tab"
+						href="#use">이용자</a></li>
+					<li><a id="saleTab" data-target="sale" data-toggle="tab"
+						href="#sale">매출</a></li>
+				</ul>
+				<br>
+				<br>
+				<div id="useMenu" class="tab-pane fade in active">
+					<div class="conditionmenu">
+						기간 : <input id="useStart" type="date"> ~ <input
+							id="useEnd" type="date"> <input type="hidden"
+							id="useStartDate" name="startDate"> <input type="hidden"
+							id="useEndDate" name="endDate"> <img id="useSelectBtn"
+							alt="" src="/images/searchBtn.png"
+							style="width: 25px; height: 25px; display: inline-block; position: relative; top: -5px; left: 5px;">
+					</div>
+					<div class="listmenu">
+						<div id="search">
+							<input type="text" id="useSearchKeyword"> <span
+								id="useSearchBtn">검색</span>
+						</div>
 					</div>
 				</div>
-				<div class="tab-content">
-					<div class="contentBox">
-					 <!-- 사용자 탭 -->
-					  <div id="use" class="tab-pane fade content in active">
-						    <div class="use">
-						  	<table class="useList">
-						  		<tr class="title">
-						  			<th></th>
-						  			<th>요 금 제</th>
-						  			<th>이용자 수</th>
-						  		</tr>
-						  		<tbody id="useList">
-						  		</tbody>
-						  	</table>
-						  </div>	
+				<div id="saleMenu" class="tab-pane fade ">
+					<div class="conditionmenu">
+						기간 : <input id="saleStart" type="date"> ~ <input
+							id="saleEnd" type="date"> <input type="hidden"
+							id="saleStartDate" name="startDate"> <input
+							type="hidden" id="saleEndDate" name="endDate"> <img
+							id="saleSelectBtn" alt="" src="/images/searchBtn.png"
+							style="width: 25px; height: 25px; display: inline-block; position: relative; top: -5px; left: 5px;">
+					</div>
+					<div class="listmenu">
+						<div id="search">
+							<input type="text" id="saleSearchKeyword"> <span
+								id="saleSearchBtn">검색</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-content">
+				<div class="contentBox">
+					<!-- 사용자 탭 -->
+					<div id="use" class="tab-pane fade content in active">
+						<div class="use">
+							<table class="useList">
+								<tr class="title">
+									<th></th>
+									<th>요 금 제</th>
+									<th>이용자 수</th>
+								</tr>
+								<tbody id="useList">
+								</tbody>
+							</table>
+						</div>
 						<div id="useChart" class="use chart"></div>
 					</div>
 					<!-- 매출 탭 -->
-					 <div id="sale" class="tab-pane fade content">
-					  <div class="sale">
-					  	<table class="saleList">
-						  	<tr class="title">
-						  			<th></th>
-						  			<th>요 금 제</th>
-						  			<th>가  격</th>
-						  			<th>이용자 수</th>
-						  			<th>매  출</th>
-						  	</tr>
-						  	<tbody id="saleList">
-						  	</tbody>
-						</table>
-					  </div>
-					  <div id="saleChart" class="sale chart"></div>
+					<div id="sale" class="tab-pane fade content">
+						<div class="sale">
+							<table class="saleList">
+								<tr class="title">
+									<th></th>
+									<th>요 금 제</th>
+									<th>가 격</th>
+									<th>이용자 수</th>
+									<th>매 출</th>
+								</tr>
+								<tbody id="saleList">
+								</tbody>
+							</table>
+						</div>
+						<div id="saleChart" class="sale chart"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form:form>		
+	</form:form>
 </body>
 </html>
