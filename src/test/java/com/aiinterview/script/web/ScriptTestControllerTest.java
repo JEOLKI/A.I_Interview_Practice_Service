@@ -35,6 +35,14 @@ public class ScriptTestControllerTest extends WebTestConfig{
 	}
 	
 	@Test
+	public void testStartTest() throws Exception{
+		mockMvc.perform(post("/scriptTest/testStart.do")
+				.param("scriptGbSq", "1"))
+		.andExpect(status().is(200))
+		.andExpect(view().name("script/testStart"));
+	}
+	
+	@Test
 	public void retrieveSelectListTest() {
 		try {
 			mockMvc.perform(post("/scriptTest/retrieveScriptList.do")
