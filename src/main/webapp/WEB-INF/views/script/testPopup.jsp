@@ -88,7 +88,7 @@ $(document).ready(function() {
 
 	.contentBox{
 		width: 93%;
-		padding: 26% 30px;
+		padding: 20% 30px;
 		background-color: white;
 		border-radius: 10px;
 		margin: 10px 3%;

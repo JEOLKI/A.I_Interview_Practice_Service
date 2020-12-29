@@ -121,7 +121,7 @@ blink {
 		height: 170px;
 		background-color: #f5f7fb;
 		border-radius: 10px;
-		padding: 20px 30px;
+		padding: 10px 30px;
 		margin: 10px 3%;
 		text-align: center;
 	}
@@ -505,7 +505,7 @@ function createScoreChart(ctx, testScore){
 				<div class="scoreText"></div>
 			</div>
 			<div class="resultScriptBox">
-				<p class="guide result">붉은색으로 표시된 부분이 일치하지 않습니다.</p>
+				<p class="guide result">붉은색으로 표시된 부분이<br> 일치하지 않습니다.</p>
 				<br><br>
 				<p class="scriptContent"></p>
 			</div>
