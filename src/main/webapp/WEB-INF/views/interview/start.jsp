@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-
 <script src="/js/capture.js"></script>
 <script src="/js/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 <script type="text/javascript">
@@ -15,6 +13,7 @@
 	startCount = 0; // 시작 카운트
 	endCount = ${questionGoList.size()}; // 질문의 개수
 	endTTS = false; // TTS종료 확인
+	voiceCount = 0;
 	
 	var tid;
 	var aid;
@@ -61,8 +60,6 @@
 
     	
     recognizer.recognizing = (s, e) => {
-  	
-  	//console.log(`RECOGNIZING: Text=${e.result.text}`);
     };
         
    	recognizer.recognized = (s, e) => { // 음성에서 스크립트 추출
@@ -165,12 +162,11 @@
 		SetTime++;					// 1초씩 증가
 		if(SetTime%60<10){
 			m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
-			
 		}else{
 			m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
 		}
 		
-		msg = "<font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
+		msg = "<br><br><br><font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
 		msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
 		msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
 		
@@ -178,11 +174,6 @@
 		
 		// 시간이 종료 되었으면..
 		if (SetTime >= 120) {
-			//console.log('타이머 멈추기')	;	
-			//console.log('시작카운트 : '+startCount);
-			//console.log('종료카운트 : '+endCount);
-			//console.log('최종 답변 스크립트 : ' + script);
-			
 			startCount++; // 답변 진행되면서 횟수 증가
 			$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
 			$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
@@ -192,45 +183,29 @@
 			$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
 			clearInterval(aid);		// 10초마다 이미지 분석 종료
 			
-			
 			download(); // 녹화 중지
 			createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
+			$("#analysisData").empty(); // 비우기
 			
 			script = "다음 질문을 준비해주세요.";
 			if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
-// 				script = "분석중입니다. 잠시만 기다려주세요"
-// 				$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-// 				$('#time').hide();// 타이머 지우기
-// 				$('.attention-message.shown').css("background-image", "");// 원 지우기
-// 				$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
-// 				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 하나만 출력
-// 				$('.attention-message.shown').css("margin-top", "200px"); // 마진
-// 				$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
-				
-// 				window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
-				
-				$('.next-question').html(""); // 버튼 지우기
-				download(); // 녹화 중지
-				clearInterval(tid);		// 타이머 해제
-				$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
-				clearInterval(aid);		// 10초마다 이미지 분석 종료
-				
 				script = "분석중입니다. 잠시만 기다려주세요"
 				$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-				$('#time').hide();// 타이머 지우기
+				$('#time').empty();// 타이머 지우기
 				$('.attention-message.shown').css("background-image", "");// 원 지우기
 				$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
 				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
-				$('.attention-message.shown').css("margin-top", "200px"); // 마진
+				$('.attention-message.shown').css("margin-top", "230px"); // 마진
 				$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
 
 				window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
 			}else{
+				SetTime=0; // 타이머 시간 되돌리기
+				answer=""; // 답변 내용 초기화
 				$('.message-balloon').empty(); // 메세지 창 지우기
 				$('#time').empty(); // 타이머 표시 지우기
 				$('.message-balloon').text(script); // 다음질문 준비 표시
-				SetTime=0; // 타이머 시간 되돌리기
-				$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
+				$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
 			}
 		}else if(SetTime == 15){
 			$('.next-question').html("답변 종료<br><div class='spacebar-area false'>SPACE BAR</div>"); // 답변 종료
@@ -358,17 +333,18 @@
 			processData: false,
 			success : function(data){
 				decibel = 0;
-				//console.log("성공");
-				//console.log(data);
+				console.log("성공");
+				console.log(data);
 				
 			},
 			error : function(data){
-				//console.log(data.status);
-				//console.log(data)
+				console.log(data.status);
+				console.log(data)
 			}
 		});
 		blob = null; // blob 데이터 초기화
-		recordedChunks.splice(0); // blob 데이터 초기화
+		recordedChunks=[]; // blob 데이터 초기화
+// 		recordedChunks.splice(0); // blob 데이터 초기화
 		return true;
 	}
 	
@@ -431,7 +407,6 @@
 	  blob = new Blob(recordedChunks, {type: "video/webm"}); // blob객체로 변환
 	  var url =  URL.createObjectURL(blob);
 	  
-	  $('#file').attr('src',url);
 	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
 	}
 	
@@ -460,7 +435,7 @@
 					m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
 				}
 				
-				msg = "<font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
+				msg = "<br><br><br><font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
 				msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
 				msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
 				
@@ -478,6 +453,8 @@
 				
 				
 				clearInterval(tid);		// 타이머 해제
+				$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
+				$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
 				clearInterval(aid);		// 10초마다 이미지 분석 종료
 				
 				download(); // 녹화 중지
@@ -487,19 +464,14 @@
 				script = "다음 질문을 준비해주세요.";
 				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 					$('.next-question').html(""); // 버튼 지우기
-					download(); // 녹화 중지
-					clearInterval(tid);		// 타이머 해제
-					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
-					$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
-					clearInterval(aid);		// 10초마다 이미지 분석 종료
 					
 					script = "분석중입니다. 잠시만 기다려주세요"
 					$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-					$('#time').hide();// 타이머 지우기
+					$('#time').empty();// 타이머 지우기
 					$('.attention-message.shown').css("background-image", "");// 원 지우기
 					$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
 					$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
-					$('.attention-message.shown').css("margin-top", "200px"); // 마진
+					$('.attention-message.shown').css("margin-top", "230px"); // 마진
 					$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
 					
 					window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
@@ -509,7 +481,7 @@
 					$('.message-balloon').empty(); // 메세지 창 지우기
 					$('#time').empty(); // 타이머 표시 지우기
 					$('.message-balloon').text(script); // 다음질문 준비 표시
-					$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
+					$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
 				}
 			}
 		});
@@ -534,7 +506,7 @@
 						m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
 					}
 					
-					msg = "<font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
+					msg = "<br><br><br><font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
 					msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
 					msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
 					
@@ -564,18 +536,14 @@
 					script = "다음 질문을 준비해주세요.";
 					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
 						$('.next-question').html(""); // 버튼 지우기
-						download(); // 녹화 중지
-						clearInterval(tid);		// 타이머 해제
-						$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
-						clearInterval(aid);		// 10초마다 이미지 분석 종료
 						
 						script = "분석중입니다. 잠시만 기다려주세요"
 						$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-						$('#time').hide();// 타이머 지우기
+						$('#time').empty();// 타이머 지우기
 						$('.attention-message.shown').css("background-image", "");// 원 지우기
 						$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
 						$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
-						$('.attention-message.shown').css("margin-top", "200px"); // 마진
+						$('.attention-message.shown').css("margin-top", "230px"); // 마진
 						$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
 
 						window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
@@ -585,7 +553,7 @@
 						$('.message-balloon').empty(); // 메세지 창 지우기
 						$('#time').empty(); // 타이머 표시 지우기
 						$('.message-balloon').text(script); // 다음질문 준비 표시
-						$('.attention-message.shown').text('이곳을 주목해주세요!'); // 주목해주세요 표시
+						$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
 					}
 				}
 			}
@@ -593,8 +561,7 @@
 		
 		// 음성 테스트
 		$(document).on('click','#voice',function(){
-			var decibelIndex = 0; // 데시벨 인덱스
-			var frequencyIndex = 0; // 주파수 인덱스
+			var voiceIndex = 0; // 데시벨 인덱스
 			decibelSum = 0; // 데시벨 초기값
 			frequencySum = 0; // 주파수초기값
 			navigator.mediaDevices.getUserMedia({ audio: true, video: false })                                     
@@ -636,19 +603,22 @@
 					
 			      decibelSum+=Math.round(20*Math.log10(Math.round(average+1)));
 				  
-				  var decibelHtml = '<input type="text" name="voiceAnalysisVOLIst['+decibelIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
-				  decibelIndex+=1;
-				  $("#analysisData").append(decibelHtml);
-				  
 				  // 주파수 부분
 				  var tempArray = new window.Uint8Array(analyser.frequencyBinCount);
 				    analyser.getByteFrequencyData(tempArray);
 				    var latestFrequency = (getAverageVolume(tempArray));
 				    frequencySum+=latestFrequency;
 				    
-				  var frequencyHtml = '<input type="text" name="voiceAnalysisVOLIst['+frequencyIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >'
-					frequencyIndex+=1;
-					$("#analysisData").append(frequencyHtml);
+				  voiceCount+=1; // 3번 중 한 번만 값을 입력하기위한 변수
+				  
+// 				  if(voiceCount%3==0 ){
+					  var voiceHtml = '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
+					  voiceHtml += '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >';
+					  
+					  voiceIndex+=1;
+					  
+					  $("#analysisData").append(voiceHtml);
+// 				  }
 			};
 				  
 		  // 음성 측정 멈추기
@@ -783,9 +753,6 @@
 		TimerStart(); // 타이머 시작
 		analyzeStart(); // 10초마다 이미지 분석
 		$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
-			
-		console.log('타이머 시작')				
-		$('.attention-message.shown').text('');
       };
 
       var audioConfig  = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
@@ -876,10 +843,33 @@
     transform: rotateY(180deg);
     -webkit-transform:rotateY(180deg); /* Safari and Chrome */
     -moz-transform:rotateY(180deg); /* Firefox */
-}    
+}
+.attention-message.shown{
+	position:relative;
+	display: table; 
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 400px; 
+	height: 400px; 
+	background-size:100% ;
+	padding-top : 0px;
+	margin-top : 230px;
+}
+#attention{
+	display: table-cell; 
+  	vertical-align: middle;
+}
+#InterviewCircle{
+	background-size: 500px 600px;
+	z-index: 100;
+	height: 550px;
+}
+#InterviewInterface{
+	margin : -135px auto 0;
+}
 </style>
 </head>
-<body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
+<body style="overflow:hidden"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- TTS부분 -->
 	<div id="content" style="display:none">
 	  <table>
@@ -949,7 +939,7 @@
 	<!-- TTS부분 -->
 	
 	<!-- 음성 STT위한 부분 -->
-	<div id="content" style="display:">
+	<div id="content" style="display:none">
 		<input type="button" id="voice" value="음성분석">
 		<input type="button" id="voiceStop" value="음성분석종료">
 		<table width="100%">
@@ -982,7 +972,7 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam" style="display:">
+	<div class="webcam" style="display:none">
 		<div class="contentarea">
 			<div class="camera">
 				<video id="video" autoplay muted>Video stream not available.</video>
@@ -1017,26 +1007,20 @@
 	<div id="root">
 		<div class="Interview">
 			<div class="FullButton" style="display: inline-block;"></div>
-			
 			<c:forEach var="quest" begin="0" end="${questionGoList.size()-1}">
 				<input type="hidden" value='${questionGoList[quest].questContent}' data-sq='${questionGoList[quest].questSq}' class="quest" >
 			</c:forEach>
-			
-			<div class="InterviewCircle" style="background-size: 500px 600px; z-index: 100">
-			<div id="time" style="width: 600px; height: 80px; display: inline-block; text-align: center; margin-top: 200px; position: relative; z-index: 300;"></div>
-					<img id="attention" src="/images/interviewwatch.png" alt="" class="bg" style="width: 400px; height: 400px; position: absolute; margin-left:39.5%; top:100; display: none;">
+			<div class="InterviewCircle" id="InterviewCircle">
+				<img src="/images/bg.355cdfd9.png" alt="" class="bg">
+				<div class="attention-message shown" id="time" style="background-image: url('/images/interview_circle.png');" >
+					<div id="attention">이곳을 주목해주세요!</div>
+				</div>
+				<audio id="sampleVoice" src="/media/interview_guide_audio.5680f6cc.mp3"	autoplay=""></audio>
 				<div class="MovingCircle circle false">
 					<canvas width="600" height="600"></canvas>
 				</div>
-				<img src="/images/bg.355cdfd9.png" alt="" class="bg">
-				<div class="attention-message shown" style="position:relative; display: block; margin-left: auto; margin-right: auto; width: 400px; height: 200px; margin-top: -35%; background-size:100% ; padding-top:200px; background-image: url('/images/interview_circle.png');" >
-					이곳을 주목해주세요!
-				</div>
-				<div style="text-align: center;">
-				</div>
-				<audio id="sampleVoice" src="/media/interview_guide_audio.5680f6cc.mp3"	autoplay=""></audio>
 			</div>
-			<div class="InterviewInterface">
+			<div class="InterviewInterface" id="InterviewInterface">
 				<div class="question-message shown">
 					<div class="message-balloon" style="width: 650px;">
 						<div>
