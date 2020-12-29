@@ -23,6 +23,9 @@
 <script>
 
 	$(document).ready(function() {
+		if('${param.msg}' == '로그인에 실패했습니다'){
+			alert('로그인에 실패했습니다')	
+		}
 		$('#home').on('click',function(){
 			document.location = "/login/home.do";
 		});

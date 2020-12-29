@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aiinterview.board.service.BoardService;
 import com.aiinterview.board.vo.BoardVO;
@@ -48,8 +49,14 @@ public class LoginController {
 	protected EgovPropertyService propertiesService;
 
 	@RequestMapping(value = "/main.do", method = { RequestMethod.GET })
-	public String view(Model model) {
-		
+	public String view(Model model, String msg, RedirectAttributes ra) {
+		System.out.println("sdfsdf");
+		if(msg==null) {
+			msg = "";
+		}
+		if(msg.equals("로그인에 실패했습니다")) {
+			ra.addAttribute("msg","로그인에 실패했습니다");
+		}
 		try {
 			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
 			
@@ -91,7 +98,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
-	public String login(String loginMemId, String loginMemPw, HttpSession session, Model model) throws Exception {
+	public String login(String loginMemId, String loginMemPw, HttpSession session, Model model, RedirectAttributes ra) throws Exception {
 		InetAddress server;
 		MemberVO memberVo = memberService.retrieve(loginMemId);
 		
@@ -113,6 +120,7 @@ public class LoginController {
 		
 		if (memberVo == null || !memberVo.getMemPw().equals(loginMemPw)) {
 			model.addAttribute("memId", loginMemId);
+			ra.addAttribute("msg", "로그인에 실패했습니다");
 			return "redirect:/login/main.do";
 		} else if (memberVo.getMemPw().equals(loginMemPw)&&"Y".equals(memberVo.getMemSt())) {
 			server = InetAddress.getLocalHost();
