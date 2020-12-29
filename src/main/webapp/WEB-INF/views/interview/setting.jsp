@@ -117,12 +117,6 @@ to {
         }
 	}
 	
-	function grant(){
-		$('.PermissionsCheck').hide();
-		$('.guide').show();
-		
-	}
-
 	
 $(document).ready(function(){
 	$('.body').show();
@@ -331,7 +325,6 @@ $(document).ready(function(){
 				</div>
 				<div class="tutorial-box PermissionsCheck">
 					<img  id="PermissionsCheck" alt="" src="/images/camera_mic_check.png">
-					<button onclick="grant();">엑세스 허용함</button>
 				</div>
 			</div>
 			<div class="FullButton"></div>

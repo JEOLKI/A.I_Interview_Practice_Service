@@ -20,6 +20,7 @@
   var startbutton = null;
 
   function startup() {
+	  
     video = document.getElementById('video');
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
@@ -27,13 +28,15 @@
 
     navigator.mediaDevices.getUserMedia({video: true, audio: true})
     .then(function(stream) {
+    	$('.PermissionsCheck').hide();
+    	$('.guide').show();
       video.srcObject = stream;
       video.play();
     })
     .catch(function(err) {
     	$('.guide').hide();
     	$('.PermissionsCheck').show();
-    	
+    	startup();
     });
 
     video.addEventListener('canplay', function(ev){
