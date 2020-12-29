@@ -31,7 +31,10 @@
       video.play();
     })
     .catch(function(err) {
-      console.log("An error occurred: " + err);
+      
+    	alert("화면 연결이 안됨")
+    	
+    	
     });
 
     video.addEventListener('canplay', function(ev){
@@ -47,8 +50,8 @@
       
         video.setAttribute('width', width);
         video.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
+/*        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);*/
         streaming = true;
       }
     }, false);
@@ -58,20 +61,20 @@
       ev.preventDefault();
     }, false);
     
-    clearphoto();
+    //clearphoto();
   }
 
   // Fill the photo with an indication that none has been
   // captured.
 
-  function clearphoto() {
+/*  function clearphoto() {
     var context = canvas.getContext('2d');
     context.fillStyle = "#AAA";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     var data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
-  }
+  }*/
   
   // Capture a photo by fetching the current contents of the video
   // and drawing it into a canvas, then converting that to a PNG
@@ -99,7 +102,7 @@
       photo.setAttribute('src', data);
       
     } else {
-      clearphoto();
+      //clearphoto();
     }
   }
   
