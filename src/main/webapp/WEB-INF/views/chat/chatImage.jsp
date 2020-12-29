@@ -3,20 +3,20 @@
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
 <style>
-::-webkit-scrollbar {
+ /* ::-webkit-scrollbar {
 	width: 6px;
 }
 ::-webkit-scrollbar-track {
-	background-color: transparent;
+	background-color: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
 }
 ::-webkit-scrollbar-thumb {
 	border-radius: 3px;
-	background-color: #000000;
+	background-color: black;
 }
 ::-webkit-scrollbar-button {
 	width: 0;
 	height: 0;
-}
+}  */
 
 #image {
 	position: fixed;
@@ -40,6 +40,8 @@
 	left: 2%;
 	height: 600px;
 	border-radius: 20px;
+	box-shadow: 12px 15px 20px rgba(46, 61, 73, 0.15); 
+	overflow: hidden;
 }
 
 .iwEgly {

@@ -15,13 +15,14 @@ $(document).ready(function(){
 			$(this).siblings('.question__content').removeClass('open');
 			$(this).siblings('.question__content').addClass('close');
 		}
-		
-	)}
+	})
 	$('.content__Inquire-btn').on("click", function(){
-		document.getElementById("#image").click();
+		console.log('클릭입력')
+		$("#image").trigger("click");
+		document.getElementById("image")[0].click();
 	})
 	
-}) 
+})
 </script>
 <style>
 .fa{

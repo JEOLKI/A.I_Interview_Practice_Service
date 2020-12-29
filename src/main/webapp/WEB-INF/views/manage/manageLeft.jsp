@@ -122,6 +122,8 @@
 	<br>
 </div>
 
+<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
+
 
 <script>
 

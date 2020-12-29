@@ -18,18 +18,24 @@
 <style>
 ::-webkit-scrollbar {
 	width: 6px;
+	height: 5px;
+	display: none;
 }
 ::-webkit-scrollbar-track {
-	background-color: transparent;
+	background-color: white;
 }
 ::-webkit-scrollbar-thumb {
+ 	background-clip: padding-box;
 	border-radius: 3px;
-	background-color: white;
+	background-color: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;;
+	background-color: #6951FF
 }
 ::-webkit-scrollbar-button {
 	width: 0;
 	height: 0;
-}
+}   
+
+
 .goNNeA {
     width: 30px;
     height: 30px;
@@ -56,7 +62,7 @@ html, body {
   font-weight: 400;
   font-size: 14px;
   width : 350px;
-	  
+	   
 }
 @keyframes body {
   0% {
