@@ -8,7 +8,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.aiinterview.member.vo.MemberVO;
 
-
 public class ManageCheckInterceptor extends HandlerInterceptorAdapter{
 	
 	@Override

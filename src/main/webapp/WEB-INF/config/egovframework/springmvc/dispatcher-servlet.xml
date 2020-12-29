@@ -128,7 +128,7 @@
 	<bean id="EgovImgPaginationRenderer" class="com.aiinterview.common.web.EgovImgPaginationRenderer"/>
 
 	<!-- interceptor 설정 -->
-	<!-- <mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/login/**"/>
@@ -139,9 +139,9 @@
 			<mvc:exclude-mapping path="/WEB-INF/config/**"/>
 			<mvc:exclude-mapping path="/common/**"/>
 			<mvc:exclude-mapping path="/boardGubun/**"/>
-			<mvc:exclude-mapping path="/boardGubun/**"/>
-			<mvc:exclude-mapping path="/analysis/share.do"/>
-			<mvc:exclude-mapping path="/analysis/resultShare.do"/>
+			<mvc:exclude-mapping path="/analysis/**"/>
+			<mvc:exclude-mapping path="/WEB-INF/views/chat/**"/>
+			<mvc:exclude-mapping path="/chat/**"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
 		
@@ -155,11 +155,10 @@
 			<bean class="com.aiinterview.common.web.InterviewCheckInterceptor"/>
 		</mvc:interceptor>
 		
-		
-	</mvc:interceptors>  -->
+	</mvc:interceptors>
 	
 
-<websocket:handlers>
+	<websocket:handlers>
 	<websocket:mapping handler="broadSocket" path="/broadsocket.do" />
 	<websocket:mapping handler="admin" path="/admin.do" />
 	<websocket:mapping handler="broadalarm" path="/broadalarm.do" />
@@ -168,8 +167,6 @@
 		</websocket:handshake-interceptors>
 		<websocket:sockjs />
 	</websocket:handlers>
-    
-    
     
     
 </beans>

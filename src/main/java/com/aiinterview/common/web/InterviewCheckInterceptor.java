@@ -1,7 +1,5 @@
 package com.aiinterview.common.web;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +42,7 @@ public class InterviewCheckInterceptor extends HandlerInterceptorAdapter{
 				response.sendRedirect("/plan/planList.do");
 				return false;
 				
-			}else {
+			}else {	
 				
 				return true;
 			
