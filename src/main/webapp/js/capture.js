@@ -2,7 +2,7 @@
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
-
+	
   var width = 320;    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
@@ -31,8 +31,8 @@
       video.play();
     })
     .catch(function(err) {
-      
-    	alert("화면이랑 마이크 연결이 안됨")
+    	$('.guide').hide();
+    	$('.PermissionsCheck').show();
     	
     });
 

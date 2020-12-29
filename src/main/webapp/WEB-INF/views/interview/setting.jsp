@@ -25,7 +25,26 @@ to {
   height: 10px;                                                                                       
   display: inline-block;                                                                              
   margin: 5px;   
-}       
+} 
+/* The Modal (background) */
+.PermissionsCheck {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 100; /* Sit on top */
+	left: 35%;
+	top: 33.33%;
+	width: 30%; /* Full width */
+	height: 33.33%; /* Full height */
+	overflow: hidden; /* No scroll */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    border-radius: 15px;
+}
+  #PermissionsCheck{
+  	width: 100%;
+    position: relative;
+    top: -16px; 
+  }      
 #video{
     transform: rotateY(180deg);
     -webkit-transform:rotateY(180deg); /* Safari and Chrome */
@@ -96,6 +115,12 @@ to {
             console.log('Not Fullscreen');
 			document.documentElement.webkitRequestFullscreen();
         }
+	}
+	
+	function grant(){
+		$('.PermissionsCheck').hide();
+		$('.guide').show();
+		
 	}
 
 	
@@ -266,7 +291,7 @@ $(document).ready(function(){
 	<div id="root">
 		<div class="InterviewTest false">
 			<div class="InterviewTutorial PopUp">
-				<div class="tutorial-box">
+				<div class="tutorial-box guide">
 					<div class="title">
 						모의면접을 시작하기 전에<br>아래 유의사항을 확인해 주세요!
 					</div>
@@ -303,6 +328,10 @@ $(document).ready(function(){
 						</div>
 						다시 보고 싶지 않아요.
 					</div>
+				</div>
+				<div class="tutorial-box PermissionsCheck">
+					<img  id="PermissionsCheck" alt="" src="/images/camera_mic_check.png">
+					<button onclick="grant();">엑세스 허용함</button>
 				</div>
 			</div>
 			<div class="FullButton"></div>
