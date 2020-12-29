@@ -88,7 +88,6 @@ public class AnalysisController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 	
-	
 	@RequestMapping(value = "/analysis/interview/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(InterviewVO interviewVO, HttpSession session, ModelMap model) {
 		
@@ -351,16 +350,6 @@ public class AnalysisController {
 		}
 		return "jsonView";
 	}
-	
-	public static String stringToHex(String s) {
-        String result = "";
-
-        for (int i = 0; i < s.length(); i++) {
-          result += String.format("%02X", (int) s.charAt(i));
-        }
-
-        return result;
-    } 
 	
 	@RequestMapping(value = "/analysis/share.do")
 	public String share(String sharePw, String interviewSq, String shareMemId,  Model model) {
