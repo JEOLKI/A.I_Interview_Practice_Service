@@ -81,7 +81,7 @@ user.session = userSession;
 // 유저 리스트에 등록한다.
 sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
-
+System.out.println("알람 확인");
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
 @OnMessage

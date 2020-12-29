@@ -1,5 +1,6 @@
 package com.aiinterview.member.web;
 
+import java.net.InetAddress;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -49,8 +50,13 @@ public class LoginController {
 	@RequestMapping(value = "/main.do", method = { RequestMethod.GET })
 	public String view(Model model) {
 		
+		InetAddress server;
 		try {
 			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
+			
+			server = InetAddress.getLocalHost();
+			String serverIp = server.getHostAddress();
+			model.addAttribute("serverIp", serverIp);
 			
 			int interviewCount = 0;
 			for (InterviewVO interviewVO : interviewList) {

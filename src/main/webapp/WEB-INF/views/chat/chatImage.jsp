@@ -3,6 +3,21 @@
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp"%>
 <style>
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+	background-color: #000000;
+}
+::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+}
+
 #image {
 	position: fixed;
 	z-index: 30;
@@ -10,16 +25,12 @@
 	left: 31px;
 	width: 50px;
 	cursor: pointer;
-	overflow: hidden;
-	
-/* 	animation: fadein 2s; */
-/* 	-moz-animation: fadein 2s; */
-/* 	/* Firefox */ */
-/* 	-webkit-animation: fadein 2s; */
-/* 	/* Safari and Chrome */ */
-/* 	-o-animation: fadein 2s; */
-	/* Opera */
+	 animation: fadein 2s; 
+     -moz-animation: fadein 2s; 
+     -webkit-animation: fadein 2s; 
+     -o-animation: fadein 2s; 
 }
+
 
 #chatting {
 	border: 0px;
@@ -27,8 +38,8 @@
 	z-index: 30;
 	bottom: 4%;
 	left: 2%;
-	overflow: hidden;
-	height: 475px;
+	height: 600px;
+	border-radius: 20px;
 }
 
 .iwEgly {
@@ -97,7 +108,7 @@
 	color: white;
 	text-align: center;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
-	background: #0360a5;
+	background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
 	border-radius: 50%;
 	margin: 16px;
 	box-shadow: -12px 15px 20px 0 rgba(46, 61, 73, 0.15);
@@ -151,91 +162,97 @@ to {
 
 <script>
 	webSocket = "";
-	$(document)
-			.ready(
-					function() {
+	
+	$(document).ready(function() {
+		$("#image").fadeIn("slow");
 
-						$("#image").fadeIn("slow");
+		var a = alarmCount()
+		$("#alarmCount").html(a)
+		console.log("a의 숫자 확인" + a)
+		
+		if(a==null ||a==0){
+			console.log("여기 왜안타는거야")
+			$("#alarmCount").attr("style", "display:none");
+		}
+		
+		if ("${S_MEMBER.memId}" == ""
+				|| "${S_MEMBER.memId}" == null) {
+			$("#image").attr("style", "display:none");
+		} else if ('${S_MEMBER.memAuth}' == 'C') {
+			$("#image").attr("style", "display:block");
+			
+			webSocket = new WebSocket(
+					"ws://"+"${serverIp}"+"/admin.do");
+			webSocket.onopen = function(message) {
+			};
+			webSocket.onclose = function(message) {
+			};
+			webSocket.onerror = function(message) {
+			};
+			// 서버로 부터 메시지가 오면
+			webSocket.onmessage = function(message) {
+				let node = JSON.parse(message.data);
+				if (node.status === "message") {
+					a++
+					$("#alarmCount").html(a)
+					$("#alarmCount").attr("style", "display:block");
+				}
+			}
+		} else {
+			$("#image").attr("style", "display:block");
+			webSocket = new WebSocket(
+					"ws://"+"${serverIp}"+"/broadalarm.do");
+			webSocket.onopen = function(message) {
+			};
+			webSocket.onclose = function(message) {
+			};
+			webSocket.onerror = function(message) {
+			};
+			webSocket.onmessage = function(message) {
+				console.log("메시지 확인")
+				console.log(message.data)
+				if (message.data == "bye") {
+				} else if (message.data == "AI_INTERVIEW_ADMIN_CHAT_ENTER") {
+				} else {
+					a++
+					$("#alarmCount").html(a)
+					$("#alarmCount").attr("style", "display:block");
+				}
+			}
+		}
 
-						var a = alarmCount()
-						$("#alarmCount").html(a)
+		$("#image").on("click",function() {
+			var url = ""
+			if ('${S_MEMBER.memAuth}' == 'C') {
+				$("#image").attr("style", "display:none");
+				webSocket.close();
+				$("#alarmCount").attr("style", "display:none");
+				$("#chatting").attr("style", "display:none");
+				$("#chatting").attr("src",
+						"/chat/room.do");
+				$("#chatting").attr("style",
+						"display:block");
+				$("#chatting").attr("style",
+						"width : 350px");
+			} else if ("${S_MEMBER.memId}" == ""
+					|| "${S_MEMBER.memId}" == null) {
+				
+			} else {
+				$("#image").attr("style", "display:none");
+				webSocket.close();
+				$("#alarmCount").attr("style", "display:none");
+				$("#chatting").attr("style", "display:none");
+				$("#chatting").attr("src",
+						"/chat/chat.do");
+				$("#chatting").attr("style",
+						"display:block");
+				$("#chatting").attr("style",
+						"width : 350px;");
+				
+			}
+		})
 
-						if ("${S_MEMBER.memId}" == ""
-								|| "${S_MEMBER.memId}" == null) {
-
-						} else if ('${S_MEMBER.memAuth}' == 'C') {
-							var webSocket = new WebSocket(
-									"ws://localhost/admin.do");
-							webSocket.onopen = function(message) {
-							};
-							webSocket.onclose = function(message) {
-							};
-							webSocket.onerror = function(message) {
-							};
-							// 서버로 부터 메시지가 오면
-							webSocket.onmessage = function(message) {
-								let node = JSON.parse(message.data);
-								if (node.status === "message") {
-									a++
-									$("#alarmCount").html(a)
-								}
-							}
-						} else {
-							var webSocket = new WebSocket(
-									"ws://localhost/broadalarm.do");
-							webSocket.onopen = function(message) {
-							};
-							webSocket.onclose = function(message) {
-							};
-							webSocket.onerror = function(message) {
-							};
-							webSocket.onmessage = function(message) {
-								console.log(message.data)
-								if (message.data == "bye") {
-								} else if (message.data == "AI_INTERVIEW_ADMIN_CHAT_ENTER") {
-								} else {
-									a++
-									$("#alarmCount").html(a)
-								}
-							}
-						}
-
-						$("#image")
-								.on(
-										"click",
-										function() {
-											var url = ""
-											if ('${S_MEMBER.memAuth}' == 'C') {
-												webSocket.close();
-												$("#chatting").attr("src",
-														"/chat/room.do");
-												$("#chatting").attr("style",
-														"display:block");
-												$("#chatting").attr("style",
-														"width : 300px");
-											} else if ("${S_MEMBER.memId}" == ""
-													|| "${S_MEMBER.memId}" == null) {
-												alert("로그인 후에 이용해주세요")
-											} else {
-												webSocket.close();
-												$("#chatting").attr("src",
-														"/chat/chat.do");
-												$("#chatting").attr("style",
-														"display:block");
-												$("#chatting").attr("style",
-														"width : 300px;");
-												$("#alarmCount").html("0")
-											}
-										})
-
-						$("#alarmCount").css("display", "none")
-						if ("${S_MEMBER.memId}" != null
-								&& "${S_MEMBER.memId}" != "") {
-							$("#alarmCount").css("display", "block")
-
-						}
-
-					})
+	})
 
 	function alarmCount() {
 		var count;
@@ -249,12 +266,22 @@ to {
 		})
 		return count;
 	}
+	
+	function noRefresh()
+	{
+	    if (event.keyCode == 116) 
+	    {
+	    	webSocket.close();   	
+	        event.keyCode = 2;
+	    } 
+	    else if(event.ctrlKey && (event.keyCode == 78 || event.keyCode == 82)) 
+	    {
+	    	webSocket.close();
+	    }
+	}
+	document.onkeydown = noRefresh;
 </script>
 
-
-<!-- <img id="image" class=""
-	src="/images/ch-new-symbol-powered.png" alt="버그"><span class="nav-counter" id="alarmCount" ></span> -->
-	
 <button id="image" class="chatbox-open" >
     <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
 </button>
@@ -262,7 +289,7 @@ to {
 	
 <!-- <div class="alarm iwEgly">100</div> -->
 	
-<iframe id="chatting"  src = ""  style="display:none; overflow: hidden"  >
+<iframe id="chatting"  src = ""  style="display:none;"  >
 
 </iframe>
 

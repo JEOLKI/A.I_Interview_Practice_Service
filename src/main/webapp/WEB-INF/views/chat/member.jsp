@@ -17,14 +17,31 @@
 
 
 <style>
-.body{
+
+@keyframes body {
+  0% {
+    opacity: 0;
+    transform: scale3d(.2, .3, .3)
+  }
+  70% {
+    opacity: 1
+  }
+}
+
+body{
+-webkit-animation-duration: 0.2s;
+  animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: zoomIn;
+	overflow: hidden;
 }
 .allUsersList{
-  width: 300px;
+  width: 350px;
   margin: 20px;
 }
 .allUsersList .card-header{
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;;
   color: #FFF;
   padding: 10px;
 }
@@ -48,23 +65,23 @@
   border-radius: 30px;
 }
 .usersChatList .card-header{
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;;
   font-size: 13px;
 }
 .chatBox{
   position: absolute;
-  width: 300px;
-  font-size: 13px;
+  width: 350px;
+  font-size: 14px;
 }
 .chat-content{
   overflow: auto;
-  height: 380px;
+  height: 503px;
 }
 .chatBox .card{
   border-radius: 4px;
 }
 .chatBox .card-header{
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;;
 }
 .header-title{
   height: 50px;
@@ -91,7 +108,7 @@
 }
 .my-content .message{
   float: right;
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;;
   color: #FFF;
   text-align: right;
   padding: 10px;
@@ -157,7 +174,7 @@
 }
 .writer-user .chat-messages .message{
   float: right;
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;;
   color: #FFF;
 }
 .writer-user .chat-messages .from{
@@ -182,7 +199,7 @@
   overflow: auto;
 }
 .outside-box .content-insider{
-  height: 300px;
+  height: 350px;
   background: #C9C;
 }
 /* CSS Spinner */
@@ -342,7 +359,7 @@ body{
 <script type="text/javascript">
 
 var messageTextArea = document.getElementById("messageArea");
-var webSocket =  new WebSocket("ws://localhost/broadsocket.do");
+var webSocket =  new WebSocket("ws://"+"${serverIp}"+"/broadsocket.do");
 let message = document.getElementById("textMessage");
 
 var alarmCheck = 'N';

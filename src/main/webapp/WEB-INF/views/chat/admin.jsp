@@ -16,25 +16,39 @@
 	
 <style>
 /* 여러 채팅창 간의 간격과 배열 위치*/
+
+@keyframes body {
+  0% {
+    opacity: 0;
+    transform: scale3d(.2, .3, .3)
+  }
+  70% {
+    opacity: 1
+  }
+}
+
+body{
+-webkit-animation-duration: 0.2s;
+  animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: zoomIn;
+	overflow: hidden;
+}
+
 .allUsersList{
-  width: 300px;
+  width: 350px;
   margin: 20px;
 }
 .allUsersList .card-header{
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
   color: #FFF;
   padding: 10px;
 }
 .allUsersList .image img{
   border-radius: 16px;
 }
-.usersChatList{
-  position: absolute;
-  width: 250px;
-  bottom: 0;
-  margin-bottom: 0;
-  right: 360px;
-}
+
 .show{
   display: block;
 }
@@ -44,24 +58,21 @@
 .thumb-user-list .image img{
   border-radius: 30px;
 }
-.usersChatList .card-header{
-  background: #0360a5;
-  font-size: 13px;
-}
+
 .chatBox{
   position: absolute;
-  width: 300px;
+  width: 350px;
   font-size: 13px;
 }
 .chat-content{
   overflow: auto;
-  height: 380px;
+  height: 503px;
 }
 .chatBox .card{
   border-radius: 4px;
 }
 .chatBox .card-header{
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
 }
 .header-title{
   height: 50px;
@@ -88,7 +99,7 @@
 }
 .my-content .message{
   float: right;
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
   color: #FFF;
   text-align: right;
   padding: 10px;
@@ -154,7 +165,7 @@
 }
 .writer-user .chat-messages .message{
   float: right;
-  background: #0360a5;
+  background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
   color: #FFF;
 }
 .writer-user .chat-messages .from{
@@ -168,7 +179,7 @@
 }
 .chatBox .card-header-icon i{
   color: #FFF;
-  font-size: 13px;
+  font-size: 14px;
 }
 /* CSSS */
 .outside-box{
@@ -210,20 +221,24 @@
   animation-delay: -0.16s;
 }
 
-@-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes sk-bouncedelay {
-  0%, 80%, 100% { 
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  } 40% { 
-    -webkit-transform: scale(1.0);
-    transform: scale(1.0);
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale3d(.2, .3, .3)
+  }
+  70% {
+    opacity: 1
   }
 }
+
+.zoomIn {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: zoomIn
+}
+
 /* EmojiBox */
 .emojiBox{
   width: 150px;
@@ -360,7 +375,7 @@ var d= "";
 
 var alarmCheck = 'N';
 var nodeKey = "";
-var webSocket =  new WebSocket("ws://localhost/admin.do");
+var webSocket =  new WebSocket("ws://"+"${serverIp}"+"/admin.do");
 let $div = $("#chatApp");
 $(function(){
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);

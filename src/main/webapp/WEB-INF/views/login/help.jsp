@@ -16,9 +16,10 @@ $(document).ready(function(){
 			$(this).siblings('.question__content').addClass('close');
 		}
 		
-		
-		
-	})
+	)}
+	$('.content__Inquire-btn').on("click", function(){
+			
+	})		
 })
 </script>
 <style>

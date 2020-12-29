@@ -1,5 +1,7 @@
 package com.aiinterview.chat.web;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +35,22 @@ public class ChatController {
 	public static  HttpSession usersSession;
 	public static  List<String> IdList = new ArrayList<>();
 	
+	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
+	public String test() {
+		return "chat/test";
+	}
+	
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
 	public String room(Model model, HttpSession session) {
+		InetAddress server;
+		
+		try {
+			server = InetAddress.getLocalHost();
+			String serverIp = server.getHostAddress();
+			model.addAttribute("serverIp", serverIp);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 		List<ChatRoomVO> roomList = chatService.retrieveRoomList();
 		model.addAttribute("roomList", roomList);
 		return "chat/chatRoom";
@@ -74,6 +90,16 @@ public class ChatController {
 		
 		System.out.println("chatList확인 : "+chatList);
 		
+		InetAddress server;
+		
+		try {
+			server = InetAddress.getLocalHost();
+			String serverIp = server.getHostAddress();
+			model.addAttribute("serverIp", serverIp);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("manager", sender);
 		
@@ -102,7 +128,12 @@ public class ChatController {
 		
 		List<ChatVO> chatList =  chatService.retrieveList(cv);
 		
+		InetAddress server;
+		
 		try {
+			server = InetAddress.getLocalHost();
+			String serverIp = server.getHostAddress();
+			model.addAttribute("serverIp", serverIp);
 			MemberVO mv = memberService.retrieve(memId);
 			model.addAttribute("mv", mv);
 			System.out.println(mv);

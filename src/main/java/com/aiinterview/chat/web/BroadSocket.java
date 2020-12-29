@@ -73,7 +73,7 @@ sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
 Admin.visit(user.key);
 
-
+System.out.println("사용자 로그인 확인");
 
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수

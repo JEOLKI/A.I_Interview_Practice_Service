@@ -28,6 +28,7 @@ admin.close();
 }
 // 운영자 유저의 세션을 바꾼다.
 admin = userSession;
+System.out.println("운영자 로그인 확인");
 // 기존에 접속해 있는 유저의 정보를 운영자 client로 보낸다.
 for(String key : BroadSocket.getUserKeys()) {
 // 전송.. 전송

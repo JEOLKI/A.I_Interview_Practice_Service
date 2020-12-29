@@ -37,8 +37,8 @@
 </head>
 <body >
 
-<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
-	
+
+
 	<div id="root">
 		<div class="LandingNew">
 		
@@ -243,5 +243,10 @@
 			</div>
 		</div>
 	</div>
+	
+	<jsp:include page="/WEB-INF/views/chat/chatImage.jsp" flush="false"> 
+		<jsp:param name="serverIp" value="${serverIp }" />
+	</jsp:include>
+	
 	</body>
 </html>

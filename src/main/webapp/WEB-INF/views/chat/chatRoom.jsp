@@ -7,37 +7,92 @@
 <head>
   <meta charset="utf-8">
   <title>terview Talk</title>
+  <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <link rel="stylesheet" href="./css/style.css">
+  
 </head>
 
 <style>
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+	background-color: white;
+}
+::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+}
+.goNNeA {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    /* cursor: pointer; */
+    /* visibility: visible; */
+    /* background-color: transparent; */
+    border-radius: 15px;
+    position: fixed;
+    right: 12px;
+    top: 16px;
+    z-index: 2;
+ }
+
+
+
 html, body {
   margin: 0;
   font-family: 'Open Sans';
   font-weight: 400;
   font-size: 14px;
-  width : 300px;
+  width : 350px;
+	  
+}
+@keyframes body {
+  0% {
+    opacity: 0;
+    transform: scale3d(.2, .3, .3)
+  }
+  70% {
+    opacity: 1
+  }
+}
+
+body{
+-webkit-animation-duration: 0.2s;
+  animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-name: zoomIn;
 }
 
 .header {
-    background: #0360a5;
+    background: linear-gradient(103deg, rgb(79, 91, 255) 0%, rgb(79, 91, 255) 50%, rgb(108, 79, 255)) 100% center;
     padding: 12px 0px 40px 0px;
     color: white;
     width: 100%;
     font-weight: 300;
-    height: 75px;
+    height: 65px;
 }
-
+.radius{
+	border-radius: 45px;
+}
 
 .main_title {
   margin: 0;
-  font-size: 18px;
+  font-size: 23px;
   padding: 0px 15px 15px 10px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .icon_box {
@@ -179,10 +234,15 @@ color: #32e4cd;
     border-radius: .25rem;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+.logoImage{
+	max-width : 55%;
+	padding-top: 5px;
+	padding-left:10px;
+}
 </style>
 
 <script>
-	var webSocket =  new WebSocket("ws://localhost/admin.do");
+	var webSocket =  new WebSocket("ws://"+"${serverIp}"+"/admin.do");
 	
 	var managerId = getManager()
 	$(function(){
@@ -217,16 +277,18 @@ color: #32e4cd;
 		}
 		
 		$("#closeChat").on("click", function(){
-			var a = parent.document.querySelector("#chatting").style
-			a.display = "none"
+			var chatting = parent.document.querySelector("#chatting").style
+			chatting.display = "none"
+// 			var image = parent.document.querySelector("#image").style
+// 			image.display = "block"
 			webSocket.close()	
 			parent.document.location.reload()
 		})
 		
 		$('.chat_area').on('click', function(){
 			webSocket.close();
-			var a = parent.document.querySelector("#chatting").style
-			a.width = "300px";
+			var chatting = parent.document.querySelector("#chatting").style
+			chatting.width = "350px";
 			memid = $(this).data("id")
 			console.log(memid)
 			console.log("정신나갈거같아.")
@@ -263,8 +325,13 @@ function filter(){
 </script>
 
 <body>
+<!-- margin-left: 15%; -->
+<div class="radius">
   <header class="header">
-    <div class="main_title">MyInterview&nbsp &nbsp<a id="closeChat" style="margin-left: 47%; color:white;">X</a>
+    <div class="main_title">
+			<img class="logoImage" src="/images/whiteLogo.png" alt="logo">
+<!-- 			<img src="/images/xWhite.png" alt="logo" class="logo"> -->
+    <a id="closeChat" style="color:white; position: absolute; padding-left: 130px; padding-top: 5px;">X</a>
     </div>
 <!--     <div class="icon_box"> -->
     
@@ -314,7 +381,7 @@ function filter(){
 		</c:forEach>
 
   </section>
-  
+  </div>
 </body>
 
 </html>
