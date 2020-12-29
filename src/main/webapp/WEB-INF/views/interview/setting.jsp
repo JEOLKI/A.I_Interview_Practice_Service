@@ -5,11 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
+
 
 <script src="/js/capture.js"></script>
 <style type="text/css">/* Chart.js */
+body{
+	margin-top : -33px;
+}
 to {
 	opacity: 1;
 }
