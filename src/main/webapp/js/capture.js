@@ -25,15 +25,14 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
 
-    navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    navigator.mediaDevices.getUserMedia({video: true, audio: true})
     .then(function(stream) {
       video.srcObject = stream;
       video.play();
     })
     .catch(function(err) {
       
-    	alert("화면 연결이 안됨")
-    	
+    	alert("화면이랑 마이크 연결이 안됨")
     	
     });
 
