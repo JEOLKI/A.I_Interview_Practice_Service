@@ -88,6 +88,20 @@ $(document).ready(function(){
 		$('#questionSearch').show();
 		number = $('#questionFrm .SetQuestionBox').index($(this).parent().parent($('.SetQuestionBox'))); // 폼안의 몇번째div 인지 인덱스값
 		// number전역변수의 값을 index값으로 바꿈
+		$.ajax({
+			url : "/sampQuest/retrieveRandom.do",
+			method : "get",
+			success : function(data){
+				console.log( data.sampleQuestionVO.sampQuestContent);
+				$('#randomQuestion').remove();
+				html=""
+				html+="<div class='searched-question' id='randomQuestion' data-sq="+data.sampleQuestionVO.sampQuestSq+">"+data.sampleQuestionVO.sampQuestContent+"</div>";
+				$('.searched-question.recommend').append(html);
+			},
+			error : function(data){
+				console.log(data.status);
+			}
+		});
 	});
 	
 	// 닫기 버튼 클릭 시
