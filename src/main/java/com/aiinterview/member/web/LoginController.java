@@ -50,13 +50,9 @@ public class LoginController {
 	@RequestMapping(value = "/main.do", method = { RequestMethod.GET })
 	public String view(Model model) {
 		
-		InetAddress server;
 		try {
 			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
 			
-			server = InetAddress.getLocalHost();
-			String serverIp = server.getHostAddress();
-			model.addAttribute("serverIp", serverIp);
 			
 			int interviewCount = 0;
 			for (InterviewVO interviewVO : interviewList) {
@@ -90,11 +86,13 @@ public class LoginController {
 	@RequestMapping(value = "/logout.do", method = { RequestMethod.GET })
 	public String logout(HttpSession session) {
 		session.removeAttribute("S_MEMBER");
+//		session.removeAttribute("serverIp");
 		return "login/main";
 	}
 
 	@RequestMapping(value = "/process.do", method = { RequestMethod.POST })
 	public String login(String loginMemId, String loginMemPw, HttpSession session, Model model) throws Exception {
+		InetAddress server;
 		MemberVO memberVo = memberService.retrieve(loginMemId);
 		
 		InterviewVO interviewVO = new InterviewVO();
@@ -117,7 +115,11 @@ public class LoginController {
 			model.addAttribute("memId", loginMemId);
 			return "redirect:/login/main.do";
 		} else if (memberVo.getMemPw().equals(loginMemPw)&&"Y".equals(memberVo.getMemSt())) {
+			server = InetAddress.getLocalHost();
+			String serverIp = server.getHostAddress();
+			session.setAttribute("serverIp", serverIp);
 			session.setAttribute("S_MEMBER", memberVo);
+			
 			usersSession = session;
 			if(interviewService.retrievePagingList(interviewVO).size()==0){
 				// 면접 결과가 없을 경우

@@ -25,10 +25,10 @@
 	left: 31px;
 	width: 50px;
 	cursor: pointer;
-	 animation: fadein 2s; 
-     -moz-animation: fadein 2s; 
-     -webkit-animation: fadein 2s; 
-     -o-animation: fadein 2s; 
+	 animation: fadein 0.5s; 
+     -moz-animation: fadein 0.5s; 
+     -webkit-animation: fadein 0.5s; 
+     -o-animation: fadein 0.5s; 
 }
 
 

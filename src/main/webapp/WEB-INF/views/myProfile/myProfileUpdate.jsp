@@ -487,5 +487,8 @@ function aliasCheck(){
 			</div>
 		</div>
 	</form>
+	
+	<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
+	
 </body>
 </html>

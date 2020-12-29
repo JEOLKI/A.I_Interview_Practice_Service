@@ -862,5 +862,7 @@
 		</div>
 	</div>
 	
+	<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
+	
 </body>
 </html>

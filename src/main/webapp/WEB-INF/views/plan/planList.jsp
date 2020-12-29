@@ -115,6 +115,8 @@ function buyPlanAjax(){
 				<%@ include file="/WEB-INF/views/layout/semiFooter.jsp" %>
 		</div>
 	</div>
+
+<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
 	
 </body>
 </html>

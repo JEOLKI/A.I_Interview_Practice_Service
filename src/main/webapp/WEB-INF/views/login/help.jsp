@@ -18,9 +18,10 @@ $(document).ready(function(){
 		
 	)}
 	$('.content__Inquire-btn').on("click", function(){
-			
-	})		
-})
+		document.getElementById("#image").click();
+	})
+	
+}) 
 </script>
 <style>
 .fa{
@@ -171,5 +172,8 @@ $(document).ready(function(){
 			</footer></main>
 		</div>
 	</div>
+	
+	<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
+	
 </body>
 </html>

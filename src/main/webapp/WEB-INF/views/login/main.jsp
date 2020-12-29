@@ -244,9 +244,7 @@
 		</div>
 	</div>
 	
-	<jsp:include page="/WEB-INF/views/chat/chatImage.jsp" flush="false"> 
-		<jsp:param name="serverIp" value="${serverIp }" />
-	</jsp:include>
+	<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
 	
 	</body>
 </html>

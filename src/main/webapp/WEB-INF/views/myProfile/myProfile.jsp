@@ -288,4 +288,7 @@ to {
 	</div>
 	<!-- 	<style data-styled="active" data-styled-version="5.1.1"></style> -->
 </body>
+
+<%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
+
 </html>

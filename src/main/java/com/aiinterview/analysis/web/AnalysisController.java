@@ -136,16 +136,6 @@ public class AnalysisController {
 	@RequestMapping(value = "/analysis/question/retrievePagingList.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrievePagingList(QuestionVO questionVO, ModelMap model) {
 		
-		InetAddress server;
-		
-		try {
-			server = InetAddress.getLocalHost();
-			String serverIp = server.getHostAddress();
-			model.addAttribute("serverIp", serverIp);
-		} catch (UnknownHostException e2) {
-			e2.printStackTrace();
-		} 
-
 		
 		try {
 			InterviewVO interviewVO = interviewService.retrieve(questionVO.getInterviewSq());

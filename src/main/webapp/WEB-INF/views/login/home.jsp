@@ -161,5 +161,9 @@ function search_close_pop(flag) {
 		</div>
 	</div>
    <style data-styled="active" data-styled-version="5.1.1"></style>
+   
+  <%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
+   
+   
    </body>
 </html>
