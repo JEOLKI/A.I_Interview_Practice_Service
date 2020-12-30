@@ -1,6 +1,7 @@
 package com.aiinterview.interview.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,13 +57,22 @@ public class QuestionGubunService {
 
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
 
+		  List<QuestionGubunVO> questGbList = questionGubunMapper.retrieveList();
+		  List<String> contentList = new ArrayList<>();
+		  for(QuestionGubunVO exist : questGbList) {
+			  contentList.add(exist.getQuestGbContent());
+		  }
+		  
 		  QuestionGubunVO questGbVO = null;
 		  for(Map<String, String> questGb : excelContent) {
 			  questGbVO = new QuestionGubunVO();
 			  questGbVO.setQuestGbContent(questGb.get("B"));
 			  questGbVO.setQuestGbSt(questGb.get("C"));
-			  
-			  questionGubunMapper.create(questGbVO);
+			  if(contentList.contains(questGb.get("B"))) {
+				  questionGubunMapper.createUpdate(questGbVO);
+			  }else {
+				  questionGubunMapper.create(questGbVO);
+			  }
 		  }
 		
 	}

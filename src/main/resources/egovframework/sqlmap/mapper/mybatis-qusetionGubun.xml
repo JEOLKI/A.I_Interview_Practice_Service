@@ -28,6 +28,13 @@
 		 WHERE quest_gb_sq = #{questGbSq} 
 	</update>
 	
+	<!-- 수정 -->
+	<update id="createUpdate">
+		UPDATE question_gb 
+		   SET quest_gb_st = #{questGbSt}   
+		 WHERE quest_gb_content = #{questGbContent}
+	</update>
+	
 	
 	<!-- 조회 -->
 	<select id="retrieve" parameterType="String"  resultType="com.aiinterview.interview.vo.QuestionGubunVO">

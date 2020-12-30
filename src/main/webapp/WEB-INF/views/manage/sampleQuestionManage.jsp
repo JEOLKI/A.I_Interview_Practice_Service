@@ -255,7 +255,7 @@ function updateList() {
 						<a class="excelBtn" href="${cp }/sampQuest/list/excelDown.do">↓ excel다운로드</a> 
 						<span  class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
 						<!-- excel file 읽어오기 -->
-					    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/sampQuest/massiveCreateProcess.do"/>" >
+					    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="${cp }/sampQuest/massiveCreateProcess.do" >
 					        <input type="file" name="excelFile" hidden/>
 					    </form>
 					</div>
@@ -294,7 +294,7 @@ function updateList() {
 												<option value="${questGb.questGbSq }" selected="selected">${questGb.questGbContent }</option>
 											</c:when>
 											<c:otherwise>
-												<option value="${questGb.questGbSq }">${questGb.questGbContent }</option>
+												<option value="${questGb.questGbSq  }">${questGb.questGbContent }</option>
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>

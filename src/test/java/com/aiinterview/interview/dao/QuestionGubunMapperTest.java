@@ -63,6 +63,22 @@ public class QuestionGubunMapperTest extends ModelTestConfig{
 	}
 	
 	@Test
+	public void createUpdateTest() throws Exception{
+		/***Given***/
+		QuestionGubunVO questionGubunVO = new QuestionGubunVO();
+		questionGubunVO.setQuestGbContent("일반");
+		questionGubunVO.setQuestGbSt("N");
+
+		/***When***/
+		int updateCnt = questionGubunMapper.createUpdate(questionGubunVO);
+
+		/***Then***/
+		assertEquals(1, updateCnt);
+		assertEquals("N", questionGubunVO.getQuestGbSt());
+		assertEquals("일반", questionGubunVO.getQuestGbContent());
+	}
+	
+	@Test
 	public void retrievePagingListTest() throws Exception{
 		/***Given***/
 		QuestionGubunVO questionGubunVO = new QuestionGubunVO();

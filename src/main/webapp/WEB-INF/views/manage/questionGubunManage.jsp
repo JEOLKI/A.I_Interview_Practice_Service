@@ -171,11 +171,13 @@
 		
 			
 		$('#massiveCreate').on('click',function(){
+			console.log("일괄등록")
 			$('input[type="file"]').click();
 		})
 		
 		$('input[type="file"]').on('change',function(){
-			$('#massiveForm').submit();
+			$('.massiveForm').submit();
+			console.log("서브밋")
 		})
 		
 		$('#sort').on('change',function(){
@@ -255,8 +257,8 @@
 							<a class="excelBtn" href="${cp }/questGb/list/excelDown.do">↓ excel다운로드</a> 
 							<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
 							<!-- excel file 읽어오기 -->
-						    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/questGb/massiveCreateProcess.do"/>" >
-						        <input type="file" name="excelFile" hidden/>
+						    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/questGb/massiveCreateProcess.do"/>" >
+						        <input hidden type="file" name="excelFile"/>
 						    </form>
 						</div>
 						<div class="listmenu">

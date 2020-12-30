@@ -91,6 +91,7 @@ public class QuestionGubunController {
 
 	@RequestMapping("/massiveCreateProcess.do")
 	public String createMassiveQuestGb(MultipartHttpServletRequest request){
+		System.out.println("디버깅 왜 안걸려@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");

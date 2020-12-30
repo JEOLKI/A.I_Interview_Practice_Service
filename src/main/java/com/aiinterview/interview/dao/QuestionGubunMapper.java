@@ -60,4 +60,13 @@ public interface QuestionGubunMapper {
 	 */
 	public QuestionGubunVO retrieve(String questGbSq) throws Exception;
 
+	/**
+	 * 이미 존재하는 질문구분을 등록하려 할 때 업데이트로 대체하는 메서드
+	 * @param questGbVO
+	 * @return 
+	 * @throws Exception
+	 */
+	public int createUpdate(QuestionGubunVO questGbVO)throws Exception;
+
+
 }

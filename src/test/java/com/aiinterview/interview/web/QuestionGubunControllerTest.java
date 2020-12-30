@@ -38,8 +38,8 @@ public class QuestionGubunControllerTest  extends WebTestConfig {
 
 	@Test
 	public void createMassiveQuestGbTest() throws Exception {
-		InputStream is  = getClass().getResourceAsStream("/file/guestionGubunTest.xlsx");
-		MockMultipartFile file = new MockMultipartFile("excelFile", "guestionGubunTest.xlsx", "xlsx", is);
+		InputStream is  = getClass().getResourceAsStream("/file/questionGubunTest.xlsx");
+		MockMultipartFile file = new MockMultipartFile("excelFile", "questionGubunTest.xlsx", "xlsx", is);
 		
 		mockMvc.perform(fileUpload("/questGb/massiveCreateProcess.do")
 				.file(file))

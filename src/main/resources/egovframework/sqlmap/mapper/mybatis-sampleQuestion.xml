@@ -32,7 +32,7 @@
 	
 	<!-- 페이징 : 해당 페이지리스트 select -->
 	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.SampleQuestionVO">
-		SELECT A.*
+SELECT A.*
 		  FROM (
 		  	SELECT ROWNUM RNUM, 
 		  		   S.*
@@ -46,12 +46,12 @@
 		          <if test="searchKeyword != null and searchKeyword != ''">
 				   AND samp_quest_content LIKE '%' || #{searchKeyword} || '%'
 				  </if>
-		         ORDER BY samp_quest_sq 
+		         ORDER BY samp_quest_sq DESC
 		   	) S
 		    WHERE ROWNUM <![CDATA[ <= ]]> ${lastIndex}
 	   ) A 
 	<![CDATA[WHERE A.RNUM > #{firstIndex}]]>
-	</select>
+</select>
 	
 	<select id="retrievePagingListCnt" resultType="int">
 		SELECT count(*) totCnt
