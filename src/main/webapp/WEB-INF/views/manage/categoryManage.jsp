@@ -193,7 +193,7 @@
 		<h3>말머리 목록</h3>
 		
 		<div id="excelBox">
-			<a class="excelBtn" href="${cp }/category/list/excelDown.do">↓ excel 다운로드</a> 
+			<a class="excelBtn" href="${cp }/category/list/excelDown.do?boardGbSq=${boardGbSq }">↓ excel 다운로드</a> 
 			<a class="excelBtn" id="massiveCreate">↑ 일괄등록</a>
 			<!-- excel file 읽어오기 -->
 		    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/boardGubun/massiveCreateProcess.do"/>" >
