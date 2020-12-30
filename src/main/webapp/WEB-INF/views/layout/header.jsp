@@ -449,8 +449,8 @@ function boardGubunList(){
 				<br />
 			<form action="/login/process.do" method="post">
 				<div class="input-left">
-					<span class="inputname">아이디</span> <input class="input" type="text" name="loginMemId" value="TEST_ID"><br>
-					<span class="inputname">비밀번호</span> <input class="input" type="password" name="loginMemPw" value="TEST_PW"><br>
+					<span class="inputname">아이디</span> <input class="input" type="text" name="loginMemId"><br>
+					<span class="inputname">비밀번호</span> <input class="input" type="password" name="loginMemPw"><br>
 				</div>
 				<div class="input-right">
 					<button id="loginbtn" type="submit">로그인</button>
@@ -483,8 +483,8 @@ function boardGubunList(){
 			<p style="text-align: center; line-height: 1.5;">
 			<form action="/member/idSearch" method="get">
 				<div class="input-left">
-					<span class="inputname">이름 </span> <input id="searchIdName" name="memNm" class="input" type="text" value="TEST_NAME"><br>
-					<span class="inputname">연락처</span> <input id="searchIdTel" name="memTel" class="input" type="text" value="010-1234-5678"><br>
+					<span class="inputname">이름 </span> <input id="searchIdName" name="memNm" class="input" type="text"><br>
+					<span class="inputname">연락처</span> <input id="searchIdTel" name="memTel" class="input" type="text"><br>
 				</div>
 				<div class="input-right">
 					<button id="searchIdBtn" type="button">찾기</button>
@@ -501,9 +501,9 @@ function boardGubunList(){
 			</p>
 			<form action="">
 				<div class="input-left">
-					<span class="inputname">아이디 </span> <input id="searchPwId" class="input" type="text" value="TEST_ID"><br>
-					<span class="inputname">이름 </span> <input id="searchPwName" class="input" type="text" value="TEST_NAME"><br>
-					<span class="inputname">연락처</span> <input id="searchPwTel" class="input" type="text" value="010-1234-5678"><br>
+					<span class="inputname">아이디 </span> <input id="searchPwId" class="input" type="text" ><br>
+					<span class="inputname">이름 </span> <input id="searchPwName" class="input" type="text" ><br>
+					<span class="inputname">연락처</span> <input id="searchPwTel" class="input" type="text" ><br>
 				</div>
 				<div class="input-right">
 					<button id="searchPwBtn" type="button">찾기</button>
