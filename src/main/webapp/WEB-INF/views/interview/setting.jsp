@@ -466,7 +466,7 @@ $(document).ready(function(){
 			</div>
 			<div class="bg-video camera">
 				<div class="bg-layer"></div>
-				<video id="video" class="user-camera-video false" autoplay></video>
+				<video id="video" class="user-camera-video false" autoplay muted></video>
 			</div>
 		</div>
 	</div>
