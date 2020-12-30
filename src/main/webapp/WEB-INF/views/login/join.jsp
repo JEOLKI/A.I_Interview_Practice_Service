@@ -159,6 +159,8 @@
 					$('#memTel').val()=='' ||
 					$('#memCareer').val()==''||
 					$('#memAddr1').val()=='' ||
+					$('#memTargetJob').val()=='' ||
+					$('#memTargetCompany').val()=='' ||
 					$('.personal.flex.agree img').attr('class') == 'false' ||
 					$('.user.flex.agree img').attr('class') == 'false'
 					){
@@ -224,7 +226,7 @@
 	function aliasCheck(){
 		memAlias = $('#memAlias').val();
 		
-	$.ajax({
+		$.ajax({
 			url : "/member/aliasCheck.do",
 			data : {
 				memAlias : memAlias
@@ -306,7 +308,7 @@
 						<input type="text" name="memAlias" id="memAlias"
 							placeholder="사용할 닉네임을 입력하세요" value="">
 						<div class="btn-area">
-							<button type="button" class="btn false" id="aliasCheck" style="opacity: 1">중복검사</button>
+							<button type="button" class="btn false" onclick="aliasCheck()" style="opacity: 1">중복검사</button>
 						</div>
 					</div>
 					<div id="checkAlias" class="check"></div>
@@ -422,7 +424,7 @@
 								<span class="red">*</span>목표 회사
 							</div>
 							<div class="CompletionInput company-input">
-								<input name="memTargetCompany" type="text" placeholder="예) 삼성전자"
+								<input id="memTargetCompany" name="memTargetCompany" type="text" placeholder="예) 삼성전자"
 									class="" maxlength="30" value="">
 							</div>
 						</div>
@@ -431,7 +433,7 @@
 								<span class="red">*</span>목표 직무
 							</div>
 							<div class="CompletionInput job-input">
-								<input name="memTargetJob" type="text" placeholder="예) 제품 개발/기획"
+								<input id="memTargetJob" name="memTargetJob" type="text" placeholder="예) 제품 개발/기획"
 									class="" maxlength="30" value="">
 							</div>
 						</div>
