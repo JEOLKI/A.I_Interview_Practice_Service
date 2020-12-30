@@ -245,7 +245,7 @@
 				
 				<c:choose>
 					<c:when test="${boardGbSq =='1' }">
-						<c:if test="${S_MEMBER.memAuth =='Y' }">
+						<c:if test="${S_MEMBER.memAuth != 'N' }">
 							<a class="createBtn" href="${pageContext.request.contextPath }/board/create.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm}">글쓰기</a>
 						</c:if>
 					</c:when>
