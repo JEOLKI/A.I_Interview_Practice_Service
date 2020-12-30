@@ -128,16 +128,18 @@ public class BoardGubunController {
 		
 		//Model 객체에 header, data
 		List<String> header = new ArrayList<String>();
-		header.add("BOARD_GB_SQ");
-		header.add("BOARD_GB_NM");
+		header.add("번호");
+		header.add("게시판이름");
+		header.add("사용여부");
 	
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
 		for(int i = 0; i< boardGubunList.size(); i++) {
 			Map<String, String> map = new HashMap<>();
-			map.put("BOARD_GB_SQ", boardGubunList.get(i).getBoardGbSq());
-			map.put("BOARD_GB_NM", boardGubunList.get(i).getBoardGbNm());
+			map.put("번호", boardGubunList.get(i).getBoardGbSq());
+			map.put("게시판이름", boardGubunList.get(i).getBoardGbNm());
+			map.put("사용여부", boardGubunList.get(i).getBoardGbSt());
 			data.add(map);
 		}
 		

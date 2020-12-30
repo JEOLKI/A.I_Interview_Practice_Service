@@ -123,16 +123,18 @@ public class CategoryController {
 		
 		//Model 객체에 header, data
 		List<String> header = new ArrayList<String>();
-		header.add("CAT_SQ");
-		header.add("CAT_CONTENT");
+		header.add("번호");
+		header.add("말머리이름");
+		header.add("사용여부");
 	
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
 		for(int i = 0; i< categoryList.size(); i++) {
 			Map<String, String> map = new HashMap<>();
-			map.put("CAT_SQ", categoryList.get(i).getCatSq());
-			map.put("CAT_CONTENT", categoryList.get(i).getCatContent());
+			map.put("번호", categoryList.get(i).getCatSq());
+			map.put("말머리이름", categoryList.get(i).getCatContent());
+			map.put("사용여부", categoryList.get(i).getCatContent());
 			data.add(map);
 		}
 		
@@ -141,7 +143,6 @@ public class CategoryController {
 		model.addAttribute("fileName","CATEGORY");
 		model.addAttribute("sheetName","말머리 목록");
 		model.addAttribute("titleSize", header.size());
-		
 		
 		return "excelView";
 	}
@@ -184,7 +185,7 @@ public class CategoryController {
 		
 		destFile.delete();
 
-		return "redirect:/category/retrievePagingList.do";
+		return "redirect:/category/retrievePagingList.do?boardGbSq="+ boardGbSq;
 
 	}
 	
