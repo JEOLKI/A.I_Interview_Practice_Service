@@ -1,6 +1,7 @@
 package com.aiinterview.interview.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -84,13 +85,24 @@ public class HabitService {
 
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
 
+		  List<HabitVO> habitList = habitMapper.retrieveList();
+		  List<String> habitGbList = new ArrayList<>();
+		  for(HabitVO exist : habitList) {
+			  habitGbList.add(exist.getHabitGb());
+		  }
+		  
+		  
 		  HabitVO habitVO = null;
 		  for(Map<String, String> habit : excelContent) {
 			  habitVO = new HabitVO();
 			  habitVO.setHabitGb(habit.get("A"));
 			  habitVO.setHabitSt(habit.get("B"));
 			  
-			  habitMapper.create(habitVO);
+			  if(habitGbList.contains(habit.get("A"))) {
+				  habitMapper.createUpdate(habitVO);
+			  }else {
+				  habitMapper.create(habitVO);
+			  }
 		  }
 	}
 
