@@ -171,13 +171,11 @@
 		
 			
 		$('#massiveCreate').on('click',function(){
-			console.log("일괄등록")
 			$('input[type="file"]').click();
 		})
 		
 		$('input[type="file"]').on('change',function(){
-			$('.massiveForm').submit();
-			console.log("서브밋")
+			$('#massiveForm').submit();
 		})
 		
 		$('#sort').on('change',function(){
@@ -250,7 +248,6 @@
 		    
 		<div class="contentBox">
 			<h3>직무 목록</h3>
-			<form:form commandName="questionGubunVO" id="listForm" name="listForm" method="post">
 				<div class="blog-main">
 				    <div class="menu">
 					    <div class="excelmenu">
@@ -261,6 +258,7 @@
 						        <input hidden type="file" name="excelFile"/>
 						    </form>
 						</div>
+					<form:form commandName="questionGubunVO" id="listForm" name="listForm" method="post">
 						<div class="listmenu">
 							<select id="sort">
 								<c:forEach var="value" begin="5" end="20" step="5">
@@ -313,8 +311,8 @@
 						<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
 						<form:hidden path="pageIndex" />
 					</div>
-				</div>
-			</form:form>
+				</form:form>
+			</div>
 		</div>
 </body>
 </html>

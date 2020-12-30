@@ -1,7 +1,6 @@
 package com.aiinterview.interview.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +90,6 @@ public class QuestionGubunController {
 
 	@RequestMapping("/massiveCreateProcess.do")
 	public String createMassiveQuestGb(MultipartHttpServletRequest request){
-		System.out.println("디버깅 왜 안걸려@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		MultipartFile excelFile = request.getFile("excelFile");
 		if (excelFile == null || excelFile.isEmpty()) {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
