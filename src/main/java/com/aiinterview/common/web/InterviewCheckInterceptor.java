@@ -35,9 +35,9 @@ public class InterviewCheckInterceptor extends HandlerInterceptorAdapter{
 		
 		int remainCount = planService.retrieveEndDate(memberVO.getMemId());
 		
-		if(count > 0) {
+		if(count >= 1) {
 			
-			if(remainCount < 1) {
+			if(remainCount == 0) {
 				
 				response.sendRedirect("/plan/planList.do");
 				return false;
