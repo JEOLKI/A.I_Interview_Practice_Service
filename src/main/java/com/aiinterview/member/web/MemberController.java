@@ -321,7 +321,7 @@ public class MemberController {
 
 		// 출력할 리스트 가져오기
 		List<MemberVO> memberList = memberService.manageMember();
-		System.out.println("헤더설정1");
+
 		// excel 파일 header 설정
 		List<String> header = new ArrayList<String>();
 		header.add("아이디");
@@ -341,6 +341,7 @@ public class MemberController {
 		header.add("목표직무");
 		header.add("구직시작기간");
 		header.add("전공");
+		
 		// excel 파일 data 설정
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
