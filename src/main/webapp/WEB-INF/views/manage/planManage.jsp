@@ -108,6 +108,7 @@ function planListAjax(){
 	#Nm{
 		width : 180px;
 		text-align: center;
+		color: black;
 	}
 	
 	.contentBox{
