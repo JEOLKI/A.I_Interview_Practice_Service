@@ -276,9 +276,16 @@ body{
 .card-header-title img{
   border-radius: 40px;
 }
-body{
+.smile{
+	margin-left: 27px;
 }
- 
+.send{
+	margin-left:  0px;
+	padding-left: 0px;
+}
+.has-text-centered {
+    padding-top: 5px;
+}
 </style>
 
 <body>
@@ -346,10 +353,10 @@ body{
       <textarea name="msgContent" id="textMessage" class="chat-textarea"  onkeydown="return enter()" placeholder="Digite aqui" v-on:focus="expandTextArea()" v-on:blur="dexpandTetArea()"></textarea>
     </div>
     <div class="has-text-centered" style="width: 37%">
-      <a class="button is-white">
+      <a class="button is-white smile">
         <i class="fa fa-smile-o fa-5" aria-hidden="true"></i>
       </a>
-    <a id="send" class="button is-white" onclick="sendMessage()">send</a></div>
+    <a id="send" class="button is-white send" onclick="sendMessage()">send</a></div>
 	  </footer>
   </div>
   
@@ -362,18 +369,6 @@ body{
 </div>
 
 </div>
-
-<!-- 채팅 영역 -->
-<!-- <form> -->
-<!-- <!-- 텍스트 박스에 채팅의 내용을 작성한다. --> 
-<!-- <input id="textMessage" type="text" onkeydown="return enter()"> -->
-<!-- <!-- 서버로 메시지를 전송하는 버튼 -->
-<!-- <input onclick="sendMessage()" value="Send" type="button"> -->
-<!-- </form> -->
-<!-- <br /> -->
-<!-- 서버와 메시지를 주고 받는 콘솔 텍스트 영역 -->
-<!-- <textarea id="messageTextArea" rows="10" cols="50" disabled="disabled"></textarea> -->
-<!-- <div id="messageArea" ></div> -->
 
 <script type="text/javascript">
 
@@ -394,6 +389,8 @@ $(function(){
 		var a = parent.document.querySelector("#chatting").style;
 		a.display = "none";
 		$("#chatting").attr("style", "display:none");
+		var image = parent.document.querySelector("#image").style
+		image.display = "block"
 		webSocket.close();
 		top.document.location.reload()
 	})

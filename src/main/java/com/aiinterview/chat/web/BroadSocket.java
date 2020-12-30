@@ -61,7 +61,6 @@ public void handleOpen(Session userSession) {
 User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
 MemberVO mv =  (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
-System.out.println("유저 아이디 확인"+mv);
 
 user.key = mv.getMemId();
 sessionId = mv.getMemId();
@@ -73,7 +72,6 @@ sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
 Admin.visit(user.key);
 
-System.out.println("사용자 로그인 확인");
 
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
@@ -91,8 +89,6 @@ Admin.sendMessage(user.key, message);
 public static void sendMessage(String key, String message) {
 // key로 접속 리스트에서 User 클래스를 탐색
 User user = getUser(key);
-System.out.println("유저 확인" +user);
-System.out.println("메세지확인 " +message);
 
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {

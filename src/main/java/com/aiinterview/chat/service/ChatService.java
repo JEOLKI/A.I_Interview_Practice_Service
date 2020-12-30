@@ -18,27 +18,27 @@ public class ChatService {
 	@Resource(name = "chatMapper")
 	private ChatMapper chatMapper;
 	
-	public List<ChatVO> retrieveList(ChatVO cv){
+	public List<ChatVO> retrieveList(ChatVO cv) throws Exception{
 		return chatMapper.retrieveList(cv);
 	}
 	
-	public int create(ChatVO cv) {
-		return chatMapper.create(cv);
+	public int create(ChatVO cv) throws Exception{
+		return chatMapper.create(cv) ;
 	}
 	
-	public List<ChatRoomVO> retrieveRoomList(){
+	public List<ChatRoomVO> retrieveRoomList() throws Exception{
 		return chatMapper.retrieveRoomList();
 	}
 	
-	public int alarmUpdate(ChatVO cv) {
+	public int alarmUpdate(ChatVO cv) throws Exception {
 		return chatMapper.alarmUpdate(cv);
 	}
 	
-	public String alarmCount(String memId){
+	public String alarmCount(String memId) throws Exception{
 		return chatMapper.alarmCount(memId);
 	}
 	
-	public MemberVO searchManager() {
+	public MemberVO searchManager() throws Exception {
 		return chatMapper.searchManager();
 	}
 }

@@ -68,8 +68,6 @@ User user = new User();
 // Unique키를 발급 ('-'는 제거한다.)
 //String memkey =  getMember();
 MemberVO mv =  (MemberVO) LoginController.usersSession.getAttribute("S_MEMBER");
-//System.out.println("유저 아이디 확인"+memkey);
-System.out.println("유저 아이디 확인"+mv.getMemId());
 
 //user.key = memkey;
 //sessionId = memkey;
@@ -81,7 +79,6 @@ user.session = userSession;
 // 유저 리스트에 등록한다.
 sessionUsers.add(user);
 // 운영자 Client에 유저가 접속한 것을 알린다.
-System.out.println("알람 확인");
 }
 // browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
 @OnMessage
@@ -97,8 +94,6 @@ if (user != null) {
 public static void sendMessage(String key, String message) {
 // key로 접속 리스트에서 User 클래스를 탐색
 User user = getUser(key);
-System.out.println("유저 확인" +user);
-System.out.println("메세지확인 " +message);
 
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {

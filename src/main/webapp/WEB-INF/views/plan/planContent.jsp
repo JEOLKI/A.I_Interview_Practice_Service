@@ -76,7 +76,6 @@ function payPlanAjax(p){
 		data : {planSq : p},
 		dataType : "json",
 		success : function(data){
-		console.log(data)
 		var html = "";                                              
 		var plan = data.pvContent              
 		

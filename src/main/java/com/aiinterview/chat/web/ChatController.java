@@ -41,8 +41,14 @@ public class ChatController {
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
 	public String room(Model model, HttpSession session) {
 		
-		List<ChatRoomVO> roomList = chatService.retrieveRoomList();
-		model.addAttribute("roomList", roomList);
+		List<ChatRoomVO> roomList;
+		try {
+			roomList = chatService.retrieveRoomList();
+			model.addAttribute("roomList", roomList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "chat/chatRoom";
 	}
 	
@@ -51,9 +57,15 @@ public class ChatController {
 	public String alarmgCount(Model model, HttpSession session) {
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-		String alarmCount = chatService.alarmCount(mv.getMemId());
-		model.addAttribute("alarmCount", alarmCount);
-		
+		String alarmCount = null;
+		try {
+			alarmCount = chatService.alarmCount(mv.getMemId());
+			model.addAttribute("alarmCount", alarmCount);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return alarmCount;
 	}
 	
@@ -65,62 +77,51 @@ public class ChatController {
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		
-		MemberVO manager = chatService.searchManager();
-		String sender = manager.getMemId();
-		
-		Admin.chatEnter(memId);
-		
-		cv.setMsgSender(sender);
-		cv.setMsgReceiver(memId);
-		chatService.alarmUpdate(cv);
-		
-		//내가 보내는 사람이기 때문에 세션에서 가져온다.
-		
-		List<ChatVO> chatList =  chatService.retrieveList(cv);
-		
-		System.out.println("chatList확인 : "+chatList);
-		
-		model.addAttribute("chatList", chatList);
-		model.addAttribute("manager", sender);
-		
-		
+		MemberVO manager;
+		try {
+			manager = chatService.searchManager();
+			String sender = manager.getMemId();
+			Admin.chatEnter(memId);
+			
+			cv.setMsgSender(sender);
+			cv.setMsgReceiver(memId);
+			chatService.alarmUpdate(cv);
+			model.addAttribute("manager", sender);
+			List<ChatVO> chatList =  chatService.retrieveList(cv);
+			model.addAttribute("chatList", chatList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "chat/member";
-		
 	}
-	
 	
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
 	public String admin(HttpSession session, Model model,String memId) {
 		
-//		BroadSocket.sessionId(memId);
-		
 		sendAdminKey(memId, "AI_INTERVIEW_ADMIN_CHAT_ENTER");
-		
 		ChatVO cv = new ChatVO();
 		
-		MemberVO manager = chatService.searchManager();
-		String sender = manager.getMemId();
-		
-		cv.setMsgSender(memId);
-		cv.setMsgReceiver(sender);
-		System.out.println("업데이트 확인 : "+  cv);
-		chatService.alarmUpdate(cv);
-		
-		List<ChatVO> chatList =  chatService.retrieveList(cv);
-		
-		
+		MemberVO manager;
+		try {
+			manager = chatService.searchManager();
+			String sender = manager.getMemId();
+			cv.setMsgSender(memId);
+			cv.setMsgReceiver(sender);
+			chatService.alarmUpdate(cv);
+			List<ChatVO> chatList =  chatService.retrieveList(cv);
+			model.addAttribute("chatList", chatList);
+			model.addAttribute("manager", sender);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		try {
 			MemberVO mv = memberService.retrieve(memId);
 			model.addAttribute("mv", mv);
-			System.out.println(mv);
+			model.addAttribute("memId", memId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		model.addAttribute("chatList", chatList);
-		model.addAttribute("memId", memId);
-		model.addAttribute("manager", sender);
-		
 		return "chat/admin";
 	}
 	
@@ -131,35 +132,49 @@ public class ChatController {
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		String memId = mv.getMemId();
 		
-		MemberVO manager = chatService.searchManager();
-		String receiver = manager.getMemId();
-		
-		cv.setMsgSender(memId);
-		cv.setMsgReceiver(receiver);
-		chatService.create(cv);
+		MemberVO manager;
+		try {
+			manager = chatService.searchManager();
+			String receiver = manager.getMemId();
+			cv.setMsgSender(memId);
+			cv.setMsgReceiver(receiver);
+			chatService.create(cv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
 	@ResponseBody
 	@RequestMapping(path = "/createAdmin.do", method = RequestMethod.POST)
 	public void createAdmin(ChatVO cv) {
-		MemberVO manager = chatService.searchManager();
-		String sender = manager.getMemId();
-		cv.setMsgSender(sender);
-		chatService.create(cv);
+		MemberVO manager;
+		try {
+			manager = chatService.searchManager();
+			String sender = manager.getMemId();
+			cv.setMsgSender(sender);
+			chatService.create(cv);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@ResponseBody
 	@RequestMapping(path = "/managerId.do", method = RequestMethod.GET)
 	public String managerId() {
-		MemberVO manager = chatService.searchManager();
-		String sender = manager.getMemId();
+		String sender = null;
+		MemberVO manager;
+		try {
+			manager = chatService.searchManager();
+			sender = manager.getMemId();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return sender;
 	}
-	
 	public static void sendAdminKey (String key, String message) {
 		BroadSocket.sendMessage(key, message);
 	}
-	
 	
 }

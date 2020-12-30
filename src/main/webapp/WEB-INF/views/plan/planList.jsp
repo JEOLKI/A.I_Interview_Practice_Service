@@ -27,7 +27,6 @@ function buyPlanAjax(){
 		method : "get",
 		dataType : "json",
 		success : function(data){
-			console.log(data)
 			var html = "";
 			var planClass = ['sprint', 'half', 'marathon'];
 			for(var i = 0; i< data.planList.length ; i++){

@@ -373,21 +373,6 @@ body{
 	
 	</div>
 
-
-
-
-<!-- <div style="display:none"> -->
-<!-- <form> -->
-<!-- 메시지 텍스트 박스 -->
-<!-- <input type="text" onkeydown="if(event.keyCode === 13) return false;"> -->
-<!-- <!-- 전송 버튼 --> 
-<!-- <input value="Send" type="button" class="sendBtn"> -->
-<!-- </form> -->
-<!-- <br /> -->
-<!-- 서버와 메시지를 주고 받는 콘솔 텍스트 영역 --> 
-<!-- <textarea rows="10" cols="50" class="console" disabled="disabled"></textarea> -->
-<!-- </div> -->
-<!-- 소스를 간단하게 하기 위하 Jquery를 사용했습니다. -->
 <script type="text/javascript">
 // 서버의 admin의 서블릿으로 웹 소켓을 한다.
 var d= "";
@@ -399,16 +384,6 @@ let $div = $("#chatApp");
 $(function(){
 $div.find(".chat-content").scrollTop($div.find(".chat-content")[0].scrollHeight);
 
-// $("#closeChatUser").on("click", function(){
-// 	webSocket.send("${memId}" +"#####"+ "bye");
-// 	var a = parent.document.querySelector("#chatting").style
-// 	a.display = "none"
-// 	$("#chatting").attr("style", "display:none");
-// 	webSocket.close();
-// 	top.document.location.reload()
-// })
-
-// let message = document.getElementById("textMessage");
 // 운영자에서의 open, close, error는 의미가 없어서 형태만 선언
 webSocket.onopen = function(message) { };
 webSocket.onclose = function(message) { 

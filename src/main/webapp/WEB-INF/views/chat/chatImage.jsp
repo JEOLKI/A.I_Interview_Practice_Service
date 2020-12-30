@@ -91,7 +91,6 @@
 	text-align: center;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
 	background: #dd202f;
-	border: 1px solid #911f28;
 	border-radius: 11px;
 }
 
@@ -170,10 +169,8 @@ to {
 
 		var a = alarmCount()
 		$("#alarmCount").html(a)
-		console.log("a의 숫자 확인" + a)
 		
 		if(a==null ||a==0){
-			console.log("여기 왜안타는거야")
 			$("#alarmCount").attr("style", "display:none");
 		}
 		
@@ -211,8 +208,6 @@ to {
 			webSocket.onerror = function(message) {
 			};
 			webSocket.onmessage = function(message) {
-				console.log("메시지 확인")
-				console.log(message.data)
 				if (message.data == "bye") {
 				} else if (message.data == "AI_INTERVIEW_ADMIN_CHAT_ENTER") {
 				} else {

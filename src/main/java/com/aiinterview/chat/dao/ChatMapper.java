@@ -16,39 +16,39 @@ public interface ChatMapper {
 	 * @param cv에 들어가는 1:1 채팅 두개
 	 * @return
 	 */
-	List<ChatVO> retrieveList(ChatVO cv);
+	List<ChatVO> retrieveList(ChatVO cv) throws Exception ;
 
 	/**
 	 * 채팅 로그를 db에 저장하기 위한 메서드
 	 * @param cv의 vo내용
 	 * @return
 	 */
-	int create(ChatVO cv);
+	int create(ChatVO cv) throws Exception;
 	
 	/**
 	 * 채팅방 리스트를 불러오기 위한 메서드 
 	 * @param mv 전체 회원의 이름
 	 * @return 
 	 */
-	List<ChatRoomVO>retrieveRoomList();
+	List<ChatRoomVO>retrieveRoomList() throws Exception;
 	
 	/**
 	 * 알람 체크를 하기 위한 메서드
 	 * @param memId 체크한 아이디 값
 	 * @return
 	 */
-	int alarmUpdate(ChatVO cv);
+	int alarmUpdate(ChatVO cv) throws Exception;
 	
 	/**
 	 * 전체알람의 개수를 카운트하기 위한 메서드
 	 * @param memId 체크한 아이디 값
 	 * @return
 	 */
-	String alarmCount(String memId);
+	String alarmCount(String memId) throws Exception;
 	
 	/**
 	 * 채팅 관리자를 찾기 위한 메서드
 	 * @return
 	 */
-	MemberVO searchManager();
+	MemberVO searchManager() throws Exception;
 }

@@ -28,11 +28,9 @@ admin.close();
 }
 // 운영자 유저의 세션을 바꾼다.
 admin = userSession;
-System.out.println("운영자 로그인 확인");
 // 기존에 접속해 있는 유저의 정보를 운영자 client로 보낸다.
 for(String key : BroadSocket.getUserKeys()) {
 // 전송.. 전송
-System.out.println("key 확인"+key);
 visit(key);
 }
 //sendAdmin();
@@ -48,10 +46,8 @@ public void handleMessage(String message, Session userSession) throws IOExceptio
 String[] split = message.split("#####", 2);
 // 앞은 key 데이터
 String key = split[0];
-System.out.println("split[0]"+ key);
 // 뒤 정보는 메시지
 String msg = split[1];
-System.out.println("split[1]"+ msg);
 // 일반 유저의 key로 탐색후 메시지 전송
 BroadSocket.sendMessage(key, msg);
 

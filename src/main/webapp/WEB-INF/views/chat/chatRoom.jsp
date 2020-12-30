@@ -273,7 +273,6 @@ color: #32e4cd;
 				}
 			}
 			else if(node.status === "bye") {
-				console.log("사용자 종료")
 				$div.find(".fa-circle").attr('class', 'fa fa-circle-o')	
 				
 				// 해당 키로 div를 찾아서 dom을 제거한다.
@@ -285,8 +284,8 @@ color: #32e4cd;
 		$("#closeChat").on("click", function(){
 			var chatting = parent.document.querySelector("#chatting").style
 			chatting.display = "none"
-// 			var image = parent.document.querySelector("#image").style
-// 			image.display = "block"
+			var image = parent.document.querySelector("#image").style
+			image.display = "block"
 			webSocket.close()	
 			parent.document.location.reload()
 		})
@@ -296,8 +295,6 @@ color: #32e4cd;
 			var chatting = parent.document.querySelector("#chatting").style
 			chatting.width = "350px";
 			memid = $(this).data("id")
-			console.log(memid)
-			console.log("정신나갈거같아.")
 			location.href="/chat/admining.do?memId="+memid;
 		})
 		
@@ -308,7 +305,6 @@ function getManager(){
 		type: 'GET',
 		dataType: 'json',
     	success : function(data){
-			console.log(data)
     	}
 	})	
 }

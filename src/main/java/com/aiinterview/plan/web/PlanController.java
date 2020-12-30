@@ -168,7 +168,6 @@ public class PlanController {
 
 		// 출력할 리스트 가져오기
 		List<PlanVO> planList = planService.managePlan();
-		System.out.println("헤더설정1");
 		// excel 파일 header 설정
 		List<String> header = new ArrayList<String>();
 		header.add("PLAN_SQ");
@@ -247,66 +246,6 @@ public class PlanController {
 		return "excelView";
 	}
 	
-	
-
-/*	@RequestMapping(path = "/manageCash.do", method = RequestMethod.GET)
-	public String manageCash(Model model) {
-		BaseVO bv = new BaseVO();
-		try {
-			int totalCnt = planService.planUseList();
-			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
-			int page = bv.getPageIndex();
-			int pageSize = bv.getPageUnit();
-
-			model.addAttribute("page", page);
-			model.addAttribute("pageSize", pageSize); 
-			model.addAttribute("cashList", planService.managePlanUseList(bv));
-			model.addAttribute("pages", pages);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "manage/planCash";
-	}
-
-	@RequestMapping(path = "/manageCashajax.do", method = RequestMethod.GET)
-	public String manageCashAjax(Model model, BaseVO bv) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
-		try {
-
-			System.out.println(bv.getPageIndex() + "@@확인");
-
-			int page = bv.getPageIndex() == 0 ? 1 : bv.getPageIndex();
-			int pageSize = bv.getPageUnit() == 0 ? 5 : bv.getPageUnit();
-			int totalCnt = planService.planUseList();
-			int pages = (int) Math.ceil((double) totalCnt / bv.getPageUnit());
-			// int page = bv.getPageIndex();
-			// int pageSize = bv.getPageUnit() ;
-
-			model.addAttribute("page", page);
-			model.addAttribute("pageSize", pageSize);
-			model.addAttribute("cashList", planService.managePlanUseList(bv));
-			model.addAttribute("pages", pages);
-
-			List<PlanUseVO> puvList = planService.managePlanUseList(bv);
-			List<String> startList = new ArrayList<>();
-			List<String> endList = new ArrayList<>();
-			for (int i = 0; i < puvList.size(); i++) {
-				startList.add(sdf.format(puvList.get(i).getStartDate()));
-				endList.add(sdf.format(puvList.get(i).getEndDate()));
-			}
-
-			model.addAttribute("startList", startList);
-			model.addAttribute("endList", endList);
-			// model.addAttribute("puvList", puSvList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "jsonView";
-	}*/
-	
-	
-
 	@RequestMapping(path = "/cashList.do", method = RequestMethod.GET)
 	public String cashListView(Model model, HttpSession session, BaseVO bv) {
 
