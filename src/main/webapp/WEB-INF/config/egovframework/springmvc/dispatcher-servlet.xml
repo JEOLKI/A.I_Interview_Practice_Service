@@ -63,13 +63,9 @@
 	</bean>
 	
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
-	
 	<bean id="ProfileImgView" class="com.aiinterview.common.view.ProfileImgView"/>
 	<bean id="videoView" class="com.aiinterview.common.view.VideoView"/>
-	
 	<bean id="excelView" class="com.aiinterview.common.view.ExcelDownloadView"/>
-	<bean id="excelTestView" class="com.aiinterview.common.view.ExcelTestView"/>
-	
 	<bean id="fileDownloadView" class="com.aiinterview.common.view.fileDownloadView"/>
 
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
@@ -98,11 +94,7 @@
 	
 	<mvc:resources mapping="/css/**" location="/css/" />    
 	<mvc:resources mapping="/images/**" location="/images/" />
-	<mvc:resources mapping="/img/**" location="/img/" />    
 	<mvc:resources mapping="/js/**" location="/js/" />
-	<mvc:resources mapping="/resources/**" location="/WEB-INF/views/resources/" />
-	<mvc:resources mapping="/profile/**" location="/WEB-INF/views/profile/" />
-	<mvc:resources mapping="/media/**" location="/media/" />
 	
     <!-- For Pagination Tag -->
 <!--     <bean id="imageRenderer" class="egovframework.example.cmmn.web.EgovImgPaginationRenderer"/> -->
@@ -132,21 +124,15 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/login/**"/>
-			<mvc:exclude-mapping path="/js/**"/>
-			<mvc:exclude-mapping path="/css/**"/>
-			<mvc:exclude-mapping path="/images/**"/>
-			<mvc:exclude-mapping path="/WEB-INF/views/layout/**"/>
-			<mvc:exclude-mapping path="/WEB-INF/config/**"/>
-			<mvc:exclude-mapping path="/common/**"/>
 			<mvc:exclude-mapping path="/boardGubun/**"/>
 			<mvc:exclude-mapping path="/analysis/**"/>
-			<mvc:exclude-mapping path="/WEB-INF/views/chat/**"/>
 			<mvc:exclude-mapping path="/chat/**"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
 			<mvc:mapping path="/login/manage.do"/>
+			<mvc:mapping path="/**/manage/**"/>
 			<bean class="com.aiinterview.common.web.ManageCheckInterceptor"/>
 		</mvc:interceptor>
 		
