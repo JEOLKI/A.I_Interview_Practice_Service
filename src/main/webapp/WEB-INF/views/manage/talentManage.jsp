@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html5>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -210,7 +210,6 @@
 </head>
 <body>
 	<h1>인재상 관리</h1>
-	
 		<div class="contentBox">
 			<h3>인재상 등록</h3>
 			<div class="registTalent">

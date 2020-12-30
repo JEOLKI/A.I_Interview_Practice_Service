@@ -50,7 +50,6 @@ public class LoginController {
 
 	@RequestMapping(value = "/main.do", method = { RequestMethod.GET })
 	public String view(Model model, String msg, RedirectAttributes ra) {
-		System.out.println("sdfsdf");
 		if(msg==null) {
 			msg = "";
 		}
