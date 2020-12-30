@@ -134,11 +134,10 @@
 		
 		<mvc:interceptor>
 			<mvc:mapping path="/login/manage.do"/>
-			<mvc:mapping path="/**/manage/**"/>
 			<bean class="com.aiinterview.common.web.ManageCheckInterceptor"/>
 		</mvc:interceptor>
 		
-		<!-- <mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/interview/**"/>
 			<mvc:exclude-mapping path="/**/manage/**"/>
 			<mvc:exclude-mapping path="/login/**"/>
@@ -148,11 +147,12 @@
 			<mvc:exclude-mapping path="/member/profile.do"/>
 			<mvc:exclude-mapping path="/answer/video.do"/>
 			<bean class="com.aiinterview.common.web.InterviewCheckInterceptor"/>
-		</mvc:interceptor> -->
+		</mvc:interceptor>
 		
 	</mvc:interceptors>
-	
 
+
+	
 	<websocket:handlers>
 	<websocket:mapping handler="broadSocket" path="/broadsocket.do" />
 	<websocket:mapping handler="admin" path="/admin.do" />
