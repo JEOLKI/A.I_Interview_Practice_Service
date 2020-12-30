@@ -48,7 +48,7 @@
 	}
 </style>
 
-<div class="w3-sidebar w3-bar-block w3-light-grey w3-card leftbox" style="width: 202px; position: relative;">
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-card leftbox" style="width: 208px; position: relative;">
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
 		회원 관리 <i class="fa fa-caret-down"></i>
