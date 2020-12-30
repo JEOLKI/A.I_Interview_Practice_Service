@@ -108,17 +108,6 @@ public class QuestionGubunServiceTest extends ModelTestConfig{
 		assertEquals(14, totCnt);
 	}
 	
-	@Test
-	public void retrieveUsingListTest() throws Exception{
-		/***Given***/
-
-		/***When***/
-		List<QuestionGubunVO> usingList = questionGubunService.retrieveUsingList();
-		
-		/***Then***/
-		assertEquals(14, usingList.size());
-		
-	}
 	
 	@Test
 	public void retrieveTest() throws Exception{

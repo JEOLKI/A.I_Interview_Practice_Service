@@ -110,18 +110,6 @@ public class QuestionGubunMapperTest extends ModelTestConfig{
 	}
 	
 	@Test
-	public void retrieveUsingListTest() throws Exception{
-		/***Given***/
-
-		/***When***/
-		List<QuestionGubunVO> usingList = questionGubunMapper.retrieveUsingList();
-		
-		/***Then***/
-		assertEquals(14, usingList.size());
-		
-	}
-	
-	@Test
 	public void retrieveTest() throws Exception{
 		/***Given***/
 		String questGbSq = "1";
