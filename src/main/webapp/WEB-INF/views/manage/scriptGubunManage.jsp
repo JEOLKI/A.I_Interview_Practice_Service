@@ -13,6 +13,7 @@
 	}
 	body{
 		background-color : #f5f7fb;
+		margin : 30px;
 	}
 	.listmenu{
 		display: inline-block; 
