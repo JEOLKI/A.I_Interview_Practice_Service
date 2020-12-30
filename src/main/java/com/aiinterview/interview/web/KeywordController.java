@@ -49,7 +49,7 @@ public class KeywordController {
 	
 	
 	
-	@RequestMapping(path="/create.do", method = { RequestMethod.GET })
+	@RequestMapping(path="/create.do", method = { RequestMethod.POST })
 	public String create(String talentSq, String keywordContent, Model model,HttpSession session) {
 		// 1. keywordContent 값으로 키워드 테이블 조회 
 		// 2. 일치하는 값 있으면 매칭 테이블에 해당  조합이 있는지 검사 -> 없을 시 keywordSq, talentSq, st=Y insert, 있다면 화면돌아가서 alert
