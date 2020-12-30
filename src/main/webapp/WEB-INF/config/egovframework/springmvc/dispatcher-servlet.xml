@@ -127,6 +127,8 @@
 			<mvc:exclude-mapping path="/boardGubun/**"/>
 			<mvc:exclude-mapping path="/analysis/**"/>
 			<mvc:exclude-mapping path="/chat/**"/>
+			<mvc:exclude-mapping path="/member/profile.do"/>
+			<mvc:exclude-mapping path="/answer/video.do"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
 		
