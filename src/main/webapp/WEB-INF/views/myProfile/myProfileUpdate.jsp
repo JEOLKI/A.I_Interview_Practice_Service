@@ -191,6 +191,8 @@ function readURL(value){
 				$('#memPwTwo').val()=='' ||
 				$('#memAlias').val()=='' ||
 				$('#memCareer').val()==''||
+				$('#memTargetJob').val()=='' ||
+				$('#memTargetCompany').val()=='' ||
 				$('#memAddr1').val()==''
 				){
 			console.log($('#memPwOne').val());
@@ -377,14 +379,14 @@ function aliasCheck(){
 								<div class="company">
 									목표 회사
 									<div class="CompletionInput company-input">
-										<input name="memTargetCompany" type="text"
+										<input id="memTargetCompany" name="memTargetCompany" type="text"
 											placeholder="예) 삼성전자" class="" maxlength="30" value="${S_MEMBER.memTargetCompany }">
 									</div>
 								</div>
 								<div class="job">
 									목표 직무
 									<div class="CompletionInput job-input">
-										<input name="memTargetJob" type="text"
+										<input id="memTargetJob" name="memTargetJob" type="text"
 											placeholder="예) 제품 개발/기획" class="" maxlength="30" value="${S_MEMBER.memTargetJob }">
 									</div>
 								</div>
