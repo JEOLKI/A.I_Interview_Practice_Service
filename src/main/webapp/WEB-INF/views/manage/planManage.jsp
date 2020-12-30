@@ -11,10 +11,23 @@
 
 <script>
 $(document).ready(function() {
-	console.log("aa")
-	console.log(1234)
 	planListAjax();
 	
+	$('#registDateNum').on('input',function(){
+		if(/[^0-9]/.test($("#registDateNum").val())){
+			let str = $('#registDateNum').val();
+			let edit = str.replace(/[^0-9.]/g,'');
+			$('#registDateNum').val(edit);
+		}
+	})
+	
+	$('#registPrice').on('input',function(){
+		if(/[^0-9]/.test($("#registPrice").val())){
+			let str = $('#registPrice').val();
+			let edit = str.replace(/[^0-9.]/g,'');
+			$('#registPrice').val(edit);
+		}
+	})
 });
 
 function planListAjax(){
@@ -73,14 +86,14 @@ function planListAjax(){
 	}
 
 	#registDateNum{
-		width : 50px;
+		width : 70px;
 		height : 50px; 
 		font-size: 0.5em;
 		text-align: center;
 	}
 	
 	#registPrice{
-		width : 100px;
+		width : 145px;
 		text-align: center;
 	}
 	
@@ -107,7 +120,7 @@ function planListAjax(){
 	
 	#Nm{
 		width : 180px;
-		text-align: center;
+		text-align: left;
 		color: black;
 	}
 	
@@ -167,7 +180,7 @@ function planListAjax(){
 	                        
 		               			<div class="price-area">
 		                  				<div class="date-num">
-		                     				<span><input id="registDateNum" type="text" name="planPeriod" ></span>일 이용권
+		                     				<span><input id="registDateNum" type="text" name="planPeriod" maxlength="4"></span>일 이용권
 		                  				</div>
 		                  				
 		                  				<div class="price-num">
