@@ -4,8 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css?v=2">
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <title>AI_INTERVIEW</title>
 
@@ -28,6 +27,9 @@ today = getFormatDate(today);
 	body{
       background-color : #f5f7fb;
       padding: 30px;
+      font-family: "Noto Sans KR",sans-serif;
+      font-size: 16px;
+      color: #000d22;
    }
 
  	.conditionmenu{ 

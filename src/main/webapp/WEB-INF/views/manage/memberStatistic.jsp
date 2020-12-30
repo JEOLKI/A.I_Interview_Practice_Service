@@ -11,11 +11,14 @@
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css?v=2">
 <style>
 	body{
       background-color : #f5f7fb;
       padding: 30px;
+      font-family: "Noto Sans KR",sans-serif;
+	  font-size: 16px;
+	  color: #000d22;
    }
 	#search{
 		display: inline-block; 
@@ -43,10 +46,6 @@
 	
 	.content__title{
 		margin-bottom: 30px;
-	}
-	
-	h1{
-		font-weight:bold;
 	}
 	
 	#content{
@@ -1088,8 +1087,8 @@ function numberWithCommas(x) {
 </script>
 </head>
 <body>
-	<form:form commandName="memberVO" id="listForm" name="listForm" method="post">
-		<h1>회원 통계</h1>
+	<h1>회원 통계</h1>
+		<form:form commandName="memberVO" id="listForm" name="listForm" method="post">
 			<div class="planStatistics">
 				<div class="contentBox">
 					<ul class="nav nav-tabs">
