@@ -73,5 +73,12 @@ public interface HabitMapper {
 	 */
 	public HabitVO retrieveOne(String habitSq) throws Exception;
 
+	/**
+	 * 이미 존재하는 습관어를 등록하려 할때 업데이트로 대체하는 메서드
+	 * @param habitVO
+	 */
+	public void createUpdate(HabitVO habitVO) throws Exception;
+
+
 	
 }

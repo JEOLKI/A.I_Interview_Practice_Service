@@ -250,7 +250,7 @@
 						<a  class="excelBtn" href="${cp }/habit/list/excelDown.do">↓ excel다운로드</a> 
 						<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
 						<!-- excel file 읽어오기 -->
-					    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/sampQuest/massiveCreateProcess.do"/>" >
+					    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/habit/massiveCreateProcess.do"/>" >
 					        <input hidden type="file" name="excelFile" />
 					    </form>
 					</div>

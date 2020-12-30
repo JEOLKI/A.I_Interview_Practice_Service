@@ -41,6 +41,12 @@
 		 	   habit_st = #{habitSt}
 		 WHERE habit_sq = #{habitSq} 
 	</update>
+	
+	<update id="createUpdate">
+		UPDATE habit 
+		   SET habit_st = #{habitSt}
+		 WHERE habit_gb = #{habitGb}
+	</update>
 
 	<!-- 페이징 : 해당 페이지리스트 select -->
 	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.HabitVO">
