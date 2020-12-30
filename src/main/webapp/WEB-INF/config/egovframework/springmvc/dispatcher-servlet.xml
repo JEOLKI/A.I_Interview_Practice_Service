@@ -140,6 +140,13 @@
 		
 		<mvc:interceptor>
 			<mvc:mapping path="/interview/**"/>
+			<mvc:exclude-mapping path="/**/manage/**"/>
+			<mvc:exclude-mapping path="/login/**"/>
+			<mvc:exclude-mapping path="/boardGubun/**"/>
+			<mvc:exclude-mapping path="/analysis/**"/>
+			<mvc:exclude-mapping path="/chat/**"/>
+			<mvc:exclude-mapping path="/member/profile.do"/>
+			<mvc:exclude-mapping path="/answer/video.do"/>
 			<bean class="com.aiinterview.common.web.InterviewCheckInterceptor"/>
 		</mvc:interceptor>
 		
