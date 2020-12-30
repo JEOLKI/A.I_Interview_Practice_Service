@@ -14,6 +14,7 @@
 	endCount = ${questionGoList.size()}; // 질문의 개수
 	endTTS = false; // TTS종료 확인
 	voiceCount = 0;
+	keyCount = 0; // 중복 space 막기위함
 	
 	var tid;
 	var aid;
@@ -187,26 +188,6 @@
 			createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
 			$("#analysisData").empty(); // 비우기
 			
-			script = "다음 질문을 준비해주세요.";
-			if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
-				script = "분석중입니다. 잠시만 기다려주세요"
-				$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-				$('#time').empty();// 타이머 지우기
-				$('.attention-message.shown').css("background-image", "");// 원 지우기
-				$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
-				$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
-				$('.attention-message.shown').css("margin-top", "230px"); // 마진
-				$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
-
-				window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
-			}else{
-				SetTime=0; // 타이머 시간 되돌리기
-				answer=""; // 답변 내용 초기화
-				$('.message-balloon').empty(); // 메세지 창 지우기
-				$('#time').empty(); // 타이머 표시 지우기
-				$('.message-balloon').text(script); // 다음질문 준비 표시
-				$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
-			}
 		}else if(SetTime == 15){
 			$('.next-question').html("답변 종료<br><div class='spacebar-area false'>SPACE BAR</div>"); // 답변 종료
 		}
@@ -300,6 +281,17 @@
 
 	// 질문 끝날 때 answerVO 넘기는 ajax
 	function createAnswer(){
+		keyCount = 1;
+		$('.next-question').html(""); // 버튼 지우기
+		script = "분석중입니다. 잠시만 기다려주세요"
+		$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
+		$('#time').empty();// 타이머 지우기
+		$('.attention-message.shown').css("background-image", "");// 원 지우기
+		$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
+		$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
+		$('.attention-message.shown').css("margin-top", "230px"); // 마진
+		$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
+		
 		var form = $('#analysisData')[0]; // form안에 있는 input들의 모음
 		var fd = new FormData(form); 
 		ansContent = answer; // 해당 질문내용
@@ -317,13 +309,6 @@
 		fd.append("ansSpeed", ansSpeed); // 대답 속도(대답내용 문자열수/대답시간)
 		fd.append("questSq", questSq); // 대답의 시퀀스 
 		
-		// 확인용 console.log
-		//console.log("내용"+ansContent);
-		//console.log("시간"+ansTime);
-		//console.log("속도"+ansSpeed);
-		//console.log("카운트"+startCount);
-		//console.log("시퀀스"+questSq);
-			
 		$.ajax(
 			{url:"/answer/create.do",
 			data : fd,
@@ -336,15 +321,36 @@
 				console.log("성공");
 				console.log(data);
 				
+				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
+
+					window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
+				}else{
+					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
+					$('.attention-message.shown').css("background-image", "");// 로딩 지우기
+					$('.attention-message.shown').css("background-image", "url(/images/interview_circle.png)"); // 포커스원 넣기
+					$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
+					$('.attention-message.shown').css("width", "400px"); // 로딩중 설정
+					
+					$("#analysisData").empty(); // 비우기
+					script = "다음 질문을 준비해주세요.";
+					SetTime=0; // 타이머 시간 되돌리기
+					answer=""; // 답변 내용 초기화
+					$('.message-balloon').empty(); // 메세지 창 지우기
+					$('#time').empty(); // 타이머 표시 지우기
+					$('.message-balloon').text(script); // 다음질문 준비 표시
+					$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
+					keyCount = 0;
+				}
 			},
 			error : function(data){
 				console.log(data.status);
-				console.log(data)
+				console.log(data);
+				alert('오류가 발생 했습니다')
 			}
 		});
 		blob = null; // blob 데이터 초기화
 		recordedChunks=[]; // blob 데이터 초기화
-// 		recordedChunks.splice(0); // blob 데이터 초기화
+		ansContent = "";
 		return true;
 	}
 	
@@ -410,151 +416,62 @@
 	  setTimeout(function() { URL.revokeObjectURL(url); }, 100); 
 	}
 	
+	function interview(){
+		if(SetTime == 0){ // 타이머 진행중이 아닐 경우
+			$('#sampleVoice').get(0).pause(); // 안내 음성 중지
+			script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
+			questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
+			
+			$('.message-balloon').empty();
+			$('.message-balloon').text(script); // 면접 질문 출력
+			$('#synthesisText').val(script); // 면접 질문 옮기기
+			$('.attention-message.shown').text('') // 주목 하는곳 비우기
+			
+			if(SetTime%60<10){ // 타이머 표시
+				m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
+				
+			}else{
+				m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
+			}
+			msg = "<br><br><br><font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
+			msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
+			msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
+			
+			document.all.time.innerHTML = msg;
+			
+			
+			$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
+		}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space(질문 종료)15초 이후 
+			startCount++; // 답변 진행되면서 횟수 증가
+			$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
+			$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
+			
+			clearInterval(tid);		// 타이머 해제
+			$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
+			$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
+			clearInterval(aid);		// 10초마다 이미지 분석 종료
+			
+			
+			download(); // 녹화 중지
+			createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
+			$("#analysisData").empty(); // 비우기
+			
+			script = "다음 질문을 준비해주세요.";
+		}
+	}
+	
 	// jquery
 	$(document).ready(function(){
-		$("#testgo").on('click', function(){
-			$("#analysisData").submit();
-		})
-		
 		 // 클릭의 경우
 		$(document).on('click','.spacebar-area.false',function(){
-			if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-				$('#sampleVoice').get(0).pause(); // 안내음성 중지
-				script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
-				questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
-				
-				$('.message-balloon').empty();
-				$('.message-balloon').text(script); // 면접 질문 출력
-				$('#synthesisText').val(script); // 면접 질문 옮기기
-				$('.attention-message.shown').text('') // 주목 하는곳 비우기
-				
-				if(SetTime%60<10){ // 타이머 표시
-					m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
-					
-				}else{
-					m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
-				}
-				
-				msg = "<br><br><br><font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
-				msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
-				msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
-				
-				document.all.time.innerHTML = msg;
-				
-				$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
-			}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space
-				//console.log('타이머 멈추기')	;
-				//console.log('시작카운트 : '+startCount);
-				//console.log('종료카운트 : '+endCount);
-				
-				startCount++; // 답변 진행되면서 횟수 증가	
-				$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
-				$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
-				
-				
-				clearInterval(tid);		// 타이머 해제
-				$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
-				$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
-				clearInterval(aid);		// 10초마다 이미지 분석 종료
-				
-				download(); // 녹화 중지
-				createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
-				$("#analysisData").empty(); // 비우기
-				
-				script = "다음 질문을 준비해주세요.";
-				if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
-					$('.next-question').html(""); // 버튼 지우기
-					
-					script = "분석중입니다. 잠시만 기다려주세요"
-					$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-					$('#time').empty();// 타이머 지우기
-					$('.attention-message.shown').css("background-image", "");// 원 지우기
-					$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
-					$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
-					$('.attention-message.shown').css("margin-top", "230px"); // 마진
-					$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
-					
-					window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
-				}else{
-					SetTime=0; // 타이머 시간 되돌리기
-					answer=""; // 답변 내용 초기화
-					$('.message-balloon').empty(); // 메세지 창 지우기
-					$('#time').empty(); // 타이머 표시 지우기
-					$('.message-balloon').text(script); // 다음질문 준비 표시
-					$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
-				}
-			}
+			interview();
 		});
 		
 		// space 경우
-		$(document).keydown(function(event) {
+		$(document).keyup(function(event) {
 			if(event.keyCode == 32){ // space
-				if(SetTime == 0){ // 타이머 진행중이 아닐 경우
-					$('#sampleVoice').get(0).pause(); // 안내 음성 중지
-					script=$('.quest').eq(startCount).val(); // 면접 시작 지문 출력
-					questSq=$('.quest').eq(startCount).data('sq'); // 질문 카운트에 맞는 시퀀스 가져오기
-					
-					$('.message-balloon').empty();
-					$('.message-balloon').text(script); // 면접 질문 출력
-					$('#synthesisText').val(script); // 면접 질문 옮기기
-					$('.attention-message.shown').text('') // 주목 하는곳 비우기
-					
-					if(SetTime%60<10){ // 타이머 표시
-						m = Math.floor(SetTime / 60) + ":" + "0"+(SetTime % 60) ;
-						
-					}else{
-						m = Math.floor(SetTime / 60) + ":" +(SetTime % 60) ;
-					}
-					
-					msg = "<br><br><br><font color='red' size='5px' style='z-index:200;'>REC</font><br>";  
-					msg += "<font color='red' size='7px' style='z-index:200;'>" + '답변시간' + "</font><br>";
-					msg += "<font color='black' size='15px' style='z-index:200;'>" + m + "</font>";
-					
-					document.all.time.innerHTML = msg;
-					
-					$('#startSynthesisAsyncButton').trigger('click'); // 면접 질문 TTS 시작
-				}else if(SetTime >= 15 ){ // 타이머 진행 중에서 space(질문 종료)15초 이후 
-					//console.log('타이머 멈추기')	;	
-					//console.log('시작카운트 : '+startCount);
-					//console.log('종료카운트 : '+endCount);
-					//console.log('최종 답변 스크립트 : ' + script);
-					
-					startCount++; // 답변 진행되면서 횟수 증가
-					$('.next-question').html("다음 질문<br><div class='spacebar-area false'>SPACE BAR</div>"); // 다음 질문 출력
-					$('#stopRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 종료
-					
-					clearInterval(tid);		// 타이머 해제
-					$('#voiceStop').trigger('click'); // 음성분석(데시벨,주파수) 종료
-					$('#pauseButton').trigger('click'); // 면접 질문 TTS 종료
-					clearInterval(aid);		// 10초마다 이미지 분석 종료
-					
-					
-					download(); // 녹화 중지
-					createAnswer(); // 마친 질문의 답변을 ajax로 보내는 메서드
-					$("#analysisData").empty(); // 비우기
-					
-					script = "다음 질문을 준비해주세요.";
-					if(startCount>=endCount){ // 모든 질문을 출력 했을 경우
-						$('.next-question').html(""); // 버튼 지우기
-						
-						script = "분석중입니다. 잠시만 기다려주세요"
-						$('.message-balloon').text(script); // 모든질문 진행 후 분석하는 안내말 표시
-						$('#time').empty();// 타이머 지우기
-						$('.attention-message.shown').css("background-image", "");// 원 지우기
-						$('.attention-message.shown').css("background-image", "url(/images/loading.16070af3.gif)"); // 원넣기
-						$('.attention-message.shown').css("background-repeat", "no-repeat"); // 원넣기
-						$('.attention-message.shown').css("margin-top", "230px"); // 마진
-						$('.attention-message.shown').css("width", "600px"); // 로딩중 설정
-
-						window.location.replace("/interview/end.do?interviewSq=${interviewSq}"); // 면접 종료시 이동하는 페이지
-					}else{
-						SetTime=0; // 타이머 시간 되돌리기
-						answer=""; // 답변 내용 초기화
-						$('.message-balloon').empty(); // 메세지 창 지우기
-						$('#time').empty(); // 타이머 표시 지우기
-						$('.message-balloon').text(script); // 다음질문 준비 표시
-						$('.attention-message.shown').html('<div id="attention">이곳을 주목해주세요!</div>'); // 주목해주세요 표시
-					}
+				if(keyCount == 0){
+					interview();
 				}
 			}
 		});
@@ -609,16 +526,11 @@
 				    var latestFrequency = (getAverageVolume(tempArray));
 				    frequencySum+=latestFrequency;
 				    
-				  voiceCount+=1; // 3번 중 한 번만 값을 입력하기위한 변수
+				  var voiceHtml = '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
+				  voiceHtml += '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >';
+				  voiceIndex+=1;
 				  
-// 				  if(voiceCount%3==0 ){
-					  var voiceHtml = '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
-					  voiceHtml += '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >';
-					  
-					  voiceIndex+=1;
-					  
-					  $("#analysisData").append(voiceHtml);
-// 				  }
+				  $("#analysisData").append(voiceHtml);
 			};
 				  
 		  // 음성 측정 멈추기
@@ -748,9 +660,9 @@
         resumeButton.disabled = true;
         wordBoundaryList = [];
         
+		TimerStart(); // 타이머 시작
         startFunction(); // 녹화 시작
 		$('#startRecognizeOnceAsyncButton').trigger('click'); // 음성 스크립트 분석 시작 
-		TimerStart(); // 타이머 시작
 		analyzeStart(); // 10초마다 이미지 분석
 		$('#voice').trigger('click'); // 음성분석(데시벨,주파수) 측정
       };
@@ -869,7 +781,7 @@
 }
 </style>
 </head>
-<body style="overflow:hidden"> <!-- 나중에 overflow hidden 해야함 -->
+<body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- TTS부분 -->
 	<div id="content" style="display:none">
 	  <table>
@@ -972,7 +884,7 @@
 	<!-- 여기까지 음성 스크립트 -->
 
 	<!-- 웹캠부분 -->
-	<div class="webcam" style="display:none">
+	<div class="webcam" style="display:">
 		<div class="contentarea">
 			<div class="camera">
 				<video id="video" autoplay muted>Video stream not available.</video>
@@ -996,7 +908,6 @@
 					<br> <img id="sourceImage" width="400" />
 				</div>
 			</div>
-			<button id="testgo">전송테스트</button>
 		</div>
 		<form id="analysisData" action="/answer/create.do" method="post">
 		
