@@ -134,7 +134,7 @@ public class CategoryController {
 			Map<String, String> map = new HashMap<>();
 			map.put("번호", categoryList.get(i).getCatSq());
 			map.put("말머리이름", categoryList.get(i).getCatContent());
-			map.put("사용여부", categoryList.get(i).getCatContent());
+			map.put("사용여부", categoryList.get(i).getCatSt());
 			data.add(map);
 		}
 		
