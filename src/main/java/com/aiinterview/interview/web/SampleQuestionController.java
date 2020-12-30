@@ -89,7 +89,7 @@ public class SampleQuestionController {
 		/* 질문 구분 목록 추출 */
 		List<QuestionGubunVO> questGbList = null;
 		try {
-			questGbList = questionGubunService.retrieveUsingList();
+			questGbList = questionGubunService.retrieveList();
 			model.addAttribute("questGbList", questGbList);
 		} catch (Exception e) {
 		}
