@@ -92,7 +92,7 @@
     										key128Bits,
 								            { iv: CryptoJS.enc.Hex.parse(iv) });
 			
-			dummy.value = "${serverIp}/analysis/share.do?sharePw="+sharePw +"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }";
+			dummy.value = "https://${serverIp}:8443/analysis/share.do?sharePw="+sharePw +"&interviewSq=${interviewVO.interviewSq }&shareMemId=${S_MEMBER.memId }";
 			dummy.select();
 			document.execCommand("copy");
 			document.body.removeChild(dummy);
