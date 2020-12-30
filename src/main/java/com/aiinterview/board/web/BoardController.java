@@ -109,8 +109,8 @@ public class BoardController {
 	
 	@RequestMapping(path = "/create.do", method = { RequestMethod.GET })
 	public String create(String boardGbSq, String boardGbNm, Model model,
-						 @RequestParam(name="groupNo", defaultValue = "0", required = false) int groupNo,
-						 @RequestParam(name="boardSq", defaultValue = "0", required = false) int parentSq) {
+						 @RequestParam(name="groupNo", defaultValue = "0", required = false) String groupNo,
+						 @RequestParam(name="boardSq", defaultValue = "0", required = false) String parentSq) {
 		try {
 			model.addAttribute("categoryList", categoryService.retrieveList(new CategoryVO(boardGbSq)));
 		} catch (Exception e) {

@@ -24,14 +24,7 @@
 						#{boardContent},
 						SYSDATE,
 						#{boardSt},
-						<choose>
-				            <when test="groupNo != null and groupNo != '0'">
-							#{groupNo},						
-							</when>
-				            <when test="groupNo == null and groupNo == '0'">
-							#{boardSq},
-							</when>
-						</choose>
+						#{groupNo},						
 						#{parentSq},
 						#{memId},
 						#{catContent})

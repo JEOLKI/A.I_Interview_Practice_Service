@@ -202,6 +202,10 @@
 		float: right;
 		margin-right: 32px;
 	}
+	
+	.firstTd{
+		width: 130px;
+	}
 </style>
 
 
@@ -220,7 +224,7 @@
 		<div class="table-responsive">
 			<table class="content-table">
 				<tr>
-					<td class="menu">제 목 :</td>
+					<td class="menu firstTd">제 목 :</td>
 					<td><div class="catContent">${boardVO.catContent}</div></td>
 					<td id="titleMenu">${boardVO.boardTitle }</td>
 					<td class="menu">작 성 자 :</td>
