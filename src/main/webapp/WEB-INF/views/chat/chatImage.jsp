@@ -179,9 +179,8 @@ to {
 			$("#image").attr("style", "display:none");
 		} else if ('${S_MEMBER.memAuth}' == 'C') {
 			$("#image").attr("style", "display:block");
-			
 			webSocket = new WebSocket(
-					"ws://"+"${serverIp}"+"/admin.do");
+					"ws://${serverIp}/admin.do");
 			webSocket.onopen = function(message) {
 			};
 			webSocket.onclose = function(message) {
@@ -200,7 +199,7 @@ to {
 		} else {
 			$("#image").attr("style", "display:block");
 			webSocket = new WebSocket(
-					"ws://"+"${serverIp}"+"/broadalarm.do");
+					"ws://${serverIp}/broadalarm.do");
 			webSocket.onopen = function(message) {
 			};
 			webSocket.onclose = function(message) {

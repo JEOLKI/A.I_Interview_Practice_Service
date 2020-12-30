@@ -46,7 +46,6 @@ public class ChatController {
 			roomList = chatService.retrieveRoomList();
 			model.addAttribute("roomList", roomList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "chat/chatRoom";
@@ -54,17 +53,17 @@ public class ChatController {
 	
 	@ResponseBody
 	@RequestMapping(path = "alarmCount.do", method = RequestMethod.GET)
-	public String alarmgCount(Model model, HttpSession session) {
+	public String alarmCount(Model model, HttpSession session) {
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-		String alarmCount = null;
-		try {
-			alarmCount = chatService.alarmCount(mv.getMemId());
-			model.addAttribute("alarmCount", alarmCount);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String alarmCount = "0";
+		if(mv!=null) {
+			try {
+				alarmCount = chatService.alarmCount(mv.getMemId());
+				model.addAttribute("alarmCount", alarmCount);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return alarmCount;
 	}
@@ -90,7 +89,6 @@ public class ChatController {
 			List<ChatVO> chatList =  chatService.retrieveList(cv);
 			model.addAttribute("chatList", chatList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "chat/member";
@@ -140,7 +138,6 @@ public class ChatController {
 			cv.setMsgReceiver(receiver);
 			chatService.create(cv);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
