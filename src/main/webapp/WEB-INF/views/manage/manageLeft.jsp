@@ -48,7 +48,7 @@
 	}
 </style>
 
-<div class="w3-sidebar w3-bar-block w3-light-grey w3-card leftbox" style="width: 200px; position: relative;">
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-card leftbox" style="width: 202px; position: relative;">
 	
 	<button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
 		회원 관리 <i class="fa fa-caret-down"></i>
@@ -63,7 +63,7 @@
 		게시판 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc1" class="w3-hide w3-white w3-card">
-		<a href="/boardGubun/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 등록/목록</a>
+		<a href="/boardGubun/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 등록 / 목록</a>
 		<a href="/boardGubun/statistic.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;게시판 통계</a>
 	</div>
 	
@@ -71,7 +71,7 @@
 		요금제 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc2" class="w3-hide w3-white w3-card">
-		<a href="/plan/manage.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;요금제 목록</a>
+		<a href="/plan/manage.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;요금제 등록 / 목록</a>
 		<a href="/plan/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;결제 내역</a>
 		<a href="/plan/statistics.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;요금제 통계</a>
 	</div>
@@ -91,22 +91,22 @@
 			&ensp;&ensp;인재상 관리<i class="fa fa-caret-down"></i>
 		</button>
 		<div id="demoAcc3_b" class="w3-hide w3-white w3-card">
-			<a href="/talent/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;인재상 관리</a>
+			<a href="/talent/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;인재상 등록 / 목록</a>
 			<a href="/talent/statistics.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;인재상 통계</a>
 		</div>
 		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_c()">
 			&ensp;&ensp;질문 관리<i class="fa fa-caret-down"></i>
 		</button>
 		<div id="demoAcc3_c" class="w3-hide w3-white w3-card">
-			<a href="/questGb/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;질문 구분 관리</a>
-			<a href="/sampQuest/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;샘플 질문 관리</a>
+			<a href="/questGb/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;질문 구분 등록 / 목록</a>
+			<a href="/sampQuest/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content" >&ensp;&ensp;&ensp;&ensp;샘플 질문 등록 / 목록</a>
 			<a href="/sampQuest/statistics.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;질문 통계</a>
 		</div>
 		<button class="w3-button w3-block w3-left-align" onclick="myAccFunc3_d()">
 			&ensp;&ensp;습관어 관리<i class="fa fa-caret-down"></i>
 		</button>
 		<div id="demoAcc3_d" class="w3-hide w3-white w3-card">
-			<a href="/habit/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;습관어 관리</a>
+			<a href="/habit/retrievePagingList.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;습관어 등록 / 목록</a>
 			<a href="/habit/statistics.do" class="w3-bar-item w3-button" target="manage_content" >&ensp;&ensp;&ensp;&ensp;습관어 통계</a>
 		</div>
 	</div>
@@ -115,7 +115,7 @@
 		스크립트 관리<i class="fa fa-caret-down"></i>
 	</button>
 	<div id="demoAcc4" class="w3-hide w3-white w3-card">
-		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content">&ensp;&ensp;스크립트 목록</a>
+		<a href="/scriptGubun/retrievePagingList.do" class="w3-bar-item w3-button"  target="manage_content">&ensp;&ensp;스크립트 등록 / 목록</a>
 		<a href="/scriptGubun/statistics.do" class="w3-bar-item w3-button" target="manage_content">&ensp;&ensp;스크립트 통계</a>
 	</div>
 	<br>
