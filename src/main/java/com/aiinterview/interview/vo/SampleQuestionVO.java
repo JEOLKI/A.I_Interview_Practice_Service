@@ -11,12 +11,10 @@ public class SampleQuestionVO extends QuestionGubunVO{
 	private String sampQuestSq;			// 샘플질문번호
 	private String sampQuestContent;	// 샘플질문 내용
 	private String sampQuestSt;			// 샘플질문 사용 여부
-//	private String questGbSq;			// 샘플질문 구문 번호 (직무)
 	
 	private String[] sampQuestSqs;			// 샘플질문번호를 받을 배열
 	private String[] sampQuestContents;	// 샘플질문 내용를 받을 배열
 	private String[] sampQuestSts;			// 샘플질문 사용 여부를 받을 배열
-//	private String[] questGbSqs;			// 샘플질문 구문 번호 (직무)를 받을 배열
 	
 	public int getRn() {
 		return rn;
@@ -48,13 +46,6 @@ public class SampleQuestionVO extends QuestionGubunVO{
 	public void setSampQuestSt(String sampQuestSt) {
 		this.sampQuestSt = sampQuestSt;
 	}
-//	public String getQuestGbSq() {
-//		return questGbSq;
-//	}
-//	public void setQuestGbSq(String questGbSq) {
-//		this.questGbSq = questGbSq;
-//	}
-//	
 	
 	
 	public String[] getSampQuestSqs() {
@@ -75,12 +66,6 @@ public class SampleQuestionVO extends QuestionGubunVO{
 	public void setSampQuestSts(String[] sampQuestSts) {
 		this.sampQuestSts = sampQuestSts;
 	}
-//	public String[] getQuestGbSqs() {
-//		return questGbSqs;
-//	}
-//	public void setQuestGbSqs(String[] questGbSqs) {
-//		this.questGbSqs = questGbSqs;
-//	}
 	
 	
 }

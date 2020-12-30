@@ -1,6 +1,7 @@
 package com.aiinterview.interview.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,12 @@ public class SampleQuestionService {
 
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
 
+		  List<SampleQuestionVO> sampQuestList = sampleQuestionMapper.retrieveList();
+		  List<String> contentList = new ArrayList<>();
+		  for(SampleQuestionVO exist : sampQuestList) {
+			  contentList.add(exist.getSampQuestContent());
+		  }
+		  
 		  SampleQuestionVO sampQuestVO = null;
 		  for(Map<String, String> sampQuest : excelContent) {
 			  sampQuestVO = new SampleQuestionVO();
@@ -76,7 +83,11 @@ public class SampleQuestionService {
 			  sampQuestVO.setSampQuestSt(sampQuest.get("C"));
 			  sampQuestVO.setQuestGbSq(sampQuest.get("D"));
 			  
-			  sampleQuestionMapper.create(sampQuestVO);
+			  if(contentList.contains(sampQuest.get("B"))) {
+				  sampleQuestionMapper.createUpdate(sampQuestVO);
+			  }else {
+				  sampleQuestionMapper.create(sampQuestVO);
+			  }
 		  }
 		
 	}

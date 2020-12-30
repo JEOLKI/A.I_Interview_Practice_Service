@@ -29,6 +29,15 @@
 		 WHERE samp_quest_sq = #{sampQuestSq} 
 	</update>
 	
+	<!-- insert 대체 -->
+	<update id="createUpdate">
+		UPDATE sample_question 
+		   SET samp_quest_st = #{sampQuestSt},
+			   quest_gb_sq = #{questGbSq}  
+		 WHERE samp_quest_content = #{sampQuestContent}
+	</update>
+	
+	
 	
 	<!-- 페이징 : 해당 페이지리스트 select -->
 	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.SampleQuestionVO">

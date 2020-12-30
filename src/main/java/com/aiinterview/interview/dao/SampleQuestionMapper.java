@@ -79,4 +79,10 @@ public interface SampleQuestionMapper {
 	 */
 	public SampleQuestionVO retrieveOne(String sampQuestSq) throws Exception;
 
+	/**
+	 * 이미 존재하는 샘플질문을 등록하려 할때 업데이트로 데체할 메서드
+	 * @param sampQuestVO
+	 */
+	public void createUpdate(SampleQuestionVO sampQuestVO);
+
 }

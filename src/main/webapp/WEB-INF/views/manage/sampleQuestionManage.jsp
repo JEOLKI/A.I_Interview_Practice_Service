@@ -248,17 +248,17 @@ function updateList() {
 		</div>			
 		<div class="contentBox">
 			<h3>샘플 질문 목록</h3>
-			<form:form commandName="questionGubunVO" id="listForm" name="listForm" method="post">
 			<div class="blog-main">
 				<div class="menu">
 					<div class="excelmenu">
 						<a class="excelBtn" href="${cp }/sampQuest/list/excelDown.do">↓ excel다운로드</a> 
 						<span  class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
 						<!-- excel file 읽어오기 -->
-					    <form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="${cp }/sampQuest/massiveCreateProcess.do" >
+					    <form hidden id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="${cp }/sampQuest/massiveCreateProcess.do"/>" >
 					        <input type="file" name="excelFile" hidden/>
 					    </form>
 					</div>
+				<form:form commandName="sampleQuestionVO" id="listForm" name="listForm" method="post">
 					<div class="listmenu">
 						<select id="sort">
 							<c:forEach var="value" begin="5" end="20" step="5">
@@ -322,8 +322,8 @@ function updateList() {
 					<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 					<form:hidden path="pageIndex" />
 				</div>
-			</div>	
 			</form:form>
+			</div>	
 		</div>
 </body>
 </html>
