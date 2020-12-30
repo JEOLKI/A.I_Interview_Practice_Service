@@ -183,6 +183,7 @@ public class SampleQuestionController {
 			int updateCnt=0;
 			for(int i = 0; i<sampQuestVO.getSampQuestSqs().length; i++) {
 				SampleQuestionVO updateSampQuestVO = sampleQuestionService.retrieveOne(sampQuestVO.getSampQuestSqs()[i]);
+				updateSampQuestVO.setQuestGbSq(sampQuestVO.getQuestGbSqs()[i]);
 				updateSampQuestVO.setSampQuestContent(sampQuestVO.getSampQuestContents()[i]);
 				updateSampQuestVO.setSampQuestSt(sampQuestVO.getSampQuestSts()[i]);
 				updateCnt += sampleQuestionService.update(updateSampQuestVO);
