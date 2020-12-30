@@ -35,10 +35,6 @@
 	cursor: pointer;
 	padding : 13px 40px;
 }
-#searchBtn{
-	width: 90px;
-	height: 40px;
-}
 </style>
 <script>
 $(document).ready(function(){
@@ -164,11 +160,10 @@ $(document).ready(function(){
 	});
 	
 	// 키워드 검색 에이잭스
-	$("#searchBtn").on('click',function(){
+	$("#search").keyup(function(){
 		searchKeyword = $('#search').val();
 		if(searchKeyword == ''){
 			$('.searched-question.result').remove();
-			alert('검색 키워드를 입력해주세요');
 		}else{
 			$.ajax(
 				{url:"/sampQuest/retrieve.do",
@@ -254,7 +249,6 @@ function setting(){
 									<span aria-hidden="true" class="fa fa-search fa undefined">
 									</span> 
 									<input id="search" type="text" placeholder="회사명, 직무명 등 키워드로 질문을 검색하세요."value="">
-									<input id="searchBtn" type="button" value="검색">
 								</div>
 								<div class="questions-area">
 									<div class="search-result">
