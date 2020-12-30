@@ -175,7 +175,7 @@
 			speedHtml += 		'<span>300</span>';
 			speedHtml += 	'</div>';
 			speedHtml += 	'<div class="minute-text">';
-			speedHtml +=		'<span>1분당</span><br><b>'+speed+'</b>자';
+			speedHtml +=		'<span>1분당</span><br><b>'+Math.ceil(speed)+'</b>자';
 			speedHtml +=	'</div>';
 			// 평균대비 속도 퍼센트
 			speedHtml += 	'<div class="error-percent">';
@@ -193,7 +193,7 @@
 			speedHtml += 		'<span>300</span>';
 			speedHtml += 	'</div>';
 			speedHtml += 	'<div class="minute-text">';
-			speedHtml +=		'<span>1분당</span><br><b>'+speed+'</b>자';
+			speedHtml +=		'<span>1분당</span><br><b>'+Math.ceil(speed)+'</b>자';
 			speedHtml +=		'</div>';
 			// 평균대비 속도 퍼센트
 			speedHtml += 	'<div class="error-percent">';
