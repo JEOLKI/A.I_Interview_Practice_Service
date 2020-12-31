@@ -206,7 +206,7 @@
 				<div class="input-group">
 		       		<ul class="button-search" id="uitest">
 	        			<li>
-	        				<form:select path="searchCondition" cssClass="custom-select">
+	        				<form:select path="searchCondition" cssClass="custom-select" style="display:none;">
 	        					<form:option value="0" label="내용" />
 	        				</form:select>
 	                        <form:input  path="searchKeyword" cssClass="custom-input"/>
