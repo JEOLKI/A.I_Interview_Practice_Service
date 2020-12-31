@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 	$('#payment').on('click', function(){
 		if(check>0){
-			alert("아직 이용권 기간이 남아 있습니다.");
+			alert("사용중인 이용권 기간이 남아 있습니다.");
 		}else{
 			var IMP = window.IMP; // 생략가능
 			IMP.init('imp67005883'); 	//가맹점 식별코드
