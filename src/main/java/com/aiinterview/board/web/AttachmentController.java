@@ -16,7 +16,7 @@ public class AttachmentController {
 	@Resource(name="attachmentService")
 	private AttachmentService attachmentService;
 	
-	@RequestMapping("/download")
+	@RequestMapping("/download.do")
 	public String download(String atchSq, Model model) {
 
 		AttachmentVO attachmentVO = new AttachmentVO();

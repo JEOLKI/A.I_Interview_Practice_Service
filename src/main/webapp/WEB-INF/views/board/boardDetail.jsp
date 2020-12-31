@@ -237,7 +237,7 @@
 					<td class="menu">첨 부 파 일 :</td>
 					<td colspan='6' id="atchMenu">
 						<c:forEach items="${attachmentList }" var="attachment">
-							<a href='${pageContext.request.contextPath }/attachment/download?atchSq=${attachment.atchSq }' >${attachment.atchNm }</a> <br>
+							<a href='${pageContext.request.contextPath }/attachment/download.do?atchSq=${attachment.atchSq }' >${attachment.atchNm }</a> <br>
 						</c:forEach>
 					</td>
 				</tr>
