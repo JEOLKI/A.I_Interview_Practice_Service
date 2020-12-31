@@ -63,9 +63,18 @@
 			MEM_TARGET_JOB 		= #{memTargetJob},
 			MEM_GENDER 			= #{memGender},
 			SEARCH_JOB_DATE 	= #{searchJobDate},
-			MEM_MAJOR			= #{memMajor},
-			MEM_PROFILE_NM 		= #{memProfileNm},
-			MEM_PROFILE_PATH 	= #{memProfilePath}
+			MEM_MAJOR			= #{memMajor}
+			<choose>
+				<when test="memProfileNm !=null and memProfileNm != ''">
+					,MEM_PROFILE_NM 		= #{memProfileNm}
+				
+				</when>
+			</choose>
+			<choose>
+				<when test="memProfilePath !=null and memProfilePath != ''">
+					,MEM_PROFILE_PATH 	= #{memProfilePath}
+				</when>
+			</choose>
 			<choose>
 	            <when test="memAuth != null and memAuth != ''">
 				,MEM_AUTH			= #{memAuth}

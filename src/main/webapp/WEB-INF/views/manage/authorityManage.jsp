@@ -1,37 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html5>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
-
-<script type="text/javascript" language="javascript" defer="defer">
-	 /* pagination 페이지 링크 function */
-    function linkPage(pageNo){
-    	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
-    	document.listForm.pageIndex.value = pageNo;
-    	document.listForm.action = "<c:url value='/member/authorityManage.do'/>";
-       	document.listForm.submit();
-    }
-	 
-	/* 검색 */
-	function searchList(){
-		document.listForm.action = "<c:url value='/member/authorityManage.do'/>";
-       	document.listForm.submit();
-	}
-	
-	$(document).ready(function(){
-		// 정렬 값에 따라 회원 출력개수 변경
-		$('#sort').on('change',function(){
-			pageUnit = $(this).val();
-			document.location="/member/authorityManage.do?pageUnit="+pageUnit;
-		})
-	})
-	
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insert title here</title>
 
 <style type="text/css">
 	
@@ -140,13 +116,52 @@
 	    color: #fff;
 	}
 	.updateBtn{
-		width : 100px;
+		width: 70px;
+		float: right;
+		margin-right: 32%;
+    	margin-top: 10px;
+	}
+	.list{
+		margin : 10px 0px;
 	}
 	
 	
 </style>
 
-
+<script type="text/javascript" language="javascript" defer="defer">
+	$(document).ready(function(){
+		// 정렬 값에 따라 회원 출력개수 변경
+		$('#sort').on('change',function(){
+			pageUnit = $(this).val();
+			document.location="/member/authorityManage.do?pageUnit="+pageUnit;
+		})
+		
+		$('.updateBtn').on('click', function(){
+			$(this).parent().submit();
+		});
+	})
+	 /* pagination 페이지 링크 function */
+    function linkPage(pageNo){
+    	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+    	console.log(pageUnit)
+    	document.listForm.pageIndex.value = pageNo;
+    	document.listForm.action = "<c:url value='/member/authorityManage.do?pageUnit="+pageUnit+"'/>";
+       	document.listForm.submit();
+    }
+	 
+	/* 검색 */
+	function searchList(){
+		document.listForm.action = "<c:url value='/member/authorityManage.do'/>";
+       	document.listForm.submit();
+	}
+	
+	/* 수정 */
+	function updateList() {
+		document.listForm.action = "<c:url value='/member/authorityChange.do'/>";
+		document.listForm.submit();
+	}
+	
+</script>
 </head>
 <body>
 	<h1>회원 관리</h1>
@@ -187,38 +202,35 @@
 			    
 				<div class="table-responsive">
 					<c:forEach items="${resultList }" var="member">
-						<form class="updateFrm" action="/member/authorityChange.do" method="post">
-							<c:choose>
-								<c:when test="${member.memId != S_MEMBER.memId }">
-									<input type="text" class="memId" name="memId" value="${member.memId}" readonly="readonly">
-									<select class="memAuth" name="memAuth">
-										<c:choose>
-											<c:when test="${member.memAuth == 'Y' }">
-												<option value="Y" selected="selected">관리자</option>
-												<option value="C">상담사</option>
-												<option value="N">일반회원</option>
-											</c:when>
-											<c:when test="${member.memAuth == 'C' }">
-												<option value="C" selected="selected">상담사</option>
-												<option value="N">일반회원</option>
-												<option value="Y">관리자</option>
-											</c:when>
-											<c:otherwise>
-												<option value="N" selected="selected">일반회원</option>
-												<option value="Y">관리자</option>
-												<option value="C">상담사</option>
-											</c:otherwise>
-										</c:choose>
-									</select>
-									<button type="submit" class="updateBtn">권한 수정</button>
-								</c:when>
-							</c:choose>
-						</form>
+						<div class="list">
+							<input type="text" class="memId" name="memIds" value="${member.memId}" readonly="readonly">
+							<select class="memAuth" name="memAuths">
+								<c:choose>
+									<c:when test="${member.memAuth == 'Y' }">
+										<option value="Y" selected="selected">관리자</option>
+										<option value="C">상담사</option>
+										<option value="N">일반회원</option>
+									</c:when>
+									<c:when test="${member.memAuth == 'C' }">
+										<option value="C" selected="selected">상담사</option>
+										<option value="N">일반회원</option>
+										<option value="Y">관리자</option>
+									</c:when>
+									<c:otherwise>
+										<option value="N" selected="selected">일반회원</option>
+										<option value="Y">관리자</option>
+										<option value="C">상담사</option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+							<div class="updateCheck" style="display: inline-block;">&nbsp;</div>
+						</div>
 					</c:forEach>
 				</div>
-			
+				<a class="updateBtn" id="updateBtn" onclick="updateList()">수정</a>
+				<br>
 				<div class= "paging">
-					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+					<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"/>
 					<form:hidden path="pageIndex" />
 				</div>
 			</div>

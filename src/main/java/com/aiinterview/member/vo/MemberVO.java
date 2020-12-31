@@ -26,6 +26,27 @@ public class MemberVO extends BaseVO {
 	
 	private String count; // 그룹별 이용자 수를 세는 필드
 	
+	private String[] memIds; // 멤버 아이디를 받기위한 배열
+	private String[] memAuths; // 멤버 권한을 받기위한 배열
+	
+	
+	
+	public String[] getMemIds() {
+		return memIds;
+	}
+
+	public void setMemIds(String[] memIds) {
+		this.memIds = memIds;
+	}
+
+	public String[] getMemAuths() {
+		return memAuths;
+	}
+
+	public void setMemAuths(String[] memAuths) {
+		this.memAuths = memAuths;
+	}
+
 	public String getCount() {
 		return count;
 	}
