@@ -8,12 +8,20 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
 <script type="text/javascript">
+$(document).ready(function(){
+	// 정렬 값에 따라 회원 출력개수 변경
+	$('#sort').on('change',function(){
+		var pageUnit = $(this).val();
+		document.location="/member/retrievePagingList.do?pageUnit="+pageUnit;
+	})
+})
 
 /* pagination 페이지 링크 function */
 function linkPage(pageNo){
-	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+	pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
 	document.listForm.pageIndex.value = pageNo;
-	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
+	document.listForm.pageUnit.value = pageUnit;
+	document.listForm.action = "/member/retrievePagingList.do?pageUnit="+pageUnit;
    	document.listForm.submit();
 }
  
@@ -23,13 +31,6 @@ function searchList(){
    	document.listForm.submit();
 }
 
-$(document).ready(function(){
-	// 정렬 값에 따라 회원 출력개수 변경
-	$('#sort').on('change',function(){
-		pageUnit = $(this).val();
-		document.location="/member/retrievePagingList.do?pageUnit="+pageUnit;
-	})
-})
 
 </script>
 <style>
@@ -231,9 +232,9 @@ $(document).ready(function(){
 							</tbody>
 						</table>
 					</div>
-					
+					<form:hidden path="pageUnit" />
 					<div class = "paging">
-						<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+						<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"/>
 						<form:hidden path="pageIndex" />
 					</div>
 				

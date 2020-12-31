@@ -277,8 +277,8 @@ public class MemberController {
 		return "agreement/marketingAgree";
 	}
 	
-	@RequestMapping(path = "/retrievePagingList.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String retrievePagingList(MemberVO memberVO, String pageUnit, HttpSession session, ModelMap model) {
+	@RequestMapping(path ="/retrievePagingList.do",method = { RequestMethod.GET })
+	public String retrievePagingList(MemberVO memberVO, String pageUnit, Model model) {
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
 		
@@ -286,6 +286,8 @@ public class MemberController {
 		memberVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		memberVO.setPageSize(propertiesService.getInt("pageSize"));
 
+		memberVO.setPageUnit(pageUnitInt);
+		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(memberVO.getPageIndex());
@@ -296,23 +298,17 @@ public class MemberController {
 		memberVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		memberVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<MemberVO> resultList = new ArrayList<>();
+		List<MemberVO> resultList;
 		try {
 			resultList = memberService.retrievePagingList(memberVO);
+			model.addAttribute("resultList", resultList);
+			
+			int totCnt = memberService.retrievePagingListCnt(memberVO);
+			paginationInfo.setTotalRecordCount(totCnt);
+			model.addAttribute("paginationInfo", paginationInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("resultList", resultList);
-
-		int totCnt = 0;
-		try {
-			totCnt = memberService.retrievePagingListCnt(memberVO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
-
 		return "manage/memberManage";
 	}
 	
@@ -377,7 +373,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping(path="authorityManage.do")
-	public String authorityManage(MemberVO memberVO, String pageUnit, HttpSession session, ModelMap model) {
+	public String authorityManage(MemberVO memberVO, String pageUnit, Model model) {
+		
 		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 		model.addAttribute("pageUnit" , pageUnitInt);
 		
@@ -385,6 +382,8 @@ public class MemberController {
 		memberVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		memberVO.setPageSize(propertiesService.getInt("pageSize"));
 
+		memberVO.setPageUnit(pageUnitInt);
+		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(memberVO.getPageIndex());
@@ -395,43 +394,42 @@ public class MemberController {
 		memberVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		memberVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<MemberVO> resultList = new ArrayList<>();
+		List<MemberVO> resultList;
 		try {
 			resultList = memberService.retrievePagingList(memberVO);
+			model.addAttribute("resultList", resultList);
+			
+			int totCnt = memberService.retrievePagingListCnt(memberVO);
+			paginationInfo.setTotalRecordCount(totCnt);
+			model.addAttribute("paginationInfo", paginationInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("resultList", resultList);
-
-		int totCnt = 0;
-		try {
-			totCnt = memberService.retrievePagingListCnt(memberVO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
-		
 		return "manage/authorityManage";
 	}
 	
 	@RequestMapping(path="authorityChange.do")
-	public String authorityChange(MemberVO memberVO) {
-		MemberVO changeMemberVO = null;
-		try {
-			changeMemberVO = memberService.retrieve(memberVO.getMemId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		changeMemberVO.setMemAuth(memberVO.getMemAuth());
-		try {
-			memberService.update(changeMemberVO);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public String authorityChange(MemberVO memberVO, Model model) {
+			int updateCnt = 0;
+			
+			for(int i = 0; i < memberVO.getMemIds().length; i ++) {
+				MemberVO updateMemberVO = null;
+				try {
+					updateMemberVO = memberService.retrieve(memberVO.getMemIds()[i]);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				updateMemberVO.setMemAuth(memberVO.getMemAuths()[i]);
+				try {
+					updateCnt += memberService.update(updateMemberVO);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
 		return "redirect:/member/authorityManage.do";
 	}
-	
+			
 	@RequestMapping(path="statistic.do")
 	public String statistics() {
 		return"manage/memberStatistic";
