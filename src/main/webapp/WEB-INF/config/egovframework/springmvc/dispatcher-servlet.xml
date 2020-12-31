@@ -127,9 +127,7 @@
 			<mvc:exclude-mapping path="/boardGubun/**"/>
 			<mvc:exclude-mapping path="/analysis/**"/>
 			<mvc:exclude-mapping path="/chat/**"/>
-			<mvc:exclude-mapping path="/member/profile.do"/>
-			<mvc:exclude-mapping path="/member/idCheck.do"/>
-			<mvc:exclude-mapping path="/member/aliasCheck.do"/>
+			<mvc:exclude-mapping path="/member/**"/>
 			<mvc:exclude-mapping path="/answer/video.do"/>
 			<bean class="com.aiinterview.common.web.SessionCheckInterceptor"/>
 		</mvc:interceptor>
@@ -140,7 +138,7 @@
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
-			<mvc:mapping path="/interview/**"/>
+			<mvc:mapping path="/interview/ready.do"/>
 			<mvc:exclude-mapping path="/**/manage/**"/>
 			<mvc:exclude-mapping path="/login/**"/>
 			<mvc:exclude-mapping path="/boardGubun/**"/>
