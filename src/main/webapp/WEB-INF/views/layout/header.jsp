@@ -82,6 +82,7 @@
 	.input-left {
 		width: 70%;
 		float: left;
+		margin-left : 2px;
 	}
 	
 	.input {
@@ -93,6 +94,7 @@
 	.inputname{
 		display: inline-block;
 		width: 35%;
+		text-align: left;
 	}
 	
 	#searchbtn {
@@ -133,7 +135,7 @@
 	
 	#searchPwBtn{
 		width: 70px;
-		height: 70px;
+		height: 110px;
 		margin-left: 3%;
 	}
 	
@@ -197,7 +199,17 @@
 	.nav{
 		padding-top: 17px; 
 	}
-	
+	#loginLogo{
+		width: 200px;
+		margin-top : 10px;
+		margin-bottom: 12px;
+	}
+	#loginPage{
+		margin-left : 5px;
+	}
+	.loginFail{
+		margin-bottom: 10px;
+	}
 </style>
 
 <script>
@@ -224,11 +236,24 @@ $(document).ready(function() {
     	retrievePw();
     });
     $('#changebtn').on('click',function(){
-    	if($('#memPw1').val()== $('#memPw2').val()){
-    		updatePw();
-    	}else{
-    		alert('비밀번호가 일치 하지 않습니다.');
-    	}
+		if($('#memPw1').val()!='' && $('#memPw2').val()!=''){
+			if($('#memPw1').val()!=$('#memPw2').val()){
+				if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw1").val()) || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw2").val())){
+					$('#checkPw').empty();
+					$('#checkPw').append('<span style="color:red">비밀번호는 최소 하나의 문자, 숫자로 최소 8자리 입력가능합니다.</span><br><br>');
+				}else{
+					$('#checkPw').empty();
+					$('#checkPw').append('<span style="color:red">비밀번호가 일치하지 않습니다</span><br><br>');
+				}
+			}else if($('#memPw1').val()==$('#memPw2').val()){
+				if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw1").val()) || !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test($("#memPw2").val())){
+					$('#checkPw').empty();
+					$('#checkPw').append('<span style="color:red">비밀번호는 최소 하나의 문자, 숫자로 최소 8자리 입력가능합니다.</span><br><br>');
+				}else{
+					updatePw();
+				}
+			}
+		}
     });
     
     $('.profile-btn.false').on('click',function(){
@@ -255,6 +280,7 @@ $(document).ready(function() {
    			data : {memNm : memNm, memTel :memTel},
    			method : "get",
    			success : function(data){
+   				console.log(data.searchMemberVo)
    				if(data.searchMemberVo==null){
    					html = '<br>'+'일치하는 회원정보가 존재하지 않습니다.';
 	   				$('#findId').html(html);
@@ -278,7 +304,6 @@ $(document).ready(function() {
    			data : {memNm : memNm, memTel :memTel, memId : memId},
    			method : "get",
    			success : function(data){
-   				//console.log(data.searchMemberVo);
    				if(data.searchMemberVo == null){
    					html = '일치하는 회원정보가 존재하지 않습니다.';
    					$('#findPw').html(html);
@@ -305,9 +330,11 @@ $(document).ready(function() {
 	   			success : function(data){
 	   				//console.log(data.updateCnt);
 	   				if(data.updateCnt == 1){
+	   					$('#checkPw').empty();
 		   				alert("비밀번호 변경이 완료되었습니다.");
 		   				document.location = '/login/main.do';
 	   				}else{
+	   					$('#checkPw').empty();
 		   				alert("비밀번호 변경이 실패되었습니다.");
 	   				}
 	   			},
@@ -321,6 +348,7 @@ $(document).ready(function() {
 //팝업 Close 기능
 function close_pop(flag) {
 	$('#myModal').hide();
+	$('.loginFail').empty();
 };
 function search_close_pop(flag) {
 	$('#searchModal').hide();
@@ -440,13 +468,12 @@ function boardGubunList(){
 
 		<!-- Modal content -->
 		<div id="modal-content">
-			<p style="text-align: center;">
-				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">당신 옆의<br>면접 트레이너
-					</span></b></span>
-			</p>
-			<p style="text-align: center; line-height: 1.5;">
-				<br />
+			<p id="loginPage" style="text-align: left;" >
+				<span style="font-size: 14pt;"><b>
+				<span style="font-size: 24pt;">당신 옆의
+				<br>면접 트레이너
+				</span></b></span>
+				<img id="loginLogo" src="/images/ai_interview_logo_big.png">
 			<form action="/login/process.do" method="post">
 				<div class="input-left">
 					<span class="inputname">아이디</span> <input class="input" type="text" name="loginMemId"><br>
@@ -455,13 +482,13 @@ function boardGubunList(){
 				<div class="input-right">
 					<button id="loginbtn" type="submit">로그인</button>
 				</div>
+				<div class="loginFail">
+				</div>
 				<div class="search">
 					<a>아이디/비밀번호 찾기</a>
 				</div>
 			</form>
-			<p>
-				<br />
-			</p>
+			<br>
 			<div
 				style="font-weight: bold; color: white; cursor: pointer; background-color: #3b3b46; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onClick="close_pop();">
@@ -477,7 +504,7 @@ function boardGubunList(){
 		<div id="searchModal-content">
 			<p style="text-align: left;">
 				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">[아이디찾기]
+						style="font-size: 24pt;">아이디찾기
 					</span></b></span>
 			</p>
 			<p style="text-align: center; line-height: 1.5;">
@@ -486,7 +513,7 @@ function boardGubunList(){
 					<span class="inputname">이름 </span> <input id="searchIdName" name="memNm" class="input" type="text"><br>
 					<span class="inputname">연락처</span> <input id="searchIdTel" name="memTel" class="input" type="text"><br>
 				</div>
-				<div class="input-right">
+				<div class="input-right" style="margin-bottom: 10px;">
 					<button id="searchIdBtn" type="button">찾기</button>
 				</div>
 			</form>
@@ -496,7 +523,7 @@ function boardGubunList(){
 			
 			<p style="text-align: left;">
 				<span style="font-size: 14pt;"><b><span
-						style="font-size: 24pt;">[비밀번호찾기]
+						style="font-size: 24pt;">비밀번호찾기
 					</span></b></span>
 			</p>
 			<form action="">
@@ -509,7 +536,7 @@ function boardGubunList(){
 					<button id="searchPwBtn" type="button">찾기</button>
 				</div>
 			</form>
-			<div style=" margin-top: 60px;">
+			<div style=" margin-top: 20px;">
 				<span style="color: red;" id="findPw"></span>
 			</div>
 			<br>
@@ -539,6 +566,9 @@ function boardGubunList(){
 				</div>
 				<div class="input-right">
 					<button id="changebtn" type="button">변경</button>
+				</div>
+				<div id="checkPw">
+				
 				</div>
 			</form>
 			<div
