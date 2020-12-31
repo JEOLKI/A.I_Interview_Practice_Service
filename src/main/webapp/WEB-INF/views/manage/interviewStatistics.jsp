@@ -31,12 +31,14 @@
 	});
 	
 	function StatisticsChart(interviewList){
-		var count = 0;
 		datas = [];
+		var max = 0;
 		for(var i = 0; i<interviewList.length; i++ ){
 			data = { "date" : interviewList[i].interviewDate , "value" : interviewList[i].count }
 			datas.push(data);
-			count += 1;
+			if(interviewList[i].count>max){
+				max = interviewList[i].count;
+			}
 		}
 		
 		trendLine = [];
@@ -76,7 +78,7 @@
 			
 			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 			valueAxis.min = 0;
-			valueAxis.max = count + 1;
+			valueAxis.max = max + 1;
 			valueAxis.renderer.minGridDistance = 50;
 			
 			// Create series
