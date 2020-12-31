@@ -225,7 +225,7 @@
 							<c:when test="${board.boardSt =='N' }">
 								<td style="text-align: left;"><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
 	                           		<c:if test="${board.level != 1 }">└─</c:if>
-									[ 삭제된 게시글 입니다. ]
+									[ 삭제된 게시글 입니다 ]
 								</td>
 							</c:when>
 							<c:otherwise>
