@@ -296,12 +296,33 @@
 		</table>
 		
 		<div class='btnGrp'>
-			<c:if test="${boardVO.memId == S_MEMBER.memId }">
-				<a id="boardUpdateBtn" href="${pageContext.request.contextPath }/board/update.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}">수정</a>
-				<a id="boardDelBtn" href="${pageContext.request.contextPath }/board/delete.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}&boardGbNm=${boardGbNm }">삭제</a>
-			</c:if>
-			
-			<a id="boardChildBtn" href="${pageContext.request.contextPath }/board/create.do?memId=${S_MEMBER.memId }&boardGbSq=${boardVO.boardGbSq }&boardSq=${boardVO.boardSq }&groupNo=${boardVo.groupNo }">답글</a>
+		
+			<c:choose>
+					<c:when test="${boardGbSq =='1' }">
+						<c:if test="${S_MEMBER.memAuth != 'N' }">
+						
+							<c:if test="${boardVO.memId == S_MEMBER.memId }">
+								<a id="boardUpdateBtn" href="${pageContext.request.contextPath }/board/update.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}">수정</a>
+								<a id="boardDelBtn" href="${pageContext.request.contextPath }/board/delete.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}&boardGbNm=${boardGbNm }">삭제</a>
+							</c:if>
+							
+							<a id="boardChildBtn" href="${pageContext.request.contextPath }/board/create.do?memId=${S_MEMBER.memId }&boardGbSq=${boardVO.boardGbSq }&boardSq=${boardVO.boardSq }&groupNo=${boardVO.groupNo }">답글</a>
+		
+						</c:if>
+					</c:when>
+					<c:otherwise>
+					
+							<c:if test="${boardVO.memId == S_MEMBER.memId }">
+								<a id="boardUpdateBtn" href="${pageContext.request.contextPath }/board/update.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}">수정</a>
+								<a id="boardDelBtn" href="${pageContext.request.contextPath }/board/delete.do?boardSq=${boardVO.boardSq }&boardGbSq=${boardGbSq}&boardGbNm=${boardGbNm }">삭제</a>
+							</c:if>
+							
+							<a id="boardChildBtn" href="${pageContext.request.contextPath }/board/create.do?memId=${S_MEMBER.memId }&boardGbSq=${boardVO.boardGbSq }&boardSq=${boardVO.boardSq }&groupNo=${boardVO.groupNo }">답글</a>
+		
+					</c:otherwise>
+					
+			</c:choose>
+		
 			<a id="backListBtn"  href="${cp }/board/retrievePagingList.do?boardGbSq=${boardGbSq }&boardGbNm=${boardGbNm }">목록으로</a>
 		</div>
 		
