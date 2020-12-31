@@ -28,10 +28,10 @@ public interface KeywordMatchingMapper {
 
 	/**
 	 * 해당인재상의 키워드를 삭제하는 메서드
-	 * @param deleteMap
+	 * @param keywordMatchingVO
 	 * @return
 	 */
-	public int delete(Map<String, String> deleteMap);
+	public int delete(KeywordMatchingVO keywordMatchingVO);
 
 	/**
 	 * 키워드를 인재상에 매칭하는 메서드
@@ -42,16 +42,29 @@ public interface KeywordMatchingMapper {
 
 	/**
 	 * 해당 매칭을 조회하는 메서드
-	 * @param createMap
+	 * @param keywordMatchingVO
 	 * @return
 	 */
-	public int retrieve(Map<String, String> createMap) throws Exception;
+	public int retrieve(KeywordMatchingVO keywordMatchingVO) throws Exception;
 
 	/**
 	 * 키워드 매칭 리스트를 조회하는 메서드
 	 * @return
 	 */
 	public List<KeywordMatchingVO> retrieveList() throws Exception;
+
+	/**
+	 * 키워드 매칭VO 한개를 조회하는 메서드
+	 * @param keywordMatchingVO
+	 * @return
+	 */
+	public KeywordMatchingVO retrieveOne(KeywordMatchingVO keywordMatchingVO);
+
+	/**
+	 * 이미 등록되어있는 키워드 매칭을 다시 등록하려 할 때 update로 대체할 메서드
+	 * @param keywordMatchingVO
+	 */
+	public int createUpdate(KeywordMatchingVO keywordMatchingVO);
 	
 	
 	

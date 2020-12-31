@@ -5,46 +5,38 @@
   
 <mapper namespace="com.aiinterview.interview.dao.KeywordMatchingMapper">
 	
-	<!-- 등록 -->
-<!-- 	<insert id="create" > -->
-<!-- 		<selectKey keyProperty="keywordSq" resultType="String" order="AFTER"> -->
-<!-- 			SELECT keywordSq from dual  -->
-<!-- 		</selectKey> -->
-<!-- 			INSERT INTO keyword_matching (talent_sq, keyword_sq) -->
-<!-- 			VALUES (#{talentSq}, #{keywordSq})  -->
-<!-- 	</insert> -->
-
-	<!-- 삭제 -->
-<!-- 	<update id="delete" parameterType="hashmap" > -->
-<!-- 		DELETE  -->
-<!-- 		  FROM keyword_matching  -->
-<!-- 		 WHERE keyword_sq = #{keywordSq} -->
-<!-- 		   AND talent_sq = #{talentSq}   -->
-<!-- 	</update> -->
-	
-	<!-- @@@@@@@@@@@@@@@@@@@@@@@ 이하 모델링 수정 이후 @@@@@@@@@@@@@@@@@@@@@@@@ -->
-	
-	<insert id="create" parameterType="hashmap">
-		<selectKey resultType="String" order="BEFORE">
-			SELECT '1' FROM dual
-		</selectKey>
-		INSERT INTO keyword_matching (talent_sq, keyword_sq)
-		    VALUES (#{talentSq}, #{keywordSq})
+	<insert id="create" parameterType="com.aiinterview.interview.vo.KeywordMatchingVO">
+		INSERT INTO keyword_matching (talent_sq, keyword_sq, matching_st)
+		    VALUES (#{talentSq}, #{keywordSq} , 'Y')
 	</insert>
 	
-	<select id="retrieve" parameterType="hashmap" resultType="int">
-		SELECT count(*)
+	<insert id="createUpdate" parameterType="com.aiinterview.interview.vo.KeywordMatchingVO">
+		UPDATE keyword_matching 
+		   SET matching_st = 'Y'
+		 WHERE talent_sq = #{talentSq}
+		   AND keyword_sq = #{keywordSq}
+	</insert>
+	
+	<select id="retrieve" parameterType="com.aiinterview.interview.vo.KeywordMatchingVO" resultType="int">
+		SELECT count(*) 
 		  FROM keyword_matching 
 		 WHERE talent_sq = #{talentSq}
 		   AND keyword_sq = #{keywordSq}
 	</select>
 	
-	<delete id="delete" parameterType="hashmap">
-		DELETE
-		  FROM keyword_matching
+	<select id="retrieveOne" parameterType="com.aiinterview.interview.vo.KeywordMatchingVO" resultType="com.aiinterview.interview.vo.KeywordMatchingVO">
+		SELECT *
+		  FROM keyword_matching 
+		 WHERE talent_sq = #{talentSq}
+		   AND keyword_sq = #{keywordSq}
+	</select>
+	
+	<update id="delete" parameterType="com.aiinterview.interview.vo.KeywordMatchingVO">
+		UPDATE keyword_matching
+		   SET matching_st = 'N'
 		 WHERE talent_sq = TO_NUMBER(#{talentSq})
 		   AND keyword_sq = TO_NUMBER(#{keywordSq})
-	</delete>
+	</update>
 	
 	<select id="retrieveList" resultType="com.aiinterview.interview.vo.KeywordMatchingVO">
 		SELECT *

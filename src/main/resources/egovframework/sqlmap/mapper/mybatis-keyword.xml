@@ -18,7 +18,8 @@
 		          FROM keyword
 		         WHERE keyword_sq IN ( SELECT keyword_sq
   										 FROM keyword_matching
-                              			WHERE talent_sq = #{talentSq})
+                              			WHERE talent_sq = #{talentSq}
+                              			  AND matching_st = 'Y')
 		          <if test="searchKeyword != null and searchKeyword != ''">
 				   AND keyword_content LIKE '%' || #{searchKeyword} || '%'
 				  </if>
@@ -34,6 +35,7 @@
 		  FROM keyword a, keyword_matching b
 		 WHERE b.keyword_sq = a.keyword_sq
 		   AND b.talent_sq = #{talentSq}
+		   AND matching_st = 'Y'
 		   <if test="searchKeyword != null and searchKeyword != ''">
 		   AND a.keyword_content LIKE '%' || #{searchKeyword} || '%'
 		   </if>

@@ -62,7 +62,6 @@ public class KeywordController {
 		String insertMchCnt = null;
 		try {
 			keywordCnt = keywordService.retrieve(keywordContent);
-			Map<String, String> createMap = new HashMap<>();
 			
 			if(keywordCnt == 0) { // 3.
 				
@@ -70,21 +69,27 @@ public class KeywordController {
 				
 				keywordSq = keywordService.retrieveKeywordSq(keywordContent);
 				if(keywordSq>0) {
-					createMap.put("talentSq", talentSq);
-					createMap.put("keywordSq", keywordSq+"");
-					insertMchCnt = keywordMathingService.create(createMap);
+					KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
+					keywordMatchingVO.setTalentSq(talentSq);
+					keywordMatchingVO.setKeywordSq(keywordSq+"");
+					insertMchCnt = keywordMathingService.create(keywordMatchingVO);
 				}
 			}else { // 2.
 				keywordSq = keywordService.retrieveKeywordSq(keywordContent);
 				// 매칭여부 조회
-				createMap.put("talentSq", talentSq);
-				createMap.put("keywordSq", keywordSq+"");
-				matchingCnt = keywordMathingService.retrieve(createMap);
+				KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
+				keywordMatchingVO.setTalentSq(talentSq);
+				keywordMatchingVO.setKeywordSq(keywordSq+"");
+				matchingCnt = keywordMathingService.retrieve(keywordMatchingVO);
 				if(matchingCnt > 0) {
-					model.addAttribute("msg", "**이미 등록된 키워드입니다.");
-					return "redirect:/talent/keywordManage.do?talentSq="+talentSq; // 키워드 일치, 매칭 일치 시 되돌려보냄
+					KeywordMatchingVO existMatchingVO = keywordMathingService.retrieveOne(keywordMatchingVO);
+					if(existMatchingVO.getMatchingSt().equals("Y")) {
+						return "redirect:/talent/keywordManage.do?talentSq="+talentSq; // 키워드 일치, 매칭 일치 시 되돌려보냄
+					}else {
+						keywordMathingService.createUpdate(keywordMatchingVO);
+					}
 				} else {
-					insertMchCnt = keywordMathingService.create(createMap);
+					insertMchCnt = keywordMathingService.create(keywordMatchingVO);
 				}
 			}
 			
@@ -108,11 +113,10 @@ public class KeywordController {
 			for(int i =0; i<keywordVO.getKeywordSqs().length; i++) {
 				if(keywordVO.getDeleteChecks()[i].equals("Y")) {
 					// 1. keywordSq, talentSq 값 매칭된 행 조회  -> 해당 행 삭제
-					Map<String,	String> deleteMap = new HashMap<>();
-					deleteMap.put("talentSq", keywordVO.getTalentSqs()[i]);
-					deleteMap.put("keywordSq", keywordVO.getKeywordSqs()[i]);
-					
-					deleteCnt += keywordMathingService.delete(deleteMap);
+					KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
+					keywordMatchingVO.setTalentSq(keywordVO.getTalentSqs()[i]);
+					keywordMatchingVO.setKeywordSq(keywordVO.getKeywordSqs()[i]+"");
+					deleteCnt += keywordMathingService.delete(keywordMatchingVO);
 				}
 			}
 			return "redirect:/talent/keywordManage.do?talentSq="+talentSq;
@@ -168,7 +172,7 @@ public class KeywordController {
 			throw new RuntimeException("엑셀파일을 선택해 주세요");
 		}
 
-		File destFile = new File("D:\\" + excelFile.getOriginalFilename());
+		File destFile = new File("C:\\" + excelFile.getOriginalFilename());
 		try {
 			excelFile.transferTo(destFile);
 		} catch (IllegalStateException | IOException e) {
@@ -182,19 +186,44 @@ public class KeywordController {
 		readOption.setStartRow(2);
 		 
 		List<Map<String, String>> excelContent = ExcelRead.read(readOption);
-
+		int keywordCnt = 0;
+		int keywordSq = 0;
+		int matchingCnt = 0;
+		String insertMchCnt = null;
 		for(Map<String, String> keyword : excelContent) {
 			
-			Map<String, String> createMap = new HashMap<>();
-			
 			try {
-				keywordService.create(keyword.get("A"));
-				int keywordSq = keywordService.retrieveKeywordSq(keyword.get("A"));
 				
-				createMap.put("keywordSq", keywordSq+"");
-				createMap.put("talentSq", talentSq);
+				keywordCnt = keywordService.retrieve(keyword.get("A"));
 				
-				keywordMathingService.create(createMap);
+				if(keywordCnt == 0) { // 3.
+					
+					keywordService.create(keyword.get("A"));
+					
+					keywordSq = keywordService.retrieveKeywordSq(keyword.get("A"));
+					if(keywordSq>0) {
+						KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
+						keywordMatchingVO.setTalentSq(talentSq);
+						keywordMatchingVO.setKeywordSq(keywordSq+"");
+						insertMchCnt = keywordMathingService.create(keywordMatchingVO);
+					}
+				}else { // 2.
+					keywordSq = keywordService.retrieveKeywordSq(keyword.get("A"));
+					// 매칭여부 조회
+					KeywordMatchingVO keywordMatchingVO = new KeywordMatchingVO();
+					keywordMatchingVO.setTalentSq(talentSq);
+					keywordMatchingVO.setKeywordSq(keywordSq+"");
+					matchingCnt = keywordMathingService.retrieve(keywordMatchingVO);
+					if(matchingCnt > 0) {
+						KeywordMatchingVO existMatchingVO = keywordMathingService.retrieveOne(keywordMatchingVO);
+						if(existMatchingVO.getMatchingSt().equals("Y")) {
+						}else {
+							keywordMathingService.createUpdate(keywordMatchingVO);
+						}
+					} else {
+						insertMchCnt = keywordMathingService.create(keywordMatchingVO);
+					}
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
