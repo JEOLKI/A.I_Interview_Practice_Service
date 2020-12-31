@@ -204,25 +204,32 @@
 					<c:forEach items="${resultList }" var="member">
 						<div class="list">
 							<input type="text" class="memId" name="memIds" value="${member.memId}" readonly="readonly">
-							<select class="memAuth" name="memAuths">
-								<c:choose>
-									<c:when test="${member.memAuth == 'Y' }">
-										<option value="Y" selected="selected">관리자</option>
-										<option value="C">상담사</option>
-										<option value="N">일반회원</option>
-									</c:when>
-									<c:when test="${member.memAuth == 'C' }">
-										<option value="C" selected="selected">상담사</option>
-										<option value="N">일반회원</option>
-										<option value="Y">관리자</option>
-									</c:when>
-									<c:otherwise>
-										<option value="N" selected="selected">일반회원</option>
-										<option value="Y">관리자</option>
-										<option value="C">상담사</option>
-									</c:otherwise>
-								</c:choose>
-							</select>
+							<c:choose>
+								<c:when test="${S_MEMBER.memId == member.memId}">
+									<input type="hidden" name="memAuths" value="${member.memAuth }">
+								</c:when>
+								<c:when test="${S_MEMBER.memId != member.memId}">
+									<select class="memAuth" name="memAuths">
+										<c:choose>
+											<c:when test="${member.memAuth == 'Y' }">
+												<option value="Y" selected="selected">관리자</option>
+												<option value="C">상담사</option>
+												<option value="N">일반회원</option>
+											</c:when>
+											<c:when test="${member.memAuth == 'C' }">
+												<option value="C" selected="selected">상담사</option>
+												<option value="N">일반회원</option>
+												<option value="Y">관리자</option>
+											</c:when>
+											<c:otherwise>
+												<option value="N" selected="selected">일반회원</option>
+												<option value="Y">관리자</option>
+												<option value="C">상담사</option>
+											</c:otherwise>
+										</c:choose>
+									</select>
+								</c:when>
+							</c:choose>
 							<div class="updateCheck" style="display: inline-block;">&nbsp;</div>
 						</div>
 					</c:forEach>
