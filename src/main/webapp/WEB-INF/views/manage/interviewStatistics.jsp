@@ -53,6 +53,7 @@
 			
 			// Create chart instance
 			var chart = am4core.create("chartdiv", am4charts.XYChart);
+			chart.logo.disabled = true;
 			
 			// Enable chart cursor
 			chart.cursor = new am4charts.XYCursor();
