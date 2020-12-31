@@ -62,6 +62,8 @@ public class AnswerController {
 	
 	@RequestMapping(path="/create.do", method= {RequestMethod.POST})
 	public String create(AnswerVO answerVO, ImageAnalysisVO imageAnalysisVO, VoiceAnalysisVO voiceAnalysisVO, MultipartHttpServletRequest mtfRequest){
+		
+		/** 이미지 분석*/
 		List<ImageAnalysisVO> imageAnalysisList = null;
 		if(imageAnalysisVO != null) {
 			imageAnalysisList = imageAnalysisVO.getImageAnalysisVOList();

@@ -229,7 +229,7 @@
 								</td>
 							</c:when>
 							<c:otherwise>
-								<td style="text-align: left;"><c:forEach var="i" begin="1" end="${boardVO.level}" >&nbsp;&nbsp;</c:forEach>
+								<td style="text-align: left;"><c:forEach var="i" begin="1" end="${board.level}" >&nbsp;&nbsp;</c:forEach>
 	                           		<c:if test="${board.level != 1 }">└─</c:if>
 										 ${board.boardTitle }
 								</td>

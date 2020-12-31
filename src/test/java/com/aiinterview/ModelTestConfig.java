@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/egovframework/spring/context-common.xml",
-									"classpath:/egovframework/spring/context-datasource.xml",
+									"classpath:/egovframework/spring/context-datasource_dev.xml",
 									"classpath:/egovframework/spring/context-mapper.xml",
 									"classpath:/egovframework/spring/context-properties.xml"
 					})

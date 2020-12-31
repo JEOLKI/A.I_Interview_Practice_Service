@@ -23,8 +23,9 @@
 <script>
 
 	$(document).ready(function() {
-		if('${param.msg}' == '로그인에 실패했습니다'){
-			alert('로그인에 실패했습니다')	
+		if('${param.msg}' == '존재하지 않는 아이디거나 비밀번호가 일치하지 않습니다'){
+			$('#myModal').show();
+			$('.loginFail').html('<span style="color:red;">존재하지 않는 아이디거나 <br> 비밀번호가 일치하지 않습니다</span>')
 		}
 		$('#home').on('click',function(){
 			document.location = "/login/home.do";

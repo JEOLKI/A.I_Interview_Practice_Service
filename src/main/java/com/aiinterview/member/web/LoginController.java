@@ -53,8 +53,8 @@ public class LoginController {
 		if(msg==null) {
 			msg = "";
 		}
-		if(msg.equals("로그인에 실패했습니다")) {
-			ra.addAttribute("msg","로그인에 실패했습니다");
+		if(msg.equals("존재하지 않는 아이디거나 비밀번호가 일치하지 않습니다")) {
+			ra.addAttribute("msg","존재하지 않는 아이디거나 비밀번호가 일치하지 않습니다");
 		}
 		try {
 			List<InterviewVO> interviewList = interviewService.retrieveStatistics();
@@ -119,7 +119,7 @@ public class LoginController {
 		
 		if (memberVo == null || !memberVo.getMemPw().equals(loginMemPw)) {
 			model.addAttribute("memId", loginMemId);
-			ra.addAttribute("msg", "로그인에 실패했습니다");
+			ra.addAttribute("msg", "존재하지 않는 아이디거나 비밀번호가 일치하지 않습니다");
 			return "redirect:/login/main.do";
 		} else if (memberVo.getMemPw().equals(loginMemPw)&&"Y".equals(memberVo.getMemSt())) {
 			server = InetAddress.getLocalHost();

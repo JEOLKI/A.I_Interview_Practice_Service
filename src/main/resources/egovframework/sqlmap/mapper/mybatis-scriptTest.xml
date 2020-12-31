@@ -18,6 +18,8 @@
 		WHERE A.MEM_ID = #{memId}
 		AND A.SCRIPT_SQ = B.SCRIPT_SQ 
 		AND B.SCRIPT_GB_SQ = C.SCRIPT_GB_SQ
+		AND ROWNUM <![CDATA[ < ]]> 11
+		ORDER BY SCRIPT_TEST_SQ DESC
 	</select>
 	
 	<select id="retrieveScore" parameterType="hashmap"  resultType="int">

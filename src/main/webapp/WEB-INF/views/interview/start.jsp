@@ -238,23 +238,23 @@
 			})
 	.done(
 			function(data) {
-				if(data[0]=== undefined){ // 분석할 사진에 문제가 있을경우
-					//console.log('영상을 분석할 수 없습니다.')
+				if(data[0]=== undefined || data[0] === null){ // 분석할 사진에 문제가 있을경우
+					console.log('영상을 분석할 수 없습니다.')
 				}else{
 					emotion = data[0].faceAttributes.emotion;
 					face = data[0].faceRectangle
-					var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'" >'
-					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'" >'
+					var html = '<input type="text" name="imageAnalysisVOList['+index+'].anger" value="'+emotion.anger+'" hidden >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].contempt" value="'+emotion.contempt+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].disgust" value="'+emotion.disgust+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].fear" value="'+emotion.fear+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].happiness" value="'+emotion.happiness+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].neutral" value="'+emotion.neutral+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].sadness" value="'+emotion.sadness+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].surprise" value="'+emotion.surprise+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceTop" value="'+face.top+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceLeft" value="'+face.left+'" hidden>'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceHeight" value="'+face.height+'"hidden >'
+					html += '<input type="text" name="imageAnalysisVOList['+index+'].faceWidth" value="'+face.width+'"hidden >'
 					
 					$("#analysisData").append(html);
 					
@@ -526,8 +526,8 @@
 				    var latestFrequency = (getAverageVolume(tempArray));
 				    frequencySum+=latestFrequency;
 				    
-				  var voiceHtml = '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" >'
-				  voiceHtml += '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" >';
+				  var voiceHtml = '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceDecibel" value="'+Math.round(20*Math.log10(Math.round(average+1)))+'" hidden>'
+				  voiceHtml += '<input type="text" name="voiceAnalysisVOLIst['+voiceIndex+'].voiceRange" value="'+Math.round(latestFrequency)+'" hidden>';
 				  voiceIndex+=1;
 				  
 				  $("#analysisData").append(voiceHtml);
@@ -779,9 +779,13 @@
 #InterviewInterface{
 	margin : -135px auto 0;
 }
+.Interview{
+	position:absolute;
+	top : 0;
+}
 </style>
 </head>
-<body style="overflow:"> <!-- 나중에 overflow hidden 해야함 -->
+<body style="overflow:hidden"> <!-- 나중에 overflow hidden 해야함 -->
 	<!-- TTS부분 -->
 	<div id="content" style="display:none">
 	  <table>

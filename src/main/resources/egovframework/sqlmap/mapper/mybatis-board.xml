@@ -24,7 +24,14 @@
 						#{boardContent},
 						SYSDATE,
 						#{boardSt},
-						#{groupNo},						
+						<choose>
+				            <when test="groupNo == 0">
+								BOARD_SQ.CURRVAL,
+							</when>
+				            <when test="groupNo != 0">
+								#{groupNo},						
+							</when>
+						</choose>
 						#{parentSq},
 						#{memId},
 						#{catContent})
@@ -46,14 +53,14 @@
 	</update>
 	
 	<select id="retrieve" resultType="com.aiinterview.board.vo.BoardVO">
-		SELECT NVL(BOARD_SQ, 0) BOARD_SQ,
-				NVL(BOARD_GB_SQ, 0) BOARD_GB_SQ,
+		SELECT 	BOARD_SQ,
+				BOARD_GB_SQ,
 				BOARD_TITLE,
 				BOARD_CONTENT,
 				TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
 				BOARD_ST,
-				NVL(GROUP_NO, 0) GROUP_NO,
-				NVL(PARENT_SQ, 0) PARENT_SQ,
+				GROUP_NO,
+				PARENT_SQ,
 				MEM_ID,
 				CAT_CONTENT
 		FROM BOARD
@@ -73,8 +80,8 @@
 						BOARD_CONTENT,
 						TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') BOARD_DATE,
 						BOARD_ST,
-						NVL(GROUP_NO, 0) GROUP_NO,
-						NVL(PARENT_SQ, 0) PARENT_SQ,
+						GROUP_NO,
+						PARENT_SQ,
 						MEM_ID,
 						CAT_CONTENT
 					FROM BOARD

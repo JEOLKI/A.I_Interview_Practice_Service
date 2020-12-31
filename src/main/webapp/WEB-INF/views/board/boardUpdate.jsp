@@ -36,7 +36,7 @@
 		
 		$(".filelist button[type='button']").on('click', function(){
 			atchSq = $(this).data("atch_sq");
-			var deleteinput = '<input hidden type="text" name="deletefile" value="'+atchSq+'"/>';
+			var deleteinput = '<input hidden type="text" name="deleteAtchSq" value="'+atchSq+'"/>';
 			$('#filediv').append(deleteinput)
 			$(this).parents(".filelist").remove();
 		})
