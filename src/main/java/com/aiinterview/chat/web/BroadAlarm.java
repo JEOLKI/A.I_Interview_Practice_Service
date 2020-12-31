@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -24,28 +23,28 @@ static String sessionId;
 // searchUser 함수의 filter 표현식을 위한 인터페이스
 private interface SearchExpression {
 // 람다식을 위한 함수
-boolean expression(User user);
+boolean expression(Users user);
 }
 // 서버와 유저간의 접속을 key로 구분하기 위한 인라인 클래스
-static class User {
+static class Users {
 public Session session;
 public String key;
 }
 public static Session visit = null;
 
 // 유저와 서버간의 접속 리스트
-private static List<User> sessionUsers = Collections.synchronizedList(new ArrayList<>());
+private static List<Users> sessionUsers = Collections.synchronizedList(new ArrayList<>());
 // Session으로 접속 리스트에서 User 클래스를 탐색
-private static User getUser(Session session) {
+private static Users getUser(Session session) {
 return searchUser(x -> x.session == session);
 }
 // Key로 접속 리스트에서 User 클래스를 탐색
-private static User getUser(String key) {
+private static Users getUser(String key) {
 return searchUser(x -> x.key.equals(key));
 }
 // 접속 리스트 탐색 함수
-private static User searchUser(SearchExpression func) {
-Optional<User> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
+private static Users searchUser(SearchExpression func) {
+Optional<Users> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
 // 결과가 있으면
 
 if (op.isPresent()) {
@@ -64,11 +63,11 @@ return null;
 @OnOpen
 public void handleOpen(Session userSession) {
 // 인라인 클래스 User를 생성
-User user = new User();
+	Users user = new Users();
 // Unique키를 발급 ('-'는 제거한다.)
 //String memkey =  getMember();
 MemberVO mv =  (MemberVO) LoginController.usersSession.getAttribute("S_MEMBER");
-
+System.out.println("알람 mv 값 : " + mv);
 //user.key = memkey;
 //sessionId = memkey;
 user.key = mv.getMemId();
@@ -84,7 +83,7 @@ sessionUsers.add(user);
 @OnMessage
 public void handleMessage(String message, Session userSession) throws IOException {
 // Session으로 접속 리스트에서 User 클래스를 탐색
-User user = getUser(userSession);
+	Users user = getUser(userSession);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 // 운영자 Client에 유저 key와 메시지를 보낸다.
@@ -93,8 +92,10 @@ if (user != null) {
 // 운영자 client가 유저에게 메시지를 보내는 함수
 public static void sendMessage(String key, String message) {
 // key로 접속 리스트에서 User 클래스를 탐색
-User user = getUser(key);
-
+	Users user = getUser(key);
+	System.out.println("USER 확인 : " + user);
+	System.out.println("관리자에게 받은 알람 키 : " + key);
+	System.out.println("관리자에게 받은 알람 메시지 : " + message);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 try {
@@ -109,7 +110,7 @@ e.printStackTrace();
 @OnClose
 public void handleClose(Session userSession) {
 // Session으로 접속 리스트에서 User 클래스를 탐색
-User user = getUser(userSession);
+	Users user = getUser(userSession);
 // 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
 if (user != null) {
 // 운영자 Client에 유저 key로 접속 종료를 알린다.

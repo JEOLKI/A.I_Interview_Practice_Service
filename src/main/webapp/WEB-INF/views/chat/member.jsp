@@ -386,12 +386,12 @@ $(function(){
 	c.overflow= "hidden";
 	
 	$("#closeChat").on("click", function(){
+		webSocket.close();
 		var a = parent.document.querySelector("#chatting").style;
 		a.display = "none";
 		$("#chatting").attr("style", "display:none");
 		var image = parent.document.querySelector("#image").style
 		image.display = "block"
-		webSocket.close();
 		top.document.location.reload()
 	})
 	
@@ -429,7 +429,7 @@ if (hours > 12){
 	str = "오전"
 }
 
-
+console.log("받은 메시지 : " + message.data)
 if(message.data=="bye"){
 	$(".fa-circle").attr('class', 'fa fa-circle-o')
 	alarmCheck = 'N';
@@ -455,7 +455,7 @@ function sendMessage() {
 	
 	d = new Date();
 	var minutes = ("00"+ d.getMinutes()).slice(-2)
-	var str = "";
+		var str = "";
 	var hours = d.getHours();		
 		
 

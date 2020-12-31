@@ -179,8 +179,7 @@ to {
 			$("#image").attr("style", "display:none");
 		} else if ('${S_MEMBER.memAuth}' == 'C') {
 			$("#image").attr("style", "display:block");
-			webSocket = new WebSocket(
-					"ws://${serverIp}/admin.do");
+			webSocket = new WebSocket("ws://${serverIp}/admin.do");
 			webSocket.onopen = function(message) {
 			};
 			webSocket.onclose = function(message) {
@@ -198,8 +197,7 @@ to {
 			}
 		} else {
 			$("#image").attr("style", "display:block");
-			webSocket = new WebSocket(
-					"ws://${serverIp}/broadalarm.do");
+			webSocket = new WebSocket("ws://${serverIp}/broadalarm.do");
 			webSocket.onopen = function(message) {
 			};
 			webSocket.onclose = function(message) {
@@ -207,6 +205,7 @@ to {
 			webSocket.onerror = function(message) {
 			};
 			webSocket.onmessage = function(message) {
+				console.log(message.data)
 				if (message.data == "bye") {
 				} else if (message.data == "AI_INTERVIEW_ADMIN_CHAT_ENTER") {
 				} else {

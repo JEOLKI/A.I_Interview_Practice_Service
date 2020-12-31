@@ -502,6 +502,7 @@ return false;
 return true;
 });
 	$("#backList").on('click', function(){
+		webSocket.send("${memId}" +"#####"+"bye");
 		var a = parent.document.querySelector("#chatting").style
 		a.width = "350px";
 		location.href = "/chat/room.do";

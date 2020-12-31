@@ -56,6 +56,7 @@ public class ChatController {
 	public String alarmCount(Model model, HttpSession session) {
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
+		System.out.println("alarmCount의 mv 값: "+  mv);
 		String alarmCount = "0";
 		if(mv!=null) {
 			try {
@@ -97,7 +98,6 @@ public class ChatController {
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
 	public String admin(HttpSession session, Model model,String memId) {
 		
-		sendAdminKey(memId, "AI_INTERVIEW_ADMIN_CHAT_ENTER");
 		ChatVO cv = new ChatVO();
 		
 		MemberVO manager;
