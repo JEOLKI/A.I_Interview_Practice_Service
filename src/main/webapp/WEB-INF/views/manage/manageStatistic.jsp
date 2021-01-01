@@ -29,6 +29,8 @@
 				cashChart(saleList);
 
 				saleSum = numberWithCommas(data.saleSum);
+				year = new Date().getFullYear();
+				$('#year').append(year);
 				$('#saleSum').append(saleSum);
 				
 				planUseList  = data.totalUseList;
@@ -601,7 +603,7 @@
 	</div>
 	
 	<div class="contentBoxMedium">
-		<span class="chartTitle">2020년 매출</span>
+		<span class="chartTitle"><span id="year"></span>년 매출</span>
 		<br>
 		<div class="chartContent">총<span id="saleSum" class="span">&nbsp;</span>원</div>
 		<div id="cashChart"></div>
