@@ -122,7 +122,6 @@ SELECT A.*
 		  FROM (SELECT c.quest_gb_content, b.samp_quest_content, COUNT(*) AS useCount
 				  FROM question a, sample_question b, question_gb c, interview d
 				 WHERE a.samp_quest_sq = b.samp_quest_sq
-				   AND ROWNUM <![CDATA[ < ]]> 6
 			       AND b.quest_gb_sq = c.quest_gb_sq
 			       AND d.INTERVIEW_SQ = a.interview_sq
 			       <if test="searchKeyword != null and searchKeyword != ''">
@@ -147,5 +146,6 @@ SELECT A.*
           			</if>
 				 GROUP BY b.samp_quest_content, c.quest_gb_content
 				 ORDER BY useCount DESC ) e
+		 WHERE ROWNUM  <![CDATA[ < ]]> 6
 	</select>
 </mapper>

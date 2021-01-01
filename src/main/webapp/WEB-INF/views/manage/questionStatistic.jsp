@@ -68,7 +68,7 @@
 		display: inline-block;
 		float : right;
 		width: 45%;
-		height: 400px;
+		height: 500px;
 		padding :10px;
 	}
 	.title th{
@@ -169,11 +169,13 @@ $(document).ready(function(){
 	
 	// 전체 직무별
 	$('#selectBtn, #searchBtn, .sort').on('click',function(){
-		
+		console.log('클릭');
 		startDate = $('#startDate').val() == ''? '2000-01-01' : $('#startDate').val();
 		endDate = $('#endDate').val() == ''? 'sysdate' : $('#endDate').val();
+		console.log(startDate);
+		console.log(endDate);
 		var searchKeyword = $('#searchKeyword').val();
-		
+		sort = $('.sort').val() == ''? '직무별' : $('.sort').val();
 		if(sort == '직무별'){
 			$.ajax({ url : "/sampQuest/retrieveQuestGbStatisticsList.do", 
 				 data : {"startDate" : startDate,
