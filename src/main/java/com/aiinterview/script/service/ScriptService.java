@@ -1,6 +1,7 @@
 package com.aiinterview.script.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +40,24 @@ public class ScriptService {
 		  readOption.setStartRow(2);
 	
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
-	
+		  List<ScriptVO> scriptList = scriptMapper.retrieveSelectList(scriptGbSq);
+		  List<String> contentList = new ArrayList<>();
+		  for(ScriptVO exist : scriptList) {
+			  contentList.add(exist.getScriptContent());
+		  }
+		  
 		  ScriptVO scriptVO = null;
 		  for(Map<String, String> script : excelContent) {
 			  scriptVO = new ScriptVO();
 			  scriptVO.setScriptContent(script.get("A"));
 			  scriptVO.setScriptSt(script.get("B"));
 			  scriptVO.setScriptGbSq(scriptGbSq);
-			  
-			  scriptMapper.create(scriptVO);
+			
+			  if(contentList.contains(script.get("A"))){
+				  scriptMapper.createUpdate(scriptVO);
+			  }else {
+				  scriptMapper.create(scriptVO);
+			  }
 		  }
 	}
 	

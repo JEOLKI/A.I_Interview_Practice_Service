@@ -1,6 +1,7 @@
 package com.aiinterview.interview.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,14 +80,23 @@ public class TalentService{
 		  readOption.setStartRow(2);
 
 		  List<Map<String, String>> excelContent = ExcelRead.read(readOption);
+		  List<TalentVO> talentList = talentMapper.retrieveList();
+		  List<String> contentList = new ArrayList<>();
+		  for(TalentVO exist : talentList) {
+			  contentList.add(exist.getTalentNm());
+		  }
+		  
 
 		  TalentVO talentVO = null;
 		  for(Map<String, String> talent : excelContent) {
 			  talentVO = new TalentVO();
 			  talentVO.setTalentNm(talent.get("A"));
 			  talentVO.setTalentSt(talent.get("B"));
-			  
-			  talentMapper.create(talentVO);
+			  if(contentList.contains(talent.get("A"))) {
+				  talentMapper.createUpdate(talentVO);
+			  }else {
+				  talentMapper.create(talentVO);
+			  }
 		  }
 	}
 

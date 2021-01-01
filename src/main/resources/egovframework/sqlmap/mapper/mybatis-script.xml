@@ -72,6 +72,14 @@
 		 WHERE script_sq = #{scriptSq}
 	</update>
 	
+	<!-- 등록 대체 -->
+	<update id="createUpdate">
+		UPDATE script
+		   SET script_st = #{scriptSt},
+		 	   script_gb_sq = #{scriptGbSq}
+		 WHERE script_content = #{scriptContent}
+	</update>
+	
 	<!-- 검색 -->
 	<select id="retrieveScriptSearchList" parameterType="String" resultType="com.aiinterview.script.vo.ScriptVO">
 		SELECT *

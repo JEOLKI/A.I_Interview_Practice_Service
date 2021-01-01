@@ -68,4 +68,10 @@ public interface TalentMapper {
 	 */
 	public List<TalentAnalysisVO> retrieveStatisticsList(Map<String, String> statisticMap) throws Exception;
 
+	/**
+	 * 이미 있는 인재상을 등록하려고 할 때 업데이드로 대체하는 메서드
+	 * @param talentVO
+	 */
+	public void createUpdate(TalentVO talentVO);
+
 }

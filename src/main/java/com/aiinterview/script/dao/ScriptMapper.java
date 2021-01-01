@@ -68,6 +68,12 @@ public interface ScriptMapper {
 	 * @return 스크립트 구분별 스크립트의 총 개수
 	 */
 	public int retrieveScriptGbScriptPagingListCnt(ScriptVO scriptVO) throws Exception;
+
+	/**
+	 * 이미 존재하는 스크립트를 등록하려 할 때 업데이트로 대체할 메서드
+	 * @param scriptVO
+	 */
+	public void createUpdate(ScriptVO scriptVO);
 	
 	
 //	/**

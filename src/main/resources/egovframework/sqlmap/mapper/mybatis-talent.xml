@@ -29,6 +29,12 @@
 		 	   talent_st = #{talentSt}
 		 WHERE talent_sq = #{talentSq} 
 	</update>
+	
+	<update id="createUpdate">
+		UPDATE talent 
+		   SET talent_st = #{talentSt}
+		 WHERE talent_nm = #{talentNm} 
+	</update>
 
 	<!-- 페이징 : 해당 페이지리스트 select -->
 	<select id="retrievePagingList" resultType="com.aiinterview.interview.vo.TalentVO">
