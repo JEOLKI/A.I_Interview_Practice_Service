@@ -76,7 +76,7 @@
 	</select>
 	
 	<select id="retrieveTalentCountList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
-SELECT ROWNUM rn,
+		SELECT ROWNUM rn,
 			       f.*
               FROM (SELECT e.talent_nm, count(*) as talentCount
 					  FROM talent e, keyword_analysis d ,answer c,question b, 
@@ -100,8 +100,8 @@ SELECT ROWNUM rn,
 					   AND d.talent_sq = e.talent_sq
 					 GROUP BY d.talent_sq, e.talent_nm
 					 ORDER BY d.talent_sq) f
-					  ORDER BY f.talentCount DESC;
-</select>
+					  ORDER BY f.talentCount DESC
+	</select>
 	
 	<!-- 페이징 : 통계리스트 select -->
 	<select id="retrieveStatisticsList" parameterType="hashmap" resultType="com.aiinterview.analysis.vo.TalentAnalysisVO">
@@ -132,6 +132,7 @@ SELECT ROWNUM rn,
 					  		</if>
 						 GROUP BY d.talent_sq, e.talent_nm
 						 ORDER BY d.talent_sq) f
+						 ORDER BY f.talentCount DESC
 	</select>
 	
 </mapper>
