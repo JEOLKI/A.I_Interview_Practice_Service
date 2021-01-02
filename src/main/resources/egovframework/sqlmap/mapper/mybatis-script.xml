@@ -28,6 +28,7 @@
 		SELECT *
 		FROM script
 		WHERE script_gb_sq = #{scriptGbSq}
+		AND script_st = 'Y'
 	</select>
 	
 	<!-- 스크립트 구분 별 스크립트 목록 조회 -->
