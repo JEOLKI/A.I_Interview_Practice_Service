@@ -77,7 +77,7 @@
 	.chart{
 		padding :10px;
 		margin-left: 50px;
-		height: 400px;
+		height: 600px;
 		width: 45%;
 	}
 	#sum{
