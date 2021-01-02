@@ -63,6 +63,10 @@
 		display: inline-block;
 		float : right;
 		width: 45%;
+		height: 400px;
+		margin-top : 90px;
+		padding :10px;
+		margin-left: 50px;
 	}
 	.title th{
 		width: 250px;
@@ -73,12 +77,6 @@
 	
 	table{
 		border-collapse: collapse;
-	}
-	.chart{
-		padding :10px;
-		margin-left: 50px;
-		height: 600px;
-		width: 45%;
 	}
 	#sum{
 		border-top: 1px solid black;
@@ -201,16 +199,16 @@ function createChart(talentCountList){
 	chart.data =  chartData;
 
 	// Set radius
-	chart.radius = am4core.percent(70);
+	chart.radius = am4core.percent(60);
 	// Set inner radius
-	chart.innerRadius = am4core.percent(50);
+	chart.innerRadius = am4core.percent(40);
 	
 	// Add and configure Series
 	var pieSeries = chart.series.push(new am4charts.PieSeries());
 	pieSeries.dataFields.value = "talentCount";
 	pieSeries.dataFields.category = "talentName";
 
-	pieSeries.labels.template.maxWidth = 65;
+	pieSeries.labels.template.maxWidth = 150;
 	pieSeries.labels.template.wrap = true;
 
 	// end am4core.ready()
