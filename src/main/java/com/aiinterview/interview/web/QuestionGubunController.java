@@ -60,6 +60,12 @@ public class QuestionGubunController {
 
 		List<QuestionGubunVO> resultList;
 		try {
+			
+			if(!questGbVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				questGbVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(questGbVO.getSearchUseYn().equals("Y") && questGbVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				questGbVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = questionGubunService.retrievePagingList(questGbVO);
 			model.addAttribute("resultList", resultList);
 			

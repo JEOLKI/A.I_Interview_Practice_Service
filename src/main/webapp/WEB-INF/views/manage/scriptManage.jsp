@@ -14,7 +14,7 @@ body{
 		background-color : #f5f7fb;
 	}
 	
-	.updateBtn,  #regBtn, #searchBtn{
+	.updateBtn,  #regBtn, .searchBtn{
 		display: inline-block;
 		vertical-align : top;
 		border: 1px solid #000d22;
@@ -24,7 +24,7 @@ body{
 		text-align: center;
 	}
 
-	#regBtn:hover, .updateBtn:hover, #searchBtn:hover{
+	#regBtn:hover, .updateBtn:hover, .searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
 	}
@@ -32,7 +32,7 @@ body{
 	.updateForm {
 		margin: 10px 0px;
 	}
-	#searchBtn{
+	.searchBtn{
 		width: 80px;
 	}
 
@@ -167,10 +167,10 @@ $(document).ready(function() {
 		document.location="/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+pageUnit;
 	});
 	
-	$('#searchBtn').on('click', function(){
-		searchKeyword = $('#searchKeyword').val();
-		document.location = "/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&searchKeyword="+searchKeyword;
-	})
+// 	$('#searchBtn').on('click', function(){
+// 		searchKeyword = $('#searchKeyword').val();
+// 		document.location = "/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&searchKeyword="+searchKeyword;
+// 	})
 	
 });
 
@@ -181,6 +181,15 @@ function linkPage(pageNo){
 	document.listForm.pageIndex.value = pageNo;
 	document.listForm.action = "<c:url value='/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+ pageUnit + "'/>";
    	document.listForm.submit();
+}
+
+/* 검색 */
+function searchList(){
+	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+	document.listForm.searchUseYn.value = 'Y';
+	document.listForm.pageIndex.value = '1';
+	document.listForm.action = "<c:url value='/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+pageUnit+"'/>";
+	document.listForm.submit();
 }
  
 /* 수정 */
@@ -240,10 +249,16 @@ function updateList() {
 		        				<form:select class="col-sm-1" path="searchCondition" cssClass="custom-select">
 		        					<form:option value="0" label="내용" />
 		        				</form:select>
-		                        <form:input  path="searchKeyword" cssClass="custom-input" cssStyle="width:40%"/>
-		        	            <span class="btn">
-		        	                <a id="searchBtn">검색</a>
-		        	            </span>
+		                     <div id="search">
+								<ul>
+				        			<label for="searchKeyword" style="visibility:hidden;display:none;"></label>
+				                        <form:input path="searchKeyword" cssClass="txt"/>
+				                     <span class="btn btn-primary">
+				        	        	<a class="searchBtn" href="javascript:searchList();">검색</a>
+				        	        	<form:hidden path="searchUseYn" />
+				        	         </span>
+				                </ul>
+							</div>
 		        	        </li>
 		                </ul>
 			       	</div>

@@ -65,6 +65,11 @@ public class HabitController {
 		
 		List<HabitVO> resultList;
 		try {
+			if(!habitVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				habitVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(habitVO.getSearchUseYn().equals("Y") && habitVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				habitVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = habitService.retrievePagingList(habitVO);
 			model.addAttribute("resultList", resultList);
 			int totCnt = habitService.retrievePagingListCnt(habitVO);

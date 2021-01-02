@@ -66,6 +66,12 @@ public class TalentController {
 		
 		List<TalentVO> resultList;
 		try {
+			
+			if(!talentVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				talentVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(talentVO.getSearchUseYn().equals("Y") && talentVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				talentVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = talentService.retrievePagingList(talentVO);
 			model.addAttribute("resultList", resultList);
 			

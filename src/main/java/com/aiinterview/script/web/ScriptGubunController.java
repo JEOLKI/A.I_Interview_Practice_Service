@@ -63,6 +63,13 @@ public class ScriptGubunController {
 
 		List<ScriptGubunVO> resultList;
 		try {
+			
+			if(!scriptGubunbVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				scriptGubunbVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(scriptGubunbVO.getSearchUseYn().equals("Y") && scriptGubunbVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				scriptGubunbVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
+			
 			resultList = scriptGubunService.retrievePagingList(scriptGubunbVO);
 			model.addAttribute("scriptGbList", resultList);
 			
@@ -76,7 +83,7 @@ public class ScriptGubunController {
 	
 
 	@RequestMapping("/scriptManage.do")
-	public String scriptManage(ScriptVO scriptVO, String scriptGbSq, String pageUnit, String pageIndex, String searchKeyword, Model model) {
+	public String scriptManage(ScriptVO scriptVO, String scriptGbSq, String pageUnit, Model model) {
 		
 		ScriptGubunVO scriptGbVO = null;
 		try {
@@ -89,15 +96,12 @@ public class ScriptGubunController {
 			int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
 			model.addAttribute("pageUnit" , pageUnitInt);
 			
-			// 현재 페이지 번호
-			int pageIndexInt = pageIndex == null? 1 : Integer.parseInt(pageIndex);
 			
 			/** EgovPropertyService.sample */
 			scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
 			scriptVO.setPageSize(propertiesService.getInt("pageSize"));
 			
 			scriptVO.setPageUnit(pageUnitInt);
-			scriptVO.setPageIndex(pageIndexInt);
 			
 			/** pageing setting */
 			PaginationInfo paginationInfo = new PaginationInfo();
@@ -114,12 +118,12 @@ public class ScriptGubunController {
 			retrieveMap.put("firstIndex", scriptVO.getFirstIndex());
 			retrieveMap.put("lastIndex", scriptVO.getLastIndex());
 			retrieveMap.put("scriptGbSq", scriptGbSq);
-			retrieveMap.put("searchKeyword", searchKeyword);
+			retrieveMap.put("searchKeyword", scriptVO.getSearchKeyword());
 
 			
 			//활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
 			List<ScriptGubunVO> scriptGbList = null;
-
+			
 			scriptGbList = scriptGubunService.retrieveList();
 			List<ScriptGubunVO> availableGbList = new ArrayList<>();
 			for (ScriptGubunVO scriptGb : scriptGbList) {
@@ -129,6 +133,11 @@ public class ScriptGubunController {
 			}
 			model.addAttribute("scriptGbList", availableGbList);
 			
+			if(!scriptVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				scriptVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(scriptVO.getSearchUseYn().equals("Y") && scriptVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				scriptVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			List<ScriptVO> resultList = scriptService.retrieveScriptGbScriptPagingList(retrieveMap);
 			model.addAttribute("resultList", resultList);
 			
