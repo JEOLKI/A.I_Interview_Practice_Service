@@ -206,8 +206,10 @@ function linkPage(pageNo){
 
 /* 검색 */
 function searchList(){
+	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
 	document.listForm.searchUseYn.value = 'Y';
-	document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do'/>";
+	document.listForm.pageIndex.value = '1';
+	document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
 	document.listForm.submit();
 }
 
