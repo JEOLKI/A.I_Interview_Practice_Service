@@ -164,9 +164,16 @@ to {
 <script>
 	webSocket = "";
 	
+	
 	$(document).ready(function() {
+		$.ajax({url : "/chat/session.do",
+			method : "get",
+			success : function(data) {
+				Chatgubun()
+			}
+		})
+		
 		$("#image").fadeIn("slow");
-
 		var a = alarmCount()
 		$("#alarmCount").html(a)
 		
@@ -174,6 +181,8 @@ to {
 			$("#alarmCount").attr("style", "display:none");
 		}
 		
+		function Chatgubun(){
+			
 		if ("${S_MEMBER.memId}" == ""
 				|| "${S_MEMBER.memId}" == null) {
 			$("#image").attr("style", "display:none");
@@ -214,6 +223,7 @@ to {
 					$("#alarmCount").attr("style", "display:block");
 				}
 			}
+		}
 		}
 
 		$("#image").on("click",function() {

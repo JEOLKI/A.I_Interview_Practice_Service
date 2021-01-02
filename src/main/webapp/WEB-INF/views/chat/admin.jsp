@@ -407,7 +407,6 @@ if (hours > 12){
 // 메시지의 구조는 JSON 형태로 만들었다.
 let node = JSON.parse(message.data);
 
-// let $div = $("[data-key='"+node.key+"']");
 let $div = $("#chatApp");
 
 nodeKey= node.key
@@ -423,21 +422,11 @@ if(node.key=="${memId}"){
 	alarmCheck = 'Y';
 }
 
-
-	
-// 위 템플릿 div를 취득한다.
-
-// body에 추가한다.
 // message는 유저가 메시지를 보낼 때 알려주는 메시지이다.
 } else if(node.status === "message") {
 // key로 해당 div영역을 찾는다.
-// 메시지 추가할려고 쓰는것임
 
-// let $div = $("[data-key='"+node.key+"']");
 
-// console영역을 찾는다.
-// .messageArea
-// let log = $div.find(".console").val();
 // 아래에 메시지를 추가한다.
 if(node.key=="${memId}"){
 	

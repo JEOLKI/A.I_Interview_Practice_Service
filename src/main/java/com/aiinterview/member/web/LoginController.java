@@ -1,6 +1,7 @@
 package com.aiinterview.member.web;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -30,7 +31,9 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @Controller
 public class LoginController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	
 	public static  HttpSession usersSession;
+	public static List<String> memId = new ArrayList<String>();
 	
 	@Resource(name = "memberService") 
 	private MemberService memberService;
@@ -92,7 +95,6 @@ public class LoginController {
 	@RequestMapping(value = "/logout.do", method = { RequestMethod.GET })
 	public String logout(HttpSession session) {
 		session.removeAttribute("S_MEMBER");
-//		session.removeAttribute("serverIp");
 		return "login/main";
 	}
 
@@ -100,6 +102,7 @@ public class LoginController {
 	public String login(String loginMemId, String loginMemPw, HttpSession session, Model model, RedirectAttributes ra) throws Exception {
 		InetAddress server;
 		MemberVO memberVo = memberService.retrieve(loginMemId);
+		
 		
 		InterviewVO interviewVO = new InterviewVO();
 		/** EgovPropertyService.sample */
@@ -126,7 +129,7 @@ public class LoginController {
 			String serverIp = server.getHostAddress();
 			session.setAttribute("serverIp", serverIp);
 			session.setAttribute("S_MEMBER", memberVo);
-			
+			memId.add(memberVo.getMemId());
 			usersSession = session;
 			if(interviewService.retrievePagingList(interviewVO).size()==0){
 				// 면접 결과가 없을 경우

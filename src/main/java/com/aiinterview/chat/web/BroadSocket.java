@@ -20,7 +20,6 @@ import com.aiinterview.member.vo.MemberVO;
 // 일반 유저에서 서버간의 웹 소켓 url
 @ServerEndpoint("/broadsocket.do")
 public class BroadSocket extends TextWebSocketHandler {
-	Admin sessionAdmin;
 	static String sessionId;
 
 	// searchUser 함수의 filter 표현식을 위한 인터페이스
@@ -70,6 +69,7 @@ public class BroadSocket extends TextWebSocketHandler {
 		User user = new User();
 		// Unique키를 발급 ('-'는 제거한다.)
 		MemberVO mv = (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
+		
 		System.out.println("BroadSocket 알람의 mv 세션값 : "+mv);
 		user.key = mv.getMemId();
 		sessionId = mv.getMemId();
@@ -78,7 +78,7 @@ public class BroadSocket extends TextWebSocketHandler {
 		user.session = userSession;
 		// 유저 리스트에 등록한다.
 		sessionUsers.add(user);
-		// 운영자 Client에 유저가 접속한 것을 알린다.
+		
 		Admin.visit(user.key);
 	}
 

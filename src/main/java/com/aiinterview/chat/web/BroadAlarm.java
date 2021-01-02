@@ -1,4 +1,5 @@
 package com.aiinterview.chat.web;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,145 +16,146 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.member.web.LoginController;
+
 // 일반 유저에서 서버간의 웹 소켓 url
 @ServerEndpoint("/broadalarm.do")
 public class BroadAlarm extends TextWebSocketHandler {
-Admin sessionAdmin;
-static String sessionId;
-// searchUser 함수의 filter 표현식을 위한 인터페이스
-private interface SearchExpression {
-// 람다식을 위한 함수
-boolean expression(Users user);
-}
-// 서버와 유저간의 접속을 key로 구분하기 위한 인라인 클래스
-static class Users {
-public Session session;
-public String key;
-}
-public static Session visit = null;
+	Admin sessionAdmin;
+	static String sessionId;
 
-// 유저와 서버간의 접속 리스트
-private static List<Users> sessionUsers = Collections.synchronizedList(new ArrayList<>());
-// Session으로 접속 리스트에서 User 클래스를 탐색
-private static Users getUser(Session session) {
-return searchUser(x -> x.session == session);
-}
-// Key로 접속 리스트에서 User 클래스를 탐색
-private static Users getUser(String key) {
-return searchUser(x -> x.key.equals(key));
-}
-// 접속 리스트 탐색 함수
-private static Users searchUser(SearchExpression func) {
-Optional<Users> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
-// 결과가 있으면
+	// searchUser 함수의 filter 표현식을 위한 인터페이스
+	private interface SearchExpression {
+		// 람다식을 위한 함수
+		boolean expression(Users user);
+	}
 
-if (op.isPresent()) {
-// 결과를 리턴
-return op.get();
-}
-// 없으면 null 처리
-return null;
-}
-// browser에서 웹 소켓으로 접속하면 호출되는 함수
-//private String getMember() {
-//	HttpSession session = null;
-//	MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
-//	return mv.getMemId();
-//}
-@OnOpen
-public void handleOpen(Session userSession) {
-// 인라인 클래스 User를 생성
-	Users user = new Users();
-// Unique키를 발급 ('-'는 제거한다.)
-//String memkey =  getMember();
-MemberVO mv =  (MemberVO) LoginController.usersSession.getAttribute("S_MEMBER");
-System.out.println("알람 mv 값 : " + mv);
-//user.key = memkey;
-//sessionId = memkey;
-user.key = mv.getMemId();
-sessionId = mv.getMemId();
-visit= userSession;
-// WebSocket의 세션
-user.session = userSession;
-// 유저 리스트에 등록한다.
-sessionUsers.add(user);
-// 운영자 Client에 유저가 접속한 것을 알린다.
-}
-// browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
-@OnMessage
-public void handleMessage(String message, Session userSession) throws IOException {
-// Session으로 접속 리스트에서 User 클래스를 탐색
-	Users user = getUser(userSession);
-// 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
-if (user != null) {
-// 운영자 Client에 유저 key와 메시지를 보낸다.
-}
-}
-// 운영자 client가 유저에게 메시지를 보내는 함수
-public static void sendMessage(String key, String message) {
-// key로 접속 리스트에서 User 클래스를 탐색
-	Users user = getUser(key);
-	System.out.println("USER 확인 : " + user);
-	System.out.println("관리자에게 받은 알람 키 : " + key);
-	System.out.println("관리자에게 받은 알람 메시지 : " + message);
-// 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
-if (user != null) {
-try {
-// 유저 Session으로 socket을 취득한 후 메시지를 전송한다.
-user.session.getBasicRemote().sendText(message);
-} catch (IOException e) {
-e.printStackTrace();
-}
-}
-}
-// WebSocket이 종료가 되면, 종료 버튼이 없기 때문에 유저 브라우저가 닫히면 발생한다.
-@OnClose
-public void handleClose(Session userSession) {
-// Session으로 접속 리스트에서 User 클래스를 탐색
-	Users user = getUser(userSession);
-// 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
-if (user != null) {
-// 운영자 Client에 유저 key로 접속 종료를 알린다.
-// 위 유저 접속 리스트에서 유저를 삭제한다.
-sessionUsers.remove(user);
+	// 서버와 유저간의 접속을 key로 구분하기 위한 인라인 클래스
+	static class Users {
+		public Session session;
+		public String key;
+	}
 
+	public static Session visit = null;
 
-}
-}
-// 유저간의 접속 리스트의 키를 취득하려고 할때.
-public static String[] getUserKeys() {
-// 반환할 String 배열을 선언한다.
-String[] ret = new String[sessionUsers.size()];
-// 유저 리스트를 반복문에 돌린다.
-for (int i = 0; i < ret.length; i++) {
-// 유저의 키만 반환 변수에 넣는다.
-ret[i] = sessionUsers.get(i).key;
-}
-// 값 반환
-return ret;
-}
+	// 유저와 서버간의 접속 리스트
+	private static List<Users> sessionUsers = Collections.synchronizedList(new ArrayList<>());
 
-public static void sendStatus(String status) {
-	// key로 접속 리스트에서 User 클래스를 탐색
-	if (visit != null) {
-		try {
-			visit.getBasicRemote().sendText(status);
-		} catch (IOException e) {
-			e.printStackTrace();
+	// Session으로 접속 리스트에서 User 클래스를 탐색
+	private static Users getUser(Session session) {
+		return searchUser(x -> x.session == session);
+	}
+
+	// Key로 접속 리스트에서 User 클래스를 탐색
+	private static Users getUser(String key) {
+		return searchUser(x -> x.key.equals(key));
+	}
+
+	// 접속 리스트 탐색 함수
+	private static Users searchUser(SearchExpression func) {
+		Optional<Users> op = sessionUsers.stream().filter(x -> func.expression(x)).findFirst();
+		// 결과가 있으면
+
+		if (op.isPresent()) {
+			// 결과를 리턴
+			return op.get();
+		}
+		// 없으면 null 처리
+		return null;
+	}
+
+	// browser에서 웹 소켓으로 접속하면 호출되는 함수
+	@OnOpen
+	public void handleOpen(Session userSession) {
+		// 인라인 클래스 User를 생성
+		Users user = new Users();
+		// Unique키를 발급 ('-'는 제거한다.)
+		MemberVO mv = (MemberVO) ChatController.usersSession.getAttribute("S_MEMBER");
+		user.key = mv.getMemId();
+		sessionId = mv.getMemId();
+		visit = userSession;
+		// WebSocket의 세션
+		user.session = userSession;
+		// 유저 리스트에 등록한다.
+		sessionUsers.add(user);
+
+		// 운영자 Client에 유저가 접속한 것을 알린다.
+	}
+
+	// browser에서 웹 소켓을 통해 메시지가 오면 호출되는 함수
+	@OnMessage
+	public void handleMessage(String message, Session userSession) throws IOException {
+		// Session으로 접속 리스트에서 User 클래스를 탐색
+		Users user = getUser(userSession);
+		// 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
+		if (user != null) {
+			// 운영자 Client에 유저 key와 메시지를 보낸다.
 		}
 	}
-}
 
-public static void sessionId(String memId) {
-	if (visit != null) {
-		try {
-			visit.getBasicRemote().sendText(memId);
-		} catch (IOException e) {
-			e.printStackTrace();
+	// 운영자 client가 유저에게 메시지를 보내는 함수
+	public static void sendMessage(String key, String message) {
+		// key로 접속 리스트에서 User 클래스를 탐색
+		Users user = getUser(key);
+		System.out.println("USER 확인 : " + user);
+		System.out.println("관리자에게 받은 알람 키 : " + key);
+		System.out.println("관리자에게 받은 알람 메시지 : " + message);
+		// 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
+		if (user != null) {
+			try {
+				// 유저 Session으로 socket을 취득한 후 메시지를 전송한다.
+				user.session.getBasicRemote().sendText(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
+
+	// WebSocket이 종료가 되면, 종료 버튼이 없기 때문에 유저 브라우저가 닫히면 발생한다.
+	@OnClose
+	public void handleClose(Session userSession) {
+		// Session으로 접속 리스트에서 User 클래스를 탐색
+		Users user = getUser(userSession);
+		// 접속 리스트에 User가 있으면(당연히 있다. 없으면 버그..)
+		if (user != null) {
+			// 운영자 Client에 유저 key로 접속 종료를 알린다.
+			// 위 유저 접속 리스트에서 유저를 삭제한다.
+			sessionUsers.remove(user);
+
+		}
+	}
+
+	// 유저간의 접속 리스트의 키를 취득하려고 할때.
+	public static String[] getUserKeys() {
+		// 반환할 String 배열을 선언한다.
+		String[] ret = new String[sessionUsers.size()];
+		// 유저 리스트를 반복문에 돌린다.
+		for (int i = 0; i < ret.length; i++) {
+			// 유저의 키만 반환 변수에 넣는다.
+			ret[i] = sessionUsers.get(i).key;
+		}
+		// 값 반환
+		return ret;
+	}
+
+	public static void sendStatus(String status) {
+		// key로 접속 리스트에서 User 클래스를 탐색
+		if (visit != null) {
+			try {
+				visit.getBasicRemote().sendText(status);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void sessionId(String memId) {
+		if (visit != null) {
+			try {
+				visit.getBasicRemote().sendText(memId);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
-
-
-}
-

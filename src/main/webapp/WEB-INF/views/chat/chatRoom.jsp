@@ -335,19 +335,7 @@ function filter(){
 <!-- 			<img src="/images/xWhite.png" alt="logo" class="logo"> -->
     <a id="closeChat" style="color:white; position: absolute; padding-left: 130px; padding-top: 5px;">X</a>
     </div>
-<!--     <div class="icon_box"> -->
-    
-<!--       <span class="left_icon_box"> -->
-<!--       <span class="left_icon"><i class="material-icons">person</i></span> -->
-<!--       <span class="left_icon"><i class="material-icons">message</i></span> -->
-<!--       <span class="left_icon"><i class="material-icons">more</i></span> -->
-<!--       </span> -->
 
-<!--       <span class="right_icon_box"> -->
-<!--       <span class="right_icon"><i class="material-icons">notifications</i></span> -->
-<!--       <span class="right_icon"><i class="material-icons">settings</i></span> -->
-<!--       </span> -->
-<!--     </div> -->
   </header>
 
   <section class="middle">

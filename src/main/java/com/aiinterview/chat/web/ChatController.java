@@ -35,7 +35,14 @@ public class ChatController {
 	
 	@RequestMapping(path = "/test.do", method = RequestMethod.GET)
 	public String test() {
+		
 		return "chat/test";
+	}
+	
+	@ResponseBody
+	@RequestMapping(path = "/session.do", method = RequestMethod.GET)
+	public void session(HttpSession session) {
+		usersSession =session;
 	}
 	
 	@RequestMapping(path = "/room.do", method = RequestMethod.GET)
@@ -54,6 +61,7 @@ public class ChatController {
 	@ResponseBody
 	@RequestMapping(path = "alarmCount.do", method = RequestMethod.GET)
 	public String alarmCount(Model model, HttpSession session) {
+		usersSession =session;
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
 		System.out.println("alarmCount의 mv 값: "+  mv);
@@ -71,7 +79,9 @@ public class ChatController {
 	
 	@RequestMapping(path = "/chat.do", method = RequestMethod.GET)
 	public String chatting(HttpSession session, Model model) {
+	
 		usersSession =session;
+		
 		ChatVO cv = new ChatVO();
 		
 		MemberVO mv = (MemberVO) session.getAttribute("S_MEMBER");
@@ -92,7 +102,7 @@ public class ChatController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "chat/member";
+		return "chat/chatmember";
 	}
 	
 	@RequestMapping(path = "/admining.do", method = RequestMethod.GET)
