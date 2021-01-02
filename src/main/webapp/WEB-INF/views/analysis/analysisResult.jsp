@@ -814,13 +814,13 @@
 	
 </script>
 
-<style>
+<style type="text/css">
 
 	#chartdiv {
   width: 40%;
   height: 500px;
 }
-#video{
+video{
     transform: rotateY(180deg);
     -webkit-transform:rotateY(180deg); /* Safari and Chrome */
     -moz-transform:rotateY(180deg); /* Firefox */
