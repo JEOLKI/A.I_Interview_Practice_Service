@@ -74,6 +74,11 @@ public class SampleQuestionController {
 
 		List<SampleQuestionVO> resultList;
 		try {
+			if(!sampQuestVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				sampQuestVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(sampQuestVO.getSearchUseYn().equals("Y") && sampQuestVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				sampQuestVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = sampleQuestionService.retrievePagingList(sampQuestVO);
 			model.addAttribute("resultList", resultList);
 			
