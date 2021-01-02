@@ -42,7 +42,7 @@
 
 	<!-- 통계 : 스크립트 구분 별 점수 분포도 -->
 	<select id="retrieveScoreList" parameterType="hashmap"  resultType="com.aiinterview.script.vo.ScriptTestVO">
-		SELECT c.script_test_score, c.script_sq, c.script_test_date, count(c.scoreCnt) as totCnt
+		SELECT c.script_test_score, count(c.scoreCnt) as totCnt, c.script_test_date
 		FROM   (SELECT      (CASE 
 		                    WHEN a.script_test_score=0 THEN 0
 		                    <![CDATA[
@@ -63,7 +63,7 @@
 		        AND         b.script_gb_sq = #{scriptGbSq}
 		        AND         a.script_test_date BETWEEN #{startDate} AND #{endDate}
 		        GROUP BY    a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date) c
-		GROUP BY    c.script_test_score, c.script_sq, c.script_content, c.script_test_date, c.scoreCnt
-		ORDER BY    c.script_test_score ASC, c.script_test_date DESC
+		GROUP BY    c.script_test_score, c.script_test_date, c.scoreCnt
+        ORDER BY    c.script_test_score ASC, c.script_test_date DESC
 	</select>
 </mapper>
