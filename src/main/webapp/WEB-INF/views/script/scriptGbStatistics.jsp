@@ -122,15 +122,14 @@ var scriptGbSq;
 
 $(document).ready(function(){
 	
-	var startDate = $('#startDate').val() == ''? '20201002' : $('#startDate').val();
-	var endDate = $('#endDate').val() == ''? today : $('#endDate').val();
+
 	var scriptRankingList=[];
 	var scriptScoreList=[];
 	
 	//최초 노출 score chart
 	$.ajax({url : "/scriptTest/retrieveScoreList.do",
-			data : {"startDate" : startDate,
-					"endDate" : endDate,
+			data : {"startDate" : '20201002',
+					"endDate" : today,
 					"scriptGbSq" : scriptGbSq},
 			dataType : "json",
 			success : function(data){
@@ -142,23 +141,21 @@ $(document).ready(function(){
 	
 	//최초 노출 ranking table
  	$.ajax({url : "/scriptTest/retrieveRankingList.do", 
-			data : {"startDate" : startDate,
-			 	 	"endDate" 	: endDate,
+			data : {"startDate" : '20201002',
+			 	 	"endDate" 	: today,
 			 	 	"scriptGbSq": scriptGbSq},
 		dataType : "json",
 		success : function(data){
+			$('#scoreChartCanvas').empty();
 			scriptRankingList = data.scriptRankingList;
 			drawRankingChart(scriptRankingList);
 			}	//sucess 종료	 
 	}); //ranking ajax 종료
 	
-	$('#start').on('change',function(){
-		$('#startDate').val($(this).val());
-	})
-	
-	$('#end').on('change',function(){
-		$('#endDate').val($(this).val());
-	})
+	$('#selectBtn').on('click', function(){
+		$('#startDate').val($('#start').val());
+		$('#endDate').val($('#end').val());
+	});
 	
 	$('.scriptGbTab').on('click', function(){
 		$('li').removeClass('active');
@@ -167,6 +164,8 @@ $(document).ready(function(){
 	});
 	
 	$('#selectBtn, .scriptGbTab').on('click',function(){
+		var startDate = $('#startDate').val() == ''? '20201002' : $('#startDate').val();
+		var endDate = $('#endDate').val() == ''? today : $('#endDate').val();
 	 	//ranking table
 		$.ajax({url : "/scriptTest/retrieveRankingList.do", 
 				data : {"startDate" : startDate,
@@ -174,10 +173,18 @@ $(document).ready(function(){
 					 	 "scriptGbSq": scriptGbSq},
 				dataType : "json",
 				success : function(data){
-// 					$('#scoreChartCanvas').empty();
 					scriptRankingList = data.scriptRankingList;
-					drawRankingChart(scriptRankingList);
-					}	//sucess 종료	 
+					$('#scoreChartCanvas').empty();
+					if(scriptRankingList.length==0){
+						$('#rankingList').empty();
+						
+						var html = '<span style="color:red; text-align:center; margin:auto;">해당 기간에 일치하는 결과가 없습니다.<br> 날짜를 재설정해주세요.</span>';
+						$('#rankingList').css({"margin":"auto", "text-align":"center"});
+						$('#rankingList').append(html);
+					}else{
+						drawRankingChart(scriptRankingList);
+					}
+					}//sucess 종료	 
 		}); //ranking ajax 종료
 		
 		//score chart
@@ -187,9 +194,13 @@ $(document).ready(function(){
 						"scriptGbSq" : scriptGbSq},
 				dataType : "json",
 				success : function(data){
-					$('#scoreChartCanvas').empty();
+					//$('#scoreChartCanvas').empty();
 					scriptScoreList = data.scriptScoreList;
-					drawScoreChart(scriptScoreList);
+					//if(scriptScoreList.length == 0){
+					//	$('#scoreChart').empty();
+				//	}else{
+						drawScoreChart(scriptScoreList);
+					//}
 				}//success 종료
 		}); //score ajax 종료
 	});// searchBtn 종료
@@ -345,8 +356,8 @@ $(document).ready(function(){
 			<div id="Menu" class="tab-pane fade in active">
 		    <div class="conditionmenu">
 		    	기간 : <input id="start" type="date"> ~ <input id="end" type="date">
-		    		<input type="hidden" id="startDate" name="startDate" >
-					<input type="hidden" id="endDate" name="endDate" >
+		    		<input type="hidden" id="startDate" name="startDate" />
+					<input type="hidden" id="endDate" name="endDate" />
 		    		<img id="selectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top: 4px; left:5px;">
 		    </div>
 			</div>
