@@ -300,6 +300,11 @@ public class MemberController {
 
 		List<MemberVO> resultList;
 		try {
+			if(!memberVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				memberVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(memberVO.getSearchUseYn().equals("Y") && memberVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				memberVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = memberService.retrievePagingList(memberVO);
 			model.addAttribute("resultList", resultList);
 			

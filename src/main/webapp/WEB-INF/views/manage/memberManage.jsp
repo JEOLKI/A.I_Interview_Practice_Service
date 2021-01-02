@@ -12,7 +12,9 @@ $(document).ready(function(){
 	// 정렬 값에 따라 회원 출력개수 변경
 	$('#sort').on('change',function(){
 		var pageUnit = $(this).val();
-		document.location="/member/retrievePagingList.do?pageUnit="+pageUnit;
+		document.listForm.pageIndex.value = '1';
+		document.listForm.action = "<c:url value='/member/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
+		document.listForm.submit();
 	})
 })
 
@@ -27,7 +29,10 @@ function linkPage(pageNo){
  
 /* 검색 */
 function searchList(){
-	document.listForm.action = "<c:url value='/member/retrievePagingList.do'/>";
+	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+	document.listForm.searchUseYn.value = 'Y';
+	document.listForm.pageIndex.value = '1';
+	document.listForm.action = "<c:url value='/member/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
    	document.listForm.submit();
 }
 
@@ -197,6 +202,7 @@ function searchList(){
 		                        <form:input path="searchKeyword" cssClass="custom-input" />
 		        	            <span class="btn btn-primary">
 		        	                <a class="searchBtn"  href="javascript:searchList();">검색</a>
+		        	                <form:hidden path="searchUseYn" />
 		        	            </span>
 		        	        </li>
 	        	        </ul>
