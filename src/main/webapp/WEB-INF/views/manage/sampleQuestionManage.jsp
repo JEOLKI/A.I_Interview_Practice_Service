@@ -178,6 +178,7 @@ $(document).ready(function(){
 	
 	$('#sort').on('change',function(){
 		pageUnit = $(this).val();
+		document.listForm.pageIndex.value = '1';
 		document.listForm.action = "<c:url value='/sampQuest/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
 		document.listForm.submit();
 	})
