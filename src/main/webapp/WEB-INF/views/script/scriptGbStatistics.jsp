@@ -21,6 +21,7 @@ function getFormatDate(date){
 
 var today = new Date();
 today = getFormatDate(today);
+
 </script>
 
 <style>
@@ -110,10 +111,6 @@ today = getFormatDate(today);
  		border : 1px solid black; 
  	} 
 
-/*  	.scriptContentTitle{  */
-/*   		width : 70%;  */
-/*   	} */
-
  	#rankingList{
  		position: absolute;
  		width : 33%;
@@ -121,14 +118,12 @@ today = getFormatDate(today);
 </style>
 
 <script>
-var startDate;
-var endDate;
 var scriptGbSq;
 
 $(document).ready(function(){
-	startDate = $('#start').val() == ''? '20201002' : $('#start').val();
-	endDate = $('#end').val() == ''? today : $('#end').val();
 	
+	var startDate = $('#startDate').val() == ''? '20201002' : $('#startDate').val();
+	var endDate = $('#endDate').val() == ''? today : $('#endDate').val();
 	var scriptRankingList=[];
 	var scriptScoreList=[];
 	
@@ -139,6 +134,7 @@ $(document).ready(function(){
 					"scriptGbSq" : scriptGbSq},
 			dataType : "json",
 			success : function(data){
+				$('#scoreChartCanvas').empty();
 				scriptScoreList = data.scriptScoreList;
 				drawScoreChart(scriptScoreList);
 			}//success 종료
@@ -156,7 +152,17 @@ $(document).ready(function(){
 			}	//sucess 종료	 
 	}); //ranking ajax 종료
 	
+	$('#start').on('change',function(){
+		$('#startDate').val($(this).val());
+	})
+	
+	$('#end').on('change',function(){
+		$('#endDate').val($(this).val());
+	})
+	
 	$('.scriptGbTab').on('click', function(){
+		$('li').removeClass('active');
+	    $(this).parent('li').addClass('active');
 		scriptGbSq = $(this).attr('value');
 	});
 	
@@ -168,6 +174,7 @@ $(document).ready(function(){
 					 	 "scriptGbSq": scriptGbSq},
 				dataType : "json",
 				success : function(data){
+// 					$('#scoreChartCanvas').empty();
 					scriptRankingList = data.scriptRankingList;
 					drawRankingChart(scriptRankingList);
 					}	//sucess 종료	 
@@ -180,6 +187,7 @@ $(document).ready(function(){
 						"scriptGbSq" : scriptGbSq},
 				dataType : "json",
 				success : function(data){
+					$('#scoreChartCanvas').empty();
 					scriptScoreList = data.scriptScoreList;
 					drawScoreChart(scriptScoreList);
 				}//success 종료
@@ -214,11 +222,11 @@ $(document).ready(function(){
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
+// 		$('#scoreChartCanvas').empty();
 		var sumCnt=0;
 		var scoreBoardList = [];
 		var totCntList = [];
 		var max=0;
-		console.log("scriptScoreList : "+scriptScoreList);
 		for(i in scriptScoreList){
 			var scoreBoard = scriptScoreList[i].scriptTestScore;
 			var totCnt = scriptScoreList[i].totCnt;
@@ -236,7 +244,6 @@ $(document).ready(function(){
 		console.log("scoreBoardList : "+scoreBoardList);
 		console.log("totCntList : "+totCntList);
 		
-// 		var colorChart = ["#AF7", "#FA4", "#FF7", "#2A7", "#AF7", "#FA4", "#FF7", "#2A7", "#AF7", "#FA4", "#FF7"];
 		var barData = {
 				labels : scoreBoardList,
 				datasets :
@@ -329,7 +336,7 @@ $(document).ready(function(){
 			<ul class="nav nav-tabs">
 				<c:forEach items="${scriptGbList }" var="scriptGb">
 				    <li>
-				    	<a class="scriptGbTab" value="${scriptGb.scriptGbSq }">${scriptGb.scriptGbContent }</a>
+				    	<a class="scriptGbTab" data-toogle="tab" value="${scriptGb.scriptGbSq }">${scriptGb.scriptGbContent }</a>
 				    </li>
 				</c:forEach>
 			</ul>
@@ -337,7 +344,9 @@ $(document).ready(function(){
 					
 			<div id="Menu" class="tab-pane fade in active">
 		    <div class="conditionmenu">
-		    	기간 : <input id="start" type="date" value=""> ~ <input id="end" type="date" value="">
+		    	기간 : <input id="start" type="date"> ~ <input id="end" type="date">
+		    		<input type="hidden" id="startDate" name="startDate" >
+					<input type="hidden" id="endDate" name="endDate" >
 		    		<img id="selectBtn" alt="" src="/images/searchBtn.png" style="width:25px;height:25px; display: inline-block; position: relative; top: 4px; left:5px;">
 		    </div>
 			</div>
