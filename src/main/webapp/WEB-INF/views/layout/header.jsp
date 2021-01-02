@@ -105,6 +105,7 @@
 	
 	.search{
 		text-align:center;
+		margin-bottom : 20px;
 	}
 	
 	#loginbtn{
@@ -206,6 +207,7 @@
 	}
 	#loginPage{
 		margin-left : 5px;
+		margin-bottom: 40px;
 	}
 	.loginFail{
 		margin-bottom: 10px;
@@ -469,11 +471,12 @@ function boardGubunList(){
 		<!-- Modal content -->
 		<div id="modal-content">
 			<p id="loginPage" style="text-align: left;" >
+				<img id="loginLogo" src="/images/ai_interview_logo_big.png"><br>
 				<span style="font-size: 14pt;"><b>
 				<span style="font-size: 24pt;">당신 옆의
 				<br>면접 트레이너
-				</span></b></span>
-				<img id="loginLogo" src="/images/ai_interview_logo_big.png">
+				</span></b></b></span>
+			</p>
 			<form action="/login/process.do" method="post">
 				<div class="input-left">
 					<span class="inputname">아이디</span> <input class="input" type="text" name="loginMemId"><br>
@@ -506,7 +509,6 @@ function boardGubunList(){
 				<span style="font-size: 14pt;"><b><span
 						style="font-size: 24pt;">아이디찾기
 					</span></b></span>
-			</p>
 			<p style="text-align: center; line-height: 1.5;">
 			<form action="/member/idSearch" method="get">
 				<div class="input-left">
