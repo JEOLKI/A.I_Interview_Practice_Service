@@ -41,8 +41,10 @@
 	 
 	/* 검색 */
 	function searchList(){
+    	document.listForm.searchUseYn.value = 'Y';
+    	document.listForm.pageIndex.value = '1';
 		document.listForm.action = "<c:url value='/boardGubun/retrievePagingList.do'/>";
-       	document.listForm.submit();
+    	document.listForm.submit();
 	}
 	
 	/* 수정 */
@@ -210,6 +212,7 @@
 	                        <form:input  path="searchKeyword" cssClass="custom-input"/>
 	        	            <span class="btn btn-primary">
 	        	                <a class="searchBtn" href="javascript:searchList();">검색</a>
+	        	                <form:hidden path="searchUseYn"/>
 	        	            </span>
 	        	        </li>
 	                </ul>

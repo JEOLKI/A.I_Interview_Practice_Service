@@ -58,6 +58,11 @@ public class CategoryController {
 
 		List<CategoryVO> resultList = new ArrayList<>();
 		try {
+			if(!categoryVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				categoryVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(categoryVO.getSearchUseYn().equals("Y") && categoryVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				categoryVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = categoryService.retrievePagingList(categoryVO);
 		} catch (Exception e) {
 			e.printStackTrace();

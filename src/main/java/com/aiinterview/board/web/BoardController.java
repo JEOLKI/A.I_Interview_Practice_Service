@@ -72,6 +72,11 @@ public class BoardController {
 
 		List<BoardVO> resultList = new ArrayList<>();
 		try {
+			if(!boardVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				boardVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(boardVO.getSearchUseYn().equals("Y") && boardVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				boardVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = boardService.retrievePagingList(boardVO);
 		} catch (Exception e) {
 			e.printStackTrace();

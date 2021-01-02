@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -141,6 +140,13 @@ public class InterviewController {
 
 		List<InterviewVO> resultList = new ArrayList<>();
 		try {
+			
+			if(!interviewVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				interviewVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(interviewVO.getSearchUseYn().equals("Y") && interviewVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				interviewVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
+			
 			resultList = interviewService.retrievePagingList(interviewVO);
 		} catch (Exception e) {
 			e.printStackTrace();

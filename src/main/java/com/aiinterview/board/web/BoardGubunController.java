@@ -67,6 +67,11 @@ public class BoardGubunController {
 
 		List<BoardGubunVO> resultList = new ArrayList<>();
 		try {
+			if(!boardGubunVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				boardGubunVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(boardGubunVO.getSearchUseYn().equals("Y") && boardGubunVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				boardGubunVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			resultList = boardGubunService.retrievePagingList(boardGubunVO);
 		} catch (Exception e) {
 			e.printStackTrace();

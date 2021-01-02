@@ -110,15 +110,15 @@
 			FROM BOARD
 			WHERE BOARD_GB_SQ = #{boardGbSq}
 		<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	BOARD_TITLE LIKE '%' || #{searchKeyword} || '%'
-					</when>
-		            <when test="searchCondition == 1">
-						AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>		
+	        <choose>
+	            <when test="searchCondition == 0">
+					AND	BOARD_TITLE LIKE '%' || #{searchKeyword} || '%'
+				</when>
+	            <when test="searchCondition == 1">
+					AND	MEM_ID LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>		
 	</select>
 	
 	<select id="retrieveList" resultType="com.aiinterview.board.vo.BoardVO">
