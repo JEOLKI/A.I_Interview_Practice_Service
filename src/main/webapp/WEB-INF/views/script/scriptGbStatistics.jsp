@@ -21,7 +21,6 @@ function getFormatDate(date){
 
 var today = new Date();
 today = getFormatDate(today);
-
 </script>
 
 <style>
@@ -67,7 +66,8 @@ today = getFormatDate(today);
 	}
 	
  	table{ 
- 		border-collapse: collapse; 
+ 		border-collapse: collapse;
+ 		display : inline-block;
  	} 
 
  	#sumCnt{ 
@@ -82,7 +82,7 @@ today = getFormatDate(today);
  		border-radius: 10px; 
  		margin: 10px 0px; 
  		box-shadow: 5px 5px #EAEAEA; 
- 		display: inline-block; 
+  		display: inline-block;  
  		float: left;
  	}
  	
@@ -112,7 +112,6 @@ today = getFormatDate(today);
  	} 
 
  	#rankingList{
- 		position: absolute;
  		width : 33%;
  	}
 </style>
@@ -121,6 +120,7 @@ today = getFormatDate(today);
 var scriptGbSq;
 
 $(document).ready(function(){
+
 	var scriptRankingList=[];
 	var scriptScoreList=[];
 	
@@ -131,7 +131,6 @@ $(document).ready(function(){
 					"scriptGbSq" : scriptGbSq},
 			dataType : "json",
 			success : function(data){
-				$('#scoreChartCanvas').empty();
 				scriptScoreList = data.scriptScoreList;
 				drawScoreChart(scriptScoreList);
 			}//success 종료
@@ -144,7 +143,6 @@ $(document).ready(function(){
 			 	 	"scriptGbSq": scriptGbSq},
 		dataType : "json",
 		success : function(data){
-			$('#scoreChartCanvas').empty();
 			scriptRankingList = data.scriptRankingList;
 			drawRankingChart(scriptRankingList);
 			}	//sucess 종료	 
@@ -162,8 +160,6 @@ $(document).ready(function(){
 	});
 	
 	$('#selectBtn, .scriptGbTab').on('click',function(){
-// 		$('#scoreChart').empty();
-		
 		var startDate = $('#startDate').val() == ''? '20201002' : $('#startDate').val();
 		var endDate = $('#endDate').val() == ''? today : $('#endDate').val();
 	 	//ranking table
@@ -182,7 +178,6 @@ $(document).ready(function(){
 						$('#rankingList').css({"margin":"auto", "text-align":"center"});
 						$('#rankingList').append(html);
 					}else{
-						//$('#rankingList').empty();
 						drawRankingChart(scriptRankingList);
 					}
 					}//sucess 종료	 
@@ -230,7 +225,6 @@ $(document).ready(function(){
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
- 		//$('#scoreChartCanvas').empty();
 		var sumCnt=0;
 		var scoreBoardList = [];
 		var totCntList = [];
@@ -248,9 +242,6 @@ $(document).ready(function(){
 				max = scriptScoreList[i].totCnt;	
 			}
 		}
-		
-		console.log("scoreBoardList : "+scoreBoardList);
-		console.log("totCntList : "+totCntList);
 		
 		var barData = {
 				labels : scoreBoardList,
@@ -284,7 +275,6 @@ $(document).ready(function(){
 			   	borderWidth: 1
 		  	}]
 		 }; //barData exit
-		 
 		
 		var ctx = document.getElementById('scoreChartCanvas').getContext('2d');
 		 if(window.bar != undefined)
@@ -335,9 +325,7 @@ $(document).ready(function(){
 				    }
 				  }
 			});
-		 chart.update()
 	}//drawScoreCharat 종료
-	//chart.destroy();
 }); //ready function 종료
 </script>
 </head>
