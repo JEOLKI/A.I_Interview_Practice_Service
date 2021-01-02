@@ -121,8 +121,6 @@ today = getFormatDate(today);
 var scriptGbSq;
 
 $(document).ready(function(){
-	
-
 	var scriptRankingList=[];
 	var scriptScoreList=[];
 	
@@ -151,19 +149,21 @@ $(document).ready(function(){
 			drawRankingChart(scriptRankingList);
 			}	//sucess 종료	 
 	}); //ranking ajax 종료
-	
-	$('#selectBtn').on('click', function(){
-		$('#startDate').val($('#start').val());
-		$('#endDate').val($('#end').val());
-	});
-	
+
 	$('.scriptGbTab').on('click', function(){
 		$('li').removeClass('active');
 	    $(this).parent('li').addClass('active');
 		scriptGbSq = $(this).attr('value');
 	});
 	
+	$('#selectBtn').on('click', function(){
+		$('#startDate').val($('#start').val());
+		$('#endDate').val($('#end').val());
+	});
+	
 	$('#selectBtn, .scriptGbTab').on('click',function(){
+// 		$('#scoreChart').empty();
+		
 		var startDate = $('#startDate').val() == ''? '20201002' : $('#startDate').val();
 		var endDate = $('#endDate').val() == ''? today : $('#endDate').val();
 	 	//ranking table
@@ -174,7 +174,7 @@ $(document).ready(function(){
 				dataType : "json",
 				success : function(data){
 					scriptRankingList = data.scriptRankingList;
-					$('#scoreChartCanvas').empty();
+					
 					if(scriptRankingList.length==0){
 						$('#rankingList').empty();
 						
@@ -182,6 +182,7 @@ $(document).ready(function(){
 						$('#rankingList').css({"margin":"auto", "text-align":"center"});
 						$('#rankingList').append(html);
 					}else{
+						//$('#rankingList').empty();
 						drawRankingChart(scriptRankingList);
 					}
 					}//sucess 종료	 
@@ -194,13 +195,9 @@ $(document).ready(function(){
 						"scriptGbSq" : scriptGbSq},
 				dataType : "json",
 				success : function(data){
-					//$('#scoreChartCanvas').empty();
+					$('scoreChartCanvas').empty(); //
 					scriptScoreList = data.scriptScoreList;
-					//if(scriptScoreList.length == 0){
-					//	$('#scoreChart').empty();
-				//	}else{
-						drawScoreChart(scriptScoreList);
-					//}
+					drawScoreChart(scriptScoreList);
 				}//success 종료
 		}); //score ajax 종료
 	});// searchBtn 종료
@@ -233,7 +230,7 @@ $(document).ready(function(){
 	
 	/* Score Chart */
 	function drawScoreChart(scriptScoreList){
-// 		$('#scoreChartCanvas').empty();
+ 		//$('#scoreChartCanvas').empty();
 		var sumCnt=0;
 		var scoreBoardList = [];
 		var totCntList = [];
@@ -288,8 +285,11 @@ $(document).ready(function(){
 		  	}]
 		 }; //barData exit
 		 
+		
 		var ctx = document.getElementById('scoreChartCanvas').getContext('2d');
-		const chart = new Chart(ctx, {
+		 if(window.bar != undefined)
+			 window.bar.destroy();
+			 window.bar = new Chart(ctx, {
 			   type: "bar",
 			   data: barData,
 			   options: {
@@ -335,7 +335,9 @@ $(document).ready(function(){
 				    }
 				  }
 			});
+		 chart.update()
 	}//drawScoreCharat 종료
+	//chart.destroy();
 }); //ready function 종료
 </script>
 </head>
