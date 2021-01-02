@@ -184,7 +184,7 @@ public class ScriptTestController {
 			} catch (Exception e) { }
 			
 			for(ScriptGubunVO scriptGb : scriptGbList) {
-				if(scriptGb.getScriptGbContent().equals("한국어")) {
+				if(scriptGb.getScriptGbContent().equals("영어")) {
 					scriptGbSq = scriptGb.getScriptGbSq();
 				}
 			}
