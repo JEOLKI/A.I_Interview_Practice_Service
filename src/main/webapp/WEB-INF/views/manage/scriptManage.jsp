@@ -13,7 +13,24 @@
 body{
 		background-color : #f5f7fb;
 	}
-	
+	.listmenu, .excelmenu{
+		display: inline-block; 
+	}
+	.excelmenu{
+		float: left;
+	}
+	.listmenu{
+		float: right;
+		margin-right: 32.3%;
+	}
+	#sort{
+		float:left;
+		top: -1px;
+    	margin-right: 3px;
+	}
+	#search{
+		display: inline-block; 
+	}
 	.updateBtn,  #regBtn, .searchBtn{
 		display: inline-block;
 		vertical-align : top;
@@ -70,12 +87,6 @@ body{
 		border-radius: 5px;
 		height: 30px;
 		vertical-align: top;
-	}
-	
-	.input-group{
-		display: inline-block;
-		float: right;
-		margin-right: 25%;
 	}
 	
 	.contentBox{
@@ -164,13 +175,10 @@ $(document).ready(function() {
 	
 	$('#sort').on('change',function(){
 		pageUnit = $(this).val();
-		document.location="/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+pageUnit;
+		document.listForm.pageIndex.value = '1';
+		document.listForm.action = "<c:url value='/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+pageUnit+"'/>";
+		document.listForm.submit();
 	});
-	
-// 	$('#searchBtn').on('click', function(){
-// 		searchKeyword = $('#searchKeyword').val();
-// 		document.location = "/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&searchKeyword="+searchKeyword;
-// 	})
 	
 });
 
@@ -231,36 +239,27 @@ function updateList() {
 			   		</form>
 				</div>
 				<form:form commandName="scriptVO" id="listForm" name="listForm" method="post">
-					<div class="input-group">
-			       		<ul class="button-search" id="uitest">
-		        			<li>
-		        			<select id="sort">
-								<c:forEach var="value" begin="5" end="20" step="5">
-									<c:choose>
-										<c:when test="${pageUnit == value  }">
-											<option value="${value }" selected="selected" >${value }개씩</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${value }" >${value }개씩</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								</select>
-		        				<form:select class="col-sm-1" path="searchCondition" cssClass="custom-select">
-		        					<form:option value="0" label="내용" />
-		        				</form:select>
-		                     <div id="search">
-								<ul>
-				        			<label for="searchKeyword" style="visibility:hidden;display:none;"></label>
-				                        <form:input path="searchKeyword" cssClass="txt"/>
-				                     <span class="btn btn-primary">
-				        	        	<a class="searchBtn" href="javascript:searchList();">검색</a>
-				        	        	<form:hidden path="searchUseYn" />
-				        	         </span>
-				                </ul>
-							</div>
-		        	        </li>
-		                </ul>
+					<div class="listmenu">
+	        			<select id="sort">
+							<c:forEach var="value" begin="5" end="20" step="5">
+								<c:choose>
+									<c:when test="${pageUnit == value  }">
+										<option value="${value }" selected="selected" >${value }개씩</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${value }" >${value }개씩</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</select>
+	                     <div id="search">
+		        			<label for="searchKeyword" style="visibility:hidden;display:none;"></label>
+		                        <form:input path="searchKeyword" cssClass="txt"/>
+		                     <span class="btn btn-primary">
+		        	        	<a class="searchBtn" href="javascript:searchList();">검색</a>
+		        	        	<form:hidden path="searchUseYn" />
+		        	         </span>
+						</div>
 			       	</div>
 			    
 			    

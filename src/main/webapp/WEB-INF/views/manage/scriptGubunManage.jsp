@@ -15,13 +15,24 @@
 		background-color : #f5f7fb;
 		margin : 30px;
 	}
-	.listmenu{
+	.listmenu, .excelmenu{
 		display: inline-block; 
 	}
-	.list{
-		margin : 10px 0px;
+	.excelmenu{
+		float: left;
 	}
-	
+	.listmenu{
+		float: right;
+		margin-right: 33%;
+	}
+	#sort{
+		float:left;
+		top: -1px;
+    	margin-right: 3px;
+	}
+	#search{
+		display: inline-block; 
+	}
 	#scriptGbContent, .scriptGbContent, .custom-input{
 		width: 50%;
 		border: 1px solid #000d22;
@@ -54,7 +65,7 @@
 	.updateBtn{
 		width: 70px;
 		float: right;
-		margin-right: 399px;
+		margin-right: 33%;
     	margin-top: 10px;
 	}
 	
@@ -73,11 +84,11 @@
 	margin: 10px 0px;
 	}
 	
-	#searchBtn{
+	.searchBtn{
 		width: 80px;
 	}
 
-	.updateBtn, .manageBtn, #searchBtn{
+	.updateBtn, .manageBtn, .searchBtn{
 		display: inline-block;
 		vertical-align : top;
 		border: 1px solid #000d22;
@@ -87,7 +98,7 @@
 		text-align: center;
 	}
 	
-	.updateBtn:hover, .manageBtn:hover, #searchBtn:hover{
+	.updateBtn:hover, .manageBtn:hover, .searchBtn:hover{
 	    background-color: #000d22;
 	    color: #fff;
 	}
@@ -116,12 +127,9 @@
 		background-color: #4374D9;
 	    color: #fff;
 	}
-	.input-group{
-		display: inline-block;
-		float: right;
-		margin-right: 32.6%;
+	.list{
+		margin : 10px 0px;
 	}
-	
 </style>
 
 <script type="text/javascript" language="javascript" defer="defer">
@@ -159,7 +167,9 @@ $(document).ready(function(){
 		
 		$('#sort').on('change',function(){
 			pageUnit = $(this).val();
-			document.location="/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit;
+			document.listForm.pageIndex.value = '1';
+			document.listForm.action = "<c:url value='/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
+			document.listForm.submit();
 		});
 		
 })
@@ -174,7 +184,10 @@ function linkPage(pageNo) {
 
 /* 검색 */
 function searchList() {
-	document.listForm.action = "<c:url value='/scriptGubun/retrievePagingList.do'/>";
+	var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+	document.listForm.searchUseYn.value = 'Y';
+	document.listForm.pageIndex.value = '1';
+	document.listForm.action = "<c:url value='/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
 	document.listForm.submit();
 }
 
@@ -216,28 +229,29 @@ function updateList() {
 						</form>
 					</div>
 					<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
-						<div id="search" class="input-group">
-							<ul class="button-search" id="uitest">
-								<li class="listmenu">
-									<select id="sort" class="custom-select">
-										<c:forEach var="value" begin="5" end="20" step="5">
-											<c:choose>
-												<c:when test="${pageUnit == value  }">
-													<option value="${value }" selected="selected">${value }개씩</option>
-												</c:when>
-												<c:otherwise>
-													<option value="${value }">${value }개씩</option>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</select>
-									<form:input path="searchKeyword" cssClass="custom-input"/>
-									<span class="btn">
-				     	            	<a onclick="searchList()" id="searchBtn" class="searchBtn">검색</a>
-				     	    		</span>
-								</li>
-							</ul>
+					<div class="listmenu">
+						<select id="sort" class="custom-select">
+							<c:forEach var="value" begin="5" end="20" step="5">
+								<c:choose>
+									<c:when test="${pageUnit == value  }">
+										<option value="${value }" selected="selected">${value }개씩</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${value }">${value }개씩</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</select>
+						<div id="search">
+		        			<label for="searchKeyword" style="visibility:hidden;display:none;"></label>
+		                        <form:input path="searchKeyword" cssClass="txt"/>
+		                     <span class="btn btn-primary">
+		        	        	<a class="searchBtn" href="javascript:searchList();">검색</a>
+		        	        	<form:hidden path="searchUseYn" />
+		        	         </span>
 						</div>
+					</div>
+				</div>
 						<br>
 						<br>
 		

@@ -29,7 +29,7 @@
 	}
 	.listmenu{
 		float: right;
-		margin-right: 40.5%;
+		margin-right: 33%;
 	}
 	
 	#registBtn, .updateBtn, #talentUpdateBtn, .deleteBtn, .searchBtn{
@@ -184,7 +184,9 @@
 		
 		$('#sort').on('change',function(){
 			pageUnit = $(this).val();
-			document.location="/talent/keywordManage.do?talentSq=${talentVO.talentSq }&pageUnit="+pageUnit;
+			document.listForm.pageIndex.value = '1';
+			document.listForm.action = "<c:url value='/talent/keywordManage.do?pageUnit="+pageUnit+"'/>";
+			document.listForm.submit();
 		})
 	
 		$('#registBtn').on('click',function(){
@@ -212,7 +214,10 @@
 	
 	/* 검색 */
 	function searchList(){
-		document.listForm.action = "<c:url value='/talent/keywordManage.do'/>";
+		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+		document.listForm.searchUseYn.value = 'Y';
+		document.listForm.pageIndex.value = '1';
+		document.listForm.action = "<c:url value='/talent/keywordManage.do?pageUnit="+pageUnit+"'/>";
 		document.listForm.submit();
 	}
 	
@@ -296,6 +301,7 @@
                         <form:input path="searchKeyword" cssClass="txt"/>
                      <span class="btn btn-primary">
         	         <a class="searchBtn" href="javascript:searchList();">검색</a>
+        	         <form:hidden path="searchUseYn" />
         	         </span>
                 </ul>
 			</div>

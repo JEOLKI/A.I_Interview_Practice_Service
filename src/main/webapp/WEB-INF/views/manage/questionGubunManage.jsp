@@ -180,7 +180,9 @@
 		
 		$('#sort').on('change',function(){
 			pageUnit = $(this).val();
-			document.location="/questGb/retrievePagingList.do?pageUnit="+pageUnit;
+			document.listForm.pageIndex.value = '1';
+			document.listForm.action = "<c:url value='/questGb/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
+	       	document.listForm.submit();
 		})
 		
 		$('#updateCheck').empty();
@@ -209,7 +211,10 @@
 	
 	/* 검색 */
 	function searchList(){
-		document.listForm.action = "<c:url value='/questGb/retrievePagingList.do'/>";
+		var pageUnit = $('#sort').val()==null? 10 : $('#sort').val();
+		document.listForm.searchUseYn.value = 'Y';
+		document.listForm.pageIndex.value = '1';
+		document.listForm.action = "<c:url value='/questGb/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
        	document.listForm.submit();
 	}
 	
@@ -278,6 +283,7 @@
 				                        <form:input path="searchKeyword" cssClass="txt"/>
 				        	            <span class="btn_blue_l">
 				        	                <a href="javascript:searchList();" class="searchBtn">검색</a>
+				        	                <form:hidden path="searchUseYn" />
 				        	            </span>
 				                </ul>
 							</div>
