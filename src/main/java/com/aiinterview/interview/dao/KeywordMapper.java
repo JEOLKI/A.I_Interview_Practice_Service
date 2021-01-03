@@ -13,17 +13,17 @@ public interface KeywordMapper {
 
 	/**
 	 * 인재상별 키워드 목록을 조회하는 메서드
-	 * @param retrieveMap
+	 * @param keywordVO
 	 * @return
 	 */
-	public List<KeywordVO> retrieveTalentKeywordPagingList(Map<String, Object> retrieveMap)throws Exception;
+	public List<KeywordVO> retrieveTalentKeywordPagingList(KeywordVO keywordVO)throws Exception;
 
 	/**
 	 * 인재상별 키워드 수 조회하는 메서드
-	 * @param retrieveMap
+	 * @param keywordVO
 	 * @return
 	 */
-	public int retrieveTalentKeywordPagingListCnt(Map<String, Object> retrieveMap)throws Exception;
+	public int retrieveTalentKeywordPagingListCnt(KeywordVO keywordVO)throws Exception;
 
 	/**
 	 * 해당 내용의 키워드 존재여부를 조회하는 메서드

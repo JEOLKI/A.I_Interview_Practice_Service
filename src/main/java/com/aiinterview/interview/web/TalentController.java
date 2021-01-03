@@ -224,21 +224,16 @@ public class TalentController {
 			keywordVO.setLastIndex(paginationInfo.getLastRecordIndex());
 			keywordVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 			
+			if(!keywordVO.getSearchUseYn().equals("Y")) { // 검색한 것이 아니면
+				keywordVO.setSearchKeyword("");	// 검색어 비워주기
+			} else if(keywordVO.getSearchUseYn().equals("Y") && keywordVO.getSearchKeyword().equals("")) { // 검색한 뒤에 검색어를 비웠다면 
+				keywordVO.setSearchUseYn("N");	// 검색여부를 N으로 전환
+			}
 			
-			Map<String, Object> retrieveMap = new HashMap<>();
-			retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
-			retrieveMap.put("lastIndex", keywordVO.getLastIndex());
-			retrieveMap.put("talentSq", keywordVO.getTalentSq());
-			retrieveMap.put("searchKeyword", keywordVO.getSearchKeyword());
-			
-			
-			List<KeywordVO> resultList = null;
-			
-			
-			resultList = keywordService.retrieveTalentKeywordPagingList(retrieveMap);
+			List<KeywordVO> resultList = keywordService.retrieveTalentKeywordPagingList(keywordVO);
 			model.addAttribute("resultList", resultList);
 	
-			int totCnt = keywordService.retrieveTalentKeywordPagingListCnt(retrieveMap);
+			int totCnt = keywordService.retrieveTalentKeywordPagingListCnt(keywordVO);
 			paginationInfo.setTotalRecordCount(totCnt);
 			model.addAttribute("paginationInfo", paginationInfo);
 			model.addAttribute("talentVO",talentVO);

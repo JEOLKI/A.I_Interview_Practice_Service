@@ -28,11 +28,11 @@ public class KeywordService {
 
 	/**
 	 * 인재상별 키워드 목록을 조회하는 메서드
-	 * @param retrieveMap
+	 * @param keywordVO
 	 * @return
 	 */
-	public List<KeywordVO> retrieveTalentKeywordPagingList(Map<String, Object> retrieveMap) throws Exception{
-		return keywordMapper.retrieveTalentKeywordPagingList(retrieveMap);
+	public List<KeywordVO> retrieveTalentKeywordPagingList(KeywordVO keywordVO) throws Exception{
+		return keywordMapper.retrieveTalentKeywordPagingList(keywordVO);
 	}
 	
 	/**
@@ -41,8 +41,8 @@ public class KeywordService {
 	 * @param talentSq
 	 * @return
 	 */
-	public int retrieveTalentKeywordPagingListCnt(Map<String, Object> retrieveMap) throws Exception{
-		return keywordMapper.retrieveTalentKeywordPagingListCnt(retrieveMap);
+	public int retrieveTalentKeywordPagingListCnt(KeywordVO keywordVO) throws Exception{
+		return keywordMapper.retrieveTalentKeywordPagingListCnt(keywordVO);
 	}
 
 	
