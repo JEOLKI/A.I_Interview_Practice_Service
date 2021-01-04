@@ -171,7 +171,6 @@ $(document).ready(function(){
 			document.listForm.action = "<c:url value='/scriptGubun/retrievePagingList.do?pageUnit="+pageUnit+"'/>";
 			document.listForm.submit();
 		});
-		
 })
 
 /* pagination 페이지 링크 function */
@@ -196,7 +195,6 @@ function updateList() {
 	document.listForm.action = "<c:url value='/scriptGubun/updateProcess.do'/>";
 	document.listForm.submit();
 }
-	
 </script>
 </head>
 <body>
@@ -217,74 +215,72 @@ function updateList() {
 			</div>
 		</div>
 		
-		
 		<div class="contentBox">
-			<h3>스크립트 구분 목록</h3>
-				<div class="blog-main">
-					<div class="excelmenu">
-						<a class="excelBtn" href="/scriptGubun/list/excelDown.do">↓ excel 다운로드</a>
-						<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
-						<form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="/scriptGubun/massiveCreateProcess.do"/>">
-							<input type="file" name="excelFile"/>
-						</form>
-					</div>
-					<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
-					<div class="listmenu">
-						<select id="sort" class="custom-select">
-							<c:forEach var="value" begin="5" end="20" step="5">
-								<c:choose>
-									<c:when test="${pageUnit == value  }">
-										<option value="${value }" selected="selected">${value }개씩</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${value }">${value }개씩</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</select>
-						<div id="search">
-		        			<label for="searchKeyword" style="visibility:hidden;display:none;"></label>
-		                        <form:input path="searchKeyword" cssClass="txt"/>
-		                     <span class="btn btn-primary">
-		        	        	<a class="searchBtn" href="javascript:searchList();">검색</a>
-		        	        	<form:hidden path="searchUseYn" />
-		        	         </span>
-						</div>
-					</div>
-				</div>
-						<br>
-						<br>
-		
-						<div class="table-responsive">
-							<c:forEach items="${scriptGbList }" var="scriptGb">
-								<div class="list">
-								<input type="hidden" name="scriptGbSqs" value="${scriptGb.scriptGbSq }" />
-								<input type="text" class="scriptGbContent" name="scriptGbContents" value="${scriptGb.scriptGbContent }"/>
-								<select class="scriptGbSt" name="scriptGbSts">
-									<c:choose>
-										<c:when test="${scriptGb.scriptGbSt=='Y'}">
-											<option value="Y" selected="selected">사용</option>
-											<option value="N">미사용</option>
-										</c:when>
-										<c:otherwise>
-											<option value="Y">사용</option>
-											<option value="N" selected="selected">미사용</option>
-										</c:otherwise>
-									</c:choose>
-								</select>
-								<a type="button" class="manageBtn scriptMngBtn" value="${scriptGb.scriptGbSq }">스크립트 관리</a>
-								<div class="updateCheck" style="display: inline-block;">&nbsp;</div>
-								</div>	
-						</c:forEach>
-						<a class="updateBtn" onclick="updateList()" >수정</a>
-						<br>
-						<div class= "paging">
-							<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
-							<form:hidden path="pageIndex" />
-						</div>
-					</div>
-				</form:form>
+		<h3>스크립트 구분 목록</h3>
+		<div class="blog-main">
+			<div class="excelmenu">
+				<a class="excelBtn" href="/scriptGubun/list/excelDown.do">↓ excel 다운로드</a>
+				<span class="excelBtn" id="massiveCreate">↑ 일괄등록</span>
+				<form id="massiveForm" name="massiveForm" enctype="multipart/form-data" method="post" action="<c:url value="/scriptGubun/massiveCreateProcess.do"/>">
+					<input type="file" name="excelFile"/>
+				</form>
 			</div>
+			<form:form commandName="scriptGubunVO" id="listForm" name="listForm" method="post">
+			<div class="listmenu">
+				<select id="sort" class="custom-select">
+					<c:forEach var="value" begin="5" end="20" step="5">
+						<c:choose>
+							<c:when test="${pageUnit == value  }">
+								<option value="${value }" selected="selected">${value }개씩</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${value }">${value }개씩</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</select>
+				<div id="search">
+        			<label for="searchKeyword" style="visibility:hidden;display:none;"></label>
+                        <form:input path="searchKeyword" cssClass="txt"/>
+                     <span class="btn btn-primary">
+        	        	<a class="searchBtn" href="javascript:searchList();">검색</a>
+        	        	<form:hidden path="searchUseYn" />
+        	         </span>
+				</div>
+			</div>
+		</div>
+		<br>
+		<br>
+
+		<div class="table-responsive">
+			<c:forEach items="${scriptGbList }" var="scriptGb">
+				<div class="list">
+				<input type="hidden" name="scriptGbSqs" value="${scriptGb.scriptGbSq }" />
+				<input type="text" class="scriptGbContent" name="scriptGbContents" value="${scriptGb.scriptGbContent }"/>
+				<select class="scriptGbSt" name="scriptGbSts">
+					<c:choose>
+						<c:when test="${scriptGb.scriptGbSt=='Y'}">
+							<option value="Y" selected="selected">사용</option>
+							<option value="N">미사용</option>
+						</c:when>
+						<c:otherwise>
+							<option value="Y">사용</option>
+							<option value="N" selected="selected">미사용</option>
+						</c:otherwise>
+					</c:choose>
+				</select>
+				<a type="button" class="manageBtn scriptMngBtn" value="${scriptGb.scriptGbSq }">스크립트 관리</a>
+				<div class="updateCheck" style="display: inline-block;">&nbsp;</div>
+				</div>	
+		</c:forEach>
+		<a class="updateBtn" onclick="updateList()" >수정</a>
+		<br>
+		<div class= "paging">
+			<ui:pagination  paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage"></ui:pagination>
+			<form:hidden path="pageIndex" />
+		</div>
+		</form:form>
 	</div>
+</div>
 </body>
 </html>

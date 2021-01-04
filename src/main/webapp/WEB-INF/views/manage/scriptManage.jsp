@@ -7,11 +7,11 @@
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI_INTERVIEW</title>
-</head>
 
 <style>
-body{
+	body{
 		background-color : #f5f7fb;
+		margin : 30px;
 	}
 	.listmenu, .excelmenu{
 		display: inline-block; 
@@ -162,7 +162,6 @@ $(document).ready(function() {
 		$('#massiveForm').submit();
 	});
 	
-	
 	$('.updateBtn').on('click', function(){
 		$('.updateCheck').empty();
 		if($(this).parent().find('.updateScriptContent').val()==""){
@@ -172,16 +171,13 @@ $(document).ready(function() {
 		}
 	});
 	
-	
 	$('#sort').on('change',function(){
 		pageUnit = $(this).val();
 		document.listForm.pageIndex.value = '1';
 		document.listForm.action = "<c:url value='/scriptGubun/scriptManage.do?scriptGbSq=${scriptGbSq}&pageUnit="+pageUnit+"'/>";
 		document.listForm.submit();
 	});
-	
 });
-
 
  /* pagination 페이지 링크 function */
 function linkPage(pageNo){
@@ -205,8 +201,8 @@ function updateList() {
 	document.listForm.action = "<c:url value='/script/updateProcess.do'/>";
 	document.listForm.submit();
 }
- 
 </script>
+</head>
 <body>
 	
 <h1>스크립트 관리</h1>
@@ -228,7 +224,6 @@ function updateList() {
 	
 <div class="contentBox">
 	<h3>스크립트 목록</h3>
-
 			<div class="blog-main">
 			    <div id="excelBox">
 					<a class="excelBtn" href="/script/list/excelDown.do?scriptGbSq=${scriptGbVO.scriptGbSq}">↓ excel 다운로드</a> 
@@ -308,7 +303,7 @@ function updateList() {
 						<form:hidden path="pageIndex" />
 					</div>
 			</form:form>
-			</div>
+		</div>
 	</div>
 </body>
 </html>

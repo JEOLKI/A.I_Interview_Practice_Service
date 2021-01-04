@@ -30,22 +30,24 @@
 	
 	<!-- 통계: 스크립트 이용 빈도 : 순위, 스시, 스크립트문, totCnt-->
 	<select id="retrieveRankingList" parameterType="hashmap" resultType="com.aiinterview.script.vo.ScriptTestVO">
-		SELECT  DENSE_RANK() OVER (ORDER BY totCnt DESC) as rank, c.*
-		FROM   (SELECT   round(avg(a.script_test_score), 2) as avgScore, count(*) as totCnt, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date
-		         FROM    script_test a, script b
-		         WHERE   a.script_sq = b.script_sq
-		         AND     b.script_gb_sq = #{scriptGbSq}
-		         AND     a.script_test_date BETWEEN #{startDate} AND #{endDate}
-		         GROUP BY a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date) c
-		GROUP BY c.avgScore, c.totCnt, c.script_sq, c.script_content, c.script_gb_sq, c.script_test_date
+		SELECT  RANK() OVER (ORDER BY totCnt DESC) as rank, c.*
+      FROM   (SELECT   round(avg(a.script_test_score), 2) as avgScore, count(*) as totCnt, b.script_content
+               FROM    script_test a, script b
+               WHERE   a.script_sq = b.script_sq
+               AND     b.script_gb_sq = #{scriptGbSq}
+                 and a.SCRIPT_TEST_DATE BETWEEN #{startDate} AND #{endDate}
+               GROUP BY a.script_sq, b.script_content, b.script_gb_sq) c
+      GROUP BY c.avgScore, c.totCnt, c.script_content
+      ORDER BY totCnt DESC
 	</select>
 
 	<!-- 통계 : 스크립트 구분 별 점수 분포도 -->
 	<select id="retrieveScoreList" parameterType="hashmap"  resultType="com.aiinterview.script.vo.ScriptTestVO">
-		SELECT c.script_test_score, count(c.scoreCnt) as totCnt, c.script_test_date
-		FROM   (SELECT      (CASE 
+		SELECT  d.script_test_score, count(d.totCnt) as totCnt
+		FROM    (SELECT c.script_test_score, count(c.scoreCnt) as totCnt, c.script_test_date
+       			 FROM   (SELECT      (CASE 
+       			  			<![CDATA[
 		                    WHEN a.script_test_score=0 THEN 0
-		                    <![CDATA[
 		                    WHEN a.script_test_score>=1 AND a.script_test_score<=9 THEN 1
 		                    WHEN a.script_test_score>=10 AND a.script_test_score<=19 THEN 10
 		                    WHEN a.script_test_score>=20 AND a.script_test_score<=29 THEN 20
@@ -56,14 +58,16 @@
 		                    WHEN a.script_test_score>=70 AND a.script_test_score<=79 THEN 70
 		                    WHEN a.script_test_score>=80 AND a.script_test_score<=89 THEN 80
 		                    WHEN a.script_test_score>=90 AND a.script_test_score<=99 THEN 90
-		                    ]]>
 		                    WHEN a.script_test_score=100 THEN 100 END) AS script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date, count(*) as scoreCnt
-		        FROM        script_test a, script b
-		        WHERE       a.script_sq = b.script_sq
-		        AND         b.script_gb_sq = #{scriptGbSq}
-		        AND         a.script_test_date BETWEEN #{startDate} AND #{endDate}
-		        GROUP BY    a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date) c
-		GROUP BY    c.script_test_score, c.script_test_date, c.scoreCnt
-        ORDER BY    c.script_test_score ASC, c.script_test_date DESC
+		                    ]]>
+				        FROM        script_test a, script b
+				        WHERE       a.script_sq = b.script_sq
+				        AND         b.script_gb_sq = #{scriptGbSq}
+				        AND         a.script_test_date BETWEEN #{startDate} AND #{endDate}
+				        GROUP BY    a.script_test_sq, a.script_test_score, a.script_sq, b.script_content, b.script_gb_sq, a.script_test_date) c
+		        GROUP BY    c.script_test_score, c.script_test_date, c.scoreCnt
+		        ORDER BY    c.script_test_score ASC, c.script_test_date DESC) d
+    GROUP BY    d.script_test_score
+    ORDER BY    d.script_test_score ASC
 	</select>
 </mapper>
