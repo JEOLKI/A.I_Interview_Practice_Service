@@ -124,6 +124,9 @@
 	.list{
 		margin : 10px 0px;
 	}
+	#info{
+		color:red;
+	}
 	
 	
 </style>
@@ -206,7 +209,20 @@
 							<input type="text" class="memId" name="memIds" value="${member.memId}" readonly="readonly">
 							<c:choose>
 								<c:when test="${S_MEMBER.memId == member.memId}">
-									<input type="hidden" name="memAuths" value="${member.memAuth }">
+									<select class="memAuth" name="memAuths" style="width: 78px;">
+										<c:choose>
+											<c:when test="${member.memAuth == 'Y' }">
+												<option value="Y" selected="selected">관리자</option>
+											</c:when>
+											<c:when test="${member.memAuth == 'C' }">
+												<option value="C" selected="selected">상담사</option>
+											</c:when>
+											<c:otherwise>
+												<option value="N" selected="selected">일반회원</option>
+											</c:otherwise>
+										</c:choose>
+									</select>
+									<span id="info">**접속자입니다</span>
 								</c:when>
 								<c:when test="${S_MEMBER.memId != member.memId}">
 									<select class="memAuth" name="memAuths">
