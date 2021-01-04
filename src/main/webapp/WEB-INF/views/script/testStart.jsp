@@ -114,6 +114,8 @@ blink {
 		font-weight: bold;
 		font-size : 1.3em;
 		color: #35356C;
+		word-break : break-all;
+		
 	}
 	
 	.resultScriptBox{
