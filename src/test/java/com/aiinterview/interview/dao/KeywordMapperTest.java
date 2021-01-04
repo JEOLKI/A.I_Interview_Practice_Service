@@ -46,13 +46,9 @@ public class KeywordMapperTest extends ModelTestConfig {
 		keywordVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		keywordVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		Map<String, Object> retrieveMap = new HashMap<>();
-		retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
-		retrieveMap.put("lastIndex", keywordVO.getLastIndex());
-		retrieveMap.put("talentSq", keywordVO.getTalentSq());
 
 		/***When***/
-		List<KeywordVO> talentKeywordList = keywordMapper.retrieveTalentKeywordPagingList(retrieveMap);
+		List<KeywordVO> talentKeywordList = keywordMapper.retrieveTalentKeywordPagingList(keywordVO);
 
 		/***Then***/
 		assertEquals(2, talentKeywordList.size());
@@ -64,13 +60,9 @@ public class KeywordMapperTest extends ModelTestConfig {
 		/***Given***/
 		KeywordVO keywordVO = new KeywordVO();
 		keywordVO.setTalentSq("2");
-		Map<String, Object> retrieveMap = new HashMap<>();
-		retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
-		retrieveMap.put("lastIndex", keywordVO.getLastIndex());
-		retrieveMap.put("talentSq", keywordVO.getTalentSq());
 
 		/***When***/
-		int totCnt = keywordMapper.retrieveTalentKeywordPagingListCnt(retrieveMap);
+		int totCnt = keywordMapper.retrieveTalentKeywordPagingListCnt(keywordVO);
 
 		/***Then***/
 		assertEquals(2, totCnt);

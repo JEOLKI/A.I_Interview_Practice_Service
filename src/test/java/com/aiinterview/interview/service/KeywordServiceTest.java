@@ -38,13 +38,9 @@ public class KeywordServiceTest extends ModelTestConfig{
 		keywordVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		keywordVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		Map<String, Object> retrieveMap = new HashMap<>();
-		retrieveMap.put("firstIndex", keywordVO.getFirstIndex());
-		retrieveMap.put("lastIndex", keywordVO.getLastIndex());
-		retrieveMap.put("talentSq", keywordVO.getTalentSq());
 
 		/***When***/
-		List<KeywordVO> talentKeywordList = keywordService.retrieveTalentKeywordPagingList(retrieveMap);
+		List<KeywordVO> talentKeywordList = keywordService.retrieveTalentKeywordPagingList(keywordVO);
 
 		/***Then***/
 		assertEquals(2, talentKeywordList.size());
@@ -62,7 +58,7 @@ public class KeywordServiceTest extends ModelTestConfig{
 		retrieveMap.put("talentSq", keywordVO.getTalentSq());
 
 		/***When***/
-		int totCnt = keywordService.retrieveTalentKeywordPagingListCnt(retrieveMap);
+		int totCnt = keywordService.retrieveTalentKeywordPagingListCnt(keywordVO);
 
 		/***Then***/
 		assertEquals(2, totCnt);
