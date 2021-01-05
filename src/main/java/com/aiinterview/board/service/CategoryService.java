@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiinterview.board.dao.CategoryMapper;
 import com.aiinterview.board.vo.CategoryVO;
 
-@Transactional
 @Service("categoryService")
 public class CategoryService {
 	

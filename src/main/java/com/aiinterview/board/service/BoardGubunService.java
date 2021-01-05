@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiinterview.board.dao.BoardGubunMapper;
 import com.aiinterview.board.vo.BoardGubunVO;
 
-@Transactional
 @Service("boardGubunService")
 public class BoardGubunService {
 	

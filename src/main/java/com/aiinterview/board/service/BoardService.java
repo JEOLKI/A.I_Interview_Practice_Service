@@ -14,7 +14,6 @@ import com.aiinterview.board.vo.AttachmentVO;
 import com.aiinterview.board.vo.BoardGroupVO;
 import com.aiinterview.board.vo.BoardVO;
 
-@Transactional
 @Service("boardService")
 public class BoardService {
 

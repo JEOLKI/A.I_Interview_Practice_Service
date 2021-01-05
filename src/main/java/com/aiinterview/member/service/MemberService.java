@@ -11,7 +11,6 @@ import com.aiinterview.member.dao.MemberMapper;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 
-@Transactional
 @Service("memberService")
 public class MemberService implements MemberMapper {
 

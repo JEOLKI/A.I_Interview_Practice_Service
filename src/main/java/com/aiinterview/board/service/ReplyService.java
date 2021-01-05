@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiinterview.board.dao.ReplyMapper;
 import com.aiinterview.board.vo.ReplyVO;
 
-@Transactional
 @Service("replyService")
 public class ReplyService {
 

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aiinterview.board.dao.AttachmentMapper;
 import com.aiinterview.board.vo.AttachmentVO;
 
-@Transactional
 @Service("attachmentService")
 public class AttachmentService {
 	

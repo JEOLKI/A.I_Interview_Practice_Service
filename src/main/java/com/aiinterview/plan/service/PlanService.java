@@ -14,7 +14,6 @@ import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
 
-@Transactional
 @Service("planService")
 public class PlanService {
 
