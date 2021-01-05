@@ -22,7 +22,13 @@
 
 		$('#boardRegBtn').on('click', function(){
 			
-			$("#boardRegFrm").submit();
+			board_title = $("#board_title").val();
+			
+			if(board_title.length < 1){
+				alert("제목을 입력해 주세요");
+			}else{
+				$("#boardRegFrm").submit();
+			}
 			
 		});
 
