@@ -22,7 +22,7 @@
 
 		$('#boardRegBtn').on('click', function(){
 			
-			board_title = $("#board_title").val();
+			board_title = $("#boardTitle").val();
 			
 			if(board_title.length < 1){
 				alert("제목을 입력해 주세요");
