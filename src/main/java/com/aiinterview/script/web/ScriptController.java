@@ -9,23 +9,18 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.aiinterview.script.service.ScriptGubunService;
 import com.aiinterview.script.service.ScriptService;
-import com.aiinterview.script.vo.ScriptGubunVO;
 import com.aiinterview.script.vo.ScriptVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @RequestMapping("/script")
 @Controller
@@ -135,47 +130,4 @@ public class ScriptController {
 		
 		return "excelView";
 	}
-	
-//	/* 페이징 처리 한 조회 */
-//	@RequestMapping("/retrievePagingList.do")
-//	public String retrievePagingList(ScriptVO scriptVO, String pageUnit, Model model) throws Exception{
-//		
-//		int pageUnitInt = pageUnit == null ? 10 : Integer.parseInt(pageUnit);
-//		model.addAttribute("pageUnit" , pageUnitInt);
-//		
-//		/** EgovPropertyService.sample */
-//		scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
-//		scriptVO.setPageSize(propertiesService.getInt("pageSize"));
-//		
-//		scriptVO.setPageUnit(pageUnitInt);
-//		
-//		/** pageing setting */
-//		PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
-//		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
-//		paginationInfo.setPageSize(scriptVO.getPageSize());
-//		
-//		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-//		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
-//		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-//
-//		List<ScriptVO> resultList = scriptService.retrievePagingList(scriptVO);
-//		model.addAttribute("resultList", resultList);
-//
-//		int totCnt = scriptService.retrieveScriptGbScriptPagingListCnt(scriptVO);
-//		paginationInfo.setTotalRecordCount(totCnt);
-//		model.addAttribute("paginationInfo", paginationInfo);
-//		
-//		
-//		// 활성 상태가 "Y"인 스크립트 구분만 리스트에 추가하여 scriptManage페이지로 전송
-//		List<ScriptGubunVO> scriptGbList = scriptGbService.retrieveList();
-//		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
-//		for (ScriptGubunVO scriptGb : scriptGbList) {
-//			if (scriptGb.getScriptGbSt().equals("Y")) {
-//				availableGbList.add(scriptGb);
-//			}
-//		}
-//		model.addAttribute("scriptGbList", availableGbList);
-//		return "manage/scriptManage";
-//	}
 }

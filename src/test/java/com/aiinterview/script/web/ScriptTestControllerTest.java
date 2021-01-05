@@ -1,37 +1,30 @@
 package com.aiinterview.script.web;
 
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 import com.aiinterview.WebTestConfig;
 
-public class ScriptTestControllerTest extends WebTestConfig{
+public class ScriptTestControllerTest extends WebTestConfig {
 	
 	@Test
-	public void createTest() {
-		try {
+	public void createTest() throws Exception{
 			mockMvc.perform(post("/scriptTest/create.do")
 					.param("resultScript",  "여름이었다.")
-					.param("memId",  "oz_official")
-					.param("scriptSq",  "4"))
+					.param("memId",  "MEMBER2")
+					.param("scriptSq", "4"))
 				.andExpect(status().is(302));
-		} catch (Exception e) { }
 	}
 	
 	@Test
-	public void testPopupTest() {
-		try {
+	public void testPopupTest() throws Exception{
 			mockMvc.perform(get("/scriptTest/testPopup.do"))
 				.andExpect(status().is(200))
 				.andExpect(view().name("script/testPopup"));
-		} catch (Exception e) { }
 	}
 	
 	@Test
@@ -43,46 +36,38 @@ public class ScriptTestControllerTest extends WebTestConfig{
 	}
 	
 	@Test
-	public void retrieveSelectListTest() {
-		try {
+	public void retrieveSelectListTest() throws Exception{
 			mockMvc.perform(post("/scriptTest/retrieveScriptList.do")
 					.param("scriptGbSq", "2"))
 				.andExpect(status().is(200))
 				.andExpect(view().name("jsonView"));
-		} catch (Exception e) { }
 	}
 
 	@Test
-	public void retrieveScriptTestList() {
-		try {
+	public void retrieveScriptTestList() throws Exception {
 			mockMvc.perform(get("/scriptTest/retrieveScriptTestList.do")
 					.param("memId", "oz"))
 				.andExpect(status().is(200))
 				.andExpect(view().name("jsonView"));
-		} catch (Exception e) { }
 	}
 
 	@Test
-	public void retrieveRankingListTest() {
-		try {
+	public void retrieveRankingListTest() throws Exception {
 			mockMvc.perform(get("/scriptTest/retrieveRankingList.do")
 					.param("startDate", "2020-10-02")
 					.param("endDate", "sysdate")
 					.param("scriptGbSq", "2"))
 			.andExpect(status().is(200))
 			.andExpect(view().name("jsonView"));
-		} catch (Exception e) { }
 	}
 	
 	@Test
-	public void retrieveScoreListTest() {
-		try {
+	public void retrieveScoreListTest() throws Exception {
 			mockMvc.perform(get("/scriptTest/retrieveScoreList.do")
 					.param("startDate", "2020-10-02")
 					.param("endDate", "sysdate")
 					.param("scriptGbSq", "2"))
 			.andExpect(status().is(200))
 			.andExpect(view().name("jsonView"));
-		} catch (Exception e) { }
 	}
 }
