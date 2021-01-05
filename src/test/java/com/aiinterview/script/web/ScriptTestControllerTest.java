@@ -18,10 +18,10 @@ public class ScriptTestControllerTest extends WebTestConfig{
 	public void createTest() {
 		try {
 			mockMvc.perform(post("/scriptTest/create.do")
-					.param("performScript",  "여름이었다.")
+					.param("resultScript",  "여름이었다.")
 					.param("memId",  "oz_official")
 					.param("scriptSq",  "4"))
-				.andExpect(status().is(200));
+				.andExpect(status().is(302));
 		} catch (Exception e) { }
 	}
 	
