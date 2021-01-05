@@ -81,7 +81,7 @@ public class ScriptGubunServiceTest extends ModelTestConfig{
 	@Test
 	public void createMassiveScriptGubunTest() throws Exception {
 		/***Given***/
-		File destFile = new File("C:\\Users\\PC-15\\Desktop\\scriptGubun.xlsx");
+		File destFile = new File("src/test/resources/file/scriptGbTest.xlsx");
 		
 		/***When***/
 		scriptGubunService.createMassiveScriptGubun(destFile);

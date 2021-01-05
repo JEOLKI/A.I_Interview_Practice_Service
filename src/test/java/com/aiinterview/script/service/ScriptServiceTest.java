@@ -43,7 +43,7 @@ public class ScriptServiceTest extends ModelTestConfig{
 	@Test
 	public void createMassiveScriptTest() throws Exception{
 		/***Given***/
-		File destFile = new File("C:\\Users\\PC-15\\Desktop\\script.xlsx");
+		File destFile = new File("src/test/resources/file/scriptTest.xlsx");
 		String scriptGbSq = "1";
 		
 		/***When***/
@@ -51,7 +51,7 @@ public class ScriptServiceTest extends ModelTestConfig{
 		List<ScriptVO> scriptGbList = scriptService.retrieveSelectList(scriptGbSq);
 		
 		/***Then***/
-		assertEquals(4, scriptGbList.size());
+		assertEquals(3, scriptGbList.size());
 	}
 
 	@Test
@@ -162,39 +162,4 @@ public class ScriptServiceTest extends ModelTestConfig{
 		/***Then***/
 		assertEquals(2, totCnt);
 	}
-	
-//	@Test
-//	public void retrievePagingListTest() throws Exception{
-//		/***Given***/
-//		ScriptVO scriptVO = new ScriptVO();
-//		scriptVO.setPageUnit(propertiesService.getInt("pageUnit"));
-//		scriptVO.setPageSize(propertiesService.getInt("pageSize"));
-//		
-//		PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo(scriptVO.getPageIndex());
-//		paginationInfo.setRecordCountPerPage(scriptVO.getPageUnit());
-//		paginationInfo.setPageSize(scriptVO.getPageSize());
-//
-//		scriptVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-//		scriptVO.setLastIndex(paginationInfo.getLastRecordIndex());
-//		scriptVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-//		
-//		/***When***/
-//		List<ScriptVO> scriptList = scriptService.retrievePagingList(scriptVO);
-//		
-//		/***Then***/
-//		assertEquals(6, scriptList.size());
-//	}
-//
-//	@Test
-//	public void retrievePagingListCntTest() throws Exception{
-//		/***Given***/
-//		ScriptVO scriptVO = new ScriptVO();
-//		
-//		/***When***/
-//		int totCnt = scriptService.retrievePagingListCnt(scriptVO);
-//		
-//		/***Then***/
-//		assertEquals(6, totCnt);
-//	}
 }
