@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.aiinterview.board.dao.AttachmentMapper;
 import com.aiinterview.board.dao.BoardMapper;
@@ -100,6 +99,9 @@ public class BoardService {
 		return boardMapper.retrieveAllList();
 	}
 
+	public List<BoardVO> retrieveListCnt() throws Exception{
+		return boardMapper.retrieveListCnt();
+	}
 	
 
 }

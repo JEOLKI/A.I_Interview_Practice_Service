@@ -153,6 +153,11 @@
 		WHERE ROWNUM <![CDATA[ <= ]]> 10
 		AND A.BOARD_GB_SQ = B.BOARD_GB_SQ
 	</select>
+	
+	<select id="retrieveListCnt" resultType="com.aiinterview.board.vo.BoardVO">
+		SELECT *
+		FROM BOARD
+	</select>
 
 
 </mapper>

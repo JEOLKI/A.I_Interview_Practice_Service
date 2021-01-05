@@ -154,6 +154,9 @@ public class LoginController {
 		
 		List<BoardVO> boardList;
 		try {
+			boardList = boardService.retrieveListCnt();
+			model.addAttribute("boardListCnt", boardList);
+			
 			boardList = boardService.retrieveAllList();
 			model.addAttribute("boardList", boardList);
 		} catch (Exception e) {
