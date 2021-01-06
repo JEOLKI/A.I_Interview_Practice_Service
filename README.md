@@ -14,7 +14,7 @@
 - 기능 구현 : 2020.11.28 ~ 2020.12.19
 - 테스트 및 유지보수 : 2020.12.20 ~ 2020.12.31
 
-## :wrench:Techstack
+## :bulb: Techstack
 
 ### 1. Front-end
   - HTML, Scss, JavaScript, jQuery
@@ -28,10 +28,10 @@
 ### 4. API
   - Ms Azure
 
-## Modeling
+## :books: Modeling
 <img src="readme/modeling.png"  width="100%"/>
 
-## Process
+## :runner: Function
 ### 1. 회원기능
 
 1. 회원가입 및 탈퇴
@@ -88,7 +88,7 @@
 9. 서비스 관리를 위한 데이터 생성 및 수정, 삭제
 
 
-## 주요 기능
+## :star: Main Function
 
 ### 1. 프로세스 흐름도
 <img src="readme/process.png"  width="100%"/>
@@ -99,13 +99,13 @@
 ### 3. 발음 테스트
 <img src="readme/test.png"  width="100%"/>
 
-## document
+## :page_facing_up: document
 :link:[https://www.notion.so/PROJECT-AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
-
-## more link
+ 
+## :paperclip: Reference
 :link:[https://www.notion.so/PROJECT-AI_INTERVIEW](https://www.notion.so/PROJECT-AI_INTERVIEW-ce429c320cac4d7d918c3783d5bc3f28)
 
-## developer
+## :family: developer
 홍정기: https://github.com/JEOLKI  
 강태경:   
 이명호:   
