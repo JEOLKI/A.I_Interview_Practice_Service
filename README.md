@@ -50,23 +50,10 @@ Azure
 ### 프로세스 흐름도
 <img src="readme/process.png"  width="100%"/>
 
-### 1. 면접 질문 설정
-<img src="readme/question.png"  width="70%"/>
+### 1. 면접 진행
+<img src="readme/view.png"  width="70%"/>
 
-### 2. 면접 준비
-<img src="readme/interviewSetting.png"  width="70%"/>
-
-### 3. 면접 화면
-<img src="readme/interviewInformation.png"  width="70%"/>
-<img src="readme/interviewStart.png"  width="70%"/>
-
-### 4. 면접 결과
-<img src="readme/myReport.png"  width="70%"/>
-
-### 5. 면접 페이지
-<img src="readme/interview.png"  width="70%"/>
-
-### 6. 발음 테스트
+### 2. 발음 테스트
 <img src="readme/scriptTest.png"  width="70%"/>
 
 ## document
