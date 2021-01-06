@@ -99,16 +99,22 @@
 ### 3. 발음 테스트
 <img src="readme/test.png"  width="100%"/>
 
-## :page_facing_up: document
-:link:[https://www.notion.so/PROJECT-AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
- 
-## :paperclip: Reference
-:link:[https://www.notion.so/PROJECT-AI_INTERVIEW](https://www.notion.so/PROJECT-AI_INTERVIEW-ce429c320cac4d7d918c3783d5bc3f28)
+<br/>
 
+## :page_facing_up: document
+&nbsp;&nbsp;&nbsp;  :link: [https://www.notion.so/PROJECT-AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
+
+<br/>
+
+## :paperclip: Reference
+&nbsp;&nbsp;&nbsp; :link: [https://www.notion.so/PROJECT-AI_INTERVIEW](https://www.notion.so/PROJECT-AI_INTERVIEW-ce429c320cac4d7d918c3783d5bc3f28)
+
+<br/>
+  
 ## :family: developer
-홍정기: https://github.com/JEOLKI  
-강태경:   
-이명호:   
-이승석:   
-최윤지:   
+- 홍정기: https://github.com/JEOLKI  
+- 강태경:   
+- 이명호:   
+- 이승석:   
+- 최윤지:   
 
