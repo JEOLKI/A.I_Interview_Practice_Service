@@ -28,6 +28,30 @@ $(document).ready(function() {
 			$('#registPrice').val(edit);
 		}
 	})
+	
+	$("#registBtn").on("click", function(){
+		var price = $("#registPrice").val();
+		var date = $("#registDateNum").val();
+		var Nm = $("#Nm").val();
+		var message = $("#registMessage").val();
+		var createForm = document.createForm;
+
+		if(Nm == null || Nm == ""){
+			alert("명칭을 입력해주세요")
+		}
+		else if(date == null || date == ""){
+			alert("날짜를 입력해주세요")
+		}
+		else if(price == null || price == ""){
+			alert("가격을 입력해주세요")
+		}
+		else if(message ==null || message == ""){
+			alert("메시지를 입력해주세요")
+		}else{
+// 			$("#registBtn").submit(); 
+			createForm.submit();
+		}
+	})
 });
 
 function planListAjax(){
@@ -168,7 +192,8 @@ function planListAjax(){
 		<div class="Payment" style="margin-top: 20px;">
 			<div class="body" style="padding: 0px; width: 100%; background: white;">
 				<div class="payment-flex"  style= "width : 100%; margin: 0px;" >
-					<form action="/plan/create.do" method="post">
+				
+					<form name="createForm" action="/plan/create.do" method="post">
 						<div class="box">
 							<div class="PaymentBox">
 							
@@ -198,7 +223,7 @@ function planListAjax(){
 		                       			
 								</div>
 		                    			
-								<button id="registBtn" type="submit">등록하기</button>
+								<button id="registBtn" type="button">등록하기</button>
 		                				
 							</div>
 						</div>
