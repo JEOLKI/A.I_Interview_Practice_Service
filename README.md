@@ -14,6 +14,8 @@
 - 기능 구현 : 2020.11.28 ~ 2020.12.19
 - 테스트 및 유지보수 : 2020.12.20 ~ 2020.12.31
 
+<br/>
+
 ## :bulb: Techstack
 
 ### 1. Front-end
@@ -28,8 +30,12 @@
 ### 4. API
   - Ms Azure
 
+<br/>
+
 ## :books: Modeling
 <img src="readme/modeling.png"  width="100%"/>
+
+<br/>
 
 ## :runner: Function
 ### 1. 회원기능
@@ -87,6 +93,7 @@
 8. 세밀한 검색를 위한 기간 검색과 정렬(대충 무슨느낌인지 이해가능?)
 9. 서비스 관리를 위한 데이터 생성 및 수정, 삭제
 
+<br/>
 
 ## :star: Main Function
 
