@@ -80,7 +80,6 @@ public class ScriptGubunController {
 		} catch (Exception e) { }
 		return "manage/scriptGubunManage";
 	}
-	
 
 	@RequestMapping("/scriptManage.do")
 	public String scriptManage(ScriptVO scriptVO, String scriptGbSq, String pageUnit, Model model) {
@@ -233,7 +232,6 @@ public class ScriptGubunController {
 		
 		return "excelView";
 	}
-
 
 	/* 통계 화면*/
 	@RequestMapping(path = "/statistics.do", method = { RequestMethod.GET })

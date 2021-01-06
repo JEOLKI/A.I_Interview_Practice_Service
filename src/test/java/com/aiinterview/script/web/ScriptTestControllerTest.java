@@ -22,7 +22,8 @@ public class ScriptTestControllerTest extends WebTestConfig {
 	
 	@Test
 	public void testPopupTest() throws Exception{
-			mockMvc.perform(get("/scriptTest/testPopup.do"))
+			mockMvc.perform(get("/scriptTest/testPopup.do")
+					.session(session))
 				.andExpect(status().is(200))
 				.andExpect(view().name("script/testPopup"));
 	}
@@ -30,7 +31,8 @@ public class ScriptTestControllerTest extends WebTestConfig {
 	@Test
 	public void testStartTest() throws Exception{
 		mockMvc.perform(post("/scriptTest/testStart.do")
-				.param("scriptGbSq", "1"))
+				.param("scriptGbSq", "1")
+				.session(session))
 		.andExpect(status().is(200))
 		.andExpect(view().name("script/testStart"));
 	}
@@ -38,7 +40,8 @@ public class ScriptTestControllerTest extends WebTestConfig {
 	@Test
 	public void retrieveSelectListTest() throws Exception{
 			mockMvc.perform(post("/scriptTest/retrieveScriptList.do")
-					.param("scriptGbSq", "2"))
+					.param("scriptGbSq", "2")
+					.session(session))
 				.andExpect(status().is(200))
 				.andExpect(view().name("jsonView"));
 	}
@@ -46,7 +49,8 @@ public class ScriptTestControllerTest extends WebTestConfig {
 	@Test
 	public void retrieveScriptTestList() throws Exception {
 			mockMvc.perform(get("/scriptTest/retrieveScriptTestList.do")
-					.param("memId", "oz"))
+					.param("memId", "MEMBER2")
+					.session(session))
 				.andExpect(status().is(200))
 				.andExpect(view().name("jsonView"));
 	}
@@ -56,7 +60,8 @@ public class ScriptTestControllerTest extends WebTestConfig {
 			mockMvc.perform(get("/scriptTest/retrieveRankingList.do")
 					.param("startDate", "2020-10-02")
 					.param("endDate", "sysdate")
-					.param("scriptGbSq", "2"))
+					.param("scriptGbSq", "2")
+					.session(session))
 			.andExpect(status().is(200))
 			.andExpect(view().name("jsonView"));
 	}
@@ -66,7 +71,8 @@ public class ScriptTestControllerTest extends WebTestConfig {
 			mockMvc.perform(get("/scriptTest/retrieveScoreList.do")
 					.param("startDate", "2020-10-02")
 					.param("endDate", "sysdate")
-					.param("scriptGbSq", "2"))
+					.param("scriptGbSq", "2")
+					.session(session))
 			.andExpect(status().is(200))
 			.andExpect(view().name("jsonView"));
 	}

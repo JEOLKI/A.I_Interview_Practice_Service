@@ -1,14 +1,11 @@
 package com.aiinterview.script.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
@@ -20,7 +17,8 @@ public class ScriptGubunControllerTest extends WebTestConfig{
 
 	@Test
 	public void retrievePagingListTest() throws Exception{
-			mockMvc.perform(get("/scriptGubun/retrievePagingList.do"))
+			mockMvc.perform(get("/scriptGubun/retrievePagingList.do")
+					.session(session))
 				.andExpect(status().is(200))
 				.andExpect(view().name("manage/scriptGubunManage"));
 	}
@@ -29,7 +27,8 @@ public class ScriptGubunControllerTest extends WebTestConfig{
 	public void scriptManageTest() throws Exception{
 			mockMvc.perform(get("/scriptGubun/scriptManage.do")
 					.param("scriptGbSq", "2")
-					.param("scriptGbList[0]",  "영어"))
+					.param("scriptGbList[0]",  "영어")
+					.session(session))
 				.andExpect(status().is(200))
 				.andExpect(view().name("manage/scriptManage"));
 	}
@@ -38,7 +37,8 @@ public class ScriptGubunControllerTest extends WebTestConfig{
 	public void createProcessTest() throws Exception{
 			mockMvc.perform(post("/scriptGubun/createProcess.do")
 					.param("scriptGbContent", "금붕어")
-					.param("scriptGbSt",  "Y"))
+					.param("scriptGbSt",  "Y")
+					.session(session))
 				.andExpect(status().is(302))
 				.andExpect(view().name("redirect:/scriptGubun/retrievePagingList.do"));
 	}
@@ -49,7 +49,8 @@ public class ScriptGubunControllerTest extends WebTestConfig{
 		MockMultipartFile file = new MockMultipartFile("excelFile", "scriptGbTest.xlsx", "xlsx", is);
 		
 			mockMvc.perform(fileUpload("/scriptGubun/massiveCreateProcess.do")
-					.file(file))
+					.file(file)
+					.session(session))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:/scriptGubun/retrievePagingList.do"));
 	}
@@ -59,21 +60,24 @@ public class ScriptGubunControllerTest extends WebTestConfig{
 			mockMvc.perform(post("/scriptGubun/updateProcess.do")
 					.param("scriptGbSqs[0]", "1")
 					.param("scriptGbContents[0]", "Script Gubun Test")
-					.param("scriptGbSts[0]", "N"))
+					.param("scriptGbSts[0]", "N")
+					.session(session))
 			.andExpect(status().is(302))
 			.andExpect(view().name("redirect:/scriptGubun/retrievePagingList.do"));
 	}
 	
 	@Test
 	public void excelDownTest() throws Exception{
-			mockMvc.perform(get("/scriptGubun/list/excelDown.do"))
+			mockMvc.perform(get("/scriptGubun/list/excelDown.do")
+					.session(session))
 			.andExpect(status().is(200))
 			.andExpect(view().name("excelView"));
 	}
 
 	@Test
 	public void statisticsViewTest() throws Exception {
-		mockMvc.perform(get("/scriptGubun/statistics.do"))
+		mockMvc.perform(get("/scriptGubun/statistics.do")
+				.session(session))
 			.andExpect(status().is(200))
 			.andExpect(view().name("script/scriptGbStatistics"));
 	}
