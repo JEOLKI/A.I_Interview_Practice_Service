@@ -50,6 +50,11 @@ $(document).ready(function() {
 	});
 
 });
+function close(){
+	window.onbeforeunload = function (e) {
+		opener.parent.location.reload();
+	};
+}
 </script>
 
 <style>
@@ -106,7 +111,7 @@ $(document).ready(function() {
 </style>
 </head>
 
-<body>
+<body onload="close();">
 	<div class="contentBox">
 		<span id="title">발음 테스트</span>	
 		<div class="pro" style="font-size:13px;">
