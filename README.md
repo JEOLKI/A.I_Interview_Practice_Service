@@ -24,13 +24,6 @@
 ### using api
 Azure
 
-## developer
-홍정기: https://github.com/JEOLKI  
-강태경:   
-이명호:   
-이승석:   
-최윤지:   
-
 ## modeling
 <img src="readme/modeling.png"  width="100%"/>
 
@@ -47,31 +40,39 @@ Azure
 
 주요 프로세스
 
-<img src="readme/process1.png"  width="100%"/>
-<img src="readme/process2.png"  width="100%"/>
-<img src="readme/process3.png"  width="100%"/>
+<img src="readme/process1.png"  width="50%"/>
+<img src="readme/process2.png"  width="50%"/>
+<img src="readme/process3.png"  width="50%"/>
 
 1. 면접 질문 설정
-<img src="readme/question.png"  width="100%"/>
+<img src="readme/question.png"  width="50%"/>
 
 2. 면접 준비
-<img src="readme/interviewSetting.png"  width="100%"/>
+<img src="readme/interviewSetting.png"  width="50%"/>
 
 3. 면접 화면
-<img src="readme/interviewInformation.png"  width="100%"/>
-<img src="readme/interviewStart.png"  width="100%"/>
+<img src="readme/interviewInformation.png"  width="50%"/>
+<img src="readme/interviewStart.png"  width="50%"/>
 
 4. 면접 결과
-<img src="readme/myReport.png"  width="100%"/>
+<img src="readme/myReport.png"  width="50%"/>
 
 5. 면접 페이지
-<img src="readme/interview.png"  width="100%"/>
+<img src="readme/interview.png"  width="50%"/>
 
 6. 발음 테스트
-<img src="readme/scriptTest.png"  width="100%"/>
+<img src="readme/scriptTest.png"  width="50%"/>
 
 ## document
-[AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
+:link:[https://www.notion.so/PROJECT-AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
 
 ## more link
-[AI_INTERVIEW](https://www.notion.so/PROJECT-AI_INTERVIEW-ce429c320cac4d7d918c3783d5bc3f28)
+:link:[https://www.notion.so/PROJECT-AI_INTERVIEW](https://www.notion.so/PROJECT-AI_INTERVIEW-ce429c320cac4d7d918c3783d5bc3f28)
+
+## developer
+홍정기: https://github.com/JEOLKI  
+강태경:   
+이명호:   
+이승석:   
+최윤지:   
+
