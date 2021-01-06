@@ -56,7 +56,7 @@ public class ChatControllerTest extends WebTestConfig{
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("chatList"))
 		.andExpect(model().attributeExists("manager"))
-		.andExpect(view().name("chat/index"));
+		.andExpect(view().name("chat/chatmember"));
 		
 	}
 	

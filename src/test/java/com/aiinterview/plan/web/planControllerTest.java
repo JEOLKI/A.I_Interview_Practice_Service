@@ -19,14 +19,21 @@ public class planControllerTest extends WebTestConfig {
 
 	@Test
 	public void planListView() throws Exception {
-		mockMvc.perform(get("/plan/planList.do"))
-		.andExpect(status().isOk())
+		
+		
+		mockMvc.perform(get("/plan/planList.do")
+				.session(session))
+		.andExpect(status().is(200))
 		.andExpect(view().name("plan/planList"));
 	}
 
 	@Test
 	public void buypalnAjax() throws Exception{
-		mockMvc.perform(get("/plan/planListAjax.do"))
+		
+		
+		
+		mockMvc.perform(get("/plan/planListAjax.do")
+				.session(session))
 		.andExpect(status().isOk())
 		.andExpect(view().name("jsonView"));
 	}
@@ -52,7 +59,8 @@ public class planControllerTest extends WebTestConfig {
 	@Test
 	public void payPlanAjax() throws Exception{
 		mockMvc.perform(get("/plan/payPlanAjax.do")
-				.param("planSq", "1"))
+				.param("planSq", "1")
+				.session(session))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("pvContent"))
 				.andExpect(view().name("jsonView"));
@@ -116,13 +124,15 @@ public class planControllerTest extends WebTestConfig {
 	
 	@Test
 	public void planExcelDown() throws Exception{
-		mockMvc.perform(get("/plan/planExcel.do"))
+		mockMvc.perform(get("/plan/planExcel.do")
+				.session(session))
 		.andExpect(view().name("excelView"));
 	}
 	
 	@Test
 	public void planUseExcel() throws Exception{
-		mockMvc.perform(get("/plan/planUseExcel.do"))
+		mockMvc.perform(get("/plan/planUseExcel.do")
+				.session(session))
 		.andExpect(view().name("excelView"));
 	}
 	
@@ -147,14 +157,16 @@ public class planControllerTest extends WebTestConfig {
 	@Test
 	public void payComplete() throws Exception{
 		
-		mockMvc.perform(get("/plan/payComplete.do"))
+		mockMvc.perform(get("/plan/payComplete.do")
+				.session(session))
 					.andExpect(view().name("myProfile/myProfile"));
 	}
 	
 	@Test
 	public void retrievePagingList() throws Exception{
 		
-		mockMvc.perform(get("/plan/retrievePagingList.do"))
+		mockMvc.perform(get("/plan/retrievePagingList.do")
+				.session(session))
 				.andExpect(model().attributeExists("resultList"))
 				.andExpect(model().attributeExists("paginationInfo"))
 				.andExpect(view().name("manage/planUseListManage"));
@@ -163,7 +175,8 @@ public class planControllerTest extends WebTestConfig {
 	@Test
 	public void statistics() throws Exception{
 		
-		mockMvc.perform(get("/plan/statistics.do"))
+		mockMvc.perform(get("/plan/statistics.do")
+				.session(session))
 		.andExpect(view().name("manage/planStatistics"));
 	}
 	
@@ -173,7 +186,8 @@ public class planControllerTest extends WebTestConfig {
 		mockMvc.perform(get("/plan/totalUseStatistics.do")
 				.param("startDate", "2020-11-27")
 				.param("endDate", "2020-12-15")
-				.param("searchKeyword", "일"))
+				.param("searchKeyword", "일")
+				.session(session))
 				.andExpect(model().attributeExists("totalUseList"))
 				.andExpect(view().name("jsonView"));
 	}
@@ -184,7 +198,8 @@ public class planControllerTest extends WebTestConfig {
 		mockMvc.perform(get("/plan/totalSaleStatistics.do")
 				.param("startDate", "2020-11-27")
 				.param("endDate", "2020-12-15")
-				.param("searchKeyword", "일"))
+				.param("searchKeyword", "일")
+				.session(session))
 				.andExpect(model().attributeExists("totalSaleList"))
 				.andExpect(view().name("jsonView"));
 	}

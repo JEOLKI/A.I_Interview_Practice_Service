@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.aiinterview.member.vo.MemberVO;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,6 +37,8 @@ public class WebTestConfig {
 
 	protected MockMvc mockMvc; // dispatcher servlet 역할을 하는 객체
 	
+	protected MockHttpSession session;
+	
 	@Resource(name = "dataSource")
 	private DataSource dataSource;
 
@@ -45,6 +50,14 @@ public class WebTestConfig {
 		populator.addScripts(new ClassPathResource("/db/initData.sql")); // 사용할 스크립트 경로
 		populator.setContinueOnError(false); // 스크립트 실행중 에러 발생시 멈춤
 		DatabasePopulatorUtils.execute(populator, dataSource);
+		
+		// 멤버 세션 로그인
+		MemberVO member = new MemberVO();
+		member.setMemId("MEMBER1");
+		member.setMemAuth("Y");
+		
+		session = new MockHttpSession();
+		session.setAttribute("S_MEMBER", member);
 	}
 
 	@Ignore
