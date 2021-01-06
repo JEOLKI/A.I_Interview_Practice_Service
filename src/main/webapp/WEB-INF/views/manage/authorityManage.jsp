@@ -206,7 +206,14 @@
 				<div class="table-responsive">
 					<c:forEach items="${resultList }" var="member">
 						<div class="list">
-							<input type="text" class="memId" name="memIds" value="${member.memId}" readonly="readonly">
+							<c:choose>
+								<c:when test="${S_MEMBER.memId == member.memId}">
+									<input type="text" class="memId" name="memIds" style="background: #D4F4FA;" value="${member.memId}" readonly="readonly">
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="memId" name="memIds" value="${member.memId}" readonly="readonly">
+								</c:otherwise>
+							</c:choose>
 							<c:choose>
 								<c:when test="${S_MEMBER.memId == member.memId}">
 									<select class="memAuth" name="memAuths" style="width: 78px;">
@@ -222,7 +229,6 @@
 											</c:otherwise>
 										</c:choose>
 									</select>
-									<span id="info">**접속자입니다</span>
 								</c:when>
 								<c:when test="${S_MEMBER.memId != member.memId}">
 									<select class="memAuth" name="memAuths">
