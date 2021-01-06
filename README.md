@@ -1,4 +1,4 @@
-# 👨🏻‍💻 A.I Interview Practice Service (인공지능 모의면접 서비스)
+# 👨🏻‍💻 A.I Interview Service (인공지능 모의면접 서비스)
 
 ### 1. introduce
 
