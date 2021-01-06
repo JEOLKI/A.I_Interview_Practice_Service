@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>AI_INTERVIEW</title>
 
 <%@ include file="/WEB-INF/views/layout/commonLib.jsp" %>
 
@@ -624,7 +624,7 @@
 	</div>
 
 	<div class="contentBoxMediumFlat">
-		<div id="boardSum">등록된 게시글 수 <span class="span">${boardList.size() }</span>개</div>
+		<div id="boardSum">등록된 게시글 수 <span class="span">${boardListCnt.size() }</span>개</div>
 	</div>
 	
 	<div class="contentBoxLargeLeft">

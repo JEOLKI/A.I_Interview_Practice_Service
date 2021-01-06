@@ -25,4 +25,6 @@ public interface BoardMapper {
 	
 	public List<BoardVO> retrieveAllList() throws Exception;
 	
+	public List<BoardVO> retrieveListCnt() throws Exception;
+	
 }

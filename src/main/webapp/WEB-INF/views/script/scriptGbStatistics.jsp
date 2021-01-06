@@ -94,6 +94,7 @@ today = getFormatDate(today);
  		width : 51%;
   		height : 100px; 
   		padding-top : 10%;
+  		text-align: center;
  	}
  	
  	.chart { 
@@ -113,6 +114,12 @@ today = getFormatDate(today);
 
  	#rankingList{
  		width : 33%;
+ 	}
+ 	#alert{
+ 		margin-top: 20px;
+ 	}
+ 	#selectBtn{
+ 		cursor: pointer;
  	}
 </style>
 
@@ -173,11 +180,13 @@ $(document).ready(function(){
 					
 					if(scriptRankingList.length==0){
 						$('#rankingList').empty();
+						$('#alert').empty();
 						
-						var html = '<span style="color:red; text-align:center; margin:auto;">해당 기간에 일치하는 결과가 없습니다.<br> 날짜를 재설정해주세요.</span>';
+						var html = '<span id="alert" style="color:red; text-align:center; display : inline-block;">해당 기간에 일치하는 결과가 없습니다. 날짜를 재설정해주세요.</span>';
 						$('#rankingList').css({"margin":"auto", "text-align":"center"});
-						$('#rankingList').append(html);
+						$('.tabContent').append(html);
 					}else{
+						$('#alert').remove();
 						drawRankingChart(scriptRankingList);
 					}
 					}//sucess 종료	 

@@ -26,7 +26,7 @@ public class ScriptTestMapperTest extends ModelTestConfig{
 		scriptTestVO.setScriptTestScore("86");
 		scriptTestVO.setPerformScript("All I want for Christmas is you.");
 		scriptTestVO.setScriptTestDate("2020/10/02");
-		scriptTestVO.setMemId("oz");
+		scriptTestVO.setMemId("MEMBER2");
 		scriptTestVO.setScriptSq("6");
 		
 		/***When***/

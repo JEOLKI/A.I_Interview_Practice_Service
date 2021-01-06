@@ -10,6 +10,7 @@
 <%@ include file="/WEB-INF/views/layout/boardLib.jsp" %>
 
 <script>
+
 	$(document).ready(function(){
 
 		$('#summernote').summernote({
@@ -18,8 +19,13 @@
 		});
 
 		$('#boardRegBtn').on('click', function(){
+			board_title = $("#board_title").val();
 			
-			$("#boardRegFrm").submit();
+			if(board_title.length < 1){
+				alert("제목을 입력해 주세요");
+			}else{
+				$("#boardRegFrm").submit();
+			}
 			
 		});
 

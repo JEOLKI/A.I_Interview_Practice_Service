@@ -33,7 +33,6 @@ public class ScriptTestController {
 	@Resource(name = "scriptGubunService")
 	private ScriptGubunService scriptGbService;
 	
-	
 	@RequestMapping(path = "/create.do")
 	public String create(String resultScript, String scriptSq, Model model,  HttpSession session) {
 		ScriptVO scriptVO=null;
@@ -74,9 +73,7 @@ public class ScriptTestController {
 		List<ScriptGubunVO> scriptGbList = null;
 		try {
 			scriptGbList = scriptGbService.retrieveList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 
 		List<ScriptGubunVO> availableGbList = new ArrayList<ScriptGubunVO>();
 		for (ScriptGubunVO scriptGb : scriptGbList) {

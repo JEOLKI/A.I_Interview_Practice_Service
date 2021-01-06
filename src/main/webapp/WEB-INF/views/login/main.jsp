@@ -33,7 +33,6 @@
 		$('.start-btn').on('click',function(){
 			document.location = "/login/home.do";
 		});
-		
 	});
 
 </script>
@@ -218,9 +217,9 @@
 						alt="" class="arrow-icon">
 				</div>
 				<div class="top-btn">
-					<img
+					<a href="#root"><img
 						src="/images/top_button.png"
-						alt="" class="top-btn-icon">
+						alt="" class="top-btn-icon"></a>
 				</div>
 				<div class="left">
 					<div class="link">

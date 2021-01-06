@@ -5,11 +5,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.aiinterview.member.dao.MemberMapper;
 import com.aiinterview.member.vo.MemberVO;
-import com.aiinterview.plan.vo.PlanUseVO;
 
 @Service("memberService")
 public class MemberService {

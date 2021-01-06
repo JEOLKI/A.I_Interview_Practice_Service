@@ -13,7 +13,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-//테스트 대상 : repository + service : roo-context.xml
+//테스트 대상 : repository + service : root-context.xml
 //repaository 에서 주입받는 sqlSessionTemplate : datasource-context.xml
 //transaction : transaction-context.xml
 @Ignore

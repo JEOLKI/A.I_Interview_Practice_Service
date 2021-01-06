@@ -17,9 +17,10 @@ $(document).ready(function(){
 		}
 	})
 	$('.content__Inquire-btn').on("click", function(){
-		console.log('클릭입력')
+		if("${S_MEMBER.memId}"==null || "${S_MEMBER.memId}" =="" ){
+			alert("로그인후 이용해주세요")
+		}
 		$("#image").trigger("click");
-		document.getElementById("image")[0].click();
 	})
 	
 })
