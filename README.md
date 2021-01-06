@@ -40,28 +40,28 @@ Azure
 
 주요 프로세스
 
-<img src="readme/process1.png"  width="50%"/>
-<img src="readme/process2.png"  width="50%"/>
-<img src="readme/process3.png"  width="50%"/>
+<img src="readme/process1.png"  width="70%"/>
+<img src="readme/process2.png"  width="70%"/>
+<img src="readme/process3.png"  width="70%"/>
 
-1. 면접 질문 설정
-<img src="readme/question.png"  width="50%"/>
+### 1. 면접 질문 설정
+<img src="readme/question.png"  width="70%"/>
 
-2. 면접 준비
-<img src="readme/interviewSetting.png"  width="50%"/>
+### 2. 면접 준비
+<img src="readme/interviewSetting.png"  width="70%"/>
 
-3. 면접 화면
-<img src="readme/interviewInformation.png"  width="50%"/>
-<img src="readme/interviewStart.png"  width="50%"/>
+### 3. 면접 화면
+<img src="readme/interviewInformation.png"  width="70%"/>
+<img src="readme/interviewStart.png"  width="70%"/>
 
-4. 면접 결과
-<img src="readme/myReport.png"  width="50%"/>
+### 4. 면접 결과
+<img src="readme/myReport.png"  width="70%"/>
 
-5. 면접 페이지
-<img src="readme/interview.png"  width="50%"/>
+### 5. 면접 페이지
+<img src="readme/interview.png"  width="70%"/>
 
-6. 발음 테스트
-<img src="readme/scriptTest.png"  width="50%"/>
+### 6. 발음 테스트
+<img src="readme/scriptTest.png"  width="70%"/>
 
 ## document
 :link:[https://www.notion.so/PROJECT-AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
