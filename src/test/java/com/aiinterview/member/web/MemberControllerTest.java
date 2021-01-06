@@ -203,8 +203,8 @@ public class MemberControllerTest extends WebTestConfig {
 	@Test
 	public void authorityChangeTest() throws Exception {
 		mockMvc.perform(get("/member/authorityChange.do")
-				.param("memId", "TEST_ID")
-				.param("memAuth", "C"))
+				.param("memIds", "TEST_ID")
+				.param("memAuths", "C"))
 		.andExpect(status().is(302))
 		.andExpect(view().name("redirect:/member/authorityManage.do"));
 	}
