@@ -13,7 +13,7 @@
 ### schedule
 - 진행기간
 
-### techstack
+## techstack
 
 | Option | tech stack |
 | ------ | ----------- |
@@ -24,17 +24,17 @@
 ### using api
 Azure
 
-### developer
+## developer
 홍정기: https://github.com/JEOLKI  
 강태경:   
 이명호:   
 이승석:   
 최윤지:   
 
-### modeling
+## modeling
 <img src="readme/modeling.png"  width="100%"/>
 
-### 구현된 기능
+## 구현된 기능
 회원기능  
 요금제기능  
 게시판 구현  
@@ -43,7 +43,7 @@ Azure
 관리자 기능  
 
 
-### 주요 기능
+## 주요 기능
 
 주요 프로세스
 
@@ -70,8 +70,8 @@ Azure
 6. 발음 테스트
 <img src="readme/scriptTest.png"  width="100%"/>
 
-### document
+## document
 [AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
 
-### more link
+## more link
 [AI_INTERVIEW](https://www.notion.so/PROJECT-AI_INTERVIEW-ce429c320cac4d7d918c3783d5bc3f28)
