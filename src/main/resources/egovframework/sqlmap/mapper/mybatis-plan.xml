@@ -206,16 +206,16 @@
 	</select>
 	
 	<select id="retrieveDailySale" resultType="com.aiinterview.plan.vo.PlanStatisticsVO" >
-		SELECT c.start_date AS startDate
-        	 , SUM(c.sale) AS sale
-		  FROM
-				(SELECT a.start_date, (b.plan_price * COUNT(*)) AS sale
-				   FROM plan_use a, plan b
-				  WHERE a.plan_sq = b.plan_sq
-					AND a.start_date LIKE SUBSTR(SYSDATE, 0, 4)||'%'
-				  GROUP BY b.plan_price, a.start_date) c
-		 GROUP BY c.start_date
-		 ORDER BY c.start_date
+		SELECT c.start_date, SUM(c.sale) AS sale
+		  FROM 
+		      ( SELECT TO_DATE(a.start_date,'yyyy-mm-dd') AS start_date, b.plan_price, COUNT(*) AS useCount, (b.plan_price* COUNT(*)) AS  sale
+		          FROM plan_use a, plan b
+				 WHERE a.plan_sq = b.plan_sq
+				   AND a.start_date LIKE SUBSTR(SYSDATE, 0, 4)||'%'
+				 GROUP BY a.start_date, b.plan_price
+			  ) c
+		GROUP BY c.start_date
+		ORDER BY c.start_date
 	</select>
 	
 	
