@@ -274,7 +274,6 @@ $(document).ready(function(){
 	$('#retryBtn').on('click',function(){
 		document.location = '/scriptTest/testStart.do?scriptGbSq='+scriptGbSq; 
 	})
-	
 })
 
 
@@ -467,9 +466,14 @@ function createScoreChart(ctx, testScore){
 	});
 	
 }
+function close(){
+	window.onbeforeunload = function (e) {
+		opener.parent.location.reload();
+	};
+}
 </script>
 </head>
-<body>
+<body onload="close();">
 <div class="contentBox">
 	<input type="hidden" id="selectedSq" value="${scriptGbSq }">
 	<input type="hidden" id="selectedGb" value="${scriptGbContent }">
