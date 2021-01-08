@@ -108,7 +108,7 @@
 
 <br/>
 
-## :page_facing_up: document
+## :page_facing_up: Document
 &nbsp;&nbsp;&nbsp;  :link: [https://www.notion.so/PROJECT-AI_INTERVIEW/document](https://www.notion.so/69f50ccbaa424603a33f400895574a89)
 
 <br/>
@@ -118,7 +118,7 @@
 
 <br/>
   
-## :family: developer
+## :family: Developer
 - 홍정기 : https://github.com/JEOLKI  
 - 강태경 : https://github.com/TaekyeongKang  
 - 이명호 : https://github.com/seaweedy  
