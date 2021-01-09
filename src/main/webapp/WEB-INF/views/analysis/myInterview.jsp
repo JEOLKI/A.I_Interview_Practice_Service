@@ -374,7 +374,9 @@
 			habitCountHtml += 	'<div class="range">';
 			for(var j = 0; j<habitCountList.length; j++){
 				if(habitList[i].habitGb == habitCountList[j].habitGb){
-					gage = Number(fullGage*habitCountList[j].habitCount/max);
+					if(habitCountList[j].habitCount != 0){
+						gage = Number(fullGage*habitCountList[j].habitCount/max);
+					}
 					count = habitCountList[j].habitCount;
 				}
 			}
