@@ -1,6 +1,6 @@
 package com.aiinterview.interview.vo;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.common.vo.BaseVO;
 
 public class TalentVO extends BaseVO{
 

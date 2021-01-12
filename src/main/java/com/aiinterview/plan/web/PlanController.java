@@ -19,7 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.common.vo.BaseVO;
 import com.aiinterview.member.vo.MemberVO;
 import com.aiinterview.member.web.LoginController;
 import com.aiinterview.plan.service.PlanService;

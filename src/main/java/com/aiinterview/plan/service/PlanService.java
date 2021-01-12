@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.common.vo.BaseVO;
 import com.aiinterview.plan.dao.PlanMapper;
 import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;

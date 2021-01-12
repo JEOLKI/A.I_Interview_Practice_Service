@@ -1,6 +1,6 @@
 package com.aiinterview.script.vo;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.common.vo.BaseVO;
 
 public class ScriptGubunVO extends BaseVO{
 	

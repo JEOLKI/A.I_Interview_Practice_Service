@@ -1,6 +1,6 @@
 package com.aiinterview.board.vo;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.common.vo.BaseVO;
 
 public class BoardGubunVO extends BaseVO{
 

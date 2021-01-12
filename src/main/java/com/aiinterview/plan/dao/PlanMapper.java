@@ -3,7 +3,7 @@ package com.aiinterview.plan.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.aiinterview.base.vo.BaseVO;
+import com.aiinterview.common.vo.BaseVO;
 import com.aiinterview.plan.vo.PlanStatisticsVO;
 import com.aiinterview.plan.vo.PlanUseVO;
 import com.aiinterview.plan.vo.PlanVO;
