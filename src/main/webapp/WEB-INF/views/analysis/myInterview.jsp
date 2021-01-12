@@ -361,7 +361,7 @@
 		var fullGage = 187;
 		var max = 0;
 		for(var i = 0; i<habitCountList.length; i++){
-			if(habitCountList[i].habitCount > max ){
+			if(habitCountList[i].habitCount > Number(max) ){
 				max = habitCountList[i].habitCount;
 			}
 		}
