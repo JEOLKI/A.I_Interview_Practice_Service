@@ -256,13 +256,9 @@
 </head>
 
 <body>
-	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<form id="fr" action="/member/create.do" method="POST" >
-
 		<div id="root">
 			<div class="Join false">
-<!-- 				<a href="/"><img src="/static/media/black-short.86b77e44.png" -->
-<!-- 					alt="" class="logo"></a> -->
 				<div class="JoinForm false">
 					<div class="title">회원가입</div>
 					<div class="label notice">

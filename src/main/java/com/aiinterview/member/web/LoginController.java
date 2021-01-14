@@ -103,7 +103,6 @@ public class LoginController {
 		InetAddress server;
 		MemberVO memberVo = memberService.retrieve(loginMemId);
 		
-		
 		InterviewVO interviewVO = new InterviewVO();
 		/** EgovPropertyService.sample */
 		interviewVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -132,12 +131,8 @@ public class LoginController {
 			memId.add(memberVo.getMemId());
 			usersSession = session;
 			if(interviewService.retrievePagingList(interviewVO).size()==0){
-				// 면접 결과가 없을 경우
-				logger.debug("면접결과 없을경우 {}",interviewService.retrievePagingList(interviewVO).size());
 				return "redirect:/login/home.do";
 			}else {
-				// 면접 결과가 있을 경우
-				logger.debug("면접결과 있을경우 {}",interviewService.retrievePagingList(interviewVO).size());
 				return "redirect:/analysis/interview/retrievePagingList.do";
 			}
 		}
