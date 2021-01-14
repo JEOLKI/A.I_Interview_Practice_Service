@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	subscriptionKey = document.getElementById("subscriptionKey");
 	serviceRegion = document.getElementById("serviceRegion");
 		      
-	  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("7ec161e7215b4f0e9a153abcdfa1f815", "koreacentral");
+	  var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("f50fc9d261a145018ed9746991d094db", "koreacentral");
    	  audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
 
    	  // 볼륨 게이지 그리기 펑션
@@ -501,7 +501,7 @@ function close(){
 			<button class="processBtn" id="startTestBtn">시작</button>
 			<button class="processBtn" id="endTestBtn">완료</button>
 			<button class="processBtn" id="resultBtn">결과 보기</button>
-			<input id="subscriptionKey" type="hidden" value="7ec161e7215b4f0e9a153abcdfa1f815"> 
+			<input id="subscriptionKey" type="hidden" value="f50fc9d261a145018ed9746991d094db"> 
 			<input id="serviceRegion" type="hidden" value="koreacentral">
 		</div>
 	</div>
@@ -529,7 +529,7 @@ function close(){
 	             target="_blank">Subscription Key</a>
 	        </label>
 	      </td>
-	      <td><input id="subscriptionKeyTTS" type="text" size="40" value="197c1a7bc63c41a1931328e15925d597"></td>
+	      <td><input id="subscriptionKeyTTS" type="text" size="40" value="0f67885dec4146beac75e32a4fb9e18c"></td>
 	    </tr>
 	    <tr>
 	      <td align="right"><label for="regionOptions">Region</label></td>
