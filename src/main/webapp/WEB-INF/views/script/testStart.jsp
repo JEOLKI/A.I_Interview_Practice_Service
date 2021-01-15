@@ -216,8 +216,28 @@ $(document).ready(function(){
 		
 		document.location = '/scriptTest/testStart.do?scriptGbSq='+scriptGbSq;
 		
+		
 	});
-	
+	// 랜덤 지문 출력
+	$.ajax(
+		{url:"/scriptTest/retrieveScriptList.do",
+		data : {scriptGbSq : scriptGbSq},
+		method : "post",
+		success : function(data){
+				$('.scriptContent').empty();
+  				$('.scriptContent').html(data.scriptVO.scriptContent);
+  				$('#synthesisText').val(data.scriptVO.scriptContent);
+  				scriptSq = data.scriptVO.scriptSq;
+  				if(data.scriptGbContent == '영어'){
+  					 $('#voiceOptions>.ko-KR').remove(); // #voiceOptions태그의 .ko-KR 클래스만 제거
+  				}else if(data.scriptGbContent == '한국어'){
+  					 $('#voiceOptions>.en-US').remove(); // #voiceOptions태그의 .en-US 클래스만 제거
+  				}
+		},
+		error: function(data){
+			$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
+		}
+	});
 	// 결과보기 버튼 클릭 시
 	$('#resultBtn').on('click',function(){
 		$('#play').css('display','none');
@@ -274,7 +294,137 @@ $(document).ready(function(){
 	$('#retryBtn').on('click',function(){
 		document.location = '/scriptTest/testStart.do?scriptGbSq='+scriptGbSq; 
 	})
+	
+	
 })
+/* 아래부터 TTS */
+//TTS 최초 진입 시 설정
+function Initialize(onComplete) {
+if (!!window.SpeechSDK) {
+ onComplete(window.SpeechSDK);
+}
+}
+//TTS 버튼 설정
+var resultsDiv, eventsDiv;
+var highlightDiv;
+var startSynthesisAsyncButton, pauseButton, resumeButton;
+var updateVoiceListButton;
+var subscriptionKeyTTS, regionOptions;
+var authorizationToken;
+var voiceOptions, isSsml;
+var SpeechSDK;
+var synthesisText;
+var synthesizer;
+var player;
+var wordBoundaryList = [];
+//음성 TTS
+document.addEventListener("DOMContentLoaded", function () {
+startSynthesisAsyncButton = document.getElementById("startSynthesisAsyncButton");
+updateVoiceListButton = document.getElementById("updateVoiceListButton");
+pauseButton = document.getElementById("pauseButton");
+resumeButton = document.getElementById("resumeButton");
+subscriptionKeyTTS = document.getElementById("subscriptionKeyTTS");
+regionOptions = document.getElementById("regionOptions");
+voiceOptions = document.getElementById("voiceOptions");
+isSsml = document.getElementById("isSSML");
+setInterval(function () {
+ if (player !== undefined) {
+   const currentTime = player.currentTime;
+   var wordBoundary;
+   for (const e of wordBoundaryList) {
+     if (currentTime * 1000 > e.audioOffset / 10000) {
+       wordBoundary = e;
+     } else {
+       break;
+     }
+   }
+   if (wordBoundary !== undefined) {
+             "<span class='highlight'>" + wordBoundary.text + "</span>" +
+             synthesisText.value.substr(wordBoundary.textOffset + wordBoundary.wordLength);
+   } else {
+   }
+ }
+}, 50);
+// 시작버튼
+startSynthesisAsyncButton.addEventListener("click", function () {
+ wordBoundaryList = [];
+ synthesisText = document.getElementById("synthesisText");
+ var speechConfig;
+ if (authorizationToken) {
+   speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(authorizationToken, regionOptions.value);
+ } else {
+   if (subscriptionKeyTTS.value === "" || subscriptionKeyTTS.value === "subscription") {
+     alert("Please enter your Microsoft Cognitive Services Speech subscription key!");
+     return;
+   }
+   speechConfig = SpeechSDK.SpeechConfig.fromSubscription(subscriptionKeyTTS.value, regionOptions.value);
+ }
+ speechConfig.speechSynthesisVoiceName = voiceOptions.value;
+ player = new SpeechSDK.SpeakerAudioDestination();
+ player.onAudioEnd = function (_) {
+   window.console.log("playback finished");
+   startSynthesisAsyncButton.disabled = false;
+   wordBoundaryList = [];
+   
+ };
+ var audioConfig  = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
+ synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+ synthesizer.synthesizing = function (s, e) {
+   window.console.log(e);
+ };
+ synthesizer.synthesisStarted = function (s, e) {
+   window.console.log(e);
+ };
+ // TTS 모두 출력 function
+ synthesizer.synthesisCompleted = function (s, e) {
+   console.log(e);
+ };
+ synthesizer.SynthesisCanceled = function (s, e) {
+   const cancellationDetails = SpeechSDK.CancellationDetails.fromResult(e.result);
+   let str = "(cancel) Reason: " + SpeechSDK.CancellationReason[cancellationDetails.reason];
+   if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
+     str += ": " + e.result.errorDetails;
+   }
+   window.console.log(e);
+   startSynthesisAsyncButton.disabled = false;
+ };
+ synthesizer.wordBoundary = function (s, e) {
+   window.console.log(e);
+   wordBoundaryList.push(e);
+ };
+ const complete_cb = function (result) {
+   if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+   } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
+   }
+   window.console.log(result);
+   synthesizer.close();
+   synthesizer = undefined;
+ };
+ const err_cb = function (err) {
+   startSynthesisAsyncButton.disabled = false;
+   window.console.log(err);
+   synthesizer.close();
+   synthesizer = undefined;
+ };
+ if (isSsml.checked) {
+   synthesizer.speakSsmlAsync(synthesisText.value,
+           complete_cb,
+           err_cb);
+ } else {
+   synthesizer.speakTextAsync(synthesisText.value,
+           complete_cb,
+           err_cb);
+ }
+});
+// 최초 진입 시
+Initialize(function (speechSdk) {
+ SpeechSDK = speechSdk;
+ startSynthesisAsyncButton.disabled = false;
+ if (typeof RequestAuthorizationToken === "function") {
+   RequestAuthorizationToken();
+ }
+});
+});
 
 
 var startRecognizeOnceAsyncButton;
@@ -312,26 +462,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			$('.present').css('visibility','');
 			$('.guide.test').html('읽기를 마친 후 완료버튼을 눌러주세요.<br>&nbsp;');
 			 
-			// 랜덤 지문 출력
-			$.ajax(
-				{url:"/scriptTest/retrieveScriptList.do",
-				data : {scriptGbSq : scriptGbSq},
-				method : "post",
-				success : function(data){
-						$('.scriptContent').empty();
-		  				$('.scriptContent').html(data.scriptVO.scriptContent);
-		  				$('#synthesisText').val(data.scriptVO.scriptContent);
-		  				scriptSq = data.scriptVO.scriptSq;
-		  				if(data.scriptGbContent == '영어'){
-		  					 $('#voiceOptions>.ko-KR').remove(); // #voiceOptions태그의 .ko-KR 클래스만 제거
-		  				}else if(data.scriptGbContent == '한국어'){
-		  					 $('#voiceOptions>.en-US').remove(); // #voiceOptions태그의 .en-US 클래스만 제거
-		  				}
-				},
-				error: function(data){
-					$('#scriptModalContent').html('해당하는 스크립트가 없습니다.');
-				}
-			});
+			
 			if (subscriptionKey == "" || subscriptionKey == "subscription") {
 		       return;
 			};
@@ -436,7 +567,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	   }
 	});
 });
-
 
 /* 스코어 차트 */
 function createScoreChart(ctx, testScore){

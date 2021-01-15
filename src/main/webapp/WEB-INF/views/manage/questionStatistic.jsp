@@ -240,16 +240,16 @@ function createQuestGbChart(resultList){
 	chart.data =  chartData;
 	
 	// Set radius
-	chart.radius = am4core.percent(64);
+	chart.radius = am4core.percent(60);
 	// Set inner radius
-	chart.innerRadius = am4core.percent(50);
+	chart.innerRadius = am4core.percent(40);
 	
 	// Add and configure Series
 	var pieSeries = chart.series.push(new am4charts.PieSeries());
 	pieSeries.dataFields.value = "questGbCount";
 	pieSeries.dataFields.category = "questGbNm";
 
-	pieSeries.labels.template.maxWidth = 65;
+	pieSeries.labels.template.maxWidth = 100;
 	pieSeries.labels.template.wrap = true;
 
 	// end am4core.ready()
