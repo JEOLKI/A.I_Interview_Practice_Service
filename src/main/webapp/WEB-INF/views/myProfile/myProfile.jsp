@@ -282,11 +282,9 @@ to {
 						class="fa fa-caret-right fa undefined"></span>
 					</a>
 				</div>
-				<%@ include file="/WEB-INF/views/layout/semiFooter.jsp"%>
 			</div>
 		</div>
 	</div>
-	<!-- 	<style data-styled="active" data-styled-version="5.1.1"></style> -->
 </body>
 
 <%@ include file="/WEB-INF/views/chat/chatImage.jsp" %>
