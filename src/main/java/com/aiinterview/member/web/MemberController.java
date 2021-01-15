@@ -156,7 +156,7 @@ public class MemberController {
 				
 				// 사용중인 요금제 날짜 설정 구문
 				long calDate = planUseCheck.getEndDate().getTime() - Math.abs((long)(new Date().getTime()));
-				double calDateDays =calDate / (double)(24*60*60*1000);
+				double calDateDays =calDate / (double)(24*60*60*1000-1);
 				planUseCheck.setTerm((int) (calDateDays = Math.ceil(calDateDays))); 
 				
 				model.addAttribute("planUse", planUse);
