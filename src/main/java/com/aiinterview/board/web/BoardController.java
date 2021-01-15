@@ -148,17 +148,17 @@ public class BoardController {
 		for (MultipartFile file : fileList) {
 			
 			if(file.getSize() > 0) {
-					String fileName = file.getOriginalFilename();
-					String extension = FileUploadUtil.getExtension(fileName);
-					String filePath = "D:\\attachment\\" + UUID.randomUUID().toString() + "." + extension ;
-					File uploadFile = new File(filePath);
-					attachmentVO = new AttachmentVO(fileName, filePath);
-					attachmentList.add(attachmentVO);
-					try {
-						file.transferTo(uploadFile);
-					} catch (IllegalStateException | IOException e) {
-						e.printStackTrace();
-					}
+				String fileName = file.getOriginalFilename();
+				String extension = FileUploadUtil.getExtension(fileName);
+				String filePath = "D:\\attachment\\" + UUID.randomUUID().toString() + "." + extension ;
+				File uploadFile = new File(filePath);
+				attachmentVO = new AttachmentVO(fileName, filePath);
+				attachmentList.add(attachmentVO);
+				try {
+					file.transferTo(uploadFile);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
